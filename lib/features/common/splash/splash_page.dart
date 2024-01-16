@@ -1,13 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:law_app/core/extensions/app_extension.dart';
-import 'package:law_app/core/helpers/app_size.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/settings/app_settings.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
-import 'package:law_app/features/common/auth/login_page.dart';
+import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/core/utils/routes.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -23,7 +22,7 @@ class _SplashPageState extends State<SplashPage> {
 
     Timer(const Duration(seconds: 5), () {
       if (mounted) {
-        context.pushReplacement(const LoginPage());
+        navigatorKey.currentState!.pushReplacementNamed(loginRoute);
       }
     });
   }
@@ -31,11 +30,9 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SizedBox(
-        width: AppSize.getAppWidth(context),
-        height: AppSize.getAppHeight(context),
+      body: SizedBox.expand(
         child: Stack(
-          children: <Widget>[
+          children: [
             Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -48,7 +45,7 @@ class _SplashPageState extends State<SplashPage> {
                   RichText(
                     text: TextSpan(
                       style: textTheme.headlineSmall,
-                      children: const <TextSpan>[
+                      children: const [
                         TextSpan(
                           text: 'Sobat\t',
                           style: TextStyle(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:law_app/core/themes/light_theme.dart';
+import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/features/common/splash/splash_page.dart';
 
 class LawApp extends StatelessWidget {
@@ -11,6 +13,10 @@ class LawApp extends StatelessWidget {
       title: 'Law App',
       debugShowCheckedModeBanner: false,
       theme: lightTheme,
+      navigatorKey: navigatorKey,
+      scaffoldMessengerKey: scaffoldMessengerKey,
+      navigatorObservers: [routeObserver],
+      onGenerateRoute: generateAppRoutes,
       home: const SplashPage(),
     );
   }
