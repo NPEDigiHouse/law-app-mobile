@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/settings/app_settings.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
+import 'package:law_app/features/common/widgets/svg_asset.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -37,8 +37,8 @@ class _SplashPageState extends State<SplashPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SvgPicture.asset(
-                    AssetPath.getVector('app_logo.svg'),
+                  SvgAsset(
+                    assetPath: AssetPath.getVector('app_logo.svg'),
                     width: 160,
                   ),
                   const SizedBox(height: 16),

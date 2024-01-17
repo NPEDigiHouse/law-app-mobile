@@ -22,6 +22,14 @@ const successColor = Color(0xFF00AF54);
 const infoColor = Color(0xFF21C7EC);
 const warningColor = Color(0xFFF5C61D);
 
+// Gradient colors
+class GradientColors {
+  static const List<Color> redPastel = <Color>[
+    Color(0xFFF4847D),
+    Color(0xFFE44C42),
+  ];
+}
+
 // Color scheme
 final colorScheme = ColorScheme.fromSeed(
   brightness: Brightness.light,

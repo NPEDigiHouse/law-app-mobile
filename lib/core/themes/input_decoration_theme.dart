@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
+import 'package:law_app/core/styles/text_style.dart';
 
 final inputDecorationTheme = InputDecorationTheme(
   floatingLabelBehavior: FloatingLabelBehavior.never,
@@ -21,7 +22,7 @@ final inputDecorationTheme = InputDecorationTheme(
       color: accentColor,
     ),
   ),
-  hintStyle: const TextStyle(
+  hintStyle: textTheme.bodyLarge!.copyWith(
     color: secondaryTextColor,
   ),
 );
