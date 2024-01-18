@@ -2,19 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:law_app/core/extensions/app_extension.dart';
-import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/core/utils/widget_utils.dart';
-import 'package:law_app/features/common/widgets/custom_text_field.dart';
-import 'package:law_app/features/common/widgets/password_text_field.dart';
-import 'package:law_app/features/common/widgets/svg_asset.dart';
+import 'package:law_app/features/common/auth/widgets/auth_header.dart';
+import 'package:law_app/features/common/auth/widgets/custom_text_field.dart';
+import 'package:law_app/features/common/auth/widgets/password_text_field.dart';
 import 'package:law_app/features/dummies_data.dart';
 
 class LoginPage extends StatelessWidget {
-  final _formKey = GlobalKey<FormBuilderState>();
+  final formKey = GlobalKey<FormBuilderState>();
 
   LoginPage({super.key});
 
@@ -25,67 +24,7 @@ class LoginPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              height: 285,
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(20),
-                ),
-                gradient: LinearGradient(
-                  colors: GradientColors.redPastel,
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-              ),
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  Positioned(
-                    top: -20,
-                    right: 20,
-                    child: SvgAsset(
-                      assetPath: AssetPath.getVector('app_logo_white.svg'),
-                      color: tertiaryColor,
-                      width: 160,
-                    ),
-                  ),
-                  Positioned(
-                    top: 100,
-                    left: 20,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SvgAsset(
-                          assetPath: AssetPath.getVector('app_logo_white.svg'),
-                          width: 80,
-                        ),
-                        const SizedBox(height: 12),
-                        RichText(
-                          text: TextSpan(
-                            style: textTheme.headlineMedium,
-                            children: const [
-                              TextSpan(
-                                text: 'Selamat Datang,\n',
-                                style: TextStyle(
-                                  color: scaffoldBackgroundColor,
-                                ),
-                              ),
-                              TextSpan(
-                                text: 'Sobat Hukum!',
-                                style: TextStyle(
-                                  color: accentTextColor,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            const AuthHeader(),
             Padding(
               padding: const EdgeInsets.symmetric(
                 vertical: 24,
@@ -108,7 +47,7 @@ class LoginPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   FormBuilder(
-                    key: _formKey,
+                    key: formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
@@ -157,17 +96,17 @@ class LoginPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 32),
+                  const SizedBox(height: 28),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
+                    children: [
                       const Text('Belum punya akun? Buat akun baru\t'),
                       GestureDetector(
                         onTap: () => navigatorKey.currentState!.pushNamed(
                           registerRoute,
                         ),
                         child: Text(
-                          'di sini.',
+                          'di sini',
                           style: textTheme.titleSmall?.copyWith(
                             color: primaryColor,
                           ),
@@ -187,8 +126,8 @@ class LoginPage extends StatelessWidget {
   void login(BuildContext context) {
     FocusScope.of(context).unfocus();
 
-    if (_formKey.currentState!.saveAndValidate()) {
-      final data = _formKey.currentState!.value;
+    if (formKey.currentState!.saveAndValidate()) {
+      final data = formKey.currentState!.value;
 
       if (data['username'] != user.username ||
           data['password'] != user.password) {
