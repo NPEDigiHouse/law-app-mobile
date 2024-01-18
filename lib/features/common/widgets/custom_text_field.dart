@@ -62,7 +62,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
+      children: [
         Text(
           widget.label,
           style: textTheme.titleSmall,

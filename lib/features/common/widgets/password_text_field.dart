@@ -61,7 +61,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
+      children: [
         Text(
           widget.label,
           style: textTheme.titleSmall,

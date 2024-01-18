@@ -5,17 +5,21 @@ import 'package:law_app/core/extensions/app_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/core/utils/routes.dart';
+import 'package:law_app/core/utils/widget_utils.dart';
 import 'package:law_app/features/common/widgets/custom_text_field.dart';
 import 'package:law_app/features/common/widgets/password_text_field.dart';
 import 'package:law_app/features/common/widgets/svg_asset.dart';
+import 'package:law_app/features/dummies_data.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  final _formKey = GlobalKey<FormBuilderState>();
+
+  LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormBuilderState>();
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -104,10 +108,10 @@ class LoginPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   FormBuilder(
-                    key: formKey,
+                    key: _formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
-                      children: <Widget>[
+                      children: [
                         CustomTextField(
                           name: 'username',
                           label: 'Username',
@@ -135,7 +139,9 @@ class LoginPage extends StatelessWidget {
                         ),
                         const SizedBox(height: 4),
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () => navigatorKey.currentState!.pushNamed(
+                            forgotPasswordRoute,
+                          ),
                           child: Text(
                             'Lupa Password?',
                             style: textTheme.bodySmall?.copyWith(
@@ -145,7 +151,7 @@ class LoginPage extends StatelessWidget {
                         ),
                         const SizedBox(height: 32),
                         FilledButton(
-                          onPressed: () {},
+                          onPressed: () => login(context),
                           child: const Text('Login'),
                         ).fullWidth(),
                       ],
@@ -157,7 +163,9 @@ class LoginPage extends StatelessWidget {
                     children: <Widget>[
                       const Text('Belum punya akun? Buat akun baru\t'),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () => navigatorKey.currentState!.pushNamed(
+                          registerRoute,
+                        ),
                         child: Text(
                           'di sini.',
                           style: textTheme.titleSmall?.copyWith(
@@ -174,5 +182,31 @@ class LoginPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void login(BuildContext context) {
+    FocusScope.of(context).unfocus();
+
+    if (_formKey.currentState!.saveAndValidate()) {
+      final data = _formKey.currentState!.value;
+
+      if (data['username'] != user.username ||
+          data['password'] != user.password) {
+        final errorBanner = WidgetUtils.createMaterialBanner(
+          contentText: 'Username atau Password salah!',
+          leadingIconName: 'times-circle-line.svg',
+          foregroundColor: scaffoldBackgroundColor,
+          backgroundColor: errorColor,
+        );
+
+        // Show material banner
+        scaffoldMessengerKey.currentState!
+          ..hideCurrentMaterialBanner()
+          ..showMaterialBanner(errorBanner);
+      } else {
+        // Navigate to student home page
+        navigatorKey.currentState!.pushReplacementNamed(studentHomeRoute);
+      }
+    }
   }
 }

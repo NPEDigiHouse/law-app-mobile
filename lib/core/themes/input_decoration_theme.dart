@@ -10,6 +10,12 @@ final inputDecorationTheme = InputDecorationTheme(
       color: errorColor,
     ),
   ),
+  focusedErrorBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(14),
+    borderSide: const BorderSide(
+      color: errorColor,
+    ),
+  ),
   enabledBorder: OutlineInputBorder(
     borderRadius: BorderRadius.circular(14),
     borderSide: const BorderSide(
