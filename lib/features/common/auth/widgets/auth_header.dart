@@ -49,11 +49,14 @@ class AuthHeader extends StatelessWidget {
                 children: [
                   if (withBackButton) ...[
                     Container(
+                      width: 40,
+                      height: 40,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
                         color: secondaryColor,
                       ),
                       child: IconButton(
+                        padding: EdgeInsets.zero,
                         onPressed: () => navigatorKey.currentState!.pop(),
                         icon: SvgAsset(
                           assetPath: AssetPath.getIcon('caret-line-left.svg'),

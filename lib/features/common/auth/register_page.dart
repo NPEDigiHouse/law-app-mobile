@@ -218,6 +218,28 @@ class _RegisterPageState extends State<RegisterPage>
                           ],
                         ),
                         const SizedBox(height: 32),
+                        RichText(
+                          textAlign: TextAlign.center,
+                          text: TextSpan(
+                            style: textTheme.bodyMedium,
+                            children: const [
+                              TextSpan(
+                                text: 'Dengan mendaftar, Anda menyetujui\t',
+                              ),
+                              TextSpan(
+                                text: 'Syarat dan Ketentuan\t',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  color: primaryColor,
+                                ),
+                              ),
+                              TextSpan(
+                                text: 'yang berlaku.',
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 20),
                         FilledButton(
                           onPressed: () => register(context),
                           child: const Text('Daftarkan Sekarang'),
