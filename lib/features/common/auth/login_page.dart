@@ -132,7 +132,7 @@ class LoginPage extends StatelessWidget {
       if (data['username'] != user.username ||
           data['password'] != user.password) {
         final errorBanner = WidgetUtils.createMaterialBanner(
-          contentText: 'Username atau Password salah!',
+          content: 'Username atau Password salah!',
           leadingIconName: 'times-circle-line.svg',
           foregroundColor: scaffoldBackgroundColor,
           backgroundColor: errorColor,

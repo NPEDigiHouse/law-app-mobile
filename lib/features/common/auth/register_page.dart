@@ -212,10 +212,6 @@ class _RegisterPageState extends State<RegisterPage>
                             FormBuilderValidators.required(
                               errorText: 'Bagian ini harus diisi',
                             ),
-                            FormBuilderValidators.minLength(
-                              8,
-                              errorText: 'No. HP minimal 8 digit',
-                            ),
                             FormBuilderValidators.integer(
                               errorText: 'No. HP tidak valid',
                             ),
@@ -270,7 +266,7 @@ class _RegisterPageState extends State<RegisterPage>
     final dateOfBirth = await showDatePicker(
       context: context,
       initialDate: date,
-      firstDate: DateTime(date.year - 40),
+      firstDate: DateTime(date.year - 30),
       lastDate: DateTime.now(),
       initialEntryMode: DatePickerEntryMode.calendarOnly,
       helpText: 'Pilih Tanggal Lahir',

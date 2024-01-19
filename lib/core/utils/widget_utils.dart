@@ -7,7 +7,7 @@ import 'package:law_app/features/common/widgets/svg_asset.dart';
 class WidgetUtils {
   /// Create a custom [MaterialBanner] widget.
   static MaterialBanner createMaterialBanner({
-    required String contentText,
+    required String content,
     String? leadingIconName,
     Color? foregroundColor,
     Color? backgroundColor,
@@ -21,7 +21,7 @@ class WidgetUtils {
       backgroundColor: backgroundColor,
       leadingPadding: const EdgeInsetsDirectional.only(end: 10.0),
       content: Text(
-        contentText,
+        content,
         style: TextStyle(color: foregroundColor),
       ),
       leading: leadingIconName != null

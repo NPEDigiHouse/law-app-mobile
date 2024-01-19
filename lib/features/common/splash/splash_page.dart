@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/settings/app_settings.dart';
@@ -15,18 +16,8 @@ class SplashPage extends StatefulWidget {
   State<SplashPage> createState() => _SplashPageState();
 }
 
-class _SplashPageState extends State<SplashPage> {
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    Timer(const Duration(seconds: 5), () {
-      if (mounted) {
-        navigatorKey.currentState!.pushReplacementNamed(loginRoute);
-      }
-    });
-  }
-
+class _SplashPageState extends State<SplashPage>
+    with AfterLayoutMixin<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,5 +73,12 @@ class _SplashPageState extends State<SplashPage> {
         ),
       ),
     );
+  }
+
+  @override
+  FutureOr<void> afterFirstLayout(BuildContext context) {
+    Timer(const Duration(seconds: 3), () {
+      navigatorKey.currentState!.pushReplacementNamed(loginRoute);
+    });
   }
 }

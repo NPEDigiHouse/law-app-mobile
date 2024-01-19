@@ -30,11 +30,13 @@ environment:
 dependencies:
   after_layout: ^1.2.0
   cupertino_icons: ^1.0.2
+  equatable: ^2.0.5
   flutter:
     sdk: flutter
   flutter_form_builder: ^9.1.1
   flutter_svg: ^2.0.9
   form_builder_validators: ^9.1.0
+  internet_connection_checker: ^1.0.0+1
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1

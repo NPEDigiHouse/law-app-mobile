@@ -24,7 +24,7 @@ const warningColor = Color(0xFFF5C61D);
 
 // Gradient colors
 class GradientColors {
-  static const List<Color> redPastel = <Color>[
+  static const List<Color> redPastel = [
     Color(0xFFF4847D),
     Color(0xFFE44C42),
   ];
