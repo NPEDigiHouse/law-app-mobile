@@ -4,9 +4,9 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
-import 'package:law_app/features/common/widgets/svg_asset.dart';
+import 'package:law_app/features/common/widgets/shared/svg_asset.dart';
 
-class PasswordTextField extends StatefulWidget {
+class CustomTextField extends StatefulWidget {
   final String name;
   final String label;
   final TextInputType? textInputType;
@@ -15,10 +15,12 @@ class PasswordTextField extends StatefulWidget {
   final String? hintText;
   final bool hasPrefixIcon;
   final String? prefixIconName;
+  final bool hasSuffixIcon;
+  final String? suffixIconName;
   final List<String? Function(String?)>? validators;
-  final ValueChanged<String?>? onChanged;
+  final VoidCallback? onTap;
 
-  const PasswordTextField({
+  const CustomTextField({
     super.key,
     required this.name,
     required this.label,
@@ -28,24 +30,24 @@ class PasswordTextField extends StatefulWidget {
     this.hintText,
     this.hasPrefixIcon = true,
     this.prefixIconName,
+    this.hasSuffixIcon = true,
+    this.suffixIconName,
     this.validators,
-    this.onChanged,
+    this.onTap,
   });
 
   @override
-  State<PasswordTextField> createState() => _PasswordTextFieldState();
+  State<CustomTextField> createState() => _CustomTextFieldState();
 }
 
-class _PasswordTextFieldState extends State<PasswordTextField> {
+class _CustomTextFieldState extends State<CustomTextField> {
   late final ValueNotifier<bool> isFocus;
-  late final ValueNotifier<bool> isVisible;
 
   @override
   void initState() {
     super.initState();
 
     isFocus = ValueNotifier(false);
-    isVisible = ValueNotifier(false);
   }
 
   @override
@@ -53,7 +55,6 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
     super.dispose();
 
     isFocus.dispose();
-    isVisible.dispose();
   }
 
   @override
@@ -70,37 +71,31 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
         if (widget.hasPrefixIcon)
           Focus(
             onFocusChange: (value) => isFocus.value = value,
-            child: _buildPasswordTextField(),
+            child: _buildCustomTextField(),
           )
         else
-          _buildPasswordTextField()
+          _buildCustomTextField()
       ],
     );
   }
 
-  ValueListenableBuilder<bool> _buildPasswordTextField() {
-    return ValueListenableBuilder(
-      valueListenable: isVisible,
-      builder: (context, isVisible, child) {
-        return FormBuilderTextField(
-          name: widget.name,
-          keyboardType: widget.textInputType,
-          textInputAction: widget.textInputAction,
-          textCapitalization: widget.textCapitalization,
-          textAlignVertical: TextAlignVertical.center,
-          obscureText: !isVisible,
-          decoration: InputDecoration(
-            hintText: widget.hintText,
-            contentPadding: const EdgeInsets.all(16),
-            prefixIcon: _buildPrefixIcon(),
-            suffixIcon: _buildSuffixIcon(isVisible),
-          ),
-          validator: widget.validators != null
-              ? FormBuilderValidators.compose(widget.validators!)
-              : null,
-          onChanged: widget.onChanged,
-        );
-      },
+  FormBuilderTextField _buildCustomTextField() {
+    return FormBuilderTextField(
+      name: widget.name,
+      keyboardType: widget.textInputType,
+      textInputAction: widget.textInputAction,
+      textCapitalization: widget.textCapitalization,
+      textAlignVertical: TextAlignVertical.center,
+      decoration: InputDecoration(
+        hintText: widget.hintText,
+        contentPadding: const EdgeInsets.all(16),
+        prefixIcon: _buildPrefixIcon(),
+        suffixIcon: _buildSuffixIcon(),
+      ),
+      validator: widget.validators != null
+          ? FormBuilderValidators.compose(widget.validators!)
+          : null,
+      onTap: widget.onTap,
     );
   }
 
@@ -123,18 +118,16 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
     return null;
   }
 
-  IconButton _buildSuffixIcon(bool isVisible) {
-    return IconButton(
-      icon: isVisible
-          ? SvgAsset(
-              assetPath: AssetPath.getIcon('eye-solid.svg'),
-              color: primaryTextColor,
-            )
-          : SvgAsset(
-              assetPath: AssetPath.getIcon('eye-hide-solid.svg'),
-              color: primaryTextColor,
-            ),
-      onPressed: () => this.isVisible.value = !isVisible,
-    );
+  Padding? _buildSuffixIcon() {
+    if (widget.hasSuffixIcon) {
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(10, 0, 16, 0),
+        child: SvgAsset(
+          assetPath: AssetPath.getIcon(widget.suffixIconName!),
+          color: primaryTextColor,
+        ),
+      );
+    }
+    return null;
   }
 }

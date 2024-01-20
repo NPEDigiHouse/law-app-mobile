@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:law_app/features/common/auth/forgot_password_page.dart';
 import 'package:law_app/features/common/auth/login_page.dart';
+import 'package:law_app/features/common/auth/otp_page.dart';
 import 'package:law_app/features/common/auth/register_page.dart';
 import 'package:law_app/features/student/presentation/pages/student_home_page.dart';
 
@@ -11,6 +12,7 @@ final routeObserver = RouteObserver<ModalRoute<void>>();
 const loginRoute = '/login';
 const registerRoute = '/register';
 const forgotPasswordRoute = '/forgot-password';
+const otpRoute = '/otp';
 const studentHomeRoute = '/student-home';
 
 // App routes generator
@@ -27,6 +29,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
     case forgotPasswordRoute:
       return MaterialPageRoute(
         builder: (_) => const ForgotpasswordPage(),
+      );
+    case otpRoute:
+      return MaterialPageRoute(
+        builder: (_) => const OtpPage(),
       );
     case studentHomeRoute:
       return MaterialPageRoute(

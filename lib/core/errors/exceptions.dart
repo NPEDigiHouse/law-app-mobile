@@ -3,7 +3,7 @@
 class DatabaseException implements Exception {
   final String message;
 
-  DatabaseException(this.message);
+  const DatabaseException(this.message);
 }
 
 /// Exception class that will be thrown when there is a problem
@@ -11,5 +11,5 @@ class DatabaseException implements Exception {
 class ServerException implements Exception {
   final String message;
 
-  ServerException(this.message);
+  const ServerException(this.message);
 }

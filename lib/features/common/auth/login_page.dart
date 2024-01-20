@@ -7,9 +7,10 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/core/utils/widget_utils.dart';
-import 'package:law_app/features/common/auth/widgets/auth_header.dart';
-import 'package:law_app/features/common/auth/widgets/custom_text_field.dart';
-import 'package:law_app/features/common/auth/widgets/password_text_field.dart';
+import 'package:law_app/features/common/widgets/auth/auth_header.dart';
+import 'package:law_app/features/common/widgets/auth/custom_text_field.dart';
+import 'package:law_app/features/common/widgets/auth/password_text_field.dart';
+import 'package:law_app/features/common/widgets/shared/banner_type.dart';
 import 'package:law_app/features/dummies_data.dart';
 
 class LoginPage extends StatelessWidget {
@@ -22,7 +23,6 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const AuthHeader(),
             Padding(
@@ -68,8 +68,8 @@ class LoginPage extends StatelessWidget {
                           name: 'password',
                           label: 'Password',
                           hintText: 'Masukkan password kamu',
-                          textInputType: TextInputType.visiblePassword,
                           prefixIconName: 'lock-solid.svg',
+                          textInputType: TextInputType.visiblePassword,
                           validators: [
                             FormBuilderValidators.required(
                               errorText: 'Bagian ini harus diisi',
@@ -132,10 +132,8 @@ class LoginPage extends StatelessWidget {
       if (data['username'] != user.username ||
           data['password'] != user.password) {
         final errorBanner = WidgetUtils.createMaterialBanner(
-          content: 'Username atau Password salah!',
-          leadingIconName: 'times-circle-line.svg',
-          foregroundColor: scaffoldBackgroundColor,
-          backgroundColor: errorColor,
+          content: 'Username atau password salah!',
+          type: BannerType.error,
         );
 
         // Show material banner

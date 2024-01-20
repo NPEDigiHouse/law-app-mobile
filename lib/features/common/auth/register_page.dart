@@ -8,9 +8,9 @@ import 'package:law_app/core/helpers/app_helper.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/common/auth/widgets/auth_header.dart';
-import 'package:law_app/features/common/auth/widgets/custom_text_field.dart';
-import 'package:law_app/features/common/auth/widgets/password_text_field.dart';
+import 'package:law_app/features/common/widgets/auth/auth_header.dart';
+import 'package:law_app/features/common/widgets/auth/custom_text_field.dart';
+import 'package:law_app/features/common/widgets/auth/password_text_field.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -46,7 +46,6 @@ class _RegisterPageState extends State<RegisterPage>
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const AuthHeader(withBackButton: true),
             Padding(

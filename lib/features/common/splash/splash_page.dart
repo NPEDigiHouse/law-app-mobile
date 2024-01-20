@@ -7,7 +7,7 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
-import 'package:law_app/features/common/widgets/svg_asset.dart';
+import 'package:law_app/features/common/widgets/shared/svg_asset.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});

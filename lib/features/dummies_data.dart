@@ -2,16 +2,19 @@
 class User {
   final String username;
   final String password;
+  final String email;
 
-  User({
+  const User({
     required this.username,
     required this.password,
+    required this.email,
   });
 }
 
-final user = User(
-  username: 'test12345',
-  password: 'test12345',
+const user = User(
+  username: 'test123',
+  password: 'test123',
+  email: 'test@email.com',
 );
 
 //!
