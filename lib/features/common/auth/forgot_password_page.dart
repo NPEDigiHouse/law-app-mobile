@@ -11,6 +11,7 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/common/auth/widgets/auth_app_bar.dart';
 import 'package:law_app/features/common/auth/widgets/custom_text_field.dart';
+import 'package:law_app/features/common/widgets/loading_indicator.dart';
 import 'package:law_app/features/common/widgets/svg_asset.dart';
 
 class ForgotpasswordPage extends StatefulWidget {
@@ -28,12 +29,10 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage>
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AuthAppBar(
-        onPressedBackButton: () => navigatorKey.currentState!.pop(),
-      ),
+      appBar: const AuthAppBar(),
       body: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.fromLTRB(20, 40, 20, 24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -48,6 +47,7 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage>
                 'Lupa\nPassword?',
                 style: textTheme.displaySmall!.copyWith(
                   color: primaryColor,
+                  height: 0,
                 ),
               ),
               const SizedBox(height: 4),
@@ -65,7 +65,7 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage>
                     CustomTextField(
                       name: 'email',
                       label: 'Email',
-                      hintText: 'Masukkan email terdaftar',
+                      hintText: 'Masukkan email kamu',
                       prefixIconName: 'envelope-solid.svg',
                       hasSuffixIcon: false,
                       validators: [
@@ -115,12 +115,12 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage>
     if (formKey.currentState!.saveAndValidate()) {
       // final phoneNumber = formKey.currentState!.value['phone_number'] as String;
 
-      // show loading indicator
-      // showDialog(
-      //   context: context,
-      //   barrierDismissible: false,
-      //   builder: (context) => const LoadingIndicator(),
-      // );
+      // Show loading indicator
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const LoadingIndicator(),
+      );
     }
   }
 }

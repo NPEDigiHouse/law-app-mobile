@@ -54,7 +54,7 @@ class LoginPage extends StatelessWidget {
                         CustomTextField(
                           name: 'username',
                           label: 'Username',
-                          hintText: 'Masukkan username Anda',
+                          hintText: 'Masukkan username kamu',
                           prefixIconName: 'user-solid.svg',
                           hasSuffixIcon: false,
                           validators: [
@@ -67,7 +67,7 @@ class LoginPage extends StatelessWidget {
                         PasswordTextField(
                           name: 'password',
                           label: 'Password',
-                          hintText: 'Masukkan password Anda',
+                          hintText: 'Masukkan password kamu',
                           textInputType: TextInputType.visiblePassword,
                           prefixIconName: 'lock-solid.svg',
                           validators: [

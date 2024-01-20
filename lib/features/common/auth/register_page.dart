@@ -25,7 +25,7 @@ class _RegisterPageState extends State<RegisterPage>
 
   final formKey = GlobalKey<FormBuilderState>();
 
-  DateTime date = DateTime.now();
+  var date = DateTime.now();
 
   @override
   void initState() {
@@ -78,7 +78,7 @@ class _RegisterPageState extends State<RegisterPage>
                         CustomTextField(
                           name: 'name',
                           label: 'Nama Lengkap',
-                          hintText: 'Masukkan nama lengkap Anda',
+                          hintText: 'Masukkan nama lengkap kamu',
                           hasPrefixIcon: false,
                           hasSuffixIcon: false,
                           textInputType: TextInputType.name,
@@ -116,7 +116,7 @@ class _RegisterPageState extends State<RegisterPage>
                         CustomTextField(
                           name: 'email',
                           label: 'Email',
-                          hintText: 'Masukkan email Anda',
+                          hintText: 'Masukkan email kamu',
                           hasPrefixIcon: false,
                           hasSuffixIcon: false,
                           textInputType: TextInputType.emailAddress,
