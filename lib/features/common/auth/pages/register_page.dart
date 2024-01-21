@@ -12,6 +12,7 @@ import 'package:law_app/features/common/auth/widgets/custom_text_field.dart';
 import 'package:law_app/features/common/auth/widgets/password_text_field.dart';
 import 'package:law_app/features/common/auth/widgets/primary_header.dart';
 
+//TODO: implement case when register successfully
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 

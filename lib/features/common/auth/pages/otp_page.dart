@@ -46,91 +46,99 @@ class _OtpPageState extends State<OtpPage> with AfterLayoutMixin<OtpPage> {
   Widget build(BuildContext context) {
     final fieldSize = (AppSize.getAppWidth(context) / 4) - 40;
 
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SecondaryHeader(),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 24,
-                horizontal: 20,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                    child: SvgAsset(
-                      assetPath: AssetPath.getVector('email_otp.svg'),
-                      width: 200,
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  Text(
-                    'Masukkan Kode\nOTP!',
-                    style: textTheme.displaySmall!.copyWith(
-                      color: primaryColor,
-                      height: 0,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  RichText(
-                    text: TextSpan(
-                      style: textTheme.bodyMedium!.copyWith(
-                        color: secondaryTextColor,
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        if (didPop) return;
+
+        context.back();
+      },
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SecondaryHeader(),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 24,
+                  horizontal: 20,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: SvgAsset(
+                        assetPath: AssetPath.getVector('email_otp.svg'),
+                        width: 200,
                       ),
-                      children: [
-                        const TextSpan(
-                          text: 'Kode OTP telah terkirim ke email\t',
+                    ),
+                    const SizedBox(height: 24),
+                    Text(
+                      'Masukkan Kode\nOTP!',
+                      style: textTheme.displaySmall!.copyWith(
+                        color: primaryColor,
+                        height: 0,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    RichText(
+                      text: TextSpan(
+                        style: textTheme.bodyMedium!.copyWith(
+                          color: secondaryTextColor,
                         ),
-                        TextSpan(
-                          text: widget.email,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: primaryColor,
+                        children: [
+                          const TextSpan(
+                            text: 'Kode OTP telah terkirim ke email\t',
+                          ),
+                          TextSpan(
+                            text: widget.email,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: primaryColor,
+                            ),
+                          ),
+                          const TextSpan(
+                            text: '. Masukkan kode tersebut untuk melanjutkan.',
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    FormBuilder(
+                      key: formKey,
+                      child: Center(
+                        child: SizedBox(
+                          height: fieldSize,
+                          child: ListView.separated(
+                            padding: const EdgeInsets.all(0),
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return buildOtpTextField(index, fieldSize);
+                            },
+                            separatorBuilder: (context, index) {
+                              return const SizedBox(width: 8);
+                            },
+                            itemCount: 4,
                           ),
                         ),
-                        const TextSpan(
-                          text: '. Masukkan kode tersebut untuk melanjutkan.',
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  FormBuilder(
-                    key: formKey,
-                    child: Center(
-                      child: SizedBox(
-                        height: fieldSize,
-                        child: ListView.separated(
-                          padding: const EdgeInsets.all(0),
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            return buildOtpTextField(context, index, fieldSize);
-                          },
-                          separatorBuilder: (context, index) {
-                            return const SizedBox(width: 8);
-                          },
-                          itemCount: 4,
-                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 24),
-                  ValueListenableBuilder(
-                    valueListenable: isFilled,
-                    builder: (context, isFilled, child) {
-                      return FilledButton(
-                        onPressed: isFilled ? verifyOtp : null,
-                        child: const Text('Verifikasi'),
-                      ).fullWidth();
-                    },
-                  ),
-                ],
+                    const SizedBox(height: 24),
+                    ValueListenableBuilder(
+                      valueListenable: isFilled,
+                      builder: (context, isFilled, child) {
+                        return FilledButton(
+                          onPressed: isFilled ? verifyOtp : null,
+                          child: const Text('Verifikasi'),
+                        ).fullWidth();
+                      },
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -141,11 +149,7 @@ class _OtpPageState extends State<OtpPage> with AfterLayoutMixin<OtpPage> {
     showSuccessBanner();
   }
 
-  SizedBox buildOtpTextField(
-    BuildContext context,
-    int index,
-    double fieldSize,
-  ) {
+  SizedBox buildOtpTextField(int index, double fieldSize) {
     return SizedBox(
       width: fieldSize,
       height: fieldSize,
