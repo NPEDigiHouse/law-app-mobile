@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:law_app/features/common/auth/change_password_page.dart';
-import 'package:law_app/features/common/auth/forgot_password_page.dart';
-import 'package:law_app/features/common/auth/login_page.dart';
-import 'package:law_app/features/common/auth/otp_page.dart';
-import 'package:law_app/features/common/auth/register_page.dart';
+import 'package:law_app/features/common/auth/pages/change_password_page.dart';
+import 'package:law_app/features/common/auth/pages/forgot_password_page.dart';
+import 'package:law_app/features/common/auth/pages/login_page.dart';
+import 'package:law_app/features/common/auth/pages/otp_page.dart';
+import 'package:law_app/features/common/auth/pages/register_page.dart';
 import 'package:law_app/features/student/presentation/pages/student_home_page.dart';
 
 // Register the RouteObserver as a navigation observer

@@ -11,11 +11,10 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/core/utils/widget_utils.dart';
-import 'package:law_app/features/common/widgets/auth/custom_text_field.dart';
-import 'package:law_app/features/common/widgets/auth/secondary_header.dart';
-import 'package:law_app/features/common/widgets/shared/banner_type.dart';
-import 'package:law_app/features/common/widgets/shared/loading_indicator.dart';
-import 'package:law_app/features/common/widgets/shared/svg_asset.dart';
+import 'package:law_app/features/common/auth/widgets/custom_text_field.dart';
+import 'package:law_app/features/common/auth/widgets/secondary_header.dart';
+import 'package:law_app/features/common/shared/banner_type.dart';
+import 'package:law_app/features/common/shared/svg_asset.dart';
 import 'package:law_app/features/dummies_data.dart';
 
 class ForgotpasswordPage extends StatefulWidget {
@@ -144,11 +143,7 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage>
           ..showMaterialBanner(errorBanner);
       } else {
         // Show loading indicator
-        showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (context) => const LoadingIndicator(),
-        );
+        context.showLoadingDialog();
 
         // Proccess...
         await Future.delayed(const Duration(seconds: 3));

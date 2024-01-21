@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/features/common/shared/loading_indicator.dart';
 
 extension Capitalize on String {
   String toCapitalize() {
@@ -31,5 +33,15 @@ extension NavigationExtension on BuildContext {
   void back() {
     scaffoldMessengerKey.currentState!.hideCurrentMaterialBanner();
     navigatorKey.currentState!.pop();
+  }
+}
+
+extension DialogExtension on BuildContext {
+  FutureOr<void> showLoadingDialog() {
+    return showDialog(
+      context: this,
+      barrierDismissible: false,
+      builder: (_) => const LoadingIndicator(),
+    );
   }
 }

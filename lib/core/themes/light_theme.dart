@@ -22,6 +22,5 @@ ThemeData get lightTheme {
       },
     ),
     visualDensity: VisualDensity.adaptivePlatformDensity,
-    // inputDecorationTheme: inputDecorationTheme,
   );
 }
