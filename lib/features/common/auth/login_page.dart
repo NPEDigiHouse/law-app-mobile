@@ -83,19 +83,19 @@ class LoginPage extends StatelessWidget {
                           ),
                           child: Text(
                             'Lupa Password?',
-                            style: textTheme.bodySmall?.copyWith(
+                            style: textTheme.bodySmall!.copyWith(
                               fontWeight: FontWeight.w700,
                             ),
                           ),
                         ),
-                        const SizedBox(height: 32),
-                        FilledButton(
-                          onPressed: () => login(context),
-                          child: const Text('Login'),
-                        ).fullWidth(),
                       ],
                     ),
                   ),
+                  const SizedBox(height: 32),
+                  FilledButton(
+                    onPressed: () => login(context),
+                    child: const Text('Login'),
+                  ).fullWidth(),
                   const SizedBox(height: 28),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -107,7 +107,7 @@ class LoginPage extends StatelessWidget {
                         ),
                         child: Text(
                           'di sini',
-                          style: textTheme.titleSmall?.copyWith(
+                          style: textTheme.titleSmall!.copyWith(
                             color: primaryColor,
                           ),
                         ),

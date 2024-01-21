@@ -15,11 +15,11 @@ class LoadingIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return withScaffold
-        ? Scaffold(body: _buildLoadingIndicator())
-        : _buildLoadingIndicator();
+        ? Scaffold(body: buildLoadingIndicator())
+        : buildLoadingIndicator();
   }
 
-  Center _buildLoadingIndicator() {
+  Center buildLoadingIndicator() {
     return Center(
       child: Container(
         width: 80,

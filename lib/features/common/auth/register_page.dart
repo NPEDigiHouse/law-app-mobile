@@ -155,7 +155,7 @@ class _RegisterPageState extends State<RegisterPage>
                           onTap: () => generateRandomPassword(),
                           child: Text(
                             'Gunakan password acak',
-                            style: textTheme.bodySmall?.copyWith(
+                            style: textTheme.bodySmall!.copyWith(
                               fontWeight: FontWeight.w700,
                             ),
                           ),
@@ -216,36 +216,36 @@ class _RegisterPageState extends State<RegisterPage>
                             ),
                           ],
                         ),
-                        const SizedBox(height: 32),
-                        RichText(
-                          textAlign: TextAlign.center,
-                          text: TextSpan(
-                            style: textTheme.bodyMedium,
-                            children: const [
-                              TextSpan(
-                                text: 'Dengan mendaftar, Anda menyetujui\t',
-                              ),
-                              TextSpan(
-                                text: 'Syarat dan Ketentuan\t',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  color: primaryColor,
-                                ),
-                              ),
-                              TextSpan(
-                                text: 'yang berlaku.',
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        FilledButton(
-                          onPressed: () => register(context),
-                          child: const Text('Daftarkan Sekarang'),
-                        ).fullWidth(),
                       ],
                     ),
                   ),
+                  const SizedBox(height: 32),
+                  RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      style: textTheme.bodyMedium,
+                      children: const [
+                        TextSpan(
+                          text: 'Dengan mendaftar, Anda menyetujui\t',
+                        ),
+                        TextSpan(
+                          text: 'Syarat dan Ketentuan\t',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            color: primaryColor,
+                          ),
+                        ),
+                        TextSpan(
+                          text: 'yang berlaku.',
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  FilledButton(
+                    onPressed: () => register(context),
+                    child: const Text('Daftarkan Sekarang'),
+                  ).fullWidth(),
                   const SizedBox(height: 28),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -255,7 +255,7 @@ class _RegisterPageState extends State<RegisterPage>
                         onTap: () => navigatorKey.currentState!.pop(),
                         child: Text(
                           'di sini',
-                          style: textTheme.titleSmall?.copyWith(
+                          style: textTheme.titleSmall!.copyWith(
                             color: primaryColor,
                           ),
                         ),

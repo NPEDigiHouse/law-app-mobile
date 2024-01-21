@@ -70,15 +70,15 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
         if (widget.hasPrefixIcon)
           Focus(
             onFocusChange: (value) => isFocus.value = value,
-            child: _buildPasswordTextField(),
+            child: buildPasswordTextField(),
           )
         else
-          _buildPasswordTextField()
+          buildPasswordTextField()
       ],
     );
   }
 
-  ValueListenableBuilder<bool> _buildPasswordTextField() {
+  ValueListenableBuilder<bool> buildPasswordTextField() {
     return ValueListenableBuilder(
       valueListenable: isVisible,
       builder: (context, isVisible, child) {
@@ -92,8 +92,8 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
           decoration: InputDecoration(
             hintText: widget.hintText,
             contentPadding: const EdgeInsets.all(16),
-            prefixIcon: _buildPrefixIcon(),
-            suffixIcon: _buildSuffixIcon(isVisible),
+            prefixIcon: buildPrefixIcon(),
+            suffixIcon: buildSuffixIcon(isVisible),
           ),
           validator: widget.validators != null
               ? FormBuilderValidators.compose(widget.validators!)
@@ -104,7 +104,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
     );
   }
 
-  Padding? _buildPrefixIcon() {
+  Padding? buildPrefixIcon() {
     if (widget.hasPrefixIcon) {
       return Padding(
         padding: const EdgeInsets.fromLTRB(16, 0, 10, 0),
@@ -123,7 +123,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
     return null;
   }
 
-  IconButton _buildSuffixIcon(bool isVisible) {
+  IconButton buildSuffixIcon(bool isVisible) {
     return IconButton(
       icon: isVisible
           ? SvgAsset(

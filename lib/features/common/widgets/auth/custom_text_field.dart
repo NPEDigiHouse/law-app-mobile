@@ -71,15 +71,15 @@ class _CustomTextFieldState extends State<CustomTextField> {
         if (widget.hasPrefixIcon)
           Focus(
             onFocusChange: (value) => isFocus.value = value,
-            child: _buildCustomTextField(),
+            child: buildCustomTextField(),
           )
         else
-          _buildCustomTextField()
+          buildCustomTextField()
       ],
     );
   }
 
-  FormBuilderTextField _buildCustomTextField() {
+  FormBuilderTextField buildCustomTextField() {
     return FormBuilderTextField(
       name: widget.name,
       keyboardType: widget.textInputType,
@@ -89,8 +89,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
       decoration: InputDecoration(
         hintText: widget.hintText,
         contentPadding: const EdgeInsets.all(16),
-        prefixIcon: _buildPrefixIcon(),
-        suffixIcon: _buildSuffixIcon(),
+        prefixIcon: buildPrefixIcon(),
+        suffixIcon: buildSuffixIcon(),
       ),
       validator: widget.validators != null
           ? FormBuilderValidators.compose(widget.validators!)
@@ -99,7 +99,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
     );
   }
 
-  Padding? _buildPrefixIcon() {
+  Padding? buildPrefixIcon() {
     if (widget.hasPrefixIcon) {
       return Padding(
         padding: const EdgeInsets.fromLTRB(16, 0, 10, 0),
@@ -118,7 +118,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
     return null;
   }
 
-  Padding? _buildSuffixIcon() {
+  Padding? buildSuffixIcon() {
     if (widget.hasSuffixIcon) {
       return Padding(
         padding: const EdgeInsets.fromLTRB(10, 0, 16, 0),
@@ -128,6 +128,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         ),
       );
     }
+
     return null;
   }
 }
