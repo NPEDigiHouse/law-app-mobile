@@ -10,7 +10,7 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/widget_utils.dart';
-import 'package:law_app/features/common/widgets/auth/auth_app_bar.dart';
+import 'package:law_app/features/common/widgets/auth/secondary_header.dart';
 import 'package:law_app/features/common/widgets/shared/banner_type.dart';
 import 'package:law_app/features/common/widgets/shared/svg_asset.dart';
 
@@ -50,7 +50,7 @@ class _OtpPageState extends State<OtpPage> with AfterLayoutMixin<OtpPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const AuthAppBar(),
+            const SecondaryHeader(),
             Padding(
               padding: const EdgeInsets.symmetric(
                 vertical: 24,
@@ -107,7 +107,7 @@ class _OtpPageState extends State<OtpPage> with AfterLayoutMixin<OtpPage> {
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
-                            return buildOtpTextField(index, fieldSize);
+                            return buildOtpTextField(context, index, fieldSize);
                           },
                           separatorBuilder: (context, index) {
                             return const SizedBox(width: 8);
@@ -141,7 +141,11 @@ class _OtpPageState extends State<OtpPage> with AfterLayoutMixin<OtpPage> {
     showSuccessBanner();
   }
 
-  SizedBox buildOtpTextField(int index, double fieldSize) {
+  SizedBox buildOtpTextField(
+    BuildContext context,
+    int index,
+    double fieldSize,
+  ) {
     return SizedBox(
       width: fieldSize,
       height: fieldSize,
@@ -164,11 +168,11 @@ class _OtpPageState extends State<OtpPage> with AfterLayoutMixin<OtpPage> {
           color: primaryColor,
         ),
         onChanged: (value) {
-          isFilled.value = areAllFieldsFilled();
-
           if (value?.length == 1) {
             FocusScope.of(context).nextFocus();
           }
+
+          isFilled.value = areAllFieldsFilled();
         },
       ),
     );

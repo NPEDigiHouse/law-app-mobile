@@ -7,9 +7,9 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/core/utils/widget_utils.dart';
-import 'package:law_app/features/common/widgets/auth/auth_header.dart';
 import 'package:law_app/features/common/widgets/auth/custom_text_field.dart';
 import 'package:law_app/features/common/widgets/auth/password_text_field.dart';
+import 'package:law_app/features/common/widgets/auth/primary_header.dart';
 import 'package:law_app/features/common/widgets/shared/banner_type.dart';
 import 'package:law_app/features/dummies_data.dart';
 
@@ -24,7 +24,7 @@ class LoginPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const AuthHeader(),
+            const PrimaryHeader(),
             Padding(
               padding: const EdgeInsets.symmetric(
                 vertical: 24,

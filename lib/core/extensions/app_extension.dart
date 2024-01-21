@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:law_app/core/utils/keys.dart';
 
 extension Capitalize on String {
   String toCapitalize() {
@@ -23,5 +24,12 @@ extension OutlinedButtonFullWidth on OutlinedButton {
       width: double.infinity,
       child: this,
     );
+  }
+}
+
+extension NavigationExtension on BuildContext {
+  void back() {
+    scaffoldMessengerKey.currentState!.hideCurrentMaterialBanner();
+    navigatorKey.currentState!.pop();
   }
 }

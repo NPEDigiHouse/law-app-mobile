@@ -11,8 +11,8 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/core/utils/widget_utils.dart';
-import 'package:law_app/features/common/widgets/auth/auth_app_bar.dart';
 import 'package:law_app/features/common/widgets/auth/custom_text_field.dart';
+import 'package:law_app/features/common/widgets/auth/secondary_header.dart';
 import 'package:law_app/features/common/widgets/shared/banner_type.dart';
 import 'package:law_app/features/common/widgets/shared/loading_indicator.dart';
 import 'package:law_app/features/common/widgets/shared/svg_asset.dart';
@@ -31,81 +31,91 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const AuthAppBar(),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 24,
-                horizontal: 20,
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        if (didPop) return;
+
+        context.back();
+      },
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SecondaryHeader(
+                withBackButton: true,
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                    child: SvgAsset(
-                      assetPath: AssetPath.getVector('lock.svg'),
-                      width: 250,
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  Text(
-                    'Lupa\nPassword?',
-                    style: textTheme.displaySmall!.copyWith(
-                      color: primaryColor,
-                      height: 0,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Kami akan mengirimkan Kode OTP ke email yang Anda masukkan di bawah.',
-                    style: textTheme.bodyMedium!.copyWith(
-                      color: secondaryTextColor,
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  FormBuilder(
-                    key: formKey,
-                    child: CustomTextField(
-                      name: 'email',
-                      label: 'Email',
-                      hintText: 'Masukkan email kamu',
-                      prefixIconName: 'envelope-solid.svg',
-                      hasSuffixIcon: false,
-                      textInputType: TextInputType.emailAddress,
-                      validators: [
-                        FormBuilderValidators.required(
-                          errorText: 'Bagian ini harus diisi',
-                        ),
-                        FormBuilderValidators.email(
-                          errorText: 'Email tidak valid',
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  FilledButton.icon(
-                    onPressed: () => sendOtpCode(context),
-                    label: const Text('Kirim OTP Kode'),
-                    icon: Padding(
-                      padding: const EdgeInsets.only(bottom: 5),
-                      child: Transform.rotate(
-                        angle: -45 * math.pi / 180,
-                        child: SvgAsset(
-                          assetPath: AssetPath.getIcon(
-                            'carbon-send-filled.svg',
-                          ),
-                          color: secondaryColor,
-                        ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 24,
+                  horizontal: 20,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: SvgAsset(
+                        assetPath: AssetPath.getVector('lock.svg'),
+                        width: 250,
                       ),
                     ),
-                  ).fullWidth(),
-                ],
+                    const SizedBox(height: 24),
+                    Text(
+                      'Lupa\nPassword?',
+                      style: textTheme.displaySmall!.copyWith(
+                        color: primaryColor,
+                        height: 0,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Kami akan mengirimkan Kode OTP ke email yang Anda masukkan di bawah.',
+                      style: textTheme.bodyMedium!.copyWith(
+                        color: secondaryTextColor,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    FormBuilder(
+                      key: formKey,
+                      child: CustomTextField(
+                        name: 'email',
+                        label: 'Email',
+                        hintText: 'Masukkan email kamu',
+                        prefixIconName: 'envelope-solid.svg',
+                        hasSuffixIcon: false,
+                        textInputType: TextInputType.emailAddress,
+                        validators: [
+                          FormBuilderValidators.required(
+                            errorText: 'Bagian ini harus diisi',
+                          ),
+                          FormBuilderValidators.email(
+                            errorText: 'Email tidak valid',
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    FilledButton.icon(
+                      onPressed: () => sendOtpCode(context),
+                      label: const Text('Kirim OTP Kode'),
+                      icon: Padding(
+                        padding: const EdgeInsets.only(bottom: 5),
+                        child: Transform.rotate(
+                          angle: -45 * math.pi / 180,
+                          child: SvgAsset(
+                            assetPath: AssetPath.getIcon(
+                              'carbon-send-filled.svg',
+                            ),
+                            color: secondaryColor,
+                          ),
+                        ),
+                      ),
+                    ).fullWidth(),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -147,7 +157,7 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage>
         navigatorKey.currentState!.pop();
 
         // Navigate to otp page if success
-        navigatorKey.currentState!.pushNamed(
+        navigatorKey.currentState!.pushReplacementNamed(
           otpRoute,
           arguments: email,
         );

@@ -16,8 +16,8 @@ class User {
 const user = User(
   username: 'test123',
   password: 'test123',
-  email: 'test@email.com',
-  otp: 123456,
+  email: 'test@gmail.com',
+  otp: 1234,
 );
 
 //!

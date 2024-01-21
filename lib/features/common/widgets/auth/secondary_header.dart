@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:law_app/core/extensions/app_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
-import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/common/widgets/shared/svg_asset.dart';
 
-class AuthAppBar extends StatelessWidget {
-  const AuthAppBar({super.key});
+class SecondaryHeader extends StatelessWidget {
+  final bool withBackButton;
+
+  const SecondaryHeader({
+    super.key,
+    this.withBackButton = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,30 +28,31 @@ class AuthAppBar extends StatelessWidget {
               width: 160,
             ),
           ),
-          Positioned(
-            top: 20,
-            left: 20,
-            child: SafeArea(
-              child: Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: secondaryColor,
-                ),
-                child: IconButton(
-                  padding: EdgeInsets.zero,
-                  onPressed: () => navigatorKey.currentState!.pop(),
-                  icon: SvgAsset(
-                    assetPath: AssetPath.getIcon('caret-line-left.svg'),
-                    color: primaryColor,
-                    width: 24,
+          if (withBackButton)
+            Positioned(
+              top: 20,
+              left: 20,
+              child: SafeArea(
+                child: Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: secondaryColor,
                   ),
-                  tooltip: 'Back',
+                  child: IconButton(
+                    padding: EdgeInsets.zero,
+                    onPressed: () => context.back(),
+                    icon: SvgAsset(
+                      assetPath: AssetPath.getIcon('caret-line-left.svg'),
+                      color: primaryColor,
+                      width: 24,
+                    ),
+                    tooltip: 'Back',
+                  ),
                 ),
               ),
             ),
-          ),
           Positioned(
             top: 20,
             left: 0,
