@@ -6,11 +6,10 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
-import 'package:law_app/core/utils/widget_utils.dart';
 import 'package:law_app/dummies_data.dart';
-import 'package:law_app/features/common/auth/widgets/custom_text_field.dart';
-import 'package:law_app/features/common/auth/widgets/password_text_field.dart';
-import 'package:law_app/features/common/auth/widgets/primary_header.dart';
+import 'package:law_app/features/auth/presentation/widgets/custom_text_field.dart';
+import 'package:law_app/features/auth/presentation/widgets/password_text_field.dart';
+import 'package:law_app/features/auth/presentation/widgets/primary_header.dart';
 import 'package:law_app/features/common/shared/banner_type.dart';
 
 //TODO: implement case when register successfully
@@ -42,7 +41,7 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Silahkan Login untuk melanjutkan',
+                    'Silahkan login untuk melanjutkan',
                     style: textTheme.bodyMedium!.copyWith(
                       color: secondaryTextColor,
                     ),
@@ -126,23 +125,21 @@ class LoginPage extends StatelessWidget {
   }
 
   void login(BuildContext context) {
-    FocusScope.of(context).unfocus();
+    FocusManager.instance.primaryFocus?.unfocus();
 
     if (formKey.currentState!.saveAndValidate()) {
       final data = formKey.currentState!.value;
 
       if (data['username'] != user.username ||
           data['password'] != user.password) {
-        final errorBanner = WidgetUtils.createMaterialBanner(
-          content: 'Username atau password salah!',
+        // Show failure message
+        context.showBanner(
+          message: 'Username atau password salah!',
           type: BannerType.error,
         );
-
-        // Show material banner
-        scaffoldMessengerKey.currentState!
-          ..hideCurrentMaterialBanner()
-          ..showMaterialBanner(errorBanner);
       } else {
+        // Show loading - send data - close loading
+
         // Navigate to student home page
         navigatorKey.currentState!.pushReplacementNamed(studentHomeRoute);
       }

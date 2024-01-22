@@ -10,10 +10,9 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
-import 'package:law_app/core/utils/widget_utils.dart';
 import 'package:law_app/dummies_data.dart';
-import 'package:law_app/features/common/auth/widgets/custom_text_field.dart';
-import 'package:law_app/features/common/auth/widgets/secondary_header.dart';
+import 'package:law_app/features/auth/presentation/widgets/custom_text_field.dart';
+import 'package:law_app/features/auth/presentation/widgets/secondary_header.dart';
 import 'package:law_app/features/common/shared/banner_type.dart';
 import 'package:law_app/features/common/shared/svg_asset.dart';
 
@@ -125,31 +124,20 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage>
     scaffoldMessengerKey.currentState!.hideCurrentMaterialBanner();
   }
 
-  Future<void> sendOtpCode(BuildContext context) async {
-    FocusScope.of(context).unfocus();
+  void sendOtpCode(BuildContext context) {
+    FocusManager.instance.primaryFocus?.unfocus();
 
     if (formKey.currentState!.saveAndValidate()) {
       final email = formKey.currentState!.value['email'] as String;
 
       if (email != user.email) {
-        final errorBanner = WidgetUtils.createMaterialBanner(
-          content: 'Email tidak terdaftar!',
+        // Show failure message
+        context.showBanner(
+          message: 'Email tidak terdaftar!',
           type: BannerType.error,
         );
-
-        // Show material banner
-        scaffoldMessengerKey.currentState!
-          ..hideCurrentMaterialBanner()
-          ..showMaterialBanner(errorBanner);
       } else {
-        // Show loading indicator
-        context.showLoadingDialog();
-
-        // Proccess...
-        await Future.delayed(const Duration(seconds: 3));
-
-        // Close loading indicator
-        navigatorKey.currentState!.pop();
+        // Show loading - send data - close loading
 
         // Navigate to otp page if success
         navigatorKey.currentState!.pushReplacementNamed(

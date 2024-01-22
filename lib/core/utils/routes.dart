@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:law_app/features/common/auth/pages/change_password_page.dart';
-import 'package:law_app/features/common/auth/pages/forgot_password_page.dart';
-import 'package:law_app/features/common/auth/pages/login_page.dart';
-import 'package:law_app/features/common/auth/pages/otp_page.dart';
-import 'package:law_app/features/common/auth/pages/register_page.dart';
+import 'package:law_app/features/auth/presentation/pages/reset_password_page.dart';
+import 'package:law_app/features/auth/presentation/pages/forgot_password_page.dart';
+import 'package:law_app/features/auth/presentation/pages/login_page.dart';
+import 'package:law_app/features/auth/presentation/pages/otp_page.dart';
+import 'package:law_app/features/auth/presentation/pages/register_page.dart';
 import 'package:law_app/features/student/presentation/pages/student_home_page.dart';
 
 // Register the RouteObserver as a navigation observer
@@ -14,7 +14,7 @@ const loginRoute = '/login';
 const registerRoute = '/register';
 const forgotPasswordRoute = '/forgot-password';
 const otpRoute = '/otp';
-const changePasswordRoute = '/change-password';
+const resetPasswordRoute = '/reset-password';
 const studentHomeRoute = '/student-home';
 
 // App routes generator
@@ -38,9 +38,9 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => OtpPage(email: email),
       );
-    case changePasswordRoute:
+    case resetPasswordRoute:
       return MaterialPageRoute(
-        builder: (_) => const ChangePasswordPage(),
+        builder: (_) => const ResetPasswordPage(),
       );
     case studentHomeRoute:
       return MaterialPageRoute(

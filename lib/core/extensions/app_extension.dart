@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/core/utils/widget_utils.dart';
+import 'package:law_app/features/common/shared/banner_type.dart';
 import 'package:law_app/features/common/shared/loading_indicator.dart';
 
 extension Capitalize on String {
@@ -43,5 +45,21 @@ extension DialogExtension on BuildContext {
       barrierDismissible: false,
       builder: (_) => const LoadingIndicator(),
     );
+  }
+}
+
+extension BannerExtension on BuildContext {
+  void showBanner({
+    required String message,
+    required BannerType type,
+  }) {
+    final banner = WidgetUtils.createMaterialBanner(
+      message: message,
+      type: type,
+    );
+
+    scaffoldMessengerKey.currentState!
+      ..hideCurrentMaterialBanner()
+      ..showMaterialBanner(banner);
   }
 }
