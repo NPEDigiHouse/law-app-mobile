@@ -8,11 +8,9 @@ import 'package:law_app/core/helpers/app_helper.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/core/utils/widget_utils.dart';
 import 'package:law_app/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:law_app/features/auth/presentation/widgets/password_text_field.dart';
 import 'package:law_app/features/auth/presentation/widgets/primary_header.dart';
-import 'package:law_app/features/common/shared/banner_type.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -207,7 +205,7 @@ class _RegisterPageState extends State<RegisterPage>
                                 errorText: 'Bagian ini harus diisi',
                               ),
                             ],
-                            onTap: () => showBirthDatePicker(context),
+                            onTap: showBirthDatePicker,
                           ),
                           const SizedBox(height: 20),
                           CustomTextField(
@@ -279,7 +277,7 @@ class _RegisterPageState extends State<RegisterPage>
     formKey.currentState!.fields['confirm_password']!.didChange(password);
   }
 
-  Future<void> showBirthDatePicker(BuildContext context) async {
+  Future<void> showBirthDatePicker() async {
     final dateOfBirth = await showDatePicker(
       context: context,
       initialDate: date,
@@ -308,13 +306,8 @@ class _RegisterPageState extends State<RegisterPage>
 
       // Show loading - send data - close loading
 
-      // Navigate back to login page if success, with MaterialBanner as a result.
-      navigatorKey.currentState!.pop<MaterialBanner>(
-        WidgetUtils.createMaterialBanner(
-          message: 'Akun berhasil dibuat. Silahkan login dengan akun tersebut.',
-          type: BannerType.success,
-        ),
-      );
+      // Navigate back to login page if success, with bool true
+      navigatorKey.currentState!.pop(true);
     }
   }
 }

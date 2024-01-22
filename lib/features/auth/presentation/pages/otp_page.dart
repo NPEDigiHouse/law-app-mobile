@@ -130,7 +130,7 @@ class _OtpPageState extends State<OtpPage> with AfterLayoutMixin<OtpPage> {
                       valueListenable: isFilled,
                       builder: (context, isFilled, child) {
                         return FilledButton(
-                          onPressed: isFilled ? () => verifyOtp(context) : null,
+                          onPressed: isFilled ? verifyOtp : null,
                           child: const Text('Verifikasi'),
                         ).fullWidth();
                       },
@@ -201,7 +201,7 @@ class _OtpPageState extends State<OtpPage> with AfterLayoutMixin<OtpPage> {
     return true;
   }
 
-  void verifyOtp(BuildContext context) {
+  void verifyOtp() {
     final data = formKey.currentState!.value;
     final values = data.values.cast<String?>().toList();
     final otp = int.parse(values.join(''));

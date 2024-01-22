@@ -21,8 +21,10 @@ const studentHomeRoute = '/student-home';
 Route<dynamic>? generateAppRoutes(RouteSettings settings) {
   switch (settings.name) {
     case loginRoute:
+      final bannerData = settings.arguments as Map<String, Object>?;
+
       return MaterialPageRoute(
-        builder: (_) => LoginPage(),
+        builder: (_) => LoginPage(bannerData: bannerData),
       );
     case registerRoute:
       return MaterialPageRoute(

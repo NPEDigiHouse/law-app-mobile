@@ -94,7 +94,7 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage>
                     ),
                     const SizedBox(height: 24),
                     FilledButton.icon(
-                      onPressed: () => sendOtpCode(context),
+                      onPressed: sendOtpCode,
                       label: const Text('Kirim OTP Kode'),
                       icon: Padding(
                         padding: const EdgeInsets.only(bottom: 5),
@@ -124,7 +124,7 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage>
     scaffoldMessengerKey.currentState!.hideCurrentMaterialBanner();
   }
 
-  void sendOtpCode(BuildContext context) {
+  void sendOtpCode() {
     FocusManager.instance.primaryFocus?.unfocus();
 
     if (formKey.currentState!.saveAndValidate()) {

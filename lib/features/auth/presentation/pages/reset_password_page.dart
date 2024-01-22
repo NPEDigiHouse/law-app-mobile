@@ -6,8 +6,10 @@ import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/features/auth/presentation/widgets/password_text_field.dart';
 import 'package:law_app/features/auth/presentation/widgets/secondary_header.dart';
+import 'package:law_app/features/common/shared/banner_type.dart';
 import 'package:law_app/features/common/shared/svg_asset.dart';
 
 class ResetPasswordPage extends StatefulWidget {
@@ -155,8 +157,15 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
       // Show loading - send data - close loading
 
-      // Navigate back to login page if success
-      navigatorKey.currentState!.pop();
+      // Navigate to login page if success, with banner data
+      navigatorKey.currentState!.pushNamedAndRemoveUntil(
+        loginRoute,
+        (route) => false,
+        arguments: {
+          'message': 'Password Anda berhasil diubah.',
+          'banner_type': BannerType.success,
+        },
+      );
     }
   }
 }
