@@ -3,6 +3,7 @@ import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/app_extension.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
@@ -12,7 +13,6 @@ import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:law_app/features/auth/presentation/widgets/password_text_field.dart';
 import 'package:law_app/features/auth/presentation/widgets/primary_header.dart';
-import 'package:law_app/features/common/shared/banner_type.dart';
 
 class LoginPage extends StatefulWidget {
   final Map<String, Object>? bannerData;

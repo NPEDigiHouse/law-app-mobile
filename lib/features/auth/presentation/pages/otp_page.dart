@@ -1,8 +1,11 @@
 import 'dart:async';
+import 'dart:math' as math;
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/app_extension.dart';
 import 'package:law_app/core/helpers/app_size.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
@@ -11,8 +14,8 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/auth/presentation/providers/count_down_provider.dart';
 import 'package:law_app/features/auth/presentation/widgets/secondary_header.dart';
-import 'package:law_app/features/common/shared/banner_type.dart';
 import 'package:law_app/features/common/shared/svg_asset.dart';
 
 class OtpPage extends StatefulWidget {
@@ -143,6 +146,43 @@ class _OtpPageState extends State<OtpPage> with AfterLayoutMixin<OtpPage> {
                         ).fullWidth();
                       },
                     ),
+                    const SizedBox(height: 20),
+                    Consumer(
+                      builder: (context, ref, child) {
+                        final timer = ref.watch(countDownProvider(30));
+
+                        final value = timer.when<int?>(
+                          data: (value) => value,
+                          error: (error, stackTrace) => null,
+                          loading: () => null,
+                        );
+
+                        final isDone = value == 0;
+
+                        return Center(
+                          child: TextButton.icon(
+                            onPressed: isDone ? () => resendOtp(ref) : null,
+                            label: Text(
+                              'Kirim Ulang OTP ${isDone ? "" : "($value)"}',
+                            ),
+                            icon: Padding(
+                              padding: const EdgeInsets.only(bottom: 5),
+                              child: Transform.rotate(
+                                angle: -45 * math.pi / 180,
+                                child: SvgAsset(
+                                  assetPath: AssetPath.getIcon(
+                                    'carbon-send-filled.svg',
+                                  ),
+                                  color: isDone
+                                      ? primaryColor
+                                      : secondaryTextColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -225,5 +265,16 @@ class _OtpPageState extends State<OtpPage> with AfterLayoutMixin<OtpPage> {
       // Navigate to reset password page if success
       navigatorKey.currentState!.pushReplacementNamed(resetPasswordRoute);
     }
+  }
+
+  void resendOtp(WidgetRef ref) {
+    // Show loading - send data - close loading
+
+    ref.invalidate(countDownProvider);
+
+    context.showBanner(
+      message: 'Kode OTP telah terkirim ke email ${widget.email}',
+      type: BannerType.success,
+    );
   }
 }

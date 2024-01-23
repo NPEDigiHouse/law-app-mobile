@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/app_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
@@ -9,7 +10,6 @@ import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/features/auth/presentation/widgets/password_text_field.dart';
 import 'package:law_app/features/auth/presentation/widgets/secondary_header.dart';
-import 'package:law_app/features/common/shared/banner_type.dart';
 import 'package:law_app/features/common/shared/svg_asset.dart';
 
 class ResetPasswordPage extends StatefulWidget {
