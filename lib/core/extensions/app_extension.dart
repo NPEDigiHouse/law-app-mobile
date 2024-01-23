@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/widget_utils.dart';
 import 'package:law_app/features/common/shared/banner_type.dart';
+import 'package:law_app/features/common/shared/confirm_dialog.dart';
 import 'package:law_app/features/common/shared/loading_indicator.dart';
 
 extension Capitalize on String {
@@ -39,11 +40,33 @@ extension NavigationExtension on BuildContext {
 }
 
 extension DialogExtension on BuildContext {
-  FutureOr<void> showLoadingDialog() {
+  Future<void> showLoadingDialog() {
     return showDialog(
       context: this,
       barrierDismissible: false,
       builder: (_) => const LoadingIndicator(),
+    );
+  }
+
+  Future<Object?> showConfirmDialog({
+    required String title,
+    required String message,
+    VoidCallback? onPressedPrimaryButton,
+    VoidCallback? onPressedSecondaryButton,
+    String? primaryButtonText,
+    String? secondaryButtonText,
+  }) {
+    return showDialog<Object?>(
+      context: this,
+      barrierDismissible: false,
+      builder: (_) => ConfirmDialog(
+        title: title,
+        message: message,
+        onPressedPrimaryButton: onPressedPrimaryButton,
+        onPressedSecondaryButton: onPressedSecondaryButton,
+        primaryButtonText: primaryButtonText,
+        secondaryButtonText: secondaryButtonText,
+      ),
     );
   }
 }

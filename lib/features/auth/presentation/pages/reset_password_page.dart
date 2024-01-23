@@ -45,7 +45,15 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       onPopInvoked: (didPop) {
         if (didPop) return;
 
-        context.back();
+        context.showConfirmDialog(
+          title: 'Konfirmasi',
+          message: 'Anda yakin ingin membatalkan proses ini?',
+          onPressedPrimaryButton: () {
+            context.back();
+
+            navigatorKey.currentState!.pop();
+          },
+        );
       },
       child: Scaffold(
         body: SingleChildScrollView(
