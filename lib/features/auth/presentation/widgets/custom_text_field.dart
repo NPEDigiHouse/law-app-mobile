@@ -124,7 +124,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
         padding: const EdgeInsets.fromLTRB(10, 0, 16, 0),
         child: SvgAsset(
           assetPath: AssetPath.getIcon(widget.suffixIconName!),
-          color: primaryTextColor,
         ),
       );
     }
