@@ -21,7 +21,7 @@ const user = User(
   password: 'test123',
   email: 'test@gmail.com',
   otp: 1234,
-  role: 1
+  role: 2 // 0 : admin, 1 : pakar, 2 : siswa (sample)
 );
 
 //!
