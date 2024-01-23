@@ -128,11 +128,9 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
       icon: isVisible
           ? SvgAsset(
               assetPath: AssetPath.getIcon('eye-solid.svg'),
-              color: primaryTextColor,
             )
           : SvgAsset(
               assetPath: AssetPath.getIcon('eye-hide-solid.svg'),
-              color: primaryTextColor,
             ),
       onPressed: () => this.isVisible.value = !isVisible,
     );

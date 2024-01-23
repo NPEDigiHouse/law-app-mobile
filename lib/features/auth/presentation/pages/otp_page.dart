@@ -9,8 +9,9 @@ import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/core/utils/widget_utils.dart';
-import 'package:law_app/features/common/auth/widgets/secondary_header.dart';
+import 'package:law_app/core/utils/routes.dart';
+import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/auth/presentation/widgets/secondary_header.dart';
 import 'package:law_app/features/common/shared/banner_type.dart';
 import 'package:law_app/features/common/shared/svg_asset.dart';
 
@@ -51,7 +52,15 @@ class _OtpPageState extends State<OtpPage> with AfterLayoutMixin<OtpPage> {
       onPopInvoked: (didPop) {
         if (didPop) return;
 
-        context.back();
+        context.showConfirmDialog(
+          title: 'Konfirmasi',
+          message: 'Anda yakin ingin membatalkan proses ini?',
+          onPressedPrimaryButton: () {
+            context.back();
+
+            navigatorKey.currentState!.pop();
+          },
+        );
       },
       child: Scaffold(
         body: SingleChildScrollView(
@@ -146,7 +155,10 @@ class _OtpPageState extends State<OtpPage> with AfterLayoutMixin<OtpPage> {
 
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) {
-    showSuccessBanner();
+    context.showBanner(
+      message: 'Kode OTP telah terkirim ke email ${widget.email}',
+      type: BannerType.success,
+    );
   }
 
   SizedBox buildOtpTextField(int index, double fieldSize) {
@@ -158,8 +170,6 @@ class _OtpPageState extends State<OtpPage> with AfterLayoutMixin<OtpPage> {
         textAlign: TextAlign.center,
         textAlignVertical: TextAlignVertical.center,
         keyboardType: TextInputType.number,
-        textInputAction:
-            index != 3 ? TextInputAction.next : TextInputAction.done,
         inputFormatters: [
           LengthLimitingTextInputFormatter(1),
           FilteringTextInputFormatter.digitsOnly,
@@ -173,30 +183,17 @@ class _OtpPageState extends State<OtpPage> with AfterLayoutMixin<OtpPage> {
         ),
         onChanged: (value) {
           if (value?.length == 1) {
-            FocusScope.of(context).nextFocus();
+            FocusManager.instance.primaryFocus?.nextFocus();
+
+            if (index == 3) {
+              FocusManager.instance.primaryFocus?.unfocus();
+            }
           }
 
           isFilled.value = areAllFieldsFilled();
         },
       ),
     );
-  }
-
-  void showSuccessBanner() {
-    final successBanner = WidgetUtils.createMaterialBanner(
-      content: 'Kode OTP telah terkirim ke email ${widget.email}',
-      type: BannerType.success,
-    );
-
-    scaffoldMessengerKey.currentState!
-      ..hideCurrentMaterialBanner()
-      ..showMaterialBanner(successBanner);
-  }
-
-  void verifyOtp() {
-    final data = formKey.currentState!.value;
-
-    debugPrint(data.toString());
   }
 
   bool areAllFieldsFilled() {
@@ -210,5 +207,23 @@ class _OtpPageState extends State<OtpPage> with AfterLayoutMixin<OtpPage> {
     }
 
     return true;
+  }
+
+  void verifyOtp() {
+    final data = formKey.currentState!.value;
+    final values = data.values.cast<String?>().toList();
+    final otp = int.parse(values.join(''));
+
+    if (otp != user.otp) {
+      context.showBanner(
+        message: 'Kode OTP yang Anda masukkan tidak sesuai!',
+        type: BannerType.error,
+      );
+    } else {
+      // Show loading - send data - remove loading
+
+      // Navigate to reset password page if success
+      navigatorKey.currentState!.pushReplacementNamed(resetPasswordRoute);
+    }
   }
 }

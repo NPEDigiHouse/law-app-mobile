@@ -8,7 +8,7 @@ import 'package:law_app/features/common/shared/svg_asset.dart';
 class WidgetUtils {
   /// Create a custom [MaterialBanner] widget.
   static MaterialBanner createMaterialBanner({
-    required String content,
+    required String message,
     required BannerType type,
     bool autoClose = true,
     Duration autoCloseDuration = const Duration(milliseconds: 3500),
@@ -20,7 +20,7 @@ class WidgetUtils {
       backgroundColor: type.backgroundColor,
       leadingPadding: const EdgeInsetsDirectional.only(end: 10.0),
       content: Text(
-        content,
+        message,
         style: TextStyle(
           color: type.foregroundColor,
         ),

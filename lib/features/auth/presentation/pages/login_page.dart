@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -6,19 +8,24 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
-import 'package:law_app/core/utils/widget_utils.dart';
 import 'package:law_app/dummies_data.dart';
-import 'package:law_app/features/common/auth/widgets/custom_text_field.dart';
-import 'package:law_app/features/common/auth/widgets/password_text_field.dart';
-import 'package:law_app/features/common/auth/widgets/primary_header.dart';
+import 'package:law_app/features/auth/presentation/widgets/custom_text_field.dart';
+import 'package:law_app/features/auth/presentation/widgets/password_text_field.dart';
+import 'package:law_app/features/auth/presentation/widgets/primary_header.dart';
 import 'package:law_app/features/common/shared/banner_type.dart';
 
-//TODO: implement case when register successfully
-//TODO: implement case when change password successfully
-class LoginPage extends StatelessWidget {
-  final formKey = GlobalKey<FormBuilderState>();
+class LoginPage extends StatefulWidget {
+  final Map<String, Object>? bannerData;
 
-  LoginPage({super.key});
+  const LoginPage({super.key, this.bannerData});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage>
+    with AfterLayoutMixin<LoginPage> {
+  final formKey = GlobalKey<FormBuilderState>();
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +49,7 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Silahkan Login untuk melanjutkan',
+                    'Silahkan login untuk melanjutkan',
                     style: textTheme.bodyMedium!.copyWith(
                       color: secondaryTextColor,
                     ),
@@ -80,9 +87,7 @@ class LoginPage extends StatelessWidget {
                         ),
                         const SizedBox(height: 4),
                         GestureDetector(
-                          onTap: () => navigatorKey.currentState!.pushNamed(
-                            forgotPasswordRoute,
-                          ),
+                          onTap: navigateToForgotPasswordPage,
                           child: Text(
                             'Lupa Password?',
                             style: textTheme.bodySmall!.copyWith(
@@ -95,7 +100,7 @@ class LoginPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 32),
                   FilledButton(
-                    onPressed: () => login(context),
+                    onPressed: login,
                     child: const Text('Login'),
                   ).fullWidth(),
                   const SizedBox(height: 28),
@@ -104,9 +109,7 @@ class LoginPage extends StatelessWidget {
                     children: [
                       const Text('Belum punya akun? Buat akun baru\t'),
                       GestureDetector(
-                        onTap: () => navigatorKey.currentState!.pushNamed(
-                          registerRoute,
-                        ),
+                        onTap: navigateToRegisterPage,
                         child: Text(
                           'di sini',
                           style: textTheme.titleSmall!.copyWith(
@@ -125,24 +128,49 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  void login(BuildContext context) {
-    FocusScope.of(context).unfocus();
+  @override
+  FutureOr<void> afterFirstLayout(BuildContext context) {
+    if (widget.bannerData != null) {
+      context.showBanner(
+        message: widget.bannerData!['message'] as String,
+        type: widget.bannerData!['banner_type'] as BannerType,
+      );
+    }
+  }
+
+  void navigateToForgotPasswordPage() {
+    navigatorKey.currentState!.pushNamed(forgotPasswordRoute);
+  }
+
+  Future<void> navigateToRegisterPage() async {
+    final data = await navigatorKey.currentState!.pushNamed(registerRoute);
+
+    if (!context.mounted) return;
+
+    if (data != null) {
+      context.showBanner(
+        message: 'Akun Anda berhasil dibuat.',
+        type: BannerType.success,
+      );
+    }
+  }
+
+  void login() {
+    FocusManager.instance.primaryFocus?.unfocus();
 
     if (formKey.currentState!.saveAndValidate()) {
       final data = formKey.currentState!.value;
 
       if (data['username'] != user.username ||
           data['password'] != user.password) {
-        final errorBanner = WidgetUtils.createMaterialBanner(
-          content: 'Username atau password salah!',
+        // Show failure message
+        context.showBanner(
+          message: 'Username atau password salah!',
           type: BannerType.error,
         );
-
-        // Show material banner
-        scaffoldMessengerKey.currentState!
-          ..hideCurrentMaterialBanner()
-          ..showMaterialBanner(errorBanner);
       } else {
+        // Show loading - send data - close loading
+
         // Navigate to student home page
         navigatorKey.currentState!.pushReplacementNamed(studentHomeRoute);
       }
