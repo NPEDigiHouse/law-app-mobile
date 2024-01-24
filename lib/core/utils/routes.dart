@@ -5,6 +5,7 @@ import 'package:law_app/features/auth/presentation/pages/login_page.dart';
 import 'package:law_app/features/auth/presentation/pages/otp_page.dart';
 import 'package:law_app/features/auth/presentation/pages/register_page.dart';
 import 'package:law_app/features/student/presentation/pages/student_home_page.dart';
+import 'package:law_app/features/teacher/presentation/pages/teacher_home_page.dart';
 
 // Register the RouteObserver as a navigation observer
 final routeObserver = RouteObserver<ModalRoute<void>>();
@@ -16,6 +17,7 @@ const forgotPasswordRoute = '/forgot-password';
 const otpRoute = '/otp';
 const resetPasswordRoute = '/reset-password';
 const studentHomeRoute = '/student-home';
+const teacherHomeRoute = '/teacher-home';
 
 // App routes generator
 Route<dynamic>? generateAppRoutes(RouteSettings settings) {
@@ -47,6 +49,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
     case studentHomeRoute:
       return MaterialPageRoute(
         builder: (_) => const StudentHomePage(),
+      );
+    case teacherHomeRoute:
+      return MaterialPageRoute(
+        builder: (_) => const TeacherHomePage(),
       );
     default:
       return null;

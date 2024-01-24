@@ -80,7 +80,7 @@ class HomePageHeader extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          user.role == 2 ? "Siswa" : "Pakar",
+                          user.role == 0 ? "Admin" : user.role == 1 ? "Pakar" : "Siswa",
                           style: textTheme.bodyMedium!.copyWith(
                             color: accentTextColor,
                           ),
