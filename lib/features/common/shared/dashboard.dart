@@ -30,63 +30,58 @@ class Dashboard extends StatelessWidget {
         ],
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: List.generate(dashboardItem.length, (index) {
-          return Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: dashboardItem.length > 3 ? 1.0 : 12.0,
-            ),
-            child: SizedBox(
-              width: 80.0,
-              child: Column(
-                children: [
-                  Container(
-                    height: 58.0,
-                    width: 58.0,
-                    padding: const EdgeInsets.all(8.0),
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(12.0),
-                      ),
-                      gradient: LinearGradient(
-                        colors: GradientColors.redPastel,
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
+          return SizedBox(
+            width: 80.0,
+            child: Column(
+              children: [
+                Container(
+                  height: 58.0,
+                  width: 58.0,
+                  padding: const EdgeInsets.all(8.0),
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(12.0),
                     ),
-                    child: SvgAsset(
-                      color: scaffoldBackgroundColor,
-                      assetPath:
-                          AssetPath.getIcon(dashboardItem[index]["icon"]),
+                    gradient: LinearGradient(
+                      colors: GradientColors.redPastel,
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
                     ),
                   ),
-                  const SizedBox(
-                    height: 4.0,
+                  child: SvgAsset(
+                    color: scaffoldBackgroundColor,
+                    assetPath:
+                        AssetPath.getIcon(dashboardItem[index]["icon"]),
                   ),
-                  Flexible(
-                    child: RichText(
-                      textAlign: TextAlign.center,
-                      text: TextSpan(
-                        style: textTheme.bodyMedium!.copyWith(
-                          color: primaryTextColor,
+                ),
+                const SizedBox(
+                  height: 4.0,
+                ),
+                Flexible(
+                  child: RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      style: textTheme.bodyMedium!.copyWith(
+                        color: primaryTextColor,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: "${dashboardItem[index]["count"]}\n",
+                          style: const TextStyle(
+                            color: primaryColor,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
-                        children: [
-                          TextSpan(
-                            text: "${dashboardItem[index]["count"]}\n",
-                            style: const TextStyle(
-                              color: primaryColor,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          TextSpan(
-                            text: dashboardItem[index]["text"],
-                          ),
-                        ],
-                      ),
+                        TextSpan(
+                          text: dashboardItem[index]["text"],
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           );
         }),
