@@ -1,8 +1,9 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:law_app/core/helpers/asset_path.dart';
+
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
-import 'package:law_app/features/common/widget/svg_asset.dart';
+import 'package:law_app/features/common/widget/icon_with_gradient_background.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({
@@ -36,25 +37,9 @@ class Dashboard extends StatelessWidget {
             width: 80.0,
             child: Column(
               children: [
-                Container(
-                  height: 58.0,
-                  width: 58.0,
-                  padding: const EdgeInsets.all(8.0),
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(12.0),
-                    ),
-                    gradient: LinearGradient(
-                      colors: GradientColors.redPastel,
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                  ),
-                  child: SvgAsset(
-                    color: scaffoldBackgroundColor,
-                    assetPath:
-                        AssetPath.getIcon(dashboardItem[index]["icon"]),
-                  ),
+                IconWithGradientBackground(
+                  size: 58.0,
+                  icon: dashboardItem[index]["icon"],
                 ),
                 const SizedBox(
                   height: 4.0,

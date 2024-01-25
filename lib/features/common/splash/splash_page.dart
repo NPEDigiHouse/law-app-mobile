@@ -78,7 +78,7 @@ class _SplashPageState extends State<SplashPage>
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) {
     Timer(const Duration(seconds: 3), () {
-      navigatorKey.currentState!.pushReplacementNamed(profileRoute);
+      navigatorKey.currentState!.pushReplacementNamed(notificationRoute);
     });
   }
 }
