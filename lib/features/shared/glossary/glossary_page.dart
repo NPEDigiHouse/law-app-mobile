@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class StudentHomePage extends StatelessWidget {
-  const StudentHomePage({super.key});
+class GlossaryPage extends StatelessWidget {
+  const GlossaryPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
-        child: Text('Student Home Page'),
+        child: Text('Glossary Page'),
       ),
     );
   }
