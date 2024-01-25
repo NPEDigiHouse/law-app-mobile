@@ -9,8 +9,8 @@ import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/features/auth/presentation/widgets/password_text_field.dart';
 import 'package:law_app/features/auth/presentation/widgets/secondary_header.dart';
-import 'package:law_app/features/common/shared/banner_type.dart';
-import 'package:law_app/features/common/shared/svg_asset.dart';
+import 'package:law_app/features/common/widget/banner_type.dart';
+import 'package:law_app/features/common/widget/svg_asset.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   const ResetPasswordPage({super.key});

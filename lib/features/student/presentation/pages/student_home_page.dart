@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
-import 'package:law_app/features/common/shared/book_item.dart';
-import 'package:law_app/features/common/shared/course_item_card.dart';
-import 'package:law_app/features/common/shared/home_page_discussion_card.dart';
-import 'package:law_app/features/common/shared/home_page_header.dart';
+import 'package:law_app/features/common/widget/book_item.dart';
+import 'package:law_app/features/common/widget/course_item_card.dart';
+import 'package:law_app/features/common/widget/home_page_discussion_card.dart';
+import 'package:law_app/features/common/widget/home_page_header.dart';
 
 class StudentHomePage extends StatefulWidget {
   const StudentHomePage({super.key});

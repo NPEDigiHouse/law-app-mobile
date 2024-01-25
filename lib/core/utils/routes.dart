@@ -4,6 +4,7 @@ import 'package:law_app/features/auth/presentation/pages/forgot_password_page.da
 import 'package:law_app/features/auth/presentation/pages/login_page.dart';
 import 'package:law_app/features/auth/presentation/pages/otp_page.dart';
 import 'package:law_app/features/auth/presentation/pages/register_page.dart';
+import 'package:law_app/features/shared/profile/profile_page.dart';
 import 'package:law_app/features/student/presentation/pages/student_home_page.dart';
 import 'package:law_app/features/teacher/presentation/pages/teacher_home_page.dart';
 
@@ -16,6 +17,7 @@ const registerRoute = '/register';
 const forgotPasswordRoute = '/forgot-password';
 const otpRoute = '/otp';
 const resetPasswordRoute = '/reset-password';
+const profileRoute = '/profile';
 const studentHomeRoute = '/student-home';
 const teacherHomeRoute = '/teacher-home';
 
@@ -53,6 +55,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
     case teacherHomeRoute:
       return MaterialPageRoute(
         builder: (_) => const TeacherHomePage(),
+      );
+    case profileRoute:
+      return MaterialPageRoute(
+        builder: (_) => const ProfilePage(),
       );
     default:
       return null;

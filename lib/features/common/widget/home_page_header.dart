@@ -5,8 +5,8 @@ import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/dummies_data.dart';
-import 'package:law_app/features/common/shared/dashboard.dart';
-import 'package:law_app/features/common/shared/svg_asset.dart';
+import 'package:law_app/features/common/widget/dashboard.dart';
+import 'package:law_app/features/common/widget/svg_asset.dart';
 
 class HomePageHeader extends StatelessWidget {
   final List dashboardItem;
