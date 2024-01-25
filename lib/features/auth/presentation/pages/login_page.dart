@@ -171,8 +171,11 @@ class _LoginPageState extends State<LoginPage>
       } else {
         // Show loading - send data - close loading
 
-        // Navigate to student home page
-        navigatorKey.currentState!.pushReplacementNamed(studentHomeRoute);
+        // Navigate to main menu
+        navigatorKey.currentState!.pushReplacementNamed(
+          mainMenuRoute,
+          arguments: user.roleId,
+        );
       }
     }
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:law_app/core/styles/color_scheme.dart';
 
 class LibraryPage extends StatelessWidget {
   const LibraryPage({super.key});
@@ -6,6 +7,7 @@ class LibraryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
+      backgroundColor: backgroundColor,
       body: Center(
         child: Text('Library Page'),
       ),

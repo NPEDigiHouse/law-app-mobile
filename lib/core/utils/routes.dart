@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:law_app/features/auth/presentation/pages/reset_password_page.dart';
 import 'package:law_app/features/auth/presentation/pages/forgot_password_page.dart';
 import 'package:law_app/features/auth/presentation/pages/login_page.dart';
 import 'package:law_app/features/auth/presentation/pages/otp_page.dart';
 import 'package:law_app/features/auth/presentation/pages/register_page.dart';
-import 'package:law_app/features/student/presentation/pages/student_home_page.dart';
+import 'package:law_app/features/auth/presentation/pages/reset_password_page.dart';
+import 'package:law_app/features/common/menu/main_menu_page.dart';
 
 // Register the RouteObserver as a navigation observer
 final routeObserver = RouteObserver<ModalRoute<void>>();
@@ -15,7 +15,7 @@ const registerRoute = '/register';
 const forgotPasswordRoute = '/forgot-password';
 const otpRoute = '/otp';
 const resetPasswordRoute = '/reset-password';
-const studentHomeRoute = '/student-home';
+const mainMenuRoute = '/main-menu';
 
 // App routes generator
 Route<dynamic>? generateAppRoutes(RouteSettings settings) {
@@ -44,9 +44,11 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => const ResetPasswordPage(),
       );
-    case studentHomeRoute:
+    case mainMenuRoute:
+      final roleId = settings.arguments as int;
+
       return MaterialPageRoute(
-        builder: (_) => const StudentHomePage(),
+        builder: (_) => MainMenuPage(roleId: roleId),
       );
     default:
       return null;
