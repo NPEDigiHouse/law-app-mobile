@@ -1,20 +1,17 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
-import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/dummies_data.dart';
-import 'package:law_app/features/common/widget/svg_asset.dart';
+import 'package:law_app/features/shared/widgets/dashboard.dart';
+import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class HomePageHeader extends StatelessWidget {
-  final Widget child;
+  final List dashboardItem;
 
   const HomePageHeader({
     Key? key,
-    required this.child,
+    required this.dashboardItem,
   }) : super(key: key);
 
   @override
@@ -81,11 +78,7 @@ class HomePageHeader extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          user.roleId == 0
-                              ? "Admin"
-                              : user.roleId == 1
-                                  ? "Pakar"
-                                  : "Siswa",
+                          user.roleId == 2 ? "Siswa" : "Pakar",
                           style: textTheme.bodyMedium!.copyWith(
                             color: accentTextColor,
                           ),
@@ -97,10 +90,7 @@ class HomePageHeader extends StatelessWidget {
                     children: [
                       SizedBox(
                         child: TextButton(
-                          onPressed: () {
-                            navigatorKey.currentState!
-                                .pushNamed(notificationRoute);
-                          },
+                          onPressed: () {},
                           child: SvgAsset(
                             width: 36,
                             height: 36,
@@ -111,24 +101,19 @@ class HomePageHeader extends StatelessWidget {
                           ),
                         ),
                       ),
-                      InkWell(
-                        onTap: () {
-                          navigatorKey.currentState!.pushNamed(profileRoute);
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: scaffoldBackgroundColor,
-                            border: Border.all(
-                              color: accentColor,
-                              width: 1.0,
-                            ),
+                      Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: scaffoldBackgroundColor,
+                          border: Border.all(
+                            color: accentColor,
+                            width: 1.0,
                           ),
-                          child: CircleAvatar(
-                            radius: 23,
-                            foregroundImage: AssetImage(
-                              AssetPath.getImage("no-profile.jpg"),
-                            ),
+                        ),
+                        child: CircleAvatar(
+                          radius: 23,
+                          foregroundImage: AssetImage(
+                            AssetPath.getImage("no-profile.jpg"),
                           ),
                         ),
                       ),
@@ -142,7 +127,7 @@ class HomePageHeader extends StatelessWidget {
             top: 160,
             left: 20,
             right: 20,
-            child: child,
+            child: Dashboard(dashboardItem: dashboardItem),
           ),
         ],
       ),

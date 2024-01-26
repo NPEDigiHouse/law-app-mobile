@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/app_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
@@ -9,8 +10,7 @@ import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/features/auth/presentation/widgets/password_text_field.dart';
 import 'package:law_app/features/auth/presentation/widgets/secondary_header.dart';
-import 'package:law_app/features/common/widget/banner_type.dart';
-import 'package:law_app/features/common/widget/svg_asset.dart';
+import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   const ResetPasswordPage({super.key});
@@ -20,7 +20,7 @@ class ResetPasswordPage extends StatefulWidget {
 }
 
 class _ResetPasswordPageState extends State<ResetPasswordPage> {
-  late final ValueNotifier<String> passwordNotifier;
+  late final ValueNotifier<String> password;
 
   final formKey = GlobalKey<FormBuilderState>();
 
@@ -28,14 +28,14 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   void initState() {
     super.initState();
 
-    passwordNotifier = ValueNotifier('');
+    password = ValueNotifier('');
   }
 
   @override
   void dispose() {
     super.dispose();
 
-    passwordNotifier.dispose();
+    password.dispose();
   }
 
   @override
@@ -111,12 +111,12 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                               ),
                             ],
                             onChanged: (value) {
-                              if (value != null) passwordNotifier.value = value;
+                              if (value != null) password.value = value;
                             },
                           ),
                           const SizedBox(height: 20),
                           ValueListenableBuilder(
-                            valueListenable: passwordNotifier,
+                            valueListenable: password,
                             builder: (context, password, child) {
                               return PasswordTextField(
                                 name: 'confirm_password',

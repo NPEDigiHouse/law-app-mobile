@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/widget_utils.dart';
-import 'package:law_app/features/common/widget/banner_type.dart';
-import 'package:law_app/features/common/widget/confirm_dialog.dart';
-import 'package:law_app/features/common/widget/loading_indicator.dart';
+import 'package:law_app/features/shared/widgets/confirm_dialog.dart';
+import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 
 extension Capitalize on String {
   String toCapitalize() {
