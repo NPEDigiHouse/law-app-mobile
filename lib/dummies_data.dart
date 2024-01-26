@@ -24,3 +24,6 @@ const user = User(
 );
 
 //!
+class Glossary {
+  
+}

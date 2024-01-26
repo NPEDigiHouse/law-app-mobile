@@ -20,7 +20,7 @@ class ResetPasswordPage extends StatefulWidget {
 }
 
 class _ResetPasswordPageState extends State<ResetPasswordPage> {
-  late final ValueNotifier<String> passwordNotifier;
+  late final ValueNotifier<String> password;
 
   final formKey = GlobalKey<FormBuilderState>();
 
@@ -28,14 +28,14 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   void initState() {
     super.initState();
 
-    passwordNotifier = ValueNotifier('');
+    password = ValueNotifier('');
   }
 
   @override
   void dispose() {
     super.dispose();
 
-    passwordNotifier.dispose();
+    password.dispose();
   }
 
   @override
@@ -111,12 +111,12 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                               ),
                             ],
                             onChanged: (value) {
-                              if (value != null) passwordNotifier.value = value;
+                              if (value != null) password.value = value;
                             },
                           ),
                           const SizedBox(height: 20),
                           ValueListenableBuilder(
-                            valueListenable: passwordNotifier,
+                            valueListenable: password,
                             builder: (context, password, child) {
                               return PasswordTextField(
                                 name: 'confirm_password',
