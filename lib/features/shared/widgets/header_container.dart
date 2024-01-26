@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
-import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
-class GlossaryHeader extends StatelessWidget {
-  const GlossaryHeader({super.key});
+class HeaderContainer extends StatelessWidget {
+  final double height;
+  final Widget child;
+
+  const HeaderContainer({
+    super.key,
+    required this.height,
+    required this.child,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      // width: double.infinity,
+      height: height,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.vertical(
           bottom: Radius.circular(20),
@@ -25,7 +31,7 @@ class GlossaryHeader extends StatelessWidget {
         clipBehavior: Clip.none,
         children: [
           Positioned(
-            top: -32,
+            top: -20,
             right: 20,
             child: SvgAsset(
               assetPath: AssetPath.getVector('app_logo_white.svg'),
@@ -33,22 +39,11 @@ class GlossaryHeader extends StatelessWidget {
               width: 160,
             ),
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Glosarium',
-                style: textTheme.headlineSmall!.copyWith(
-                  color: accentTextColor,
-                ),
-              ),
-              Text(
-                'Cari definisi dari berbagai kata untuk memperkaya referensi dan pengetahuanmu!',
-                style: textTheme.bodySmall!.copyWith(
-                  color: backgroundColor,
-                ),
-              ),
-            ],
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 24, 20, 0),
+              child: child,
+            ),
           ),
         ],
       ),
