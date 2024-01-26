@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
-import 'package:law_app/features/common/widgets/custom_bottom_navigation_bar.dart';
+import 'package:law_app/features/shared/widgets/custom_bottom_navigation_bar.dart';
 import 'package:law_app/features/shared/glossary/presentation/pages/glossary_page.dart';
 import 'package:law_app/features/shared/library/library_page.dart';
 import 'package:law_app/features/student/presentation/pages/student_course_page.dart';
