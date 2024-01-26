@@ -68,6 +68,11 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => const TeacherHomePage(),
       );
+    case mainMenuRoute:
+      final roleId = settings.arguments as int;
+      return MaterialPageRoute(
+        builder: (_) => MainMenuPage(roleId: roleId),
+      );
     default:
       return null;
   }
