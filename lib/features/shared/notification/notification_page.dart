@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/common/widget/custom_app_bar.dart';
-import 'package:law_app/features/common/widget/icon_with_gradient_background.dart';
+import 'package:law_app/features/shared/widgets/custom_app_bar.dart';
+import 'package:law_app/features/shared/widgets/icon_with_gradient_background.dart';
 import 'package:law_app/features/shared/ads/ads_detail_page.dart';
 
 class NotificationPage extends StatelessWidget {

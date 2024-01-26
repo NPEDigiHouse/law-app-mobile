@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
-import 'package:law_app/features/common/widget/custom_app_bar.dart';
+import 'package:law_app/features/shared/widgets/custom_app_bar.dart';
 
 class AdsDetailPage extends StatelessWidget {
   final Map adsItem;
