@@ -1,12 +1,10 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/dummies_data.dart';
-import 'package:law_app/features/common/shared/dashboard.dart';
-import 'package:law_app/features/common/shared/svg_asset.dart';
+import 'package:law_app/features/shared/widgets/dashboard.dart';
+import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class HomePageHeader extends StatelessWidget {
   final List dashboardItem;
@@ -80,7 +78,7 @@ class HomePageHeader extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          user.role == 2 ? "Siswa" : "Pakar",
+                          user.roleId == 2 ? "Siswa" : "Pakar",
                           style: textTheme.bodyMedium!.copyWith(
                             color: accentTextColor,
                           ),

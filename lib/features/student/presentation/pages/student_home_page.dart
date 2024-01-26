@@ -1,14 +1,11 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
-
 import 'package:law_app/core/helpers/asset_path.dart';
-import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
-import 'package:law_app/features/common/shared/book_item.dart';
-import 'package:law_app/features/common/shared/home_page_header.dart';
-import 'package:law_app/features/common/shared/svg_asset.dart';
+import 'package:law_app/features/shared/widgets/book_item.dart';
+import 'package:law_app/features/shared/widgets/home_page_header.dart';
+import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class StudentHomePage extends StatefulWidget {
   const StudentHomePage({super.key});
@@ -240,7 +237,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
                   const SizedBox(
                     height: 12.0,
                   ),
-                  Container(
+                  SizedBox(
                     height: 200,
                     child: ListView.builder(
                       padding: const EdgeInsets.all(0),
@@ -634,7 +631,7 @@ class _CustomCarouselWithIndicatorState
                   width: 8,
                   height: 8,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                    borderRadius: const BorderRadius.all(Radius.circular(4)),
                     color: carouselIndex == index
                         ? primaryColor
                         : secondaryTextColor,
