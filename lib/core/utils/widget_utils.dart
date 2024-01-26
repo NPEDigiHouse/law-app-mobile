@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/common/shared/banner_type.dart';
-import 'package:law_app/features/common/shared/svg_asset.dart';
+import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 /// A collection of widget utility functions that are reusable for this app
 class WidgetUtils {

@@ -21,7 +21,7 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage>
     with AfterLayoutMixin<RegisterPage> {
-  late final ValueNotifier<String> passwordNotifier;
+  late final ValueNotifier<String> password;
 
   final formKey = GlobalKey<FormBuilderState>();
 
@@ -31,14 +31,14 @@ class _RegisterPageState extends State<RegisterPage>
   void initState() {
     super.initState();
 
-    passwordNotifier = ValueNotifier('');
+    password = ValueNotifier('');
   }
 
   @override
   void dispose() {
     super.dispose();
 
-    passwordNotifier.dispose();
+    password.dispose();
   }
 
   @override
@@ -156,7 +156,7 @@ class _RegisterPageState extends State<RegisterPage>
                               ),
                             ],
                             onChanged: (value) {
-                              if (value != null) passwordNotifier.value = value;
+                              if (value != null) password.value = value;
                             },
                           ),
                           const SizedBox(height: 4),
@@ -171,7 +171,7 @@ class _RegisterPageState extends State<RegisterPage>
                           ),
                           const SizedBox(height: 20),
                           ValueListenableBuilder(
-                            valueListenable: passwordNotifier,
+                            valueListenable: password,
                             builder: (context, password, child) {
                               return PasswordTextField(
                                 name: 'confirm_password',

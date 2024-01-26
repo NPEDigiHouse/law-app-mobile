@@ -5,14 +5,14 @@ class User {
   final String password;
   final String email;
   final int otp;
-  final int role;
-
+  final int roleId;
+  
   const User({
     required this.username,
     required this.password,
     required this.email,
     required this.otp,
-    required this.role,
+    required this.roleId,
   });
 }
 
@@ -21,7 +21,10 @@ const user = User(
   password: 'test123',
   email: 'test@gmail.com',
   otp: 1234,
-  role: 2 // 0 : admin, 1 : pakar, 2 : siswa (sample)
+  roleId: 1,
 );
 
 //!
+class Glossary {
+  
+}
