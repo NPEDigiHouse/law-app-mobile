@@ -52,9 +52,21 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => const ResetPasswordPage(),
       );
+    case profileRoute:
+      return MaterialPageRoute(
+        builder: (_) => const ProfilePage(),
+      );
+    case notificationRoute:
+      return MaterialPageRoute(
+        builder: (_) => const NotificationPage(),
+      );
     case studentHomeRoute:
       return MaterialPageRoute(
         builder: (_) => const StudentHomePage(),
+      );
+    case teacherHomeRoute:
+      return MaterialPageRoute(
+        builder: (_) => const TeacherHomePage(),
       );
     default:
       return null;
