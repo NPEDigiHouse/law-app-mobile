@@ -7,15 +7,14 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/dummies_data.dart';
-import 'package:law_app/features/common/widget/dashboard.dart';
 import 'package:law_app/features/common/widget/svg_asset.dart';
 
 class HomePageHeader extends StatelessWidget {
-  final List dashboardItem;
+  final Widget child;
 
   const HomePageHeader({
     Key? key,
-    required this.dashboardItem,
+    required this.child,
   }) : super(key: key);
 
   @override
@@ -144,7 +143,7 @@ class HomePageHeader extends StatelessWidget {
             top: 160,
             left: 20,
             right: 20,
-            child: Dashboard(dashboardItem: dashboardItem),
+            child: child,
           ),
         ],
       ),

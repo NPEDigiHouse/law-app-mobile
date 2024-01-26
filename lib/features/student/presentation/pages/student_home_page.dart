@@ -7,6 +7,7 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/features/common/widget/book_item.dart';
 import 'package:law_app/features/common/widget/course_item_card.dart';
+import 'package:law_app/features/common/widget/dashboard.dart';
 import 'package:law_app/features/common/widget/home_page_discussion_card.dart';
 import 'package:law_app/features/common/widget/home_page_header.dart';
 
@@ -147,7 +148,9 @@ class _StudentHomePageState extends State<StudentHomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            HomePageHeader(dashboardItem: dashboardItems),
+            HomePageHeader(
+              child: Dashboard(dashboardItem: dashboardItems),
+            ),
             const SizedBox(
               height: 100.0,
             ),
@@ -325,7 +328,6 @@ class _StudentHomePageState extends State<StudentHomePage> {
     );
   }
 }
-
 
 class CustomCarouselWithIndicator extends StatefulWidget {
   const CustomCarouselWithIndicator({
