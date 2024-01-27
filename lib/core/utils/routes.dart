@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/auth/presentation/pages/forgot_password_page.dart';
 import 'package:law_app/features/auth/presentation/pages/login_page.dart';
 import 'package:law_app/features/auth/presentation/pages/otp_page.dart';
 import 'package:law_app/features/auth/presentation/pages/register_page.dart';
 import 'package:law_app/features/auth/presentation/pages/reset_password_page.dart';
 import 'package:law_app/features/common/menu/main_menu_page.dart';
+import 'package:law_app/features/shared/glossary/presentation/pages/glossary_detail_page.dart';
 import 'package:law_app/features/shared/glossary/presentation/pages/glossary_search_page.dart';
 
 // Register the RouteObserver as a navigation observer
@@ -18,6 +20,7 @@ const otpRoute = '/otp';
 const resetPasswordRoute = '/reset-password';
 const mainMenuRoute = '/main-menu';
 const glossarySearchRoute = '/glossary-search';
+const glossaryDetailRoute = '/glossary-detail';
 
 // App routes generator
 Route<dynamic>? generateAppRoutes(RouteSettings settings) {
@@ -57,6 +60,12 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         pageBuilder: (_, __, ___) => const GlossarySearchPage(),
         transitionDuration: Duration.zero,
         reverseTransitionDuration: Duration.zero,
+      );
+    case glossaryDetailRoute:
+      final glossary = settings.arguments as Glossary;
+
+      return MaterialPageRoute(
+        builder: (_) => GlossaryDetailPage(glossary: glossary),
       );
     default:
       return null;

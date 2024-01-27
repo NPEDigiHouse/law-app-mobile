@@ -12,7 +12,7 @@ const secondaryTextColor = Color(0xFFC8C4C4);
 const accentTextColor = Color(0xFFF4E69E);
 
 // Background colors
-const backgroundColor = Color(0xFFF9F6F6);
+const backgroundColor = Color(0xFFFAF6F6);
 const scaffoldBackgroundColor = Color(0xFFFFFFFF);
 const secondaryBackgroundColor = Color(0xFFE06961);
 

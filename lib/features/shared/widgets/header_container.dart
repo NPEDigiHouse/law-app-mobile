@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
+import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class HeaderContainer extends StatelessWidget {
   final double height;
-  final Widget child;
+  final bool withBackButton;
+  final String? title;
+  final Widget? child;
 
   const HeaderContainer({
     super.key,
     required this.height,
-    required this.child,
+    this.withBackButton = false,
+    this.title,
+    this.child,
   });
 
   @override
@@ -31,7 +37,7 @@ class HeaderContainer extends StatelessWidget {
         clipBehavior: Clip.none,
         children: [
           Positioned(
-            top: -20,
+            top: child != null ? -20 : -40,
             right: 20,
             child: SvgAsset(
               assetPath: AssetPath.getVector('app_logo_white.svg'),
@@ -39,12 +45,54 @@ class HeaderContainer extends StatelessWidget {
               width: 160,
             ),
           ),
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 24, 20, 0),
-              child: child,
+          if (withBackButton)
+            Positioned(
+              top: 30,
+              left: 20,
+              child: SafeArea(
+                child: Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: secondaryColor,
+                  ),
+                  child: IconButton(
+                    padding: EdgeInsets.zero,
+                    onPressed: () => navigatorKey.currentState!.pop(),
+                    icon: SvgAsset(
+                      assetPath: AssetPath.getIcon('caret-line-left.svg'),
+                      color: primaryColor,
+                      width: 24,
+                    ),
+                    tooltip: 'Back',
+                  ),
+                ),
+              ),
             ),
-          ),
+          if (title != null)
+            Positioned(
+              top: 36,
+              left: 0,
+              right: 0,
+              child: SafeArea(
+                child: Center(
+                  child: Text(
+                    title!,
+                    style: textTheme.titleLarge!.copyWith(
+                      color: scaffoldBackgroundColor,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          if (child != null)
+            SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                child: child,
+              ),
+            ),
         ],
       ),
     );

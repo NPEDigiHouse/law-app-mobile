@@ -11,7 +11,8 @@ class SearchField extends StatefulWidget {
   final String? hintText;
   final VoidCallback? onTap;
   final ValueChanged<String>? onChanged;
-  final TextInputAction? textInputAction;
+  final ValueChanged<bool>? onFocusChanged;
+  final TextInputAction textInputAction;
 
   const SearchField({
     super.key,
@@ -22,7 +23,8 @@ class SearchField extends StatefulWidget {
     this.hintText,
     this.onTap,
     this.onChanged,
-    this.textInputAction,
+    this.onFocusChanged,
+    this.textInputAction = TextInputAction.search,
   });
 
   @override
@@ -50,23 +52,26 @@ class _SearchFieldState extends State<SearchField> {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 48,
-      child: TextField(
-        readOnly: widget.readOnly,
-        autofocus: widget.autoFocus,
-        canRequestFocus: widget.canRequestFocus,
-        controller: controller,
-        textAlignVertical: TextAlignVertical.center,
-        textInputAction: widget.textInputAction,
-        decoration: InputDecoration(
-          hintText: widget.hintText,
-          filled: true,
-          fillColor: scaffoldBackgroundColor,
-          contentPadding: EdgeInsets.zero,
-          prefixIcon: buildPrefixIcon(),
-          suffixIcon: buildSuffixIcon(),
+      child: Focus(
+        onFocusChange: widget.onFocusChanged,
+        child: TextField(
+          controller: controller,
+          readOnly: widget.readOnly,
+          autofocus: widget.autoFocus,
+          canRequestFocus: widget.canRequestFocus,
+          textAlignVertical: TextAlignVertical.center,
+          textInputAction: widget.textInputAction,
+          decoration: InputDecoration(
+            hintText: widget.hintText,
+            filled: true,
+            fillColor: scaffoldBackgroundColor,
+            contentPadding: EdgeInsets.zero,
+            prefixIcon: buildPrefixIcon(),
+            suffixIcon: buildSuffixIcon(),
+          ),
+          onTap: widget.onTap,
+          onChanged: widget.onChanged,
         ),
-        onChanged: widget.onChanged,
-        onTap: widget.onTap,
       ),
     );
   }
