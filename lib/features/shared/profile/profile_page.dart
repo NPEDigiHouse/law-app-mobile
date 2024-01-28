@@ -7,6 +7,7 @@ import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/features/shared/profile/certificate_page.dart';
 import 'package:law_app/features/shared/profile/contact_us_page.dart';
+import 'package:law_app/features/shared/profile/faq_page.dart';
 import 'package:law_app/features/shared/widgets/home_page_header.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
@@ -26,7 +27,13 @@ class ProfilePage extends StatelessWidget {
         "icon": "question-circle-fill.svg",
         "text": "Frequently Asked Question",
         "color": primaryTextColor,
-        "onTap": () {},
+        "onTap": () {
+          navigatorKey.currentState!.push(
+            MaterialPageRoute(
+              builder: (context) => const FAQPage(),
+            ),
+          );
+        },
       },
       {
         "icon": "phone-handset-solid.svg",
