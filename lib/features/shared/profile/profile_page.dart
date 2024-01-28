@@ -5,6 +5,7 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
+import 'package:law_app/features/shared/profile/account_information_page.dart';
 import 'package:law_app/features/shared/profile/certificate_page.dart';
 import 'package:law_app/features/shared/profile/contact_us_page.dart';
 import 'package:law_app/features/shared/profile/faq_page.dart';
@@ -21,7 +22,13 @@ class ProfilePage extends StatelessWidget {
         "icon": "users-solid.svg",
         "text": "Informasi Akun",
         "color": primaryTextColor,
-        "onTap": () {},
+        "onTap": () {
+          navigatorKey.currentState!.push(
+            MaterialPageRoute(
+              builder: (context) => const AccountInformationPage(),
+            ),
+          );
+        },
       },
       {
         "icon": "question-circle-fill.svg",
