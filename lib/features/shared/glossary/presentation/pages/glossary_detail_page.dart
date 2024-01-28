@@ -13,9 +13,8 @@ class GlossaryDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(124),
+        preferredSize: Size.fromHeight(96),
         child: HeaderContainer(
-          height: 124,
           withBackButton: true,
           title: 'Detail Kata',
         ),

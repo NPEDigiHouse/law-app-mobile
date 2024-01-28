@@ -39,9 +39,8 @@ class _GlossarySearchPageState extends State<GlossarySearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(150),
+        preferredSize: const Size.fromHeight(124),
         child: HeaderContainer(
-          height: 150,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -120,12 +119,12 @@ class _GlossarySearchPageState extends State<GlossarySearchPage> {
   }
 
   void searchTerm(String query) {
+    this.query.value = query;
+
     EasyDebounce.debounce(
       'search-debouncer',
-      const Duration(seconds: 1),
+      const Duration(milliseconds: 750),
       () {
-        this.query.value = query;
-
         final result = glossaries.where((glossary) {
           final valueLower = query.toLowerCase();
           final termLower = glossary.term.toLowerCase();
@@ -136,5 +135,9 @@ class _GlossarySearchPageState extends State<GlossarySearchPage> {
         setState(() => glossaryList = result);
       },
     );
+
+    if (query.isEmpty) {
+      EasyDebounce.fire('search-debouncer');
+    }
   }
 }

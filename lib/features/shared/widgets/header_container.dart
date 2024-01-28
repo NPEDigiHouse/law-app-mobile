@@ -6,15 +6,15 @@ import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class HeaderContainer extends StatelessWidget {
-  final double height;
   final bool withBackButton;
+  final double? height;
   final String? title;
   final Widget? child;
 
   const HeaderContainer({
     super.key,
-    required this.height,
     this.withBackButton = false,
+    this.height,
     this.title,
     this.child,
   });

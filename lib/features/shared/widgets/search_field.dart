@@ -63,6 +63,7 @@ class _SearchFieldState extends State<SearchField> {
           textInputAction: widget.textInputAction,
           decoration: InputDecoration(
             hintText: widget.hintText,
+            isDense: true,
             filled: true,
             fillColor: scaffoldBackgroundColor,
             contentPadding: EdgeInsets.zero,
