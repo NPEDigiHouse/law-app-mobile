@@ -16,7 +16,7 @@ class AdsDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: const CustomAppBar(),
+      appBar: const CustomAppBar(title: "Detail Ads",),
       body: SingleChildScrollView(
         child: Column(
           children: [

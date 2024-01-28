@@ -77,7 +77,7 @@ class NotificationPage extends StatelessWidget {
     ];
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: const CustomAppBar(),
+      appBar: const CustomAppBar(title: "Notifikasi",),
       body: SingleChildScrollView(
         child: Column(
           children: [

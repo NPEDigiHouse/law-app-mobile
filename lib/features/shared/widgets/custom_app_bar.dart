@@ -1,5 +1,7 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
@@ -8,10 +10,12 @@ import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? rightIcon;
+  final String title;
 
   const CustomAppBar({
     Key? key,
     this.rightIcon,
+    required this.title,
   }) : super(key: key);
 
   @override
@@ -22,7 +26,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       automaticallyImplyLeading: false,
       title: Text(
-        "Notification",
+        title,
         style: textTheme.headlineSmall!.copyWith(
           color: scaffoldBackgroundColor,
         ),

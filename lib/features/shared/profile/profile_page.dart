@@ -5,25 +5,17 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
+import 'package:law_app/features/shared/profile/certificate_page.dart';
+import 'package:law_app/features/shared/profile/contact_us_page.dart';
 import 'package:law_app/features/shared/widgets/home_page_header.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
-class ProfilePage extends StatefulWidget {
+class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
-}
-
-class _ProfilePageState extends State<ProfilePage> {
-  late final List profileMenuItems;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-    profileMenuItems = [
+  Widget build(BuildContext context) {
+    List profileMenuItems = [
       {
         "icon": "users-solid.svg",
         "text": "Informasi Akun",
@@ -40,7 +32,13 @@ class _ProfilePageState extends State<ProfilePage> {
         "icon": "phone-handset-solid.svg",
         "text": "Hubungi Kami",
         "color": primaryTextColor,
-        "onTap": () {},
+        "onTap": () {
+          navigatorKey.currentState!.push(
+            MaterialPageRoute(
+              builder: (context) => const ContactUsPage(),
+            ),
+          );
+        },
       },
       {
         "icon": "star-solid.svg",
@@ -52,7 +50,13 @@ class _ProfilePageState extends State<ProfilePage> {
         "icon": "certificate-solid.svg",
         "text": "Sertifikat",
         "color": primaryTextColor,
-        "onTap": () {},
+        "onTap": () {
+          navigatorKey.currentState!.push(
+            MaterialPageRoute(
+              builder: (context) => const CertificatePage(),
+            ),
+          );
+        },
       },
       {
         "icon": "logout-solid.svg",
@@ -69,10 +73,6 @@ class _ProfilePageState extends State<ProfilePage> {
         },
       },
     ];
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
       body: Stack(
