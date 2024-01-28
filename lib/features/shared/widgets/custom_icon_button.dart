@@ -23,7 +23,7 @@ class CustomIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(999),
+      borderRadius: BorderRadius.circular(99),
       child: Material(
         color: Colors.transparent,
         child: InkWell(

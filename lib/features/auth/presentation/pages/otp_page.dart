@@ -60,7 +60,6 @@ class _OtpPageState extends State<OtpPage> with AfterLayoutMixin<OtpPage> {
           message: 'Anda yakin ingin membatalkan proses ini?',
           onPressedPrimaryButton: () {
             context.back();
-
             navigatorKey.currentState!.pop();
           },
         );

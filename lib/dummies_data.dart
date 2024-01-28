@@ -28,13 +28,13 @@ class Glossary {
   final String term;
   final String definiton;
 
-  Glossary({
+  const Glossary({
     required this.term,
     required this.definiton,
   });
 }
 
-final glossaries = [
+const glossaries = [
   Glossary(
     term: 'Abolisi',
     definiton:
@@ -59,5 +59,47 @@ final glossaries = [
     term: 'Asas Acta Publica Seseipsa',
     definiton:
         'Suatu akta yang lahirnya tampak sebagai akta otentik serta memenuhi syarat-syarat yang telah ditentukan, sampai terbukti sebaliknya.',
+  ),
+];
+
+//! Book
+class Book {
+  final String title;
+  final String author;
+  final String image;
+
+  const Book({
+    required this.title,
+    required this.author,
+    required this.image,
+  });
+}
+
+const books = [
+  Book(
+    title: 'Cyber Bullying: Hak-hak Digital Right on Online Safety',
+    author: 'Sayid Muhammad Rifqi Noval',
+    image: 'sample-book-cover.jpg',
+  ),
+  Book(
+    title: 'Hukum Pidana Internasional',
+    author: 'Diajeng Wulan Christianti',
+    image: 'sample-book-cover.jpg',
+  ),
+  Book(
+    title: 'What Would Your Lawyer Say?',
+    author: 'Michael Sugijanto',
+    image: 'sample-book-cover.jpg',
+  ),
+  Book(
+    title: 'Omnibus Law (Teori dan Penerapannya)',
+    author: 'Rio Christiawan',
+    image: 'sample-book-cover.jpg',
+  ),
+  Book(
+    title:
+        'Filsafat Keadilan: Biological Justice dan Praktiknya dalam Putusan Hakim',
+    author: 'Amran Suadi',
+    image: 'sample-book-cover.jpg',
   ),
 ];

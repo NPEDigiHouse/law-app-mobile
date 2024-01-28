@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/shared/library/presentation/widgets/book_card.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 
@@ -67,16 +69,46 @@ class LibraryHomePage extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(
-          vertical: 24,
-          horizontal: 20,
-        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Lanjutkan Membaca',
-              style: textTheme.titleLarge,
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 24, 20, 8),
+              child: Text(
+                'Lanjutkan Membaca',
+                style: textTheme.titleLarge,
+              ),
+            ),
+            SizedBox(
+              height: 120,
+              child: ListView.separated(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return SizedBox(
+                    width: 300,
+                    child: BookCard(book: books[index]),
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return const SizedBox(width: 12);
+                },
+                itemCount: books.length,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 4, 20, 8),
+              child: Text(
+                'Buku Populer',
+                style: textTheme.titleLarge,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 4, 20, 8),
+              child: Text(
+                'Daftar Buku',
+                style: textTheme.titleLarge,
+              ),
             ),
           ],
         ),
