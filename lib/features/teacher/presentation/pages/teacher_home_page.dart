@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/core/utils/routes.dart';
+import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/book_item.dart';
 import 'package:law_app/features/shared/widgets/dashboard.dart';
 import 'package:law_app/features/shared/widgets/home_page_discussion_card.dart';
@@ -81,7 +84,14 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
         child: Column(
           children: [
             HomePageHeader(
+              isAdmin: false,
               isProfile: false,
+              onPressedProfileIcon: () {
+                navigatorKey.currentState!.pushNamed(
+                  profileRoute,
+                  arguments: user.roleId,
+                );
+              },
               child: Dashboard(
                 dashboardItem: dashboardItems,
               ),

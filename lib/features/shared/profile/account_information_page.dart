@@ -127,7 +127,7 @@ class AccountInformationPage extends StatelessWidget {
                                   children: [
                                     Expanded(
                                       child: Container(
-                                        width: 6.0,
+                                        width: 4.0,
                                         decoration: BoxDecoration(
                                           color: (index != 0)
                                               ? secondaryTextColor
@@ -137,7 +137,7 @@ class AccountInformationPage extends StatelessWidget {
                                     ),
                                     Expanded(
                                       child: Container(
-                                        width: 6.0,
+                                        width: 4.0,
                                         decoration: BoxDecoration(
                                           color: (index != lastIndex)
                                               ? secondaryTextColor

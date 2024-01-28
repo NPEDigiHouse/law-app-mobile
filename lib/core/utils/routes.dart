@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:law_app/features/admin/presentation/pages/admin_home_page.dart';
 import 'package:law_app/features/auth/presentation/pages/forgot_password_page.dart';
 import 'package:law_app/features/auth/presentation/pages/login_page.dart';
 import 'package:law_app/features/auth/presentation/pages/otp_page.dart';
@@ -24,6 +25,7 @@ const profileRoute = '/profile';
 const notificationRoute = '/notification';
 const studentHomeRoute = '/student-home';
 const teacherHomeRoute = '/teacher-home';
+const adminHomeRoute = '/admin-home';
 
 // App routes generator
 Route<dynamic>? generateAppRoutes(RouteSettings settings) {
@@ -53,8 +55,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => const ResetPasswordPage(),
       );
     case profileRoute:
+      final roleId = settings.arguments as int;
+
       return MaterialPageRoute(
-        builder: (_) => const ProfilePage(),
+        builder: (_) => ProfilePage(roleId: roleId,),
       );
     case notificationRoute:
       return MaterialPageRoute(
@@ -67,6 +71,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
     case teacherHomeRoute:
       return MaterialPageRoute(
         builder: (_) => const TeacherHomePage(),
+      );
+    case adminHomeRoute:
+      return MaterialPageRoute(
+        builder: (_) => const AdminHomePage(),
       );
     case mainMenuRoute:
       final roleId = settings.arguments as int;

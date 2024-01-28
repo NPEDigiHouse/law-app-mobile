@@ -13,12 +13,14 @@ import 'package:law_app/features/shared/widgets/svg_asset.dart';
 class HomePageHeader extends StatelessWidget {
   final Widget child;
   final VoidCallback? onPressedProfileIcon;
+  final bool isAdmin;
   final bool isProfile;
 
   const HomePageHeader({
     Key? key,
     required this.child,
     this.onPressedProfileIcon,
+    required this.isAdmin,
     required this.isProfile,
   }) : super(key: key);
 
@@ -32,7 +34,7 @@ class HomePageHeader extends StatelessWidget {
             height: AppSize.getAppHeight(context),
           ),
         Container(
-          height: 230,
+          height: !isAdmin ? 230 : 260,
           width: double.infinity,
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.vertical(
@@ -57,102 +59,176 @@ class HomePageHeader extends StatelessWidget {
                 ),
               ),
               Positioned(
-                top: 20,
+                top: !isAdmin ? 20 : 40,
                 left: 20,
                 right: 20,
                 child: SafeArea(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        child: Column(
+                  child: !isAdmin
+                      ? Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            RichText(
-                              overflow: TextOverflow.ellipsis,
-                              text: TextSpan(
-                                style: textTheme.headlineMedium,
+                            Flexible(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  const TextSpan(
-                                    text: 'Selamat Datang,\n',
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                      fontWeight: FontWeight.w400,
-                                      color: scaffoldBackgroundColor,
+                                  RichText(
+                                    overflow: TextOverflow.ellipsis,
+                                    text: TextSpan(
+                                      style: textTheme.headlineMedium,
+                                      children: [
+                                        const TextSpan(
+                                          text: 'Selamat Datang,\n',
+                                          style: TextStyle(
+                                            fontSize: 20.0,
+                                            fontWeight: FontWeight.w400,
+                                            color: scaffoldBackgroundColor,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: '${user.username}!',
+                                          style: const TextStyle(
+                                            color: accentTextColor,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  TextSpan(
-                                    text: '${user.username}!',
-                                    style: const TextStyle(
+                                  Text(
+                                    user.roleId == 0
+                                        ? "Admin"
+                                        : user.roleId == 1
+                                            ? "Pakar"
+                                            : "Siswa",
+                                    style: textTheme.bodyMedium!.copyWith(
                                       color: accentTextColor,
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                            Text(
-                              user.roleId == 0
-                                  ? "Admin"
-                                  : user.roleId == 1
-                                      ? "Pakar"
-                                      : "Siswa",
-                              style: textTheme.bodyMedium!.copyWith(
-                                color: accentTextColor,
-                              ),
-                            ),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  child: TextButton(
+                                    onPressed: () {
+                                      navigatorKey.currentState!
+                                          .pushNamed(notificationRoute);
+                                    },
+                                    child: SvgAsset(
+                                      width: 36,
+                                      height: 36,
+                                      color: scaffoldBackgroundColor,
+                                      assetPath: AssetPath.getIcon(
+                                        "notification-solid.svg",
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: onPressedProfileIcon,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: scaffoldBackgroundColor,
+                                      border: Border.all(
+                                        color: accentColor,
+                                        width: 1.0,
+                                      ),
+                                    ),
+                                    child: CircleAvatar(
+                                      radius: 23,
+                                      foregroundImage: AssetImage(
+                                        AssetPath.getImage("no-profile.jpg"),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
                           ],
+                        )
+                      : Container(
+                          padding: const EdgeInsets.all(16.0),
+                          decoration: BoxDecoration(
+                            color: scaffoldBackgroundColor,
+                            borderRadius: BorderRadius.circular(12.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(.2),
+                                offset: const Offset(2.0, 2.0),
+                                blurRadius: 4.0,
+                              )
+                            ],
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgAsset(
+                                width: 40.0,
+                                height: 40.0,
+                                assetPath: AssetPath.getVector("app_logo.svg"),
+                              ),
+                              const SizedBox(
+                                width: 12.0,
+                              ),
+                              Expanded(
+                                child: RichText(
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
+                                  text: TextSpan(
+                                    style: textTheme.titleLarge,
+                                    children: [
+                                      const TextSpan(
+                                        text: 'Sobat Hukum App\n',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          color: primaryTextColor,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: user.username,
+                                        style: const TextStyle(
+                                          color: primaryColor,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 12.0,
+                              ),
+                              InkWell(
+                                onTap: onPressedProfileIcon,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: scaffoldBackgroundColor,
+                                    border: Border.all(
+                                      color: accentColor,
+                                      width: 1.0,
+                                    ),
+                                  ),
+                                  child: CircleAvatar(
+                                    radius: 23,
+                                    foregroundImage: AssetImage(
+                                      AssetPath.getImage("no-profile.jpg"),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                      Row(
-                        children: [
-                          SizedBox(
-                            child: TextButton(
-                              onPressed: () {
-                                navigatorKey.currentState!
-                                    .pushNamed(notificationRoute);
-                              },
-                              child: SvgAsset(
-                                width: 36,
-                                height: 36,
-                                color: scaffoldBackgroundColor,
-                                assetPath: AssetPath.getIcon(
-                                  "notification-solid.svg",
-                                ),
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: onPressedProfileIcon,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: scaffoldBackgroundColor,
-                                border: Border.all(
-                                  color: accentColor,
-                                  width: 1.0,
-                                ),
-                              ),
-                              child: CircleAvatar(
-                                radius: 23,
-                                foregroundImage: AssetImage(
-                                  AssetPath.getImage("no-profile.jpg"),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
                 ),
               ),
             ],
           ),
         ),
         Positioned(
-          top: 160,
+          top: !isAdmin ? 160 : 180,
           left: 20,
           right: 20,
           child: child,

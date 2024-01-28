@@ -1,4 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+
 import 'package:law_app/core/extensions/app_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
@@ -13,80 +15,15 @@ import 'package:law_app/features/shared/widgets/home_page_header.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+  final int roleId;
+  const ProfilePage({
+    Key? key,
+    required this.roleId,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    List profileMenuItems = [
-      {
-        "icon": "users-solid.svg",
-        "text": "Informasi Akun",
-        "color": primaryTextColor,
-        "onTap": () {
-          navigatorKey.currentState!.push(
-            MaterialPageRoute(
-              builder: (context) => const AccountInformationPage(),
-            ),
-          );
-        },
-      },
-      {
-        "icon": "question-circle-fill.svg",
-        "text": "Frequently Asked Question",
-        "color": primaryTextColor,
-        "onTap": () {
-          navigatorKey.currentState!.push(
-            MaterialPageRoute(
-              builder: (context) => const FAQPage(),
-            ),
-          );
-        },
-      },
-      {
-        "icon": "phone-handset-solid.svg",
-        "text": "Hubungi Kami",
-        "color": primaryTextColor,
-        "onTap": () {
-          navigatorKey.currentState!.push(
-            MaterialPageRoute(
-              builder: (context) => const ContactUsPage(),
-            ),
-          );
-        },
-      },
-      {
-        "icon": "star-solid.svg",
-        "text": "Beri Rating",
-        "color": primaryTextColor,
-        "onTap": () {},
-      },
-      {
-        "icon": "certificate-solid.svg",
-        "text": "Sertifikat",
-        "color": primaryTextColor,
-        "onTap": () {
-          navigatorKey.currentState!.push(
-            MaterialPageRoute(
-              builder: (context) => const CertificatePage(),
-            ),
-          );
-        },
-      },
-      {
-        "icon": "logout-solid.svg",
-        "text": "Log Out",
-        "color": errorColor,
-        "onTap": () {
-          context.showConfirmDialog(
-            title: "Log Out",
-            message: "Dengan ini, seluruh sesi Anda akan berakhir.",
-            onPressedPrimaryButton: () {
-              navigatorKey.currentState!.pushReplacementNamed(loginRoute);
-            },
-          );
-        },
-      },
-    ];
+    List profileMenuItems = setProfileMenuItems(roleId, context);
     return Scaffold(
       backgroundColor: backgroundColor,
       body: Stack(
@@ -95,6 +32,7 @@ class ProfilePage extends StatelessWidget {
           Column(
             children: [
               HomePageHeader(
+                isAdmin: roleId == 0,
                 isProfile: true,
                 child: Container(
                   padding: const EdgeInsets.all(12.0),
@@ -112,7 +50,7 @@ class ProfilePage extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-                      Container(
+                      SizedBox(
                         width: double.infinity,
                         child: TextButton(
                           onPressed: () {
@@ -188,5 +126,168 @@ class ProfilePage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  List setProfileMenuItems(int roleId, BuildContext context) {
+    if (roleId == 0) {
+      return [
+        {
+          "icon": "users-solid.svg",
+          "text": "Informasi Akun",
+          "color": primaryTextColor,
+          "onTap": () {
+            navigatorKey.currentState!.push(
+              MaterialPageRoute(
+                builder: (context) => const AccountInformationPage(),
+              ),
+            );
+          },
+        },
+        {
+          "icon": "logout-solid.svg",
+          "text": "Log Out",
+          "color": errorColor,
+          "onTap": () {
+            context.showConfirmDialog(
+              title: "Log Out",
+              message: "Dengan ini, seluruh sesi Anda akan berakhir.",
+              onPressedPrimaryButton: () {
+                navigatorKey.currentState!.pushReplacementNamed(loginRoute);
+              },
+            );
+          },
+        },
+      ];
+    } else if (roleId == 1) {
+      return [
+        {
+          "icon": "users-solid.svg",
+          "text": "Informasi Akun",
+          "color": primaryTextColor,
+          "onTap": () {
+            navigatorKey.currentState!.push(
+              MaterialPageRoute(
+                builder: (context) => const AccountInformationPage(),
+              ),
+            );
+          },
+        },
+        {
+          "icon": "question-circle-fill.svg",
+          "text": "Frequently Asked Question",
+          "color": primaryTextColor,
+          "onTap": () {
+            navigatorKey.currentState!.push(
+              MaterialPageRoute(
+                builder: (context) => const FAQPage(),
+              ),
+            );
+          },
+        },
+        {
+          "icon": "phone-handset-solid.svg",
+          "text": "Hubungi Kami",
+          "color": primaryTextColor,
+          "onTap": () {
+            navigatorKey.currentState!.push(
+              MaterialPageRoute(
+                builder: (context) => const ContactUsPage(),
+              ),
+            );
+          },
+        },
+        {
+          "icon": "star-solid.svg",
+          "text": "Beri Rating",
+          "color": primaryTextColor,
+          "onTap": () {},
+        },
+        {
+          "icon": "logout-solid.svg",
+          "text": "Log Out",
+          "color": errorColor,
+          "onTap": () {
+            context.showConfirmDialog(
+              title: "Log Out",
+              message: "Dengan ini, seluruh sesi Anda akan berakhir.",
+              onPressedPrimaryButton: () {
+                navigatorKey.currentState!.pushReplacementNamed(loginRoute);
+              },
+            );
+          },
+        },
+      ];
+    } else {
+      return [
+        {
+          "icon": "users-solid.svg",
+          "text": "Informasi Akun",
+          "color": primaryTextColor,
+          "onTap": () {
+            navigatorKey.currentState!.push(
+              MaterialPageRoute(
+                builder: (context) => const AccountInformationPage(),
+              ),
+            );
+          },
+        },
+        {
+          "icon": "question-circle-fill.svg",
+          "text": "Frequently Asked Question",
+          "color": primaryTextColor,
+          "onTap": () {
+            navigatorKey.currentState!.push(
+              MaterialPageRoute(
+                builder: (context) => const FAQPage(),
+              ),
+            );
+          },
+        },
+        {
+          "icon": "phone-handset-solid.svg",
+          "text": "Hubungi Kami",
+          "color": primaryTextColor,
+          "onTap": () {
+            navigatorKey.currentState!.push(
+              MaterialPageRoute(
+                builder: (context) => const ContactUsPage(),
+              ),
+            );
+          },
+        },
+        {
+          "icon": "star-solid.svg",
+          "text": "Beri Rating",
+          "color": primaryTextColor,
+          "onTap": () {},
+        },
+        {
+          "icon": "certificate-solid.svg",
+          "text": "Sertifikat",
+          "color": primaryTextColor,
+          "onTap": () {
+            navigatorKey.currentState!.push(
+              MaterialPageRoute(
+                builder: (context) => const CertificatePage(),
+              ),
+            );
+          },
+        },
+        {
+          "icon": "logout-solid.svg",
+          "text": "Log Out",
+          "color": errorColor,
+          "onTap": () {
+            context.showConfirmDialog(
+              title: "Log Out",
+              message: "Dengan ini, seluruh sesi Anda akan berakhir.",
+              onPressedPrimaryButton: () {
+                navigatorKey.currentState!.pushReplacementNamed(loginRoute);
+              },
+            );
+          },
+        },
+      ];
+    }
   }
 }

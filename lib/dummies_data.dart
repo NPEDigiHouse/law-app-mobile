@@ -30,7 +30,7 @@ const user = User(
   dateOfBirth: '21 Mei 2001',
   phone: '0897182974',
   otp: 1234,
-  roleId: 1,
+  roleId: 2,
 );
 
 //!
