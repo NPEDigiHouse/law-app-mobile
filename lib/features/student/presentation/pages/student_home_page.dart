@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/features/shared/widgets/book_item.dart';
 import 'package:law_app/features/shared/widgets/course_item_card.dart';
 import 'package:law_app/features/shared/widgets/dashboard.dart';
@@ -147,7 +149,11 @@ class _StudentHomePageState extends State<StudentHomePage> {
         child: Column(
           children: [
             HomePageHeader(
+              isProfile: false,
               child: Dashboard(dashboardItem: dashboardItems),
+              onPressedProfileIcon: () {
+                navigatorKey.currentState!.pushNamed(profileRoute);
+              },
             ),
             const SizedBox(
               height: 100.0,

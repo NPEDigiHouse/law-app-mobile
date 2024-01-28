@@ -81,6 +81,7 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
         child: Column(
           children: [
             HomePageHeader(
+              isProfile: false,
               child: Dashboard(
                 dashboardItem: dashboardItems,
               ),
