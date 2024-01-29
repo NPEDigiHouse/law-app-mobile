@@ -50,7 +50,6 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
           message: 'Anda yakin ingin membatalkan proses ini?',
           onPressedPrimaryButton: () {
             context.back();
-
             navigatorKey.currentState!.pop();
           },
         );

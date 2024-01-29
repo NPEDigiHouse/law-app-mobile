@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
+import 'package:law_app/features/shared/glossary/presentation/pages/glossary_home_page.dart';
+import 'package:law_app/features/shared/library/presentation/pages/library_home_page.dart';
 import 'package:law_app/features/shared/widgets/custom_bottom_navigation_bar.dart';
-import 'package:law_app/features/shared/glossary/presentation/pages/glossary_page.dart';
-import 'package:law_app/features/shared/library/library_page.dart';
 import 'package:law_app/features/student/presentation/pages/student_course_page.dart';
 import 'package:law_app/features/student/presentation/pages/student_discussion_page.dart';
 import 'package:law_app/features/student/presentation/pages/student_home_page.dart';
@@ -34,14 +34,14 @@ class _MainMenuPageState extends State<MainMenuPage> {
             const StudentHomePage(),
             const StudentDiscussionPage(),
             const StudentCoursePage(),
-            const LibraryPage(),
-            const GlossaryPage(),
+            const LibraryHomePage(),
+            const GlossaryHomePage(),
           ]
         : [
             const TeacherHomePage(),
             const TeacherDiscussionPage(),
-            const LibraryPage(),
-            const GlossaryPage(),
+            const LibraryHomePage(),
+            const GlossaryHomePage(),
           ];
   }
 

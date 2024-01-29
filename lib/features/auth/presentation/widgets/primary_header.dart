@@ -17,7 +17,6 @@ class PrimaryHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: withBackButton ? 305 : 285,
-      width: double.infinity,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.vertical(
           bottom: Radius.circular(20),

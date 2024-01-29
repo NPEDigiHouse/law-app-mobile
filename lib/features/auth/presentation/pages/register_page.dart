@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:law_app/core/extensions/app_extension.dart';
-import 'package:law_app/core/helpers/app_helper.dart';
+import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
@@ -271,7 +271,7 @@ class _RegisterPageState extends State<RegisterPage>
   }
 
   void generateRandomPassword() {
-    final password = AppHelper.generateRandomText();
+    final password = FunctionHelper.generateRandomText();
 
     formKey.currentState!.fields['password']!.didChange(password);
     formKey.currentState!.fields['confirm_password']!.didChange(password);

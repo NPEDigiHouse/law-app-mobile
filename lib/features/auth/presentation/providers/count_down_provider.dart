@@ -1,21 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-abstract class CountDownTimer {
-  Stream<int> getTimerStream(int initialValue);
-}
-
-class CountDownTimerImpl implements CountDownTimer {
-  @override
-  Stream<int> getTimerStream(int initialValue) async* {
-    var value = initialValue;
-
-    while (value >= 0) {
-      await Future.delayed(const Duration(seconds: 1));
-
-      yield value--;
-    }
-  }
-}
+import 'package:law_app/core/helpers/count_down_timer.dart';
 
 final timerProvider = Provider<CountDownTimer>((ref) => CountDownTimerImpl());
 
