@@ -1,17 +1,16 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
+import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/shared/widgets/book_item.dart';
+import 'package:law_app/features/shared/widgets/course_item_card.dart';
 import 'package:law_app/features/shared/widgets/dashboard.dart';
 import 'package:law_app/features/shared/widgets/home_page_discussion_card.dart';
-// import 'package:law_app/dummies_data.dart';
-// import 'package:law_app/features/shared/widgets/book_item.dart';
 import 'package:law_app/features/shared/widgets/home_page_header.dart';
-import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class StudentHomePage extends StatefulWidget {
   const StudentHomePage({super.key});
@@ -21,11 +20,10 @@ class StudentHomePage extends StatefulWidget {
 }
 
 class _StudentHomePageState extends State<StudentHomePage> {
-  late final List dashboardItems;
-  late final List carouselItems;
-  late final List homePageDiscussionItems;
-  late final List courseItems;
-  late final List profileMenuItems;
+  late final List<Map<String, dynamic>> dashboardItems;
+  late final List<Map<String, String>> carouselItems;
+  late final List<Map<String, String>> discussionItems;
+  late final List<Map<String, dynamic>> courseItems;
 
   @override
   void initState() {
@@ -68,7 +66,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
       },
     ];
 
-    homePageDiscussionItems = [
+    discussionItems = [
       {
         "title": "Mengapa Dokumen Hukum yang Ada Harus Diterjemahkan?",
         "description":
@@ -124,21 +122,21 @@ class _StudentHomePageState extends State<StudentHomePage> {
             HomePageHeader(
               isAdmin: false,
               isProfile: false,
-              child: Dashboard(dashboardItem: dashboardItems),
               onPressedProfileIcon: () {
                 navigatorKey.currentState!.pushNamed(
                   profileRoute,
                   arguments: user.roleId,
                 );
               },
+              child: Dashboard(
+                items: dashboardItems,
+              ),
             ),
-            const SizedBox(
-              height: 100.0,
+            const SizedBox(height: 100),
+            CustomCarouselWithIndicator(
+              items: carouselItems,
             ),
-            CustomCarouselWithIndicator(carouselItem: carouselItems),
-            const SizedBox(
-              height: 24.0,
-            ),
+            const SizedBox(height: 24),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
@@ -161,31 +159,28 @@ class _StudentHomePageState extends State<StudentHomePage> {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 16.0,
-                  ),
+                  const SizedBox(height: 16),
                   ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
                     padding: const EdgeInsets.all(0),
                     shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: 3,
                     itemBuilder: (BuildContext context, int index) {
                       return Padding(
                         padding: EdgeInsets.only(
-                          top: index == 0 ? 0.0 : 4.0,
-                          bottom: index == 2 ? 0.0 : 4.0,
+                          top: index == 0 ? 0 : 4,
+                          bottom: index == 2 ? 0 : 4,
                         ),
-                        child: HomePageDiscussioinCard(
-                            discussionItem: homePageDiscussionItems[index]),
+                        child: HomePageDiscussionCard(
+                          item: discussionItems[index],
+                        ),
                       );
                     },
                   )
                 ],
               ),
             ),
-            const SizedBox(
-              height: 32.0,
-            ),
+            const SizedBox(height: 32),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
@@ -208,43 +203,40 @@ class _StudentHomePageState extends State<StudentHomePage> {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 4.0,
-                  ),
+                  const SizedBox(height: 4),
                   Text(
                     "Tingkatkan pengetahuanmu dengan buku-buku pilihan pakar untuk memperdalam ilmu kamu!",
                     style: textTheme.bodySmall!.copyWith(
                       color: secondaryTextColor,
                     ),
                   ),
-                  const SizedBox(
-                    height: 12.0,
-                  ),
-                  // SizedBox(
-                  //   height: 200,
-                  //   child: ListView.builder(
-                  //     padding: const EdgeInsets.all(0),
-                  //     shrinkWrap: true,
-                  //     itemCount: 4,
-                  //     clipBehavior: Clip.none,
-                  //     scrollDirection: Axis.horizontal,
-                  //     itemBuilder: (BuildContext context, int index) {
-                  //       return Padding(
-                  //         padding: EdgeInsets.only(
-                  //           left: index == 0 ? 0 : 4.0,
-                  //           right: index == 5 ? 0 : 4.0,
-                  //         ),
-                  //         child: BookItem(book: books[index]),
-                  //       );
-                  //     },
-                  //   ),
-                  // )
+                  const SizedBox(height: 12),
+                  SizedBox(
+                    height: 200,
+                    child: ListView.builder(
+                      padding: const EdgeInsets.all(0),
+                      shrinkWrap: true,
+                      clipBehavior: Clip.none,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: 4,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Padding(
+                          padding: EdgeInsets.only(
+                            left: index == 0 ? 0 : 4,
+                            right: index == 5 ? 0 : 4,
+                          ),
+                          child: BookItem(
+                            book: books[index],
+                            width: 120,
+                          ),
+                        );
+                      },
+                    ),
+                  )
                 ],
               ),
             ),
-            const SizedBox(
-              height: 24.0,
-            ),
+            const SizedBox(height: 24),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
@@ -267,30 +259,28 @@ class _StudentHomePageState extends State<StudentHomePage> {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 4.0,
-                  ),
+                  const SizedBox(height: 4),
                   Text(
                     "Buruan daftar di berbagai course yang ada untuk meningkatkan pengetahuanmu tentang hukum!",
                     style: textTheme.bodySmall!.copyWith(
                       color: secondaryTextColor,
                     ),
                   ),
-                  const SizedBox(
-                    height: 8.0,
-                  ),
+                  const SizedBox(height: 8),
                   ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
                     padding: const EdgeInsets.all(0),
                     shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: 3,
                     itemBuilder: (BuildContext context, int index) {
                       return Padding(
                         padding: EdgeInsets.only(
-                          top: index == 0 ? 0.0 : 4.0,
-                          bottom: index == 2 ? 0.0 : 4.0,
+                          top: index == 0 ? 0 : 4,
+                          bottom: index == 2 ? 0 : 4,
                         ),
-                        child: CourseItemCard(courseItem: courseItems[index]),
+                        child: CourseItemCard(
+                          item: courseItems[index],
+                        ),
                       );
                     },
                   )
@@ -304,225 +294,10 @@ class _StudentHomePageState extends State<StudentHomePage> {
   }
 }
 
-class HomepageDiscussioinCard extends StatelessWidget {
-  final Map discussionItem;
-
-  const HomepageDiscussioinCard({
-    super.key,
-    required this.discussionItem,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(20.0),
-      decoration: BoxDecoration(
-        color: scaffoldBackgroundColor,
-        borderRadius: BorderRadius.circular(12.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(.2),
-            offset: const Offset(2.0, 2.0),
-            blurRadius: 4.0,
-          )
-        ],
-      ),
-      child: Column(
-        children: [
-          Text(
-            discussionItem["title"],
-            maxLines: 3,
-            style: textTheme.titleSmall!.copyWith(
-              color: primaryColor,
-            ),
-          ),
-          const SizedBox(
-            height: 4.0,
-          ),
-          Text(
-            discussionItem["description"],
-            style: textTheme.bodySmall!.copyWith(color: primaryTextColor),
-            overflow: TextOverflow.ellipsis,
-            maxLines: 3,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class CourseItemCard extends StatelessWidget {
-  final Map courseItem;
-  const CourseItemCard({
-    Key? key,
-    required this.courseItem,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 130.0,
-      padding: const EdgeInsets.all(12.0),
-      decoration: BoxDecoration(
-        color: scaffoldBackgroundColor,
-        borderRadius: BorderRadius.circular(12.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(.2),
-            offset: const Offset(2.0, 2.0),
-            blurRadius: 4.0,
-          )
-        ],
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 105.0,
-            height: 105.0,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12.0),
-              image: DecorationImage(
-                image: AssetImage(
-                  AssetPath.getImage(courseItem["img"]),
-                ),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: Container(
-              decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: GradientColors.redPastel,
-                  ),
-                  backgroundBlendMode: BlendMode.softLight),
-            ),
-          ),
-          const SizedBox(
-            width: 12.0,
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      courseItem["title"],
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: textTheme.titleMedium!.copyWith(
-                        color: primaryTextColor,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 8.0,
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Row(
-                      children: [
-                        SvgAsset(
-                          color: secondaryTextColor,
-                          assetPath: AssetPath.getIcon("clock-solid.svg"),
-                        ),
-                        const SizedBox(
-                          width: 8.0,
-                        ),
-                        Text(
-                          "${courseItem["completionTime"]} jam",
-                          style: textTheme.bodyMedium!.copyWith(
-                            color: secondaryTextColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      width: 20.0,
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8.0,
-                        vertical: 2.0,
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6.0),
-                        border: Border.all(color: infoColor),
-                      ),
-                      child: Text(
-                        "Aktif",
-                        style: textTheme.bodySmall!.copyWith(
-                          color: infoColor,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 4.0,
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        SvgAsset(
-                          color: secondaryTextColor,
-                          assetPath: AssetPath.getIcon("users-solid.svg"),
-                        ),
-                        const SizedBox(
-                          width: 8.0,
-                        ),
-                        Text(
-                          courseItem["totalStudent"].toString(),
-                          style: textTheme.bodyMedium!.copyWith(
-                            color: secondaryTextColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 16,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: 5,
-                            physics: const NeverScrollableScrollPhysics(),
-                            padding: const EdgeInsets.all(0),
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              return SvgAsset(
-                                color: accentColor,
-                                assetPath: AssetPath.getIcon("star-solid.svg"),
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
-
 class CustomCarouselWithIndicator extends StatefulWidget {
-  const CustomCarouselWithIndicator({
-    super.key,
-    required this.carouselItem,
-  });
+  final List<Map<String, dynamic>> items;
 
-  final List carouselItem;
+  const CustomCarouselWithIndicator({super.key, required this.items});
 
   @override
   State<CustomCarouselWithIndicator> createState() =>
@@ -532,6 +307,7 @@ class CustomCarouselWithIndicator extends StatefulWidget {
 class _CustomCarouselWithIndicatorState
     extends State<CustomCarouselWithIndicator> {
   late final ValueNotifier<int> carouselIndex;
+
   @override
   void initState() {
     super.initState();
@@ -551,79 +327,78 @@ class _CustomCarouselWithIndicatorState
     return Column(
       children: [
         CarouselSlider(
-          items: widget.carouselItem.map((e) {
-            return Builder(builder: (BuildContext context) {
-              return Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(
-                      AssetPath.getImage(e["img"]),
-                    ),
-                    fit: BoxFit.cover,
+          items: widget.items.map((item) {
+            return Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(
+                    AssetPath.getImage(item["img"] as String),
+                  ),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color.fromARGB(18, 244, 133, 125),
+                      Color.fromARGB(115, 31, 6, 4),
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
                 ),
-                child: Container(
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Color.fromARGB(18, 244, 133, 125),
-                        Color.fromARGB(115, 31, 6, 4),
-                      ],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          e["text"],
-                          style: textTheme.titleLarge!.copyWith(
-                            color: scaffoldBackgroundColor,
-                          ),
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        item["text"] as String,
+                        style: textTheme.titleLarge!.copyWith(
+                          color: scaffoldBackgroundColor,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-              );
-            });
+              ),
+            );
           }).toList(),
           options: CarouselOptions(
             onPageChanged: (index, reason) => carouselIndex.value = index,
-            viewportFraction: 1.0,
-            height: 160.0,
+            viewportFraction: 1,
+            height: 160,
             autoPlay: true,
-            autoPlayInterval: const Duration(milliseconds: 3000),
+            autoPlayInterval: const Duration(milliseconds: 7000),
           ),
         ),
-        const SizedBox(
-          height: 8.0,
-        ),
+        const SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: List.generate(widget.carouselItem.length, (index) {
-            return ValueListenableBuilder(
-              builder: (context, carouselIndex, child) {
-                return Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 4.0),
-                  width: 8,
-                  height: 8,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(4)),
-                    color: carouselIndex == index
-                        ? primaryColor
-                        : secondaryTextColor,
-                  ),
-                );
-              },
-              valueListenable: carouselIndex,
-            );
-          }),
+          children: List<ValueListenableBuilder>.generate(
+            widget.items.length,
+            (index) {
+              return ValueListenableBuilder(
+                valueListenable: carouselIndex,
+                builder: (context, carouselIndex, child) {
+                  return Container(
+                    width: 8,
+                    height: 8,
+                    margin: const EdgeInsets.symmetric(horizontal: 4),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      color: carouselIndex == index
+                          ? primaryColor
+                          : secondaryTextColor,
+                    ),
+                  );
+                },
+              );
+            },
+          ),
         ),
       ],
     );

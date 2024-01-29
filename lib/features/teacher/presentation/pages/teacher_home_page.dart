@@ -17,9 +17,9 @@ class TeacherHomePage extends StatefulWidget {
 }
 
 class _TeacherHomePageState extends State<TeacherHomePage> {
-  late final List dashboardItems;
-  late final List homePageDiscussionItems;
-  late final List booksItems;
+  late final List<Map<String, dynamic>> dashboardItems;
+  late final List<Map<String, String>> discussionItems;
+  late final List<Map<String, String>> booksItems;
 
   @override
   void initState() {
@@ -38,7 +38,7 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
       },
     ];
 
-    homePageDiscussionItems = [
+    discussionItems = [
       {
         "title": "Mengapa Dokumen Hukum yang Ada Harus Diterjemahkan?",
         "description":
@@ -93,19 +93,12 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
                 );
               },
               child: Dashboard(
-                dashboardItem: dashboardItems,
+                items: dashboardItems,
               ),
             ),
-            const SizedBox(
-              height: 80.0,
-            ),
-            const SizedBox(
-              height: 24.0,
-            ),
+            const SizedBox(height: 100),
             Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20.0,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: [
                   Row(
@@ -126,35 +119,30 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 16.0,
-                  ),
+                  const SizedBox(height: 16),
                   ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
                     padding: const EdgeInsets.all(0),
                     shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: 3,
                     itemBuilder: (BuildContext context, int index) {
                       return Padding(
                         padding: EdgeInsets.only(
-                          top: index == 0 ? 0.0 : 4.0,
-                          bottom: index == 2 ? 0.0 : 4.0,
+                          top: index == 0 ? 0 : 4,
+                          bottom: index == 2 ? 0 : 4,
                         ),
-                        child: HomePageDiscussioinCard(
-                            discussionItem: homePageDiscussionItems[index]),
+                        child: HomePageDiscussionCard(
+                          item: discussionItems[index],
+                        ),
                       );
                     },
                   )
                 ],
               ),
             ),
-            const SizedBox(
-              height: 32.0,
-            ),
+            const SizedBox(height: 32),
             Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20.0,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: [
                   Row(
@@ -175,33 +163,32 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 4.0,
-                  ),
+                  const SizedBox(height: 4),
                   Text(
                     "Tingkatkan pengetahuanmu dengan buku-buku pilihan pakar untuk memperdalam ilmu kamu!",
                     style: textTheme.bodySmall!.copyWith(
                       color: secondaryTextColor,
                     ),
                   ),
-                  const SizedBox(
-                    height: 12.0,
-                  ),
+                  const SizedBox(height: 12),
                   SizedBox(
                     height: 200,
                     child: ListView.builder(
                       padding: const EdgeInsets.all(0),
                       shrinkWrap: true,
-                      itemCount: 4,
                       clipBehavior: Clip.none,
                       scrollDirection: Axis.horizontal,
+                      itemCount: 4,
                       itemBuilder: (BuildContext context, int index) {
                         return Padding(
                           padding: EdgeInsets.only(
-                            left: index == 0 ? 0 : 4.0,
-                            right: index == 5 ? 0 : 4.0,
+                            left: index == 0 ? 0 : 4,
+                            right: index == 5 ? 0 : 4,
                           ),
-                          child: BookItem(book: booksItems[index]),
+                          child: BookItem(
+                            book: books[index],
+                            width: 120,
+                          ),
                         );
                       },
                     ),

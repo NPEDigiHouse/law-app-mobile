@@ -7,9 +7,14 @@ import 'package:law_app/features/auth/presentation/pages/otp_page.dart';
 import 'package:law_app/features/auth/presentation/pages/register_page.dart';
 import 'package:law_app/features/auth/presentation/pages/reset_password_page.dart';
 import 'package:law_app/features/common/menu/main_menu_page.dart';
+import 'package:law_app/features/shared/ad/ad_detail_page.dart';
 import 'package:law_app/features/shared/glossary/presentation/pages/glossary_detail_page.dart';
 import 'package:law_app/features/shared/glossary/presentation/pages/glossary_search_page.dart';
 import 'package:law_app/features/shared/notification/notification_page.dart';
+import 'package:law_app/features/shared/profile/account_info_page.dart';
+import 'package:law_app/features/shared/profile/certificate_page.dart';
+import 'package:law_app/features/shared/profile/contact_us_page.dart';
+import 'package:law_app/features/shared/profile/faq_page.dart';
 import 'package:law_app/features/shared/profile/profile_page.dart';
 import 'package:law_app/features/student/presentation/pages/student_home_page.dart';
 import 'package:law_app/features/teacher/presentation/pages/teacher_home_page.dart';
@@ -24,11 +29,20 @@ const forgotPasswordRoute = '/forgot-password';
 const otpRoute = '/otp';
 const resetPasswordRoute = '/reset-password';
 const mainMenuRoute = '/main-menu';
+
 const profileRoute = '/profile';
+const accountInfoRoute = '/profile/account-info';
+const faqRoute = '/profile/faq';
+const contactUsRoute = '/profile/contact-us';
+const certificateRoute = '/profile/certificate';
+
 const notificationRoute = '/notification';
+const adDetailRoute = '/ad-detail';
+
 const studentHomeRoute = '/student-home';
 const teacherHomeRoute = '/teacher-home';
 const adminHomeRoute = '/admin-home';
+
 const glossarySearchRoute = '/glossary-search';
 const glossaryDetailRoute = '/glossary-detail';
 
@@ -59,15 +73,41 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => const ResetPasswordPage(),
       );
+    case mainMenuRoute:
+      final roleId = settings.arguments as int;
+
+      return MaterialPageRoute(
+        builder: (_) => MainMenuPage(roleId: roleId),
+      );
     case profileRoute:
       final roleId = settings.arguments as int;
 
       return MaterialPageRoute(
         builder: (_) => ProfilePage(roleId: roleId),
       );
+    case accountInfoRoute:
+      return MaterialPageRoute(
+        builder: (_) => const AccountInfoPage(),
+      );
+    case faqRoute:
+      return MaterialPageRoute(
+        builder: (_) => const FAQPage(),
+      );
+    case contactUsRoute:
+      return MaterialPageRoute(
+        builder: (_) => const ContactUsPage(),
+      );
+    case certificateRoute:
+      return MaterialPageRoute(
+        builder: (_) => const CertificatePage(),
+      );
     case notificationRoute:
       return MaterialPageRoute(
         builder: (_) => const NotificationPage(),
+      );
+    case adDetailRoute:
+      return MaterialPageRoute(
+        builder: (_) => const AdDetailPage(),
       );
     case studentHomeRoute:
       return MaterialPageRoute(
@@ -81,11 +121,7 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => const AdminHomePage(),
       );
-    case mainMenuRoute:
-      final roleId = settings.arguments as int;
-      return MaterialPageRoute(
-        builder: (_) => MainMenuPage(roleId: roleId),
-      );
+
     case glossarySearchRoute:
       return PageRouteBuilder(
         pageBuilder: (_, __, ___) => const GlossarySearchPage(),

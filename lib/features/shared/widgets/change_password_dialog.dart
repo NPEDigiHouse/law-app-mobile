@@ -103,9 +103,7 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
                         if (value != null) password.value = value;
                       },
                     ),
-                    const SizedBox(
-                      height: 12.0,
-                    ),
+                    const SizedBox(height: 12),
                     ValueListenableBuilder(
                       valueListenable: password,
                       builder: (context, password, child) {
@@ -132,9 +130,7 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 12.0,
-            ),
+            const SizedBox(height: 12),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
               child: Row(

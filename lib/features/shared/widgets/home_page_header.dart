@@ -9,18 +9,18 @@ import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class HomePageHeader extends StatelessWidget {
-  final Widget child;
-  final VoidCallback? onPressedProfileIcon;
   final bool isAdmin;
   final bool isProfile;
+  final VoidCallback? onPressedProfileIcon;
+  final Widget child;
 
   const HomePageHeader({
-    Key? key,
-    required this.child,
-    this.onPressedProfileIcon,
+    super.key,
     required this.isAdmin,
     required this.isProfile,
-  }) : super(key: key);
+    this.onPressedProfileIcon,
+    required this.child,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +79,7 @@ class HomePageHeader extends StatelessWidget {
                                         const TextSpan(
                                           text: 'Selamat Datang,\n',
                                           style: TextStyle(
-                                            fontSize: 20.0,
+                                            fontSize: 20,
                                             fontWeight: FontWeight.w400,
                                             color: scaffoldBackgroundColor,
                                           ),
@@ -111,8 +111,9 @@ class HomePageHeader extends StatelessWidget {
                                 SizedBox(
                                   child: TextButton(
                                     onPressed: () {
-                                      navigatorKey.currentState!
-                                          .pushNamed(notificationRoute);
+                                      navigatorKey.currentState!.pushNamed(
+                                        notificationRoute,
+                                      );
                                     },
                                     child: SvgAsset(
                                       width: 36,
@@ -132,7 +133,6 @@ class HomePageHeader extends StatelessWidget {
                                       color: scaffoldBackgroundColor,
                                       border: Border.all(
                                         color: accentColor,
-                                        width: 1.0,
                                       ),
                                     ),
                                     child: CircleAvatar(
@@ -148,15 +148,15 @@ class HomePageHeader extends StatelessWidget {
                           ],
                         )
                       : Container(
-                          padding: const EdgeInsets.all(16.0),
+                          padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
                             color: scaffoldBackgroundColor,
-                            borderRadius: BorderRadius.circular(12.0),
+                            borderRadius: BorderRadius.circular(12),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black.withOpacity(.2),
-                                offset: const Offset(2.0, 2.0),
-                                blurRadius: 4.0,
+                                offset: const Offset(2, 2),
+                                blurRadius: 4,
                               )
                             ],
                           ),
@@ -164,17 +164,15 @@ class HomePageHeader extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               SvgAsset(
-                                width: 40.0,
-                                height: 40.0,
+                                width: 40,
+                                height: 40,
                                 assetPath: AssetPath.getVector("app_logo.svg"),
                               ),
-                              const SizedBox(
-                                width: 12.0,
-                              ),
+                              const SizedBox(width: 12),
                               Expanded(
                                 child: RichText(
-                                  overflow: TextOverflow.ellipsis,
                                   maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
                                   text: TextSpan(
                                     style: textTheme.titleLarge,
                                     children: [
@@ -195,9 +193,7 @@ class HomePageHeader extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              const SizedBox(
-                                width: 12.0,
-                              ),
+                              const SizedBox(width: 12),
                               InkWell(
                                 onTap: onPressedProfileIcon,
                                 child: Container(
@@ -206,7 +202,6 @@ class HomePageHeader extends StatelessWidget {
                                     color: scaffoldBackgroundColor,
                                     border: Border.all(
                                       color: accentColor,
-                                      width: 1.0,
                                     ),
                                   ),
                                   child: CircleAvatar(

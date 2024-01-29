@@ -4,14 +4,14 @@ import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/dummies_data.dart';
-import 'package:law_app/features/shared/widgets/custom_app_bar.dart';
+import 'package:law_app/features/shared/widgets/header_container.dart';
 
-class AccountInformationPage extends StatelessWidget {
-  const AccountInformationPage({super.key});
+class AccountInfoPage extends StatelessWidget {
+  const AccountInfoPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    List accountInformations = [
+    final accountInformations = [
       {
         "title": "Nama Lengkap",
         "value": user.fullName,
@@ -33,13 +33,18 @@ class AccountInformationPage extends StatelessWidget {
         "value": user.phone,
       },
     ];
+
     return Scaffold(
-      appBar: const CustomAppBar(
-        title: "Informasi Akun",
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(96),
+        child: HeaderContainer(
+          withBackButton: true,
+          title: 'Informasi Akun',
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -49,9 +54,7 @@ class AccountInformationPage extends StatelessWidget {
                   color: primaryColor,
                 ),
               ),
-              const SizedBox(
-                height: 16.0,
-              ),
+              const SizedBox(height: 16),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -66,16 +69,13 @@ class AccountInformationPage extends StatelessWidget {
                           color: secondaryTextColor,
                         ),
                       ),
-                      const SizedBox(
-                        width: 8.0,
-                      ),
+                      const SizedBox(width: 8),
                       Container(
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: scaffoldBackgroundColor,
                           border: Border.all(
                             color: accentColor,
-                            width: 1.0,
                           ),
                         ),
                         child: CircleAvatar(
@@ -90,15 +90,14 @@ class AccountInformationPage extends StatelessWidget {
                   FilledButton(
                     onPressed: () {},
                     style: FilledButton.styleFrom(
-                        backgroundColor: secondaryColor,
-                        foregroundColor: primaryColor),
+                      backgroundColor: secondaryColor,
+                      foregroundColor: primaryColor,
+                    ),
                     child: const Text("Ubah Foto Profil"),
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 32.0,
-              ),
+              const SizedBox(height: 32),
               Text(
                 "Data Diri",
                 style: textTheme.headlineSmall!.copyWith(
@@ -106,15 +105,16 @@ class AccountInformationPage extends StatelessWidget {
                 ),
               ),
               ListView.builder(
-                shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
                 itemCount: accountInformations.length,
                 itemBuilder: (context, index) {
-                  int lastIndex = accountInformations.length - 1;
+                  final lastIndex = accountInformations.length - 1;
+
                   return Row(
                     children: [
                       SizedBox(
-                        height: 88.0,
+                        height: 88,
                         child: Stack(
                           children: [
                             Positioned(
@@ -127,7 +127,7 @@ class AccountInformationPage extends StatelessWidget {
                                   children: [
                                     Expanded(
                                       child: Container(
-                                        width: 4.0,
+                                        width: 4,
                                         decoration: BoxDecoration(
                                           color: (index != 0)
                                               ? secondaryTextColor
@@ -137,7 +137,7 @@ class AccountInformationPage extends StatelessWidget {
                                     ),
                                     Expanded(
                                       child: Container(
-                                        width: 4.0,
+                                        width: 4,
                                         decoration: BoxDecoration(
                                           color: (index != lastIndex)
                                               ? secondaryTextColor
@@ -153,8 +153,8 @@ class AccountInformationPage extends StatelessWidget {
                               child: Center(
                                 child: Container(
                                   alignment: Alignment.center,
-                                  width: 12.0,
-                                  height: 12.0,
+                                  width: 12,
+                                  height: 12,
                                   decoration: const BoxDecoration(
                                     color: secondaryTextColor,
                                     shape: BoxShape.circle,
@@ -165,23 +165,21 @@ class AccountInformationPage extends StatelessWidget {
                           ],
                         ),
                       ),
-                      const SizedBox(
-                        width: 16.0,
-                      ),
+                      const SizedBox(width: 16),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              accountInformations[index]["title"],
+                              accountInformations[index]["title"]!,
                               style: textTheme.bodyLarge!.copyWith(
                                 color: primaryColor,
                               ),
                             ),
                             Text(
-                              accountInformations[index]["value"],
-                              overflow: TextOverflow.ellipsis,
+                              accountInformations[index]["value"]!,
                               maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
                               style: textTheme.titleLarge!.copyWith(
                                 color: primaryTextColor,
                               ),
@@ -193,19 +191,18 @@ class AccountInformationPage extends StatelessWidget {
                   );
                 },
               ),
-              const SizedBox(
-                height: 12.0,
-              ),
+              const SizedBox(height: 12),
               FilledButton(
                 onPressed: () => context.showChangePasswordDialog(),
                 style: FilledButton.styleFrom(
-                    backgroundColor: secondaryColor,
-                    foregroundColor: primaryColor),
-                child: const Text("Ubah Kata Sandi"),
+                  backgroundColor: secondaryColor,
+                  foregroundColor: primaryColor,
+                ),
+                child: const Text("Ubah Password"),
               ).fullWidth(),
+              const SizedBox(height: 4),
               FilledButton(
-                onPressed: () => context.showEditProfileDialog()
-                ,
+                onPressed: () => context.showEditProfileDialog(),
                 child: const Text("Ubah Data"),
               ).fullWidth(),
             ],

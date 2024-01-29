@@ -88,9 +88,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                         )
                       ],
                     ),
-                    const SizedBox(
-                      height: 12.0,
-                    ),
+                    const SizedBox(height: 12),
                     CustomTextField(
                       name: "username",
                       label: "Username",
@@ -109,9 +107,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                         )
                       ],
                     ),
-                    const SizedBox(
-                      height: 12.0,
-                    ),
+                    const SizedBox(height: 12),
                     CustomTextField(
                       name: "email",
                       label: "Email",
@@ -129,9 +125,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                         )
                       ],
                     ),
-                    const SizedBox(
-                      height: 12.0,
-                    ),
+                    const SizedBox(height: 12),
                     CustomTextField(
                       name: "date_of_birth",
                       label: "Tanggal Lahir",
@@ -146,9 +140,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                       ],
                       onTap: showBirthDatePicker,
                     ),
-                    const SizedBox(
-                      height: 12.0,
-                    ),
+                    const SizedBox(height: 12),
                     CustomTextField(
                       name: "phone",
                       label: "No. HP",
@@ -170,9 +162,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 12.0,
-            ),
+            const SizedBox(height: 12),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
               child: Row(

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
-import 'package:law_app/features/shared/widgets/custom_app_bar.dart';
-import 'package:law_app/features/shared/widgets/icon_with_gradient_background.dart';
+import 'package:law_app/features/shared/widgets/gradient_background_icon.dart';
+import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class ContactUsPage extends StatelessWidget {
@@ -12,7 +12,7 @@ class ContactUsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List contactUsItems = [
+    const contactUsItems = [
       {
         "icon": "whatsapp-fill.svg",
         "contactName": "WhatsApp",
@@ -29,13 +29,18 @@ class ContactUsPage extends StatelessWidget {
         "text": "Jl. Perintis Kemerdekaan KM.15",
       },
     ];
+
     return Scaffold(
-      appBar: const CustomAppBar(
-        title: "Hubungi Kami",
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(96),
+        child: HeaderContainer(
+          withBackButton: true,
+          title: 'Hubungi Kami',
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -45,50 +50,49 @@ class ContactUsPage extends StatelessWidget {
                   color: primaryColor,
                 ),
               ),
-              const SizedBox(
-                height: 16.0,
-              ),
+              const SizedBox(height: 16),
               ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: contactUsItems.length,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
+                    padding: const EdgeInsets.only(
+                      top: 4,
+                      bottom: 4,
+                    ),
                     child: Container(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
                         color: scaffoldBackgroundColor,
-                        borderRadius: BorderRadius.circular(12.0),
+                        borderRadius: BorderRadius.circular(12),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withOpacity(.2),
-                            offset: const Offset(2.0, 2.0),
+                            offset: const Offset(2, 2),
                             blurRadius: 4.0,
                           )
                         ],
                       ),
                       child: Row(
                         children: [
-                          IconWithGradientBackground(
-                            icon: contactUsItems[index]["icon"],
+                          GradientBackgroundIcon(
+                            icon: contactUsItems[index]["icon"]!,
                             size: 72,
                           ),
-                          const SizedBox(
-                            width: 12,
-                          ),
+                          const SizedBox(width: 12),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  contactUsItems[index]["contactName"],
+                                  contactUsItems[index]["contactName"]!,
                                   style: textTheme.titleMedium!.copyWith(
                                     color: primaryTextColor,
                                   ),
                                 ),
                                 Text(
-                                  contactUsItems[index]["text"],
+                                  contactUsItems[index]["text"]!,
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: textTheme.bodyLarge!.copyWith(
@@ -98,26 +102,25 @@ class ContactUsPage extends StatelessWidget {
                               ],
                             ),
                           ),
-                          const SizedBox(
-                            width: 12,
-                          ),
+                          const SizedBox(width: 12),
                           Container(
                             width: 40,
                             height: 40,
                             decoration: BoxDecoration(
                               color: secondaryColor,
-                              borderRadius: BorderRadius.circular(12.0),
+                              borderRadius: BorderRadius.circular(12),
                             ),
                             child: IconButton(
                               onPressed: () {},
                               icon: Transform.rotate(
                                 angle: -45 * math.pi,
                                 child: SvgAsset(
-                                  height: 20.0,
-                                  width: 20.0,
+                                  height: 20,
+                                  width: 20,
                                   color: primaryColor,
-                                  assetPath:
-                                      AssetPath.getIcon("caret-line-left.svg"),
+                                  assetPath: AssetPath.getIcon(
+                                    "caret-line-left.svg",
+                                  ),
                                 ),
                               ),
                             ),

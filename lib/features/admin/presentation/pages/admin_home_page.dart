@@ -15,7 +15,7 @@ class AdminHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const List<Map<String, dynamic>> dashboardItems = [
+    const dashboardItems = [
       {
         "icon": "dictionary-book-solid.svg",
         "count": 20,
@@ -38,7 +38,7 @@ class AdminHomePage extends StatelessWidget {
       },
     ];
 
-    final List<Map<String, dynamic>> adminHomePageMenu = [
+    const menu = [
       {
         "icon": "user-solid.svg",
         "text": "Master Data",
@@ -83,103 +83,99 @@ class AdminHomePage extends StatelessWidget {
                   arguments: user.roleId,
                 );
               },
-              child: const Dashboard(dashboardItem: dashboardItems),
-            ),
-            const SizedBox(
-              height: 84.0,
-            ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20.0),
-              height: 2,
-              decoration: const BoxDecoration(
-                color: secondaryTextColor,
+              child: const Dashboard(
+                items: dashboardItems,
               ),
             ),
-            const SizedBox(
-              height: 24.0,
+            const SizedBox(height: 84),
+            Container(
+              height: 2,
+              margin: const EdgeInsets.symmetric(horizontal: 20),
+              color: secondaryTextColor,
             ),
+            const SizedBox(height: 24),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: GridView.count(
+                physics: const NeverScrollableScrollPhysics(),
                 padding: const EdgeInsets.all(0),
                 shrinkWrap: true,
                 crossAxisCount: 2,
-                crossAxisSpacing: 8.0,
-                mainAxisSpacing: 8.0,
+                crossAxisSpacing: 8,
+                mainAxisSpacing: 8,
                 childAspectRatio: 5 / 4,
-                physics: const NeverScrollableScrollPhysics(),
-                children: List.generate(adminHomePageMenu.length, (index) {
-                  return Container(
-                    padding: const EdgeInsets.all(12.0),
-                    decoration: BoxDecoration(
-                      color: scaffoldBackgroundColor,
-                      borderRadius: BorderRadius.circular(12.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(.2),
-                          offset: const Offset(2.0, 2.0),
-                          blurRadius: 4.0,
-                        )
-                      ],
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          height: 50.0,
-                          width: 50.0,
-                          padding: const EdgeInsets.all(8.0),
-                          decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(12.0),
+                children: List<Container>.generate(
+                  menu.length,
+                  (index) {
+                    return Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: scaffoldBackgroundColor,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(.2),
+                            offset: const Offset(2, 2),
+                            blurRadius: 4,
+                          )
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 50,
+                            width: 50,
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: secondaryColor,
+                            ),
+                            child: SvgAsset(
+                              color: primaryColor,
+                              assetPath: AssetPath.getIcon(
+                                menu[index]["icon"]!,
                               ),
-                              color: secondaryColor),
-                          child: SvgAsset(
-                            color: primaryColor,
-                            assetPath: AssetPath.getIcon(
-                                adminHomePageMenu[index]["icon"]),
+                            ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 12.0,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                adminHomePageMenu[index]["text"],
-                                maxLines: 2,
-                                style: textTheme.titleMedium!.copyWith(
-                                  color: primaryColor,
+                          const SizedBox(height: 12),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  menu[index]["text"]!,
+                                  maxLines: 2,
+                                  style: textTheme.titleMedium!.copyWith(
+                                    color: primaryColor,
+                                  ),
                                 ),
                               ),
-                            ),
-                            InkWell(
-                              onTap: () {},
-                              child: Transform.rotate(
-                                angle: -45 * math.pi,
-                                child: SvgAsset(
-                                  height: 24.0,
-                                  width: 24.0,
-                                  color: accentColor,
-                                  assetPath:
-                                      AssetPath.getIcon("caret-line-left.svg"),
+                              InkWell(
+                                onTap: () {},
+                                child: Transform.rotate(
+                                  angle: -45 * math.pi,
+                                  child: SvgAsset(
+                                    height: 24,
+                                    width: 24,
+                                    color: accentColor,
+                                    assetPath: AssetPath.getIcon(
+                                      "caret-line-left.svg",
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  );
-                }),
+                            ],
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
-            const SizedBox(
-              height: 24.0,
-            ),
+            const SizedBox(height: 24),
           ],
         ),
       ),

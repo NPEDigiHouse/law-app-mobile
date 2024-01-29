@@ -24,8 +24,8 @@ class User {
 const user = User(
   username: 'test',
   password: 'test',
-  fullName: 'testing',
-  email: 'test@gmail.com',
+  fullName: 'Testing User',
+  email: 'Test@gmail.com',
   dateOfBirth: '21 Mei 2001',
   phone: '0897182974',
   otp: 1234,

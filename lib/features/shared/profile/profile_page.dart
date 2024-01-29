@@ -5,23 +5,18 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
-import 'package:law_app/features/shared/profile/account_information_page.dart';
-import 'package:law_app/features/shared/profile/certificate_page.dart';
-import 'package:law_app/features/shared/profile/contact_us_page.dart';
-import 'package:law_app/features/shared/profile/faq_page.dart';
 import 'package:law_app/features/shared/widgets/home_page_header.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class ProfilePage extends StatelessWidget {
   final int roleId;
-  const ProfilePage({
-    Key? key,
-    required this.roleId,
-  }) : super(key: key);
+
+  const ProfilePage({super.key, required this.roleId});
 
   @override
   Widget build(BuildContext context) {
-    List profileMenuItems = setProfileMenuItems(roleId, context);
+    final profileMenuItems = setProfileMenuItems(context, roleId);
+
     return Scaffold(
       backgroundColor: backgroundColor,
       body: Stack(
@@ -33,16 +28,16 @@ class ProfilePage extends StatelessWidget {
                 isAdmin: roleId == 0,
                 isProfile: true,
                 child: Container(
-                  padding: const EdgeInsets.all(12.0),
+                  padding: const EdgeInsets.all(12),
                   width: double.infinity,
                   decoration: BoxDecoration(
                     color: scaffoldBackgroundColor,
-                    borderRadius: BorderRadius.circular(12.0),
+                    borderRadius: BorderRadius.circular(12),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(.2),
-                        offset: const Offset(2.0, 2.0),
-                        blurRadius: 4.0,
+                        offset: const Offset(2, 2),
+                        blurRadius: 4,
                       )
                     ],
                   ),
@@ -51,21 +46,18 @@ class ProfilePage extends StatelessWidget {
                       SizedBox(
                         width: double.infinity,
                         child: TextButton(
-                          onPressed: () {
-                            navigatorKey.currentState?.pop();
-                          },
+                          onPressed: () => navigatorKey.currentState?.pop(),
                           child: Row(
                             children: [
                               SvgAsset(
-                                assetPath:
-                                    AssetPath.getIcon("caret-line-left.svg"),
+                                assetPath: AssetPath.getIcon(
+                                  "caret-line-left.svg",
+                                ),
                                 color: secondaryTextColor,
-                                height: 20.0,
-                                width: 20.0,
+                                height: 20,
+                                width: 20,
                               ),
-                              const SizedBox(
-                                width: 16.0,
-                              ),
+                              const SizedBox(width: 16),
                               Expanded(
                                 child: Text(
                                   "Kembali ke Beranda",
@@ -79,28 +71,27 @@ class ProfilePage extends StatelessWidget {
                         ),
                       ),
                       ListView.builder(
-                        padding: const EdgeInsets.all(0),
                         physics: const NeverScrollableScrollPhysics(),
+                        padding: const EdgeInsets.all(0),
                         shrinkWrap: true,
                         itemCount: profileMenuItems.length,
                         itemBuilder: (context, index) {
                           return Container(
-                            margin: const EdgeInsets.symmetric(vertical: 8.0),
                             width: double.infinity,
+                            margin: const EdgeInsets.symmetric(vertical: 8),
                             child: TextButton(
                               onPressed: profileMenuItems[index]["onTap"],
                               child: Row(
                                 children: [
                                   SvgAsset(
                                     assetPath: AssetPath.getIcon(
-                                        profileMenuItems[index]["icon"]),
+                                      profileMenuItems[index]["icon"],
+                                    ),
                                     color: profileMenuItems[index]["color"],
-                                    height: 28.0,
-                                    width: 28.0,
+                                    height: 28,
+                                    width: 28,
                                   ),
-                                  const SizedBox(
-                                    width: 16.0,
-                                  ),
+                                  const SizedBox(width: 16),
                                   Expanded(
                                     child: Text(
                                       profileMenuItems[index]["text"],
@@ -126,7 +117,10 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  List setProfileMenuItems(int roleId, BuildContext context) {
+  List<Map<String, dynamic>> setProfileMenuItems(
+    BuildContext context,
+    int roleId,
+  ) {
     if (roleId == 0) {
       return [
         {
@@ -134,11 +128,7 @@ class ProfilePage extends StatelessWidget {
           "text": "Informasi Akun",
           "color": primaryTextColor,
           "onTap": () {
-            navigatorKey.currentState!.push(
-              MaterialPageRoute(
-                builder: (context) => const AccountInformationPage(),
-              ),
-            );
+            navigatorKey.currentState!.pushNamed(accountInfoRoute);
           },
         },
         {
@@ -150,7 +140,10 @@ class ProfilePage extends StatelessWidget {
               title: "Log Out",
               message: "Dengan ini, seluruh sesi Anda akan berakhir.",
               onPressedPrimaryButton: () {
-                navigatorKey.currentState!.pushReplacementNamed(loginRoute);
+                navigatorKey.currentState!.pushNamedAndRemoveUntil(
+                  loginRoute,
+                  (route) => false,
+                );
               },
             );
           },
@@ -163,11 +156,7 @@ class ProfilePage extends StatelessWidget {
           "text": "Informasi Akun",
           "color": primaryTextColor,
           "onTap": () {
-            navigatorKey.currentState!.push(
-              MaterialPageRoute(
-                builder: (context) => const AccountInformationPage(),
-              ),
-            );
+            navigatorKey.currentState!.pushNamed(accountInfoRoute);
           },
         },
         {
@@ -175,11 +164,7 @@ class ProfilePage extends StatelessWidget {
           "text": "Frequently Asked Question",
           "color": primaryTextColor,
           "onTap": () {
-            navigatorKey.currentState!.push(
-              MaterialPageRoute(
-                builder: (context) => const FAQPage(),
-              ),
-            );
+            navigatorKey.currentState!.pushNamed(faqRoute);
           },
         },
         {
@@ -187,11 +172,7 @@ class ProfilePage extends StatelessWidget {
           "text": "Hubungi Kami",
           "color": primaryTextColor,
           "onTap": () {
-            navigatorKey.currentState!.push(
-              MaterialPageRoute(
-                builder: (context) => const ContactUsPage(),
-              ),
-            );
+            navigatorKey.currentState!.pushNamed(contactUsRoute);
           },
         },
         {
@@ -209,7 +190,10 @@ class ProfilePage extends StatelessWidget {
               title: "Log Out",
               message: "Dengan ini, seluruh sesi Anda akan berakhir.",
               onPressedPrimaryButton: () {
-                navigatorKey.currentState!.pushReplacementNamed(loginRoute);
+                navigatorKey.currentState!.pushNamedAndRemoveUntil(
+                  loginRoute,
+                  (route) => false,
+                );
               },
             );
           },
@@ -222,11 +206,7 @@ class ProfilePage extends StatelessWidget {
           "text": "Informasi Akun",
           "color": primaryTextColor,
           "onTap": () {
-            navigatorKey.currentState!.push(
-              MaterialPageRoute(
-                builder: (context) => const AccountInformationPage(),
-              ),
-            );
+            navigatorKey.currentState!.pushNamed(accountInfoRoute);
           },
         },
         {
@@ -234,11 +214,7 @@ class ProfilePage extends StatelessWidget {
           "text": "Frequently Asked Question",
           "color": primaryTextColor,
           "onTap": () {
-            navigatorKey.currentState!.push(
-              MaterialPageRoute(
-                builder: (context) => const FAQPage(),
-              ),
-            );
+            navigatorKey.currentState!.pushNamed(faqRoute);
           },
         },
         {
@@ -246,11 +222,7 @@ class ProfilePage extends StatelessWidget {
           "text": "Hubungi Kami",
           "color": primaryTextColor,
           "onTap": () {
-            navigatorKey.currentState!.push(
-              MaterialPageRoute(
-                builder: (context) => const ContactUsPage(),
-              ),
-            );
+            navigatorKey.currentState!.pushNamed(contactUsRoute);
           },
         },
         {
@@ -264,11 +236,7 @@ class ProfilePage extends StatelessWidget {
           "text": "Sertifikat",
           "color": primaryTextColor,
           "onTap": () {
-            navigatorKey.currentState!.push(
-              MaterialPageRoute(
-                builder: (context) => const CertificatePage(),
-              ),
-            );
+            navigatorKey.currentState!.pushNamed(certificateRoute);
           },
         },
         {
@@ -280,7 +248,10 @@ class ProfilePage extends StatelessWidget {
               title: "Log Out",
               message: "Dengan ini, seluruh sesi Anda akan berakhir.",
               onPressedPrimaryButton: () {
-                navigatorKey.currentState!.pushReplacementNamed(loginRoute);
+                navigatorKey.currentState!.pushNamedAndRemoveUntil(
+                  loginRoute,
+                  (route) => false,
+                );
               },
             );
           },

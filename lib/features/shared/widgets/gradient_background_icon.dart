@@ -3,27 +3,25 @@ import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
-class IconWithGradientBackground extends StatelessWidget {
+class GradientBackgroundIcon extends StatelessWidget {
   final double size;
   final String icon;
 
-  const IconWithGradientBackground({
-    Key? key,
+  const GradientBackgroundIcon({
+    super.key,
     required this.size,
     required this.icon,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: size,
       width: size,
-      padding: const EdgeInsets.all(8.0),
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(
-          Radius.circular(12.0),
-        ),
-        gradient: LinearGradient(
+      height: size,
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        gradient: const LinearGradient(
           colors: GradientColors.redPastel,
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,

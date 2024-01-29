@@ -5,53 +5,50 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class CourseItemCard extends StatelessWidget {
-  final Map courseItem;
-  const CourseItemCard({
-    Key? key,
-    required this.courseItem,
-  }) : super(key: key);
+  final Map<String, dynamic> item;
+
+  const CourseItemCard({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 130.0,
-      padding: const EdgeInsets.all(12.0),
+      height: 130,
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: scaffoldBackgroundColor,
-        borderRadius: BorderRadius.circular(12.0),
+        borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(.2),
-            offset: const Offset(2.0, 2.0),
-            blurRadius: 4.0,
+            offset: const Offset(2, 2),
+            blurRadius: 4,
           )
         ],
       ),
       child: Row(
         children: [
           Container(
-            width: 105.0,
-            height: 105.0,
+            width: 105,
+            height: 105,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12.0),
+              borderRadius: BorderRadius.circular(12),
               image: DecorationImage(
                 image: AssetImage(
-                  AssetPath.getImage(courseItem["img"]),
+                  AssetPath.getImage(item["img"]! as String),
                 ),
                 fit: BoxFit.cover,
               ),
             ),
             child: Container(
               decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: GradientColors.redPastel,
-                  ),
-                  backgroundBlendMode: BlendMode.softLight),
+                gradient: LinearGradient(
+                  colors: GradientColors.redPastel,
+                ),
+                backgroundBlendMode: BlendMode.softLight,
+              ),
             ),
           ),
-          const SizedBox(
-            width: 12.0,
-          ),
+          const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,7 +57,7 @@ class CourseItemCard extends StatelessWidget {
                   child: Container(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      courseItem["title"],
+                      item["title"]! as String,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: textTheme.titleMedium!.copyWith(
@@ -69,9 +66,7 @@ class CourseItemCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 8.0,
-                ),
+                const SizedBox(height: 8),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -81,26 +76,26 @@ class CourseItemCard extends StatelessWidget {
                           color: secondaryTextColor,
                           assetPath: AssetPath.getIcon("clock-solid.svg"),
                         ),
-                        const SizedBox(
-                          width: 8.0,
-                        ),
+                        const SizedBox(width: 8),
                         Text(
-                          "${courseItem["completionTime"]} jam",
+                          "${item["completionTime"] as double} jam",
                           style: textTheme.bodyMedium!.copyWith(
                             color: secondaryTextColor,
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      width: 20.0,
-                    ),
+                    const SizedBox(width: 20),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 8.0, vertical: 2.0),
+                        horizontal: 8,
+                        vertical: 2,
+                      ),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6.0),
-                        border: Border.all(color: infoColor),
+                        borderRadius: BorderRadius.circular(6),
+                        border: Border.all(
+                          color: infoColor,
+                        ),
                       ),
                       child: Text(
                         "Aktif",
@@ -111,9 +106,7 @@ class CourseItemCard extends StatelessWidget {
                     )
                   ],
                 ),
-                const SizedBox(
-                  height: 4.0,
-                ),
+                const SizedBox(height: 4),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -124,11 +117,9 @@ class CourseItemCard extends StatelessWidget {
                           color: secondaryTextColor,
                           assetPath: AssetPath.getIcon("users-solid.svg"),
                         ),
-                        const SizedBox(
-                          width: 8.0,
-                        ),
+                        const SizedBox(width: 8),
                         Text(
-                          courseItem["totalStudent"].toString(),
+                          '${item["totalStudent"] as int}',
                           style: textTheme.bodyMedium!.copyWith(
                             color: secondaryTextColor,
                           ),
@@ -136,13 +127,13 @@ class CourseItemCard extends StatelessWidget {
                       ],
                     ),
                     SizedBox(
-                      height: 18.0,
+                      height: 18,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           CustomRatingStar(
-                            rating: courseItem["rating"],
-                            size: 18.0,
+                            rating: item["rating"]! as double,
+                            size: 18,
                           ),
                         ],
                       ),
@@ -163,28 +154,27 @@ class CustomRatingStar extends StatelessWidget {
   final double size;
 
   const CustomRatingStar({
-    Key? key,
+    super.key,
     required this.rating,
     required this.size,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
-    int floorRating = rating.floor();
+    final floorRating = rating.floor();
+
     return ListView.builder(
-      shrinkWrap: true,
-      itemCount: 5,
       physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.all(0),
+      shrinkWrap: true,
+      itemCount: 5,
       scrollDirection: Axis.horizontal,
       itemBuilder: (context, index) {
         return Container(
           width: size,
           clipBehavior: Clip.antiAlias,
           decoration: const ShapeDecoration(
-            shape: StarBorder(
-              points: 5.00,
-            ),
+            shape: StarBorder(),
           ),
           child: Row(
             children: [
