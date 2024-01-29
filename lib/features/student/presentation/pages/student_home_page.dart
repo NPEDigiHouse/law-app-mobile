@@ -5,11 +5,11 @@ import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
-import 'package:law_app/dummies_data.dart';
-import 'package:law_app/features/shared/widgets/book_item.dart';
 import 'package:law_app/features/shared/widgets/course_item_card.dart';
 import 'package:law_app/features/shared/widgets/dashboard.dart';
 import 'package:law_app/features/shared/widgets/home_page_discussion_card.dart';
+// import 'package:law_app/dummies_data.dart';
+// import 'package:law_app/features/shared/widgets/book_item.dart';
 import 'package:law_app/features/shared/widgets/home_page_header.dart';
 
 class StudentHomePage extends StatefulWidget {
@@ -23,7 +23,6 @@ class _StudentHomePageState extends State<StudentHomePage> {
   late final List dashboardItems;
   late final List carouselItems;
   late final List homePageDiscussionItems;
-  late final List booksItems;
   late final List courseItems;
   late final List profileMenuItems;
 
@@ -86,25 +85,6 @@ class _StudentHomePageState extends State<StudentHomePage> {
       },
     ];
 
-    booksItems = [
-      {
-        "img": "sample-book-cover.jpg",
-        "title": "Books 1",
-      },
-      {
-        "img": "sample-book-cover.jpg",
-        "title": "Books 2",
-      },
-      {
-        "img": "sample-book-cover.jpg",
-        "title": "Books 3",
-      },
-      {
-        "img": "sample-book-cover.jpg",
-        "title": "Books 4",
-      },
-    ];
-
     courseItems = [
       {
         "img": "sample-course-image.jpg",
@@ -139,7 +119,6 @@ class _StudentHomePageState extends State<StudentHomePage> {
 
     carouselItems;
     homePageDiscussionItems;
-    booksItems;
     courseItems;
   }
 
@@ -169,9 +148,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
               height: 24.0,
             ),
             Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20.0,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: [
                   Row(
@@ -218,9 +195,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
               height: 32.0,
             ),
             Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20.0,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: [
                   Row(
@@ -253,25 +228,25 @@ class _StudentHomePageState extends State<StudentHomePage> {
                   const SizedBox(
                     height: 12.0,
                   ),
-                  SizedBox(
-                    height: 200,
-                    child: ListView.builder(
-                      padding: const EdgeInsets.all(0),
-                      shrinkWrap: true,
-                      itemCount: 4,
-                      clipBehavior: Clip.none,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Padding(
-                          padding: EdgeInsets.only(
-                            left: index == 0 ? 0 : 4.0,
-                            right: index == 5 ? 0 : 4.0,
-                          ),
-                          child: BookItem(book: booksItems[index]),
-                        );
-                      },
-                    ),
-                  )
+                  // SizedBox(
+                  //   height: 200,
+                  //   child: ListView.builder(
+                  //     padding: const EdgeInsets.all(0),
+                  //     shrinkWrap: true,
+                  //     itemCount: 4,
+                  //     clipBehavior: Clip.none,
+                  //     scrollDirection: Axis.horizontal,
+                  //     itemBuilder: (BuildContext context, int index) {
+                  //       return Padding(
+                  //         padding: EdgeInsets.only(
+                  //           left: index == 0 ? 0 : 4.0,
+                  //           right: index == 5 ? 0 : 4.0,
+                  //         ),
+                  //         child: BookItem(book: books[index]),
+                  //       );
+                  //     },
+                  //   ),
+                  // )
                 ],
               ),
             ),
@@ -279,9 +254,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
               height: 24.0,
             ),
             Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20.0,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: [
                   Row(
@@ -334,6 +307,218 @@ class _StudentHomePageState extends State<StudentHomePage> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class HomepageDiscussioinCard extends StatelessWidget {
+  final Map discussionItem;
+
+  const HomepageDiscussioinCard({
+    super.key,
+    required this.discussionItem,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(20.0),
+      decoration: BoxDecoration(
+        color: scaffoldBackgroundColor,
+        borderRadius: BorderRadius.circular(12.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(.2),
+            offset: const Offset(2.0, 2.0),
+            blurRadius: 4.0,
+          )
+        ],
+      ),
+      child: Column(
+        children: [
+          Text(
+            discussionItem["title"],
+            maxLines: 3,
+            style: textTheme.titleSmall!.copyWith(
+              color: primaryColor,
+            ),
+          ),
+          const SizedBox(
+            height: 4.0,
+          ),
+          Text(
+            discussionItem["description"],
+            style: textTheme.bodySmall!.copyWith(color: primaryTextColor),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 3,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class CourseItemCard extends StatelessWidget {
+  final Map courseItem;
+  const CourseItemCard({
+    Key? key,
+    required this.courseItem,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 130.0,
+      padding: const EdgeInsets.all(12.0),
+      decoration: BoxDecoration(
+        color: scaffoldBackgroundColor,
+        borderRadius: BorderRadius.circular(12.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(.2),
+            offset: const Offset(2.0, 2.0),
+            blurRadius: 4.0,
+          )
+        ],
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 105.0,
+            height: 105.0,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12.0),
+              image: DecorationImage(
+                image: AssetImage(
+                  AssetPath.getImage(courseItem["img"]),
+                ),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Container(
+              decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: GradientColors.redPastel,
+                  ),
+                  backgroundBlendMode: BlendMode.softLight),
+            ),
+          ),
+          const SizedBox(
+            width: 12.0,
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      courseItem["title"],
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: textTheme.titleMedium!.copyWith(
+                        color: primaryTextColor,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 8.0,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
+                      children: [
+                        SvgAsset(
+                          color: secondaryTextColor,
+                          assetPath: AssetPath.getIcon("clock-solid.svg"),
+                        ),
+                        const SizedBox(
+                          width: 8.0,
+                        ),
+                        Text(
+                          "${courseItem["completionTime"]} jam",
+                          style: textTheme.bodyMedium!.copyWith(
+                            color: secondaryTextColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      width: 20.0,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0,
+                        vertical: 2.0,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6.0),
+                        border: Border.all(color: infoColor),
+                      ),
+                      child: Text(
+                        "Aktif",
+                        style: textTheme.bodySmall!.copyWith(
+                          color: infoColor,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 4.0,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        SvgAsset(
+                          color: secondaryTextColor,
+                          assetPath: AssetPath.getIcon("users-solid.svg"),
+                        ),
+                        const SizedBox(
+                          width: 8.0,
+                        ),
+                        Text(
+                          courseItem["totalStudent"].toString(),
+                          style: textTheme.bodyMedium!.copyWith(
+                            color: secondaryTextColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 16,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: 5,
+                            physics: const NeverScrollableScrollPhysics(),
+                            padding: const EdgeInsets.all(0),
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return SvgAsset(
+                                color: accentColor,
+                                assetPath: AssetPath.getIcon("star-solid.svg"),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }

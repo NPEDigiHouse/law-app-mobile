@@ -7,7 +7,7 @@ import 'package:law_app/features/shared/widgets/svg_asset.dart';
 class CustomBottomNavigationBar extends StatelessWidget {
   final int roleId;
   final int currentIndex;
-  final void Function(int) onTap;
+  final ValueChanged<int> onTap;
 
   const CustomBottomNavigationBar({
     super.key,

@@ -1,7 +1,7 @@
 import 'dart:math';
 
 /// A collection of helper functions that are reusable for this app
-class AppHelper {
+class FunctionHelper {
   /// Generate a random text
   static String generateRandomText({
     int maxLength = 8,
