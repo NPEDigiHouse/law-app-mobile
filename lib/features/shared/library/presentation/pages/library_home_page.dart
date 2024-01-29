@@ -1,14 +1,48 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/library/presentation/widgets/book_card.dart';
+import 'package:law_app/features/shared/library/presentation/widgets/book_category_chip.dart';
 import 'package:law_app/features/shared/widgets/book_item.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
+import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
-class LibraryHomePage extends StatelessWidget {
+class LibraryHomePage extends StatefulWidget {
   const LibraryHomePage({super.key});
+
+  @override
+  State<LibraryHomePage> createState() => _LibraryHomePageState();
+}
+
+class _LibraryHomePageState extends State<LibraryHomePage> {
+  late final List<String> bookCategories;
+  late final ValueNotifier<String> selectedCategory;
+
+  @override
+  void initState() {
+    super.initState();
+
+    bookCategories = [
+      'Semua',
+      'Pidana',
+      'Tata Negara',
+      'Syariah',
+      'Lainnya',
+    ];
+
+    selectedCategory = ValueNotifier(bookCategories[0]);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    selectedCategory.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -131,6 +165,83 @@ class LibraryHomePage extends StatelessWidget {
                 'Daftar Buku',
                 style: textTheme.titleLarge,
               ),
+            ),
+            SizedBox(
+              height: 40,
+              child: ListView.separated(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return ValueListenableBuilder(
+                    valueListenable: selectedCategory,
+                    builder: (context, category, child) {
+                      final selected = category == bookCategories[index];
+
+                      return BookCategoryChip(
+                        label: bookCategories[index],
+                        selected: selected,
+                        onSelected: (_) {
+                          selectedCategory.value = bookCategories[index];
+                        },
+                      );
+                    },
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return const SizedBox(width: 8);
+                },
+                itemCount: bookCategories.length,
+              ),
+            ),
+            GridView.count(
+              primary: false,
+              shrinkWrap: true,
+              childAspectRatio: 2 / 3,
+              crossAxisCount: 3,
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 10,
+              padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+              children: List<Widget>.generate(
+                books.length,
+                (index) => BookItem(
+                  book: books[index],
+                  onTap: () {},
+                ),
+              )..add(
+                  DottedBorder(
+                    borderType: BorderType.RRect,
+                    strokeCap: StrokeCap.round,
+                    radius: const Radius.circular(8),
+                    color: primaryColor,
+                    dashPattern: const [4, 4],
+                    child: GestureDetector(
+                      onTap: () => debugPrint('test'),
+                      child: Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Lihat lebih lengkap',
+                              textAlign: TextAlign.center,
+                              style: textTheme.titleSmall!.copyWith(
+                                color: primaryColor,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            SvgAsset(
+                              assetPath: AssetPath.getIcon(
+                                'caret-line-right.svg',
+                              ),
+                              color: primaryColor,
+                              width: 20,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
             ),
           ],
         ),
