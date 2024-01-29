@@ -75,14 +75,16 @@ extension DialogExtension on BuildContext {
   Future<Object?> showEditProfileDialog() {
     return showDialog(
       context: this,
-      builder: (_) => EditProfileDialog(),
+      barrierDismissible: false,
+      builder: (_) => const EditProfileDialog(),
     );
   }
 
   Future<Object?> showChangePasswordDialog() {
     return showDialog(
       context: this,
-      builder: (_) => ChangePasswordDialog(),
+      barrierDismissible: false,
+      builder: (_) => const ChangePasswordDialog(),
     );
   }
 }

@@ -1,18 +1,17 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/features/shared/ads/ads_detail_page.dart';
 import 'package:law_app/features/shared/widgets/custom_app_bar.dart';
 import 'package:law_app/features/shared/widgets/icon_with_gradient_background.dart';
-import 'package:law_app/features/shared/ads/ads_detail_page.dart';
 
 class NotificationPage extends StatelessWidget {
   const NotificationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    List notificationItems = [
+    List<Map<String, dynamic>> notificationItems = [
       {
         "type": "discussion",
         "title": "Pertanyaan Anda telah Dijawab!",
@@ -77,7 +76,9 @@ class NotificationPage extends StatelessWidget {
     ];
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: const CustomAppBar(title: "Notifikasi",),
+      appBar: const CustomAppBar(
+        title: "Notifikasi",
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -125,7 +126,7 @@ class NotificationPage extends StatelessWidget {
                                   color: primaryColor,
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 8.0,
                               ),
                               Text(

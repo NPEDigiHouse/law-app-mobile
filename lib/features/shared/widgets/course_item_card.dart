@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
@@ -196,8 +195,11 @@ class CustomRatingStar extends StatelessWidget {
               //   color: primaryColor,
               // ),
               Container(
-                width: (index == floorRating) ? size * (rating - floorRating) : size,
-                color: (index <= floorRating) ? accentColor : secondaryTextColor,
+                width: (index == floorRating)
+                    ? size * (rating - floorRating)
+                    : size,
+                color:
+                    (index <= floorRating) ? accentColor : secondaryTextColor,
               ),
               Expanded(
                 child: Container(

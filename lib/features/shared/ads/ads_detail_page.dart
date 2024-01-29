@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
@@ -16,7 +15,9 @@ class AdsDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: const CustomAppBar(title: "Detail Ads",),
+      appBar: const CustomAppBar(
+        title: "Detail Ads",
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [

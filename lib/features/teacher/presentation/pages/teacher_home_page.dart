@@ -187,7 +187,7 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
                   const SizedBox(
                     height: 12.0,
                   ),
-                  Container(
+                  SizedBox(
                     height: 200,
                     child: ListView.builder(
                       padding: const EdgeInsets.all(0),

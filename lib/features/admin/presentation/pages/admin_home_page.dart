@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'dart:math' as math;
+import 'package:flutter/material.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
@@ -10,23 +10,12 @@ import 'package:law_app/features/shared/widgets/dashboard.dart';
 import 'package:law_app/features/shared/widgets/home_page_header.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
-class AdminHomePage extends StatefulWidget {
+class AdminHomePage extends StatelessWidget {
   const AdminHomePage({super.key});
 
   @override
-  State<AdminHomePage> createState() => _AdminHomePageState();
-}
-
-class _AdminHomePageState extends State<AdminHomePage> {
-  late final List dashboardItems;
-  late final List adminHomePageMenu;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-    dashboardItems = [
+  Widget build(BuildContext context) {
+    const List<Map<String, dynamic>> dashboardItems = [
       {
         "icon": "dictionary-book-solid.svg",
         "count": 20,
@@ -49,7 +38,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
       },
     ];
 
-    adminHomePageMenu = [
+    final List<Map<String, dynamic>> adminHomePageMenu = [
       {
         "icon": "user-solid.svg",
         "text": "Master Data",
@@ -79,10 +68,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
         "text": "Kelola Ads",
       },
     ];
-  }
 
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SingleChildScrollView(
@@ -97,7 +83,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   arguments: user.roleId,
                 );
               },
-              child: Dashboard(dashboardItem: dashboardItems),
+              child: const Dashboard(dashboardItem: dashboardItems),
             ),
             const SizedBox(
               height: 84.0,

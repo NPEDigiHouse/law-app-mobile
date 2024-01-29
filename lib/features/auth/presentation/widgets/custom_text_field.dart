@@ -1,8 +1,6 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
@@ -11,11 +9,11 @@ import 'package:law_app/features/shared/widgets/svg_asset.dart';
 class CustomTextField extends StatefulWidget {
   final String name;
   final String label;
+  final String? initialValue;
   final TextInputType? textInputType;
   final TextInputAction? textInputAction;
   final TextCapitalization textCapitalization;
   final String? hintText;
-  final String? initialValue;
   final bool hasPrefixIcon;
   final String? prefixIconName;
   final bool hasSuffixIcon;
@@ -27,11 +25,11 @@ class CustomTextField extends StatefulWidget {
     Key? key,
     required this.name,
     required this.label,
+    this.initialValue,
     this.textInputType,
     this.textInputAction,
     this.textCapitalization = TextCapitalization.none,
     this.hintText,
-    this.initialValue,
     this.hasPrefixIcon = true,
     this.prefixIconName,
     this.hasSuffixIcon = true,
@@ -86,6 +84,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   FormBuilderTextField buildCustomTextField() {
     return FormBuilderTextField(
       name: widget.name,
+      initialValue: widget.initialValue,
       keyboardType: widget.textInputType,
       textInputAction: widget.textInputAction,
       textCapitalization: widget.textCapitalization,
@@ -96,7 +95,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
         prefixIcon: buildPrefixIcon(),
         suffixIcon: buildSuffixIcon(),
       ),
-      initialValue: widget.initialValue,
       validator: widget.validators != null
           ? FormBuilderValidators.compose(widget.validators!)
           : null,

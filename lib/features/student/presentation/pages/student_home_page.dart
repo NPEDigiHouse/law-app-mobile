@@ -5,12 +5,13 @@ import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
-import 'package:law_app/features/shared/widgets/course_item_card.dart';
+import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/dashboard.dart';
 import 'package:law_app/features/shared/widgets/home_page_discussion_card.dart';
 // import 'package:law_app/dummies_data.dart';
 // import 'package:law_app/features/shared/widgets/book_item.dart';
 import 'package:law_app/features/shared/widgets/home_page_header.dart';
+import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class StudentHomePage extends StatefulWidget {
   const StudentHomePage({super.key});
@@ -111,15 +112,6 @@ class _StudentHomePageState extends State<StudentHomePage> {
         "rating": 3.5,
       },
     ];
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-
-    carouselItems;
-    homePageDiscussionItems;
-    courseItems;
   }
 
   @override

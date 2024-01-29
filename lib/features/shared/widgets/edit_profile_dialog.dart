@@ -156,7 +156,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                       initialValue: user.phone,
                       hasPrefixIcon: false,
                       hasSuffixIcon: false,
-                      textInputType: TextInputType.numberWithOptions(),
+                      textInputType: TextInputType.number,
                       textInputAction: TextInputAction.none,
                       validators: [
                         FormBuilderValidators.required(
@@ -185,7 +185,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                         backgroundColor: secondaryColor,
                         foregroundColor: primaryColor,
                       ),
-                      child: Text('Kembali'),
+                      child: const Text('Kembali'),
                     ),
                   ),
                   const SizedBox(width: 8),
@@ -195,7 +195,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                       style: FilledButton.styleFrom(
                         padding: const EdgeInsets.all(0),
                       ),
-                      child: Text('Konfirmasi'),
+                      child: const Text('Konfirmasi'),
                     ),
                   ),
                 ],

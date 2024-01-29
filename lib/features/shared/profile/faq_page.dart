@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'dart:math' as math;
+import 'package:flutter/material.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';

@@ -106,7 +106,7 @@ const books = [
     completePercentage: 50,
   ),
   Book(
-    title: 'Omnibus Law (Teori dan Penerapannya)',
+    title: 'Omnibus Law',
     author: 'Rio Christiawan',
     image: 'sample-book-cover.jpg',
   ),

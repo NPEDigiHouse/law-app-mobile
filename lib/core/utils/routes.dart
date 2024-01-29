@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:law_app/features/admin/presentation/pages/admin_home_page.dart';
 import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/admin/presentation/pages/admin_home_page.dart';
 import 'package:law_app/features/auth/presentation/pages/forgot_password_page.dart';
 import 'package:law_app/features/auth/presentation/pages/login_page.dart';
 import 'package:law_app/features/auth/presentation/pages/otp_page.dart';
 import 'package:law_app/features/auth/presentation/pages/register_page.dart';
-import 'package:law_app/features/shared/notification/notification_page.dart';
-import 'package:law_app/features/shared/profile/profile_page.dart';
 import 'package:law_app/features/auth/presentation/pages/reset_password_page.dart';
 import 'package:law_app/features/common/menu/main_menu_page.dart';
-import 'package:law_app/features/student/presentation/pages/student_home_page.dart';
-import 'package:law_app/features/teacher/presentation/pages/teacher_home_page.dart';
 import 'package:law_app/features/shared/glossary/presentation/pages/glossary_detail_page.dart';
 import 'package:law_app/features/shared/glossary/presentation/pages/glossary_search_page.dart';
+import 'package:law_app/features/shared/notification/notification_page.dart';
+import 'package:law_app/features/shared/profile/profile_page.dart';
+import 'package:law_app/features/student/presentation/pages/student_home_page.dart';
+import 'package:law_app/features/teacher/presentation/pages/teacher_home_page.dart';
 
 // Register the RouteObserver as a navigation observer
 final routeObserver = RouteObserver<ModalRoute<void>>();
@@ -63,7 +63,7 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       final roleId = settings.arguments as int;
 
       return MaterialPageRoute(
-        builder: (_) => ProfilePage(roleId: roleId,),
+        builder: (_) => ProfilePage(roleId: roleId),
       );
     case notificationRoute:
       return MaterialPageRoute(

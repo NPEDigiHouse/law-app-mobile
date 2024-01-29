@@ -147,7 +147,7 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
                         backgroundColor: secondaryColor,
                         foregroundColor: primaryColor,
                       ),
-                      child: Text('Kembali'),
+                      child: const Text('Kembali'),
                     ),
                   ),
                   const SizedBox(width: 8),
@@ -157,7 +157,7 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
                       style: FilledButton.styleFrom(
                         padding: const EdgeInsets.all(0),
                       ),
-                      child: Text('Konfirmasi'),
+                      child: const Text('Konfirmasi'),
                     ),
                   ),
                 ],
