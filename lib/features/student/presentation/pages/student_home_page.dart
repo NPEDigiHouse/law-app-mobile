@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/core/utils/routes.dart';
+import 'package:law_app/features/shared/widgets/course_item_card.dart';
+import 'package:law_app/features/shared/widgets/dashboard.dart';
+import 'package:law_app/features/shared/widgets/home_page_discussion_card.dart';
 // import 'package:law_app/dummies_data.dart';
 // import 'package:law_app/features/shared/widgets/book_item.dart';
 import 'package:law_app/features/shared/widgets/home_page_header.dart';
-import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class StudentHomePage extends StatefulWidget {
   const StudentHomePage({super.key});
@@ -20,6 +24,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
   late final List carouselItems;
   late final List homePageDiscussionItems;
   late final List courseItems;
+  late final List profileMenuItems;
 
   @override
   void initState() {
@@ -87,7 +92,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
         "completionTime": 48.8,
         "isActive": true,
         "totalStudent": 100,
-        "rating": 4.5,
+        "rating": 5.0,
       },
       {
         "img": "sample-course-image.jpg",
@@ -95,7 +100,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
         "completionTime": 48.8,
         "isActive": false,
         "totalStudent": 150,
-        "rating": 3,
+        "rating": 0.0,
       },
       {
         "img": "sample-course-image.jpg",
@@ -124,7 +129,17 @@ class _StudentHomePageState extends State<StudentHomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            HomePageHeader(dashboardItem: dashboardItems),
+            HomePageHeader(
+              isAdmin: false,
+              isProfile: false,
+              child: Dashboard(dashboardItem: dashboardItems),
+              onPressedProfileIcon: () {
+                navigatorKey.currentState!.pushNamed(
+                  profileRoute,
+                  arguments: user.roleId,
+                );
+              },
+            ),
             const SizedBox(
               height: 100.0,
             ),
@@ -168,7 +183,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
                           top: index == 0 ? 0.0 : 4.0,
                           bottom: index == 2 ? 0.0 : 4.0,
                         ),
-                        child: HomepageDiscussioinCard(
+                        child: HomePageDiscussioinCard(
                             discussionItem: homePageDiscussionItems[index]),
                       );
                     },

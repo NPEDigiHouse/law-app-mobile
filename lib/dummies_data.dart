@@ -2,14 +2,20 @@
 class User {
   final String username;
   final String password;
+  final String fullName;
   final String email;
+  final String dateOfBirth;
+  final String phone;
   final int otp;
   final int roleId;
 
   const User({
     required this.username,
     required this.password,
+    required this.fullName,
     required this.email,
+    required this.dateOfBirth,
+    required this.phone,
     required this.otp,
     required this.roleId,
   });
@@ -18,9 +24,12 @@ class User {
 const user = User(
   username: 'test',
   password: 'test',
+  fullName: 'testing',
   email: 'test@gmail.com',
+  dateOfBirth: '21 Mei 2001',
+  phone: '0897182974',
   otp: 1234,
-  roleId: 1,
+  roleId: 2,
 );
 
 //! Glossary
