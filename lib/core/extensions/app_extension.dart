@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/widget_utils.dart';
+import 'package:law_app/features/shared/widgets/change_password_dialog.dart';
 import 'package:law_app/features/shared/widgets/confirm_dialog.dart';
+import 'package:law_app/features/shared/widgets/edit_profile_dialog.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 
 extension Capitalize on String {
@@ -67,6 +69,20 @@ extension DialogExtension on BuildContext {
         primaryButtonText: primaryButtonText,
         secondaryButtonText: secondaryButtonText,
       ),
+    );
+  }
+
+  Future<Object?> showEditProfileDialog() {
+    return showDialog(
+      context: this,
+      builder: (_) => EditProfileDialog(),
+    );
+  }
+
+  Future<Object?> showChangePasswordDialog() {
+    return showDialog(
+      context: this,
+      builder: (_) => ChangePasswordDialog(),
     );
   }
 }

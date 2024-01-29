@@ -197,14 +197,15 @@ class AccountInformationPage extends StatelessWidget {
                 height: 12.0,
               ),
               FilledButton(
-                onPressed: () {},
+                onPressed: () => context.showChangePasswordDialog(),
                 style: FilledButton.styleFrom(
                     backgroundColor: secondaryColor,
                     foregroundColor: primaryColor),
                 child: const Text("Ubah Kata Sandi"),
               ).fullWidth(),
               FilledButton(
-                onPressed: () {},
+                onPressed: () => context.showEditProfileDialog()
+                ,
                 child: const Text("Ubah Data"),
               ).fullWidth(),
             ],
