@@ -133,9 +133,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
               height: 24.0,
             ),
             Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20.0,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: [
                   Row(
@@ -182,9 +180,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
               height: 32.0,
             ),
             Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20.0,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: [
                   Row(
@@ -243,9 +239,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
               height: 24.0,
             ),
             Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20.0,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: [
                   Row(
@@ -443,7 +437,9 @@ class CourseItemCard extends StatelessWidget {
                     ),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 8.0, vertical: 2.0),
+                        horizontal: 8.0,
+                        vertical: 2.0,
+                      ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(6.0),
                         border: Border.all(color: infoColor),

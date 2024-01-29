@@ -33,17 +33,19 @@ class BookCard extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(4),
-                  child: Image.asset(
-                    AssetPath.getImage(book.image),
-                    fit: BoxFit.fill,
-                    width: 64,
-                    height: 88,
+                Expanded(
+                  flex: 1,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(4),
+                    child: Image.asset(
+                      AssetPath.getImage(book.image),
+                      fit: BoxFit.fill,
+                    ),
                   ),
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(width: 12),
                 Expanded(
+                  flex: 3,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -78,12 +80,23 @@ class BookCard extends StatelessWidget {
                           ),
                         ),
                       ] else ...[
-                        const SizedBox(height: 6),
-                        Text(
-                          '*Belum dibaca',
-                          style: textTheme.bodySmall!.copyWith(
-                            fontWeight: FontWeight.w700,
-                            color: primaryColor,
+                        const SizedBox(height: 4),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 2,
+                            horizontal: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4),
+                            border: Border.all(
+                              color: infoColor,
+                            ),
+                          ),
+                          child: Text(
+                            'Belum Dibaca',
+                            style: textTheme.labelSmall!.copyWith(
+                              color: infoColor,
+                            ),
                           ),
                         ),
                       ],

@@ -117,7 +117,7 @@ class _LibraryHomePageState extends State<LibraryHomePage> {
             SizedBox(
               height: 120,
               child: ListView.separated(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 4),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
                   return SizedBox(
@@ -131,11 +131,11 @@ class _LibraryHomePageState extends State<LibraryHomePage> {
                 separatorBuilder: (context, index) {
                   return const SizedBox(width: 12);
                 },
-                itemCount: 3,
+                itemCount: books.length,
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
+              padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
               child: Text(
                 'Buku Populer',
                 style: textTheme.titleLarge,
@@ -144,11 +144,11 @@ class _LibraryHomePageState extends State<LibraryHomePage> {
             SizedBox(
               height: 200,
               child: ListView.separated(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
                   return BookItem(
-                    width: 120,
+                    width: 130,
                     book: books[index],
                     onTap: () {},
                   );
@@ -160,14 +160,14 @@ class _LibraryHomePageState extends State<LibraryHomePage> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
+              padding: const EdgeInsets.fromLTRB(20, 12, 20, 8),
               child: Text(
                 'Daftar Buku',
                 style: textTheme.titleLarge,
               ),
             ),
             SizedBox(
-              height: 40,
+              height: 36,
               child: ListView.separated(
                 padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                 scrollDirection: Axis.horizontal,
