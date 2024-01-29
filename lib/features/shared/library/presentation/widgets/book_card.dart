@@ -7,13 +7,11 @@ import 'package:law_app/dummies_data.dart';
 
 class BookCard extends StatelessWidget {
   final Book book;
-  final double? completePercentage;
   final VoidCallback? onTap;
 
   const BookCard({
     super.key,
     required this.book,
-    this.completePercentage,
     this.onTap,
   });
 
@@ -24,8 +22,9 @@ class BookCard extends StatelessWidget {
       margin: EdgeInsets.zero,
       color: scaffoldBackgroundColor,
       surfaceTintColor: scaffoldBackgroundColor,
+      shadowColor: Colors.black.withOpacity(.2),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Stack(
         children: [
@@ -35,10 +34,10 @@ class BookCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(6),
+                  borderRadius: BorderRadius.circular(4),
                   child: Image.asset(
                     AssetPath.getImage(book.image),
-                    fit: BoxFit.cover,
+                    fit: BoxFit.fill,
                     width: 64,
                     height: 88,
                   ),
@@ -63,21 +62,23 @@ class BookCard extends StatelessWidget {
                           color: secondaryTextColor,
                         ),
                       ),
-                      const SizedBox(height: 6),
-                      if (completePercentage != null)
+                      if (book.completePercentage != null) ...[
+                        const Spacer(),
                         LinearPercentIndicator(
-                          lineHeight: 6,
-                          barRadius: const Radius.circular(6),
+                          lineHeight: 8,
+                          barRadius: const Radius.circular(8),
+                          padding: const EdgeInsets.only(right: 8),
                           animation: true,
-                          animationDuration: 1000,
                           curve: Curves.easeIn,
-                          padding: EdgeInsets.zero,
-                          percent: completePercentage! / 100,
+                          percent: book.completePercentage! / 100,
                           progressColor: successColor,
                           backgroundColor: secondaryTextColor,
-                          trailing: Text('$completePercentage%'),
-                        )
-                      else
+                          trailing: Text(
+                            '${book.completePercentage!.toInt()}%',
+                          ),
+                        ),
+                      ] else ...[
+                        const SizedBox(height: 6),
                         Text(
                           '*Belum dibaca',
                           style: textTheme.bodySmall!.copyWith(
@@ -85,6 +86,7 @@ class BookCard extends StatelessWidget {
                             color: primaryColor,
                           ),
                         ),
+                      ],
                     ],
                   ),
                 ),
@@ -95,7 +97,7 @@ class BookCard extends StatelessWidget {
             child: Material(
               color: Colors.transparent,
               child: InkWell(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(8),
                 onTap: onTap,
               ),
             ),

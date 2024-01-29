@@ -67,11 +67,13 @@ class Book {
   final String title;
   final String author;
   final String image;
+  final double? completePercentage;
 
   const Book({
     required this.title,
     required this.author,
     required this.image,
+    this.completePercentage,
   });
 }
 
@@ -80,16 +82,19 @@ const books = [
     title: 'Cyber Bullying: Hak-hak Digital Right on Online Safety',
     author: 'Sayid Muhammad Rifqi Noval',
     image: 'sample-book-cover.jpg',
+    completePercentage: 64,
   ),
   Book(
     title: 'Hukum Pidana Internasional',
     author: 'Diajeng Wulan Christianti',
     image: 'sample-book-cover.jpg',
+    completePercentage: 90,
   ),
   Book(
     title: 'What Would Your Lawyer Say?',
     author: 'Michael Sugijanto',
     image: 'sample-book-cover.jpg',
+    completePercentage: 50,
   ),
   Book(
     title: 'Omnibus Law (Teori dan Penerapannya)',

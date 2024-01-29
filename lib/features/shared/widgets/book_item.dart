@@ -2,59 +2,88 @@ import 'package:flutter/material.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/dummies_data.dart';
 
 class BookItem extends StatelessWidget {
-  final Map book;
+  final Book book;
+  final double? width;
+  final double? height;
+  final VoidCallback? onTap;
 
   const BookItem({
-    Key? key,
+    super.key,
     required this.book,
-  }) : super(key: key);
+    this.width,
+    this.height,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: width,
+      height: height,
       clipBehavior: Clip.antiAlias,
-      width: 140,
       decoration: BoxDecoration(
         color: scaffoldBackgroundColor,
-        borderRadius: BorderRadius.circular(12.0),
+        borderRadius: BorderRadius.circular(8),
         image: DecorationImage(
-          fit: BoxFit.cover,
           image: AssetImage(
-            AssetPath.getImage(book["img"]),
+            AssetPath.getImage(book.image),
           ),
+          fit: BoxFit.fill,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(.2),
-            offset: const Offset(2.0, 2.0),
-            blurRadius: 4.0,
-          )
+            color: Colors.black.withOpacity(.1),
+            offset: const Offset(2, 2),
+            blurRadius: 2,
+            spreadRadius: -1,
+          ),
         ],
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.center,
+      child: Stack(
         children: [
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(12.0),
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                  colors: GradientColors.redPastel,
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight),
-            ),
-            child: Center(
-              child: Text(
-                book["title"],
-                textAlign: TextAlign.center,
-                style: textTheme.bodySmall!.copyWith(
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: GradientColors.redPastel,
+                    begin: Alignment.bottomRight,
+                    end: Alignment.topLeft,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(.2),
+                      offset: const Offset(0, -2),
+                      blurRadius: 8,
+                    ),
+                  ],
+                ),
+                child: Text(
+                  book.title,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: textTheme.bodySmall!.copyWith(
+                    fontWeight: FontWeight.w500,
                     color: scaffoldBackgroundColor,
-                    fontWeight: FontWeight.w700),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Positioned.fill(
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(8),
+                onTap: onTap,
               ),
             ),
           ),

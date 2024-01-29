@@ -3,6 +3,7 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/library/presentation/widgets/book_card.dart';
+import 'package:law_app/features/shared/widgets/book_item.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 
@@ -82,12 +83,40 @@ class LibraryHomePage extends StatelessWidget {
             SizedBox(
               height: 120,
               child: ListView.separated(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
                   return SizedBox(
                     width: 300,
-                    child: BookCard(book: books[index]),
+                    child: BookCard(
+                      book: books[index],
+                      onTap: () {},
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return const SizedBox(width: 12);
+                },
+                itemCount: 3,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
+              child: Text(
+                'Buku Populer',
+                style: textTheme.titleLarge,
+              ),
+            ),
+            SizedBox(
+              height: 200,
+              child: ListView.separated(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return BookItem(
+                    width: 120,
+                    book: books[index],
+                    onTap: () {},
                   );
                 },
                 separatorBuilder: (context, index) {
@@ -97,14 +126,7 @@ class LibraryHomePage extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 4, 20, 8),
-              child: Text(
-                'Buku Populer',
-                style: textTheme.titleLarge,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 4, 20, 8),
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
               child: Text(
                 'Daftar Buku',
                 style: textTheme.titleLarge,
