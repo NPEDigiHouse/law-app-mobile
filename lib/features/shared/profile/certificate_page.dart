@@ -36,8 +36,8 @@ class CertificatePage extends StatelessWidget {
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(96),
         child: HeaderContainer(
-          withBackButton: true,
           title: 'Sertifikat',
+          withBackButton: true,
         ),
       ),
       body: SingleChildScrollView(

@@ -24,13 +24,14 @@ class BookCategoryChip extends StatelessWidget {
       padding: EdgeInsets.zero,
       labelPadding: const EdgeInsets.symmetric(horizontal: 16),
       labelStyle: textTheme.bodySmall!.copyWith(
+        letterSpacing: 0,
         color: selected ? primaryColor : primaryTextColor,
       ),
       side: selected
           ? const BorderSide(color: primaryColor)
           : const BorderSide(color: secondaryTextColor),
       selectedColor: secondaryColor,
-      backgroundColor: Colors.transparent,
+      backgroundColor: scaffoldBackgroundColor,
       clipBehavior: Clip.antiAlias,
     );
   }

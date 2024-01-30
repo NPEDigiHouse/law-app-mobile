@@ -59,7 +59,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                       assetPath: AssetPath.getIcon('close-line.svg'),
                       width: 20,
                     ),
-                    tooltip: 'Back',
+                    tooltip: 'Kembali',
                   ),
                 ),
               ],

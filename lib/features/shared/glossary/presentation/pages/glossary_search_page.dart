@@ -123,7 +123,7 @@ class _GlossarySearchPageState extends State<GlossarySearchPage> {
 
     EasyDebounce.debounce(
       'search-debouncer',
-      const Duration(milliseconds: 750),
+      const Duration(milliseconds: 800),
       () {
         final result = glossaries.where((glossary) {
           final valueLower = query.toLowerCase();

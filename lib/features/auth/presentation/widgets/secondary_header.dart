@@ -48,7 +48,7 @@ class SecondaryHeader extends StatelessWidget {
                       color: primaryColor,
                       width: 24,
                     ),
-                    tooltip: 'Back',
+                    tooltip: 'Kembali',
                   ),
                 ),
               ),

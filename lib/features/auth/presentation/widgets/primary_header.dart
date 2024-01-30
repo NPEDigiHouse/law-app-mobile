@@ -62,7 +62,7 @@ class PrimaryHeader extends StatelessWidget {
                           color: primaryColor,
                           width: 24,
                         ),
-                        tooltip: 'Back',
+                        tooltip: 'Kembali',
                       ),
                     ),
                     const SizedBox(height: 24),

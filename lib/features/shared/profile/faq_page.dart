@@ -43,8 +43,8 @@ class FAQPage extends StatelessWidget {
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(96),
         child: HeaderContainer(
-          withBackButton: true,
           title: 'FAQ',
+          withBackButton: true,
         ),
       ),
       body: SingleChildScrollView(

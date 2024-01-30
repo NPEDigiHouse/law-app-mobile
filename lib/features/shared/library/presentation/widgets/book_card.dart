@@ -22,7 +22,7 @@ class BookCard extends StatelessWidget {
       margin: EdgeInsets.zero,
       color: scaffoldBackgroundColor,
       surfaceTintColor: scaffoldBackgroundColor,
-      shadowColor: Colors.black.withOpacity(.2),
+      shadowColor: Colors.black.withOpacity(.3),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
       ),
@@ -36,10 +36,13 @@ class BookCard extends StatelessWidget {
                 Expanded(
                   flex: 1,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(4),
-                    child: Image.asset(
-                      AssetPath.getImage(book.image),
-                      fit: BoxFit.fill,
+                    borderRadius: BorderRadius.circular(6),
+                    child: AspectRatio(
+                      aspectRatio: 2 / 3,
+                      child: Image.asset(
+                        AssetPath.getImage(book.image),
+                        fit: BoxFit.fill,
+                      ),
                     ),
                   ),
                 ),
@@ -64,8 +67,8 @@ class BookCard extends StatelessWidget {
                           color: secondaryTextColor,
                         ),
                       ),
-                      if (book.completePercentage != null) ...[
-                        const Spacer(),
+                      const SizedBox(height: 4),
+                      if (book.completePercentage != null)
                         LinearPercentIndicator(
                           lineHeight: 8,
                           barRadius: const Radius.circular(8),
@@ -78,9 +81,8 @@ class BookCard extends StatelessWidget {
                           trailing: Text(
                             '${book.completePercentage!.toInt()}%',
                           ),
-                        ),
-                      ] else ...[
-                        const SizedBox(height: 4),
+                        )
+                      else
                         Container(
                           padding: const EdgeInsets.symmetric(
                             vertical: 2,
@@ -99,7 +101,6 @@ class BookCard extends StatelessWidget {
                             ),
                           ),
                         ),
-                      ],
                     ],
                   ),
                 ),

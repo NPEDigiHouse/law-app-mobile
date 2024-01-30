@@ -72,7 +72,7 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
                       assetPath: AssetPath.getIcon('close-line.svg'),
                       width: 20,
                     ),
-                    tooltip: 'Back',
+                    tooltip: 'Kembali',
                   ),
                 ),
               ],
