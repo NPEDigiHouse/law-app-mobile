@@ -8,9 +8,9 @@ import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/auth/presentation/widgets/custom_text_field.dart';
-import 'package:law_app/features/auth/presentation/widgets/password_text_field.dart';
 import 'package:law_app/features/auth/presentation/widgets/primary_header.dart';
+import 'package:law_app/features/shared/widgets/text_field/custom_text_field.dart';
+import 'package:law_app/features/shared/widgets/text_field/password_text_field.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});

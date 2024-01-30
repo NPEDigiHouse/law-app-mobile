@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/widget_utils.dart';
-import 'package:law_app/features/shared/widgets/change_password_dialog.dart';
-import 'package:law_app/features/shared/widgets/confirm_dialog.dart';
-import 'package:law_app/features/shared/widgets/edit_profile_dialog.dart';
+import 'package:law_app/features/shared/widgets/dialog/change_password_dialog.dart';
+import 'package:law_app/features/shared/widgets/dialog/confirm_dialog.dart';
+import 'package:law_app/features/shared/widgets/dialog/edit_profile_dialog.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 
 extension Capitalize on String {

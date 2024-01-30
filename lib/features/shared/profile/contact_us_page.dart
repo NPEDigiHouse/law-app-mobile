@@ -70,7 +70,7 @@ class ContactUsPage extends StatelessWidget {
                           BoxShadow(
                             color: Colors.black.withOpacity(.2),
                             offset: const Offset(2, 2),
-                            blurRadius: 4.0,
+                            blurRadius: 4,
                           )
                         ],
                       ),

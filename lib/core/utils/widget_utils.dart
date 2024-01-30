@@ -18,7 +18,7 @@ class WidgetUtils {
       elevation: 0,
       dividerColor: Colors.transparent,
       backgroundColor: type.backgroundColor,
-      leadingPadding: const EdgeInsetsDirectional.only(end: 10.0),
+      leadingPadding: const EdgeInsetsDirectional.only(end: 10),
       content: Text(
         message,
         style: TextStyle(

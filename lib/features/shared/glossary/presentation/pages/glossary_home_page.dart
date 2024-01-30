@@ -5,7 +5,7 @@ import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
-import 'package:law_app/features/shared/widgets/search_field.dart';
+import 'package:law_app/features/shared/widgets/text_field/search_field.dart';
 
 class GlossaryHomePage extends StatelessWidget {
   const GlossaryHomePage({super.key});
