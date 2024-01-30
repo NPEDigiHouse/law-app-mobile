@@ -6,6 +6,7 @@ import 'package:law_app/dummies_data.dart';
 
 class BookItem extends StatelessWidget {
   final Book book;
+  final int titleMaxLines;
   final double? width;
   final double? height;
   final VoidCallback? onTap;
@@ -13,6 +14,7 @@ class BookItem extends StatelessWidget {
   const BookItem({
     super.key,
     required this.book,
+    this.titleMaxLines = 1,
     this.width,
     this.height,
     this.onTap,
@@ -66,12 +68,11 @@ class BookItem extends StatelessWidget {
                   ],
                 ),
                 child: Text(
-                  book.title,
+                  '${book.title}\n',
                   textAlign: TextAlign.center,
-                  maxLines: 2,
+                  maxLines: titleMaxLines,
                   overflow: TextOverflow.ellipsis,
                   style: textTheme.bodySmall!.copyWith(
-                    fontWeight: FontWeight.w500,
                     color: scaffoldBackgroundColor,
                   ),
                 ),

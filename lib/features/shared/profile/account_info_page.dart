@@ -38,8 +38,8 @@ class AccountInfoPage extends StatelessWidget {
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(96),
         child: HeaderContainer(
-          withBackButton: true,
           title: 'Informasi Akun',
+          withBackButton: true,
         ),
       ),
       body: SingleChildScrollView(

@@ -11,6 +11,9 @@ import 'package:law_app/features/common/menu/main_menu_page.dart';
 import 'package:law_app/features/common/notification/notification_page.dart';
 import 'package:law_app/features/shared/glossary/presentation/pages/glossary_detail_page.dart';
 import 'package:law_app/features/shared/glossary/presentation/pages/glossary_search_page.dart';
+import 'package:law_app/features/shared/library/presentation/pages/library_book_list_page.dart';
+import 'package:law_app/features/shared/library/presentation/pages/library_finished_book_page.dart';
+import 'package:law_app/features/shared/library/presentation/pages/library_saved_book_page.dart';
 import 'package:law_app/features/shared/profile/account_info_page.dart';
 import 'package:law_app/features/shared/profile/certificate_page.dart';
 import 'package:law_app/features/shared/profile/contact_us_page.dart';
@@ -35,7 +38,6 @@ const accountInfoRoute = '/profile/account-info';
 const faqRoute = '/profile/faq';
 const contactUsRoute = '/profile/contact-us';
 const certificateRoute = '/profile/certificate';
-
 const notificationRoute = '/notification';
 const adDetailRoute = '/ad-detail';
 
@@ -45,6 +47,11 @@ const adminHomeRoute = '/admin-home';
 
 const glossarySearchRoute = '/glossary-search';
 const glossaryDetailRoute = '/glossary-detail';
+
+const libraryBookListRoute = '/library-book-list';
+const libraryFinishedBookRoute = '/library-finished-book';
+const librarySavedBookRoute = '/library-saved-book';
+const librarySearchRoute = '/library-search';
 
 // App routes generator
 Route<dynamic>? generateAppRoutes(RouteSettings settings) {
@@ -121,7 +128,6 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => const AdminHomePage(),
       );
-
     case glossarySearchRoute:
       return PageRouteBuilder(
         pageBuilder: (_, __, ___) => const GlossarySearchPage(),
@@ -133,6 +139,18 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
 
       return MaterialPageRoute(
         builder: (_) => GlossaryDetailPage(glossary: glossary),
+      );
+    case libraryBookListRoute:
+      return MaterialPageRoute(
+        builder: (_) => const LibraryBookListPage(),
+      );
+    case libraryFinishedBookRoute:
+      return MaterialPageRoute(
+        builder: (_) => const LibraryFinishedBookPage(),
+      );
+    case librarySavedBookRoute:
+      return MaterialPageRoute(
+        builder: (_) => const LibrarySavedBookPage(),
       );
     default:
       return null;

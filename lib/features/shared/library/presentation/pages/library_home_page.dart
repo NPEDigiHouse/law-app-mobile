@@ -3,46 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/library/presentation/widgets/book_card.dart';
-import 'package:law_app/features/shared/library/presentation/widgets/book_category_chip.dart';
 import 'package:law_app/features/shared/widgets/book_item.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
-class LibraryHomePage extends StatefulWidget {
+class LibraryHomePage extends StatelessWidget {
   const LibraryHomePage({super.key});
-
-  @override
-  State<LibraryHomePage> createState() => _LibraryHomePageState();
-}
-
-class _LibraryHomePageState extends State<LibraryHomePage> {
-  late final List<String> bookCategories;
-  late final ValueNotifier<String> selectedCategory;
-
-  @override
-  void initState() {
-    super.initState();
-
-    bookCategories = [
-      'Semua',
-      'Pidana',
-      'Tata Negara',
-      'Syariah',
-      'Lainnya',
-    ];
-
-    selectedCategory = ValueNotifier(bookCategories[0]);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-
-    selectedCategory.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +43,11 @@ class _LibraryHomePageState extends State<LibraryHomePage> {
                         color: scaffoldBackgroundColor,
                         size: 28,
                         tooltip: 'Diselesaikan',
-                        onPressed: () {},
+                        onPressed: () {
+                          navigatorKey.currentState!.pushNamed(
+                            libraryFinishedBookRoute,
+                          );
+                        },
                       ),
                       CustomIconButton(
                         iconName: 'bookmark-solid.svg',
@@ -104,11 +79,15 @@ class _LibraryHomePageState extends State<LibraryHomePage> {
         ),
       ),
       body: SingleChildScrollView(
+        padding: const EdgeInsets.only(
+          top: 20,
+          bottom: 24,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 24, 20, 8),
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
               child: Text(
                 'Lanjutkan Membaca',
                 style: textTheme.titleLarge,
@@ -131,11 +110,14 @@ class _LibraryHomePageState extends State<LibraryHomePage> {
                 separatorBuilder: (context, index) {
                   return const SizedBox(width: 12);
                 },
-                itemCount: books.length,
+                itemCount: 3,
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
+              padding: const EdgeInsets.symmetric(
+                vertical: 8,
+                horizontal: 20,
+              ),
               child: Text(
                 'Buku Populer',
                 style: textTheme.titleLarge,
@@ -144,12 +126,13 @@ class _LibraryHomePageState extends State<LibraryHomePage> {
             SizedBox(
               height: 200,
               child: ListView.separated(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 4),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
                   return BookItem(
                     width: 130,
                     book: books[index],
+                    titleMaxLines: 2,
                     onTap: () {},
                   );
                 },
@@ -160,37 +143,13 @@ class _LibraryHomePageState extends State<LibraryHomePage> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 12, 20, 8),
+              padding: const EdgeInsets.symmetric(
+                vertical: 8,
+                horizontal: 20,
+              ),
               child: Text(
                 'Daftar Buku',
                 style: textTheme.titleLarge,
-              ),
-            ),
-            SizedBox(
-              height: 36,
-              child: ListView.separated(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return ValueListenableBuilder(
-                    valueListenable: selectedCategory,
-                    builder: (context, category, child) {
-                      final selected = category == bookCategories[index];
-
-                      return BookCategoryChip(
-                        label: bookCategories[index],
-                        selected: selected,
-                        onSelected: (_) {
-                          selectedCategory.value = bookCategories[index];
-                        },
-                      );
-                    },
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return const SizedBox(width: 8);
-                },
-                itemCount: bookCategories.length,
               ),
             ),
             GridView.count(
@@ -198,9 +157,9 @@ class _LibraryHomePageState extends State<LibraryHomePage> {
               shrinkWrap: true,
               childAspectRatio: 2 / 3,
               crossAxisCount: 3,
-              mainAxisSpacing: 10,
+              mainAxisSpacing: 12,
               crossAxisSpacing: 10,
-              padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               children: List<Widget>.generate(
                 books.length,
                 (index) => BookItem(
@@ -212,14 +171,15 @@ class _LibraryHomePageState extends State<LibraryHomePage> {
                     borderType: BorderType.RRect,
                     strokeCap: StrokeCap.round,
                     radius: const Radius.circular(8),
-                    color: primaryColor,
                     dashPattern: const [4, 4],
+                    color: primaryColor,
                     child: GestureDetector(
-                      onTap: () => debugPrint('test'),
+                      onTap: () => navigatorKey.currentState!.pushNamed(
+                        libraryBookListRoute,
+                      ),
                       child: Center(
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
                               'Lihat lebih lengkap',

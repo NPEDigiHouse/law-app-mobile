@@ -60,7 +60,7 @@ class ConfirmDialog extends StatelessWidget {
                     assetPath: AssetPath.getIcon('close-line.svg'),
                     width: 20,
                   ),
-                  tooltip: 'Back',
+                  tooltip: 'Kembali',
                 ),
               ),
             ],

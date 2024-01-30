@@ -29,7 +29,7 @@ class _MainMenuPageState extends State<MainMenuPage> {
 
     selectedIndex = ValueNotifier(0);
     pageController = PageController();
-    pages = widget.roleId == 2
+    pages = widget.roleId == 1
         ? [
             const StudentHomePage(),
             const StudentDiscussionPage(),

@@ -29,7 +29,7 @@ const user = User(
   dateOfBirth: '21 Mei 2001',
   phone: '0897182974',
   otp: 1234,
-  roleId: 2,
+  roleId: 1,
 );
 
 //! Glossary
@@ -91,19 +91,19 @@ const books = [
     title: 'Cyber Bullying: Hak-hak Digital Right on Online Safety',
     author: 'Sayid Muhammad Rifqi Noval',
     image: 'sample-book-cover.jpg',
-    completePercentage: 64,
+    completePercentage: 62,
   ),
   Book(
     title: 'Hukum Pidana Internasional',
     author: 'Diajeng Wulan Christianti',
     image: 'sample-book-cover.jpg',
-    completePercentage: 90,
+    completePercentage: 80,
   ),
   Book(
     title: 'What Would Your Lawyer Say?',
     author: 'Michael Sugijanto',
     image: 'sample-book-cover.jpg',
-    completePercentage: 50,
+    completePercentage: 34,
   ),
   Book(
     title: 'Omnibus Law',
@@ -111,9 +111,25 @@ const books = [
     image: 'sample-book-cover.jpg',
   ),
   Book(
-    title:
-        'Filsafat Keadilan: Biological Justice dan Praktiknya dalam Putusan Hakim',
+    title: 'Filsafat Keadilan: Biological Justice dan Praktiknya',
     author: 'Amran Suadi',
+    image: 'sample-book-cover.jpg',
+    completePercentage: 100,
+  ),
+  Book(
+    title: 'Teknik Pembuatan Akta Badan Usaha di Era Digital',
+    author: 'H. Salim',
+    image: 'sample-book-cover.jpg',
+  ),
+  Book(
+    title: 'Matinya Kepakaran',
+    author: 'Tom Nichols',
+    image: 'sample-book-cover.jpg',
+    completePercentage: 100,
+  ),
+  Book(
+    title: 'Hukum Adat Indonesia',
+    author: 'Soerjono Soekanto',
     image: 'sample-book-cover.jpg',
   ),
 ];

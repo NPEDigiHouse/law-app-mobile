@@ -44,8 +44,8 @@ class NotificationPage extends StatelessWidget {
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(96),
         child: HeaderContainer(
-          withBackButton: true,
           title: 'Notifikasi',
+          withBackButton: true,
         ),
       ),
       body: SingleChildScrollView(
