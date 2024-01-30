@@ -14,11 +14,11 @@ import 'package:law_app/features/shared/glossary/presentation/pages/glossary_sea
 import 'package:law_app/features/shared/library/presentation/pages/library_book_list_page.dart';
 import 'package:law_app/features/shared/library/presentation/pages/library_finished_book_page.dart';
 import 'package:law_app/features/shared/library/presentation/pages/library_saved_book_page.dart';
-import 'package:law_app/features/shared/profile/account_info_page.dart';
-import 'package:law_app/features/shared/profile/certificate_page.dart';
-import 'package:law_app/features/shared/profile/contact_us_page.dart';
-import 'package:law_app/features/shared/profile/faq_page.dart';
-import 'package:law_app/features/shared/profile/profile_page.dart';
+import 'package:law_app/features/shared/profile/presentation/pages/account_info_page.dart';
+import 'package:law_app/features/shared/profile/presentation/pages/certificate_page.dart';
+import 'package:law_app/features/shared/profile/presentation/pages/contact_us_page.dart';
+import 'package:law_app/features/shared/profile/presentation/pages/faq_page.dart';
+import 'package:law_app/features/shared/profile/presentation/pages/profile_page.dart';
 import 'package:law_app/features/student/presentation/pages/student_home_page.dart';
 import 'package:law_app/features/teacher/presentation/pages/teacher_home_page.dart';
 
