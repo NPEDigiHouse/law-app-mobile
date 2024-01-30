@@ -14,6 +14,7 @@ import 'package:law_app/features/shared/glossary/presentation/pages/glossary_sea
 import 'package:law_app/features/shared/library/presentation/pages/library_book_list_page.dart';
 import 'package:law_app/features/shared/library/presentation/pages/library_finished_book_page.dart';
 import 'package:law_app/features/shared/library/presentation/pages/library_saved_book_page.dart';
+import 'package:law_app/features/shared/library/presentation/pages/library_search_page.dart';
 import 'package:law_app/features/shared/profile/presentation/pages/account_info_page.dart';
 import 'package:law_app/features/shared/profile/presentation/pages/certificate_page.dart';
 import 'package:law_app/features/shared/profile/presentation/pages/contact_us_page.dart';
@@ -151,6 +152,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
     case librarySavedBookRoute:
       return MaterialPageRoute(
         builder: (_) => const LibrarySavedBookPage(),
+      );
+    case librarySearchRoute:
+      return MaterialPageRoute(
+        builder: (_) => const LibrarySearchPage(),
       );
     default:
       return null;

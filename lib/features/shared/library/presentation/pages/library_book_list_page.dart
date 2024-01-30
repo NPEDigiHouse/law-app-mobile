@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
+import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/library/presentation/widgets/book_category_chip.dart';
 import 'package:law_app/features/shared/widgets/book_item.dart';
@@ -49,7 +51,9 @@ class _LibraryBookListPageState extends State<LibraryBookListPage> {
           withTrailingButton: true,
           trailingButtonIconName: 'search-line.svg',
           trailingButtonTooltip: 'Cari',
-          onPressedTrailingButton: () {},
+          onPressedTrailingButton: () => navigatorKey.currentState!.pushNamed(
+            librarySearchRoute,
+          ),
         ),
       ),
       body: Column(

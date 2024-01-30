@@ -38,7 +38,8 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                 textInputAction: TextInputAction.next,
                 validators: [
                   FormBuilderValidators.required(
-                      errorText: "Bagian ini harus diisi"),
+                    errorText: "Bagian ini harus diisi",
+                  ),
                   FormBuilderValidators.match(
                     r'^[a-zA-Z\s]*$',
                     errorText: "Nama tidak valid",
@@ -57,7 +58,8 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                 textInputAction: TextInputAction.next,
                 validators: [
                   FormBuilderValidators.required(
-                      errorText: "Bagian ini harus diisi"),
+                    errorText: "Bagian ini harus diisi",
+                  ),
                   FormBuilderValidators.match(
                     r'^(?=.*[a-zA-Z])\d*[a-zA-Z\d]*$',
                     errorText: "Username tidak valid",
@@ -76,7 +78,8 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                 textInputAction: TextInputAction.next,
                 validators: [
                   FormBuilderValidators.required(
-                      errorText: "Bagian ini harus diisi"),
+                    errorText: "Bagian ini harus diisi",
+                  ),
                   FormBuilderValidators.email(
                     errorText: "Email tidak valid",
                   )
@@ -93,7 +96,8 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                 textInputType: TextInputType.none,
                 validators: [
                   FormBuilderValidators.required(
-                      errorText: "Bagian ini harus diisi"),
+                    errorText: "Bagian ini harus diisi",
+                  ),
                 ],
                 onTap: showBirthDatePicker,
               ),
@@ -109,7 +113,8 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                 textInputAction: TextInputAction.none,
                 validators: [
                   FormBuilderValidators.required(
-                      errorText: "Bagian ini harus diisi"),
+                    errorText: "Bagian ini harus diisi",
+                  ),
                   FormBuilderValidators.integer(
                     errorText: 'No. HP tidak valid',
                   ),

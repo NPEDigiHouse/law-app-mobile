@@ -54,14 +54,22 @@ class LibraryHomePage extends StatelessWidget {
                         color: scaffoldBackgroundColor,
                         size: 28,
                         tooltip: 'Disimpan',
-                        onPressed: () {},
+                        onPressed: () {
+                          navigatorKey.currentState!.pushNamed(
+                            librarySavedBookRoute,
+                          );
+                        },
                       ),
                       CustomIconButton(
                         iconName: 'search-fill.svg',
                         color: scaffoldBackgroundColor,
                         size: 28,
                         tooltip: 'Cari',
-                        onPressed: () {},
+                        onPressed: () {
+                          navigatorKey.currentState!.pushNamed(
+                            librarySearchRoute,
+                          );
+                        },
                       ),
                     ],
                   ),

@@ -33,7 +33,7 @@ class LibraryFinishedBookPage extends StatelessWidget {
           );
         },
         separatorBuilder: (context, index) {
-          return const SizedBox(height: 12);
+          return const SizedBox(height: 10);
         },
         itemCount: completeBooks.length,
       ),

@@ -7,11 +7,13 @@ import 'package:law_app/dummies_data.dart';
 
 class BookCard extends StatelessWidget {
   final Book book;
+  final bool isThreeLine;
   final VoidCallback? onTap;
 
   const BookCard({
     super.key,
     required this.book,
+    this.isThreeLine = true,
     this.onTap,
   });
 
@@ -67,8 +69,8 @@ class BookCard extends StatelessWidget {
                           color: secondaryTextColor,
                         ),
                       ),
-                      const SizedBox(height: 4),
-                      if (book.completePercentage != null)
+                      const SizedBox(height: 6),
+                      if (isThreeLine && book.completePercentage != null)
                         LinearPercentIndicator(
                           lineHeight: 8,
                           barRadius: const Radius.circular(8),

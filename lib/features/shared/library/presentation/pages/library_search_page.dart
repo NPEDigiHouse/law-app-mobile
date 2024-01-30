@@ -2,30 +2,29 @@ import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
-import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/dummies_data.dart';
-import 'package:law_app/features/shared/glossary/presentation/widgets/search_empty_text.dart';
+import 'package:law_app/features/shared/library/presentation/widgets/book_card.dart';
+import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/text_field/search_field.dart';
 
-class GlossarySearchPage extends StatefulWidget {
-  const GlossarySearchPage({super.key});
+class LibrarySearchPage extends StatefulWidget {
+  const LibrarySearchPage({super.key});
 
   @override
-  State<GlossarySearchPage> createState() => _GlossarySearchPageState();
+  State<LibrarySearchPage> createState() => _LibrarySearchPageState();
 }
 
-class _GlossarySearchPageState extends State<GlossarySearchPage> {
+class _LibrarySearchPageState extends State<LibrarySearchPage> {
   late final ValueNotifier<String> query;
-  late List<Glossary> glossaryList;
+  late List<Book> bookList;
 
   @override
   void initState() {
     super.initState();
 
     query = ValueNotifier('');
-    glossaryList = glossaries;
+    bookList = books;
   }
 
   @override
@@ -38,6 +37,7 @@ class _GlossarySearchPageState extends State<GlossarySearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(124),
         child: HeaderContainer(
@@ -46,7 +46,7 @@ class _GlossarySearchPageState extends State<GlossarySearchPage> {
             children: [
               Center(
                 child: Text(
-                  'Cari Kata',
+                  'Cari Buku',
                   style: textTheme.titleMedium!.copyWith(
                     color: scaffoldBackgroundColor,
                   ),
@@ -58,14 +58,9 @@ class _GlossarySearchPageState extends State<GlossarySearchPage> {
                 builder: (context, query, child) {
                   return SearchField(
                     text: query,
-                    hintText: 'Cari kosa kata...',
+                    hintText: 'Cari judul buku atau pengarang...',
                     autoFocus: true,
                     onChanged: searchTerm,
-                    onFocusChanged: (value) {
-                      if (!value && query.isEmpty) {
-                        navigatorKey.currentState!.pop();
-                      }
-                    },
                   );
                 },
               ),
@@ -76,42 +71,36 @@ class _GlossarySearchPageState extends State<GlossarySearchPage> {
       body: Builder(
         builder: (context) {
           if (query.value.isEmpty) {
-            return const SearchEmptyText(
-              title: 'Hasil Pencarian',
-              subtitle: 'Hasil pencarian Anda akan muncul di sini.',
+            return const CustomInformation(
+              illustrationName: 'book-lover-cuate.svg',
+              title: 'Hasil Pencarian Buku',
+              subtitle: 'Hasil pencarian Anda akan muncul di sini',
             );
           }
 
-          if (glossaryList.isEmpty) {
-            return const SearchEmptyText(
-              title: 'Hasil Tidak Ditemukan',
-              subtitle: 'Tidak ada istilah yang cocok untuk kata tersebut.',
+          if (bookList.isEmpty) {
+            return const CustomInformation(
+              illustrationName: 'house-searching-cuate.svg',
+              title: 'Buku Tidak Ditemukan',
+              subtitle: 'Buku dengan judul/pengarang tersebut tidak ditemukan',
             );
           }
 
-          return ListView.builder(
-            padding: const EdgeInsets.only(top: 8),
+          return ListView.separated(
+            padding: const EdgeInsets.symmetric(
+              vertical: 24,
+              horizontal: 20,
+            ),
             itemBuilder: (context, index) {
-              return ListTile(
-                contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-                title: Text(
-                  glossaryList[index].term,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                titleTextStyle: textTheme.bodyLarge,
-                trailing: const Icon(
-                  Icons.north_west_rounded,
-                  size: 16,
-                ),
-                onTap: () => navigatorKey.currentState!.pushNamed(
-                  glossaryDetailRoute,
-                  arguments: glossaryList[index],
-                ),
-                visualDensity: const VisualDensity(vertical: -4),
+              return BookCard(
+                book: bookList[index],
+                onTap: () {},
               );
             },
-            itemCount: glossaryList.length,
+            separatorBuilder: (context, index) {
+              return const SizedBox(height: 10);
+            },
+            itemCount: bookList.length,
           );
         },
       ),
@@ -125,14 +114,16 @@ class _GlossarySearchPageState extends State<GlossarySearchPage> {
       () {
         this.query.value = query;
 
-        final result = glossaries.where((glossary) {
+        final result = books.where((book) {
           final queryLower = query.toLowerCase();
-          final termLower = glossary.term.toLowerCase();
+          final titleLower = book.title.toLowerCase();
+          final authorLower = book.author.toLowerCase();
 
-          return termLower.contains(queryLower);
+          return titleLower.contains(queryLower) ||
+              authorLower.contains(queryLower);
         }).toList();
 
-        setState(() => glossaryList = result);
+        setState(() => bookList = result);
       },
     );
 

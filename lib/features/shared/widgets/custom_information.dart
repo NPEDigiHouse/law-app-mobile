@@ -16,7 +16,7 @@ class CustomInformation extends StatelessWidget {
     required this.illustrationName,
     required this.title,
     required this.subtitle,
-    this.size = 260.0,
+    this.size = 280.0,
     this.withScaffold = false,
   });
 
