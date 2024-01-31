@@ -18,13 +18,6 @@ class LawApp extends StatelessWidget {
       navigatorObservers: [routeObserver],
       onGenerateRoute: generateAppRoutes,
       home: const SplashPage(),
-      // home: const AnnotatedRegion<SystemUiOverlayStyle>(
-      //   value: SystemUiOverlayStyle(
-      //     statusBarColor: Colors.transparent,
-      //     statusBarIconBrightness: Brightness.light,
-      //   ),
-      //   child: SplashPage(),
-      // ),
     );
   }
 }

@@ -11,6 +11,7 @@ import 'package:law_app/features/common/menu/main_menu_page.dart';
 import 'package:law_app/features/common/notification/notification_page.dart';
 import 'package:law_app/features/shared/glossary/presentation/pages/glossary_detail_page.dart';
 import 'package:law_app/features/shared/glossary/presentation/pages/glossary_search_page.dart';
+import 'package:law_app/features/shared/library/presentation/pages/library_book_detail_page.dart';
 import 'package:law_app/features/shared/library/presentation/pages/library_book_list_page.dart';
 import 'package:law_app/features/shared/library/presentation/pages/library_finished_book_page.dart';
 import 'package:law_app/features/shared/library/presentation/pages/library_saved_book_page.dart';
@@ -53,6 +54,7 @@ const libraryBookListRoute = '/library-book-list';
 const libraryFinishedBookRoute = '/library-finished-book';
 const librarySavedBookRoute = '/library-saved-book';
 const librarySearchRoute = '/library-search';
+const libraryBookDetailRoute = '/library-book-detail';
 
 // App routes generator
 Route<dynamic>? generateAppRoutes(RouteSettings settings) {
@@ -156,6 +158,12 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
     case librarySearchRoute:
       return MaterialPageRoute(
         builder: (_) => const LibrarySearchPage(),
+      );
+    case libraryBookDetailRoute:
+      final book = settings.arguments as Book;
+
+      return MaterialPageRoute(
+        builder: (_) => LibraryBookDetailRoute(book: book),
       );
     default:
       return null;

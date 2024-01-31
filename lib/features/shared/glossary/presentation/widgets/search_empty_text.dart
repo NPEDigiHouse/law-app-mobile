@@ -26,9 +26,7 @@ class SearchEmptyText extends StatelessWidget {
             style: textTheme.titleLarge,
           ),
           const SizedBox(height: 4),
-          Text(
-            subtitle,
-          ),
+          Text(subtitle),
         ],
       ),
     );

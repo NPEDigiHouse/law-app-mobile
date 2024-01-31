@@ -58,7 +58,7 @@ class _GlossarySearchPageState extends State<GlossarySearchPage> {
                 builder: (context, query, child) {
                   return SearchField(
                     text: query,
-                    hintText: 'Cari kosa kata...',
+                    hintText: 'Cari kosa kata',
                     autoFocus: true,
                     onChanged: searchTerm,
                     onFocusChanged: (value) {

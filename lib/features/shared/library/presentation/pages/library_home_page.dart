@@ -87,10 +87,7 @@ class LibraryHomePage extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.only(
-          top: 20,
-          bottom: 24,
-        ),
+        padding: const EdgeInsets.symmetric(vertical: 24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -172,7 +169,10 @@ class LibraryHomePage extends StatelessWidget {
                 books.length,
                 (index) => BookItem(
                   book: books[index],
-                  onTap: () {},
+                  onTap: () => navigatorKey.currentState!.pushNamed(
+                    libraryBookDetailRoute,
+                    arguments: books[index],
+                  ),
                 ),
               )..add(
                   DottedBorder(

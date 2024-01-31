@@ -58,7 +58,7 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
                 builder: (context, query, child) {
                   return SearchField(
                     text: query,
-                    hintText: 'Cari judul buku atau pengarang...',
+                    hintText: 'Cari judul buku atau pengarang',
                     autoFocus: true,
                     onChanged: searchTerm,
                   );
@@ -72,17 +72,17 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
         builder: (context) {
           if (query.value.isEmpty) {
             return const CustomInformation(
-              illustrationName: 'book-lover-cuate.svg',
-              title: 'Hasil Pencarian Buku',
-              subtitle: 'Hasil pencarian Anda akan muncul di sini',
+              illustrationName: 'house-searching-cuate.svg',
+              title: 'Riwayat Pencarian',
+              subtitle: 'Riwayat pencarian buku masih kosong.',
             );
           }
 
           if (bookList.isEmpty) {
             return const CustomInformation(
-              illustrationName: 'house-searching-cuate.svg',
+              illustrationName: 'book-lover-cuate.svg',
               title: 'Buku Tidak Ditemukan',
-              subtitle: 'Buku dengan judul/pengarang tersebut tidak ditemukan',
+              subtitle: 'Buku dengan judul/pengarang tersebut tidak ditemukan.',
             );
           }
 

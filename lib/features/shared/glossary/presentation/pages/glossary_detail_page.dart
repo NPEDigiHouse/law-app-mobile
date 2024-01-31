@@ -34,9 +34,7 @@ class GlossaryDetailPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 4),
-            Text(
-              glossary.definiton,
-            ),
+            Text(glossary.definiton),
           ],
         ),
       ),

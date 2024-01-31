@@ -35,7 +35,7 @@ class GlossaryHomePage extends StatelessWidget {
               const SizedBox(height: 12),
               SearchField(
                 text: '',
-                hintText: 'Cari kosa kata...',
+                hintText: 'Cari kosa kata',
                 readOnly: true,
                 canRequestFocus: false,
                 textInputAction: TextInputAction.none,
@@ -57,7 +57,7 @@ class GlossaryHomePage extends StatelessWidget {
                 children: [
                   Flexible(
                     child: Text(
-                      'History Pencarian',
+                      'Riwayat Pencarian',
                       style: textTheme.titleLarge,
                     ),
                   ),

@@ -154,14 +154,6 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
 
       debugPrint(data.toString());
 
-      // Show loading - send data - close loading
-
-      // Navigate back to login page if success, with bool true
-
-      // context.showBanner(
-      //   message: "Berhasil Mengubah Data",
-      //   type: BannerType.success,
-      // );
       navigatorKey.currentState!.pop(true);
     }
   }
