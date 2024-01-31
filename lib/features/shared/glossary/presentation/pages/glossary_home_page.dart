@@ -61,15 +61,13 @@ class GlossaryHomePage extends StatelessWidget {
                       style: textTheme.titleLarge,
                     ),
                   ),
-                  Flexible(
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Text(
-                        'Hapus Semua',
-                        style: textTheme.bodySmall!.copyWith(
-                          fontWeight: FontWeight.w500,
-                          color: primaryColor,
-                        ),
+                  GestureDetector(
+                    onTap: () {},
+                    child: Text(
+                      'Hapus Semua',
+                      style: textTheme.bodySmall!.copyWith(
+                        fontWeight: FontWeight.w500,
+                        color: primaryColor,
                       ),
                     ),
                   ),

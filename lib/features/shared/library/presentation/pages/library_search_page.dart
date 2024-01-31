@@ -18,6 +18,7 @@ class LibrarySearchPage extends StatefulWidget {
 class _LibrarySearchPageState extends State<LibrarySearchPage> {
   late final ValueNotifier<String> query;
   late List<Book> bookList;
+  late List<Book> bookHistoryList;
 
   @override
   void initState() {
@@ -25,6 +26,7 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
 
     query = ValueNotifier('');
     bookList = books;
+    bookHistoryList = books.sublist(0, 3);
   }
 
   @override
@@ -60,7 +62,7 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
                     text: query,
                     hintText: 'Cari judul buku atau pengarang',
                     autoFocus: true,
-                    onChanged: searchTerm,
+                    onChanged: searchBook,
                   );
                 },
               ),
@@ -71,11 +73,15 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
       body: Builder(
         builder: (context) {
           if (query.value.isEmpty) {
-            return const CustomInformation(
-              illustrationName: 'house-searching-cuate.svg',
-              title: 'Riwayat Pencarian',
-              subtitle: 'Riwayat pencarian buku masih kosong.',
-            );
+            if (bookHistoryList.isEmpty) {
+              return const CustomInformation(
+                illustrationName: 'house-searching-cuate.svg',
+                title: 'Riwayat Pencarian',
+                subtitle: 'Riwayat pencarian buku masih kosong.',
+              );
+            }
+
+            return buildBookHistoryList();
           }
 
           if (bookList.isEmpty) {
@@ -86,28 +92,106 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
             );
           }
 
-          return ListView.separated(
-            padding: const EdgeInsets.symmetric(
-              vertical: 24,
-              horizontal: 20,
-            ),
-            itemBuilder: (context, index) {
-              return BookCard(
-                book: bookList[index],
-                onTap: () {},
-              );
-            },
-            separatorBuilder: (context, index) {
-              return const SizedBox(height: 10);
-            },
-            itemCount: bookList.length,
-          );
+          return buildBookResultList();
         },
       ),
     );
   }
 
-  void searchTerm(String query) {
+  CustomScrollView buildBookHistoryList() {
+    return CustomScrollView(
+      slivers: [
+        SliverPadding(
+          padding: const EdgeInsets.fromLTRB(20, 10, 20, 12),
+          sliver: SliverToBoxAdapter(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '*Swipe ke samping untuk menghapus history buku',
+                  style: textTheme.labelSmall!.copyWith(
+                    color: secondaryTextColor,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        'Riwayat Pencarian',
+                        style: textTheme.titleLarge,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {},
+                      child: Text(
+                        'Hapus Semua',
+                        style: textTheme.bodySmall!.copyWith(
+                          fontWeight: FontWeight.w500,
+                          color: primaryColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          sliver: SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                return Dismissible(
+                  key: ValueKey<String>(bookHistoryList[index].title),
+                  onDismissed: (_) {
+                    setState(() {
+                      bookHistoryList.removeWhere((book) {
+                        return book.title == bookHistoryList[index].title;
+                      });
+                    });
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: BookCard(
+                      isThreeLine: false,
+                      book: bookHistoryList[index],
+                      onTap: () {},
+                    ),
+                  ),
+                );
+              },
+              childCount: bookHistoryList.length,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  ListView buildBookResultList() {
+    return ListView.separated(
+      padding: const EdgeInsets.symmetric(
+        vertical: 24,
+        horizontal: 20,
+      ),
+      itemBuilder: (context, index) {
+        return BookCard(
+          isThreeLine: false,
+          book: bookList[index],
+          onTap: () {},
+        );
+      },
+      separatorBuilder: (context, index) {
+        return const SizedBox(height: 10);
+      },
+      itemCount: bookList.length,
+    );
+  }
+
+  void searchBook(String query) {
     EasyDebounce.debounce(
       'search-debouncer',
       const Duration(milliseconds: 800),

@@ -69,40 +69,42 @@ class BookCard extends StatelessWidget {
                           color: secondaryTextColor,
                         ),
                       ),
-                      const SizedBox(height: 6),
-                      if (isThreeLine && book.completePercentage != null)
-                        LinearPercentIndicator(
-                          lineHeight: 8,
-                          barRadius: const Radius.circular(8),
-                          padding: const EdgeInsets.only(right: 8),
-                          animation: true,
-                          curve: Curves.easeIn,
-                          percent: book.completePercentage! / 100,
-                          progressColor: successColor,
-                          backgroundColor: secondaryTextColor,
-                          trailing: Text(
-                            '${book.completePercentage!.toInt()}%',
-                          ),
-                        )
-                      else
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 2,
-                            horizontal: 4,
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4),
-                            border: Border.all(
-                              color: infoColor,
+                      if (isThreeLine) ...[
+                        const SizedBox(height: 6),
+                        if (book.completePercentage != null)
+                          LinearPercentIndicator(
+                            lineHeight: 8,
+                            barRadius: const Radius.circular(8),
+                            padding: const EdgeInsets.only(right: 8),
+                            animation: true,
+                            curve: Curves.easeIn,
+                            percent: book.completePercentage! / 100,
+                            progressColor: successColor,
+                            backgroundColor: secondaryTextColor,
+                            trailing: Text(
+                              '${book.completePercentage!.toInt()}%',
+                            ),
+                          )
+                        else
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 2,
+                              horizontal: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4),
+                              border: Border.all(
+                                color: infoColor,
+                              ),
+                            ),
+                            child: Text(
+                              'Belum Dibaca',
+                              style: textTheme.labelSmall!.copyWith(
+                                color: infoColor,
+                              ),
                             ),
                           ),
-                          child: Text(
-                            'Belum Dibaca',
-                            style: textTheme.labelSmall!.copyWith(
-                              color: infoColor,
-                            ),
-                          ),
-                        ),
+                      ],
                     ],
                   ),
                 ),

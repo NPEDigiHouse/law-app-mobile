@@ -136,8 +136,8 @@ class LibraryHomePage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return BookItem(
                     width: 130,
-                    book: books[index],
                     titleMaxLines: 2,
+                    book: books[index],
                     onTap: () {},
                   );
                 },
