@@ -1,13 +1,280 @@
 import 'package:flutter/material.dart';
+import 'package:law_app/core/extensions/app_extension.dart';
+import 'package:law_app/core/helpers/asset_path.dart';
+import 'package:law_app/core/styles/color_scheme.dart';
+import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/shared/widgets/header_container.dart';
+import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
-class LibraryBookDetailRoute extends StatelessWidget {
+class LibraryBookDetailRoute extends StatefulWidget {
   final Book book;
 
   const LibraryBookDetailRoute({super.key, required this.book});
 
   @override
+  State<LibraryBookDetailRoute> createState() => _LibraryBookDetailRouteState();
+}
+
+class _LibraryBookDetailRouteState extends State<LibraryBookDetailRoute> {
+  late final ValueNotifier<bool> isSaved;
+
+  @override
+  void initState() {
+    super.initState();
+
+    isSaved = ValueNotifier(false);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    isSaved.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    final bookDetail = {
+      'title': widget.book.title,
+      'author': widget.book.author,
+      'image': widget.book.image,
+      'complete_percentage': widget.book.completePercentage,
+      'published_year': 2020,
+      'category': 'Hukum Perdata',
+      'total_page': 400,
+      'publisher': 'Penerbit Erlangga',
+    };
+
+    return Scaffold(
+      backgroundColor: backgroundColor,
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            elevation: 0,
+            pinned: true,
+            toolbarHeight: 230,
+            automaticallyImplyLeading: false,
+            flexibleSpace: HeaderContainer(
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Positioned(
+                    top: 10,
+                    left: 0,
+                    child: Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: secondaryColor,
+                      ),
+                      child: IconButton(
+                        padding: EdgeInsets.zero,
+                        onPressed: () => navigatorKey.currentState!.pop(),
+                        icon: SvgAsset(
+                          assetPath: AssetPath.getIcon('caret-line-left.svg'),
+                          color: primaryColor,
+                          width: 24,
+                        ),
+                        tooltip: 'Kembali',
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 18,
+                    left: 0,
+                    right: 0,
+                    child: Center(
+                      child: Text(
+                        'Detail Buku',
+                        style: textTheme.titleLarge!.copyWith(
+                          color: scaffoldBackgroundColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    bottom: -24,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: AspectRatio(
+                            aspectRatio: 2 / 3,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: scaffoldBackgroundColor,
+                                borderRadius: BorderRadius.circular(8),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(.15),
+                                    offset: const Offset(2, 2),
+                                    blurRadius: 4,
+                                    spreadRadius: -1,
+                                  ),
+                                ],
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                    AssetPath.getImage(
+                                      bookDetail['image'] as String,
+                                    ),
+                                  ),
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          flex: 2,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${bookDetail['title'] as String} (${bookDetail['published_year'] as int})',
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                                style: textTheme.titleMedium!.copyWith(
+                                  color: accentTextColor,
+                                ),
+                              ),
+                              const SizedBox(height: 12),
+                              Row(
+                                children: [
+                                  SvgAsset(
+                                    assetPath: AssetPath.getIcon(
+                                      'user-solid.svg',
+                                    ),
+                                    color: scaffoldBackgroundColor,
+                                    width: 16,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Expanded(
+                                    child: Text(
+                                      bookDetail['author'] as String,
+                                      style: textTheme.bodySmall!.copyWith(
+                                        color: scaffoldBackgroundColor,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 8),
+                              Row(
+                                children: [
+                                  SvgAsset(
+                                    assetPath: AssetPath.getIcon(
+                                      'grid-view-solid.svg',
+                                    ),
+                                    color: scaffoldBackgroundColor,
+                                    width: 16,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Expanded(
+                                    child: Text(
+                                      bookDetail['category'] as String,
+                                      style: textTheme.bodySmall!.copyWith(
+                                        color: scaffoldBackgroundColor,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Positioned(
+                    right: 0,
+                    bottom: -20,
+                    child: Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: secondaryColor,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(.15),
+                            offset: const Offset(2, 2),
+                            blurRadius: 4,
+                            spreadRadius: -1,
+                          ),
+                        ],
+                      ),
+                      child: IconButton(
+                        padding: EdgeInsets.zero,
+                        onPressed: () {},
+                        icon: ValueListenableBuilder(
+                          valueListenable: isSaved,
+                          builder: (context, isSaved, child) {
+                            return SvgAsset(
+                              assetPath: AssetPath.getIcon(
+                                isSaved
+                                    ? 'bookmark-solid.svg'
+                                    : 'bookmark-line.svg',
+                              ),
+                              color: primaryColor,
+                              width: 24,
+                            );
+                          },
+                        ),
+                        tooltip: 'Save',
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+      bottomSheet: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(
+          vertical: 24,
+          horizontal: 20,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.vertical(
+            top: Radius.circular(20),
+          ),
+          boxShadow: [
+            BoxShadow(
+              offset: const Offset(0, -2),
+              blurRadius: 4,
+              spreadRadius: -1,
+              color: Colors.black.withOpacity(.1),
+            ),
+          ],
+          color: scaffoldBackgroundColor,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Belum pernah dibaca',
+              style: textTheme.bodyMedium!.copyWith(
+                color: secondaryTextColor,
+              ),
+            ),
+            const SizedBox(height: 12),
+            FilledButton(
+              onPressed: () {},
+              child: const Text('Mulai Membaca'),
+            ).fullWidth(),
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -44,14 +44,11 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
         preferredSize: const Size.fromHeight(124),
         child: HeaderContainer(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Center(
-                child: Text(
-                  'Cari Buku',
-                  style: textTheme.titleMedium!.copyWith(
-                    color: scaffoldBackgroundColor,
-                  ),
+              Text(
+                'Cari Buku',
+                style: textTheme.titleMedium!.copyWith(
+                  color: scaffoldBackgroundColor,
                 ),
               ),
               const SizedBox(height: 10),

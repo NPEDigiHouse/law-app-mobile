@@ -42,14 +42,11 @@ class _GlossarySearchPageState extends State<GlossarySearchPage> {
         preferredSize: const Size.fromHeight(124),
         child: HeaderContainer(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Center(
-                child: Text(
-                  'Cari Kata',
-                  style: textTheme.titleMedium!.copyWith(
-                    color: scaffoldBackgroundColor,
-                  ),
+              Text(
+                'Cari Kata',
+                style: textTheme.titleMedium!.copyWith(
+                  color: scaffoldBackgroundColor,
                 ),
               ),
               const SizedBox(height: 10),
