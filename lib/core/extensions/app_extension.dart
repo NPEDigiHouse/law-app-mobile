@@ -6,6 +6,8 @@ import 'package:law_app/core/utils/widget_utils.dart';
 import 'package:law_app/features/shared/profile/presentation/widgets/change_password_dialog.dart';
 import 'package:law_app/features/shared/profile/presentation/widgets/edit_profile_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/confirm_dialog.dart';
+import 'package:law_app/features/shared/widgets/dialog/one_form_dialog.dart';
+import 'package:law_app/features/shared/widgets/dialog/type_selector_dialog.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 
 extension Capitalize on String {
@@ -85,6 +87,46 @@ extension DialogExtension on BuildContext {
       context: this,
       barrierDismissible: false,
       builder: (_) => const ChangePasswordDialog(),
+    );
+  }
+
+  Future<Object?> showTypeSelectorDialog({
+    required String title,
+    required List<Map<String, dynamic>> items,
+  }) {
+    return showDialog(
+      context: this,
+      barrierDismissible: false,
+      builder: (_) => TypeSelectorDialog(
+        title: title,
+        items: items,
+      ),
+    );
+  }
+
+  Future<Object?> showOneFormDialog({
+    required String title,
+    required String formName,
+    required String formLabel,
+    required String formHint,
+    VoidCallback? onPressedPrimaryButton,
+    VoidCallback? onPressedSecondaryButton,
+    String? primaryButtonText,
+    String? secondaryButtonText,
+  }) {
+    return showDialog(
+      context: this,
+      barrierDismissible: false,
+      builder: (_) => OneFormDialog(
+        title: title,
+        formName: formName,
+        formLabel: formLabel,
+        formHint: formHint,
+        onPressedPrimaryButton: onPressedPrimaryButton,
+        onPressedSecondaryButton: onPressedSecondaryButton,
+        primaryButtonText: primaryButtonText,
+        secondaryButtonText: secondaryButtonText,
+      ),
     );
   }
 }
