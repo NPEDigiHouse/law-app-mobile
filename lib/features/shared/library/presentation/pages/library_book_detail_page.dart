@@ -5,7 +5,6 @@ import 'package:law_app/core/extensions/app_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
-import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
@@ -58,52 +57,24 @@ class _LibraryBookDetailRouteState extends State<LibraryBookDetailRoute> {
         headerSliverBuilder: (context, innerBoxIsScrolled) {
           return [
             SliverAppBar(
-              elevation: 0,
               pinned: true,
-              toolbarHeight: 230,
+              toolbarHeight: 260,
               automaticallyImplyLeading: false,
-              flexibleSpace: HeaderContainer(
+              backgroundColor: Colors.transparent,
+              surfaceTintColor: Colors.transparent,
+              flexibleSpace: SizedBox(
+                height: 300,
                 child: Stack(
-                  clipBehavior: Clip.none,
                   children: [
-                    Positioned(
-                      top: 10,
-                      left: 0,
-                      child: Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: secondaryColor,
-                        ),
-                        child: IconButton(
-                          onPressed: () => navigatorKey.currentState!.pop(),
-                          icon: SvgAsset(
-                            assetPath: AssetPath.getIcon('caret-line-left.svg'),
-                            color: primaryColor,
-                            width: 24,
-                          ),
-                          tooltip: 'Kembali',
-                        ),
-                      ),
+                    const HeaderContainer(
+                      height: 270,
+                      title: 'Detail Buku',
+                      withBackButton: true,
                     ),
                     Positioned(
-                      top: 18,
-                      left: 0,
-                      right: 0,
-                      child: Center(
-                        child: Text(
-                          'Detail Buku',
-                          style: textTheme.titleLarge!.copyWith(
-                            color: scaffoldBackgroundColor,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      left: 0,
-                      right: 0,
-                      bottom: -20,
+                      left: 20,
+                      right: 20,
+                      bottom: 0,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -164,6 +135,8 @@ class _LibraryBookDetailRouteState extends State<LibraryBookDetailRoute> {
                                     Expanded(
                                       child: Text(
                                         bookDetail['author'] as String,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
                                         style: textTheme.bodySmall!.copyWith(
                                           color: scaffoldBackgroundColor,
                                         ),
@@ -185,6 +158,8 @@ class _LibraryBookDetailRouteState extends State<LibraryBookDetailRoute> {
                                     Expanded(
                                       child: Text(
                                         bookDetail['category'] as String,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
                                         style: textTheme.bodySmall!.copyWith(
                                           color: scaffoldBackgroundColor,
                                         ),
@@ -199,8 +174,8 @@ class _LibraryBookDetailRouteState extends State<LibraryBookDetailRoute> {
                       ),
                     ),
                     Positioned(
-                      right: 0,
-                      bottom: -20,
+                      right: 20,
+                      bottom: 0,
                       child: Container(
                         width: 40,
                         height: 40,
@@ -243,7 +218,7 @@ class _LibraryBookDetailRouteState extends State<LibraryBookDetailRoute> {
           ];
         },
         body: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 24),
+          padding: const EdgeInsets.only(bottom: 24),
           child: DefaultTabController(
             length: 2,
             child: Column(
