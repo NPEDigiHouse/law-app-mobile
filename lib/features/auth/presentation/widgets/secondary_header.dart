@@ -41,7 +41,6 @@ class SecondaryHeader extends StatelessWidget {
                     color: secondaryColor,
                   ),
                   child: IconButton(
-                    padding: EdgeInsets.zero,
                     onPressed: () => context.back(),
                     icon: SvgAsset(
                       assetPath: AssetPath.getIcon('caret-line-left.svg'),

@@ -29,6 +29,14 @@ class HeaderContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (withTrailingButton) {
+      assert(trailingButtonIconName != null);
+    }
+
+    if (child != null) {
+      assert(!withBackButton && !withTrailingButton && title == null);
+    }
+
     return clipBorder
         ? ClipRRect(
             borderRadius: const BorderRadius.vertical(
@@ -64,88 +72,68 @@ class HeaderContainer extends StatelessWidget {
             ),
           ),
           if (withBackButton)
-            Builder(
-              builder: (context) {
-                assert(child == null);
-
-                return Positioned(
-                  top: 30,
-                  left: 20,
-                  child: SafeArea(
-                    child: Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: secondaryColor,
-                      ),
-                      child: IconButton(
-                        padding: EdgeInsets.zero,
-                        onPressed: () => navigatorKey.currentState!.pop(),
-                        icon: SvgAsset(
-                          assetPath: AssetPath.getIcon('caret-line-left.svg'),
-                          color: primaryColor,
-                          width: 24,
-                        ),
-                        tooltip: 'Kembali',
-                      ),
-                    ),
+            Positioned(
+              top: 30,
+              left: 20,
+              child: SafeArea(
+                child: Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: secondaryColor,
                   ),
-                );
-              },
+                  child: IconButton(
+                    onPressed: () => navigatorKey.currentState!.pop(),
+                    icon: SvgAsset(
+                      assetPath: AssetPath.getIcon('caret-line-left.svg'),
+                      color: primaryColor,
+                      width: 24,
+                    ),
+                    tooltip: 'Kembali',
+                  ),
+                ),
+              ),
             ),
           if (withTrailingButton)
-            Builder(
-              builder: (_) {
-                assert(child == null && trailingButtonIconName != null);
-
-                return Positioned(
-                  top: 30,
-                  right: 20,
-                  child: SafeArea(
-                    child: Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: secondaryColor,
-                      ),
-                      child: IconButton(
-                        padding: EdgeInsets.zero,
-                        onPressed: onPressedTrailingButton,
-                        icon: SvgAsset(
-                          assetPath: AssetPath.getIcon(trailingButtonIconName!),
-                          color: primaryColor,
-                          width: 24,
-                        ),
-                        tooltip: trailingButtonTooltip,
-                      ),
-                    ),
+            Positioned(
+              top: 30,
+              right: 20,
+              child: SafeArea(
+                child: Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: secondaryColor,
                   ),
-                );
-              },
+                  child: IconButton(
+                    onPressed: onPressedTrailingButton,
+                    icon: SvgAsset(
+                      assetPath: AssetPath.getIcon(trailingButtonIconName!),
+                      color: primaryColor,
+                      width: 24,
+                    ),
+                    tooltip: trailingButtonTooltip,
+                  ),
+                ),
+              ),
             ),
           if (title != null)
-            Builder(
-              builder: (context) {
-                assert(child == null);
-
-                return Positioned(
-                  top: 38,
-                  left: 0,
-                  right: 0,
-                  child: SafeArea(
-                    child: Center(
-                      child: Text(
-                        title!,
-                        style: textTheme.titleLarge!.copyWith(
-                          color: scaffoldBackgroundColor,
-                        ),
-                      ),
+            Positioned(
+              top: 38,
+              left: 0,
+              right: 0,
+              child: SafeArea(
+                child: Center(
+                  child: Text(
+                    title!,
+                    style: textTheme.titleLarge!.copyWith(
+                      color: scaffoldBackgroundColor,
                     ),
                   ),
-                );
-              },
+                ),
+              ),
             ),
           if (child != null)
             SafeArea(

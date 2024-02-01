@@ -60,7 +60,7 @@ class BookCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: textTheme.titleMedium,
                       ),
-                      const SizedBox(height: 2),
+                      const SizedBox(height: 4),
                       Text(
                         book.author,
                         maxLines: 1,
@@ -70,7 +70,7 @@ class BookCard extends StatelessWidget {
                         ),
                       ),
                       if (isThreeLine) ...[
-                        const SizedBox(height: 6),
+                        const SizedBox(height: 10),
                         if (book.completePercentage != null)
                           LinearPercentIndicator(
                             lineHeight: 8,
@@ -83,6 +83,7 @@ class BookCard extends StatelessWidget {
                             backgroundColor: secondaryTextColor,
                             trailing: Text(
                               '${book.completePercentage!.toInt()}%',
+                              style: textTheme.bodySmall,
                             ),
                           )
                         else
