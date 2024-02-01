@@ -21,7 +21,7 @@ import 'package:law_app/features/shared/profile/presentation/pages/certificate_p
 import 'package:law_app/features/shared/profile/presentation/pages/contact_us_page.dart';
 import 'package:law_app/features/shared/profile/presentation/pages/faq_page.dart';
 import 'package:law_app/features/shared/profile/presentation/pages/profile_page.dart';
-import 'package:law_app/features/student/presentation/pages/student_home_page.dart';
+import 'package:law_app/features/student/presentation/home/pages/student_home_page.dart';
 import 'package:law_app/features/teacher/presentation/pages/teacher_home_page.dart';
 
 // Register the RouteObserver as a navigation observer

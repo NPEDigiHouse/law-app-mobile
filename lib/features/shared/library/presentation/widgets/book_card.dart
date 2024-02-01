@@ -4,6 +4,7 @@ import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/shared/widgets/label_chip.dart';
 
 class BookCard extends StatelessWidget {
   final Book book;
@@ -87,23 +88,9 @@ class BookCard extends StatelessWidget {
                             ),
                           )
                         else
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 2,
-                              horizontal: 4,
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(4),
-                              border: Border.all(
-                                color: infoColor,
-                              ),
-                            ),
-                            child: Text(
-                              'Belum Dibaca',
-                              style: textTheme.labelSmall!.copyWith(
-                                color: infoColor,
-                              ),
-                            ),
+                          const LabelChip(
+                            text: 'Belum Dibaca',
+                            color: infoColor,
                           ),
                       ],
                     ],

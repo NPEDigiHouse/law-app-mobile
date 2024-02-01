@@ -151,7 +151,7 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
                     });
                   },
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
+                    padding: const EdgeInsets.only(bottom: 8),
                     child: BookCard(
                       isThreeLine: false,
                       book: bookHistoryList[index],
@@ -182,7 +182,7 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
         );
       },
       separatorBuilder: (context, index) {
-        return const SizedBox(height: 10);
+        return const SizedBox(height: 8);
       },
       itemCount: bookList.length,
     );

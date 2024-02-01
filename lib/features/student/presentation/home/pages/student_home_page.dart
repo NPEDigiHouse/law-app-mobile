@@ -9,8 +9,8 @@ import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/book_item.dart';
 import 'package:law_app/features/shared/widgets/course_item_card.dart';
 import 'package:law_app/features/shared/widgets/dashboard.dart';
-import 'package:law_app/features/shared/widgets/home/home_page_discussion_card.dart';
 import 'package:law_app/features/shared/widgets/home/home_page_header.dart';
+import 'package:law_app/features/shared/widgets/self_discussion_card.dart';
 
 class StudentHomePage extends StatefulWidget {
   const StudentHomePage({super.key});
@@ -171,7 +171,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
                           top: index == 0 ? 0 : 4,
                           bottom: index == 2 ? 0 : 4,
                         ),
-                        child: HomePageDiscussionCard(
+                        child: SelfDiscussionCard(
                           item: discussionItems[index],
                         ),
                       );

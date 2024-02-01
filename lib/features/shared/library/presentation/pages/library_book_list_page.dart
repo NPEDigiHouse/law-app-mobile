@@ -102,8 +102,8 @@ class _LibraryBookListPageState extends State<LibraryBookListPage> {
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 childAspectRatio: 2 / 3,
                 crossAxisCount: 3,
-                mainAxisSpacing: 12,
-                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 8,
               ),
               itemBuilder: (context, index) {
                 return BookItem(

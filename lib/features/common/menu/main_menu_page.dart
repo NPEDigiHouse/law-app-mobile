@@ -3,9 +3,9 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/features/shared/glossary/presentation/pages/glossary_home_page.dart';
 import 'package:law_app/features/shared/library/presentation/pages/library_home_page.dart';
 import 'package:law_app/features/shared/widgets/custom_navigation_bar.dart';
-import 'package:law_app/features/student/presentation/pages/student_course_page.dart';
-import 'package:law_app/features/student/presentation/pages/student_discussion_page.dart';
-import 'package:law_app/features/student/presentation/pages/student_home_page.dart';
+import 'package:law_app/features/student/presentation/course/pages/student_course_page.dart';
+import 'package:law_app/features/student/presentation/discussion/pages/student_discussion_home_page.dart';
+import 'package:law_app/features/student/presentation/home/pages/student_home_page.dart';
 import 'package:law_app/features/teacher/presentation/pages/teacher_discussion_page.dart';
 import 'package:law_app/features/teacher/presentation/pages/teacher_home_page.dart';
 
@@ -32,7 +32,7 @@ class _MainMenuPageState extends State<MainMenuPage> {
     pages = widget.roleId == 1
         ? [
             const StudentHomePage(),
-            const StudentDiscussionPage(),
+            const StudentDiscussionHomePage(),
             const StudentCoursePage(),
             const LibraryHomePage(),
             const GlossaryHomePage(),

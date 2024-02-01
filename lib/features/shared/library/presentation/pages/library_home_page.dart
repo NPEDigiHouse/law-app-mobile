@@ -113,7 +113,7 @@ class LibraryHomePage extends StatelessWidget {
                   );
                 },
                 separatorBuilder: (context, index) {
-                  return const SizedBox(width: 12);
+                  return const SizedBox(width: 8);
                 },
                 itemCount: 3,
               ),
@@ -142,7 +142,7 @@ class LibraryHomePage extends StatelessWidget {
                   );
                 },
                 separatorBuilder: (context, index) {
-                  return const SizedBox(width: 12);
+                  return const SizedBox(width: 8);
                 },
                 itemCount: books.length,
               ),
@@ -162,8 +162,8 @@ class LibraryHomePage extends StatelessWidget {
               shrinkWrap: true,
               childAspectRatio: 2 / 3,
               crossAxisCount: 3,
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 8,
               padding: const EdgeInsets.symmetric(horizontal: 20),
               children: List<Widget>.generate(
                 books.length,

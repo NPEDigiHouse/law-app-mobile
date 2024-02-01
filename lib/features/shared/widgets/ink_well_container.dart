@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class InkWellContainer extends StatelessWidget {
   final double radius;
   final Color? color;
-  final EdgeInsets? margin;
-  final EdgeInsets? padding;
+  final EdgeInsetsGeometry? margin;
+  final EdgeInsetsGeometry? padding;
   final BoxBorder? border;
   final List<BoxShadow>? boxShadow;
   final VoidCallback? onTap;

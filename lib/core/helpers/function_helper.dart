@@ -1,4 +1,6 @@
 import 'dart:math';
+import 'package:flutter/material.dart';
+import 'package:law_app/core/styles/color_scheme.dart';
 
 /// A collection of helper functions that are reusable for this app
 class FunctionHelper {
@@ -24,5 +26,18 @@ class FunctionHelper {
       maxLength,
       (_) => chars[Random.secure().nextInt(chars.length)],
     ).join('');
+  }
+
+  static Color getColorByDiscussionStatus(String status) {
+    switch (status) {
+      case 'open':
+        return infoColor;
+      case 'discuss':
+        return warningColor;
+      case 'solved':
+        return successColor;
+      default:
+        return secondaryTextColor;
+    }
   }
 }
