@@ -73,7 +73,7 @@ class CertificatePage extends StatelessWidget {
                             color: Colors.black.withOpacity(.2),
                             offset: const Offset(2, 2),
                             blurRadius: 4,
-                          )
+                          ),
                         ],
                       ),
                       child: Row(

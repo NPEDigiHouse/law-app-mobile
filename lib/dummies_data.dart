@@ -6,6 +6,7 @@ class User {
   final String email;
   final String dateOfBirth;
   final String phone;
+  final String profilePict;
   final int otp;
   final int roleId;
 
@@ -16,6 +17,7 @@ class User {
     required this.email,
     required this.dateOfBirth,
     required this.phone,
+    required this.profilePict,
     required this.otp,
     required this.roleId,
   });
@@ -24,10 +26,11 @@ class User {
 const user = User(
   username: 'test',
   password: 'test',
-  fullName: 'Testing User',
+  fullName: 'Kamaruddin Al-maliki',
   email: 'Test@gmail.com',
   dateOfBirth: '21 Mei 2001',
   phone: '0897182974',
+  profilePict: 'no-profile.jpg',
   otp: 1234,
   roleId: 1,
 );
@@ -131,5 +134,54 @@ const books = [
     title: 'Hukum Adat Indonesia',
     author: 'Soerjono Soekanto',
     image: 'sample-book-cover.jpg',
+  ),
+];
+
+//! Question
+class Question {
+  final User owner;
+  final String title;
+  final String description;
+  final String category;
+  final String createdAt;
+  final String status;
+
+  const Question({
+    required this.owner,
+    required this.title,
+    required this.description,
+    required this.category,
+    required this.createdAt,
+    required this.status,
+  });
+}
+
+const questions = [
+  Question(
+    owner: user,
+    title: 'Mengapa Dokumen Hukum yang Ada Harus Diterjemahkan?',
+    description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum. Mauris ut aliquet justo, et consectetur lorem. Nam semper vehicula ex, ac fermentum orci elementum ac. Mauris ut aliquet justo, et consectetur lorem.',
+    category: 'Hukum Perdata',
+    createdAt: '24 Desember 2023 (10:23:20)',
+    status: 'open',
+  ),
+  Question(
+    owner: user,
+    title: 'Mengapa Dokumen Hukum yang Ada Harus Diterjemahkan?',
+    description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum. Mauris ut aliquet justo, et consectetur lorem. Nam semper vehicula ex, ac fermentum orci elementum ac. Mauris ut aliquet justo, et consectetur lorem.',
+    category: 'Hukum Perdata',
+    createdAt: '24 Desember 2023 (10:23:20)',
+    status: 'discuss',
+  ),
+  Question(
+    owner: user,
+    title: 'Mengapa Dokumen Hukum yang Ada Harus Diterjemahkan?',
+    description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum. Mauris ut aliquet justo, et consectetur lorem. Nam semper vehicula ex, ac fermentum orci elementum ac. Mauris ut aliquet justo, et consectetur lorem.',
+    category: 'Hukum Perdata',
+    createdAt: '24 Desember 2023 (10:23:20)',
+    status: 'solved',
   ),
 ];
