@@ -9,6 +9,8 @@ import 'package:law_app/features/shared/widgets/dialog/confirm_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/custom_alert_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/edit_contact_us_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/one_form_dialog.dart';
+import 'package:law_app/features/shared/widgets/dialog/one_form_with_text_area_dialog.dart';
+import 'package:law_app/features/shared/widgets/dialog/sorting_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/type_selector_dialog.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 
@@ -172,6 +174,48 @@ extension DialogExtension on BuildContext {
         onPressedSecondaryButton: onPressedSecondaryButton,
         primaryButtonText: primaryButtonText,
         secondaryButtonText: secondaryButtonText,
+      ),
+    );
+  }
+
+  Future<Object?> showSortingDialog() {
+    return showDialog(
+      context: this,
+      barrierDismissible: false,
+      builder: (_) => const SortingDialog(),
+    );
+  }
+
+  Future<Object?> showOneFormWithTextAreaDialog({
+    required String title,
+    required String formName,
+    required String formLabel,
+    required String formHint,
+    required String textAreaName,
+    required String textAreaLabel,
+    required String textAreaHint,
+    required int textAreaMaxLines,
+    VoidCallback? onPressedPrimaryButton,
+    VoidCallback? onPressedSecondaryButton,
+    String? primaryButtonText,
+    String? secondaryButtonText,
+  }) {
+    return showDialog(
+      context: this,
+      barrierDismissible: false,
+      builder: (_) => OneFormWithTextAreaDialog(
+        title: title,
+        formName: formName,
+        formLabel: formLabel,
+        formHint: formHint,
+        onPressedPrimaryButton: onPressedPrimaryButton,
+        onPressedSecondaryButton: onPressedSecondaryButton,
+        primaryButtonText: primaryButtonText,
+        secondaryButtonText: secondaryButtonText,
+        textAreaHint: textAreaHint,
+        textAreaName: textAreaName,
+        textAreaLabel: textAreaLabel,
+        textAreaMaxLines: textAreaMaxLines,
       ),
     );
   }
