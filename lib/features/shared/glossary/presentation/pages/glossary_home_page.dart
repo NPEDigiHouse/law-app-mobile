@@ -76,10 +76,9 @@ class GlossaryHomePage extends StatelessWidget {
             ),
           ),
           SliverList(
-            delegate: SliverChildListDelegate.fixed(
-              List<ListTile>.generate(
-                glossaries.length,
-                (index) => ListTile(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                return ListTile(
                   contentPadding: const EdgeInsets.symmetric(horizontal: 20),
                   title: Text(
                     glossaries[index].term,
@@ -96,8 +95,9 @@ class GlossaryHomePage extends StatelessWidget {
                     arguments: glossaries[index],
                   ),
                   visualDensity: const VisualDensity(vertical: -4),
-                ),
-              ),
+                );
+              },
+              childCount: glossaries.length,
             ),
           ),
         ],

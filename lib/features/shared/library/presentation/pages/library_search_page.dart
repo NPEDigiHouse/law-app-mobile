@@ -137,7 +137,7 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
           ),
         ),
         SliverPadding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
           sliver: SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
