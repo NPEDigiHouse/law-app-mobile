@@ -4,12 +4,12 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
-class CustomBottomNavigationBar extends StatelessWidget {
+class CustomNavigationBar extends StatelessWidget {
   final int roleId;
   final int currentIndex;
   final ValueChanged<int> onTap;
 
-  const CustomBottomNavigationBar({
+  const CustomNavigationBar({
     super.key,
     required this.roleId,
     required this.currentIndex,

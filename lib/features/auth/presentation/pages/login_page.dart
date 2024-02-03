@@ -107,7 +107,9 @@ class _LoginPageState extends State<LoginPage>
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text('Belum punya akun? Buat akun baru\t'),
+                      const Flexible(
+                        child: Text('Belum punya akun? Buat akun baru\t'),
+                      ),
                       GestureDetector(
                         onTap: navigateToRegisterPage,
                         child: Text(

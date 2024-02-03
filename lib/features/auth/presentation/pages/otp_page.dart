@@ -14,8 +14,8 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/dummies_data.dart';
-import 'package:law_app/features/auth/presentation/providers/count_down_provider.dart';
 import 'package:law_app/features/auth/presentation/widgets/secondary_header.dart';
+import 'package:law_app/features/shared/providers/count_down_provider.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class OtpPage extends StatefulWidget {

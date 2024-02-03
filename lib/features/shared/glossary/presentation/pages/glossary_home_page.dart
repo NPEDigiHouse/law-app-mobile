@@ -3,7 +3,7 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
-import 'package:law_app/features/shared/widgets/custom_information.dart';
+import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/text_field/search_field.dart';
 
@@ -35,7 +35,7 @@ class GlossaryHomePage extends StatelessWidget {
               const SizedBox(height: 12),
               SearchField(
                 text: '',
-                hintText: 'Cari kosa kata...',
+                hintText: 'Cari kosa kata',
                 readOnly: true,
                 canRequestFocus: false,
                 textInputAction: TextInputAction.none,
@@ -47,10 +47,60 @@ class GlossaryHomePage extends StatelessWidget {
           ),
         ),
       ),
-      body: const CustomInformation(
-        illustrationName: 'house-searching-cuate.svg',
-        title: 'Riwayat Pencarian',
-        subtitle: 'Riwayat pencarian Anda akan muncul di sini',
+      body: CustomScrollView(
+        slivers: [
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(20, 24, 20, 4),
+            sliver: SliverToBoxAdapter(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    child: Text(
+                      'Riwayat Pencarian',
+                      style: textTheme.titleLarge,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {},
+                    child: Text(
+                      'Hapus Semua',
+                      style: textTheme.bodySmall!.copyWith(
+                        fontWeight: FontWeight.w500,
+                        color: primaryColor,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                return ListTile(
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+                  title: Text(
+                    glossaries[index].term,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  titleTextStyle: textTheme.bodyLarge,
+                  trailing: const Icon(
+                    Icons.close_rounded,
+                    size: 16,
+                  ),
+                  onTap: () => navigatorKey.currentState!.pushNamed(
+                    glossaryDetailRoute,
+                    arguments: glossaries[index],
+                  ),
+                  visualDensity: const VisualDensity(vertical: -4),
+                );
+              },
+              childCount: glossaries.length,
+            ),
+          ),
+        ],
       ),
     );
   }

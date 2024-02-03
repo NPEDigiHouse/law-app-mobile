@@ -11,15 +11,19 @@ import 'package:law_app/features/common/menu/main_menu_page.dart';
 import 'package:law_app/features/common/notification/notification_page.dart';
 import 'package:law_app/features/shared/glossary/presentation/pages/glossary_detail_page.dart';
 import 'package:law_app/features/shared/glossary/presentation/pages/glossary_search_page.dart';
+import 'package:law_app/features/shared/library/presentation/pages/library_book_detail_page.dart';
 import 'package:law_app/features/shared/library/presentation/pages/library_book_list_page.dart';
 import 'package:law_app/features/shared/library/presentation/pages/library_finished_book_page.dart';
 import 'package:law_app/features/shared/library/presentation/pages/library_saved_book_page.dart';
+import 'package:law_app/features/shared/library/presentation/pages/library_search_page.dart';
 import 'package:law_app/features/shared/profile/presentation/pages/account_info_page.dart';
 import 'package:law_app/features/shared/profile/presentation/pages/certificate_page.dart';
 import 'package:law_app/features/shared/profile/presentation/pages/contact_us_page.dart';
 import 'package:law_app/features/shared/profile/presentation/pages/faq_page.dart';
 import 'package:law_app/features/shared/profile/presentation/pages/profile_page.dart';
-import 'package:law_app/features/student/presentation/pages/student_home_page.dart';
+import 'package:law_app/features/student/presentation/discussion/pages/student_public_discussion_page.dart';
+import 'package:law_app/features/student/presentation/discussion/pages/student_question_list_page.dart';
+import 'package:law_app/features/student/presentation/home/pages/student_home_page.dart';
 import 'package:law_app/features/teacher/presentation/pages/teacher_home_page.dart';
 
 // Register the RouteObserver as a navigation observer
@@ -52,6 +56,10 @@ const libraryBookListRoute = '/library-book-list';
 const libraryFinishedBookRoute = '/library-finished-book';
 const librarySavedBookRoute = '/library-saved-book';
 const librarySearchRoute = '/library-search';
+const libraryBookDetailRoute = '/library-book-detail';
+
+const studentQuestionListRoute = 'student-question-list';
+const studentPublicDiscussionRoute = 'student-public-discussion';
 
 // App routes generator
 Route<dynamic>? generateAppRoutes(RouteSettings settings) {
@@ -151,6 +159,24 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
     case librarySavedBookRoute:
       return MaterialPageRoute(
         builder: (_) => const LibrarySavedBookPage(),
+      );
+    case librarySearchRoute:
+      return MaterialPageRoute(
+        builder: (_) => const LibrarySearchPage(),
+      );
+    case libraryBookDetailRoute:
+      final book = settings.arguments as Book;
+
+      return MaterialPageRoute(
+        builder: (_) => LibraryBookDetailRoute(book: book),
+      );
+    case studentQuestionListRoute:
+      return MaterialPageRoute(
+        builder: (_) => const StudentQuestionListPage(),
+      );
+    case studentPublicDiscussionRoute:
+      return MaterialPageRoute(
+        builder: (_) => const StudentPublicDiscussionPage(),
       );
     default:
       return null;

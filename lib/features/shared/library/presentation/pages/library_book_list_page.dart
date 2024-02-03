@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
+import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/dummies_data.dart';
-import 'package:law_app/features/shared/library/presentation/widgets/book_category_chip.dart';
 import 'package:law_app/features/shared/widgets/book_item.dart';
+import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 
 class LibraryBookListPage extends StatefulWidget {
@@ -49,57 +51,65 @@ class _LibraryBookListPageState extends State<LibraryBookListPage> {
           withTrailingButton: true,
           trailingButtonIconName: 'search-line.svg',
           trailingButtonTooltip: 'Cari',
-          onPressedTrailingButton: () {},
+          onPressedTrailingButton: () => navigatorKey.currentState!.pushNamed(
+            librarySearchRoute,
+          ),
         ),
       ),
-      body: Column(
-        children: [
-          Container(
-            height: 64,
-            decoration: BoxDecoration(
-              color: scaffoldBackgroundColor,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(.1),
-                  offset: const Offset(0, 2),
-                  blurRadius: 4,
-                  spreadRadius: -1,
-                ),
-              ],
-            ),
-            child: ListView.separated(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return ValueListenableBuilder(
-                  valueListenable: selectedCategory,
-                  builder: (context, category, child) {
-                    final selected = category == bookCategories[index];
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            pinned: true,
+            toolbarHeight: 64,
+            automaticallyImplyLeading: false,
+            backgroundColor: Colors.transparent,
+            surfaceTintColor: Colors.transparent,
+            flexibleSpace: Container(
+              decoration: BoxDecoration(
+                color: scaffoldBackgroundColor,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(.1),
+                    offset: const Offset(0, 2),
+                    blurRadius: 4,
+                    spreadRadius: -1,
+                  ),
+                ],
+              ),
+              child: ListView.separated(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return ValueListenableBuilder(
+                    valueListenable: selectedCategory,
+                    builder: (context, category, child) {
+                      final selected = category == bookCategories[index];
 
-                    return BookCategoryChip(
-                      label: bookCategories[index],
-                      selected: selected,
-                      onSelected: (_) {
-                        selectedCategory.value = bookCategories[index];
-                      },
-                    );
-                  },
-                );
-              },
-              separatorBuilder: (context, index) {
-                return const SizedBox(width: 8);
-              },
-              itemCount: bookCategories.length,
+                      return CustomFilterChip(
+                        label: bookCategories[index],
+                        selected: selected,
+                        onSelected: (_) {
+                          selectedCategory.value = bookCategories[index];
+                        },
+                      );
+                    },
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return const SizedBox(width: 8);
+                },
+                itemCount: bookCategories.length,
+              ),
             ),
           ),
-          Expanded(
-            child: GridView.builder(
-              padding: const EdgeInsets.fromLTRB(20, 20, 20, 24),
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 24),
+            sliver: SliverGrid.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 childAspectRatio: 2 / 3,
                 crossAxisCount: 3,
-                mainAxisSpacing: 12,
-                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 8,
               ),
               itemBuilder: (context, index) {
                 return BookItem(

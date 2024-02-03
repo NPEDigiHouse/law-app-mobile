@@ -22,49 +22,47 @@ class Dashboard extends StatelessWidget {
             color: Colors.black.withOpacity(.2),
             offset: const Offset(2, 2),
             blurRadius: 4,
-          )
+          ),
         ],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: List<SizedBox>.generate(
           items.length,
-          (index) {
-            return SizedBox(
-              width: 80,
-              child: Column(
-                children: [
-                  GradientBackgroundIcon(
-                    icon: items[index]["icon"] as String,
-                    size: 58,
-                  ),
-                  const SizedBox(height: 4),
-                  Flexible(
-                    child: RichText(
-                      textAlign: TextAlign.center,
-                      text: TextSpan(
-                        style: textTheme.bodyMedium!.copyWith(
-                          color: primaryTextColor,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: "${items[index]["count"] as int}\n",
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w700,
-                              color: primaryColor,
-                            ),
-                          ),
-                          TextSpan(
-                            text: items[index]["text"] as String,
-                          ),
-                        ],
+          (index) => SizedBox(
+            width: 80,
+            child: Column(
+              children: [
+                GradientBackgroundIcon(
+                  icon: items[index]["icon"] as String,
+                  size: 58,
+                ),
+                const SizedBox(height: 4),
+                Flexible(
+                  child: RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      style: textTheme.bodyMedium!.copyWith(
+                        color: primaryTextColor,
                       ),
+                      children: [
+                        TextSpan(
+                          text: "${items[index]["count"] as int}\n",
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w700,
+                            color: primaryColor,
+                          ),
+                        ),
+                        TextSpan(
+                          text: items[index]["text"] as String,
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-            );
-          },
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

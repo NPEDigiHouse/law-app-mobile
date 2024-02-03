@@ -9,8 +9,8 @@ import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/book_item.dart';
 import 'package:law_app/features/shared/widgets/course_item_card.dart';
 import 'package:law_app/features/shared/widgets/dashboard.dart';
-import 'package:law_app/features/shared/widgets/home/home_page_discussion_card.dart';
-import 'package:law_app/features/shared/widgets/home/home_page_header.dart';
+import 'package:law_app/features/shared/widgets/discussion_card.dart';
+import 'package:law_app/features/shared/widgets/home_page_header.dart';
 
 class StudentHomePage extends StatefulWidget {
   const StudentHomePage({super.key});
@@ -22,7 +22,6 @@ class StudentHomePage extends StatefulWidget {
 class _StudentHomePageState extends State<StudentHomePage> {
   late final List<Map<String, dynamic>> dashboardItems;
   late final List<Map<String, String>> carouselItems;
-  late final List<Map<String, String>> discussionItems;
   late final List<Map<String, dynamic>> courseItems;
 
   @override
@@ -63,24 +62,6 @@ class _StudentHomePageState extends State<StudentHomePage> {
       {
         "img": "sample_carousel_image4.jpg",
         "text": "Promo Mingguan 4",
-      },
-    ];
-
-    discussionItems = [
-      {
-        "title": "Mengapa Dokumen Hukum yang Ada Harus Diterjemahkan?",
-        "description":
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum. Mauris ut aliquet justo, et consectetur lorem. Nam semper vehicula ex, ac fermentum orci elementum ac."
-      },
-      {
-        "title": "Mengapa Dokumen Hukum yang Ada Harus Diterjemahkan?",
-        "description":
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum. Mauris ut aliquet justo, et consectetur lorem. Nam semper vehicula ex, ac fermentum orci elementum ac."
-      },
-      {
-        "title": "Mengapa Dokumen Hukum yang Ada Harus Diterjemahkan?",
-        "description":
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum. Mauris ut aliquet justo, et consectetur lorem. Nam semper vehicula ex, ac fermentum orci elementum ac."
       },
     ];
 
@@ -171,8 +152,8 @@ class _StudentHomePageState extends State<StudentHomePage> {
                           top: index == 0 ? 0 : 4,
                           bottom: index == 2 ? 0 : 4,
                         ),
-                        child: HomePageDiscussionCard(
-                          item: discussionItems[index],
+                        child: DiscussionCard(
+                          question: questions[index],
                         ),
                       );
                     },
@@ -380,24 +361,22 @@ class _CustomCarouselWithIndicatorState
           mainAxisAlignment: MainAxisAlignment.center,
           children: List<ValueListenableBuilder>.generate(
             widget.items.length,
-            (index) {
-              return ValueListenableBuilder(
-                valueListenable: carouselIndex,
-                builder: (context, carouselIndex, child) {
-                  return Container(
-                    width: 8,
-                    height: 8,
-                    margin: const EdgeInsets.symmetric(horizontal: 4),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(4),
-                      color: carouselIndex == index
-                          ? primaryColor
-                          : secondaryTextColor,
-                    ),
-                  );
-                },
-              );
-            },
+            (index) => ValueListenableBuilder(
+              valueListenable: carouselIndex,
+              builder: (context, carouselIndex, child) {
+                return Container(
+                  width: 8,
+                  height: 8,
+                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                    color: carouselIndex == index
+                        ? primaryColor
+                        : secondaryTextColor,
+                  ),
+                );
+              },
+            ),
           ),
         ),
       ],

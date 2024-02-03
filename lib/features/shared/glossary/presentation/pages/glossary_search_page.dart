@@ -42,14 +42,11 @@ class _GlossarySearchPageState extends State<GlossarySearchPage> {
         preferredSize: const Size.fromHeight(124),
         child: HeaderContainer(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Center(
-                child: Text(
-                  'Cari Kata',
-                  style: textTheme.titleMedium!.copyWith(
-                    color: scaffoldBackgroundColor,
-                  ),
+              Text(
+                'Cari Kata',
+                style: textTheme.titleMedium!.copyWith(
+                  color: scaffoldBackgroundColor,
                 ),
               ),
               const SizedBox(height: 10),
@@ -58,7 +55,7 @@ class _GlossarySearchPageState extends State<GlossarySearchPage> {
                 builder: (context, query, child) {
                   return SearchField(
                     text: query,
-                    hintText: 'Cari kosa kata...',
+                    hintText: 'Cari kosa kata',
                     autoFocus: true,
                     onChanged: searchTerm,
                     onFocusChanged: (value) {
@@ -90,6 +87,7 @@ class _GlossarySearchPageState extends State<GlossarySearchPage> {
           }
 
           return ListView.builder(
+            padding: const EdgeInsets.only(top: 8),
             itemBuilder: (context, index) {
               return ListTile(
                 contentPadding: const EdgeInsets.symmetric(horizontal: 20),
@@ -98,17 +96,16 @@ class _GlossarySearchPageState extends State<GlossarySearchPage> {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
-                titleTextStyle: textTheme.bodyLarge!.copyWith(
-                  fontWeight: FontWeight.w500,
-                ),
+                titleTextStyle: textTheme.bodyLarge,
                 trailing: const Icon(
                   Icons.north_west_rounded,
-                  size: 20,
+                  size: 16,
                 ),
                 onTap: () => navigatorKey.currentState!.pushNamed(
                   glossaryDetailRoute,
                   arguments: glossaryList[index],
                 ),
+                visualDensity: const VisualDensity(vertical: -4),
               );
             },
             itemCount: glossaryList.length,
@@ -119,17 +116,17 @@ class _GlossarySearchPageState extends State<GlossarySearchPage> {
   }
 
   void searchTerm(String query) {
-    this.query.value = query;
-
     EasyDebounce.debounce(
       'search-debouncer',
       const Duration(milliseconds: 800),
       () {
+        this.query.value = query;
+
         final result = glossaries.where((glossary) {
-          final valueLower = query.toLowerCase();
+          final queryLower = query.toLowerCase();
           final termLower = glossary.term.toLowerCase();
 
-          return termLower.contains(valueLower);
+          return termLower.contains(queryLower);
         }).toList();
 
         setState(() => glossaryList = result);

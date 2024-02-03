@@ -4,14 +4,17 @@ import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/shared/widgets/label_chip.dart';
 
 class BookCard extends StatelessWidget {
   final Book book;
+  final bool isThreeLine;
   final VoidCallback? onTap;
 
   const BookCard({
     super.key,
     required this.book,
+    this.isThreeLine = true,
     this.onTap,
   });
 
@@ -58,7 +61,7 @@ class BookCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: textTheme.titleMedium,
                       ),
-                      const SizedBox(height: 2),
+                      const SizedBox(height: 4),
                       Text(
                         book.author,
                         maxLines: 1,
@@ -67,40 +70,29 @@ class BookCard extends StatelessWidget {
                           color: secondaryTextColor,
                         ),
                       ),
-                      const SizedBox(height: 4),
-                      if (book.completePercentage != null)
-                        LinearPercentIndicator(
-                          lineHeight: 8,
-                          barRadius: const Radius.circular(8),
-                          padding: const EdgeInsets.only(right: 8),
-                          animation: true,
-                          curve: Curves.easeIn,
-                          percent: book.completePercentage! / 100,
-                          progressColor: successColor,
-                          backgroundColor: secondaryTextColor,
-                          trailing: Text(
-                            '${book.completePercentage!.toInt()}%',
-                          ),
-                        )
-                      else
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 2,
-                            horizontal: 4,
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4),
-                            border: Border.all(
-                              color: infoColor,
+                      if (isThreeLine) ...[
+                        const SizedBox(height: 10),
+                        if (book.completePercentage != null)
+                          LinearPercentIndicator(
+                            lineHeight: 8,
+                            barRadius: const Radius.circular(8),
+                            padding: const EdgeInsets.only(right: 8),
+                            animation: true,
+                            curve: Curves.easeIn,
+                            percent: book.completePercentage! / 100,
+                            progressColor: successColor,
+                            backgroundColor: secondaryTextColor,
+                            trailing: Text(
+                              '${book.completePercentage!.toInt()}%',
+                              style: textTheme.bodySmall,
                             ),
+                          )
+                        else
+                          const LabelChip(
+                            text: 'Belum Dibaca',
+                            color: infoColor,
                           ),
-                          child: Text(
-                            'Belum Dibaca',
-                            style: textTheme.labelSmall!.copyWith(
-                              color: infoColor,
-                            ),
-                          ),
-                        ),
+                      ],
                     ],
                   ),
                 ),

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 class InkWellContainer extends StatelessWidget {
-  final double radius;
+  final double? width;
+  final double? height;
   final Color? color;
-  final EdgeInsets? margin;
-  final EdgeInsets? padding;
+  final EdgeInsetsGeometry? margin;
+  final EdgeInsetsGeometry? padding;
+  final double radius;
   final BoxBorder? border;
   final List<BoxShadow>? boxShadow;
   final VoidCallback? onTap;
@@ -12,10 +14,12 @@ class InkWellContainer extends StatelessWidget {
 
   const InkWellContainer({
     super.key,
-    this.radius = 0,
+    this.width,
+    this.height,
     this.color,
     this.margin,
     this.padding,
+    this.radius = 0,
     this.border,
     this.boxShadow,
     this.onTap,
@@ -25,6 +29,8 @@ class InkWellContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: width,
+      height: height,
       margin: margin,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(radius),

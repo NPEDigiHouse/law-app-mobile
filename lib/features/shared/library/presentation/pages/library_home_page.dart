@@ -54,14 +54,22 @@ class LibraryHomePage extends StatelessWidget {
                         color: scaffoldBackgroundColor,
                         size: 28,
                         tooltip: 'Disimpan',
-                        onPressed: () {},
+                        onPressed: () {
+                          navigatorKey.currentState!.pushNamed(
+                            librarySavedBookRoute,
+                          );
+                        },
                       ),
                       CustomIconButton(
                         iconName: 'search-fill.svg',
                         color: scaffoldBackgroundColor,
                         size: 28,
                         tooltip: 'Cari',
-                        onPressed: () {},
+                        onPressed: () {
+                          navigatorKey.currentState!.pushNamed(
+                            librarySearchRoute,
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -79,10 +87,7 @@ class LibraryHomePage extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.only(
-          top: 20,
-          bottom: 24,
-        ),
+        padding: const EdgeInsets.symmetric(vertical: 24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -108,7 +113,7 @@ class LibraryHomePage extends StatelessWidget {
                   );
                 },
                 separatorBuilder: (context, index) {
-                  return const SizedBox(width: 12);
+                  return const SizedBox(width: 8);
                 },
                 itemCount: 3,
               ),
@@ -131,13 +136,13 @@ class LibraryHomePage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return BookItem(
                     width: 130,
-                    book: books[index],
                     titleMaxLines: 2,
+                    book: books[index],
                     onTap: () {},
                   );
                 },
                 separatorBuilder: (context, index) {
-                  return const SizedBox(width: 12);
+                  return const SizedBox(width: 8);
                 },
                 itemCount: books.length,
               ),
@@ -157,14 +162,17 @@ class LibraryHomePage extends StatelessWidget {
               shrinkWrap: true,
               childAspectRatio: 2 / 3,
               crossAxisCount: 3,
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 8,
               padding: const EdgeInsets.symmetric(horizontal: 20),
               children: List<Widget>.generate(
                 books.length,
                 (index) => BookItem(
                   book: books[index],
-                  onTap: () {},
+                  onTap: () => navigatorKey.currentState!.pushNamed(
+                    libraryBookDetailRoute,
+                    arguments: books[index],
+                  ),
                 ),
               )..add(
                   DottedBorder(

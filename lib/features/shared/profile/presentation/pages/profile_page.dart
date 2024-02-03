@@ -5,7 +5,7 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
-import 'package:law_app/features/shared/widgets/home/home_page_header.dart';
+import 'package:law_app/features/shared/widgets/home_page_header.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -38,7 +38,7 @@ class ProfilePage extends StatelessWidget {
                         color: Colors.black.withOpacity(.2),
                         offset: const Offset(2, 2),
                         blurRadius: 4,
-                      )
+                      ),
                     ],
                   ),
                   child: Column(
