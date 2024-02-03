@@ -8,18 +8,14 @@ import 'package:law_app/features/shared/widgets/svg_asset.dart';
 class CustomDialog extends StatelessWidget {
   final String title;
   final VoidCallback? onPressedPrimaryButton;
-  final VoidCallback? onPressedSecondaryButton;
   final String? primaryButtonText;
-  final String? secondaryButtonText;
   final List<Widget> children;
 
   const CustomDialog({
     super.key,
     required this.title,
     this.onPressedPrimaryButton,
-    this.onPressedSecondaryButton,
     this.primaryButtonText,
-    this.secondaryButtonText,
     required this.children,
   });
 
@@ -78,21 +74,19 @@ class CustomDialog extends StatelessWidget {
                 children: [
                   Expanded(
                     child: FilledButton(
-                      onPressed: onPressedSecondaryButton ??
-                          () => navigatorKey.currentState!.pop(),
+                      onPressed: () => navigatorKey.currentState!.pop(),
                       style: FilledButton.styleFrom(
                         padding: const EdgeInsets.all(0),
                         backgroundColor: secondaryColor,
                         foregroundColor: primaryColor,
                       ),
-                      child: Text(secondaryButtonText ?? 'Kembali'),
+                      child: const Text('Kembali'),
                     ),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: FilledButton(
-                      onPressed: onPressedPrimaryButton ??
-                          () => navigatorKey.currentState!.pop(),
+                      onPressed: onPressedPrimaryButton,
                       style: FilledButton.styleFrom(
                         padding: const EdgeInsets.all(0),
                       ),

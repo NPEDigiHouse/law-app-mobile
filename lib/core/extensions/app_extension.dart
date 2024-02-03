@@ -8,8 +8,8 @@ import 'package:law_app/features/shared/profile/presentation/widgets/edit_profil
 import 'package:law_app/features/shared/widgets/dialog/confirm_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/custom_alert_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/edit_contact_us_dialog.dart';
-import 'package:law_app/features/shared/widgets/dialog/one_form_dialog.dart';
-import 'package:law_app/features/shared/widgets/dialog/one_form_with_text_area_dialog.dart';
+import 'package:law_app/features/shared/widgets/dialog/single_form_dialog.dart';
+import 'package:law_app/features/shared/widgets/dialog/single_form_text_area_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/sorting_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/type_selector_dialog.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
@@ -61,9 +61,7 @@ extension DialogExtension on BuildContext {
     required String message,
     String? checkboxLabel,
     VoidCallback? onPressedPrimaryButton,
-    VoidCallback? onPressedSecondaryButton,
     String? primaryButtonText,
-    String? secondaryButtonText,
   }) {
     return showDialog<Object?>(
       context: this,
@@ -73,9 +71,7 @@ extension DialogExtension on BuildContext {
         message: message,
         checkboxLabel: checkboxLabel,
         onPressedPrimaryButton: onPressedPrimaryButton,
-        onPressedSecondaryButton: onPressedSecondaryButton,
         primaryButtonText: primaryButtonText,
-        secondaryButtonText: secondaryButtonText,
       ),
     );
   }
@@ -110,28 +106,56 @@ extension DialogExtension on BuildContext {
     );
   }
 
-  Future<Object?> showOneFormDialog({
+  Future<Object?> showSingleFormDialog({
     required String title,
     required String formName,
-    required String formLabel,
-    required String formHint,
+    required String label,
+    required String hintText,
+    int? maxLines,
     VoidCallback? onPressedPrimaryButton,
-    VoidCallback? onPressedSecondaryButton,
     String? primaryButtonText,
-    String? secondaryButtonText,
   }) {
     return showDialog(
       context: this,
       barrierDismissible: false,
-      builder: (_) => OneFormDialog(
+      builder: (_) => SingleFormDialog(
         title: title,
-        formName: formName,
-        formLabel: formLabel,
-        formHint: formHint,
+        name: formName,
+        label: label,
+        hintText: hintText,
+        maxLines: maxLines,
         onPressedPrimaryButton: onPressedPrimaryButton,
-        onPressedSecondaryButton: onPressedSecondaryButton,
         primaryButtonText: primaryButtonText,
-        secondaryButtonText: secondaryButtonText,
+      ),
+    );
+  }
+
+  Future<Object?> showSingleFormTextAreaDialog({
+    required String title,
+    required String textFieldName,
+    required String textFieldLabel,
+    required String textFieldHint,
+    required String textAreaName,
+    required String textAreaLabel,
+    required String textAreaHint,
+    required int textAreaMaxLines,
+    VoidCallback? onPressedPrimaryButton,
+    String? primaryButtonText,
+  }) {
+    return showDialog(
+      context: this,
+      barrierDismissible: false,
+      builder: (_) => SingleFormTextAreaDialog(
+        title: title,
+        textFieldName: textFieldName,
+        textFieldLabel: textFieldLabel,
+        textFieldHint: textFieldHint,
+        textAreaName: textAreaName,
+        textAreaLabel: textAreaLabel,
+        textAreaHint: textAreaHint,
+        textAreaMaxLines: textAreaMaxLines,
+        onPressedPrimaryButton: onPressedPrimaryButton,
+        primaryButtonText: primaryButtonText,
       ),
     );
   }
@@ -140,20 +164,21 @@ extension DialogExtension on BuildContext {
     required String title,
     required String message,
     String? checkboxLabel,
-    required bool isError,
+    Color? foregroundColor,
+    Color? backgroundColor,
     VoidCallback? onPressedPrimaryButton,
-    VoidCallback? onPressedSecondaryButton,
+    String? primaryButtonText,
   }) {
-    debugPrint("Masuk di extension");
     return showDialog(
       context: this,
       builder: (_) => CustomAlertDialog(
         title: title,
-        isError: isError,
-        checkboxLabel: checkboxLabel,
         message: message,
+        checkboxLabel: checkboxLabel,
+        foregroundColor: foregroundColor,
+        backgroundColor: backgroundColor,
         onPressedPrimaryButton: onPressedPrimaryButton,
-        onPressedSecondaryButton: onPressedSecondaryButton,
+        primaryButtonText: primaryButtonText,
       ),
     );
   }
@@ -161,9 +186,7 @@ extension DialogExtension on BuildContext {
   Future<Object?> showEditContactUsDialog({
     required List<Map<String, dynamic>> items,
     VoidCallback? onPressedPrimaryButton,
-    VoidCallback? onPressedSecondaryButton,
     String? primaryButtonText,
-    String? secondaryButtonText,
   }) {
     return showDialog(
       context: this,
@@ -171,22 +194,18 @@ extension DialogExtension on BuildContext {
       builder: (_) => EditContactUsDialog(
         items: items,
         onPressedPrimaryButton: onPressedPrimaryButton,
-        onPressedSecondaryButton: onPressedSecondaryButton,
         primaryButtonText: primaryButtonText,
-        secondaryButtonText: secondaryButtonText,
       ),
     );
   }
 
   Future<Object?> showSortingDialog({
     required String title,
-    VoidCallback? onPressedPrimaryButton,
-    VoidCallback? onPressedSecondaryButton,
-    String? primaryButtonText,
-    String? secondaryButtonText,
     required List<String> sortingItems,
     required ValueNotifier<String?> selectedFirstDropdown,
     required ValueNotifier<String?> selectedSecondDropdown,
+    VoidCallback? onPressedPrimaryButton,
+    String? primaryButtonText,
   }) {
     return showDialog(
       context: this,
@@ -194,46 +213,10 @@ extension DialogExtension on BuildContext {
       builder: (_) => SortingDialog(
         title: title,
         sortingItems: sortingItems,
-        onPressedPrimaryButton: onPressedPrimaryButton,
-        onPressedSecondaryButton: onPressedSecondaryButton,
-        primaryButtonText: primaryButtonText,
-        secondaryButtonText: secondaryButtonText,
         selectedFirstDropdown: selectedFirstDropdown,
         selectedSecondDropdown: selectedSecondDropdown,
-      ),
-    );
-  }
-
-  Future<Object?> showOneFormWithTextAreaDialog({
-    required String title,
-    required String formName,
-    required String formLabel,
-    required String formHint,
-    required String textAreaName,
-    required String textAreaLabel,
-    required String textAreaHint,
-    required int textAreaMaxLines,
-    VoidCallback? onPressedPrimaryButton,
-    VoidCallback? onPressedSecondaryButton,
-    String? primaryButtonText,
-    String? secondaryButtonText,
-  }) {
-    return showDialog(
-      context: this,
-      barrierDismissible: false,
-      builder: (_) => OneFormWithTextAreaDialog(
-        title: title,
-        formName: formName,
-        formLabel: formLabel,
-        formHint: formHint,
         onPressedPrimaryButton: onPressedPrimaryButton,
-        onPressedSecondaryButton: onPressedSecondaryButton,
         primaryButtonText: primaryButtonText,
-        secondaryButtonText: secondaryButtonText,
-        textAreaHint: textAreaHint,
-        textAreaName: textAreaName,
-        textAreaLabel: textAreaLabel,
-        textAreaMaxLines: textAreaMaxLines,
       ),
     );
   }

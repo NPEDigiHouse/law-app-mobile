@@ -1,8 +1,6 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
@@ -90,10 +88,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
       name: widget.name,
       initialValue: widget.initialValue,
       keyboardType: widget.textInputType,
-      maxLines: widget.maxLines,
       textInputAction: widget.textInputAction,
       textCapitalization: widget.textCapitalization,
       textAlignVertical: TextAlignVertical.center,
+      maxLines: widget.maxLines,
       decoration: InputDecoration(
         hintText: widget.hintText,
         contentPadding: const EdgeInsets.all(16),

@@ -1,6 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
@@ -10,22 +8,21 @@ import 'package:law_app/features/shared/widgets/svg_asset.dart';
 class CustomAlertDialog extends StatefulWidget {
   final String title;
   final String message;
+  final Color? foregroundColor;
+  final Color? backgroundColor;
   final String? checkboxLabel;
-  final bool isError;
   final VoidCallback? onPressedPrimaryButton;
-  final VoidCallback? onPressedSecondaryButton;
   final String? primaryButtonText;
-  final String? secondaryButtonText;
+
   const CustomAlertDialog({
     super.key,
     required this.title,
     required this.message,
-    required this.isError,
+    this.foregroundColor,
+    this.backgroundColor,
     this.checkboxLabel,
     this.onPressedPrimaryButton,
-    this.onPressedSecondaryButton,
     this.primaryButtonText,
-    this.secondaryButtonText,
   });
 
   @override
@@ -90,17 +87,18 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
                   right: 0,
                   left: 0,
                   child: Container(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: widget.isError ? secondaryColor : warningColor,
+                      color: widget.backgroundColor ?? secondaryColor,
                       shape: BoxShape.circle,
                     ),
                     child: SvgAsset(
                       width: 100,
                       height: 100,
-                      color: widget.isError ? errorColor : scaffoldBackgroundColor,
-                      assetPath:
-                          AssetPath.getIcon("exclamation-circle-line.svg"),
+                      color: widget.foregroundColor ?? errorColor,
+                      assetPath: AssetPath.getIcon(
+                        "exclamation-circle-line.svg",
+                      ),
                     ),
                   ),
                 )
@@ -115,43 +113,41 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
                   widget.title,
                   textAlign: TextAlign.center,
                   style: textTheme.headlineSmall!.copyWith(
-                    color: widget.isError ? errorColor : warningColor,
+                    color: widget.foregroundColor ?? errorColor,
                   ),
                 ),
-                const SizedBox(
-                  height: 8.0,
-                ),
+                const SizedBox(height: 8),
                 Text(
                   widget.message,
                   style: textTheme.bodyMedium!.copyWith(
                     color: primaryTextColor,
                   ),
                 ),
-                const SizedBox(
-                  height: 12.0,
-                ),
+                const SizedBox(height: 12),
                 if (widget.checkboxLabel != null)
                   ValueListenableBuilder(
                     valueListenable: isChecked,
-                    builder: (context, val, child) => ListTileTheme(
-                      minVerticalPadding: 0,
-                      child: CheckboxListTile(
-                        title: Text(
-                          widget.checkboxLabel!,
-                          style: textTheme.bodyMedium!.copyWith(
-                            color: primaryTextColor,
+                    builder: (context, value, child) {
+                      return ListTileTheme(
+                        minVerticalPadding: 0,
+                        child: CheckboxListTile(
+                          title: Text(
+                            widget.checkboxLabel!,
+                            style: textTheme.bodyMedium!.copyWith(
+                              color: primaryTextColor,
+                            ),
                           ),
+                          controlAffinity: ListTileControlAffinity.leading,
+                          contentPadding: EdgeInsets.zero,
+                          visualDensity: const VisualDensity(
+                            horizontal: VisualDensity.minimumDensity,
+                            vertical: VisualDensity.minimumDensity,
+                          ),
+                          value: value,
+                          onChanged: (value) => isChecked.value = value!,
                         ),
-                        controlAffinity: ListTileControlAffinity.leading,
-                        contentPadding: EdgeInsets.zero,
-                        visualDensity: const VisualDensity(
-                          horizontal: VisualDensity.minimumDensity,
-                          vertical: VisualDensity.minimumDensity,
-                        ),
-                        value: val,
-                        onChanged: (bool? value) => isChecked.value = value!,
-                      ),
-                    ),
+                      );
+                    },
                   ),
               ],
             ),
@@ -162,20 +158,19 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
               children: [
                 Expanded(
                   child: FilledButton(
-                    onPressed: widget.onPressedSecondaryButton ?? () => navigatorKey.currentState!.pop(),
+                    onPressed: () => navigatorKey.currentState!.pop(),
                     style: FilledButton.styleFrom(
                       padding: const EdgeInsets.all(0),
                       backgroundColor: secondaryColor,
                       foregroundColor: primaryColor,
                     ),
-                    child: Text(widget.secondaryButtonText ?? 'Kembali'),
+                    child: const Text('Kembali'),
                   ),
                 ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: FilledButton(
-                    onPressed: widget.onPressedPrimaryButton ??
-                          () => navigatorKey.currentState!.pop(),
+                    onPressed: widget.onPressedPrimaryButton,
                     style: FilledButton.styleFrom(
                       padding: const EdgeInsets.all(0),
                     ),

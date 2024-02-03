@@ -8,9 +8,7 @@ class ConfirmDialog extends StatefulWidget {
   final String message;
   final String? checkboxLabel;
   final VoidCallback? onPressedPrimaryButton;
-  final VoidCallback? onPressedSecondaryButton;
   final String? primaryButtonText;
-  final String? secondaryButtonText;
 
   const ConfirmDialog({
     super.key,
@@ -18,9 +16,7 @@ class ConfirmDialog extends StatefulWidget {
     required this.message,
     this.checkboxLabel,
     this.onPressedPrimaryButton,
-    this.onPressedSecondaryButton,
     this.primaryButtonText,
-    this.secondaryButtonText,
   });
 
   @override
@@ -49,36 +45,34 @@ class _ConfirmDialogState extends State<ConfirmDialog> {
     return CustomDialog(
       title: widget.title,
       onPressedPrimaryButton: widget.onPressedPrimaryButton,
-      onPressedSecondaryButton: widget.onPressedSecondaryButton,
       primaryButtonText: widget.primaryButtonText,
-      secondaryButtonText: widget.secondaryButtonText,
       children: [
         Text(widget.message),
-        const SizedBox(
-          height: 8,
-        ),
+        const SizedBox(height: 8),
         if (widget.checkboxLabel != null)
           ValueListenableBuilder(
             valueListenable: isChecked,
-            builder: (context, val, child) => ListTileTheme(
-              minVerticalPadding: 4,
-              child: CheckboxListTile(
-                title: Text(
-                  widget.checkboxLabel!,
-                  style: textTheme.bodyMedium!.copyWith(
-                    color: primaryTextColor,
+            builder: (context, value, child) {
+              return ListTileTheme(
+                minVerticalPadding: 4,
+                child: CheckboxListTile(
+                  title: Text(
+                    widget.checkboxLabel!,
+                    style: textTheme.bodyMedium!.copyWith(
+                      color: primaryTextColor,
+                    ),
                   ),
+                  controlAffinity: ListTileControlAffinity.leading,
+                  contentPadding: EdgeInsets.zero,
+                  visualDensity: const VisualDensity(
+                    horizontal: VisualDensity.minimumDensity,
+                    vertical: VisualDensity.minimumDensity,
+                  ),
+                  value: value,
+                  onChanged: (value) => isChecked.value = value!,
                 ),
-                controlAffinity: ListTileControlAffinity.leading,
-                contentPadding: EdgeInsets.zero,
-                visualDensity: const VisualDensity(
-                  horizontal: VisualDensity.minimumDensity,
-                  vertical: VisualDensity.minimumDensity,
-                ),
-                value: val,
-                onChanged: (bool? value) => isChecked.value = value!,
-              ),
-            ),
+              );
+            },
           ),
       ],
     );

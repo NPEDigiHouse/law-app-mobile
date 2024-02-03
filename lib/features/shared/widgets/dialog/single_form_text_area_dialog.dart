@@ -4,34 +4,30 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:law_app/features/shared/widgets/dialog/custom_dialog.dart';
 import 'package:law_app/features/shared/widgets/text_field/custom_text_field.dart';
 
-class OneFormWithTextAreaDialog extends StatelessWidget {
+class SingleFormTextAreaDialog extends StatelessWidget {
   final String title;
-  final String formName;
-  final String formLabel;
-  final String formHint;
+  final String textFieldName;
+  final String textFieldLabel;
+  final String textFieldHint;
   final String textAreaName;
   final String textAreaLabel;
   final String textAreaHint;
-  final int textAreaMaxLines;
+  final int? textAreaMaxLines;
   final VoidCallback? onPressedPrimaryButton;
-  final VoidCallback? onPressedSecondaryButton;
   final String? primaryButtonText;
-  final String? secondaryButtonText;
 
-  const OneFormWithTextAreaDialog({
+  const SingleFormTextAreaDialog({
     super.key,
     required this.title,
-    required this.formName,
-    required this.formLabel,
-    required this.formHint,
+    required this.textFieldName,
+    required this.textFieldLabel,
+    required this.textFieldHint,
     required this.textAreaName,
     required this.textAreaLabel,
     required this.textAreaHint,
-    required this.textAreaMaxLines,
+    this.textAreaMaxLines,
     this.onPressedPrimaryButton,
-    this.onPressedSecondaryButton,
     this.primaryButtonText,
-    this.secondaryButtonText,
   });
 
   @override
@@ -39,32 +35,27 @@ class OneFormWithTextAreaDialog extends StatelessWidget {
     return CustomDialog(
       title: title,
       onPressedPrimaryButton: onPressedPrimaryButton,
-      onPressedSecondaryButton: onPressedSecondaryButton,
       primaryButtonText: primaryButtonText,
-      secondaryButtonText: secondaryButtonText,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          padding: const EdgeInsets.symmetric(vertical: 8),
           child: FormBuilder(
             child: Column(
               children: [
                 CustomTextField(
-                  name: formName,
-                  label: formLabel,
-                  hintText: formHint,
-                  maxLines: 1,
+                  name: textAreaName,
+                  label: textFieldLabel,
+                  hintText: textFieldHint,
                   hasPrefixIcon: false,
                   hasSuffixIcon: false,
-                  textInputType: TextInputType.name,
                   textInputAction: TextInputAction.next,
                   validators: [
                     FormBuilderValidators.required(
-                        errorText: "Bagian ini harus diisi"),
+                      errorText: "Bagian ini harus diisi",
+                    ),
                   ],
                 ),
-                const SizedBox(
-                  height: 12,
-                ),
+                const SizedBox(height: 12),
                 CustomTextField(
                   name: textAreaName,
                   label: textAreaLabel,
@@ -72,8 +63,7 @@ class OneFormWithTextAreaDialog extends StatelessWidget {
                   hasPrefixIcon: false,
                   hasSuffixIcon: false,
                   maxLines: textAreaMaxLines,
-                  textInputType: TextInputType.name,
-                  textInputAction: TextInputAction.next,
+                  textInputAction: TextInputAction.newline,
                   validators: [
                     FormBuilderValidators.required(
                         errorText: "Bagian ini harus diisi"),
