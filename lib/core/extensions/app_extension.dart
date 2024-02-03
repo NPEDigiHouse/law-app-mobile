@@ -178,11 +178,29 @@ extension DialogExtension on BuildContext {
     );
   }
 
-  Future<Object?> showSortingDialog() {
+  Future<Object?> showSortingDialog({
+    required String title,
+    VoidCallback? onPressedPrimaryButton,
+    VoidCallback? onPressedSecondaryButton,
+    String? primaryButtonText,
+    String? secondaryButtonText,
+    required List<String> sortingItems,
+    required ValueNotifier<String?> selectedFirstDropdown,
+    required ValueNotifier<String?> selectedSecondDropdown,
+  }) {
     return showDialog(
       context: this,
       barrierDismissible: false,
-      builder: (_) => const SortingDialog(),
+      builder: (_) => SortingDialog(
+        title: title,
+        sortingItems: sortingItems,
+        onPressedPrimaryButton: onPressedPrimaryButton,
+        onPressedSecondaryButton: onPressedSecondaryButton,
+        primaryButtonText: primaryButtonText,
+        secondaryButtonText: secondaryButtonText,
+        selectedFirstDropdown: selectedFirstDropdown,
+        selectedSecondDropdown: selectedSecondDropdown,
+      ),
     );
   }
 
