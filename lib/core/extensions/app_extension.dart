@@ -6,6 +6,12 @@ import 'package:law_app/core/utils/widget_utils.dart';
 import 'package:law_app/features/shared/profile/presentation/widgets/change_password_dialog.dart';
 import 'package:law_app/features/shared/profile/presentation/widgets/edit_profile_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/confirm_dialog.dart';
+import 'package:law_app/features/shared/widgets/dialog/custom_alert_dialog.dart';
+import 'package:law_app/features/shared/widgets/dialog/edit_contact_us_dialog.dart';
+import 'package:law_app/features/shared/widgets/dialog/one_form_dialog.dart';
+import 'package:law_app/features/shared/widgets/dialog/one_form_with_text_area_dialog.dart';
+import 'package:law_app/features/shared/widgets/dialog/sorting_dialog.dart';
+import 'package:law_app/features/shared/widgets/dialog/type_selector_dialog.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 
 extension Capitalize on String {
@@ -53,6 +59,7 @@ extension DialogExtension on BuildContext {
   Future<Object?> showConfirmDialog({
     required String title,
     required String message,
+    String? checkboxLabel,
     VoidCallback? onPressedPrimaryButton,
     VoidCallback? onPressedSecondaryButton,
     String? primaryButtonText,
@@ -64,6 +71,7 @@ extension DialogExtension on BuildContext {
       builder: (_) => ConfirmDialog(
         title: title,
         message: message,
+        checkboxLabel: checkboxLabel,
         onPressedPrimaryButton: onPressedPrimaryButton,
         onPressedSecondaryButton: onPressedSecondaryButton,
         primaryButtonText: primaryButtonText,
@@ -85,6 +93,148 @@ extension DialogExtension on BuildContext {
       context: this,
       barrierDismissible: false,
       builder: (_) => const ChangePasswordDialog(),
+    );
+  }
+
+  Future<Object?> showTypeSelectorDialog({
+    required String title,
+    required List<Map<String, dynamic>> items,
+  }) {
+    return showDialog(
+      context: this,
+      barrierDismissible: false,
+      builder: (_) => TypeSelectorDialog(
+        title: title,
+        items: items,
+      ),
+    );
+  }
+
+  Future<Object?> showOneFormDialog({
+    required String title,
+    required String formName,
+    required String formLabel,
+    required String formHint,
+    VoidCallback? onPressedPrimaryButton,
+    VoidCallback? onPressedSecondaryButton,
+    String? primaryButtonText,
+    String? secondaryButtonText,
+  }) {
+    return showDialog(
+      context: this,
+      barrierDismissible: false,
+      builder: (_) => OneFormDialog(
+        title: title,
+        formName: formName,
+        formLabel: formLabel,
+        formHint: formHint,
+        onPressedPrimaryButton: onPressedPrimaryButton,
+        onPressedSecondaryButton: onPressedSecondaryButton,
+        primaryButtonText: primaryButtonText,
+        secondaryButtonText: secondaryButtonText,
+      ),
+    );
+  }
+
+  Future<Object?> showCustomAlertDialog({
+    required String title,
+    required String message,
+    String? checkboxLabel,
+    required bool isError,
+    VoidCallback? onPressedPrimaryButton,
+    VoidCallback? onPressedSecondaryButton,
+  }) {
+    debugPrint("Masuk di extension");
+    return showDialog(
+      context: this,
+      builder: (_) => CustomAlertDialog(
+        title: title,
+        isError: isError,
+        checkboxLabel: checkboxLabel,
+        message: message,
+        onPressedPrimaryButton: onPressedPrimaryButton,
+        onPressedSecondaryButton: onPressedSecondaryButton,
+      ),
+    );
+  }
+
+  Future<Object?> showEditContactUsDialog({
+    required List<Map<String, dynamic>> items,
+    VoidCallback? onPressedPrimaryButton,
+    VoidCallback? onPressedSecondaryButton,
+    String? primaryButtonText,
+    String? secondaryButtonText,
+  }) {
+    return showDialog(
+      context: this,
+      barrierDismissible: false,
+      builder: (_) => EditContactUsDialog(
+        items: items,
+        onPressedPrimaryButton: onPressedPrimaryButton,
+        onPressedSecondaryButton: onPressedSecondaryButton,
+        primaryButtonText: primaryButtonText,
+        secondaryButtonText: secondaryButtonText,
+      ),
+    );
+  }
+
+  Future<Object?> showSortingDialog({
+    required String title,
+    VoidCallback? onPressedPrimaryButton,
+    VoidCallback? onPressedSecondaryButton,
+    String? primaryButtonText,
+    String? secondaryButtonText,
+    required List<String> sortingItems,
+    required ValueNotifier<String?> selectedFirstDropdown,
+    required ValueNotifier<String?> selectedSecondDropdown,
+  }) {
+    return showDialog(
+      context: this,
+      barrierDismissible: false,
+      builder: (_) => SortingDialog(
+        title: title,
+        sortingItems: sortingItems,
+        onPressedPrimaryButton: onPressedPrimaryButton,
+        onPressedSecondaryButton: onPressedSecondaryButton,
+        primaryButtonText: primaryButtonText,
+        secondaryButtonText: secondaryButtonText,
+        selectedFirstDropdown: selectedFirstDropdown,
+        selectedSecondDropdown: selectedSecondDropdown,
+      ),
+    );
+  }
+
+  Future<Object?> showOneFormWithTextAreaDialog({
+    required String title,
+    required String formName,
+    required String formLabel,
+    required String formHint,
+    required String textAreaName,
+    required String textAreaLabel,
+    required String textAreaHint,
+    required int textAreaMaxLines,
+    VoidCallback? onPressedPrimaryButton,
+    VoidCallback? onPressedSecondaryButton,
+    String? primaryButtonText,
+    String? secondaryButtonText,
+  }) {
+    return showDialog(
+      context: this,
+      barrierDismissible: false,
+      builder: (_) => OneFormWithTextAreaDialog(
+        title: title,
+        formName: formName,
+        formLabel: formLabel,
+        formHint: formHint,
+        onPressedPrimaryButton: onPressedPrimaryButton,
+        onPressedSecondaryButton: onPressedSecondaryButton,
+        primaryButtonText: primaryButtonText,
+        secondaryButtonText: secondaryButtonText,
+        textAreaHint: textAreaHint,
+        textAreaName: textAreaName,
+        textAreaLabel: textAreaLabel,
+        textAreaMaxLines: textAreaMaxLines,
+      ),
     );
   }
 }
