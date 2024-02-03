@@ -7,7 +7,7 @@ import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/dashboard.dart';
-import 'package:law_app/features/shared/widgets/home/home_page_header.dart';
+import 'package:law_app/features/shared/widgets/home_page_header.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class AdminHomePage extends StatelessWidget {

@@ -10,7 +10,7 @@ import 'package:law_app/features/shared/widgets/book_item.dart';
 import 'package:law_app/features/shared/widgets/course_item_card.dart';
 import 'package:law_app/features/shared/widgets/dashboard.dart';
 import 'package:law_app/features/shared/widgets/discussion_card.dart';
-import 'package:law_app/features/shared/widgets/home/home_page_header.dart';
+import 'package:law_app/features/shared/widgets/home_page_header.dart';
 
 class StudentHomePage extends StatefulWidget {
   const StudentHomePage({super.key});

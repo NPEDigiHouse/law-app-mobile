@@ -7,7 +7,7 @@ import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/book_item.dart';
 import 'package:law_app/features/shared/widgets/dashboard.dart';
 import 'package:law_app/features/shared/widgets/discussion_card.dart';
-import 'package:law_app/features/shared/widgets/home/home_page_header.dart';
+import 'package:law_app/features/shared/widgets/home_page_header.dart';
 
 class TeacherHomePage extends StatefulWidget {
   const TeacherHomePage({super.key});
