@@ -361,24 +361,22 @@ class _CustomCarouselWithIndicatorState
           mainAxisAlignment: MainAxisAlignment.center,
           children: List<ValueListenableBuilder>.generate(
             widget.items.length,
-            (index) {
-              return ValueListenableBuilder(
-                valueListenable: carouselIndex,
-                builder: (context, carouselIndex, child) {
-                  return Container(
-                    width: 8,
-                    height: 8,
-                    margin: const EdgeInsets.symmetric(horizontal: 4),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(4),
-                      color: carouselIndex == index
-                          ? primaryColor
-                          : secondaryTextColor,
-                    ),
-                  );
-                },
-              );
-            },
+            (index) => ValueListenableBuilder(
+              valueListenable: carouselIndex,
+              builder: (context, carouselIndex, child) {
+                return Container(
+                  width: 8,
+                  height: 8,
+                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                    color: carouselIndex == index
+                        ? primaryColor
+                        : secondaryTextColor,
+                  ),
+                );
+              },
+            ),
           ),
         ),
       ],

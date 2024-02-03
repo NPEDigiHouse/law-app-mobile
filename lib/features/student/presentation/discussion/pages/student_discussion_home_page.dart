@@ -93,16 +93,17 @@ class StudentDiscussionHomePage extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              Text(
-                                'Kesempatan Pertanyaan Mingguan',
-                                style: textTheme.titleMedium!.copyWith(
-                                  color: primaryColor,
+                              Flexible(
+                                child: Text(
+                                  'Kesempatan Pertanyaan Mingguan',
+                                  style: textTheme.titleMedium!.copyWith(
+                                    color: primaryColor,
+                                  ),
                                 ),
                               ),
                               const SizedBox(width: 4),
                               Tooltip(
-                                message:
-                                    'Pertanyaan umum dan khusus akan direset setiap minggu.',
+                                message: 'Kesempatan akan di-reset tiap minggu',
                                 textStyle: textTheme.bodySmall!.copyWith(
                                   color: scaffoldBackgroundColor,
                                 ),
@@ -187,14 +188,14 @@ class StudentDiscussionHomePage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Flexible(
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Text(
-                        'Lihat Selengkapnya >',
-                        style: textTheme.bodySmall!.copyWith(
-                          color: primaryColor,
-                        ),
+                  GestureDetector(
+                    onTap: () => navigatorKey.currentState!.pushNamed(
+                      studentQuestionListRoute,
+                    ),
+                    child: Text(
+                      'Lihat Selengkapnya >',
+                      style: textTheme.bodySmall!.copyWith(
+                        color: primaryColor,
                       ),
                     ),
                   ),
@@ -210,6 +211,7 @@ class StudentDiscussionHomePage extends StatelessWidget {
                   return DiscussionCard(
                     width: 300,
                     question: questions[index],
+                    onTap: () {},
                   );
                 },
                 separatorBuilder: (context, index) {
@@ -231,21 +233,19 @@ class StudentDiscussionHomePage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Flexible(
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Text(
-                        'Lihat Selengkapnya >',
-                        style: textTheme.bodySmall!.copyWith(
-                          color: primaryColor,
-                        ),
+                  GestureDetector(
+                    onTap: () {},
+                    child: Text(
+                      'Lihat Selengkapnya >',
+                      style: textTheme.bodySmall!.copyWith(
+                        color: primaryColor,
                       ),
                     ),
                   ),
                 ],
               ),
             ),
-            ...List<Widget>.generate(
+            ...List<Padding>.generate(
               questions.length,
               (index) => Padding(
                 padding: EdgeInsets.fromLTRB(
@@ -258,6 +258,7 @@ class StudentDiscussionHomePage extends StatelessWidget {
                   question: questions[index],
                   isDetail: true,
                   withProfile: true,
+                  onTap: () {},
                 ),
               ),
             ),

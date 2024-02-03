@@ -3,8 +3,8 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/dummies_data.dart';
-import 'package:law_app/features/shared/library/presentation/widgets/book_category_chip.dart';
 import 'package:law_app/features/shared/widgets/book_item.dart';
+import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 
 class LibraryBookListPage extends StatefulWidget {
@@ -80,7 +80,7 @@ class _LibraryBookListPageState extends State<LibraryBookListPage> {
                   builder: (context, category, child) {
                     final selected = category == bookCategories[index];
 
-                    return BookCategoryChip(
+                    return CustomFilterChip(
                       label: bookCategories[index],
                       selected: selected,
                       onSelected: (_) {

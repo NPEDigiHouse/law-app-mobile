@@ -164,7 +164,7 @@ const questions = [
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum. Mauris ut aliquet justo, et consectetur lorem. Nam semper vehicula ex, ac fermentum orci elementum ac. Mauris ut aliquet justo, et consectetur lorem.',
     category: 'Hukum Perdata',
     createdAt: '24 Desember 2023 (10:23:20)',
-    status: 'open',
+    status: 'Open',
   ),
   Question(
     owner: user,
@@ -173,7 +173,7 @@ const questions = [
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum. Mauris ut aliquet justo, et consectetur lorem. Nam semper vehicula ex, ac fermentum orci elementum ac. Mauris ut aliquet justo, et consectetur lorem.',
     category: 'Hukum Perdata',
     createdAt: '24 Desember 2023 (10:23:20)',
-    status: 'discuss',
+    status: 'Discuss',
   ),
   Question(
     owner: user,
@@ -182,6 +182,24 @@ const questions = [
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum. Mauris ut aliquet justo, et consectetur lorem. Nam semper vehicula ex, ac fermentum orci elementum ac. Mauris ut aliquet justo, et consectetur lorem.',
     category: 'Hukum Perdata',
     createdAt: '24 Desember 2023 (10:23:20)',
-    status: 'solved',
+    status: 'Solved',
+  ),
+  Question(
+    owner: user,
+    title: 'Mengapa Dokumen Hukum yang Ada Harus Diterjemahkan?',
+    description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum. Mauris ut aliquet justo, et consectetur lorem. Nam semper vehicula ex, ac fermentum orci elementum ac. Mauris ut aliquet justo, et consectetur lorem.',
+    category: 'Hukum Perdata',
+    createdAt: '24 Desember 2023 (10:23:20)',
+    status: 'Open',
+  ),
+  Question(
+    owner: user,
+    title: 'Mengapa Dokumen Hukum yang Ada Harus Diterjemahkan?',
+    description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum. Mauris ut aliquet justo, et consectetur lorem. Nam semper vehicula ex, ac fermentum orci elementum ac. Mauris ut aliquet justo, et consectetur lorem.',
+    category: 'Hukum Perdata',
+    createdAt: '24 Desember 2023 (10:23:20)',
+    status: 'Solved',
   ),
 ];

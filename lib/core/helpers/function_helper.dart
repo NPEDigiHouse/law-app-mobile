@@ -22,14 +22,14 @@ class FunctionHelper {
     if (isNumber) chars += number;
     if (isSpecial) chars += special;
 
-    return List.generate(
+    return List<String>.generate(
       maxLength,
       (_) => chars[Random.secure().nextInt(chars.length)],
     ).join('');
   }
 
   static Color getColorByDiscussionStatus(String status) {
-    switch (status) {
+    switch (status.toLowerCase()) {
       case 'open':
         return infoColor;
       case 'discuss':

@@ -106,72 +106,70 @@ class AdminHomePage extends StatelessWidget {
                 childAspectRatio: 5 / 4,
                 children: List<Container>.generate(
                   menu.length,
-                  (index) {
-                    return Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: scaffoldBackgroundColor,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(.2),
-                            offset: const Offset(2, 2),
-                            blurRadius: 4,
+                  (index) => Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: scaffoldBackgroundColor,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(.2),
+                          offset: const Offset(2, 2),
+                          blurRadius: 4,
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          height: 50,
+                          width: 50,
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: secondaryColor,
                           ),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: 50,
-                            width: 50,
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              color: secondaryColor,
+                          child: SvgAsset(
+                            color: primaryColor,
+                            assetPath: AssetPath.getIcon(
+                              menu[index]["icon"]!,
                             ),
-                            child: SvgAsset(
-                              color: primaryColor,
-                              assetPath: AssetPath.getIcon(
-                                menu[index]["icon"]!,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                menu[index]["text"]!,
+                                maxLines: 2,
+                                style: textTheme.titleMedium!.copyWith(
+                                  color: primaryColor,
+                                ),
                               ),
                             ),
-                          ),
-                          const SizedBox(height: 12),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  menu[index]["text"]!,
-                                  maxLines: 2,
-                                  style: textTheme.titleMedium!.copyWith(
-                                    color: primaryColor,
+                            InkWell(
+                              onTap: () {},
+                              child: Transform.rotate(
+                                angle: -45 * math.pi,
+                                child: SvgAsset(
+                                  height: 24,
+                                  width: 24,
+                                  color: accentColor,
+                                  assetPath: AssetPath.getIcon(
+                                    "caret-line-left.svg",
                                   ),
                                 ),
                               ),
-                              InkWell(
-                                onTap: () {},
-                                child: Transform.rotate(
-                                  angle: -45 * math.pi,
-                                  child: SvgAsset(
-                                    height: 24,
-                                    width: 24,
-                                    color: accentColor,
-                                    assetPath: AssetPath.getIcon(
-                                      "caret-line-left.svg",
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    );
-                  },
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ),
