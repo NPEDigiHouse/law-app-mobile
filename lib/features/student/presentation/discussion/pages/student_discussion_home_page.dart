@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:law_app/core/extensions/app_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
+import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
@@ -22,14 +22,14 @@ class StudentDiscussionHomePage extends StatefulWidget {
 
 class _StudentDiscussionHomePageState extends State<StudentDiscussionHomePage>
     with SingleTickerProviderStateMixin {
-  late final AnimationController hideFabAnimation;
+  late final AnimationController fabAnimationController;
   late final ScrollController scrollController;
 
   @override
   void initState() {
     super.initState();
 
-    hideFabAnimation = AnimationController(
+    fabAnimationController = AnimationController(
       vsync: this,
       duration: kThemeAnimationDuration,
     );
@@ -37,7 +37,7 @@ class _StudentDiscussionHomePageState extends State<StudentDiscussionHomePage>
     scrollController = ScrollController()
       ..addListener(() {
         if (scrollController.offset == 0) {
-          hideFabAnimation.reverse();
+          fabAnimationController.reverse();
         }
       });
   }
@@ -46,7 +46,7 @@ class _StudentDiscussionHomePageState extends State<StudentDiscussionHomePage>
   void dispose() {
     super.dispose();
 
-    hideFabAnimation.dispose();
+    fabAnimationController.dispose();
     scrollController.dispose();
   }
 
@@ -54,9 +54,13 @@ class _StudentDiscussionHomePageState extends State<StudentDiscussionHomePage>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
-      extendBodyBehindAppBar: true,
-      body: NotificationListener(
-        onNotification: handleScrollNotification,
+      body: NotificationListener<UserScrollNotification>(
+        onNotification: (notification) {
+          return FunctionHelper.handleFabVisibilityOnScroll(
+            notification,
+            fabAnimationController,
+          );
+        },
         child: SingleChildScrollView(
           controller: scrollController,
           child: Column(
@@ -143,7 +147,7 @@ class _StudentDiscussionHomePageState extends State<StudentDiscussionHomePage>
                                 const SizedBox(width: 4),
                                 Tooltip(
                                   message:
-                                      'Kesempatan bertanya akan di-reset setiap minggunya.',
+                                      'Kesempatan bertanya akan di-reset setiap minggu.',
                                   textStyle: textTheme.bodySmall!.copyWith(
                                     color: scaffoldBackgroundColor,
                                   ),
@@ -274,7 +278,9 @@ class _StudentDiscussionHomePageState extends State<StudentDiscussionHomePage>
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () => navigatorKey.currentState!.pushNamed(
+                        studentPublicDiscussionRoute,
+                      ),
                       child: Text(
                         'Lihat Selengkapnya >',
                         style: textTheme.bodySmall!.copyWith(
@@ -292,7 +298,7 @@ class _StudentDiscussionHomePageState extends State<StudentDiscussionHomePage>
                     20,
                     0,
                     20,
-                    questions[index] == questions.last ? 24 : 8,
+                    index == questions.length - 1 ? 24 : 8,
                   ),
                   child: DiscussionCard(
                     question: questions[index],
@@ -307,7 +313,7 @@ class _StudentDiscussionHomePageState extends State<StudentDiscussionHomePage>
         ),
       ),
       floatingActionButton: ScaleTransition(
-        scale: hideFabAnimation,
+        scale: fabAnimationController,
         alignment: Alignment.bottomCenter,
         child: FloatingActionButton.small(
           onPressed: () => scrollController.jumpTo(0),
@@ -321,32 +327,5 @@ class _StudentDiscussionHomePageState extends State<StudentDiscussionHomePage>
         ),
       ),
     );
-  }
-
-  bool handleScrollNotification(UserScrollNotification notification) {
-    if (notification.depth == 0) {
-      switch (notification.direction) {
-        case ScrollDirection.forward:
-          if (notification.metrics.maxScrollExtent !=
-              notification.metrics.minScrollExtent) {
-            if (notification.metrics.pixels != 0) {
-              hideFabAnimation.forward();
-            }
-          }
-          break;
-
-        case ScrollDirection.reverse:
-          if (notification.metrics.maxScrollExtent !=
-              notification.metrics.minScrollExtent) {
-            hideFabAnimation.reverse();
-          }
-          break;
-
-        case ScrollDirection.idle:
-          break;
-      }
-    }
-
-    return false;
   }
 }

@@ -83,11 +83,9 @@ class _LibraryBookListPageState extends State<LibraryBookListPage> {
                   return ValueListenableBuilder(
                     valueListenable: selectedCategory,
                     builder: (context, category, child) {
-                      final selected = category == bookCategories[index];
-
                       return CustomFilterChip(
                         label: bookCategories[index],
-                        selected: selected,
+                        selected: category == bookCategories[index],
                         onSelected: (_) {
                           selectedCategory.value = bookCategories[index];
                         },

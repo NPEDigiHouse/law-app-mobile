@@ -122,11 +122,9 @@ class _StudentQuestionListPageState extends State<StudentQuestionListPage> {
                   return ValueListenableBuilder(
                     valueListenable: selectedStatus,
                     builder: (context, status, child) {
-                      final selected = status == questionStatus[index];
-
                       return CustomFilterChip(
                         label: questionStatus[index],
-                        selected: selected,
+                        selected: status == questionStatus[index],
                         onSelected: (_) {
                           selectedStatus.value = questionStatus[index];
                         },

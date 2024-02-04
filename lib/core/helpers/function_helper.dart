@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 
 /// A collection of helper functions that are reusable for this app
@@ -39,5 +40,35 @@ class FunctionHelper {
       default:
         return secondaryTextColor;
     }
+  }
+
+  static bool handleFabVisibilityOnScroll(
+    UserScrollNotification notification,
+    AnimationController fabAnimationController,
+  ) {
+    if (notification.depth == 0) {
+      switch (notification.direction) {
+        case ScrollDirection.forward:
+          if (notification.metrics.maxScrollExtent !=
+              notification.metrics.minScrollExtent) {
+            if (notification.metrics.pixels != 0) {
+              fabAnimationController.forward();
+            }
+          }
+          break;
+
+        case ScrollDirection.reverse:
+          if (notification.metrics.maxScrollExtent !=
+              notification.metrics.minScrollExtent) {
+            fabAnimationController.reverse();
+          }
+          break;
+
+        case ScrollDirection.idle:
+          break;
+      }
+    }
+
+    return false;
   }
 }
