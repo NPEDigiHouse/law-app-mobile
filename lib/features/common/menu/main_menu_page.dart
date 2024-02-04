@@ -60,8 +60,8 @@ class _MainMenuPageState extends State<MainMenuPage> {
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),
         controller: pageController,
-        children: pages,
         onPageChanged: (index) => selectedIndex.value = index,
+        children: pages,
       ),
       bottomNavigationBar: ValueListenableBuilder(
         valueListenable: selectedIndex,

@@ -81,7 +81,7 @@ class _StudentQuestionListPageState extends State<StudentQuestionListPage> {
 
                         pageController.animateToPage(
                           newSelection.first.index,
-                          duration: const Duration(milliseconds: 400),
+                          duration: const Duration(milliseconds: 350),
                           curve: Curves.easeIn,
                         );
                       },
@@ -95,6 +95,7 @@ class _StudentQuestionListPageState extends State<StudentQuestionListPage> {
         ),
       ),
       body: CustomScrollView(
+        physics: const NeverScrollableScrollPhysics(),
         slivers: [
           SliverAppBar(
             pinned: true,
@@ -142,6 +143,7 @@ class _StudentQuestionListPageState extends State<StudentQuestionListPage> {
           ),
           SliverFillRemaining(
             child: PageView(
+              physics: const NeverScrollableScrollPhysics(),
               controller: pageController,
               onPageChanged: (index) {
                 switch (index) {
