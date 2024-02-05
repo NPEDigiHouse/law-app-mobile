@@ -106,10 +106,7 @@ class LibraryHomePage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return SizedBox(
                     width: 300,
-                    child: BookCard(
-                      book: books[index],
-                      onTap: () {},
-                    ),
+                    child: BookCard(book: books[index]),
                   );
                 },
                 separatorBuilder: (context, index) {
@@ -138,7 +135,6 @@ class LibraryHomePage extends StatelessWidget {
                     width: 130,
                     titleMaxLines: 2,
                     book: books[index],
-                    onTap: () {},
                   );
                 },
                 separatorBuilder: (context, index) {
@@ -167,13 +163,7 @@ class LibraryHomePage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               children: List<Widget>.generate(
                 books.length,
-                (index) => BookItem(
-                  book: books[index],
-                  onTap: () => navigatorKey.currentState!.pushNamed(
-                    libraryBookDetailRoute,
-                    arguments: books[index],
-                  ),
-                ),
+                (index) => BookItem(book: books[index]),
               )..add(
                   DottedBorder(
                     borderType: BorderType.RRect,

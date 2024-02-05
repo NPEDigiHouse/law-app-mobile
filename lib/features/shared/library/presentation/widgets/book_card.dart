@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/core/utils/routes.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
@@ -9,13 +11,11 @@ import 'package:law_app/features/shared/widgets/label_chip.dart';
 class BookCard extends StatelessWidget {
   final Book book;
   final bool isThreeLine;
-  final VoidCallback? onTap;
 
   const BookCard({
     super.key,
     required this.book,
     this.isThreeLine = true,
-    this.onTap,
   });
 
   @override
@@ -104,7 +104,10 @@ class BookCard extends StatelessWidget {
               color: Colors.transparent,
               child: InkWell(
                 borderRadius: BorderRadius.circular(8),
-                onTap: onTap,
+                onTap: () => navigatorKey.currentState!.pushNamed(
+                  libraryBookDetailRoute,
+                  arguments: book,
+                ),
               ),
             ),
           ),

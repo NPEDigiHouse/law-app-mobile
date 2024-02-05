@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:law_app/core/enums/question_status.dart';
+import 'package:law_app/core/enums/question_type.dart';
 import 'package:law_app/core/extensions/app_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/shared/widgets/discussion_reply_card.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/label_chip.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
@@ -22,7 +25,7 @@ class StudentDiscussionDetailPage extends StatelessWidget {
         child: HeaderContainer(
           title: 'Detail Pertanyaan',
           withBackButton: true,
-          withTrailingButton: true,
+          withTrailingButton: question.owner == user,
           trailingButtonIconName: 'trash-line.svg',
           trailingButtonTooltip: 'Hapus',
           onPressedTrailingButton: () {},
@@ -39,16 +42,16 @@ class StudentDiscussionDetailPage extends StatelessWidget {
             Row(
               children: [
                 CircleAvatar(
-                  radius: 18,
+                  radius: 20,
                   backgroundColor: secondaryColor,
                   child: CircleAvatar(
-                    radius: 20,
+                    radius: 18,
                     foregroundImage: AssetImage(
                       AssetPath.getImage(question.owner.profilePict),
                     ),
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: 10),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,40 +69,69 @@ class StudentDiscussionDetailPage extends StatelessWidget {
                         style: textTheme.labelSmall!.copyWith(
                           color: secondaryTextColor,
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
                 const SizedBox(width: 8),
                 LabelChip(
-                  text: question.status,
+                  text: question.status.toCapitalize(),
                   color: FunctionHelper.getColorByDiscussionStatus(
                     question.status,
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 20),
-            Text(
-              question.category,
-              style: textTheme.bodySmall!.copyWith(
-                color: secondaryTextColor,
-              ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Flexible(
+                  child: Text(
+                    question.category,
+                    style: textTheme.bodySmall!.copyWith(
+                      color: secondaryTextColor,
+                    ),
+                  ),
+                ),
+                if (question.type == QuestionType.specific.name) ...[
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 6),
+                    child: CircleAvatar(
+                      radius: 1.5,
+                      backgroundColor: secondaryTextColor,
+                    ),
+                  ),
+                  Text(
+                    'Pertanyaan Khusus',
+                    style: textTheme.bodySmall!.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(width: 2),
+                  GestureDetector(
+                    onTap: () {},
+                    child: SvgAsset(
+                      assetPath: AssetPath.getIcon('info-circle-line.svg'),
+                      width: 12,
+                      color: primaryTextColor,
+                    ),
+                  ),
+                ],
+              ],
             ),
             const SizedBox(height: 4),
             Text(
               question.title,
               style: textTheme.titleLarge!.copyWith(
                 color: primaryColor,
-                height: 0,
               ),
             ),
             const SizedBox(height: 8),
             Text(question.description),
             Padding(
               padding: const EdgeInsets.only(
-                top: 16,
-                bottom: 12,
+                top: 12,
+                bottom: 8,
               ),
               child: Divider(
                 color: Theme.of(context).dividerColor,
@@ -110,20 +142,41 @@ class StudentDiscussionDetailPage extends StatelessWidget {
                 SvgAsset(
                   assetPath: AssetPath.getIcon('chat-bubble-solid.svg'),
                   width: 24,
+                  color: primaryColor,
                 ),
                 const SizedBox(width: 10),
                 Text(
-                  question.status == 'Open' ? 'Belum ada balasan' : '3 Balasan',
-                  style: textTheme.titleMedium!.copyWith(height: 0),
+                  question.status == QuestionStatus.open.name
+                      ? 'Belum ada balasan'
+                      : '5 Balasan',
+                  style: textTheme.titleMedium!.copyWith(
+                    color: primaryColor,
+                    height: 0,
+                  ),
                 ),
               ],
             ),
-            const SizedBox(height: 12),
-            buildDiscussionSection(question.status),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: buildDiscussionSection(question.status),
+            ),
+            if (question.status == QuestionStatus.discuss.name) ...[
+              FilledButton(
+                onPressed: () {},
+                child: const Text('Beri Tanggapan'),
+              ).fullWidth(),
+              FilledButton(
+                onPressed: () {},
+                style: FilledButton.styleFrom(
+                  backgroundColor: secondaryColor,
+                  foregroundColor: primaryColor,
+                ),
+                child: const Text('Masalah Terjawab'),
+              ).fullWidth(),
+            ],
           ],
         ),
       ),
-      bottomSheet: question.status == 'Discuss' ? buildActionButtons() : null,
     );
   }
 
@@ -136,51 +189,22 @@ class StudentDiscussionDetailPage extends StatelessWidget {
             color: secondaryTextColor,
           ),
         );
-      case 'discuss':
-        return const SizedBox();
-      case 'solved':
-        return const SizedBox();
+      case 'discuss' || 'solved':
+        return Column(
+          children: [
+            ...List<Padding>.generate(
+              5,
+              (index) => Padding(
+                padding: EdgeInsets.only(bottom: index == 5 ? 0 : 16),
+                child: DiscussionReplyCard(
+                  responder: index.isEven ? teacher : user,
+                ),
+              ),
+            )
+          ],
+        );
       default:
         return const SizedBox();
     }
-  }
-
-  Container buildActionButtons() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(20),
-        ),
-        boxShadow: [
-          BoxShadow(
-            offset: const Offset(0, -2),
-            blurRadius: 4,
-            spreadRadius: -1,
-            color: Colors.black.withOpacity(.1),
-          ),
-        ],
-        color: scaffoldBackgroundColor,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          FilledButton(
-            onPressed: () {},
-            child: const Text('Beri Tanggapan'),
-          ).fullWidth(),
-          const SizedBox(height: 4),
-          FilledButton(
-            onPressed: () {},
-            style: FilledButton.styleFrom(
-              backgroundColor: secondaryColor,
-              foregroundColor: primaryColor,
-            ),
-            child: const Text('Masalah Terjawab'),
-          ).fullWidth(),
-        ],
-      ),
-    );
   }
 }

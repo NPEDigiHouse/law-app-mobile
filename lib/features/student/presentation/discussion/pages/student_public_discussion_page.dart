@@ -201,7 +201,6 @@ class _StudentPublicDiscussionPageState
                               question: items[index],
                               isDetail: true,
                               withProfile: true,
-                              onTap: () {},
                             ),
                           );
                         },

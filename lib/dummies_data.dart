@@ -27,12 +27,36 @@ const user = User(
   username: 'test',
   password: 'test',
   fullName: 'Kamaruddin Al-maliki',
-  email: 'Test@gmail.com',
-  dateOfBirth: '21 Mei 2001',
+  email: 'test@gmail.com',
+  dateOfBirth: '21 Desember 2001',
   phone: '0897182974',
   profilePict: 'no-profile.jpg',
   otp: 1234,
   roleId: 1,
+);
+
+const teacher = User(
+  username: 'teacher',
+  password: 'teacher',
+  fullName: 'Dr. Edy Saputra Rusdi',
+  email: 'teacher@gmail.com',
+  dateOfBirth: '21 Desember 2001',
+  phone: '0897182974',
+  profilePict: 'no-profile-2.jpg',
+  otp: 1234,
+  roleId: 2,
+);
+
+const admin = User(
+  username: 'admin',
+  password: 'admin',
+  fullName: 'Admin',
+  email: 'admin@gmail.com',
+  dateOfBirth: '21 Desember 2001',
+  phone: '0897182974',
+  profilePict: 'no-profile-2.jpg',
+  otp: 1234,
+  roleId: 0,
 );
 
 //! Glossary
@@ -166,7 +190,7 @@ const questions = [
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum. Mauris ut aliquet justo, et consectetur lorem. Nam semper vehicula ex, ac fermentum orci elementum ac. Mauris ut aliquet justo, et consectetur lorem.',
     category: 'Hukum Perdata',
     createdAt: '24 Desember 2023 (10:23:20)',
-    status: 'Open',
+    status: 'open',
     type: 'general',
   ),
   Question(
@@ -176,7 +200,7 @@ const questions = [
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum. Mauris ut aliquet justo, et consectetur lorem. Nam semper vehicula ex, ac fermentum orci elementum ac. Mauris ut aliquet justo, et consectetur lorem.',
     category: 'Hukum Perdata',
     createdAt: '24 Desember 2023 (10:23:20)',
-    status: 'Discuss',
+    status: 'discuss',
     type: 'general',
   ),
   Question(
@@ -186,7 +210,7 @@ const questions = [
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum. Mauris ut aliquet justo, et consectetur lorem. Nam semper vehicula ex, ac fermentum orci elementum ac. Mauris ut aliquet justo, et consectetur lorem.',
     category: 'Hukum Perdata',
     createdAt: '24 Desember 2023 (10:23:20)',
-    status: 'Solved',
+    status: 'solved',
     type: 'general',
   ),
   Question(
@@ -196,7 +220,7 @@ const questions = [
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum. Mauris ut aliquet justo, et consectetur lorem. Nam semper vehicula ex, ac fermentum orci elementum ac. Mauris ut aliquet justo, et consectetur lorem.',
     category: 'Hukum Perdata',
     createdAt: '24 Desember 2023 (10:23:20)',
-    status: 'Open',
+    status: 'open',
     type: 'specific',
   ),
   Question(
@@ -206,7 +230,7 @@ const questions = [
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum. Mauris ut aliquet justo, et consectetur lorem. Nam semper vehicula ex, ac fermentum orci elementum ac. Mauris ut aliquet justo, et consectetur lorem.',
     category: 'Hukum Perdata',
     createdAt: '24 Desember 2023 (10:23:20)',
-    status: 'Solved',
+    status: 'solved',
     type: 'specific',
   ),
   Question(
@@ -214,8 +238,8 @@ const questions = [
       username: 'nanda',
       password: 'nanda',
       fullName: 'Ananda Lesmono',
-      email: 'Nanda@gmail.com',
-      dateOfBirth: '21 Mei 2001',
+      email: 'nanda@gmail.com',
+      dateOfBirth: '21 Desember 2001',
       phone: '0897182974',
       profilePict: 'no-profile.jpg',
       otp: 1234,
@@ -226,7 +250,7 @@ const questions = [
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum. Mauris ut aliquet justo, et consectetur lorem. Nam semper vehicula ex, ac fermentum orci elementum ac. Mauris ut aliquet justo, et consectetur lorem.',
     category: 'Hukum Perdata',
     createdAt: '24 Desember 2023 (10:23:20)',
-    status: 'Solved',
+    status: 'discuss',
     type: 'general',
   ),
 ];

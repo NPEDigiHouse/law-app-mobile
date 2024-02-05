@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/discussion_card.dart';
 
@@ -25,10 +23,6 @@ class _MyQuestionListState extends State<MyQuestionList>
         return DiscussionCard(
           question: widget.questionList[index],
           isDetail: true,
-          onTap: () => navigatorKey.currentState!.pushNamed(
-            studentDiscussionDetailRoute,
-            arguments: widget.questionList[index],
-          ),
         );
       },
       separatorBuilder: (context, index) {

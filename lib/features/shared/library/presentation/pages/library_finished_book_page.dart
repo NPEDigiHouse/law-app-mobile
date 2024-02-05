@@ -27,10 +27,7 @@ class LibraryFinishedBookPage extends StatelessWidget {
           horizontal: 20,
         ),
         itemBuilder: (context, index) {
-          return BookCard(
-            book: completeBooks[index],
-            onTap: () {},
-          );
+          return BookCard(book: completeBooks[index]);
         },
         separatorBuilder: (context, index) {
           return const SizedBox(height: 8);

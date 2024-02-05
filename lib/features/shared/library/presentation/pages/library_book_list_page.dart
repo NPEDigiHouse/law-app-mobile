@@ -110,10 +110,7 @@ class _LibraryBookListPageState extends State<LibraryBookListPage> {
                 crossAxisSpacing: 8,
               ),
               itemBuilder: (context, index) {
-                return BookItem(
-                  book: books[index],
-                  onTap: () {},
-                );
+                return BookItem(book: books[index]);
               },
               itemCount: books.length,
             ),

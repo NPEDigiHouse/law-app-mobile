@@ -43,6 +43,7 @@ dependencies:
   form_builder_validators: ^9.1.0
   internet_connection_checker: ^1.0.0+1
   percent_indicator: ^4.2.3
+  timeago: ^3.6.1
 
 dev_dependencies:
   custom_lint: ^0.5.8

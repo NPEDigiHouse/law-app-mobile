@@ -160,7 +160,7 @@ class _StudentDiscussionHomePageState extends State<StudentDiscussionHomePage>
                                   ),
                                   verticalOffset: 12,
                                   triggerMode: TooltipTriggerMode.tap,
-                                  showDuration: const Duration(seconds: 5),
+                                  showDuration: const Duration(seconds: 4),
                                   child: SvgAsset(
                                     assetPath: AssetPath.getIcon(
                                       'info-circle-line.svg',
@@ -255,7 +255,6 @@ class _StudentDiscussionHomePageState extends State<StudentDiscussionHomePage>
                     return DiscussionCard(
                       width: 300,
                       question: questions[index],
-                      onTap: () {},
                     );
                   },
                   separatorBuilder: (context, index) {
@@ -304,7 +303,6 @@ class _StudentDiscussionHomePageState extends State<StudentDiscussionHomePage>
                     question: questions[index],
                     isDetail: true,
                     withProfile: true,
-                    onTap: () {},
                   ),
                 ),
               ),

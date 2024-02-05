@@ -155,7 +155,6 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
                     child: BookCard(
                       isThreeLine: false,
                       book: bookHistoryList[index],
-                      onTap: () {},
                     ),
                   ),
                 );
@@ -178,7 +177,6 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
         return BookCard(
           isThreeLine: false,
           book: bookList[index],
-          onTap: () {},
         );
       },
       separatorBuilder: (context, index) {

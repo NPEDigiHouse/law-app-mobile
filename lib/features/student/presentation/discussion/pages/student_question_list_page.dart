@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:law_app/core/enums/question_type.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/student/presentation/discussion/widgets/my_question_list.dart';
-
-enum QuestionTypes { general, specific }
 
 class StudentQuestionListPage extends StatefulWidget {
   const StudentQuestionListPage({super.key});
@@ -19,7 +18,7 @@ class StudentQuestionListPage extends StatefulWidget {
 class _StudentQuestionListPageState extends State<StudentQuestionListPage> {
   late final List<String> questionStatus;
   late final ValueNotifier<String> selectedStatus;
-  late final ValueNotifier<QuestionTypes> selectedType;
+  late final ValueNotifier<QuestionType> selectedType;
   late final PageController pageController;
 
   @override
@@ -28,7 +27,7 @@ class _StudentQuestionListPageState extends State<StudentQuestionListPage> {
 
     questionStatus = ['Semua', 'Open', 'Discuss', 'Solved'];
     selectedStatus = ValueNotifier(questionStatus[0]);
-    selectedType = ValueNotifier(QuestionTypes.general);
+    selectedType = ValueNotifier(QuestionType.general);
     pageController = PageController();
   }
 
@@ -64,14 +63,14 @@ class _StudentQuestionListPageState extends State<StudentQuestionListPage> {
                 child: ValueListenableBuilder(
                   valueListenable: selectedType,
                   builder: (context, type, child) {
-                    return SegmentedButton<QuestionTypes>(
+                    return SegmentedButton<QuestionType>(
                       segments: const [
                         ButtonSegment(
-                          value: QuestionTypes.general,
+                          value: QuestionType.general,
                           label: Text('Pertanyaan Umum'),
                         ),
                         ButtonSegment(
-                          value: QuestionTypes.specific,
+                          value: QuestionType.specific,
                           label: Text('Pertanyaan Khusus'),
                         ),
                       ],
@@ -147,22 +146,22 @@ class _StudentQuestionListPageState extends State<StudentQuestionListPage> {
               onPageChanged: (index) {
                 switch (index) {
                   case 0:
-                    selectedType.value = QuestionTypes.general;
+                    selectedType.value = QuestionType.general;
                     break;
                   case 1:
-                    selectedType.value = QuestionTypes.specific;
+                    selectedType.value = QuestionType.specific;
                     break;
                 }
               },
               children: [
                 MyQuestionList(
                   questionList: questions.where((question) {
-                    return question.type == QuestionTypes.general.name;
+                    return question.type == QuestionType.general.name;
                   }).toList(),
                 ),
                 MyQuestionList(
                   questionList: questions.where((question) {
-                    return question.type == QuestionTypes.specific.name;
+                    return question.type == QuestionType.specific.name;
                   }).toList(),
                 ),
               ],

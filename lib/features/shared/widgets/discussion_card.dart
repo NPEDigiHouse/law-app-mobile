@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:law_app/core/extensions/app_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/ink_well_container.dart';
 import 'package:law_app/features/shared/widgets/label_chip.dart';
@@ -13,7 +16,6 @@ class DiscussionCard extends StatelessWidget {
   final Question question;
   final bool isDetail;
   final bool withProfile;
-  final VoidCallback? onTap;
 
   const DiscussionCard({
     super.key,
@@ -22,7 +24,6 @@ class DiscussionCard extends StatelessWidget {
     required this.question,
     this.isDetail = false,
     this.withProfile = false,
-    this.onTap,
   });
 
   @override
@@ -32,7 +33,10 @@ class DiscussionCard extends StatelessWidget {
       height: height,
       color: scaffoldBackgroundColor,
       radius: 12,
-      onTap: onTap,
+      onTap: () => navigatorKey.currentState!.pushNamed(
+        studentDiscussionDetailRoute,
+        arguments: question,
+      ),
       padding: const EdgeInsets.symmetric(
         vertical: 16,
         horizontal: 20,
@@ -56,16 +60,16 @@ class DiscussionCard extends StatelessWidget {
                     child: Row(
                       children: [
                         CircleAvatar(
-                          radius: 18,
+                          radius: 20,
                           backgroundColor: secondaryColor,
                           child: CircleAvatar(
-                            radius: 20,
+                            radius: 18,
                             foregroundImage: AssetImage(
                               AssetPath.getImage(question.owner.profilePict),
                             ),
                           ),
                         ),
-                        const SizedBox(width: 12),
+                        const SizedBox(width: 10),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,7 +87,7 @@ class DiscussionCard extends StatelessWidget {
                                 style: textTheme.labelSmall!.copyWith(
                                   color: secondaryTextColor,
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ),
@@ -101,7 +105,7 @@ class DiscussionCard extends StatelessWidget {
                   ),
                 const SizedBox(width: 8),
                 LabelChip(
-                  text: question.status,
+                  text: question.status.toCapitalize(),
                   color: FunctionHelper.getColorByDiscussionStatus(
                     question.status,
                   ),
