@@ -21,6 +21,7 @@ import 'package:law_app/features/shared/profile/presentation/pages/certificate_p
 import 'package:law_app/features/shared/profile/presentation/pages/contact_us_page.dart';
 import 'package:law_app/features/shared/profile/presentation/pages/faq_page.dart';
 import 'package:law_app/features/shared/profile/presentation/pages/profile_page.dart';
+import 'package:law_app/features/student/presentation/discussion/pages/student_discussion_detail_page.dart';
 import 'package:law_app/features/student/presentation/discussion/pages/student_public_discussion_page.dart';
 import 'package:law_app/features/student/presentation/discussion/pages/student_question_list_page.dart';
 import 'package:law_app/features/student/presentation/home/pages/student_home_page.dart';
@@ -60,6 +61,7 @@ const libraryBookDetailRoute = '/library-book-detail';
 
 const studentQuestionListRoute = 'student-question-list';
 const studentPublicDiscussionRoute = 'student-public-discussion';
+const studentDiscussionDetailRoute = 'student-discussion-detail';
 
 // App routes generator
 Route<dynamic>? generateAppRoutes(RouteSettings settings) {
@@ -177,6 +179,12 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
     case studentPublicDiscussionRoute:
       return MaterialPageRoute(
         builder: (_) => const StudentPublicDiscussionPage(),
+      );
+    case studentDiscussionDetailRoute:
+      final question = settings.arguments as Question;
+
+      return MaterialPageRoute(
+        builder: (_) => StudentDiscussionDetailPage(question: question),
       );
     default:
       return null;

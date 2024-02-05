@@ -101,9 +101,7 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage>
                         child: Transform.rotate(
                           angle: -45 * math.pi / 180,
                           child: SvgAsset(
-                            assetPath: AssetPath.getIcon(
-                              'carbon-send-filled.svg',
-                            ),
+                            assetPath: AssetPath.getIcon('send-filled.svg'),
                             color: secondaryColor,
                           ),
                         ),

@@ -145,6 +145,7 @@ class Question {
   final String category;
   final String createdAt;
   final String status;
+  final String type;
 
   const Question({
     required this.owner,
@@ -153,18 +154,20 @@ class Question {
     required this.category,
     required this.createdAt,
     required this.status,
+    required this.type,
   });
 }
 
 const questions = [
   Question(
     owner: user,
-    title: 'Mengapa Dokumen Hukum yang Ada Harus Diterjemahkan?',
+    title: 'Bolehkah Mengendarai Sepeda Listrik di Jalan Raya?',
     description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum. Mauris ut aliquet justo, et consectetur lorem. Nam semper vehicula ex, ac fermentum orci elementum ac. Mauris ut aliquet justo, et consectetur lorem.',
     category: 'Hukum Perdata',
     createdAt: '24 Desember 2023 (10:23:20)',
     status: 'Open',
+    type: 'general',
   ),
   Question(
     owner: user,
@@ -174,32 +177,56 @@ const questions = [
     category: 'Hukum Perdata',
     createdAt: '24 Desember 2023 (10:23:20)',
     status: 'Discuss',
+    type: 'general',
   ),
   Question(
     owner: user,
-    title: 'Mengapa Dokumen Hukum yang Ada Harus Diterjemahkan?',
+    title: 'Kapan Putusan Pengadilan Berkekuatan Hukum Tetap?',
     description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum. Mauris ut aliquet justo, et consectetur lorem. Nam semper vehicula ex, ac fermentum orci elementum ac. Mauris ut aliquet justo, et consectetur lorem.',
     category: 'Hukum Perdata',
     createdAt: '24 Desember 2023 (10:23:20)',
     status: 'Solved',
+    type: 'general',
   ),
   Question(
     owner: user,
-    title: 'Mengapa Dokumen Hukum yang Ada Harus Diterjemahkan?',
+    title: 'Konsultasi Hukum oleh Mahasiswa, Memang Boleh?',
     description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum. Mauris ut aliquet justo, et consectetur lorem. Nam semper vehicula ex, ac fermentum orci elementum ac. Mauris ut aliquet justo, et consectetur lorem.',
     category: 'Hukum Perdata',
     createdAt: '24 Desember 2023 (10:23:20)',
     status: 'Open',
+    type: 'specific',
   ),
   Question(
     owner: user,
-    title: 'Mengapa Dokumen Hukum yang Ada Harus Diterjemahkan?',
+    title: 'Arti Due Process of Law',
     description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum. Mauris ut aliquet justo, et consectetur lorem. Nam semper vehicula ex, ac fermentum orci elementum ac. Mauris ut aliquet justo, et consectetur lorem.',
     category: 'Hukum Perdata',
     createdAt: '24 Desember 2023 (10:23:20)',
     status: 'Solved',
+    type: 'specific',
+  ),
+  Question(
+    owner: User(
+      username: 'nanda',
+      password: 'nanda',
+      fullName: 'Ananda Lesmono',
+      email: 'Nanda@gmail.com',
+      dateOfBirth: '21 Mei 2001',
+      phone: '0897182974',
+      profilePict: 'no-profile.jpg',
+      otp: 1234,
+      roleId: 1,
+    ),
+    title: 'Merangkul Lawan Jenis, Termasuk Pelecehan Seksual?',
+    description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum. Mauris ut aliquet justo, et consectetur lorem. Nam semper vehicula ex, ac fermentum orci elementum ac. Mauris ut aliquet justo, et consectetur lorem.',
+    category: 'Hukum Perdata',
+    createdAt: '24 Desember 2023 (10:23:20)',
+    status: 'Solved',
+    type: 'general',
   ),
 ];

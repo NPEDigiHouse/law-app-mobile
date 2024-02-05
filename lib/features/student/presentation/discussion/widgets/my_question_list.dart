@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/discussion_card.dart';
 
-class QuestionList extends StatefulWidget {
-  const QuestionList({super.key});
+class MyQuestionList extends StatefulWidget {
+  final List<Question> questionList;
+
+  const MyQuestionList({super.key, required this.questionList});
 
   @override
-  State<QuestionList> createState() => _QuestionListState();
+  State<MyQuestionList> createState() => _MyQuestionListState();
 }
 
-class _QuestionListState extends State<QuestionList>
+class _MyQuestionListState extends State<MyQuestionList>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
@@ -19,15 +23,18 @@ class _QuestionListState extends State<QuestionList>
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 24),
       itemBuilder: (context, index) {
         return DiscussionCard(
-          question: questions[index],
+          question: widget.questionList[index],
           isDetail: true,
-          onTap: () {},
+          onTap: () => navigatorKey.currentState!.pushNamed(
+            studentDiscussionDetailRoute,
+            arguments: widget.questionList[index],
+          ),
         );
       },
       separatorBuilder: (context, index) {
         return const SizedBox(height: 8);
       },
-      itemCount: questions.length,
+      itemCount: widget.questionList.length,
     );
   }
 

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
-import 'package:law_app/features/student/presentation/discussion/widgets/question_list.dart';
+import 'package:law_app/features/student/presentation/discussion/widgets/my_question_list.dart';
 
 enum QuestionTypes { general, specific }
 
@@ -153,9 +154,17 @@ class _StudentQuestionListPageState extends State<StudentQuestionListPage> {
                     break;
                 }
               },
-              children: const [
-                QuestionList(),
-                QuestionList(),
+              children: [
+                MyQuestionList(
+                  questionList: questions.where((question) {
+                    return question.type == QuestionTypes.general.name;
+                  }).toList(),
+                ),
+                MyQuestionList(
+                  questionList: questions.where((question) {
+                    return question.type == QuestionTypes.specific.name;
+                  }).toList(),
+                ),
               ],
             ),
           ),

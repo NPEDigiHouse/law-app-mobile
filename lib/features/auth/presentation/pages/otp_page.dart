@@ -170,7 +170,7 @@ class _OtpPageState extends State<OtpPage> with AfterLayoutMixin<OtpPage> {
                                 angle: -45 * math.pi / 180,
                                 child: SvgAsset(
                                   assetPath: AssetPath.getIcon(
-                                    'carbon-send-filled.svg',
+                                    'send-filled.svg',
                                   ),
                                   color: isDone
                                       ? primaryColor

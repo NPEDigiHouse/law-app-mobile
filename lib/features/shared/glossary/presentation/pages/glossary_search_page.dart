@@ -105,7 +105,9 @@ class _GlossarySearchPageState extends State<GlossarySearchPage> {
                   glossaryDetailRoute,
                   arguments: glossaryList[index],
                 ),
-                visualDensity: const VisualDensity(vertical: -4),
+                visualDensity: const VisualDensity(
+                  vertical: VisualDensity.minimumDensity,
+                ),
               );
             },
             itemCount: glossaryList.length,

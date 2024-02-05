@@ -94,7 +94,9 @@ class GlossaryHomePage extends StatelessWidget {
                     glossaryDetailRoute,
                     arguments: glossaries[index],
                   ),
-                  visualDensity: const VisualDensity(vertical: -4),
+                  visualDensity: const VisualDensity(
+                    vertical: VisualDensity.minimumDensity,
+                  ),
                 );
               },
               childCount: glossaries.length,

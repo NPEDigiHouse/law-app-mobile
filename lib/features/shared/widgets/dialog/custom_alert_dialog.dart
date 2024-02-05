@@ -131,20 +131,20 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
                       return ListTileTheme(
                         minVerticalPadding: 0,
                         child: CheckboxListTile(
+                          value: value,
+                          onChanged: (value) => isChecked.value = value!,
                           title: Text(
                             widget.checkboxLabel!,
                             style: textTheme.bodyMedium!.copyWith(
                               color: primaryTextColor,
                             ),
                           ),
-                          controlAffinity: ListTileControlAffinity.leading,
                           contentPadding: EdgeInsets.zero,
+                          controlAffinity: ListTileControlAffinity.leading,
                           visualDensity: const VisualDensity(
                             horizontal: VisualDensity.minimumDensity,
                             vertical: VisualDensity.minimumDensity,
                           ),
-                          value: value,
-                          onChanged: (value) => isChecked.value = value!,
                         ),
                       );
                     },

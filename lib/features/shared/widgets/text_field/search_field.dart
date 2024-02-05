@@ -38,7 +38,7 @@ class _SearchFieldState extends State<SearchField> {
   void initState() {
     super.initState();
 
-    controller = TextEditingController();
+    controller = TextEditingController(text: widget.text);
   }
 
   @override

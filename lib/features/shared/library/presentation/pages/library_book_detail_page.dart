@@ -291,10 +291,7 @@ class _LibraryBookDetailRouteState extends State<LibraryBookDetailRoute> {
       ),
       bottomSheet: Container(
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(
-          vertical: 24,
-          horizontal: 20,
-        ),
+        padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.vertical(
             top: Radius.circular(20),

@@ -161,12 +161,13 @@ class _StudentPublicDiscussionPageState
                             width: 18,
                             color: secondaryTextColor,
                           ),
-                          const SizedBox(width: 6),
+                          const SizedBox(width: 4),
                           Text(
                             'Kembali',
                             style: textTheme.labelLarge!.copyWith(
                               fontWeight: FontWeight.w600,
                               color: secondaryTextColor,
+                              height: 0,
                             ),
                           ),
                         ],
@@ -194,7 +195,7 @@ class _StudentPublicDiscussionPageState
                         (context, index) {
                           return Padding(
                             padding: EdgeInsets.only(
-                              bottom: index == questions.length - 1 ? 0 : 8,
+                              bottom: index == items.length - 1 ? 0 : 8,
                             ),
                             child: DiscussionCard(
                               question: items[index],
