@@ -191,17 +191,15 @@ class StudentDiscussionDetailPage extends StatelessWidget {
         );
       case 'discuss' || 'solved':
         return Column(
-          children: [
-            ...List<Padding>.generate(
-              5,
-              (index) => Padding(
-                padding: EdgeInsets.only(bottom: index == 5 ? 0 : 16),
-                child: DiscussionReplyCard(
-                  responder: index.isEven ? teacher : user,
-                ),
+          children: List<Padding>.generate(
+            5,
+            (index) => Padding(
+              padding: EdgeInsets.only(bottom: index == 5 ? 0 : 16),
+              child: DiscussionReplyCard(
+                responder: index.isEven ? teacher : question.owner,
               ),
-            )
-          ],
+            ),
+          ),
         );
       default:
         return const SizedBox();
