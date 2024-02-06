@@ -41,14 +41,15 @@ class CustomInformation extends StatelessWidget {
             Text(
               title,
               style: textTheme.headlineSmall!.copyWith(
+                fontSize: 22,
                 color: primaryColor,
               ),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: 2),
             Text(
               subtitle,
               style: textTheme.bodySmall!.copyWith(
-                color: primaryTextColor,
+                color: const Color(0xFF737373),
               ),
             ),
           ],
