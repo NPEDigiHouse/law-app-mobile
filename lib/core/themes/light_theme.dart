@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/themes/bottom_sheet_theme.dart';
 import 'package:law_app/core/themes/button_theme.dart';
 import 'package:law_app/core/themes/input_decoration_theme.dart';
 
@@ -14,6 +15,7 @@ ThemeData get lightTheme {
     outlinedButtonTheme: outlinedButtonTheme,
     textButtonTheme: textButtonTheme,
     inputDecorationTheme: inputDecorationTheme,
+    bottomSheetTheme: bottomSheetTheme,
     scaffoldBackgroundColor: scaffoldBackgroundColor,
     pageTransitionsTheme: const PageTransitionsTheme(
       builders: {

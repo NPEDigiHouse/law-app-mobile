@@ -73,7 +73,7 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
             if (bookHistoryList.isEmpty) {
               return const CustomInformation(
                 illustrationName: 'house-searching-cuate.svg',
-                title: 'Riwayat Pencarian',
+                title: 'Riwayat pencarian',
                 subtitle: 'Riwayat pencarian buku masih kosong.',
               );
             }
@@ -84,7 +84,7 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
           if (bookList.isEmpty) {
             return const CustomInformation(
               illustrationName: 'book-lover-cuate.svg',
-              title: 'Buku Tidak Ditemukan',
+              title: 'Buku tidak ditemukan',
               subtitle: 'Buku dengan judul/pengarang tersebut tidak ditemukan.',
             );
           }

@@ -13,6 +13,7 @@ import 'package:law_app/features/shared/widgets/dialog/single_form_text_area_dia
 import 'package:law_app/features/shared/widgets/dialog/sorting_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/type_selector_dialog.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
+import 'package:law_app/features/shared/widgets/no_internet_connection.dart';
 
 extension Capitalize on String {
   String toCapitalize() {
@@ -235,5 +236,25 @@ extension BannerExtension on BuildContext {
     scaffoldMessengerKey.currentState!
       ..hideCurrentMaterialBanner()
       ..showMaterialBanner(banner);
+  }
+}
+
+extension ModalBottomSheetExtension on BuildContext {
+  Future<Object?> showNoInternetConnectionModal({
+    bool isScrollControlled = true,
+    bool isDismissible = true,
+    bool enableDrag = true,
+    VoidCallback? onPressedPrimaryButton,
+  }) {
+    return showModalBottomSheet(
+      context: this,
+      isScrollControlled: isScrollControlled,
+      isDismissible: isDismissible,
+      enableDrag: enableDrag,
+      builder: (context) => NoInternetConnection(
+        isFixed: !isDismissible && !enableDrag,
+        onPressedPrimaryButton: onPressedPrimaryButton,
+      ),
+    );
   }
 }

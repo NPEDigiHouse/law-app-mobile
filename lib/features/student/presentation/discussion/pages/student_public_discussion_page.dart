@@ -181,7 +181,7 @@ class _StudentPublicDiscussionPageState
                     return const SliverFillRemaining(
                       child: CustomInformation(
                         illustrationName: 'discussion-cuate.svg',
-                        title: 'Diskusi Tidak Ditemukan',
+                        title: 'Diskusi tidak ditemukan',
                         subtitle:
                             'Judul diskusi/pertanyaan umum tersebut tidak ditemukan.',
                       ),
@@ -278,12 +278,12 @@ class _StudentPublicDiscussionPageState
   }
 
   void searchDiscussion(String query) {
+    searchQuery.value = query;
+
     EasyDebounce.debounce(
       'search-debouncer',
       const Duration(milliseconds: 800),
       () {
-        searchQuery.value = query;
-
         final result = questions.where((question) {
           final queryLower = query.toLowerCase();
           final titleLower = question.title.toLowerCase();

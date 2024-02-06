@@ -16,7 +16,7 @@ class CustomInformation extends StatelessWidget {
     required this.illustrationName,
     required this.title,
     required this.subtitle,
-    this.size = 270.0,
+    this.size = 260.0,
     this.withScaffold = false,
   });
 
@@ -45,7 +45,7 @@ class CustomInformation extends StatelessWidget {
                 color: primaryColor,
               ),
             ),
-            const SizedBox(height: 2),
+            const SizedBox(height: 4),
             Text(
               subtitle,
               style: textTheme.bodySmall!.copyWith(

@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:law_app/core/config/app_config.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
-import 'package:law_app/core/settings/app_settings.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
@@ -62,7 +62,7 @@ class _SplashPageState extends State<SplashPage>
               left: 0,
               right: 0,
               child: Text(
-                "Version ${AppSettings.appVersion}",
+                "Version ${AppConfig.version}",
                 textAlign: TextAlign.center,
                 style: textTheme.bodyMedium?.copyWith(
                   color: primaryColor,

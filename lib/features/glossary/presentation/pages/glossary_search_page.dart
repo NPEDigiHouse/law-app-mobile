@@ -118,12 +118,12 @@ class _GlossarySearchPageState extends State<GlossarySearchPage> {
   }
 
   void searchTerm(String query) {
+    this.query.value = query;
+
     EasyDebounce.debounce(
       'search-debouncer',
       const Duration(milliseconds: 800),
       () {
-        this.query.value = query;
-
         final result = glossaries.where((glossary) {
           final queryLower = query.toLowerCase();
           final termLower = glossary.term.toLowerCase();
