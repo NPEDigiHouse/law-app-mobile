@@ -158,8 +158,8 @@ class _StudentPublicDiscussionPageState
                         children: [
                           SvgAsset(
                             assetPath: AssetPath.getIcon('caret-line-left.svg'),
-                            width: 18,
                             color: secondaryTextColor,
+                            width: 18,
                           ),
                           const SizedBox(width: 4),
                           Text(
@@ -180,7 +180,7 @@ class _StudentPublicDiscussionPageState
                   if (isSearching && questionList.isEmpty) {
                     return const SliverFillRemaining(
                       child: CustomInformation(
-                        illustrationName: 'book-lover-cuate.svg',
+                        illustrationName: 'discussion-cuate.svg',
                         title: 'Diskusi Tidak Ditemukan',
                         subtitle:
                             'Judul diskusi/pertanyaan umum tersebut tidak ditemukan.',
@@ -220,10 +220,11 @@ class _StudentPublicDiscussionPageState
             onPressed: () => scrollController.jumpTo(0),
             elevation: 2,
             backgroundColor: secondaryColor,
+            tooltip: 'Kembali ke atas',
             child: SvgAsset(
               assetPath: AssetPath.getIcon('caret-line-up.svg'),
-              width: 20,
               color: primaryColor,
+              width: 20,
             ),
           ),
         ),

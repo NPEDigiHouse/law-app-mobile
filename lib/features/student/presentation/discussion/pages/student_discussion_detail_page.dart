@@ -112,8 +112,8 @@ class StudentDiscussionDetailPage extends StatelessWidget {
                     onTap: () {},
                     child: SvgAsset(
                       assetPath: AssetPath.getIcon('info-circle-line.svg'),
-                      width: 12,
                       color: primaryTextColor,
+                      width: 12,
                     ),
                   ),
                 ],
@@ -141,8 +141,8 @@ class StudentDiscussionDetailPage extends StatelessWidget {
               children: [
                 SvgAsset(
                   assetPath: AssetPath.getIcon('chat-bubble-solid.svg'),
-                  width: 24,
                   color: primaryColor,
+                  width: 24,
                 ),
                 const SizedBox(width: 10),
                 Text(
@@ -196,6 +196,7 @@ class StudentDiscussionDetailPage extends StatelessWidget {
             (index) => Padding(
               padding: EdgeInsets.only(bottom: index == 5 ? 0 : 16),
               child: DiscussionReplyCard(
+                question: question,
                 responder: index.isEven ? teacher : question.owner,
               ),
             ),

@@ -5,23 +5,28 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/dummies_data.dart';
 
 class DiscussionReplyCard extends StatelessWidget {
+  final Question question;
   final User responder; // Will replaced with QuestionReply, soon!
 
-  const DiscussionReplyCard({super.key, required this.responder});
+  const DiscussionReplyCard({
+    super.key,
+    required this.question,
+    required this.responder,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final mine = responder == user;
+    final isOwner = question.owner == responder;
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: mine
-          ? buildRowChildren(mine)
-          : buildRowChildren(mine).reversed.toList(),
+      children: isOwner
+          ? buildRowChildren(isOwner)
+          : buildRowChildren(isOwner).reversed.toList(),
     );
   }
 
-  List<Widget> buildRowChildren(bool mine) {
+  List<Widget> buildRowChildren(bool isOwner) {
     return [
       CircleAvatar(
         radius: 16,
@@ -44,13 +49,13 @@ class DiscussionReplyCard extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               border: Border.all(
-                color: mine ? secondaryTextColor : tertiaryColor,
+                color: isOwner ? secondaryTextColor : tertiaryColor,
               ),
               borderRadius: BorderRadius.only(
                 bottomLeft: const Radius.circular(12),
                 bottomRight: const Radius.circular(12),
-                topLeft: mine ? Radius.zero : const Radius.circular(12),
-                topRight: !mine ? Radius.zero : const Radius.circular(12),
+                topLeft: isOwner ? Radius.zero : const Radius.circular(12),
+                topRight: !isOwner ? Radius.zero : const Radius.circular(12),
               ),
             ),
             child: Column(

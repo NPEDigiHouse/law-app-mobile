@@ -165,8 +165,8 @@ class _StudentDiscussionHomePageState extends State<StudentDiscussionHomePage>
                                     assetPath: AssetPath.getIcon(
                                       'info-circle-line.svg',
                                     ),
-                                    width: 14,
                                     color: primaryColor,
+                                    width: 14,
                                   ),
                                 ),
                               ],
@@ -317,10 +317,11 @@ class _StudentDiscussionHomePageState extends State<StudentDiscussionHomePage>
           onPressed: () => scrollController.jumpTo(0),
           elevation: 2,
           backgroundColor: secondaryColor,
+          tooltip: 'Kembali ke atas',
           child: SvgAsset(
             assetPath: AssetPath.getIcon('caret-line-up.svg'),
-            width: 20,
             color: primaryColor,
+            width: 20,
           ),
         ),
       ),

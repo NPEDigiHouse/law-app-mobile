@@ -1,4 +1,3 @@
-import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
@@ -153,15 +152,12 @@ class AdminHomePage extends StatelessWidget {
                             ),
                             InkWell(
                               onTap: () {},
-                              child: Transform.rotate(
-                                angle: -45 * math.pi,
-                                child: SvgAsset(
-                                  height: 24,
-                                  width: 24,
-                                  color: accentColor,
-                                  assetPath: AssetPath.getIcon(
-                                    "caret-line-left.svg",
-                                  ),
+                              child: SvgAsset(
+                                height: 24,
+                                width: 24,
+                                color: accentColor,
+                                assetPath: AssetPath.getIcon(
+                                  "caret-line-right.svg",
                                 ),
                               ),
                             ),

@@ -93,12 +93,12 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
                       shape: BoxShape.circle,
                     ),
                     child: SvgAsset(
-                      width: 100,
-                      height: 100,
-                      color: widget.foregroundColor ?? errorColor,
                       assetPath: AssetPath.getIcon(
                         "exclamation-circle-line.svg",
                       ),
+                      color: widget.foregroundColor ?? errorColor,
+                      width: 100,
+                      height: 100,
                     ),
                   ),
                 )

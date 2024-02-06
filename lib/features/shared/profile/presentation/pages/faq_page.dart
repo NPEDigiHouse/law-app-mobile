@@ -1,4 +1,3 @@
-import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
@@ -121,7 +120,7 @@ class _FAQContainerState extends State<FAQContainer> {
           child: Column(
             children: [
               InkWell(
-                onTap: () => isCollapse.value = !isCollapse.value,
+                onTap: () => isCollapse.value = !value,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -133,12 +132,11 @@ class _FAQContainerState extends State<FAQContainer> {
                         ),
                       ),
                     ),
-                    Transform.rotate(
-                      angle: (!isCollapse.value ? -22.5 : 22.5) * math.pi,
-                      child: SvgAsset(
-                        assetPath: AssetPath.getIcon("caret-line-left.svg"),
-                        width: 20,
+                    SvgAsset(
+                      assetPath: AssetPath.getIcon(
+                        value ? "caret-line-up.svg" : "caret-line-down.svg",
                       ),
+                      width: 20,
                     ),
                   ],
                 ),

@@ -28,8 +28,8 @@ class GradientBackgroundIcon extends StatelessWidget {
         ),
       ),
       child: SvgAsset(
-        color: scaffoldBackgroundColor,
         assetPath: AssetPath.getIcon(icon),
+        color: scaffoldBackgroundColor,
       ),
     );
   }

@@ -73,8 +73,8 @@ class CourseItemCard extends StatelessWidget {
                     Row(
                       children: [
                         SvgAsset(
-                          color: secondaryTextColor,
                           assetPath: AssetPath.getIcon("clock-solid.svg"),
+                          color: secondaryTextColor,
                         ),
                         const SizedBox(width: 8),
                         Text(
@@ -114,8 +114,8 @@ class CourseItemCard extends StatelessWidget {
                     Row(
                       children: [
                         SvgAsset(
-                          color: secondaryTextColor,
                           assetPath: AssetPath.getIcon("users-solid.svg"),
+                          color: secondaryTextColor,
                         ),
                         const SizedBox(width: 8),
                         Text(

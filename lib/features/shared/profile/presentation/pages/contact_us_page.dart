@@ -1,4 +1,3 @@
-import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
@@ -112,15 +111,12 @@ class ContactUsPage extends StatelessWidget {
                             ),
                             child: IconButton(
                               onPressed: () {},
-                              icon: Transform.rotate(
-                                angle: -45 * math.pi,
-                                child: SvgAsset(
-                                  height: 20,
-                                  width: 20,
-                                  color: primaryColor,
-                                  assetPath: AssetPath.getIcon(
-                                    "caret-line-left.svg",
-                                  ),
+                              icon: SvgAsset(
+                                height: 20,
+                                width: 20,
+                                color: primaryColor,
+                                assetPath: AssetPath.getIcon(
+                                  "caret-line-right.svg",
                                 ),
                               ),
                             ),
