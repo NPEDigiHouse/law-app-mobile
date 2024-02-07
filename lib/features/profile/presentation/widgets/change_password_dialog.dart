@@ -94,9 +94,7 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
     FocusManager.instance.primaryFocus?.unfocus();
 
     if (formKey.currentState!.saveAndValidate()) {
-      final data = formKey.currentState!.value;
-
-      debugPrint(data.toString());
+      // final data = formKey.currentState!.value;
 
       navigatorKey.currentState!.pop(true);
     }

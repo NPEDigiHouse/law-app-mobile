@@ -15,13 +15,14 @@ import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/auth/presentation/widgets/secondary_header.dart';
-import 'package:law_app/features/shared/providers/count_down_provider.dart';
+import 'package:law_app/features/shared/providers/count_down_timer_provider.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class OtpPage extends StatefulWidget {
   final String email;
+  final Map<String, dynamic>? userData;
 
-  const OtpPage({super.key, required this.email});
+  const OtpPage({super.key, required this.email, this.userData});
 
   @override
   State<OtpPage> createState() => _OtpPageState();
@@ -148,7 +149,9 @@ class _OtpPageState extends State<OtpPage> with AfterLayoutMixin<OtpPage> {
                     const SizedBox(height: 20),
                     Consumer(
                       builder: (context, ref, child) {
-                        final timer = ref.watch(countDownProvider(30));
+                        final timer = ref.watch(
+                          CountDownTimerProvider(initialValue: 30),
+                        );
 
                         final value = timer.when<int?>(
                           data: (value) => value,
@@ -261,19 +264,38 @@ class _OtpPageState extends State<OtpPage> with AfterLayoutMixin<OtpPage> {
     } else {
       // Show loading - send data - remove loading
 
-      // Navigate to reset password page if success
-      navigatorKey.currentState!.pushReplacementNamed(resetPasswordRoute);
+      // Check whether to navigate to reset password page or login page
+      if (widget.userData != null) {
+        navigatorKey.currentState!.pushNamedAndRemoveUntil(
+          loginRoute,
+          (route) => false,
+          arguments: {
+            'message':
+                'Akun Anda berhasil dibuat. Silahkan login menggunakan akun tersebut.',
+            'banner_type': BannerType.success,
+          },
+        );
+      } else {
+        navigatorKey.currentState!.pushReplacementNamed(resetPasswordRoute);
+      }
     }
   }
 
   void resendOtp(WidgetRef ref) {
     // Show loading - send data - close loading
 
-    ref.invalidate(countDownProvider);
+    ref.invalidate(countDownTimerProvider);
 
     context.showBanner(
       message: 'Kode OTP telah terkirim ke email ${widget.email}',
       type: BannerType.success,
     );
   }
+}
+
+class OtpPageArgs {
+  final String email;
+  final Map<String, dynamic>? userData;
+
+  OtpPageArgs({required this.email, this.userData});
 }

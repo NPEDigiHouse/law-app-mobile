@@ -3,11 +3,15 @@ import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/app_extension.dart';
 import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/core/utils/routes.dart';
+import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/auth/presentation/pages/otp_page.dart';
 import 'package:law_app/features/auth/presentation/widgets/primary_header.dart';
 import 'package:law_app/features/shared/widgets/text_field/custom_text_field.dart';
 import 'package:law_app/features/shared/widgets/text_field/password_text_field.dart';
@@ -252,7 +256,7 @@ class _RegisterPageState extends State<RegisterPage>
                     ),
                     const SizedBox(height: 20),
                     FilledButton(
-                      onPressed: register,
+                      onPressed: sendOtpCode,
                       child: const Text('Daftarkan Sekarang'),
                     ).fullWidth(),
                   ],
@@ -296,18 +300,30 @@ class _RegisterPageState extends State<RegisterPage>
     }
   }
 
-  void register() {
+  void sendOtpCode() {
     FocusManager.instance.primaryFocus?.unfocus();
 
     if (formKey.currentState!.saveAndValidate()) {
       final data = formKey.currentState!.value;
 
-      debugPrint(data.toString());
+      if (data['email'] == user.email) {
+        // Show failure message
+        context.showBanner(
+          message: 'Email yang Anda masukkan sudah terdaftar!',
+          type: BannerType.error,
+        );
+      } else {
+        // Show loading - send data - close loading
 
-      // Show loading - send data - close loading
-
-      // Navigate back to login page if success, with bool true
-      navigatorKey.currentState!.pop(true);
+        // Navigate to otp page if success
+        navigatorKey.currentState!.pushNamed(
+          otpRoute,
+          arguments: OtpPageArgs(
+            email: data['email'],
+            userData: data,
+          ),
+        );
+      }
     }
   }
 }

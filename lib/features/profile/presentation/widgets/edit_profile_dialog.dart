@@ -150,9 +150,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
     FocusManager.instance.primaryFocus?.unfocus();
 
     if (formKey.currentState!.saveAndValidate()) {
-      final data = formKey.currentState!.value;
-
-      debugPrint(data.toString());
+      // final data = formKey.currentState!.value;
 
       navigatorKey.currentState!.pop(true);
     }

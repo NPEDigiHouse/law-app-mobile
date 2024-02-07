@@ -158,9 +158,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     FocusManager.instance.primaryFocus?.unfocus();
 
     if (formKey.currentState!.saveAndValidate()) {
-      final data = formKey.currentState!.value;
-
-      debugPrint(data.toString());
+      // final data = formKey.currentState!.value;
 
       // Show loading - send data - close loading
 
@@ -169,7 +167,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
         loginRoute,
         (route) => false,
         arguments: {
-          'message': 'Password Anda berhasil diubah.',
+          'message':
+              'Password Anda berhasil diubah. Silahkan login menggunakan password baru.',
           'banner_type': BannerType.success,
         },
       );

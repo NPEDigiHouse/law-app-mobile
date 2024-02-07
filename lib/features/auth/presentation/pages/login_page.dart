@@ -87,7 +87,9 @@ class _LoginPageState extends State<LoginPage>
                         ),
                         const SizedBox(height: 4),
                         GestureDetector(
-                          onTap: navigateToForgotPasswordPage,
+                          onTap: () => navigatorKey.currentState!.pushNamed(
+                            forgotPasswordRoute,
+                          ),
                           child: Text(
                             'Lupa Password?',
                             style: textTheme.bodySmall!.copyWith(
@@ -111,7 +113,9 @@ class _LoginPageState extends State<LoginPage>
                         child: Text('Belum punya akun? Buat akun baru\t'),
                       ),
                       GestureDetector(
-                        onTap: navigateToRegisterPage,
+                        onTap: () => navigatorKey.currentState!.pushNamed(
+                          registerRoute,
+                        ),
                         child: Text(
                           'di sini',
                           style: textTheme.titleSmall!.copyWith(
@@ -136,23 +140,6 @@ class _LoginPageState extends State<LoginPage>
       context.showBanner(
         message: widget.bannerData!['message'] as String,
         type: widget.bannerData!['banner_type'] as BannerType,
-      );
-    }
-  }
-
-  void navigateToForgotPasswordPage() {
-    navigatorKey.currentState!.pushNamed(forgotPasswordRoute);
-  }
-
-  Future<void> navigateToRegisterPage() async {
-    final data = await navigatorKey.currentState!.pushNamed(registerRoute);
-
-    if (!context.mounted) return;
-
-    if (data != null) {
-      context.showBanner(
-        message: 'Akun Anda berhasil dibuat.',
-        type: BannerType.success,
       );
     }
   }
