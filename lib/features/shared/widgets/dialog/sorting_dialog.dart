@@ -7,8 +7,8 @@ class SortingDialog extends StatelessWidget {
   final List<String> sortingItems;
   final ValueNotifier<String?> selectedFirstDropdown;
   final ValueNotifier<String?> selectedSecondDropdown;
-  final VoidCallback? onPressedPrimaryButton;
   final String? primaryButtonText;
+  final VoidCallback? onPressedPrimaryButton;
 
   const SortingDialog({
     super.key,
@@ -16,29 +16,31 @@ class SortingDialog extends StatelessWidget {
     required this.sortingItems,
     required this.selectedFirstDropdown,
     required this.selectedSecondDropdown,
-    this.onPressedPrimaryButton,
     this.primaryButtonText,
+    this.onPressedPrimaryButton,
   });
 
   @override
   Widget build(BuildContext context) {
     return CustomDialog(
       title: title,
-      onPressedPrimaryButton: onPressedPrimaryButton,
       primaryButtonText: primaryButtonText,
-      children: [
-        CustomDropdownField(
-          label: "Urut Berdasarkan",
-          items: sortingItems,
-          selectedItem: selectedFirstDropdown,
-        ),
-        const SizedBox(height: 24),
-        CustomDropdownField(
-          label: "Urut Secara",
-          items: const ["Ascending", "Descending"],
-          selectedItem: selectedSecondDropdown,
-        ),
-      ],
+      onPressedPrimaryButton: onPressedPrimaryButton,
+      child: Column(
+        children: [
+          CustomDropdownField(
+            label: "Urut Berdasarkan",
+            items: sortingItems,
+            selectedItem: selectedFirstDropdown,
+          ),
+          const SizedBox(height: 24),
+          CustomDropdownField(
+            label: "Urut Secara",
+            items: const ["Ascending", "Descending"],
+            selectedItem: selectedSecondDropdown,
+          ),
+        ],
+      ),
     );
   }
 }

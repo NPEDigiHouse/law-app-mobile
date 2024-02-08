@@ -21,7 +21,7 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
   void initState() {
     super.initState();
 
-    password = ValueNotifier("");
+    password = ValueNotifier('');
   }
 
   @override
@@ -34,59 +34,75 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
   @override
   Widget build(BuildContext context) {
     return CustomDialog(
-      title: 'Ubah Password',
-      children: [
-        FormBuilder(
-          key: formKey,
-          child: Column(
-            children: [
-              PasswordTextField(
-                name: 'password',
-                label: 'Password',
-                hintText: 'Masukkan password baru',
-                hasPrefixIcon: false,
-                textInputType: TextInputType.visiblePassword,
-                textInputAction: TextInputAction.next,
-                validators: [
-                  FormBuilderValidators.required(
-                    errorText: 'Bagian ini harus diisi',
-                  ),
-                  FormBuilderValidators.minLength(
-                    8,
-                    errorText: 'Password minimal 8 huruf',
-                  ),
-                ],
-                onChanged: (value) {
-                  if (value != null) password.value = value;
-                },
-              ),
-              const SizedBox(height: 12),
-              ValueListenableBuilder(
-                valueListenable: password,
-                builder: (context, password, child) {
-                  return PasswordTextField(
-                    name: 'confirm_password',
-                    label: 'Konfirmasi Password',
-                    hintText: 'Ulangi password sebelumnya',
-                    hasPrefixIcon: false,
-                    textInputType: TextInputType.visiblePassword,
-                    textInputAction: TextInputAction.next,
-                    validators: [
-                      FormBuilderValidators.required(
-                        errorText: 'Bagian ini harus diisi',
-                      ),
-                      FormBuilderValidators.equal(
-                        password,
-                        errorText: 'Konfirmasi password salah',
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ],
-          ),
+      title: 'Ganti Password',
+      onPressedPrimaryButton: changePassword,
+      child: FormBuilder(
+        key: formKey,
+        child: Column(
+          children: [
+            PasswordTextField(
+              isSmall: true,
+              name: 'old_password',
+              label: 'Password Lama',
+              hintText: 'Masukkan password lama',
+              hasPrefixIcon: false,
+              textInputType: TextInputType.visiblePassword,
+              textInputAction: TextInputAction.next,
+              validators: [
+                FormBuilderValidators.required(
+                  errorText: 'Bagian ini harus diisi',
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            PasswordTextField(
+              isSmall: true,
+              name: 'new_password',
+              label: 'Password Baru',
+              hintText: 'Masukkan password baru',
+              hasPrefixIcon: false,
+              textInputType: TextInputType.visiblePassword,
+              textInputAction: TextInputAction.next,
+              validators: [
+                FormBuilderValidators.required(
+                  errorText: 'Bagian ini harus diisi',
+                ),
+                FormBuilderValidators.minLength(
+                  8,
+                  errorText: 'Password minimal 8 karakter',
+                ),
+              ],
+              onChanged: (value) {
+                if (value != null) password.value = value;
+              },
+            ),
+            const SizedBox(height: 12),
+            ValueListenableBuilder(
+              valueListenable: password,
+              builder: (context, password, child) {
+                return PasswordTextField(
+                  isSmall: true,
+                  name: 'confirm_new_password',
+                  label: 'Konfirmasi Password Baru',
+                  hintText: 'Ulangi password sebelumnya',
+                  hasPrefixIcon: false,
+                  textInputType: TextInputType.visiblePassword,
+                  textInputAction: TextInputAction.done,
+                  validators: [
+                    FormBuilderValidators.required(
+                      errorText: 'Bagian ini harus diisi',
+                    ),
+                    FormBuilderValidators.equal(
+                      password,
+                      errorText: 'Konfirmasi password baru salah',
+                    ),
+                  ],
+                );
+              },
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 

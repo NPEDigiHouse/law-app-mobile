@@ -9,9 +9,9 @@ class SingleFormDialog extends StatelessWidget {
   final String name;
   final String label;
   final String hintText;
-  final int? maxLines;
-  final VoidCallback? onPressedPrimaryButton;
+  final int maxLines;
   final String? primaryButtonText;
+  final void Function(Map<String, dynamic> value)? onSubmitted;
 
   const SingleFormDialog({
     super.key,
@@ -19,37 +19,47 @@ class SingleFormDialog extends StatelessWidget {
     required this.name,
     required this.label,
     required this.hintText,
-    this.maxLines,
-    this.onPressedPrimaryButton,
+    this.maxLines = 1,
     this.primaryButtonText,
+    this.onSubmitted,
   });
 
   @override
   Widget build(BuildContext context) {
+    final formKey = GlobalKey<FormBuilderState>();
+
     return CustomDialog(
       title: title,
-      onPressedPrimaryButton: onPressedPrimaryButton,
       primaryButtonText: primaryButtonText,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          child: FormBuilder(
-            child: CustomTextField(
-              name: name,
-              label: label,
-              hintText: hintText,
-              hasPrefixIcon: false,
-              hasSuffixIcon: false,
-              maxLines: maxLines,
-              validators: [
-                FormBuilderValidators.required(
-                  errorText: "Bagian ini harus diisi",
-                ),
-              ],
+      onPressedPrimaryButton: () => onPressedPrimaryButton(formKey),
+      child: FormBuilder(
+        key: formKey,
+        child: CustomTextField(
+          isSmall: true,
+          name: name,
+          label: label,
+          hintText: hintText,
+          hasPrefixIcon: false,
+          hasSuffixIcon: false,
+          maxLines: maxLines,
+          textInputAction: TextInputAction.done,
+          validators: [
+            FormBuilderValidators.required(
+              errorText: "Bagian ini harus diisi",
             ),
-          ),
+          ],
         ),
-      ],
+      ),
     );
+  }
+
+  void onPressedPrimaryButton(GlobalKey<FormBuilderState> formKey) {
+    if (onSubmitted != null) {
+      FocusManager.instance.primaryFocus?.unfocus();
+
+      if (formKey.currentState!.saveAndValidate()) {
+        onSubmitted!(formKey.currentState!.value);
+      }
+    }
   }
 }

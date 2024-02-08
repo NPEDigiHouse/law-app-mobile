@@ -60,9 +60,10 @@ extension DialogExtension on BuildContext {
   Future<Object?> showConfirmDialog({
     required String title,
     required String message,
+    bool withCheckbox = false,
     String? checkboxLabel,
-    VoidCallback? onPressedPrimaryButton,
     String? primaryButtonText,
+    VoidCallback? onPressedPrimaryButton,
   }) {
     return showDialog<Object?>(
       context: this,
@@ -70,9 +71,10 @@ extension DialogExtension on BuildContext {
       builder: (_) => ConfirmDialog(
         title: title,
         message: message,
+        withCheckbox: withCheckbox,
         checkboxLabel: checkboxLabel,
-        onPressedPrimaryButton: onPressedPrimaryButton,
         primaryButtonText: primaryButtonText,
+        onPressedPrimaryButton: onPressedPrimaryButton,
       ),
     );
   }
@@ -109,24 +111,24 @@ extension DialogExtension on BuildContext {
 
   Future<Object?> showSingleFormDialog({
     required String title,
-    required String formName,
+    required String name,
     required String label,
     required String hintText,
-    int? maxLines,
-    VoidCallback? onPressedPrimaryButton,
+    int maxLines = 1,
     String? primaryButtonText,
+    void Function(Map<String, dynamic> value)? onSubmitted,
   }) {
     return showDialog(
       context: this,
       barrierDismissible: false,
       builder: (_) => SingleFormDialog(
         title: title,
-        name: formName,
+        name: name,
         label: label,
         hintText: hintText,
         maxLines: maxLines,
-        onPressedPrimaryButton: onPressedPrimaryButton,
         primaryButtonText: primaryButtonText,
+        onSubmitted: onSubmitted,
       ),
     );
   }
@@ -139,9 +141,9 @@ extension DialogExtension on BuildContext {
     required String textAreaName,
     required String textAreaLabel,
     required String textAreaHint,
-    required int textAreaMaxLines,
-    VoidCallback? onPressedPrimaryButton,
+    int textAreaMaxLines = 4,
     String? primaryButtonText,
+    void Function(Map<String, dynamic> value)? onSubmitted,
   }) {
     return showDialog(
       context: this,
@@ -155,8 +157,8 @@ extension DialogExtension on BuildContext {
         textAreaLabel: textAreaLabel,
         textAreaHint: textAreaHint,
         textAreaMaxLines: textAreaMaxLines,
-        onPressedPrimaryButton: onPressedPrimaryButton,
         primaryButtonText: primaryButtonText,
+        onSubmitted: onSubmitted,
       ),
     );
   }
@@ -164,22 +166,24 @@ extension DialogExtension on BuildContext {
   Future<Object?> showCustomAlertDialog({
     required String title,
     required String message,
-    String? checkboxLabel,
     Color? foregroundColor,
     Color? backgroundColor,
-    VoidCallback? onPressedPrimaryButton,
+    bool withCheckbox = false,
+    String? checkboxLabel,
     String? primaryButtonText,
+    VoidCallback? onPressedPrimaryButton,
   }) {
     return showDialog(
       context: this,
       builder: (_) => CustomAlertDialog(
         title: title,
         message: message,
-        checkboxLabel: checkboxLabel,
         foregroundColor: foregroundColor,
         backgroundColor: backgroundColor,
-        onPressedPrimaryButton: onPressedPrimaryButton,
+        withCheckbox: withCheckbox,
+        checkboxLabel: checkboxLabel,
         primaryButtonText: primaryButtonText,
+        onPressedPrimaryButton: onPressedPrimaryButton,
       ),
     );
   }
@@ -205,8 +209,8 @@ extension DialogExtension on BuildContext {
     required List<String> sortingItems,
     required ValueNotifier<String?> selectedFirstDropdown,
     required ValueNotifier<String?> selectedSecondDropdown,
-    VoidCallback? onPressedPrimaryButton,
     String? primaryButtonText,
+    VoidCallback? onPressedPrimaryButton,
   }) {
     return showDialog(
       context: this,
@@ -216,8 +220,8 @@ extension DialogExtension on BuildContext {
         sortingItems: sortingItems,
         selectedFirstDropdown: selectedFirstDropdown,
         selectedSecondDropdown: selectedSecondDropdown,
-        onPressedPrimaryButton: onPressedPrimaryButton,
         primaryButtonText: primaryButtonText,
+        onPressedPrimaryButton: onPressedPrimaryButton,
       ),
     );
   }

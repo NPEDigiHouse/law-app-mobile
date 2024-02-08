@@ -9,27 +9,29 @@ import 'package:law_app/features/shared/widgets/svg_asset.dart';
 class PasswordTextField extends StatefulWidget {
   final String name;
   final String label;
+  final String? hintText;
   final TextInputType? textInputType;
   final TextInputAction? textInputAction;
   final TextCapitalization textCapitalization;
-  final String? hintText;
   final bool hasPrefixIcon;
   final String? prefixIconName;
   final List<String? Function(String?)>? validators;
   final ValueChanged<String?>? onChanged;
+  final bool isSmall;
 
   const PasswordTextField({
     super.key,
     required this.name,
     required this.label,
+    this.hintText,
     this.textInputType,
     this.textInputAction,
     this.textCapitalization = TextCapitalization.none,
-    this.hintText,
     this.hasPrefixIcon = true,
     this.prefixIconName,
     this.validators,
     this.onChanged,
+    this.isSmall = false,
   });
 
   @override
@@ -64,7 +66,9 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
       children: [
         Text(
           widget.label,
-          style: textTheme.titleSmall,
+          style: widget.isSmall
+              ? textTheme.bodySmall!.copyWith(fontWeight: FontWeight.w700)
+              : textTheme.titleSmall,
         ),
         const SizedBox(height: 6),
         if (widget.hasPrefixIcon)
@@ -84,16 +88,22 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
       builder: (context, isVisible, child) {
         return FormBuilderTextField(
           name: widget.name,
+          obscureText: !isVisible,
           keyboardType: widget.textInputType,
           textInputAction: widget.textInputAction,
           textCapitalization: widget.textCapitalization,
           textAlignVertical: TextAlignVertical.center,
-          obscureText: !isVisible,
+          style: widget.isSmall ? textTheme.bodyMedium : null,
           decoration: InputDecoration(
             hintText: widget.hintText,
-            contentPadding: const EdgeInsets.all(16),
             prefixIcon: buildPrefixIcon(),
             suffixIcon: buildSuffixIcon(isVisible),
+            hintStyle: widget.isSmall
+                ? textTheme.bodyMedium!.copyWith(color: secondaryTextColor)
+                : null,
+            contentPadding: widget.isSmall
+                ? const EdgeInsets.fromLTRB(16, 12, 16, 12)
+                : const EdgeInsets.all(16),
           ),
           validator: widget.validators != null
               ? FormBuilderValidators.compose(widget.validators!)
@@ -114,6 +124,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
             return SvgAsset(
               assetPath: AssetPath.getIcon(widget.prefixIconName!),
               color: isFocus ? primaryColor : secondaryTextColor,
+              width: widget.isSmall ? 16 : null,
             );
           },
         ),
@@ -128,9 +139,11 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
       icon: isVisible
           ? SvgAsset(
               assetPath: AssetPath.getIcon('eye-solid.svg'),
+              width: widget.isSmall ? 16 : null,
             )
           : SvgAsset(
               assetPath: AssetPath.getIcon('eye-hide-solid.svg'),
+              width: widget.isSmall ? 16 : null,
             ),
       onPressed: () => this.isVisible.value = !isVisible,
     );

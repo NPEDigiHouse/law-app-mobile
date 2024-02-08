@@ -156,7 +156,7 @@ class _RegisterPageState extends State<RegisterPage>
                               ),
                               FormBuilderValidators.maxLength(
                                 8,
-                                errorText: 'Password minimal 8 huruf',
+                                errorText: 'Password minimal 8 karakter',
                               ),
                             ],
                             onChanged: (value) {

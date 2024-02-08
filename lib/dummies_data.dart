@@ -26,7 +26,7 @@ class User {
 const user = User(
   username: 'test',
   password: 'test',
-  fullName: 'Kamaruddin Al-maliki',
+  fullName: 'Kamaruddin Al maliki',
   email: 'test@gmail.com',
   dateOfBirth: '21 Desember 2001',
   phone: '0897182974',

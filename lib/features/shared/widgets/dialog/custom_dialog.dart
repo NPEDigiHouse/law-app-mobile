@@ -7,23 +7,25 @@ import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class CustomDialog extends StatelessWidget {
   final String title;
-  final VoidCallback? onPressedPrimaryButton;
+  final Widget child;
+  final EdgeInsetsGeometry childPadding;
   final String? primaryButtonText;
-  final List<Widget> children;
+  final VoidCallback? onPressedPrimaryButton;
 
   const CustomDialog({
     super.key,
     required this.title,
-    this.onPressedPrimaryButton,
+    required this.child,
+    this.childPadding = const EdgeInsets.fromLTRB(20, 12, 20, 16),
     this.primaryButtonText,
-    required this.children,
+    this.onPressedPrimaryButton,
   });
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
       elevation: 0,
-      backgroundColor: backgroundColor,
+      backgroundColor: scaffoldBackgroundColor,
       insetPadding: const EdgeInsets.symmetric(
         vertical: 24,
         horizontal: 32,
@@ -63,10 +65,8 @@ class CustomDialog extends StatelessWidget {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
-              child: Column(
-                children: children,
-              ),
+              padding: childPadding,
+              child: child,
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),

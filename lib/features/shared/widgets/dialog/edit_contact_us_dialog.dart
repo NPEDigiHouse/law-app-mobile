@@ -23,62 +23,60 @@ class EditContactUsDialog extends StatelessWidget {
       title: "Edit Kontak Kami",
       onPressedPrimaryButton: onPressedPrimaryButton,
       primaryButtonText: primaryButtonText,
-      children: [
-        ListView.separated(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          separatorBuilder: (context, index) {
-            return const Divider(
-              color: secondaryTextColor,
-            );
-          },
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: FormBuilder(
-                child: Column(
-                  children: [
-                    CustomTextField(
-                      name: items[index]["formName"],
-                      label: items[index]["formLabel"],
-                      hintText: items[index]["formHint"],
-                      initialValue: items[index]["formValue"],
-                      hasPrefixIcon: false,
-                      hasSuffixIcon: false,
-                      textInputAction: TextInputAction.next,
-                      validators: [
-                        FormBuilderValidators.required(
-                          errorText: "Bagian ini harus diisi",
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    CustomTextField(
-                      name: items[index]["linkName"],
-                      label: items[index]["linkLabel"],
-                      hintText: items[index]["linkHint"],
-                      initialValue: items[index]["linkValue"],
-                      hasPrefixIcon: false,
-                      hasSuffixIcon: false,
-                      textInputType: TextInputType.url,
-                      textInputAction: TextInputAction.done,
-                      validators: [
-                        FormBuilderValidators.required(
-                          errorText: "Bagian ini harus diisi",
-                        ),
-                        FormBuilderValidators.url(
-                          errorText: "Link tidak valid",
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+      child: ListView.separated(
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        separatorBuilder: (context, index) {
+          return const Divider(
+            color: secondaryTextColor,
+          );
+        },
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: FormBuilder(
+              child: Column(
+                children: [
+                  CustomTextField(
+                    name: items[index]["formName"],
+                    label: items[index]["formLabel"],
+                    hintText: items[index]["formHint"],
+                    initialValue: items[index]["formValue"],
+                    hasPrefixIcon: false,
+                    hasSuffixIcon: false,
+                    textInputAction: TextInputAction.next,
+                    validators: [
+                      FormBuilderValidators.required(
+                        errorText: "Bagian ini harus diisi",
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  CustomTextField(
+                    name: items[index]["linkName"],
+                    label: items[index]["linkLabel"],
+                    hintText: items[index]["linkHint"],
+                    initialValue: items[index]["linkValue"],
+                    hasPrefixIcon: false,
+                    hasSuffixIcon: false,
+                    textInputType: TextInputType.url,
+                    textInputAction: TextInputAction.done,
+                    validators: [
+                      FormBuilderValidators.required(
+                        errorText: "Bagian ini harus diisi",
+                      ),
+                      FormBuilderValidators.url(
+                        errorText: "Link tidak valid",
+                      ),
+                    ],
+                  ),
+                ],
               ),
-            );
-          },
-          itemCount: items.length,
-        )
-      ],
+            ),
+          );
+        },
+        itemCount: items.length,
+      ),
     );
   }
 }

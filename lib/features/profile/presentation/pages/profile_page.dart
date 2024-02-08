@@ -139,11 +139,7 @@ class ProfilePage extends StatelessWidget {
             context.showConfirmDialog(
               title: "Log Out",
               message: "Dengan ini, seluruh sesi Anda akan berakhir.",
-              onPressedPrimaryButton: () {
-                navigatorKey.currentState!.popUntil(
-                  ModalRoute.withName(loginRoute),
-                );
-              },
+              onPressedPrimaryButton: () {},
             );
           },
         },
@@ -188,11 +184,7 @@ class ProfilePage extends StatelessWidget {
             context.showConfirmDialog(
               title: "Log Out",
               message: "Dengan ini, seluruh sesi Anda akan berakhir.",
-              onPressedPrimaryButton: () {
-                navigatorKey.currentState!.popUntil(
-                  ModalRoute.withName(loginRoute),
-                );
-              },
+              onPressedPrimaryButton: () {},
             );
           },
         },
@@ -245,11 +237,7 @@ class ProfilePage extends StatelessWidget {
             context.showConfirmDialog(
               title: "Log Out",
               message: "Dengan ini, seluruh sesi Anda akan berakhir.",
-              onPressedPrimaryButton: () {
-                navigatorKey.currentState!.popUntil(
-                  ModalRoute.withName(loginRoute),
-                );
-              },
+              onPressedPrimaryButton: () {},
             );
           },
         },

@@ -95,7 +95,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                         children: [
                           PasswordTextField(
                             name: 'password',
-                            label: 'Password',
+                            label: 'Password Baru',
                             hintText: 'Masukkan password baru',
                             hasPrefixIcon: false,
                             textInputType: TextInputType.visiblePassword,
@@ -106,7 +106,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                               ),
                               FormBuilderValidators.maxLength(
                                 8,
-                                errorText: 'Password minimal 8 huruf',
+                                errorText: 'Password minimal 8 karakter',
                               ),
                             ],
                             onChanged: (value) {
@@ -119,7 +119,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                             builder: (context, password, child) {
                               return PasswordTextField(
                                 name: 'confirm_password',
-                                label: 'Konfirmasi Password',
+                                label: 'Konfirmasi Password Baru',
                                 hintText: 'Ulangi password sebelumnya',
                                 hasPrefixIcon: false,
                                 textInputType: TextInputType.visiblePassword,

@@ -21,109 +21,113 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
   @override
   Widget build(BuildContext context) {
     return CustomDialog(
-      title: 'Ubah Data',
-      children: [
-        FormBuilder(
-          key: formKey,
-          child: Column(
-            children: [
-              CustomTextField(
-                name: "name",
-                label: "Nama Lengkap",
-                hintText: "Masukkan nama lengkap kamu",
-                initialValue: user.fullName,
-                hasPrefixIcon: false,
-                hasSuffixIcon: false,
-                textInputType: TextInputType.name,
-                textInputAction: TextInputAction.next,
-                validators: [
-                  FormBuilderValidators.required(
-                    errorText: "Bagian ini harus diisi",
-                  ),
-                  FormBuilderValidators.match(
-                    r'^[a-zA-Z\s]*$',
-                    errorText: "Nama tidak valid",
-                  )
-                ],
-              ),
-              const SizedBox(height: 12),
-              CustomTextField(
-                name: "username",
-                label: "Username",
-                hintText: "Masukkan username kamu",
-                initialValue: user.username,
-                hasPrefixIcon: false,
-                hasSuffixIcon: false,
-                textInputType: TextInputType.name,
-                textInputAction: TextInputAction.next,
-                validators: [
-                  FormBuilderValidators.required(
-                    errorText: "Bagian ini harus diisi",
-                  ),
-                  FormBuilderValidators.match(
-                    r'^(?=.*[a-zA-Z])\d*[a-zA-Z\d]*$',
-                    errorText: "Username tidak valid",
-                  )
-                ],
-              ),
-              const SizedBox(height: 12),
-              CustomTextField(
-                name: "email",
-                label: "Email",
-                hintText: "Masukkan email kamu",
-                initialValue: user.email,
-                hasPrefixIcon: false,
-                hasSuffixIcon: false,
-                textInputType: TextInputType.emailAddress,
-                textInputAction: TextInputAction.next,
-                validators: [
-                  FormBuilderValidators.required(
-                    errorText: "Bagian ini harus diisi",
-                  ),
-                  FormBuilderValidators.email(
-                    errorText: "Email tidak valid",
-                  )
-                ],
-              ),
-              const SizedBox(height: 12),
-              CustomTextField(
-                name: "date_of_birth",
-                label: "Tanggal Lahir",
-                hintText: "dd/mm/yyyy",
-                initialValue: user.dateOfBirth,
-                hasPrefixIcon: false,
-                suffixIconName: "calendar.svg",
-                textInputType: TextInputType.none,
-                validators: [
-                  FormBuilderValidators.required(
-                    errorText: "Bagian ini harus diisi",
-                  ),
-                ],
-                onTap: showBirthDatePicker,
-              ),
-              const SizedBox(height: 12),
-              CustomTextField(
-                name: "phone",
-                label: "No. HP",
-                hintText: "Masukkan nomor hp kamu",
-                initialValue: user.phone,
-                hasPrefixIcon: false,
-                hasSuffixIcon: false,
-                textInputType: TextInputType.number,
-                textInputAction: TextInputAction.none,
-                validators: [
-                  FormBuilderValidators.required(
-                    errorText: "Bagian ini harus diisi",
-                  ),
-                  FormBuilderValidators.integer(
-                    errorText: 'No. HP tidak valid',
-                  ),
-                ],
-              ),
-            ],
-          ),
+      title: 'Edit Profil',
+      onPressedPrimaryButton: editProfile,
+      child: FormBuilder(
+        key: formKey,
+        child: Column(
+          children: [
+            CustomTextField(
+              isSmall: true,
+              name: "name",
+              label: "Nama Lengkap",
+              hintText: "Masukkan nama lengkap kamu",
+              initialValue: user.fullName,
+              hasPrefixIcon: false,
+              hasSuffixIcon: false,
+              textInputType: TextInputType.name,
+              textInputAction: TextInputAction.next,
+              textCapitalization: TextCapitalization.words,
+              validators: [
+                FormBuilderValidators.required(
+                  errorText: "Bagian ini harus diisi",
+                ),
+                FormBuilderValidators.match(
+                  r'^[a-zA-Z\s]*$',
+                  errorText: "Nama tidak valid",
+                )
+              ],
+            ),
+            const SizedBox(height: 10),
+            CustomTextField(
+              isSmall: true,
+              name: "username",
+              label: "Username",
+              hintText: "Masukkan username kamu",
+              initialValue: user.username,
+              hasPrefixIcon: false,
+              hasSuffixIcon: false,
+              textInputAction: TextInputAction.next,
+              validators: [
+                FormBuilderValidators.required(
+                  errorText: "Bagian ini harus diisi",
+                ),
+                FormBuilderValidators.match(
+                  r'^(?=.*[a-zA-Z])\d*[a-zA-Z\d]*$',
+                  errorText: "Username tidak valid",
+                )
+              ],
+            ),
+            const SizedBox(height: 10),
+            CustomTextField(
+              isSmall: true,
+              name: "email",
+              label: "Email",
+              hintText: "Masukkan email kamu",
+              initialValue: user.email,
+              hasPrefixIcon: false,
+              hasSuffixIcon: false,
+              textInputType: TextInputType.emailAddress,
+              textInputAction: TextInputAction.next,
+              validators: [
+                FormBuilderValidators.required(
+                  errorText: "Bagian ini harus diisi",
+                ),
+                FormBuilderValidators.email(
+                  errorText: "Email tidak valid",
+                )
+              ],
+            ),
+            const SizedBox(height: 10),
+            CustomTextField(
+              isSmall: true,
+              name: "date_of_birth",
+              label: "Tanggal Lahir",
+              hintText: "dd/mm/yyyy",
+              initialValue: user.dateOfBirth,
+              hasPrefixIcon: false,
+              suffixIconName: "calendar.svg",
+              textInputType: TextInputType.none,
+              validators: [
+                FormBuilderValidators.required(
+                  errorText: "Bagian ini harus diisi",
+                ),
+              ],
+              onTap: showBirthDatePicker,
+            ),
+            const SizedBox(height: 10),
+            CustomTextField(
+              isSmall: true,
+              name: "phone_number",
+              label: "No. HP",
+              hintText: "Masukkan nomor hp kamu",
+              initialValue: user.phone,
+              hasPrefixIcon: false,
+              hasSuffixIcon: false,
+              textInputType: TextInputType.number,
+              textInputAction: TextInputAction.done,
+              validators: [
+                FormBuilderValidators.required(
+                  errorText: "Bagian ini harus diisi",
+                ),
+                FormBuilderValidators.integer(
+                  errorText: 'No. HP tidak valid',
+                ),
+              ],
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 
@@ -146,7 +150,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
     }
   }
 
-  void editData() {
+  void editProfile() {
     FocusManager.instance.primaryFocus?.unfocus();
 
     if (formKey.currentState!.saveAndValidate()) {

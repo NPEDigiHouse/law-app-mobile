@@ -12,9 +12,9 @@ class SingleFormTextAreaDialog extends StatelessWidget {
   final String textAreaName;
   final String textAreaLabel;
   final String textAreaHint;
-  final int? textAreaMaxLines;
-  final VoidCallback? onPressedPrimaryButton;
+  final int textAreaMaxLines;
   final String? primaryButtonText;
+  final void Function(Map<String, dynamic> value)? onSubmitted;
 
   const SingleFormTextAreaDialog({
     super.key,
@@ -25,55 +25,67 @@ class SingleFormTextAreaDialog extends StatelessWidget {
     required this.textAreaName,
     required this.textAreaLabel,
     required this.textAreaHint,
-    this.textAreaMaxLines,
-    this.onPressedPrimaryButton,
+    this.textAreaMaxLines = 4,
     this.primaryButtonText,
+    this.onSubmitted,
   });
 
   @override
   Widget build(BuildContext context) {
+    final formKey = GlobalKey<FormBuilderState>();
+
     return CustomDialog(
       title: title,
-      onPressedPrimaryButton: onPressedPrimaryButton,
       primaryButtonText: primaryButtonText,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          child: FormBuilder(
-            child: Column(
-              children: [
-                CustomTextField(
-                  name: textAreaName,
-                  label: textFieldLabel,
-                  hintText: textFieldHint,
-                  hasPrefixIcon: false,
-                  hasSuffixIcon: false,
-                  textInputAction: TextInputAction.next,
-                  validators: [
-                    FormBuilderValidators.required(
-                      errorText: "Bagian ini harus diisi",
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                CustomTextField(
-                  name: textAreaName,
-                  label: textAreaLabel,
-                  hintText: textAreaHint,
-                  hasPrefixIcon: false,
-                  hasSuffixIcon: false,
-                  maxLines: textAreaMaxLines,
-                  textInputAction: TextInputAction.newline,
-                  validators: [
-                    FormBuilderValidators.required(
-                        errorText: "Bagian ini harus diisi"),
-                  ],
+      onPressedPrimaryButton: () => onPressedPrimaryButton(formKey),
+      child: FormBuilder(
+        key: formKey,
+        child: Column(
+          children: [
+            CustomTextField(
+              isSmall: true,
+              name: textFieldName,
+              label: textFieldLabel,
+              hintText: textFieldHint,
+              maxLines: 1,
+              hasPrefixIcon: false,
+              hasSuffixIcon: false,
+              textInputAction: TextInputAction.next,
+              validators: [
+                FormBuilderValidators.required(
+                  errorText: "Bagian ini harus diisi",
                 ),
               ],
             ),
-          ),
+            const SizedBox(height: 10),
+            CustomTextField(
+              isSmall: true,
+              name: textAreaName,
+              label: textAreaLabel,
+              hintText: textAreaHint,
+              maxLines: textAreaMaxLines,
+              hasPrefixIcon: false,
+              hasSuffixIcon: false,
+              textInputAction: TextInputAction.newline,
+              validators: [
+                FormBuilderValidators.required(
+                  errorText: "Bagian ini harus diisi",
+                ),
+              ],
+            ),
+          ],
         ),
-      ],
+      ),
     );
+  }
+
+  void onPressedPrimaryButton(GlobalKey<FormBuilderState> formKey) {
+    if (onSubmitted != null) {
+      FocusManager.instance.primaryFocus?.unfocus();
+
+      if (formKey.currentState!.saveAndValidate()) {
+        onSubmitted!(formKey.currentState!.value);
+      }
+    }
   }
 }

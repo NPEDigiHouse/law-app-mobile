@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/features/shared/providers/checkbox_provider.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
-class CustomAlertDialog extends StatefulWidget {
+class CustomAlertDialog extends ConsumerWidget {
   final String title;
   final String message;
   final Color? foregroundColor;
   final Color? backgroundColor;
+  final bool withCheckbox;
   final String? checkboxLabel;
-  final VoidCallback? onPressedPrimaryButton;
   final String? primaryButtonText;
+  final VoidCallback? onPressedPrimaryButton;
 
   const CustomAlertDialog({
     super.key,
@@ -20,38 +23,22 @@ class CustomAlertDialog extends StatefulWidget {
     required this.message,
     this.foregroundColor,
     this.backgroundColor,
+    this.withCheckbox = false,
     this.checkboxLabel,
-    this.onPressedPrimaryButton,
     this.primaryButtonText,
+    this.onPressedPrimaryButton,
   });
 
   @override
-  State<CustomAlertDialog> createState() => _CustomAlertDialogState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    if (withCheckbox) assert(checkboxLabel != null);
 
-class _CustomAlertDialogState extends State<CustomAlertDialog> {
-  late final ValueNotifier<bool> isChecked;
+    final isChecked = ref.watch(isCheckedProvider);
 
-  @override
-  void initState() {
-    super.initState();
-
-    isChecked = ValueNotifier(false);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-
-    isChecked.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Dialog(
       clipBehavior: Clip.none,
       elevation: 0,
-      backgroundColor: backgroundColor,
+      backgroundColor: scaffoldBackgroundColor,
       insetPadding: const EdgeInsets.symmetric(
         vertical: 24,
         horizontal: 32,
@@ -61,42 +48,40 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            width: double.infinity,
             height: 60,
             child: Stack(
               clipBehavior: Clip.none,
               children: [
                 Positioned(
-                  right: 0,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 4, 4, 0),
-                    child: IconButton(
-                      onPressed: () => navigatorKey.currentState!.pop(),
-                      icon: SvgAsset(
-                        assetPath: AssetPath.getIcon('close-line.svg'),
-                        width: 20,
-                      ),
-                      tooltip: 'Kembali',
+                  top: 4,
+                  right: 4,
+                  child: IconButton(
+                    onPressed: () => navigatorKey.currentState!.pop(),
+                    icon: SvgAsset(
+                      assetPath: AssetPath.getIcon('close-line.svg'),
+                      width: 20,
                     ),
+                    tooltip: 'Kembali',
                   ),
                 ),
                 Positioned(
-                  top: -50,
-                  right: 0,
                   left: 0,
+                  right: 0,
+                  top: -50,
                   child: Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: widget.backgroundColor ?? secondaryColor,
+                      color: backgroundColor ?? secondaryColor,
                       shape: BoxShape.circle,
                     ),
                     child: SvgAsset(
                       assetPath: AssetPath.getIcon(
                         "exclamation-circle-line.svg",
                       ),
-                      color: widget.foregroundColor ?? errorColor,
+                      color: foregroundColor ?? errorColor,
                       width: 100,
                       height: 100,
                     ),
@@ -106,49 +91,57 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
+            padding: const EdgeInsets.fromLTRB(20, 16, 20, 12),
             child: Column(
               children: [
                 Text(
-                  widget.title,
+                  title,
                   textAlign: TextAlign.center,
                   style: textTheme.headlineSmall!.copyWith(
-                    color: widget.foregroundColor ?? errorColor,
+                    color: foregroundColor ?? errorColor,
                   ),
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  widget.message,
-                  style: textTheme.bodyMedium!.copyWith(
-                    color: primaryTextColor,
-                  ),
+                  message,
+                  textAlign: !withCheckbox ? TextAlign.center : null,
+                  style: textTheme.bodyMedium,
                 ),
-                const SizedBox(height: 12),
-                if (widget.checkboxLabel != null)
-                  ValueListenableBuilder(
-                    valueListenable: isChecked,
-                    builder: (context, value, child) {
-                      return ListTileTheme(
-                        minVerticalPadding: 0,
-                        child: CheckboxListTile(
-                          value: value,
-                          onChanged: (value) => isChecked.value = value!,
-                          title: Text(
-                            widget.checkboxLabel!,
-                            style: textTheme.bodyMedium!.copyWith(
-                              color: primaryTextColor,
-                            ),
-                          ),
-                          contentPadding: EdgeInsets.zero,
-                          controlAffinity: ListTileControlAffinity.leading,
-                          visualDensity: const VisualDensity(
-                            horizontal: VisualDensity.minimumDensity,
-                            vertical: VisualDensity.minimumDensity,
-                          ),
+                if (withCheckbox) ...[
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: isChecked,
+                        onChanged: (newValue) {
+                          ref.read(isCheckedProvider.notifier).state =
+                              newValue!;
+                        },
+                        checkColor: scaffoldBackgroundColor,
+                        side: const BorderSide(
+                          color: secondaryTextColor,
                         ),
-                      );
-                    },
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        visualDensity: const VisualDensity(
+                          vertical: VisualDensity.minimumDensity,
+                          horizontal: VisualDensity.minimumDensity,
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      Flexible(
+                        child: GestureDetector(
+                          onTap: () {
+                            ref.read(isCheckedProvider.notifier).state =
+                                !isChecked;
+                          },
+                          child: Text('$checkboxLabel'),
+                        ),
+                      ),
+                    ],
                   ),
+                ],
               ],
             ),
           ),
@@ -170,11 +163,13 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
                 const SizedBox(width: 8),
                 Expanded(
                   child: FilledButton(
-                    onPressed: widget.onPressedPrimaryButton,
+                    onPressed: withCheckbox
+                        ? (isChecked ? onPressedPrimaryButton : null)
+                        : onPressedPrimaryButton,
                     style: FilledButton.styleFrom(
                       padding: const EdgeInsets.all(0),
                     ),
-                    child: Text(widget.primaryButtonText ?? 'Konfirmasi'),
+                    child: Text(primaryButtonText ?? 'Konfirmasi'),
                   ),
                 ),
               ],

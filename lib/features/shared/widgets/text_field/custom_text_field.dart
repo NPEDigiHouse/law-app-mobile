@@ -10,34 +10,36 @@ class CustomTextField extends StatefulWidget {
   final String name;
   final String label;
   final String? initialValue;
+  final String? hintText;
+  final int maxLines;
   final TextInputType? textInputType;
   final TextInputAction? textInputAction;
   final TextCapitalization textCapitalization;
-  final int? maxLines;
-  final String? hintText;
   final bool hasPrefixIcon;
   final String? prefixIconName;
   final bool hasSuffixIcon;
   final String? suffixIconName;
   final List<String? Function(String?)>? validators;
   final VoidCallback? onTap;
+  final bool isSmall;
 
   const CustomTextField({
     super.key,
     required this.name,
     required this.label,
     this.initialValue,
+    this.hintText,
+    this.maxLines = 1,
     this.textInputType,
     this.textInputAction,
     this.textCapitalization = TextCapitalization.none,
-    this.maxLines,
-    this.hintText,
     this.hasPrefixIcon = true,
     this.prefixIconName,
     this.hasSuffixIcon = true,
     this.suffixIconName,
     this.validators,
     this.onTap,
+    this.isSmall = false,
   });
 
   @override
@@ -69,7 +71,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
       children: [
         Text(
           widget.label,
-          style: textTheme.titleSmall,
+          style: widget.isSmall
+              ? textTheme.bodySmall!.copyWith(fontWeight: FontWeight.w700)
+              : textTheme.titleSmall,
         ),
         const SizedBox(height: 6),
         if (widget.hasPrefixIcon)
@@ -87,16 +91,22 @@ class _CustomTextFieldState extends State<CustomTextField> {
     return FormBuilderTextField(
       name: widget.name,
       initialValue: widget.initialValue,
+      maxLines: widget.maxLines,
       keyboardType: widget.textInputType,
       textInputAction: widget.textInputAction,
       textCapitalization: widget.textCapitalization,
       textAlignVertical: TextAlignVertical.center,
-      maxLines: widget.maxLines,
+      style: widget.isSmall ? textTheme.bodyMedium : null,
       decoration: InputDecoration(
         hintText: widget.hintText,
-        contentPadding: const EdgeInsets.all(16),
         prefixIcon: buildPrefixIcon(),
         suffixIcon: buildSuffixIcon(),
+        hintStyle: widget.isSmall
+            ? textTheme.bodyMedium!.copyWith(color: secondaryTextColor)
+            : null,
+        contentPadding: widget.isSmall
+            ? const EdgeInsets.fromLTRB(16, 12, 16, 12)
+            : const EdgeInsets.all(16),
       ),
       validator: widget.validators != null
           ? FormBuilderValidators.compose(widget.validators!)
@@ -115,6 +125,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             return SvgAsset(
               assetPath: AssetPath.getIcon(widget.prefixIconName!),
               color: isFocus ? primaryColor : secondaryTextColor,
+              width: widget.isSmall ? 16 : null,
             );
           },
         ),
@@ -130,6 +141,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         padding: const EdgeInsets.fromLTRB(10, 0, 16, 0),
         child: SvgAsset(
           assetPath: AssetPath.getIcon(widget.suffixIconName!),
+          width: widget.isSmall ? 16 : null,
         ),
       );
     }

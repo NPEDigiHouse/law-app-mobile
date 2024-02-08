@@ -1,80 +1,81 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
-import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/features/shared/providers/checkbox_provider.dart';
 import 'package:law_app/features/shared/widgets/dialog/custom_dialog.dart';
 
-class ConfirmDialog extends StatefulWidget {
+class ConfirmDialog extends ConsumerWidget {
   final String title;
   final String message;
+  final bool withCheckbox;
   final String? checkboxLabel;
-  final VoidCallback? onPressedPrimaryButton;
   final String? primaryButtonText;
+  final VoidCallback? onPressedPrimaryButton;
 
   const ConfirmDialog({
     super.key,
     required this.title,
     required this.message,
+    this.withCheckbox = false,
     this.checkboxLabel,
-    this.onPressedPrimaryButton,
     this.primaryButtonText,
+    this.onPressedPrimaryButton,
   });
 
   @override
-  State<ConfirmDialog> createState() => _ConfirmDialogState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    if (withCheckbox) assert(checkboxLabel != null);
 
-class _ConfirmDialogState extends State<ConfirmDialog> {
-  late final ValueNotifier<bool> isChecked;
+    final bottom = withCheckbox ? 8.0 : 16.0;
+    final isChecked = ref.watch(isCheckedProvider);
 
-  @override
-  void initState() {
-    super.initState();
-
-    isChecked = ValueNotifier(false);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-
-    isChecked.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return CustomDialog(
-      title: widget.title,
-      onPressedPrimaryButton: widget.onPressedPrimaryButton,
-      primaryButtonText: widget.primaryButtonText,
-      children: [
-        Text(widget.message),
-        const SizedBox(height: 8),
-        if (widget.checkboxLabel != null)
-          ValueListenableBuilder(
-            valueListenable: isChecked,
-            builder: (context, value, child) {
-              return ListTileTheme(
-                minVerticalPadding: 4,
-                child: CheckboxListTile(
-                  value: value,
-                  onChanged: (value) => isChecked.value = value!,
-                  title: Text(
-                    widget.checkboxLabel!,
-                    style: textTheme.bodyMedium!.copyWith(
-                      color: primaryTextColor,
-                    ),
+      title: title,
+      childPadding: EdgeInsets.fromLTRB(20, 8, 20, bottom),
+      primaryButtonText: primaryButtonText,
+      onPressedPrimaryButton: withCheckbox
+          ? (isChecked ? onPressedPrimaryButton : null)
+          : onPressedPrimaryButton,
+      child: Column(
+        children: [
+          Text(message),
+          if (withCheckbox) ...[
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                Checkbox(
+                  value: isChecked,
+                  onChanged: (newValue) {
+                    ref.read(isCheckedProvider.notifier).state = newValue!;
+                  },
+                  checkColor: scaffoldBackgroundColor,
+                  side: const BorderSide(
+                    color: secondaryTextColor,
                   ),
-                  contentPadding: EdgeInsets.zero,
-                  controlAffinity: ListTileControlAffinity.leading,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4),
+                  ),
                   visualDensity: const VisualDensity(
-                    horizontal: VisualDensity.minimumDensity,
                     vertical: VisualDensity.minimumDensity,
+                    horizontal: VisualDensity.minimumDensity,
                   ),
                 ),
-              );
-            },
-          ),
-      ],
+                const SizedBox(width: 4),
+                Flexible(
+                  child: GestureDetector(
+                    onTap: () {
+                      ref.read(isCheckedProvider.notifier).state = !isChecked;
+                    },
+                    child: Flexible(
+                      child: Text('$checkboxLabel'),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ],
+      ),
     );
   }
 }

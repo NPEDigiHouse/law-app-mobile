@@ -7,6 +7,7 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/shared/widgets/animated_fab.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
@@ -310,20 +311,9 @@ class _StudentDiscussionHomePageState extends State<StudentDiscussionHomePage>
           ),
         ),
       ),
-      floatingActionButton: ScaleTransition(
-        scale: fabAnimationController,
-        alignment: Alignment.bottomCenter,
-        child: FloatingActionButton.small(
-          onPressed: () => scrollController.jumpTo(0),
-          elevation: 2,
-          backgroundColor: secondaryColor,
-          tooltip: 'Kembali ke atas',
-          child: SvgAsset(
-            assetPath: AssetPath.getIcon('caret-line-up.svg'),
-            color: primaryColor,
-            width: 20,
-          ),
-        ),
+      floatingActionButton: AnimatedFloatingActionButton(
+        fabAnimationController: fabAnimationController,
+        scrollController: scrollController,
       ),
     );
   }
