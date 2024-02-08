@@ -11,7 +11,7 @@ class WidgetUtils {
     required String message,
     required BannerType type,
     bool autoClose = true,
-    Duration autoCloseDuration = const Duration(milliseconds: 3500),
+    Duration autoCloseDuration = const Duration(milliseconds: 4000),
     bool showOkButton = false,
   }) {
     return MaterialBanner(

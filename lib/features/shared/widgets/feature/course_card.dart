@@ -4,10 +4,10 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
-class CourseItemCard extends StatelessWidget {
+class CourseCard extends StatelessWidget {
   final Map<String, dynamic> item;
 
-  const CourseItemCard({super.key, required this.item});
+  const CourseCard({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {

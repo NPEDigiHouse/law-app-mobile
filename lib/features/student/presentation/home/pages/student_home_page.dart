@@ -6,11 +6,11 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/dummies_data.dart';
-import 'package:law_app/features/shared/widgets/book_item.dart';
-import 'package:law_app/features/shared/widgets/course_item_card.dart';
 import 'package:law_app/features/shared/widgets/dashboard.dart';
-import 'package:law_app/features/shared/widgets/discussion_card.dart';
-import 'package:law_app/features/shared/widgets/home_page_header.dart';
+import 'package:law_app/features/shared/widgets/feature/book_item.dart';
+import 'package:law_app/features/shared/widgets/feature/course_card.dart';
+import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
+import 'package:law_app/features/shared/widgets/feature/home_page_header.dart';
 
 class StudentHomePage extends StatefulWidget {
   const StudentHomePage({super.key});
@@ -259,7 +259,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
                           top: index == 0 ? 0 : 4,
                           bottom: index == 2 ? 0 : 4,
                         ),
-                        child: CourseItemCard(
+                        child: CourseCard(
                           item: courseItems[index],
                         ),
                       );

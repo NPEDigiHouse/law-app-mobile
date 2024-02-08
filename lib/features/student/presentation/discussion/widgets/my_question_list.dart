@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:law_app/dummies_data.dart';
-import 'package:law_app/features/shared/widgets/discussion_card.dart';
+import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
 
 class MyQuestionList extends StatefulWidget {
   final List<Question> questionList;

@@ -9,7 +9,7 @@ import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
-import 'package:law_app/features/shared/widgets/discussion_card.dart';
+import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 import 'package:law_app/features/shared/widgets/text_field/search_field.dart';
@@ -82,9 +82,7 @@ class _StudentPublicDiscussionPageState
 
     return PopScope(
       canPop: false,
-      onPopInvoked: (didPop) {
-        handleSearchingOnPop(didPop, isSearching);
-      },
+      onPopInvoked: (didPop) => handleSearchingOnPop(didPop, isSearching),
       child: Scaffold(
         backgroundColor: backgroundColor,
         appBar: PreferredSize(
