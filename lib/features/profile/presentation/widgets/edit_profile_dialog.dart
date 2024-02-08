@@ -91,7 +91,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
             const SizedBox(height: 10),
             CustomTextField(
               isSmall: true,
-              name: "date_of_birth",
+              name: "dateOfBirth",
               label: "Tanggal Lahir",
               hintText: "dd/mm/yyyy",
               initialValue: user.dateOfBirth,
@@ -108,7 +108,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
             const SizedBox(height: 10),
             CustomTextField(
               isSmall: true,
-              name: "phone_number",
+              name: "phoneNumber",
               label: "No. HP",
               hintText: "Masukkan nomor hp kamu",
               initialValue: user.phone,
@@ -139,6 +139,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
       lastDate: DateTime.now(),
       initialEntryMode: DatePickerEntryMode.calendarOnly,
       helpText: 'Pilih Tanggal Lahir',
+      locale: const Locale('id', 'ID'),
     );
 
     if (dateOfBirth != null) {

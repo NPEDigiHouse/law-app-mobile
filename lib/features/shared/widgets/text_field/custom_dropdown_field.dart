@@ -1,79 +1,98 @@
 import 'package:flutter/material.dart';
-import 'package:law_app/core/helpers/asset_path.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:law_app/core/extensions/app_extension.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
-import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
-class CustomDropdownField extends StatelessWidget {
+class CustomDropdownField extends StatefulWidget {
+  final String name;
   final String label;
   final List<String> items;
-  final ValueNotifier<String?> selectedItem;
+  final List<String>? values;
+  final ValueChanged<String?>? onChanged;
+  final bool isSmall;
 
   const CustomDropdownField({
     super.key,
+    required this.name,
     required this.label,
     required this.items,
-    required this.selectedItem,
+    this.values,
+    this.onChanged,
+    this.isSmall = false,
   });
+
+  @override
+  State<CustomDropdownField> createState() => _CustomDropdownFieldState();
+}
+
+class _CustomDropdownFieldState extends State<CustomDropdownField> {
+  late final ValueNotifier<bool> isFocus;
+
+  @override
+  void initState() {
+    super.initState();
+
+    isFocus = ValueNotifier(false);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    isFocus.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-          width: double.infinity,
-          child: Text(
-            label,
-            textAlign: TextAlign.left,
-            style: textTheme.titleMedium!.copyWith(
-              color: primaryTextColor,
+        Text(
+          widget.label,
+          style: widget.isSmall
+              ? textTheme.bodySmall!.copyWith(fontWeight: FontWeight.w700)
+              : textTheme.titleSmall,
+        ),
+        const SizedBox(height: 6),
+        Focus(
+          onFocusChange: (value) => isFocus.value = value,
+          child: FormBuilderDropdown(
+            name: widget.name,
+            initialValue: widget.values != null
+                ? widget.values!.first
+                : widget.items.first.toCamelCase(),
+            items: List<DropdownMenuItem<String>>.generate(
+              widget.items.length,
+              (index) => DropdownMenuItem(
+                value: widget.values != null
+                    ? widget.values![index]
+                    : widget.items[index].toCamelCase(),
+                child: Text(widget.items[index]),
+              ),
+            ),
+            onChanged: widget.onChanged,
+            icon: ValueListenableBuilder(
+              valueListenable: isFocus,
+              builder: (context, isFocus, child) {
+                return Icon(
+                  Icons.expand_more_rounded,
+                  color: isFocus ? primaryColor : secondaryTextColor,
+                  size: 22,
+                );
+              },
+            ),
+            elevation: 1,
+            isDense: true,
+            dropdownColor: scaffoldBackgroundColor,
+            style: widget.isSmall ? textTheme.bodyMedium : textTheme.bodyLarge,
+            decoration: InputDecoration(
+              contentPadding: widget.isSmall
+                  ? const EdgeInsets.fromLTRB(16, 12, 12, 12)
+                  : const EdgeInsets.fromLTRB(16, 16, 12, 16),
             ),
           ),
-        ),
-        const SizedBox(height: 4),
-        ValueListenableBuilder(
-          valueListenable: selectedItem,
-          builder: (context, value, child) {
-            return DropdownButtonFormField<String>(
-              elevation: 1,
-              alignment: Alignment.bottomCenter,
-              value: value,
-              items: items
-                  .map(
-                    (item) => DropdownMenuItem(
-                      value: item,
-                      child: Text(item),
-                    ),
-                  )
-                  .toList(),
-              icon: SvgAsset(
-                assetPath: AssetPath.getIcon("caret-line-down.svg"),
-                color: primaryColor,
-                height: 20,
-                width: 20,
-              ),
-              onChanged: (value) => selectedItem.value = value.toString(),
-              dropdownColor: scaffoldBackgroundColor,
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: scaffoldBackgroundColor,
-                hintText: "Pilih Properti",
-                contentPadding: const EdgeInsets.symmetric(
-                  vertical: 16,
-                  horizontal: 20,
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(16),
-                  borderSide: const BorderSide(
-                    color: secondaryTextColor,
-                  ),
-                ),
-              ),
-              style: textTheme.bodyLarge!.copyWith(
-                color: primaryTextColor,
-              ),
-            );
-          },
         ),
       ],
     );

@@ -178,7 +178,7 @@ class _RegisterPageState extends State<RegisterPage>
                             valueListenable: password,
                             builder: (context, password, child) {
                               return PasswordTextField(
-                                name: 'confirm_password',
+                                name: 'confirmPassword',
                                 label: 'Konfirmasi Password',
                                 hintText: 'Ulangi password sebelumnya',
                                 hasPrefixIcon: false,
@@ -198,7 +198,7 @@ class _RegisterPageState extends State<RegisterPage>
                           ),
                           const SizedBox(height: 20),
                           CustomTextField(
-                            name: 'date_of_birth',
+                            name: 'dateOfBirth',
                             label: 'Tanggal Lahir',
                             hintText: 'dd/mm/yyyy',
                             hasPrefixIcon: false,
@@ -213,7 +213,7 @@ class _RegisterPageState extends State<RegisterPage>
                           ),
                           const SizedBox(height: 20),
                           CustomTextField(
-                            name: 'phone_number',
+                            name: 'phoneNumber',
                             label: 'No. HP',
                             hintText: '08xxx',
                             hasPrefixIcon: false,
@@ -289,6 +289,7 @@ class _RegisterPageState extends State<RegisterPage>
       lastDate: DateTime.now(),
       initialEntryMode: DatePickerEntryMode.calendarOnly,
       helpText: 'Pilih Tanggal Lahir',
+      locale: const Locale('id', 'ID'),
     );
 
     if (dateOfBirth != null) {

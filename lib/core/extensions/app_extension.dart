@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/widget_utils.dart';
+import 'package:law_app/features/admin/presentation/widgets/edit_contact_us_dialog.dart';
 import 'package:law_app/features/profile/presentation/widgets/change_password_dialog.dart';
 import 'package:law_app/features/profile/presentation/widgets/edit_profile_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/confirm_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/custom_alert_dialog.dart';
-import 'package:law_app/features/shared/widgets/dialog/edit_contact_us_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/single_form_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/single_form_text_area_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/sorting_dialog.dart';
@@ -16,10 +16,20 @@ import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 import 'package:law_app/features/shared/widgets/no_internet_connection.dart';
 
 extension Capitalize on String {
-  String toCapitalize() {
-    return split(' ').map((e) {
+  String toCapitalize([String separator = ' ']) {
+    return split(separator).map((e) {
       return '${e.substring(0, 1).toUpperCase()}${e.substring(1, e.length)}';
-    }).join(' ');
+    }).join(separator);
+  }
+}
+
+extension CamelCase on String {
+  String toCamelCase([String separator = ' ']) {
+    final upperWords = split(separator).map((e) {
+      return '${e.substring(0, 1).toUpperCase()}${e.substring(1, e.length)}';
+    }).toList();
+
+    return [upperWords.first.toLowerCase(), ...upperWords.sublist(1)].join();
   }
 }
 
@@ -79,19 +89,28 @@ extension DialogExtension on BuildContext {
     );
   }
 
-  Future<Object?> showEditProfileDialog() {
+  Future<Object?> showCustomAlertDialog({
+    required String title,
+    required String message,
+    Color? foregroundColor,
+    Color? backgroundColor,
+    bool withCheckbox = false,
+    String? checkboxLabel,
+    String? primaryButtonText,
+    VoidCallback? onPressedPrimaryButton,
+  }) {
     return showDialog(
       context: this,
-      barrierDismissible: false,
-      builder: (_) => const EditProfileDialog(),
-    );
-  }
-
-  Future<Object?> showChangePasswordDialog() {
-    return showDialog(
-      context: this,
-      barrierDismissible: false,
-      builder: (_) => const ChangePasswordDialog(),
+      builder: (_) => CustomAlertDialog(
+        title: title,
+        message: message,
+        foregroundColor: foregroundColor,
+        backgroundColor: backgroundColor,
+        withCheckbox: withCheckbox,
+        checkboxLabel: checkboxLabel,
+        primaryButtonText: primaryButtonText,
+        onPressedPrimaryButton: onPressedPrimaryButton,
+      ),
     );
   }
 
@@ -163,63 +182,50 @@ extension DialogExtension on BuildContext {
     );
   }
 
-  Future<Object?> showCustomAlertDialog({
-    required String title,
-    required String message,
-    Color? foregroundColor,
-    Color? backgroundColor,
-    bool withCheckbox = false,
-    String? checkboxLabel,
-    String? primaryButtonText,
-    VoidCallback? onPressedPrimaryButton,
-  }) {
-    return showDialog(
-      context: this,
-      builder: (_) => CustomAlertDialog(
-        title: title,
-        message: message,
-        foregroundColor: foregroundColor,
-        backgroundColor: backgroundColor,
-        withCheckbox: withCheckbox,
-        checkboxLabel: checkboxLabel,
-        primaryButtonText: primaryButtonText,
-        onPressedPrimaryButton: onPressedPrimaryButton,
-      ),
-    );
-  }
-
-  Future<Object?> showEditContactUsDialog({
-    required List<Map<String, dynamic>> items,
-    VoidCallback? onPressedPrimaryButton,
-    String? primaryButtonText,
-  }) {
-    return showDialog(
-      context: this,
-      barrierDismissible: false,
-      builder: (_) => EditContactUsDialog(
-        items: items,
-        onPressedPrimaryButton: onPressedPrimaryButton,
-        primaryButtonText: primaryButtonText,
-      ),
-    );
-  }
-
   Future<Object?> showSortingDialog({
     required String title,
-    required List<String> sortingItems,
-    required ValueNotifier<String?> selectedFirstDropdown,
-    required ValueNotifier<String?> selectedSecondDropdown,
+    required List<String> items,
     String? primaryButtonText,
-    VoidCallback? onPressedPrimaryButton,
+    void Function(Map<String, dynamic> value)? onSubmitted,
   }) {
     return showDialog(
       context: this,
       barrierDismissible: false,
       builder: (_) => SortingDialog(
         title: title,
-        sortingItems: sortingItems,
-        selectedFirstDropdown: selectedFirstDropdown,
-        selectedSecondDropdown: selectedSecondDropdown,
+        items: items,
+        primaryButtonText: primaryButtonText,
+        onSubmitted: onSubmitted,
+      ),
+    );
+  }
+
+  Future<Object?> showEditProfileDialog() {
+    return showDialog(
+      context: this,
+      barrierDismissible: false,
+      builder: (_) => const EditProfileDialog(),
+    );
+  }
+
+  Future<Object?> showChangePasswordDialog() {
+    return showDialog(
+      context: this,
+      barrierDismissible: false,
+      builder: (_) => const ChangePasswordDialog(),
+    );
+  }
+
+  Future<Object?> showEditContactUsDialog({
+    required List<Map<String, dynamic>> items,
+    String? primaryButtonText,
+    VoidCallback? onPressedPrimaryButton,
+  }) {
+    return showDialog(
+      context: this,
+      barrierDismissible: false,
+      builder: (_) => EditContactUsDialog(
+        items: items,
         primaryButtonText: primaryButtonText,
         onPressedPrimaryButton: onPressedPrimaryButton,
       ),

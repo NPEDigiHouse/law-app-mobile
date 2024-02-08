@@ -118,7 +118,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                             valueListenable: password,
                             builder: (context, password, child) {
                               return PasswordTextField(
-                                name: 'confirm_password',
+                                name: 'confirmPassword',
                                 label: 'Konfirmasi Password Baru',
                                 hintText: 'Ulangi password sebelumnya',
                                 hasPrefixIcon: false,

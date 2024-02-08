@@ -42,7 +42,7 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
           children: [
             PasswordTextField(
               isSmall: true,
-              name: 'old_password',
+              name: 'oldPassword',
               label: 'Password Lama',
               hintText: 'Masukkan password lama',
               hasPrefixIcon: false,
@@ -57,7 +57,7 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
             const SizedBox(height: 10),
             PasswordTextField(
               isSmall: true,
-              name: 'new_password',
+              name: 'newPassword',
               label: 'Password Baru',
               hintText: 'Masukkan password baru',
               hasPrefixIcon: false,
@@ -82,7 +82,7 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
               builder: (context, password, child) {
                 return PasswordTextField(
                   isSmall: true,
-                  name: 'confirm_new_password',
+                  name: 'confirmNewPassword',
                   label: 'Konfirmasi Password Baru',
                   hintText: 'Ulangi password sebelumnya',
                   hasPrefixIcon: false,

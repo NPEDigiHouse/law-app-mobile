@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:law_app/core/themes/light_theme.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
@@ -17,6 +18,15 @@ class LawApp extends StatelessWidget {
       scaffoldMessengerKey: scaffoldMessengerKey,
       navigatorObservers: [routeObserver],
       onGenerateRoute: generateAppRoutes,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', 'US'), // English
+        Locale('id', 'ID'), // Indonesia
+      ],
       home: const SplashPage(),
     );
   }

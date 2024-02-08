@@ -7,22 +7,22 @@ import 'package:law_app/features/shared/widgets/text_field/custom_text_field.dar
 
 class EditContactUsDialog extends StatelessWidget {
   final List<Map<String, dynamic>> items;
-  final VoidCallback? onPressedPrimaryButton;
   final String? primaryButtonText;
+  final VoidCallback? onPressedPrimaryButton;
 
   const EditContactUsDialog({
     super.key,
     required this.items,
-    this.onPressedPrimaryButton,
     this.primaryButtonText,
+    this.onPressedPrimaryButton,
   });
 
   @override
   Widget build(BuildContext context) {
     return CustomDialog(
       title: "Edit Kontak Kami",
-      onPressedPrimaryButton: onPressedPrimaryButton,
       primaryButtonText: primaryButtonText,
+      onPressedPrimaryButton: onPressedPrimaryButton,
       child: ListView.separated(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
