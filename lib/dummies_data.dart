@@ -29,7 +29,7 @@ const user = User(
   fullName: 'Kamaruddin Al maliki',
   email: 'test@gmail.com',
   dateOfBirth: '21 Desember 2001',
-  phone: '0897182974',
+  phone: '082290380510',
   profilePict: 'no-profile.jpg',
   otp: 1234,
   roleId: 1,
@@ -41,7 +41,7 @@ const teacher = User(
   fullName: 'Dr. Edy Saputra Rusdi',
   email: 'teacher@gmail.com',
   dateOfBirth: '21 Desember 2001',
-  phone: '0897182974',
+  phone: '082290380510',
   profilePict: 'no-profile-2.jpg',
   otp: 1234,
   roleId: 2,
@@ -70,7 +70,7 @@ class Glossary {
   });
 }
 
-const glossaries = [
+const dummyGlossaries = [
   Glossary(
     term: 'Abolisi',
     definiton:
@@ -113,7 +113,7 @@ class Book {
   });
 }
 
-const books = [
+const dummyBooks = [
   Book(
     title: 'Cyber Bullying: Hak-hak Digital Right on Online Safety',
     author: 'Sayid Muhammad Rifqi Noval',
@@ -180,9 +180,29 @@ class Question {
     required this.status,
     required this.type,
   });
+
+  Question copyWith({
+    User? owner,
+    String? title,
+    String? description,
+    String? category,
+    String? createdAt,
+    String? status,
+    String? type,
+  }) {
+    return Question(
+      owner: owner ?? this.owner,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      category: category ?? this.category,
+      createdAt: createdAt ?? this.createdAt,
+      status: status ?? this.status,
+      type: type ?? this.type,
+    );
+  }
 }
 
-const questions = [
+const dummyQuestions = [
   Question(
     owner: user,
     title: 'Bolehkah Mengendarai Sepeda Listrik di Jalan Raya?',
@@ -211,7 +231,7 @@ const questions = [
     category: 'Hukum Perdata',
     createdAt: '24 Desember 2023 (10:23:20)',
     status: 'solved',
-    type: 'general',
+    type: 'specific',
   ),
   Question(
     owner: user,

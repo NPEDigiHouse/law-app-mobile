@@ -4,8 +4,6 @@ import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
-import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/ink_well_container.dart';
 import 'package:law_app/features/shared/widgets/label_chip.dart';
@@ -14,6 +12,7 @@ class DiscussionCard extends StatelessWidget {
   final double? width;
   final double? height;
   final Question question;
+  final VoidCallback onTap;
   final bool isDetail;
   final bool withProfile;
 
@@ -22,6 +21,7 @@ class DiscussionCard extends StatelessWidget {
     this.width,
     this.height,
     required this.question,
+    required this.onTap,
     this.isDetail = false,
     this.withProfile = false,
   });
@@ -33,10 +33,7 @@ class DiscussionCard extends StatelessWidget {
       height: height,
       color: scaffoldBackgroundColor,
       radius: 12,
-      onTap: () => navigatorKey.currentState!.pushNamed(
-        studentDiscussionDetailRoute,
-        arguments: question,
-      ),
+      onTap: onTap,
       padding: const EdgeInsets.symmetric(
         vertical: 16,
         horizontal: 20,

@@ -10,7 +10,7 @@ class LibraryFinishedBookPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final completeBooks =
-        books.where((e) => e.completePercentage == 100).toList();
+        dummyBooks.where((e) => e.completePercentage == 100).toList();
 
     return Scaffold(
       backgroundColor: backgroundColor,

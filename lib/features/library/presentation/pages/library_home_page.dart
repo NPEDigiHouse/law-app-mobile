@@ -106,7 +106,7 @@ class LibraryHomePage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return SizedBox(
                     width: 300,
-                    child: BookCard(book: books[index]),
+                    child: BookCard(book: dummyBooks[index]),
                   );
                 },
                 separatorBuilder: (context, index) {
@@ -134,13 +134,13 @@ class LibraryHomePage extends StatelessWidget {
                   return BookItem(
                     width: 130,
                     titleMaxLines: 2,
-                    book: books[index],
+                    book: dummyBooks[index],
                   );
                 },
                 separatorBuilder: (context, index) {
                   return const SizedBox(width: 8);
                 },
-                itemCount: books.length,
+                itemCount: dummyBooks.length,
               ),
             ),
             Padding(
@@ -162,8 +162,8 @@ class LibraryHomePage extends StatelessWidget {
               crossAxisSpacing: 8,
               padding: const EdgeInsets.symmetric(horizontal: 20),
               children: List<Widget>.generate(
-                books.length,
-                (index) => BookItem(book: books[index]),
+                dummyBooks.length,
+                (index) => BookItem(book: dummyBooks[index]),
               )..add(
                   DottedBorder(
                     borderType: BorderType.RRect,

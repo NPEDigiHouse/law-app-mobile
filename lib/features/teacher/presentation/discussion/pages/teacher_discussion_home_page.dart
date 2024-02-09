@@ -1,0 +1,414 @@
+import 'package:flutter/material.dart';
+import 'package:law_app/core/extensions/app_extension.dart';
+import 'package:law_app/core/helpers/asset_path.dart';
+import 'package:law_app/core/helpers/function_helper.dart';
+import 'package:law_app/core/styles/color_scheme.dart';
+import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/core/utils/routes.dart';
+import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/shared/widgets/animated_fab.dart';
+import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
+import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
+import 'package:law_app/features/shared/widgets/header_container.dart';
+
+class TeacherDiscussionHomePage extends StatefulWidget {
+  const TeacherDiscussionHomePage({super.key});
+
+  @override
+  State<TeacherDiscussionHomePage> createState() =>
+      _TeacherDiscussionHomePageState();
+}
+
+class _TeacherDiscussionHomePageState extends State<TeacherDiscussionHomePage>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController fabAnimationController;
+  late final ScrollController scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    fabAnimationController = AnimationController(
+      vsync: this,
+      duration: kThemeAnimationDuration,
+    );
+
+    scrollController = ScrollController()
+      ..addListener(() {
+        if (scrollController.offset == 0) {
+          fabAnimationController.reverse();
+        }
+      });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    fabAnimationController.dispose();
+    scrollController.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: backgroundColor,
+      body: NotificationListener<UserScrollNotification>(
+        onNotification: (notification) {
+          return FunctionHelper.handleFabVisibilityOnScroll(
+            notification,
+            fabAnimationController,
+          );
+        },
+        child: SingleChildScrollView(
+          controller: scrollController,
+          child: Column(
+            children: [
+              SizedBox(
+                height: 240,
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    HeaderContainer(
+                      height: 170,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  'Jawab Masalah',
+                                  style: textTheme.headlineMedium!.copyWith(
+                                    color: accentTextColor,
+                                  ),
+                                ),
+                              ),
+                              CustomIconButton(
+                                iconName: 'notification-solid.svg',
+                                color: scaffoldBackgroundColor,
+                                size: 28,
+                                tooltip: 'Notifikasi',
+                                onPressed: () {
+                                  navigatorKey.currentState!.pushNamed(
+                                    notificationRoute,
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'Jawab pertanyaan-pertanyaan khusus dari siswa.',
+                            style: textTheme.bodySmall!.copyWith(
+                              color: scaffoldBackgroundColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                      left: 20,
+                      right: 20,
+                      bottom: 0,
+                      child: Column(
+                        children: [
+                          Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 16,
+                              horizontal: 24,
+                            ),
+                            decoration: BoxDecoration(
+                              color: scaffoldBackgroundColor,
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(.1),
+                                  offset: const Offset(2, 2),
+                                  blurRadius: 4,
+                                  spreadRadius: -1,
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        teacher.fullName,
+                                        style: textTheme.titleLarge!.copyWith(
+                                          color: primaryColor,
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 2),
+                                      Text(
+                                        'Pakar Hukum Tata Negara',
+                                        style: textTheme.bodySmall!.copyWith(
+                                          color: secondaryTextColor,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                CircleAvatar(
+                                  radius: 24,
+                                  backgroundColor: secondaryColor,
+                                  child: CircleAvatar(
+                                    radius: 22,
+                                    foregroundImage: AssetImage(
+                                      AssetPath.getImage(teacher.profilePict),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            width: double.infinity,
+                            margin: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 8,
+                              horizontal: 16,
+                            ),
+                            decoration: BoxDecoration(
+                              color: secondaryColor,
+                              borderRadius: const BorderRadius.vertical(
+                                bottom: Radius.circular(10),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(.1),
+                                  offset: const Offset(2, 2),
+                                  blurRadius: 4,
+                                  spreadRadius: -1,
+                                )
+                              ],
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    'Total Pertanyaan',
+                                    style: textTheme.bodyMedium!.copyWith(
+                                      color: primaryColor,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  '40',
+                                  style: textTheme.titleSmall!.copyWith(
+                                    color: primaryColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 16,
+                    horizontal: 20,
+                  ),
+                  decoration: BoxDecoration(
+                    color: scaffoldBackgroundColor,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(.1),
+                        offset: const Offset(2, 2),
+                        blurRadius: 4,
+                        spreadRadius: -1,
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Informasi Keseluruhan Pertanyaan',
+                        style: textTheme.titleMedium!.copyWith(
+                          color: primaryColor,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Flexible(
+                            child: Text('Belum Dijawab'),
+                          ),
+                          Flexible(
+                            child: Text(
+                              '6',
+                              style: textTheme.titleSmall,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Flexible(
+                            child: Text('Telah Dijawab'),
+                          ),
+                          Flexible(
+                            child: Text(
+                              '10',
+                              style: textTheme.titleSmall,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Flexible(
+                            child: Text('Diselesaikan'),
+                          ),
+                          Flexible(
+                            child: Text(
+                              '24',
+                              style: textTheme.titleSmall,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      FilledButton(
+                        onPressed: () {},
+                        style: FilledButton.styleFrom(
+                          foregroundColor: primaryColor,
+                          backgroundColor: secondaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child: const Text('Lihat Riwayat Pertanyaan'),
+                      ).fullWidth(),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        'Diskusi Umum',
+                        style: textTheme.titleLarge!.copyWith(
+                          color: primaryColor,
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {},
+                      child: Text(
+                        'Lihat Selengkapnya >',
+                        style: textTheme.bodySmall!.copyWith(
+                          color: primaryColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 125,
+                child: ListView.separated(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 4),
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return DiscussionCard(
+                      width: 300,
+                      question: dummyQuestions[index],
+                      onTap: () {},
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(width: 8);
+                  },
+                  itemCount: dummyQuestions.length,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        'Perlu Dijawab',
+                        style: textTheme.titleLarge!.copyWith(
+                          color: primaryColor,
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {},
+                      child: Text(
+                        'Lihat Selengkapnya >',
+                        style: textTheme.bodySmall!.copyWith(
+                          color: primaryColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              ...List<Padding>.generate(
+                dummyQuestions.length,
+                (index) {
+                  final items = dummyQuestions
+                      .map((e) => e.copyWith(status: 'open'))
+                      .toList();
+
+                  return Padding(
+                    padding: EdgeInsets.fromLTRB(
+                      20,
+                      0,
+                      20,
+                      index == items.length - 1 ? 24 : 8,
+                    ),
+                    child: DiscussionCard(
+                      question: items[index],
+                      isDetail: true,
+                      withProfile: true,
+                      onTap: () {},
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+      floatingActionButton: AnimatedFloatingActionButton(
+        fabAnimationController: fabAnimationController,
+        scrollController: scrollController,
+      ),
+    );
+  }
+}

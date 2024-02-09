@@ -17,7 +17,7 @@ class LibrarySearchPage extends StatefulWidget {
 
 class _LibrarySearchPageState extends State<LibrarySearchPage> {
   late final ValueNotifier<String> query;
-  late List<Book> bookList;
+  late List<Book> books;
   late List<Book> bookHistoryList;
 
   @override
@@ -25,8 +25,8 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
     super.initState();
 
     query = ValueNotifier('');
-    bookList = books;
-    bookHistoryList = books.sublist(0, 3);
+    books = dummyBooks;
+    bookHistoryList = dummyBooks.sublist(0, 3);
   }
 
   @override
@@ -81,7 +81,7 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
             return buildBookHistoryList();
           }
 
-          if (bookList.isEmpty) {
+          if (books.isEmpty) {
             return const CustomInformation(
               illustrationName: 'book-lover-cuate.svg',
               title: 'Buku tidak ditemukan',
@@ -176,13 +176,13 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
       itemBuilder: (context, index) {
         return BookCard(
           isThreeLine: false,
-          book: bookList[index],
+          book: books[index],
         );
       },
       separatorBuilder: (context, index) {
         return const SizedBox(height: 8);
       },
-      itemCount: bookList.length,
+      itemCount: books.length,
     );
   }
 
@@ -193,7 +193,7 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
       () {
         this.query.value = query;
 
-        final result = books.where((book) {
+        final result = dummyBooks.where((book) {
           final queryLower = query.toLowerCase();
           final titleLower = book.title.toLowerCase();
           final authorLower = book.author.toLowerCase();
@@ -202,7 +202,7 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
               authorLower.contains(queryLower);
         }).toList();
 
-        setState(() => bookList = result);
+        setState(() => books = result);
       },
     );
 

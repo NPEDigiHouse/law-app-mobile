@@ -1,18 +1,17 @@
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/animated_fab.dart';
 import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
-import 'package:law_app/features/shared/widgets/svg_asset.dart';
 import 'package:law_app/features/shared/widgets/text_field/search_field.dart';
 
 final isSearchingProvider = StateProvider.autoDispose<bool>((ref) => false);
@@ -35,7 +34,7 @@ class _StudentPublicDiscussionPageState
   late final ValueNotifier<String> selectedCategory;
 
   late final ValueNotifier<String> searchQuery;
-  late List<Question> questionList;
+  late List<Question> questions;
 
   @override
   void initState() {
@@ -63,7 +62,7 @@ class _StudentPublicDiscussionPageState
 
     selectedCategory = ValueNotifier(questionCategories[0]);
     searchQuery = ValueNotifier('');
-    questionList = questions;
+    questions = dummyQuestions;
   }
 
   @override
@@ -79,7 +78,7 @@ class _StudentPublicDiscussionPageState
   @override
   Widget build(BuildContext context) {
     final isSearching = ref.watch(isSearchingProvider);
-    final items = isSearching ? questionList : questions;
+    final items = isSearching ? questions : dummyQuestions;
 
     return PopScope(
       canPop: false,
@@ -144,39 +143,9 @@ class _StudentPublicDiscussionPageState
                     ),
                   ),
                 ),
-              if (isSearching)
-                SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
-                  sliver: SliverToBoxAdapter(
-                    child: GestureDetector(
-                      onTap: () {
-                        ref.read(isSearchingProvider.notifier).state = false;
-                      },
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SvgAsset(
-                            assetPath: AssetPath.getIcon('caret-line-left.svg'),
-                            color: secondaryTextColor,
-                            width: 18,
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            'Kembali',
-                            style: textTheme.labelLarge!.copyWith(
-                              fontWeight: FontWeight.w600,
-                              color: secondaryTextColor,
-                              height: 0,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
               Builder(
                 builder: (context) {
-                  if (isSearching && questionList.isEmpty) {
+                  if (isSearching && questions.isEmpty) {
                     return const SliverFillRemaining(
                       child: CustomInformation(
                         illustrationName: 'discussion-cuate.svg',
@@ -200,6 +169,10 @@ class _StudentPublicDiscussionPageState
                               question: items[index],
                               isDetail: true,
                               withProfile: true,
+                              onTap: () => navigatorKey.currentState!.pushNamed(
+                                studentDiscussionDetailRoute,
+                                arguments: items[index],
+                              ),
                             ),
                           );
                         },
@@ -272,14 +245,14 @@ class _StudentPublicDiscussionPageState
       'search-debouncer',
       const Duration(milliseconds: 800),
       () {
-        final result = questions.where((question) {
+        final result = dummyQuestions.where((question) {
           final queryLower = query.toLowerCase();
           final titleLower = question.title.toLowerCase();
 
           return titleLower.contains(queryLower);
         }).toList();
 
-        setState(() => questionList = result);
+        setState(() => questions = result);
       },
     );
 

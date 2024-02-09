@@ -4,8 +4,8 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
+import 'package:law_app/features/shared/widgets/feature/question_list.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
-import 'package:law_app/features/student/presentation/discussion/widgets/my_question_list.dart';
 
 class StudentQuestionListPage extends StatefulWidget {
   const StudentQuestionListPage({super.key});
@@ -154,13 +154,15 @@ class _StudentQuestionListPageState extends State<StudentQuestionListPage> {
                 }
               },
               children: [
-                MyQuestionList(
-                  questionList: questions.where((question) {
+                QuestionList(
+                  roleId: 1,
+                  questions: dummyQuestions.where((question) {
                     return question.type == QuestionType.general.name;
                   }).toList(),
                 ),
-                MyQuestionList(
-                  questionList: questions.where((question) {
+                QuestionList(
+                  roleId: 1,
+                  questions: dummyQuestions.where((question) {
                     return question.type == QuestionType.specific.name;
                   }).toList(),
                 ),

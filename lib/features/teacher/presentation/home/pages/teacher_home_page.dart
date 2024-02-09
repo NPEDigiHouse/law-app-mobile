@@ -70,7 +70,7 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
               onPressedProfileIcon: () {
                 navigatorKey.currentState!.pushNamed(
                   profileRoute,
-                  arguments: user.roleId,
+                  arguments: teacher.roleId,
                 );
               },
               child: Dashboard(
@@ -113,7 +113,8 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
                           bottom: index == 2 ? 0 : 4,
                         ),
                         child: DiscussionCard(
-                          question: questions[index],
+                          question: dummyQuestions[index],
+                          onTap: () {},
                         ),
                       );
                     },
@@ -167,7 +168,7 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
                             right: index == 5 ? 0 : 4,
                           ),
                           child: BookItem(
-                            book: books[index],
+                            book: dummyBooks[index],
                             width: 120,
                           ),
                         );

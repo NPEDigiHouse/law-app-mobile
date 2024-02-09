@@ -178,7 +178,7 @@ class _StudentDiscussionHomePageState extends State<StudentDiscussionHomePage>
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const Flexible(
-                                  child: Text('Pertanyaan Umum :'),
+                                  child: Text('Pertanyaan Umum'),
                                 ),
                                 Flexible(
                                   child: Text(
@@ -193,7 +193,7 @@ class _StudentDiscussionHomePageState extends State<StudentDiscussionHomePage>
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const Flexible(
-                                  child: Text('Pertanyaan Khusus :'),
+                                  child: Text('Pertanyaan Khusus'),
                                 ),
                                 Flexible(
                                   child: Text(
@@ -235,7 +235,7 @@ class _StudentDiscussionHomePageState extends State<StudentDiscussionHomePage>
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(20, 24, 20, 8),
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -269,17 +269,21 @@ class _StudentDiscussionHomePageState extends State<StudentDiscussionHomePage>
                   itemBuilder: (context, index) {
                     return DiscussionCard(
                       width: 300,
-                      question: questions[index],
+                      question: dummyQuestions[index],
+                      onTap: () => navigatorKey.currentState!.pushNamed(
+                        studentDiscussionDetailRoute,
+                        arguments: dummyQuestions[index],
+                      ),
                     );
                   },
                   separatorBuilder: (context, index) {
                     return const SizedBox(width: 8);
                   },
-                  itemCount: questions.length,
+                  itemCount: dummyQuestions.length,
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(20, 24, 20, 8),
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -306,18 +310,22 @@ class _StudentDiscussionHomePageState extends State<StudentDiscussionHomePage>
                 ),
               ),
               ...List<Padding>.generate(
-                questions.length,
+                dummyQuestions.length,
                 (index) => Padding(
                   padding: EdgeInsets.fromLTRB(
                     20,
                     0,
                     20,
-                    index == questions.length - 1 ? 24 : 8,
+                    index == dummyQuestions.length - 1 ? 24 : 8,
                   ),
                   child: DiscussionCard(
-                    question: questions[index],
+                    question: dummyQuestions[index],
                     isDetail: true,
                     withProfile: true,
+                    onTap: () => navigatorKey.currentState!.pushNamed(
+                      studentDiscussionDetailRoute,
+                      arguments: dummyQuestions[index],
+                    ),
                   ),
                 ),
               ),

@@ -81,7 +81,7 @@ class GlossaryHomePage extends StatelessWidget {
                 return ListTile(
                   contentPadding: const EdgeInsets.symmetric(horizontal: 20),
                   title: Text(
-                    glossaries[index].term,
+                    dummyGlossaries[index].term,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -92,14 +92,14 @@ class GlossaryHomePage extends StatelessWidget {
                   ),
                   onTap: () => navigatorKey.currentState!.pushNamed(
                     glossaryDetailRoute,
-                    arguments: glossaries[index],
+                    arguments: dummyGlossaries[index],
                   ),
                   visualDensity: const VisualDensity(
                     vertical: VisualDensity.minimumDensity,
                   ),
                 );
               },
-              childCount: glossaries.length,
+              childCount: dummyGlossaries.length,
             ),
           ),
         ],

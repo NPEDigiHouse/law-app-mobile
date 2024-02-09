@@ -110,9 +110,9 @@ class _LibraryBookListPageState extends State<LibraryBookListPage> {
                 crossAxisSpacing: 8,
               ),
               itemBuilder: (context, index) {
-                return BookItem(book: books[index]);
+                return BookItem(book: dummyBooks[index]);
               },
-              itemCount: books.length,
+              itemCount: dummyBooks.length,
             ),
           ),
         ],

@@ -79,7 +79,7 @@ class AdminHomePage extends StatelessWidget {
               onPressedProfileIcon: () {
                 navigatorKey.currentState!.pushNamed(
                   profileRoute,
-                  arguments: user.roleId,
+                  arguments: admin.roleId,
                 );
               },
               child: const Dashboard(

@@ -24,12 +24,12 @@ class LibrarySavedBookPage extends StatelessWidget {
           horizontal: 20,
         ),
         itemBuilder: (context, index) {
-          return BookCard(book: books[index]);
+          return BookCard(book: dummyBooks[index]);
         },
         separatorBuilder: (context, index) {
           return const SizedBox(height: 8);
         },
-        itemCount: books.length,
+        itemCount: dummyBooks.length,
       ),
     );
   }

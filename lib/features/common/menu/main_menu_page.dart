@@ -6,7 +6,7 @@ import 'package:law_app/features/shared/widgets/custom_navigation_bar.dart';
 import 'package:law_app/features/student/presentation/course/pages/student_course_page.dart';
 import 'package:law_app/features/student/presentation/discussion/pages/student_discussion_home_page.dart';
 import 'package:law_app/features/student/presentation/home/pages/student_home_page.dart';
-import 'package:law_app/features/teacher/presentation/discussion/pages/teacher_discussion_page.dart';
+import 'package:law_app/features/teacher/presentation/discussion/pages/teacher_discussion_home_page.dart';
 import 'package:law_app/features/teacher/presentation/home/pages/teacher_home_page.dart';
 
 class MainMenuPage extends StatefulWidget {
@@ -39,7 +39,7 @@ class _MainMenuPageState extends State<MainMenuPage> {
           ]
         : [
             const TeacherHomePage(),
-            const TeacherDiscussionPage(),
+            const TeacherDiscussionHomePage(),
             const LibraryHomePage(),
             const GlossaryHomePage(),
           ];

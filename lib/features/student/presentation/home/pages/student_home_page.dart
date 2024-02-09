@@ -153,7 +153,11 @@ class _StudentHomePageState extends State<StudentHomePage> {
                           bottom: index == 2 ? 0 : 4,
                         ),
                         child: DiscussionCard(
-                          question: questions[index],
+                          question: dummyQuestions[index],
+                          onTap: () => navigatorKey.currentState!.pushNamed(
+                            studentDiscussionDetailRoute,
+                            arguments: dummyQuestions[index],
+                          ),
                         ),
                       );
                     },
@@ -207,7 +211,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
                             right: index == 5 ? 0 : 4,
                           ),
                           child: BookItem(
-                            book: books[index],
+                            book: dummyBooks[index],
                             width: 120,
                           ),
                         );

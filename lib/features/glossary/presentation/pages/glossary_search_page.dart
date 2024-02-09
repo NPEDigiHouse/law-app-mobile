@@ -18,14 +18,14 @@ class GlossarySearchPage extends StatefulWidget {
 
 class _GlossarySearchPageState extends State<GlossarySearchPage> {
   late final ValueNotifier<String> query;
-  late List<Glossary> glossaryList;
+  late List<Glossary> glossaries;
 
   @override
   void initState() {
     super.initState();
 
     query = ValueNotifier('');
-    glossaryList = glossaries;
+    glossaries = dummyGlossaries;
   }
 
   @override
@@ -79,7 +79,7 @@ class _GlossarySearchPageState extends State<GlossarySearchPage> {
             );
           }
 
-          if (glossaryList.isEmpty) {
+          if (glossaries.isEmpty) {
             return const SearchEmptyText(
               title: 'Hasil Tidak Ditemukan',
               subtitle: 'Tidak ada istilah yang cocok untuk kata tersebut.',
@@ -92,7 +92,7 @@ class _GlossarySearchPageState extends State<GlossarySearchPage> {
               return ListTile(
                 contentPadding: const EdgeInsets.symmetric(horizontal: 20),
                 title: Text(
-                  glossaryList[index].term,
+                  glossaries[index].term,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -103,14 +103,14 @@ class _GlossarySearchPageState extends State<GlossarySearchPage> {
                 ),
                 onTap: () => navigatorKey.currentState!.pushNamed(
                   glossaryDetailRoute,
-                  arguments: glossaryList[index],
+                  arguments: glossaries[index],
                 ),
                 visualDensity: const VisualDensity(
                   vertical: VisualDensity.minimumDensity,
                 ),
               );
             },
-            itemCount: glossaryList.length,
+            itemCount: glossaries.length,
           );
         },
       ),
@@ -124,14 +124,14 @@ class _GlossarySearchPageState extends State<GlossarySearchPage> {
       'search-debouncer',
       const Duration(milliseconds: 800),
       () {
-        final result = glossaries.where((glossary) {
+        final result = dummyGlossaries.where((glossary) {
           final queryLower = query.toLowerCase();
           final termLower = glossary.term.toLowerCase();
 
           return termLower.contains(queryLower);
         }).toList();
 
-        setState(() => glossaryList = result);
+        setState(() => glossaries = result);
       },
     );
 
