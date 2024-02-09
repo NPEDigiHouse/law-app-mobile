@@ -42,9 +42,7 @@ class Dashboard extends StatelessWidget {
                   child: RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
-                      style: textTheme.bodyMedium!.copyWith(
-                        color: primaryTextColor,
-                      ),
+                      style: textTheme.bodyMedium,
                       children: [
                         TextSpan(
                           text: "${items[index]["count"] as int}\n",

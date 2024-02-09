@@ -139,7 +139,7 @@ class _LoginPageState extends State<LoginPage>
     if (widget.bannerData != null) {
       context.showBanner(
         message: widget.bannerData!['message'] as String,
-        type: widget.bannerData!['banner_type'] as BannerType,
+        type: widget.bannerData!['bannerType'] as BannerType,
       );
     }
   }

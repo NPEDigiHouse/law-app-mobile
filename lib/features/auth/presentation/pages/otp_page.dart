@@ -105,7 +105,7 @@ class _OtpPageState extends State<OtpPage> with AfterLayoutMixin<OtpPage> {
                           TextSpan(
                             text: widget.email,
                             style: const TextStyle(
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w700,
                               color: primaryColor,
                             ),
                           ),
@@ -272,7 +272,7 @@ class _OtpPageState extends State<OtpPage> with AfterLayoutMixin<OtpPage> {
           arguments: {
             'message':
                 'Akun Anda berhasil dibuat. Silahkan login menggunakan akun tersebut.',
-            'banner_type': BannerType.success,
+            'bannerType': BannerType.success,
           },
         );
       } else {

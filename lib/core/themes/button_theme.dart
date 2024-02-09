@@ -8,7 +8,7 @@ final filledButtonTheme = FilledButtonThemeData(
     disabledBackgroundColor: backgroundColor,
     disabledForegroundColor: secondaryTextColor,
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(12),
     ),
   ),
 );
@@ -19,7 +19,7 @@ final outlinedButtonTheme = OutlinedButtonThemeData(
     disabledForegroundColor: secondaryTextColor,
     side: const BorderSide(color: primaryColor),
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(12),
     ),
   ),
 );
@@ -29,7 +29,7 @@ final textButtonTheme = TextButtonThemeData(
     foregroundColor: primaryColor,
     disabledForegroundColor: secondaryTextColor,
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(12),
     ),
   ),
 );

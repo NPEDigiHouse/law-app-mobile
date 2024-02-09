@@ -9,6 +9,7 @@ class CustomDialog extends StatelessWidget {
   final String title;
   final Widget child;
   final EdgeInsetsGeometry childPadding;
+  final bool showPrimaryButton;
   final String? primaryButtonText;
   final VoidCallback? onPressedPrimaryButton;
 
@@ -16,6 +17,7 @@ class CustomDialog extends StatelessWidget {
     super.key,
     required this.title,
     required this.child,
+    this.showPrimaryButton = true,
     this.childPadding = const EdgeInsets.fromLTRB(20, 12, 20, 16),
     this.primaryButtonText,
     this.onPressedPrimaryButton,
@@ -83,16 +85,18 @@ class CustomDialog extends StatelessWidget {
                       child: const Text('Kembali'),
                     ),
                   ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: FilledButton(
-                      onPressed: onPressedPrimaryButton,
-                      style: FilledButton.styleFrom(
-                        padding: const EdgeInsets.all(0),
+                  if (showPrimaryButton) ...[
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: FilledButton(
+                        onPressed: onPressedPrimaryButton,
+                        style: FilledButton.styleFrom(
+                          padding: const EdgeInsets.all(0),
+                        ),
+                        child: Text(primaryButtonText ?? 'Konfirmasi'),
                       ),
-                      child: Text(primaryButtonText ?? 'Konfirmasi'),
                     ),
-                  ),
+                  ],
                 ],
               ),
             ),

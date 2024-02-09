@@ -278,7 +278,7 @@ class _RegisterPageState extends State<RegisterPage>
     final password = FunctionHelper.generateRandomText();
 
     formKey.currentState!.fields['password']!.didChange(password);
-    formKey.currentState!.fields['confirm_password']!.didChange(password);
+    formKey.currentState!.fields['confirmPassword']!.didChange(password);
   }
 
   Future<void> showBirthDatePicker() async {
@@ -297,7 +297,7 @@ class _RegisterPageState extends State<RegisterPage>
 
       final value = '${date.day}/${date.month}/${date.year}';
 
-      formKey.currentState!.fields['date_of_birth']!.didChange(value);
+      formKey.currentState!.fields['dateOfBirth']!.didChange(value);
     }
   }
 

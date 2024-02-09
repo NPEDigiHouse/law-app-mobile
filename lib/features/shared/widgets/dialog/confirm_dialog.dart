@@ -61,14 +61,12 @@ class ConfirmDialog extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(width: 4),
-                Flexible(
+                Expanded(
                   child: GestureDetector(
                     onTap: () {
                       ref.read(isCheckedProvider.notifier).state = !isChecked;
                     },
-                    child: Flexible(
-                      child: Text('$checkboxLabel'),
-                    ),
+                    child: Text('$checkboxLabel'),
                   ),
                 ),
               ],

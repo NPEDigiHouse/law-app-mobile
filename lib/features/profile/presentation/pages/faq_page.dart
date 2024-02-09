@@ -144,12 +144,7 @@ class _FAQContainerState extends State<FAQContainer> {
               if (value)
                 Padding(
                   padding: const EdgeInsets.only(top: 8),
-                  child: Text(
-                    widget.faqItem["answer"]!,
-                    style: textTheme.bodyMedium!.copyWith(
-                      color: primaryTextColor,
-                    ),
-                  ),
+                  child: Text(widget.faqItem["answer"]!),
                 ),
             ],
           ),

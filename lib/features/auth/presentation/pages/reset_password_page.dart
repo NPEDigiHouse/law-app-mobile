@@ -169,7 +169,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
         arguments: {
           'message':
               'Password Anda berhasil diubah. Silahkan login menggunakan password baru.',
-          'banner_type': BannerType.success,
+          'bannerType': BannerType.success,
         },
       );
     }

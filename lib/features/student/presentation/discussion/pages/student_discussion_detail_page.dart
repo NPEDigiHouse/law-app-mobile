@@ -11,6 +11,7 @@ import 'package:law_app/features/shared/widgets/feature/discussion_reply_card.da
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/label_chip.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
+import 'package:law_app/features/student/presentation/discussion/widgets/specific_question_info_dialog.dart';
 
 class StudentDiscussionDetailPage extends StatelessWidget {
   final Question question;
@@ -28,7 +29,12 @@ class StudentDiscussionDetailPage extends StatelessWidget {
           withTrailingButton: question.owner == user,
           trailingButtonIconName: 'trash-line.svg',
           trailingButtonTooltip: 'Hapus',
-          onPressedTrailingButton: () {},
+          onPressedTrailingButton: () => context.showCustomAlertDialog(
+            title: 'Hapus Pertanyaan?',
+            message: 'Seluruh diskusi kamu dalam Pertanyaan ini akan dihapus!',
+            primaryButtonText: 'Hapus',
+            onPressedPrimaryButton: () {},
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -109,7 +115,12 @@ class StudentDiscussionDetailPage extends StatelessWidget {
                   ),
                   const SizedBox(width: 2),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () => showDialog(
+                      context: context,
+                      builder: (context) {
+                        return const SpecificQuestionInfoDialog();
+                      },
+                    ),
                     child: SvgAsset(
                       assetPath: AssetPath.getIcon('info-circle-line.svg'),
                       color: primaryTextColor,
@@ -162,11 +173,26 @@ class StudentDiscussionDetailPage extends StatelessWidget {
             ),
             if (question.status == QuestionStatus.discuss.name) ...[
               FilledButton(
-                onPressed: () {},
+                onPressed: () => context.showSingleFormDialog(
+                  title: 'Beri Tanggapan',
+                  name: 'response',
+                  label: 'Tanggapan',
+                  hintText: 'Masukkan tanggapan kamu',
+                  maxLines: 4,
+                  primaryButtonText: 'Submit',
+                  onSubmitted: (value) {},
+                ),
                 child: const Text('Beri Tanggapan'),
               ).fullWidth(),
               FilledButton(
-                onPressed: () {},
+                onPressed: () => context.showConfirmDialog(
+                  title: 'Masalah Terjawab',
+                  message:
+                      'Apakah kamu puas dengan jawaban yang diberikan? Aksi ini akan menutup diskusi kamu!',
+                  withCheckbox: true,
+                  checkboxLabel: 'Saya puas dengan jawaban yang diberikan.',
+                  onPressedPrimaryButton: () {},
+                ),
                 style: FilledButton.styleFrom(
                   backgroundColor: secondaryColor,
                   foregroundColor: primaryColor,

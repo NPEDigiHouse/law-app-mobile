@@ -97,7 +97,7 @@ class CustomAlertDialog extends ConsumerWidget {
                 Text(
                   title,
                   textAlign: TextAlign.center,
-                  style: textTheme.headlineSmall!.copyWith(
+                  style: textTheme.titleLarge!.copyWith(
                     color: foregroundColor ?? errorColor,
                   ),
                 ),
@@ -105,7 +105,6 @@ class CustomAlertDialog extends ConsumerWidget {
                 Text(
                   message,
                   textAlign: !withCheckbox ? TextAlign.center : null,
-                  style: textTheme.bodyMedium,
                 ),
                 if (withCheckbox) ...[
                   const SizedBox(height: 8),
@@ -130,7 +129,7 @@ class CustomAlertDialog extends ConsumerWidget {
                         ),
                       ),
                       const SizedBox(width: 4),
-                      Flexible(
+                      Expanded(
                         child: GestureDetector(
                           onTap: () {
                             ref.read(isCheckedProvider.notifier).state =

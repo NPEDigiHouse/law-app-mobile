@@ -99,9 +99,6 @@ class NotificationPage extends StatelessWidget {
                                 const SizedBox(height: 8),
                                 Text(
                                   notificationItems[index]["meta"] as String,
-                                  style: textTheme.bodyMedium!.copyWith(
-                                    color: primaryTextColor,
-                                  ),
                                 ),
                               ],
                             ),

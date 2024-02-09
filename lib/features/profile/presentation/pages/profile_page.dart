@@ -137,9 +137,14 @@ class ProfilePage extends StatelessWidget {
           "color": errorColor,
           "onTap": () {
             context.showConfirmDialog(
-              title: "Log Out",
+              title: "Log Out?",
               message: "Dengan ini, seluruh sesi Anda akan berakhir.",
-              onPressedPrimaryButton: () {},
+              onPressedPrimaryButton: () {
+                navigatorKey.currentState!.pushNamedAndRemoveUntil(
+                  loginRoute,
+                  (route) => false,
+                );
+              },
             );
           },
         },
@@ -182,9 +187,14 @@ class ProfilePage extends StatelessWidget {
           "color": errorColor,
           "onTap": () {
             context.showConfirmDialog(
-              title: "Log Out",
+              title: "Log Out?",
               message: "Dengan ini, seluruh sesi Anda akan berakhir.",
-              onPressedPrimaryButton: () {},
+              onPressedPrimaryButton: () {
+                navigatorKey.currentState!.pushNamedAndRemoveUntil(
+                  loginRoute,
+                  (route) => false,
+                );
+              },
             );
           },
         },
@@ -235,9 +245,14 @@ class ProfilePage extends StatelessWidget {
           "color": errorColor,
           "onTap": () {
             context.showConfirmDialog(
-              title: "Log Out",
+              title: "Log Out?",
               message: "Dengan ini, seluruh sesi Anda akan berakhir.",
-              onPressedPrimaryButton: () {},
+              onPressedPrimaryButton: () {
+                navigatorKey.currentState!.pushNamedAndRemoveUntil(
+                  loginRoute,
+                  (route) => false,
+                );
+              },
             );
           },
         },

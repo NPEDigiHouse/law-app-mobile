@@ -3,7 +3,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:law_app/features/shared/widgets/dialog/custom_dialog.dart';
 import 'package:law_app/features/shared/widgets/text_field/custom_dropdown_field.dart';
 
-class SortingDialog extends StatefulWidget {
+class SortingDialog extends StatelessWidget {
   final String title;
   final List<String> items;
   final String? primaryButtonText;
@@ -18,38 +18,13 @@ class SortingDialog extends StatefulWidget {
   });
 
   @override
-  State<SortingDialog> createState() => _SortingDialogState();
-}
-
-class _SortingDialogState extends State<SortingDialog> {
-  late final Map<String, String> sortingOrders;
-  late final ValueNotifier<String> selectedFirstItem;
-  late final ValueNotifier<String> selectedSecondItem;
-
-  final formKey = GlobalKey<FormBuilderState>();
-
-  @override
-  void initState() {
-    super.initState();
-
-    sortingOrders = {'asc': 'Meningkat', 'desc': 'Menurun'};
-    selectedFirstItem = ValueNotifier(widget.items.first);
-    selectedSecondItem = ValueNotifier(sortingOrders.values.first);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-
-    selectedFirstItem.dispose();
-    selectedSecondItem.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final formKey = GlobalKey<FormBuilderState>();
+    final sortingOrders = {'asc': 'Meningkat', 'desc': 'Menurun'};
+
     return CustomDialog(
-      title: widget.title,
-      primaryButtonText: widget.primaryButtonText,
+      title: title,
+      primaryButtonText: primaryButtonText,
       onPressedPrimaryButton: () => onPressedPrimaryButton(formKey),
       child: FormBuilder(
         key: formKey,
@@ -59,8 +34,8 @@ class _SortingDialogState extends State<SortingDialog> {
               isSmall: true,
               name: 'sortBy',
               label: 'Urut Berdasarkan',
-              items: widget.items,
-              onChanged: (newValue) => selectedFirstItem.value = newValue!,
+              items: items,
+              onChanged: (_) {},
             ),
             const SizedBox(height: 16),
             CustomDropdownField(
@@ -69,7 +44,7 @@ class _SortingDialogState extends State<SortingDialog> {
               label: 'Urut Secara',
               items: sortingOrders.values.toList(),
               values: sortingOrders.keys.toList(),
-              onChanged: (newValue) => selectedSecondItem.value = newValue!,
+              onChanged: (_) {},
             ),
           ],
         ),
@@ -78,11 +53,11 @@ class _SortingDialogState extends State<SortingDialog> {
   }
 
   void onPressedPrimaryButton(GlobalKey<FormBuilderState> formKey) {
-    if (widget.onSubmitted != null) {
+    if (onSubmitted != null) {
       FocusManager.instance.primaryFocus?.unfocus();
 
       if (formKey.currentState!.saveAndValidate()) {
-        widget.onSubmitted!(formKey.currentState!.value);
+        onSubmitted!(formKey.currentState!.value);
       }
     }
   }

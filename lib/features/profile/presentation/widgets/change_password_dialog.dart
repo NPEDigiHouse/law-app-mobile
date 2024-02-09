@@ -76,7 +76,7 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
                 if (value != null) password.value = value;
               },
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 10),
             ValueListenableBuilder(
               valueListenable: password,
               builder: (context, password, child) {

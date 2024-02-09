@@ -12,6 +12,7 @@ import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
+import 'package:law_app/features/student/presentation/discussion/widgets/create_question_dialog.dart';
 
 class StudentDiscussionHomePage extends StatefulWidget {
   const StudentDiscussionHomePage({super.key});
@@ -204,7 +205,20 @@ class _StudentDiscussionHomePageState extends State<StudentDiscussionHomePage>
                             ),
                             const SizedBox(height: 10),
                             FilledButton.icon(
-                              onPressed: () {},
+                              onPressed: () => showDialog(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (context) {
+                                  return const CreateQuestionDialog(
+                                    categories: [
+                                      'Pidana',
+                                      'Tata Negara',
+                                      'Syariah',
+                                      'Lainnya',
+                                    ],
+                                  );
+                                },
+                              ),
                               icon: const Icon(Icons.add_rounded),
                               label: const Text('Buat Pertanyaan'),
                               style: FilledButton.styleFrom(

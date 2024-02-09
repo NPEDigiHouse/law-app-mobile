@@ -147,7 +147,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
 
       final value = '${date.day}/${date.month}/${date.year}';
 
-      formKey.currentState!.fields['date_of_birth']!.didChange(value);
+      formKey.currentState!.fields['dateOfBirth']!.didChange(value);
     }
   }
 
