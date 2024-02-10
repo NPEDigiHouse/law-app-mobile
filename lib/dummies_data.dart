@@ -231,7 +231,7 @@ const dummyQuestions = [
     category: 'Hukum Perdata',
     createdAt: '24 Desember 2023 (10:23:20)',
     status: 'solved',
-    type: 'specific',
+    type: 'general',
   ),
   Question(
     owner: user,
@@ -271,6 +271,6 @@ const dummyQuestions = [
     category: 'Hukum Perdata',
     createdAt: '24 Desember 2023 (10:23:20)',
     status: 'discuss',
-    type: 'general',
+    type: 'specific',
   ),
 ];

@@ -122,12 +122,11 @@ class TeacherDiscussionDetailPage extends StatelessWidget {
                 ),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: buildDiscussionSection(question.type, question.status),
-            ),
+            const SizedBox(height: 12),
+            buildDiscussionSection(question.type, question.status),
             if (question.type == QuestionType.specific.name &&
                 question.status == QuestionStatus.discuss.name) ...[
+              const SizedBox(height: 12),
               FilledButton(
                 onPressed: () {},
                 child: const Text('Beri Tanggapan'),
@@ -163,7 +162,7 @@ class TeacherDiscussionDetailPage extends StatelessWidget {
       children: List<Padding>.generate(
         5,
         (index) => Padding(
-          padding: const EdgeInsets.only(bottom: 16),
+          padding: EdgeInsets.only(bottom: index == 4 ? 0 : 12),
           child: DiscussionReplyCard(
             questionOwner: question.owner,
             responder: index.isEven ? teacher : question.owner,

@@ -150,8 +150,8 @@ class _LoginPageState extends State<LoginPage>
     if (formKey.currentState!.saveAndValidate()) {
       final data = formKey.currentState!.value;
 
-      if (data['username'] != teacher.username ||
-          data['password'] != teacher.password) {
+      if (data['username'] != user.username ||
+          data['password'] != user.password) {
         // Show failure message
         context.showBanner(
           message: 'Username atau password salah!',
@@ -163,7 +163,7 @@ class _LoginPageState extends State<LoginPage>
         // Navigate to main menu
         navigatorKey.currentState!.pushReplacementNamed(
           mainMenuRoute,
-          arguments: teacher.roleId,
+          arguments: user.roleId,
         );
       }
     }
