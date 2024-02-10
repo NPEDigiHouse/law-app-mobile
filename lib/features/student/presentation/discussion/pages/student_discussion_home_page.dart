@@ -268,12 +268,9 @@ class _StudentDiscussionHomePageState extends State<StudentDiscussionHomePage>
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
                     return DiscussionCard(
-                      width: 300,
                       question: dummyQuestions[index],
-                      onTap: () => navigatorKey.currentState!.pushNamed(
-                        studentDiscussionDetailRoute,
-                        arguments: dummyQuestions[index],
-                      ),
+                      roleId: 1,
+                      width: 300,
                     );
                   },
                   separatorBuilder: (context, index) {
@@ -320,12 +317,9 @@ class _StudentDiscussionHomePageState extends State<StudentDiscussionHomePage>
                   ),
                   child: DiscussionCard(
                     question: dummyQuestions[index],
+                    roleId: 1,
                     isDetail: true,
                     withProfile: true,
-                    onTap: () => navigatorKey.currentState!.pushNamed(
-                      studentDiscussionDetailRoute,
-                      arguments: dummyQuestions[index],
-                    ),
                   ),
                 ),
               ),

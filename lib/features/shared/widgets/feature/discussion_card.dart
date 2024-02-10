@@ -4,26 +4,28 @@ import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/ink_well_container.dart';
 import 'package:law_app/features/shared/widgets/label_chip.dart';
 
 class DiscussionCard extends StatelessWidget {
-  final double? width;
-  final double? height;
+  final int roleId;
   final Question question;
-  final VoidCallback onTap;
   final bool isDetail;
   final bool withProfile;
+  final double? width;
+  final double? height;
 
   const DiscussionCard({
     super.key,
-    this.width,
-    this.height,
+    required this.roleId,
     required this.question,
-    required this.onTap,
     this.isDetail = false,
     this.withProfile = false,
+    this.width,
+    this.height,
   });
 
   @override
@@ -155,5 +157,26 @@ class DiscussionCard extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void onTap() {
+    switch (roleId) {
+      case 0:
+        break;
+      case 1:
+        navigatorKey.currentState!.pushNamed(
+          studentDiscussionDetailRoute,
+          arguments: question,
+        );
+        break;
+      case 2:
+        navigatorKey.currentState!.pushNamed(
+          teacherDiscussionDetailRoute,
+          arguments: question,
+        );
+        break;
+      default:
+        break;
+    }
   }
 }
