@@ -25,6 +25,7 @@ import 'package:law_app/features/student/presentation/discussion/pages/student_d
 import 'package:law_app/features/student/presentation/discussion/pages/student_public_discussion_page.dart';
 import 'package:law_app/features/student/presentation/discussion/pages/student_question_list_page.dart';
 import 'package:law_app/features/student/presentation/home/pages/student_home_page.dart';
+import 'package:law_app/features/teacher/presentation/discussion/pages/teacher_discussion_detail_page.dart';
 import 'package:law_app/features/teacher/presentation/home/pages/teacher_home_page.dart';
 
 // Register the RouteObserver as a navigation observer
@@ -62,6 +63,7 @@ const libraryBookDetailRoute = '/library-book-detail';
 const studentQuestionListRoute = 'student-question-list';
 const studentPublicDiscussionRoute = 'student-public-discussion';
 const studentDiscussionDetailRoute = 'student-discussion-detail';
+const teacherDiscussionDetailRoute = 'teacher-discussion-detail';
 
 // App routes generator
 Route<dynamic>? generateAppRoutes(RouteSettings settings) {
@@ -188,6 +190,12 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
 
       return MaterialPageRoute(
         builder: (_) => StudentDiscussionDetailPage(question: question),
+      );
+    case teacherDiscussionDetailRoute:
+      final question = settings.arguments as Question;
+
+      return MaterialPageRoute(
+        builder: (_) => TeacherDiscussionDetailPage(question: question),
       );
     default:
       return null;

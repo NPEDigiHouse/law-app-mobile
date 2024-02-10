@@ -114,7 +114,10 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
                         ),
                         child: DiscussionCard(
                           question: dummyQuestions[index],
-                          onTap: () {},
+                          onTap: () => navigatorKey.currentState!.pushNamed(
+                            teacherDiscussionDetailRoute,
+                            arguments: dummyQuestions[index],
+                          ),
                         ),
                       );
                     },

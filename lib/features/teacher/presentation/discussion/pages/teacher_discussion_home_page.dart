@@ -336,7 +336,7 @@ class _TeacherDiscussionHomePageState extends State<TeacherDiscussionHomePage>
                 ),
               ),
               SizedBox(
-                height: 125,
+                height: 135,
                 child: ListView.separated(
                   padding: const EdgeInsets.fromLTRB(20, 0, 20, 4),
                   scrollDirection: Axis.horizontal,
@@ -344,7 +344,10 @@ class _TeacherDiscussionHomePageState extends State<TeacherDiscussionHomePage>
                     return DiscussionCard(
                       width: 300,
                       question: dummyQuestions[index],
-                      onTap: () {},
+                      onTap: () => navigatorKey.currentState!.pushNamed(
+                        teacherDiscussionDetailRoute,
+                        arguments: dummyQuestions[index],
+                      ),
                     );
                   },
                   separatorBuilder: (context, index) {
@@ -380,26 +383,23 @@ class _TeacherDiscussionHomePageState extends State<TeacherDiscussionHomePage>
               ),
               ...List<Padding>.generate(
                 dummyQuestions.length,
-                (index) {
-                  final items = dummyQuestions
-                      .map((e) => e.copyWith(status: 'open'))
-                      .toList();
-
-                  return Padding(
-                    padding: EdgeInsets.fromLTRB(
-                      20,
-                      0,
-                      20,
-                      index == items.length - 1 ? 24 : 8,
+                (index) => Padding(
+                  padding: EdgeInsets.fromLTRB(
+                    20,
+                    0,
+                    20,
+                    index == dummyQuestions.length - 1 ? 24 : 8,
+                  ),
+                  child: DiscussionCard(
+                    question: dummyQuestions[index],
+                    isDetail: true,
+                    withProfile: true,
+                    onTap: () => navigatorKey.currentState!.pushNamed(
+                      teacherDiscussionDetailRoute,
+                      arguments: dummyQuestions[index],
                     ),
-                    child: DiscussionCard(
-                      question: items[index],
-                      isDetail: true,
-                      withProfile: true,
-                      onTap: () {},
-                    ),
-                  );
-                },
+                  ),
+                ),
               ),
             ],
           ),

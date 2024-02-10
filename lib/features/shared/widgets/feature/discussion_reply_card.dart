@@ -5,28 +5,32 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/dummies_data.dart';
 
 class DiscussionReplyCard extends StatelessWidget {
-  final Question question;
-  final User responder; // Will replaced with QuestionReply, soon!
+  final User questionOwner;
+  final User responder;
+  final bool reverse;
 
   const DiscussionReplyCard({
     super.key,
-    required this.question,
+    required this.questionOwner,
     required this.responder,
+    this.reverse = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    final isOwner = question.owner == responder;
+    var isLeft = questionOwner == responder;
+
+    if (reverse) isLeft = !isLeft;
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: isOwner
-          ? buildRowChildren(isOwner)
-          : buildRowChildren(isOwner).reversed.toList(),
+      children: isLeft
+          ? buildRowChildren(isLeft)
+          : buildRowChildren(isLeft).reversed.toList(),
     );
   }
 
-  List<Widget> buildRowChildren(bool isOwner) {
+  List<Widget> buildRowChildren(bool isLeft) {
     return [
       CircleAvatar(
         radius: 16,
@@ -49,13 +53,13 @@ class DiscussionReplyCard extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               border: Border.all(
-                color: isOwner ? secondaryTextColor : tertiaryColor,
+                color: isLeft ? secondaryTextColor : tertiaryColor,
               ),
               borderRadius: BorderRadius.only(
                 bottomLeft: const Radius.circular(12),
                 bottomRight: const Radius.circular(12),
-                topLeft: isOwner ? Radius.zero : const Radius.circular(12),
-                topRight: !isOwner ? Radius.zero : const Radius.circular(12),
+                topLeft: isLeft ? Radius.zero : const Radius.circular(12),
+                topRight: !isLeft ? Radius.zero : const Radius.circular(12),
               ),
             ),
             child: Column(
@@ -73,7 +77,7 @@ class DiscussionReplyCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum.',
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum.',
                   style: textTheme.bodySmall,
                 ),
               ],

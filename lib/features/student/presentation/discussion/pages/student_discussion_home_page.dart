@@ -262,7 +262,7 @@ class _StudentDiscussionHomePageState extends State<StudentDiscussionHomePage>
                 ),
               ),
               SizedBox(
-                height: 125,
+                height: 135,
                 child: ListView.separated(
                   padding: const EdgeInsets.fromLTRB(20, 0, 20, 4),
                   scrollDirection: Axis.horizontal,

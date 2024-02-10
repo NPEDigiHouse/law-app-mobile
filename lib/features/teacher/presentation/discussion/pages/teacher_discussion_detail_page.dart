@@ -47,7 +47,7 @@ class TeacherDiscussionDetailPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(width: 8),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,41 +79,11 @@ class TeacherDiscussionDetailPage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16),
-            Row(
-              children: [
-                Flexible(
-                  child: Text(
-                    question.category,
-                    style: textTheme.bodySmall!.copyWith(
-                      color: secondaryTextColor,
-                    ),
-                  ),
-                ),
-                if (question.type == QuestionType.specific.name) ...[
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 6),
-                    child: CircleAvatar(
-                      radius: 1.5,
-                      backgroundColor: secondaryTextColor,
-                    ),
-                  ),
-                  Text(
-                    'Pertanyaan Khusus',
-                    style: textTheme.bodySmall!.copyWith(
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  const SizedBox(width: 2),
-                  GestureDetector(
-                    onTap: () {},
-                    child: SvgAsset(
-                      assetPath: AssetPath.getIcon('info-circle-line.svg'),
-                      color: primaryTextColor,
-                      width: 12,
-                    ),
-                  ),
-                ],
-              ],
+            Text(
+              question.category,
+              style: textTheme.bodySmall!.copyWith(
+                color: secondaryTextColor,
+              ),
             ),
             const SizedBox(height: 4),
             Text(
@@ -154,9 +124,10 @@ class TeacherDiscussionDetailPage extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),
-              child: buildDiscussionSection(question.status),
+              child: buildDiscussionSection(question.type, question.status),
             ),
-            if (question.status == QuestionStatus.discuss.name) ...[
+            if (question.type == QuestionType.specific.name &&
+                question.status == QuestionStatus.discuss.name) ...[
               FilledButton(
                 onPressed: () {},
                 child: const Text('Beri Tanggapan'),
@@ -176,30 +147,30 @@ class TeacherDiscussionDetailPage extends StatelessWidget {
     );
   }
 
-  Widget buildDiscussionSection(String status) {
-    switch (status.toLowerCase()) {
-      case 'open':
-        return Text(
-          'Pertanyaan kamu akan segera dijawab oleh Admin atau Pakar kami.',
-          style: textTheme.bodyMedium!.copyWith(
-            color: secondaryTextColor,
-          ),
-        );
-      case 'discuss' || 'solved':
-        return Column(
-          children: List<Padding>.generate(
-            5,
-            (index) => Padding(
-              padding: EdgeInsets.only(bottom: index == 5 ? 0 : 16),
-              child: DiscussionReplyCard(
-                question: question,
-                responder: index.isEven ? teacher : question.owner,
-              ),
-            ),
-          ),
-        );
-      default:
-        return const SizedBox();
+  Widget buildDiscussionSection(String type, String status) {
+    if (status == QuestionStatus.open.name) {
+      if (type == QuestionType.specific.name) {
+        return FilledButton(
+          onPressed: () {},
+          child: const Text('Jawab Sekarang!'),
+        ).fullWidth();
+      }
+
+      return const SizedBox();
     }
+
+    return Column(
+      children: List<Padding>.generate(
+        5,
+        (index) => Padding(
+          padding: const EdgeInsets.only(bottom: 16),
+          child: DiscussionReplyCard(
+            questionOwner: question.owner,
+            responder: index.isEven ? teacher : question.owner,
+            reverse: true,
+          ),
+        ),
+      ),
+    );
   }
 }

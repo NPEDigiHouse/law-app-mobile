@@ -57,7 +57,7 @@ class StudentDiscussionDetailPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(width: 8),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -171,7 +171,8 @@ class StudentDiscussionDetailPage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: buildDiscussionSection(question.status),
             ),
-            if (question.status == QuestionStatus.discuss.name) ...[
+            if (question.owner == user &&
+                question.status == QuestionStatus.discuss.name) ...[
               FilledButton(
                 onPressed: () => context.showSingleFormDialog(
                   title: 'Beri Tanggapan',
@@ -207,29 +208,30 @@ class StudentDiscussionDetailPage extends StatelessWidget {
   }
 
   Widget buildDiscussionSection(String status) {
-    switch (status.toLowerCase()) {
-      case 'open':
+    if (status == QuestionStatus.open.name) {
+      if (question.owner == user) {
         return Text(
           'Pertanyaan kamu akan segera dijawab oleh Admin atau Pakar kami.',
           style: textTheme.bodyMedium!.copyWith(
             color: secondaryTextColor,
           ),
         );
-      case 'discuss' || 'solved':
-        return Column(
-          children: List<Padding>.generate(
-            5,
-            (index) => Padding(
-              padding: EdgeInsets.only(bottom: index == 5 ? 0 : 16),
-              child: DiscussionReplyCard(
-                question: question,
-                responder: index.isEven ? teacher : question.owner,
-              ),
-            ),
-          ),
-        );
-      default:
-        return const SizedBox();
+      }
+
+      return const SizedBox();
     }
+
+    return Column(
+      children: List<Padding>.generate(
+        5,
+        (index) => Padding(
+          padding: const EdgeInsets.only(bottom: 16),
+          child: DiscussionReplyCard(
+            questionOwner: question.owner,
+            responder: index.isEven ? teacher : question.owner,
+          ),
+        ),
+      ),
+    );
   }
 }
