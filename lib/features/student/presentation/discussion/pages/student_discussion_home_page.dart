@@ -294,7 +294,8 @@ class _StudentDiscussionHomePageState extends State<StudentDiscussionHomePage>
                     ),
                     GestureDetector(
                       onTap: () => navigatorKey.currentState!.pushNamed(
-                        studentPublicDiscussionRoute,
+                        publicDiscussionRoute,
+                        arguments: 1,
                       ),
                       child: Text(
                         'Lihat Selengkapnya >',

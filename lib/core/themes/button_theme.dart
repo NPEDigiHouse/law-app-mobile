@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
+import 'package:law_app/core/styles/text_style.dart';
 
 final filledButtonTheme = FilledButtonThemeData(
   style: FilledButton.styleFrom(
@@ -31,5 +32,42 @@ final textButtonTheme = TextButtonThemeData(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(12),
     ),
+  ),
+);
+
+final segmentedButtonTheme = SegmentedButtonThemeData(
+  style: ButtonStyle(
+    foregroundColor: MaterialStateProperty.resolveWith((states) {
+      if (states.contains(MaterialState.selected)) {
+        return primaryColor;
+      }
+
+      return secondaryTextColor;
+    }),
+    backgroundColor: MaterialStateProperty.resolveWith((states) {
+      if (states.contains(MaterialState.selected)) {
+        return secondaryColor;
+      }
+
+      return scaffoldBackgroundColor;
+    }),
+    textStyle: MaterialStateProperty.resolveWith((states) {
+      if (states.contains(MaterialState.selected)) {
+        return textTheme.titleSmall;
+      }
+
+      return textTheme.bodyMedium;
+    }),
+    shape: MaterialStateProperty.all(
+      RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+    ),
+    side: MaterialStateProperty.all(
+      const BorderSide(
+        style: BorderStyle.none,
+      ),
+    ),
+    visualDensity: const VisualDensity(vertical: -2),
   ),
 );

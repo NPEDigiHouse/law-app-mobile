@@ -1,7 +1,10 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
+import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/features/shared/providers/search_provider.dart';
 
 /// A collection of helper functions that are reusable for this app
 class FunctionHelper {
@@ -30,7 +33,7 @@ class FunctionHelper {
   }
 
   static Color getColorByDiscussionStatus(String status) {
-    switch (status.toLowerCase()) {
+    switch (status) {
       case 'open':
         return infoColor;
       case 'discuss':
@@ -70,5 +73,19 @@ class FunctionHelper {
     }
 
     return false;
+  }
+
+  static void handleSearchingOnPop(
+    WidgetRef ref,
+    bool didPop,
+    bool isSearching,
+  ) {
+    if (didPop) return;
+
+    if (isSearching) {
+      ref.read(isSearchingProvider.notifier).state = false;
+    } else {
+      navigatorKey.currentState!.pop();
+    }
   }
 }

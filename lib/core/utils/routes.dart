@@ -21,11 +21,13 @@ import 'package:law_app/features/profile/presentation/pages/certificate_page.dar
 import 'package:law_app/features/profile/presentation/pages/contact_us_page.dart';
 import 'package:law_app/features/profile/presentation/pages/faq_page.dart';
 import 'package:law_app/features/profile/presentation/pages/profile_page.dart';
+import 'package:law_app/features/shared/pages/public_discussion_page.dart';
 import 'package:law_app/features/student/presentation/discussion/pages/student_discussion_detail_page.dart';
-import 'package:law_app/features/student/presentation/discussion/pages/student_public_discussion_page.dart';
 import 'package:law_app/features/student/presentation/discussion/pages/student_question_list_page.dart';
 import 'package:law_app/features/student/presentation/home/pages/student_home_page.dart';
 import 'package:law_app/features/teacher/presentation/discussion/pages/teacher_discussion_detail_page.dart';
+import 'package:law_app/features/teacher/presentation/discussion/pages/teacher_question_history_page.dart';
+import 'package:law_app/features/teacher/presentation/discussion/pages/teacher_question_list_page.dart';
 import 'package:law_app/features/teacher/presentation/home/pages/teacher_home_page.dart';
 
 // Register the RouteObserver as a navigation observer
@@ -60,10 +62,14 @@ const librarySavedBookRoute = '/library-saved-book';
 const librarySearchRoute = '/library-search';
 const libraryBookDetailRoute = '/library-book-detail';
 
-const studentQuestionListRoute = 'student-question-list';
-const studentPublicDiscussionRoute = 'student-public-discussion';
-const studentDiscussionDetailRoute = 'student-discussion-detail';
-const teacherDiscussionDetailRoute = 'teacher-discussion-detail';
+const publicDiscussionRoute = '/public-discussion';
+
+const studentQuestionListRoute = '/student-question-list';
+const studentDiscussionDetailRoute = '/student-discussion-detail';
+
+const teacherQuestionListRoute = '/teacher-question-list';
+const teacherQuestionHistoryRoute = '/teacher-question-history';
+const teacherDiscussionDetailRoute = '/teacher-discussion-detail';
 
 // App routes generator
 Route<dynamic>? generateAppRoutes(RouteSettings settings) {
@@ -177,19 +183,29 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => LibraryBookDetailRoute(book: book),
       );
+    case publicDiscussionRoute:
+      final roleId = settings.arguments as int;
+
+      return MaterialPageRoute(
+        builder: (_) => PublicDiscussionPage(roleId: roleId),
+      );
     case studentQuestionListRoute:
       return MaterialPageRoute(
         builder: (_) => const StudentQuestionListPage(),
-      );
-    case studentPublicDiscussionRoute:
-      return MaterialPageRoute(
-        builder: (_) => const StudentPublicDiscussionPage(),
       );
     case studentDiscussionDetailRoute:
       final question = settings.arguments as Question;
 
       return MaterialPageRoute(
         builder: (_) => StudentDiscussionDetailPage(question: question),
+      );
+    case teacherQuestionListRoute:
+      return MaterialPageRoute(
+        builder: (_) => const TeacherQuestionListPage(),
+      );
+    case teacherQuestionHistoryRoute:
+      return MaterialPageRoute(
+        builder: (_) => const TeacherQuestionHistoryPage(),
       );
     case teacherDiscussionDetailRoute:
       final question = settings.arguments as Question;

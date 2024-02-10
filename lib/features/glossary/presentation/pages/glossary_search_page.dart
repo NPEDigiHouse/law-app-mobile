@@ -58,8 +58,8 @@ class _GlossarySearchPageState extends State<GlossarySearchPage> {
                     hintText: 'Cari kosa kata',
                     autoFocus: true,
                     onChanged: searchTerm,
-                    onFocusChanged: (value) {
-                      if (!value && query.isEmpty) {
+                    onFocusChange: (isFocus) {
+                      if (!isFocus && query.isEmpty) {
                         navigatorKey.currentState!.pop();
                       }
                     },

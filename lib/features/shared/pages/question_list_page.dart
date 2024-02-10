@@ -2,25 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
 
-class QuestionList extends StatefulWidget {
-  final List<Question> questions;
+class QuestionListPage extends StatefulWidget {
   final int roleId;
+  final List<Question> questions;
   final bool isDetail;
   final bool withProfile;
 
-  const QuestionList({
+  const QuestionListPage({
     super.key,
-    required this.questions,
     required this.roleId,
+    required this.questions,
     this.isDetail = false,
     this.withProfile = false,
   });
 
   @override
-  State<QuestionList> createState() => _QuestionListState();
+  State<QuestionListPage> createState() => _QuestionListPageState();
 }
 
-class _QuestionListState extends State<QuestionList>
+class _QuestionListPageState extends State<QuestionListPage>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {

@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
-import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/shared/providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/animated_fab.dart';
 import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
@@ -13,18 +13,17 @@ import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/text_field/search_field.dart';
 
-final isSearchingProvider = StateProvider.autoDispose<bool>((ref) => false);
+class PublicDiscussionPage extends ConsumerStatefulWidget {
+  final int roleId;
 
-class StudentPublicDiscussionPage extends ConsumerStatefulWidget {
-  const StudentPublicDiscussionPage({super.key});
+  const PublicDiscussionPage({super.key, required this.roleId});
 
   @override
-  ConsumerState<StudentPublicDiscussionPage> createState() =>
-      _StudentPublicDiscussionPageState();
+  ConsumerState<PublicDiscussionPage> createState() =>
+      _PublicDiscussionPageState();
 }
 
-class _StudentPublicDiscussionPageState
-    extends ConsumerState<StudentPublicDiscussionPage>
+class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
     with SingleTickerProviderStateMixin {
   late final AnimationController fabAnimationController;
   late final ScrollController scrollController;
@@ -81,7 +80,9 @@ class _StudentPublicDiscussionPageState
 
     return PopScope(
       canPop: false,
-      onPopInvoked: (didPop) => handleSearchingOnPop(didPop, isSearching),
+      onPopInvoked: (didPop) {
+        return FunctionHelper.handleSearchingOnPop(ref, didPop, isSearching);
+      },
       child: Scaffold(
         backgroundColor: backgroundColor,
         appBar: PreferredSize(
@@ -166,7 +167,7 @@ class _StudentPublicDiscussionPageState
                             ),
                             child: DiscussionCard(
                               question: items[index],
-                              roleId: 1,
+                              roleId: widget.roleId,
                               isDetail: true,
                               withProfile: true,
                             ),
@@ -209,8 +210,8 @@ class _StudentPublicDiscussionPageState
                   hintText: 'Cari judul diskusi',
                   autoFocus: true,
                   onChanged: searchDiscussion,
-                  onFocusChanged: (value) {
-                    if (!value && query.isEmpty) {
+                  onFocusChange: (isFocus) {
+                    if (!isFocus && query.isEmpty) {
                       ref.read(isSearchingProvider.notifier).state = false;
                     }
                   },
@@ -254,16 +255,6 @@ class _StudentPublicDiscussionPageState
 
     if (query.isEmpty) {
       EasyDebounce.fire('search-debouncer');
-    }
-  }
-
-  void handleSearchingOnPop(bool didPop, bool isSearching) {
-    if (didPop) return;
-
-    if (isSearching) {
-      ref.read(isSearchingProvider.notifier).state = false;
-    } else {
-      navigatorKey.currentState!.pop();
     }
   }
 }

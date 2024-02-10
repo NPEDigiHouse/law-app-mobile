@@ -324,7 +324,10 @@ class _TeacherDiscussionHomePageState extends State<TeacherDiscussionHomePage>
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () => navigatorKey.currentState!.pushNamed(
+                        publicDiscussionRoute,
+                        arguments: 2,
+                      ),
                       child: Text(
                         'Lihat Selengkapnya >',
                         style: textTheme.bodySmall!.copyWith(
@@ -367,7 +370,9 @@ class _TeacherDiscussionHomePageState extends State<TeacherDiscussionHomePage>
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () => navigatorKey.currentState!.pushNamed(
+                        teacherQuestionListRoute,
+                      ),
                       child: Text(
                         'Lihat Selengkapnya >',
                         style: textTheme.bodySmall!.copyWith(

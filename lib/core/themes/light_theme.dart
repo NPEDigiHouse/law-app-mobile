@@ -14,6 +14,7 @@ ThemeData get lightTheme {
     filledButtonTheme: filledButtonTheme,
     outlinedButtonTheme: outlinedButtonTheme,
     textButtonTheme: textButtonTheme,
+    segmentedButtonTheme: segmentedButtonTheme,
     inputDecorationTheme: inputDecorationTheme,
     bottomSheetTheme: bottomSheetTheme,
     scaffoldBackgroundColor: scaffoldBackgroundColor,

@@ -11,7 +11,7 @@ class SearchField extends StatefulWidget {
   final String? hintText;
   final VoidCallback? onTap;
   final ValueChanged<String>? onChanged;
-  final ValueChanged<bool>? onFocusChanged;
+  final ValueChanged<bool>? onFocusChange;
   final TextInputAction textInputAction;
 
   const SearchField({
@@ -23,7 +23,7 @@ class SearchField extends StatefulWidget {
     this.hintText,
     this.onTap,
     this.onChanged,
-    this.onFocusChanged,
+    this.onFocusChange,
     this.textInputAction = TextInputAction.search,
   });
 
@@ -53,7 +53,7 @@ class _SearchFieldState extends State<SearchField> {
     return SizedBox(
       height: 48,
       child: Focus(
-        onFocusChange: widget.onFocusChanged,
+        onFocusChange: widget.onFocusChange,
         child: TextField(
           controller: controller,
           readOnly: widget.readOnly,

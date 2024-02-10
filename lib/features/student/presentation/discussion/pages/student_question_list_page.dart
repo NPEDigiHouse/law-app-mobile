@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:law_app/core/enums/question_type.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
-import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/shared/pages/question_list_page.dart';
 import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
-import 'package:law_app/features/shared/widgets/feature/question_list.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 
 class StudentQuestionListPage extends StatefulWidget {
@@ -85,7 +84,6 @@ class _StudentQuestionListPageState extends State<StudentQuestionListPage> {
                           curve: Curves.easeIn,
                         );
                       },
-                      style: getSegmentedButtonStyle(),
                     );
                   },
                 ),
@@ -154,13 +152,13 @@ class _StudentQuestionListPageState extends State<StudentQuestionListPage> {
                 }
               },
               children: [
-                QuestionList(
+                QuestionListPage(
                   roleId: 1,
                   questions: dummyQuestions.where((question) {
                     return question.type == QuestionType.general.name;
                   }).toList(),
                 ),
-                QuestionList(
+                QuestionListPage(
                   roleId: 1,
                   questions: dummyQuestions.where((question) {
                     return question.type == QuestionType.specific.name;
@@ -171,43 +169,6 @@ class _StudentQuestionListPageState extends State<StudentQuestionListPage> {
           ),
         ],
       ),
-    );
-  }
-
-  ButtonStyle getSegmentedButtonStyle() {
-    return ButtonStyle(
-      foregroundColor: MaterialStateProperty.resolveWith((states) {
-        if (states.contains(MaterialState.selected)) {
-          return primaryColor;
-        }
-
-        return secondaryTextColor;
-      }),
-      backgroundColor: MaterialStateProperty.resolveWith((states) {
-        if (states.contains(MaterialState.selected)) {
-          return secondaryColor;
-        }
-
-        return scaffoldBackgroundColor;
-      }),
-      textStyle: MaterialStateProperty.resolveWith((states) {
-        if (states.contains(MaterialState.selected)) {
-          return textTheme.titleSmall;
-        }
-
-        return textTheme.bodyMedium;
-      }),
-      shape: MaterialStateProperty.all(
-        RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-      ),
-      side: MaterialStateProperty.all(
-        const BorderSide(
-          style: BorderStyle.none,
-        ),
-      ),
-      visualDensity: const VisualDensity(vertical: -2),
     );
   }
 }

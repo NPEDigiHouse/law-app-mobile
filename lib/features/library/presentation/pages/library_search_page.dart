@@ -187,12 +187,12 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
   }
 
   void searchBook(String query) {
+    this.query.value = query;
+
     EasyDebounce.debounce(
       'search-debouncer',
       const Duration(milliseconds: 800),
       () {
-        this.query.value = query;
-
         final result = dummyBooks.where((book) {
           final queryLower = query.toLowerCase();
           final titleLower = book.title.toLowerCase();
