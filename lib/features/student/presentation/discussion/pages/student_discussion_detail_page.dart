@@ -117,6 +117,7 @@ class StudentDiscussionDetailPage extends StatelessWidget {
                   GestureDetector(
                     onTap: () => showDialog(
                       context: context,
+                      barrierDismissible: false,
                       builder: (context) {
                         return const SpecificQuestionInfoDialog();
                       },
@@ -186,7 +187,7 @@ class StudentDiscussionDetailPage extends StatelessWidget {
               ).fullWidth(),
               FilledButton(
                 onPressed: () => context.showConfirmDialog(
-                  title: 'Masalah Terjawab',
+                  title: 'Masalah Terjawab?',
                   message:
                       'Apakah kamu puas dengan jawaban yang diberikan? Aksi ini akan menutup diskusi kamu!',
                   withCheckbox: true,

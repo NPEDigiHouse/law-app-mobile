@@ -6,11 +6,11 @@ import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/shared/widgets/ink_well_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
-class TypeSelectorDialog extends StatelessWidget {
+class CustomSelectorDialog extends StatelessWidget {
   final String title;
-  final List<Map<String, dynamic>> items; // properti Map-nya: {"text", "onTap"}
+  final List<Map<String, dynamic>> items;
 
-  const TypeSelectorDialog({
+  const CustomSelectorDialog({
     super.key,
     required this.title,
     required this.items,

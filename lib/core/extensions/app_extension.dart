@@ -7,10 +7,10 @@ import 'package:law_app/features/profile/presentation/widgets/change_password_di
 import 'package:law_app/features/profile/presentation/widgets/edit_profile_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/confirm_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/custom_alert_dialog.dart';
+import 'package:law_app/features/shared/widgets/dialog/custom_selector_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/single_form_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/single_form_text_area_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/sorting_dialog.dart';
-import 'package:law_app/features/shared/widgets/dialog/type_selector_dialog.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 import 'package:law_app/features/shared/widgets/no_internet_connection.dart';
 
@@ -100,6 +100,7 @@ extension DialogExtension on BuildContext {
   }) {
     return showDialog(
       context: this,
+      barrierDismissible: false,
       builder: (_) => CustomAlertDialog(
         title: title,
         message: message,
@@ -113,14 +114,14 @@ extension DialogExtension on BuildContext {
     );
   }
 
-  Future<Object?> showTypeSelectorDialog({
+  Future<Object?> showCustomSelectorDialog({
     required String title,
     required List<Map<String, dynamic>> items,
   }) {
     return showDialog(
       context: this,
       barrierDismissible: false,
-      builder: (_) => TypeSelectorDialog(
+      builder: (_) => CustomSelectorDialog(
         title: title,
         items: items,
       ),

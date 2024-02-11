@@ -237,18 +237,17 @@ class _RegisterPageState extends State<RegisterPage>
                       textAlign: TextAlign.center,
                       text: TextSpan(
                         style: textTheme.bodyMedium,
-                        children: const [
-                          TextSpan(
+                        children: [
+                          const TextSpan(
                             text: 'Dengan mendaftar, Anda menyetujui\t',
                           ),
                           TextSpan(
                             text: 'Syarat dan Ketentuan\t',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w700,
+                            style: textTheme.titleSmall!.copyWith(
                               color: primaryColor,
                             ),
                           ),
-                          TextSpan(
+                          const TextSpan(
                             text: 'yang berlaku.',
                           ),
                         ],

@@ -20,7 +20,7 @@ const secondaryBackgroundColor = Color(0xFFE06961);
 const errorColor = Color(0xFFF23D16);
 const successColor = Color(0xFF00AF54);
 const infoColor = Color(0xFF21C7EC);
-const warningColor = Color(0xFFF5C61D); // Color(0xFFFCF6DF)
+const warningColor = Color(0xFFF5C61D);
 
 // Gradient colors
 class GradientColors {

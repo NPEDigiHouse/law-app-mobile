@@ -11,6 +11,7 @@ import 'package:law_app/features/shared/widgets/feature/discussion_reply_card.da
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/label_chip.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
+import 'package:law_app/features/teacher/presentation/discussion/widgets/answer_question_dialog.dart';
 
 class TeacherDiscussionDetailPage extends StatelessWidget {
   final Question question;
@@ -123,16 +124,38 @@ class TeacherDiscussionDetailPage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 12),
-            buildDiscussionSection(question.type, question.status),
+            buildDiscussionSection(
+              context: context,
+              question.type,
+              question.status,
+            ),
             if (question.type == QuestionType.specific.name &&
                 question.status == QuestionStatus.discuss.name) ...[
               const SizedBox(height: 12),
               FilledButton(
-                onPressed: () {},
+                onPressed: () => context.showSingleFormDialog(
+                  title: 'Beri Tanggapan',
+                  name: 'response',
+                  label: 'Tanggapan',
+                  hintText: 'Masukkan tanggapan kamu',
+                  maxLines: 4,
+                  primaryButtonText: 'Submit',
+                  onSubmitted: (value) {},
+                ),
                 child: const Text('Beri Tanggapan'),
               ).fullWidth(),
               FilledButton(
-                onPressed: () => {},
+                onPressed: () => context.showCustomAlertDialog(
+                  title: 'Masalah Terjawab?',
+                  message:
+                      'Aksi ini sebaiknya dilakukan oleh Penanya. Pastikan bahwa Penanya sudah puas dengan jawaban yang diberikan!',
+                  withCheckbox: true,
+                  checkboxLabel:
+                      'Saya memastikan Penanya puas dengan jawaban yang diberikan.',
+                  foregroundColor: warningColor,
+                  backgroundColor: const Color(0xFFFCF6DF),
+                  onPressedPrimaryButton: () {},
+                ),
                 style: FilledButton.styleFrom(
                   backgroundColor: secondaryColor,
                   foregroundColor: primaryColor,
@@ -146,11 +169,21 @@ class TeacherDiscussionDetailPage extends StatelessWidget {
     );
   }
 
-  Widget buildDiscussionSection(String type, String status) {
+  Widget buildDiscussionSection(
+    String type,
+    String status, {
+    required BuildContext context,
+  }) {
     if (status == QuestionStatus.open.name) {
       if (type == QuestionType.specific.name) {
         return FilledButton(
-          onPressed: () {},
+          onPressed: () => showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) {
+              return AnswerQuestionDialog(question: question);
+            },
+          ),
           child: const Text('Jawab Sekarang!'),
         ).fullWidth();
       }

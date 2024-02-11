@@ -20,9 +20,7 @@ class SpecificQuestionInfoDialog extends StatelessWidget {
             ),
             TextSpan(
               text: 'Pertanyaan Khusus.',
-              style: textTheme.bodyMedium!.copyWith(
-                fontWeight: FontWeight.w700,
-              ),
+              style: textTheme.titleSmall,
             ),
           ],
         ),

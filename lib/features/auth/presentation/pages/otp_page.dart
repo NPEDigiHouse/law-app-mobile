@@ -104,8 +104,7 @@ class _OtpPageState extends State<OtpPage> with AfterLayoutMixin<OtpPage> {
                           ),
                           TextSpan(
                             text: widget.email,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w700,
+                            style: textTheme.titleSmall!.copyWith(
                               color: primaryColor,
                             ),
                           ),

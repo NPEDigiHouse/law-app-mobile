@@ -37,7 +37,7 @@ class SingleFormTextAreaDialog extends StatelessWidget {
     return CustomDialog(
       title: title,
       primaryButtonText: primaryButtonText,
-      onPressedPrimaryButton: () => onPressedPrimaryButton(formKey),
+      onPressedPrimaryButton: () => submit(formKey),
       child: FormBuilder(
         key: formKey,
         child: Column(
@@ -79,7 +79,7 @@ class SingleFormTextAreaDialog extends StatelessWidget {
     );
   }
 
-  void onPressedPrimaryButton(GlobalKey<FormBuilderState> formKey) {
+  void submit(GlobalKey<FormBuilderState> formKey) {
     if (onSubmitted != null) {
       FocusManager.instance.primaryFocus?.unfocus();
 
