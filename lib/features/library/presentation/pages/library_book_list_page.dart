@@ -62,8 +62,6 @@ class _LibraryBookListPageState extends State<LibraryBookListPage> {
             pinned: true,
             toolbarHeight: 64,
             automaticallyImplyLeading: false,
-            backgroundColor: Colors.transparent,
-            surfaceTintColor: Colors.transparent,
             flexibleSpace: Container(
               decoration: BoxDecoration(
                 color: scaffoldBackgroundColor,

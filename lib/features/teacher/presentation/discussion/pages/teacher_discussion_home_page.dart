@@ -296,7 +296,9 @@ class _TeacherDiscussionHomePageState extends State<TeacherDiscussionHomePage>
                       ),
                       const SizedBox(height: 8),
                       FilledButton(
-                        onPressed: () {},
+                        onPressed: () => navigatorKey.currentState!.pushNamed(
+                          teacherQuestionHistoryRoute,
+                        ),
                         style: FilledButton.styleFrom(
                           foregroundColor: primaryColor,
                           backgroundColor: secondaryColor,

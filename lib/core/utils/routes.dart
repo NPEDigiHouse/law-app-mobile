@@ -68,8 +68,8 @@ const studentQuestionListRoute = '/student-question-list';
 const studentDiscussionDetailRoute = '/student-discussion-detail';
 
 const teacherQuestionListRoute = '/teacher-question-list';
-const teacherQuestionHistoryRoute = '/teacher-question-history';
 const teacherDiscussionDetailRoute = '/teacher-discussion-detail';
+const teacherQuestionHistoryRoute = '/teacher-question-history';
 
 // App routes generator
 Route<dynamic>? generateAppRoutes(RouteSettings settings) {
@@ -203,15 +203,15 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => const TeacherQuestionListPage(),
       );
-    case teacherQuestionHistoryRoute:
-      return MaterialPageRoute(
-        builder: (_) => const TeacherQuestionHistoryPage(),
-      );
     case teacherDiscussionDetailRoute:
       final question = settings.arguments as Question;
 
       return MaterialPageRoute(
         builder: (_) => TeacherDiscussionDetailPage(question: question),
+      );
+    case teacherQuestionHistoryRoute:
+      return MaterialPageRoute(
+        builder: (_) => const TeacherQuestionHistoryPage(),
       );
     default:
       return null;

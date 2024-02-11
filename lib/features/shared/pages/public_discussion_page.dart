@@ -31,7 +31,7 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
   late final List<String> questionCategories;
   late final ValueNotifier<String> selectedCategory;
 
-  late final ValueNotifier<String> searchQuery;
+  late final ValueNotifier<String> query;
   late List<Question> questions;
 
   @override
@@ -59,7 +59,7 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
     ];
 
     selectedCategory = ValueNotifier(questionCategories[0]);
-    searchQuery = ValueNotifier('');
+    query = ValueNotifier('');
     questions = dummyQuestions;
   }
 
@@ -70,7 +70,7 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
     fabAnimationController.dispose();
     scrollController.dispose();
     selectedCategory.dispose();
-    searchQuery.dispose();
+    query.dispose();
   }
 
   @override
@@ -87,7 +87,10 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
         backgroundColor: backgroundColor,
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(isSearching ? 124 : 96),
-          child: buildHeaderContainer(isSearching),
+          child: Container(
+            color: scaffoldBackgroundColor,
+            child: buildHeaderContainer(isSearching),
+          ),
         ),
         body: NotificationListener<UserScrollNotification>(
           onNotification: (notification) {
@@ -104,8 +107,6 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
                   pinned: true,
                   toolbarHeight: 64,
                   automaticallyImplyLeading: false,
-                  backgroundColor: Colors.transparent,
-                  surfaceTintColor: Colors.transparent,
                   flexibleSpace: Container(
                     decoration: BoxDecoration(
                       color: scaffoldBackgroundColor,
@@ -150,8 +151,7 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
                       child: CustomInformation(
                         illustrationName: 'discussion-cuate.svg',
                         title: 'Diskusi tidak ditemukan',
-                        subtitle:
-                            'Judul diskusi/pertanyaan umum tersebut tidak ditemukan.',
+                        subtitle: 'Judul diskusi tersebut tidak ditemukan.',
                       ),
                     );
                   }
@@ -203,7 +203,7 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
             ),
             const SizedBox(height: 10),
             ValueListenableBuilder(
-              valueListenable: searchQuery,
+              valueListenable: query,
               builder: (context, query, child) {
                 return SearchField(
                   text: query,
@@ -236,7 +236,7 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
   }
 
   void searchDiscussion(String query) {
-    searchQuery.value = query;
+    this.query.value = query;
 
     EasyDebounce.debounce(
       'search-debouncer',

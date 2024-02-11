@@ -50,6 +50,11 @@ class _StudentQuestionListPageState extends State<StudentQuestionListPage> {
           child: Stack(
             clipBehavior: Clip.none,
             children: [
+              Positioned.fill(
+                child: Container(
+                  color: scaffoldBackgroundColor,
+                ),
+              ),
               const HeaderContainer(
                 title: 'Pertanyaan Saya',
                 withBackButton: true,
@@ -99,8 +104,6 @@ class _StudentQuestionListPageState extends State<StudentQuestionListPage> {
             pinned: true,
             toolbarHeight: 64,
             automaticallyImplyLeading: false,
-            backgroundColor: Colors.transparent,
-            surfaceTintColor: Colors.transparent,
             flexibleSpace: Container(
               decoration: BoxDecoration(
                 color: scaffoldBackgroundColor,
@@ -154,15 +157,15 @@ class _StudentQuestionListPageState extends State<StudentQuestionListPage> {
               children: [
                 QuestionListPage(
                   roleId: 1,
-                  questions: dummyQuestions.where((question) {
-                    return question.type == QuestionType.general.name;
-                  }).toList(),
+                  questions: dummyQuestions
+                      .map((e) => e.copyWith(type: 'general'))
+                      .toList(),
                 ),
                 QuestionListPage(
                   roleId: 1,
-                  questions: dummyQuestions.where((question) {
-                    return question.type == QuestionType.specific.name;
-                  }).toList(),
+                  questions: dummyQuestions
+                      .map((e) => e.copyWith(type: 'specific'))
+                      .toList(),
                 ),
               ],
             ),
