@@ -25,7 +25,7 @@ class _StudentQuestionListPageState extends State<StudentQuestionListPage> {
     super.initState();
 
     questionStatus = ['Semua', 'Open', 'Discuss', 'Solved'];
-    selectedStatus = ValueNotifier(questionStatus[0]);
+    selectedStatus = ValueNotifier(questionStatus.first);
     selectedType = ValueNotifier(QuestionType.general);
     pageController = PageController();
   }

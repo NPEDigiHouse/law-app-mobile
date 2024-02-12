@@ -200,12 +200,12 @@ class _LibraryBookDetailRouteState extends State<LibraryBookDetailRoute> {
                           ),
                           child: ValueListenableBuilder(
                             valueListenable: isSaved,
-                            builder: (context, value, child) {
+                            builder: (context, isSaved, child) {
                               return IconButton(
-                                onPressed: () => saveOrUnsaveBook(!value),
+                                onPressed: () => saveOrUnsaveBook(!isSaved),
                                 icon: SvgAsset(
                                   assetPath: AssetPath.getIcon(
-                                    value
+                                    isSaved
                                         ? 'bookmark-solid.svg'
                                         : 'bookmark-line.svg',
                                   ),

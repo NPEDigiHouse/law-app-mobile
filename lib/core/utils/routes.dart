@@ -63,10 +63,8 @@ const librarySearchRoute = '/library-search';
 const libraryBookDetailRoute = '/library-book-detail';
 
 const publicDiscussionRoute = '/public-discussion';
-
 const studentQuestionListRoute = '/student-question-list';
 const studentDiscussionDetailRoute = '/student-discussion-detail';
-
 const teacherQuestionListRoute = '/teacher-question-list';
 const teacherDiscussionDetailRoute = '/teacher-discussion-detail';
 const teacherQuestionHistoryRoute = '/teacher-question-history';

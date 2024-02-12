@@ -274,3 +274,22 @@ const dummyQuestions = [
     type: 'specific',
   ),
 ];
+
+//! Course
+class Course {
+  final String title;
+  final String image;
+  final int completionTime;
+  final String status;
+  final int totalStudents;
+  final double rating;
+
+  const Course({
+    required this.title,
+    required this.image,
+    required this.completionTime,
+    required this.status,
+    required this.totalStudents,
+    required this.rating,
+  });
+}

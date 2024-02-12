@@ -30,7 +30,7 @@ class _LibraryBookListPageState extends State<LibraryBookListPage> {
       'Lainnya',
     ];
 
-    selectedCategory = ValueNotifier(bookCategories[0]);
+    selectedCategory = ValueNotifier(bookCategories.first);
   }
 
   @override

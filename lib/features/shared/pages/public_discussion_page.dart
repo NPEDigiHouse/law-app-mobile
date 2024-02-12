@@ -58,7 +58,7 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
       'Lainnya',
     ];
 
-    selectedCategory = ValueNotifier(questionCategories[0]);
+    selectedCategory = ValueNotifier(questionCategories.first);
     query = ValueNotifier('');
     questions = dummyQuestions;
   }

@@ -24,8 +24,8 @@ class CustomFilterChip extends StatelessWidget {
       padding: EdgeInsets.zero,
       labelPadding: const EdgeInsets.symmetric(horizontal: 20),
       labelStyle: textTheme.bodySmall!.copyWith(
-        letterSpacing: 0,
         color: selected ? primaryColor : primaryTextColor,
+        letterSpacing: 0,
       ),
       side: selected
           ? const BorderSide(color: primaryColor)
