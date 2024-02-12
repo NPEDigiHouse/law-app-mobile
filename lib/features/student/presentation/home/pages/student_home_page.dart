@@ -261,7 +261,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
                           bottom: index == 2 ? 0 : 4,
                         ),
                         child: CourseCard(
-                          item: courseItems[index],
+                          course: dummyCourses[index],
                         ),
                       );
                     },

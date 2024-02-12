@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
+import 'package:law_app/features/shared/widgets/feature/course_card.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 
 class StudentCourseHomePage extends StatefulWidget {
@@ -203,22 +205,24 @@ class _StudentCourseHomePageState extends State<StudentCourseHomePage> {
                 ),
               ),
             ),
-            // SliverPadding(
-            //   padding: const EdgeInsets.fromLTRB(20, 4, 20, 24),
-            //   sliver: SliverList(
-            //     delegate: SliverChildBuilderDelegate(
-            //       (context, index) {
-            //         return Padding(
-            //           padding: EdgeInsets.only(
-            //             bottom: index == items.length - 1 ? 0 : 8,
-            //           ),
-            //           child: Container(),
-            //         );
-            //       },
-            //       childCount: items.length,
-            //     ),
-            //   ),
-            // ),
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(20, 4, 20, 24),
+              sliver: SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    return Padding(
+                      padding: EdgeInsets.only(
+                        bottom: index == dummyCourses.length - 1 ? 0 : 8,
+                      ),
+                      child: CourseCard(
+                        course: dummyCourses[index],
+                      ),
+                    );
+                  },
+                  childCount: dummyCourses.length,
+                ),
+              ),
+            ),
           ],
         ),
       ),

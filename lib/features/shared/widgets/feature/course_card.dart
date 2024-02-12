@@ -1,205 +1,177 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:law_app/core/extensions/app_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/shared/widgets/ink_well_container.dart';
+import 'package:law_app/features/shared/widgets/label_chip.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class CourseCard extends StatelessWidget {
-  final Map<String, dynamic> item;
+  final Course course;
 
-  const CourseCard({super.key, required this.item});
+  const CourseCard({super.key, required this.course});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 130,
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: scaffoldBackgroundColor,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(.2),
-            offset: const Offset(2, 2),
-            blurRadius: 4,
-          ),
-        ],
-      ),
+    return InkWellContainer(
+      radius: 12,
+      color: scaffoldBackgroundColor,
+      padding: const EdgeInsets.all(10),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(.1),
+          offset: const Offset(2, 2),
+          blurRadius: 4,
+          spreadRadius: -1,
+        ),
+      ],
+      onTap: () {},
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            width: 105,
-            height: 105,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              image: DecorationImage(
-                image: AssetImage(
-                  AssetPath.getImage(item["img"]! as String),
-                ),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: Container(
-              decoration: const BoxDecoration(
+          Expanded(
+            flex: 1,
+            child: DecoratedBox(
+              position: DecorationPosition.foreground,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
                 gradient: LinearGradient(
-                  colors: GradientColors.redPastel,
+                  colors: [
+                    const Color(0xFFF4847D).withOpacity(.1),
+                    const Color(0xFFE44C42).withOpacity(.5),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
                 ),
-                backgroundBlendMode: BlendMode.softLight,
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: AspectRatio(
+                  aspectRatio: 1 / 1.1,
+                  child: Image.asset(
+                    AssetPath.getImage(course.image),
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
             ),
           ),
           const SizedBox(width: 12),
           Expanded(
+            flex: 2,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      item["title"]! as String,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: textTheme.titleMedium!.copyWith(
-                        color: primaryTextColor,
-                      ),
-                    ),
-                  ),
+                Text(
+                  course.title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: textTheme.titleSmall,
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 4),
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Row(
-                      children: [
-                        SvgAsset(
-                          assetPath: AssetPath.getIcon("clock-solid.svg"),
+                    SvgAsset(
+                      assetPath: AssetPath.getIcon('clock-solid.svg'),
+                      color: secondaryTextColor,
+                      width: 16,
+                    ),
+                    const SizedBox(width: 6),
+                    Flexible(
+                      child: Text(
+                        '${course.completionTime} jam',
+                        style: textTheme.bodySmall!.copyWith(
                           color: secondaryTextColor,
                         ),
-                        const SizedBox(width: 8),
-                        Text(
-                          "${item["completionTime"] as double} jam",
-                          style: textTheme.bodyMedium!.copyWith(
-                            color: secondaryTextColor,
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
-                    const SizedBox(width: 20),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 2,
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6),
-                        border: Border.all(
-                          color: infoColor,
-                        ),
-                      ),
-                      child: Text(
-                        "Aktif",
-                        style: textTheme.bodySmall!.copyWith(
-                          color: infoColor,
-                        ),
-                      ),
-                    )
                   ],
                 ),
                 const SizedBox(height: 4),
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      children: [
-                        SvgAsset(
-                          assetPath: AssetPath.getIcon("users-solid.svg"),
+                    SvgAsset(
+                      assetPath: AssetPath.getIcon('users-solid.svg'),
+                      color: secondaryTextColor,
+                      width: 16,
+                    ),
+                    const SizedBox(width: 6),
+                    Flexible(
+                      child: Text(
+                        '${course.totalStudents} peserta',
+                        style: textTheme.bodySmall!.copyWith(
                           color: secondaryTextColor,
                         ),
-                        const SizedBox(width: 8),
-                        Text(
-                          '${item["totalStudent"] as int}',
-                          style: textTheme.bodyMedium!.copyWith(
-                            color: secondaryTextColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 18,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          CustomRatingStar(
-                            rating: item["rating"]! as double,
-                            size: 18,
-                          ),
-                        ],
                       ),
                     ),
                   ],
                 ),
+                const SizedBox(height: 4),
+                Row(
+                  children: [
+                    if (course.rating != null)
+                      Expanded(
+                        child: RatingBar(
+                          initialRating: course.rating!,
+                          onRatingUpdate: (_) {},
+                          ignoreGestures: true,
+                          itemSize: 15,
+                          ratingWidget: RatingWidget(
+                            full: SvgAsset(
+                              assetPath: AssetPath.getIcon('star-solid.svg'),
+                              color: primaryColor,
+                            ),
+                            half: SvgAsset(
+                              assetPath: AssetPath.getIcon('star-solid.svg'),
+                            ),
+                            empty: SvgAsset(
+                              assetPath: AssetPath.getIcon('star-solid.svg'),
+                              color: secondaryColor,
+                            ),
+                          ),
+                        ),
+                      )
+                    else
+                      Expanded(
+                        child: Text(
+                          'Belum ada rating',
+                          style: textTheme.bodySmall!.copyWith(
+                            color: secondaryTextColor,
+                          ),
+                        ),
+                      ),
+                    if (course.status != null) ...[
+                      const SizedBox(width: 4),
+                      Builder(
+                        builder: (context) {
+                          Color getColor() {
+                            switch (course.status!) {
+                              case 'active':
+                                return infoColor;
+                              case 'passed':
+                                return successColor;
+                              default:
+                                return secondaryTextColor;
+                            }
+                          }
+
+                          return LabelChip(
+                            text: course.status!.toCapitalize(),
+                            color: getColor(),
+                          );
+                        },
+                      ),
+                    ],
+                  ],
+                ),
               ],
             ),
-          )
+          ),
         ],
       ),
-    );
-  }
-}
-
-class CustomRatingStar extends StatelessWidget {
-  final double rating;
-  final double size;
-
-  const CustomRatingStar({
-    super.key,
-    required this.rating,
-    required this.size,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final floorRating = rating.floor();
-
-    return ListView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.all(0),
-      shrinkWrap: true,
-      itemCount: 5,
-      scrollDirection: Axis.horizontal,
-      itemBuilder: (context, index) {
-        return Container(
-          width: size,
-          clipBehavior: Clip.antiAlias,
-          decoration: const ShapeDecoration(
-            shape: StarBorder(),
-          ),
-          child: Row(
-            children: [
-              // Container(
-              //   width: (index == floorRating)
-              //       ? size
-              //       : size * (rating - floorRating),
-              //   color: primaryColor,
-              // ),
-              Container(
-                width: (index == floorRating)
-                    ? size * (rating - floorRating)
-                    : size,
-                color:
-                    (index <= floorRating) ? accentColor : secondaryTextColor,
-              ),
-              Expanded(
-                child: Container(
-                  color: secondaryTextColor,
-                ),
-              ),
-            ],
-          ),
-        );
-      },
     );
   }
 }

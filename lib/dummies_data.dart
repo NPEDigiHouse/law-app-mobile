@@ -280,16 +280,88 @@ class Course {
   final String title;
   final String image;
   final int completionTime;
-  final String status;
   final int totalStudents;
-  final double rating;
+  final double? rating;
+  final String? status;
 
   const Course({
     required this.title,
     required this.image,
     required this.completionTime,
-    required this.status,
     required this.totalStudents,
-    required this.rating,
+    this.rating,
+    this.status,
   });
+
+  Course copyWith({
+    String? title,
+    String? image,
+    int? completionTime,
+    int? totalStudents,
+    double? rating,
+    String? status,
+  }) {
+    return Course(
+      title: title ?? this.title,
+      image: image ?? this.image,
+      completionTime: completionTime ?? this.completionTime,
+      totalStudents: totalStudents ?? this.totalStudents,
+      rating: rating ?? this.rating,
+      status: status ?? this.status,
+    );
+  }
 }
+
+const dummyCourses = [
+  Course(
+    title: 'Kupas Tuntas Praktik Hukum Arbitrase',
+    image: 'sample-course-image.jpg',
+    completionTime: 48,
+    totalStudents: 500,
+    rating: 4,
+  ),
+  Course(
+    title: 'Seluk Beluk Hukum Pelindungan Data Pribadi',
+    image: 'sample-course-image.jpg',
+    completionTime: 24,
+    totalStudents: 1000,
+    rating: 3,
+    status: 'active',
+  ),
+  Course(
+    title: 'Tips Menerjemahkan Dokumen Hukum Berbahasa Asing',
+    image: 'sample-course-image.jpg',
+    completionTime: 36,
+    totalStudents: 731,
+    rating: 5,
+    status: 'active',
+  ),
+  Course(
+    title: 'Memahami Aspek Penting Kebijakan Publik',
+    image: 'sample-course-image.jpg',
+    completionTime: 72,
+    totalStudents: 198,
+    status: 'passed',
+  ),
+  Course(
+    title: 'Penyampaian Laporan Kegiatan Penanaman Modal (LKPM)',
+    image: 'sample-course-image.jpg',
+    completionTime: 40,
+    totalStudents: 632,
+    rating: 2,
+  ),
+  Course(
+    title: 'Pengantar Dasar-Dasar Kontrak',
+    image: 'sample-course-image.jpg',
+    completionTime: 52,
+    totalStudents: 1200,
+  ),
+  Course(
+    title: 'Mempersiapkan Karier Ideal Bagi Lulusan Fakultas Hukum',
+    image: 'sample-course-image.jpg',
+    completionTime: 16,
+    totalStudents: 10000,
+    rating: 4,
+    status: 'passed',
+  ),
+];
