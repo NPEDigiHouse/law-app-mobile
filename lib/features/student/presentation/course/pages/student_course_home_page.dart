@@ -15,15 +15,15 @@ class StudentCourseHomePage extends StatefulWidget {
 }
 
 class _StudentCourseHomePageState extends State<StudentCourseHomePage> {
-  late final List<String> courseCategories;
+  late final List<String> categories;
   late final ValueNotifier<String> selectedCategory;
 
   @override
   void initState() {
     super.initState();
 
-    courseCategories = ['Tersedia', 'Populer'];
-    selectedCategory = ValueNotifier(courseCategories.first);
+    categories = ['Tersedia', 'Populer'];
+    selectedCategory = ValueNotifier(categories.first);
   }
 
   @override
@@ -188,13 +188,12 @@ class _StudentCourseHomePageState extends State<StudentCourseHomePage> {
                           spacing: 8,
                           runSpacing: 8,
                           children: List<CustomFilterChip>.generate(
-                            courseCategories.length,
+                            categories.length,
                             (index) => CustomFilterChip(
-                              label: courseCategories[index],
-                              selected: category == courseCategories[index],
+                              label: categories[index],
+                              selected: category == categories[index],
                               onSelected: (_) {
-                                selectedCategory.value =
-                                    courseCategories[index];
+                                selectedCategory.value = categories[index];
                               },
                             ),
                           ),
@@ -228,4 +227,6 @@ class _StudentCourseHomePageState extends State<StudentCourseHomePage> {
       ),
     );
   }
+
+  Future<void> showCourseListBottomSheet() async {}
 }

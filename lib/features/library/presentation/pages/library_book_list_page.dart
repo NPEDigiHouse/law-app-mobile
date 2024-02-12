@@ -15,14 +15,14 @@ class LibraryBookListPage extends StatefulWidget {
 }
 
 class _LibraryBookListPageState extends State<LibraryBookListPage> {
-  late final List<String> bookCategories;
+  late final List<String> categories;
   late final ValueNotifier<String> selectedCategory;
 
   @override
   void initState() {
     super.initState();
 
-    bookCategories = [
+    categories = [
       'Semua',
       'Pidana',
       'Tata Negara',
@@ -30,7 +30,7 @@ class _LibraryBookListPageState extends State<LibraryBookListPage> {
       'Lainnya',
     ];
 
-    selectedCategory = ValueNotifier(bookCategories.first);
+    selectedCategory = ValueNotifier(categories.first);
   }
 
   @override
@@ -82,10 +82,10 @@ class _LibraryBookListPageState extends State<LibraryBookListPage> {
                     valueListenable: selectedCategory,
                     builder: (context, category, child) {
                       return CustomFilterChip(
-                        label: bookCategories[index],
-                        selected: category == bookCategories[index],
+                        label: categories[index],
+                        selected: category == categories[index],
                         onSelected: (_) {
-                          selectedCategory.value = bookCategories[index];
+                          selectedCategory.value = categories[index];
                         },
                       );
                     },
@@ -94,7 +94,7 @@ class _LibraryBookListPageState extends State<LibraryBookListPage> {
                 separatorBuilder: (context, index) {
                   return const SizedBox(width: 8);
                 },
-                itemCount: bookCategories.length,
+                itemCount: categories.length,
               ),
             ),
           ),

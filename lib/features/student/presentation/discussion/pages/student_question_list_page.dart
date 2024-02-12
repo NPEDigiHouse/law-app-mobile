@@ -15,7 +15,7 @@ class StudentQuestionListPage extends StatefulWidget {
 }
 
 class _StudentQuestionListPageState extends State<StudentQuestionListPage> {
-  late final List<String> questionStatus;
+  late final List<String> status;
   late final ValueNotifier<String> selectedStatus;
   late final ValueNotifier<QuestionType> selectedType;
   late final PageController pageController;
@@ -24,8 +24,8 @@ class _StudentQuestionListPageState extends State<StudentQuestionListPage> {
   void initState() {
     super.initState();
 
-    questionStatus = ['Semua', 'Open', 'Discuss', 'Solved'];
-    selectedStatus = ValueNotifier(questionStatus.first);
+    status = ['Semua', 'Open', 'Discuss', 'Solved'];
+    selectedStatus = ValueNotifier(status.first);
     selectedType = ValueNotifier(QuestionType.general);
     pageController = PageController();
   }
@@ -124,10 +124,10 @@ class _StudentQuestionListPageState extends State<StudentQuestionListPage> {
                     valueListenable: selectedStatus,
                     builder: (context, status, child) {
                       return CustomFilterChip(
-                        label: questionStatus[index],
-                        selected: status == questionStatus[index],
+                        label: this.status[index],
+                        selected: status == this.status[index],
                         onSelected: (_) {
-                          selectedStatus.value = questionStatus[index];
+                          selectedStatus.value = this.status[index];
                         },
                       );
                     },
@@ -136,7 +136,7 @@ class _StudentQuestionListPageState extends State<StudentQuestionListPage> {
                 separatorBuilder: (context, index) {
                   return const SizedBox(width: 8);
                 },
-                itemCount: questionStatus.length,
+                itemCount: status.length,
               ),
             ),
           ),

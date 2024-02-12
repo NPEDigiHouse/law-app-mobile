@@ -28,7 +28,7 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
   late final AnimationController fabAnimationController;
   late final ScrollController scrollController;
 
-  late final List<String> questionCategories;
+  late final List<String> categories;
   late final ValueNotifier<String> selectedCategory;
 
   late final ValueNotifier<String> query;
@@ -50,7 +50,7 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
         }
       });
 
-    questionCategories = [
+    categories = [
       'Semua',
       'Pidana',
       'Tata Negara',
@@ -58,7 +58,7 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
       'Lainnya',
     ];
 
-    selectedCategory = ValueNotifier(questionCategories.first);
+    selectedCategory = ValueNotifier(categories.first);
     query = ValueNotifier('');
     questions = dummyQuestions;
   }
@@ -127,11 +127,10 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
                           valueListenable: selectedCategory,
                           builder: (context, category, child) {
                             return CustomFilterChip(
-                              label: questionCategories[index],
-                              selected: category == questionCategories[index],
+                              label: categories[index],
+                              selected: category == categories[index],
                               onSelected: (_) {
-                                selectedCategory.value =
-                                    questionCategories[index];
+                                selectedCategory.value = categories[index];
                               },
                             );
                           },
@@ -140,7 +139,7 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
                       separatorBuilder: (context, index) {
                         return const SizedBox(width: 8);
                       },
-                      itemCount: questionCategories.length,
+                      itemCount: categories.length,
                     ),
                   ),
                 ),

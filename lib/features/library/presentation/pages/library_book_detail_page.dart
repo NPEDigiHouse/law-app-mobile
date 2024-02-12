@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:law_app/core/extensions/button_extension.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:law_app/core/enums/banner_type.dart';
-import 'package:law_app/core/extensions/app_extension.dart';
+import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';

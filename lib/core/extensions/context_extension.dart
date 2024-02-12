@@ -14,42 +14,6 @@ import 'package:law_app/features/shared/widgets/dialog/sorting_dialog.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 import 'package:law_app/features/shared/widgets/no_internet_connection.dart';
 
-extension Capitalize on String {
-  String toCapitalize([String separator = ' ']) {
-    return split(separator).map((e) {
-      return '${e.substring(0, 1).toUpperCase()}${e.substring(1, e.length)}';
-    }).join(separator);
-  }
-}
-
-extension CamelCase on String {
-  String toCamelCase([String separator = ' ']) {
-    final upperWords = split(separator).map((e) {
-      return '${e.substring(0, 1).toUpperCase()}${e.substring(1, e.length)}';
-    }).toList();
-
-    return [upperWords.first.toLowerCase(), ...upperWords.sublist(1)].join();
-  }
-}
-
-extension FilledButtonFullWidth on FilledButton {
-  SizedBox fullWidth() {
-    return SizedBox(
-      width: double.infinity,
-      child: this,
-    );
-  }
-}
-
-extension OutlinedButtonFullWidth on OutlinedButton {
-  SizedBox fullWidth() {
-    return SizedBox(
-      width: double.infinity,
-      child: this,
-    );
-  }
-}
-
 extension NavigationExtension on BuildContext {
   void back() {
     scaffoldMessengerKey.currentState!.hideCurrentMaterialBanner();
