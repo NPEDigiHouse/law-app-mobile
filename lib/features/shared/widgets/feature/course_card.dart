@@ -23,9 +23,8 @@ class CourseCard extends StatelessWidget {
       boxShadow: [
         BoxShadow(
           color: Colors.black.withOpacity(.1),
-          offset: const Offset(2, 2),
+          offset: const Offset(1, 1),
           blurRadius: 4,
-          spreadRadius: -1,
         ),
       ],
       onTap: () {},

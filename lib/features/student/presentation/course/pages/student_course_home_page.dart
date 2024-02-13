@@ -6,6 +6,7 @@ import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
 import 'package:law_app/features/shared/widgets/feature/course_card.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
+import 'package:law_app/features/student/presentation/course/widget/course_list_bottom_sheet.dart';
 
 class StudentCourseHomePage extends StatefulWidget {
   const StudentCourseHomePage({super.key});
@@ -132,7 +133,23 @@ class _StudentCourseHomePageState extends State<StudentCourseHomePage> {
                                     color: primaryColor,
                                     size: 40,
                                     splashRadius: 8,
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      showCourseListModalBottomSheet(
+                                        title: 'Course Aktif',
+                                        emptyCourseTitle:
+                                            'Course aktif masih kosong',
+                                        emptyCourseSubtitle:
+                                            'Tidak ada course yang sedang diikuti.',
+                                        courses: List<Course>.generate(
+                                          dummyCourses.length,
+                                          (index) {
+                                            return dummyCourses[index].copyWith(
+                                              status: 'active',
+                                            );
+                                          },
+                                        ),
+                                      );
+                                    },
                                   ),
                                 ),
                                 const SizedBox(height: 8),
@@ -160,7 +177,16 @@ class _StudentCourseHomePageState extends State<StudentCourseHomePage> {
                                     color: primaryColor,
                                     size: 40,
                                     splashRadius: 8,
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      showCourseListModalBottomSheet(
+                                        title: 'Riwayat Course',
+                                        emptyCourseTitle:
+                                            'Riwayat course masih kosong',
+                                        emptyCourseSubtitle:
+                                            'Kamu belum pernah menyelesaikan course.',
+                                        courses: [],
+                                      );
+                                    },
                                   ),
                                 ),
                                 const SizedBox(height: 8),
@@ -228,5 +254,24 @@ class _StudentCourseHomePageState extends State<StudentCourseHomePage> {
     );
   }
 
-  Future<void> showCourseListBottomSheet() async {}
+  Future<void> showCourseListModalBottomSheet({
+    required String title,
+    required List<Course> courses,
+    String? emptyCourseTitle,
+    String? emptyCourseSubtitle,
+  }) async {
+    return showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return CourseListBottomSheet(
+          title: title,
+          courses: courses,
+          emptyCourseTitle: emptyCourseTitle,
+          emptyCourseSubtitle: emptyCourseSubtitle,
+        );
+      },
+    );
+  }
 }

@@ -151,6 +151,7 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
                         illustrationName: 'discussion-cuate.svg',
                         title: 'Diskusi tidak ditemukan',
                         subtitle: 'Judul diskusi tersebut tidak ditemukan.',
+                        size: 250,
                       ),
                     );
                   }

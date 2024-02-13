@@ -12,7 +12,7 @@ import 'package:law_app/features/shared/widgets/dialog/single_form_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/single_form_text_area_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/sorting_dialog.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
-import 'package:law_app/features/shared/widgets/no_internet_connection.dart';
+import 'package:law_app/features/shared/widgets/network_error_bottom_sheet.dart';
 
 extension NavigationExtension on BuildContext {
   void back() {
@@ -198,7 +198,7 @@ extension BannerExtension on BuildContext {
 }
 
 extension ModalBottomSheetExtension on BuildContext {
-  Future<Object?> showNoInternetConnectionModal({
+  Future<Object?> showNetworkErrorModalBottomSheet({
     bool isScrollControlled = true,
     bool isDismissible = true,
     bool enableDrag = true,
@@ -209,7 +209,7 @@ extension ModalBottomSheetExtension on BuildContext {
       isScrollControlled: isScrollControlled,
       isDismissible: isDismissible,
       enableDrag: enableDrag,
-      builder: (context) => NoInternetConnection(
+      builder: (context) => NetworkErrorBottomSheet(
         isFixed: !isDismissible && !enableDrag,
         onPressedPrimaryButton: onPressedPrimaryButton,
       ),

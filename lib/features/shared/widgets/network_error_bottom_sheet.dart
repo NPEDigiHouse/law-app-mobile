@@ -5,11 +5,11 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
-class NoInternetConnection extends StatelessWidget {
+class NetworkErrorBottomSheet extends StatelessWidget {
   final bool isFixed;
   final VoidCallback? onPressedPrimaryButton;
 
-  const NoInternetConnection({
+  const NetworkErrorBottomSheet({
     super.key,
     this.isFixed = false,
     this.onPressedPrimaryButton,
@@ -28,7 +28,7 @@ class NoInternetConnection extends StatelessWidget {
                 width: 50,
                 height: 4,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(2),
+                  borderRadius: BorderRadius.circular(4),
                   color: secondaryTextColor,
                 ),
               ),
@@ -79,7 +79,7 @@ class NoInternetConnection extends StatelessWidget {
                 ),
               ),
             ],
-          )
+          ),
         ],
       ),
     );

@@ -301,6 +301,7 @@ class _LibraryBookDetailRouteState extends State<LibraryBookDetailRoute> {
           width: double.infinity,
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
+            color: scaffoldBackgroundColor,
             borderRadius: const BorderRadius.vertical(
               top: Radius.circular(20),
             ),
@@ -312,7 +313,6 @@ class _LibraryBookDetailRouteState extends State<LibraryBookDetailRoute> {
                 color: Colors.black.withOpacity(.1),
               ),
             ],
-            color: scaffoldBackgroundColor,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
