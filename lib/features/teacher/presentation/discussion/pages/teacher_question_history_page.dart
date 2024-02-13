@@ -9,6 +9,7 @@ import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/pages/question_list_page.dart';
 import 'package:law_app/features/shared/providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
+import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/text_field/search_field.dart';
 
@@ -63,11 +64,29 @@ class _TeacherQuestionHistoryPageState
         ),
         body: Builder(
           builder: (context) {
-            if (isSearching && questions.isEmpty) {
-              return const CustomInformation(
-                illustrationName: 'discussion-cuate.svg',
-                title: 'Pertanyaan tidak ditemukan',
-                subtitle: 'Pertanyaan dengan judul tersebut tidak ditemukan.',
+            if (isSearching) {
+              if (questions.isEmpty) {
+                return const CustomInformation(
+                  illustrationName: 'discussion-cuate.svg',
+                  title: 'Pertanyaan tidak ditemukan',
+                  subtitle: 'Pertanyaan dengan judul tersebut tidak ditemukan.',
+                );
+              }
+
+              return ListView.separated(
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 24),
+                itemBuilder: (context, index) {
+                  return DiscussionCard(
+                    question: questions[index],
+                    roleId: 2,
+                    isDetail: true,
+                    withProfile: true,
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return const SizedBox(height: 8);
+                },
+                itemCount: questions.length,
               );
             }
 
@@ -90,12 +109,16 @@ class _TeacherQuestionHistoryPageState
                   questions: dummyQuestions
                       .map((e) => e.copyWith(status: 'discuss'))
                       .toList(),
+                  isDetail: true,
+                  withProfile: true,
                 ),
                 QuestionListPage(
                   roleId: 2,
                   questions: dummyQuestions
                       .map((e) => e.copyWith(status: 'solved'))
                       .toList(),
+                  isDetail: true,
+                  withProfile: true,
                 ),
               ],
             );
