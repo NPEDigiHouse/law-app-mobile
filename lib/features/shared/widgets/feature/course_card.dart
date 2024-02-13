@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:law_app/core/extensions/number_extension.dart';
 import 'package:law_app/core/extensions/string_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/ink_well_container.dart';
 import 'package:law_app/features/shared/widgets/label_chip.dart';
@@ -27,32 +30,39 @@ class CourseCard extends StatelessWidget {
           blurRadius: 4,
         ),
       ],
-      onTap: () {},
+      onTap: () => navigatorKey.currentState!.pushNamed(
+        studentCourseDetailRoute,
+        arguments: course,
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
             flex: 1,
-            child: DecoratedBox(
-              position: DecorationPosition.foreground,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                gradient: LinearGradient(
-                  colors: [
-                    const Color(0xFFF4847D).withOpacity(.1),
-                    const Color(0xFFE44C42).withOpacity(.5),
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+            child: Hero(
+              tag: course,
+              transitionOnUserGestures: true,
+              child: DecoratedBox(
+                position: DecorationPosition.foreground,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  gradient: LinearGradient(
+                    colors: [
+                      const Color(0xFFF4847D).withOpacity(.1),
+                      const Color(0xFFE44C42).withOpacity(.5),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
                 ),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: AspectRatio(
-                  aspectRatio: 1 / 1.1,
-                  child: Image.asset(
-                    AssetPath.getImage(course.image),
-                    fit: BoxFit.cover,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: AspectRatio(
+                    aspectRatio: 1 / 1.1,
+                    child: Image.asset(
+                      AssetPath.getImage(course.image),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
@@ -81,7 +91,7 @@ class CourseCard extends StatelessWidget {
                     const SizedBox(width: 6),
                     Flexible(
                       child: Text(
-                        '${course.completionTime} jam',
+                        '${course.completionTime} Jam',
                         style: textTheme.bodySmall!.copyWith(
                           color: secondaryTextColor,
                         ),
@@ -100,7 +110,7 @@ class CourseCard extends StatelessWidget {
                     const SizedBox(width: 6),
                     Flexible(
                       child: Text(
-                        '${course.totalStudents} peserta',
+                        '${course.totalStudents.toDecimalPattern()} Peserta',
                         style: textTheme.bodySmall!.copyWith(
                           color: secondaryTextColor,
                         ),

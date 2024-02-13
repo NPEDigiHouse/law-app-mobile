@@ -294,6 +294,7 @@ class _StudentCourseHomePageState extends State<StudentCourseHomePage>
   }) async {
     return showModalBottomSheet(
       context: context,
+      enableDrag: false,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) {

@@ -22,6 +22,8 @@ import 'package:law_app/features/profile/presentation/pages/contact_us_page.dart
 import 'package:law_app/features/profile/presentation/pages/faq_page.dart';
 import 'package:law_app/features/profile/presentation/pages/profile_page.dart';
 import 'package:law_app/features/shared/pages/public_discussion_page.dart';
+import 'package:law_app/features/student/presentation/course/pages/student_course_detail_page.dart';
+import 'package:law_app/features/student/presentation/course/pages/student_course_search_page.dart';
 import 'package:law_app/features/student/presentation/discussion/pages/student_discussion_detail_page.dart';
 import 'package:law_app/features/student/presentation/discussion/pages/student_question_list_page.dart';
 import 'package:law_app/features/student/presentation/home/pages/student_home_page.dart';
@@ -70,6 +72,7 @@ const teacherDiscussionDetailRoute = '/teacher-discussion-detail';
 const teacherQuestionHistoryRoute = '/teacher-question-history';
 
 const studentCourseSearchRoute = '/student-course-search';
+const studentCourseDetailRoute = '/student-course-detail';
 
 // App routes generator
 Route<dynamic>? generateAppRoutes(RouteSettings settings) {
@@ -212,6 +215,16 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
     case teacherQuestionHistoryRoute:
       return MaterialPageRoute(
         builder: (_) => const TeacherQuestionHistoryPage(),
+      );
+    case studentCourseSearchRoute:
+      return MaterialPageRoute(
+        builder: (_) => const StudentCourseSearchPage(),
+      );
+    case studentCourseDetailRoute:
+      final course = settings.arguments as Course;
+
+      return MaterialPageRoute(
+        builder: (_) => StudentCourseDetailPage(course: course),
       );
     default:
       return null;

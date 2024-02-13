@@ -38,13 +38,13 @@ class CourseListBottomSheet extends StatelessWidget {
             child: CustomScrollView(
               controller: scrollController,
               slivers: [
-                SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(20, 16, 16, 0),
-                  sliver: SliverToBoxAdapter(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Center(
+                SliverToBoxAdapter(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16),
+                        child: Center(
                           child: Container(
                             width: 50,
                             height: 4,
@@ -54,8 +54,10 @@ class CourseListBottomSheet extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 12),
-                        Row(
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 12, 12, 0),
+                        child: Row(
                           children: [
                             Expanded(
                               child: Text(
@@ -72,8 +74,8 @@ class CourseListBottomSheet extends StatelessWidget {
                             ),
                           ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
                 courses.isEmpty ? buildEmptyCourse() : buildCourseList(),
@@ -98,7 +100,7 @@ class CourseListBottomSheet extends StatelessWidget {
 
   SliverPadding buildCourseList() {
     return SliverPadding(
-      padding: const EdgeInsets.fromLTRB(20, 4, 20, 20),
+      padding: const EdgeInsets.fromLTRB(20, 6, 20, 20),
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate(
           (context, index) {

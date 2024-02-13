@@ -62,7 +62,6 @@ class _TeacherQuestionListPageState
                 illustrationName: 'discussion-cuate.svg',
                 title: 'Pertanyaan tidak ditemukan',
                 subtitle: 'Judul pertanyaan tersebut tidak ditemukan.',
-                size: 250,
               );
             }
 
