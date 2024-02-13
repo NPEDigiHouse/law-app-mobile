@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
-import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class HeaderContainer extends StatelessWidget {
@@ -44,12 +44,12 @@ class HeaderContainer extends StatelessWidget {
             borderRadius: const BorderRadius.vertical(
               bottom: Radius.circular(20),
             ),
-            child: buildHeaderContainer(),
+            child: buildHeaderContainer(context),
           )
-        : buildHeaderContainer();
+        : buildHeaderContainer(context);
   }
 
-  Container buildHeaderContainer() {
+  Container buildHeaderContainer(BuildContext context) {
     return Container(
       height: height,
       decoration: const BoxDecoration(
@@ -87,7 +87,7 @@ class HeaderContainer extends StatelessWidget {
                     color: secondaryColor,
                   ),
                   child: IconButton(
-                    onPressed: () => navigatorKey.currentState!.pop(),
+                    onPressed: () => context.back(),
                     icon: SvgAsset(
                       assetPath: AssetPath.getIcon('caret-line-left.svg'),
                       color: primaryColor,

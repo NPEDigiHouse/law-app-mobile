@@ -75,7 +75,7 @@ class _GlossarySearchPageState extends State<GlossarySearchPage> {
           if (query.value.isEmpty) {
             return const SearchEmptyText(
               title: 'Hasil Pencarian',
-              subtitle: 'Hasil pencarian Anda akan muncul di sini.',
+              subtitle: 'Hasil pencarian kamu akan muncul di sini.',
             );
           }
 

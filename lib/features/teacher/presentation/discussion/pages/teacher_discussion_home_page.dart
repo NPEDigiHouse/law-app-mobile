@@ -76,9 +76,8 @@ class _TeacherDiscussionHomePageState extends State<TeacherDiscussionHomePage>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Flexible(
+                              Expanded(
                                 child: Text(
                                   'Jawab Masalah',
                                   style: textTheme.headlineMedium!.copyWith(
@@ -251,46 +250,37 @@ class _TeacherDiscussionHomePageState extends State<TeacherDiscussionHomePage>
                       ),
                       const SizedBox(height: 8),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Flexible(
+                          const Expanded(
                             child: Text('Belum Dijawab'),
                           ),
-                          Flexible(
-                            child: Text(
-                              '6',
-                              style: textTheme.titleSmall,
-                            ),
+                          Text(
+                            '6',
+                            style: textTheme.titleSmall,
                           ),
                         ],
                       ),
                       const SizedBox(height: 4),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Flexible(
+                          const Expanded(
                             child: Text('Telah Dijawab'),
                           ),
-                          Flexible(
-                            child: Text(
-                              '10',
-                              style: textTheme.titleSmall,
-                            ),
+                          Text(
+                            '10',
+                            style: textTheme.titleSmall,
                           ),
                         ],
                       ),
                       const SizedBox(height: 4),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Flexible(
+                          const Expanded(
                             child: Text('Diselesaikan'),
                           ),
-                          Flexible(
-                            child: Text(
-                              '24',
-                              style: textTheme.titleSmall,
-                            ),
+                          Text(
+                            '24',
+                            style: textTheme.titleSmall,
                           ),
                         ],
                       ),
@@ -315,9 +305,8 @@ class _TeacherDiscussionHomePageState extends State<TeacherDiscussionHomePage>
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Flexible(
+                    Expanded(
                       child: Text(
                         'Diskusi Umum',
                         style: textTheme.titleLarge!.copyWith(
@@ -361,9 +350,8 @@ class _TeacherDiscussionHomePageState extends State<TeacherDiscussionHomePage>
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Flexible(
+                    Expanded(
                       child: Text(
                         'Perlu Dijawab',
                         style: textTheme.titleLarge!.copyWith(

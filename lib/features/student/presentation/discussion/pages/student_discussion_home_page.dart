@@ -78,9 +78,8 @@ class _StudentDiscussionHomePageState extends State<StudentDiscussionHomePage>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Flexible(
+                              Expanded(
                                 child: Text(
                                   'Tanya Masalahmu',
                                   style: textTheme.headlineMedium!.copyWith(
@@ -175,31 +174,25 @@ class _StudentDiscussionHomePageState extends State<StudentDiscussionHomePage>
                             ),
                             const SizedBox(height: 8),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Flexible(
+                                const Expanded(
                                   child: Text('Pertanyaan Umum'),
                                 ),
-                                Flexible(
-                                  child: Text(
-                                    '0/3',
-                                    style: textTheme.titleSmall,
-                                  ),
+                                Text(
+                                  '0/3',
+                                  style: textTheme.titleSmall,
                                 ),
                               ],
                             ),
                             const SizedBox(height: 8),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Flexible(
+                                const Expanded(
                                   child: Text('Pertanyaan Khusus'),
                                 ),
-                                Flexible(
-                                  child: Text(
-                                    '0/1',
-                                    style: textTheme.titleSmall,
-                                  ),
+                                Text(
+                                  '0/1',
+                                  style: textTheme.titleSmall,
                                 ),
                               ],
                             ),
@@ -237,9 +230,8 @@ class _StudentDiscussionHomePageState extends State<StudentDiscussionHomePage>
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Flexible(
+                    Expanded(
                       child: Text(
                         'Pertanyaan Saya',
                         style: textTheme.titleLarge!.copyWith(
@@ -282,9 +274,8 @@ class _StudentDiscussionHomePageState extends State<StudentDiscussionHomePage>
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Flexible(
+                    Expanded(
                       child: Text(
                         'Diskusi Umum',
                         style: textTheme.titleLarge!.copyWith(

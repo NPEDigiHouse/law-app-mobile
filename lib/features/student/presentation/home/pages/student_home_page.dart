@@ -123,13 +123,13 @@ class _StudentHomePageState extends State<StudentHomePage> {
               child: Column(
                 children: [
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        "Sedang Hangat",
-                        style: textTheme.headlineSmall!.copyWith(
-                          color: primaryColor,
+                      Expanded(
+                        child: Text(
+                          "Sedang Hangat",
+                          style: textTheme.headlineSmall!.copyWith(
+                            color: primaryColor,
+                          ),
                         ),
                       ),
                       Text(
@@ -168,13 +168,13 @@ class _StudentHomePageState extends State<StudentHomePage> {
               child: Column(
                 children: [
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        "Buku Terbaru",
-                        style: textTheme.headlineSmall!.copyWith(
-                          color: primaryColor,
+                      Expanded(
+                        child: Text(
+                          "Buku Terbaru",
+                          style: textTheme.headlineSmall!.copyWith(
+                            color: primaryColor,
+                          ),
                         ),
                       ),
                       Text(
@@ -224,13 +224,13 @@ class _StudentHomePageState extends State<StudentHomePage> {
               child: Column(
                 children: [
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        "Popular Course",
-                        style: textTheme.headlineSmall!.copyWith(
-                          color: primaryColor,
+                      Expanded(
+                        child: Text(
+                          "Popular Course",
+                          style: textTheme.headlineSmall!.copyWith(
+                            color: primaryColor,
+                          ),
                         ),
                       ),
                       Text(

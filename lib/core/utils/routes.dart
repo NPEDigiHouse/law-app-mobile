@@ -69,6 +69,8 @@ const teacherQuestionListRoute = '/teacher-question-list';
 const teacherDiscussionDetailRoute = '/teacher-discussion-detail';
 const teacherQuestionHistoryRoute = '/teacher-question-history';
 
+const studentCourseSearchRoute = '/student-course-search';
+
 // App routes generator
 Route<dynamic>? generateAppRoutes(RouteSettings settings) {
   switch (settings.name) {

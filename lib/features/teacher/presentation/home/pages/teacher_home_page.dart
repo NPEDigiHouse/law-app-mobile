@@ -83,13 +83,13 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
               child: Column(
                 children: [
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        "Perlu Dijawab",
-                        style: textTheme.headlineSmall!.copyWith(
-                          color: primaryColor,
+                      Expanded(
+                        child: Text(
+                          "Perlu Dijawab",
+                          style: textTheme.headlineSmall!.copyWith(
+                            color: primaryColor,
+                          ),
                         ),
                       ),
                       Text(
@@ -128,13 +128,13 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
               child: Column(
                 children: [
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        "Buku Terbaru",
-                        style: textTheme.headlineSmall!.copyWith(
-                          color: primaryColor,
+                      Expanded(
+                        child: Text(
+                          "Buku Terbaru",
+                          style: textTheme.headlineSmall!.copyWith(
+                            color: primaryColor,
+                          ),
                         ),
                       ),
                       Text(

@@ -1,5 +1,6 @@
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
+import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/dummies_data.dart';
@@ -112,16 +113,20 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
                 ),
                 const SizedBox(height: 8),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Flexible(
+                    Expanded(
                       child: Text(
                         'Riwayat Pencarian',
                         style: textTheme.titleLarge,
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () => context.showConfirmDialog(
+                        title: 'Konfirmasi',
+                        message:
+                            'Anda yakin ingin menghapus seluruh riwayat pencarian?',
+                        onPressedPrimaryButton: () {},
+                      ),
                       child: Text(
                         'Hapus Semua',
                         style: textTheme.bodySmall!.copyWith(

@@ -26,9 +26,8 @@ class LibraryHomePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Flexible(
+                  Expanded(
                     child: Text(
                       'Ruang Baca',
                       style: textTheme.headlineMedium!.copyWith(

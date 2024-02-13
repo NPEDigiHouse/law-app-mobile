@@ -85,8 +85,8 @@ class _StudentQuestionListPageState extends State<StudentQuestionListPage> {
 
                         pageController.animateToPage(
                           newSelection.first.index,
-                          duration: const Duration(milliseconds: 350),
-                          curve: Curves.easeIn,
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeOut,
                         );
                       },
                     );
