@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:law_app/core/extensions/button_extension.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:law_app/core/enums/banner_type.dart';
+import 'package:law_app/core/extensions/button_extension.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
@@ -21,11 +21,13 @@ class LibraryBookDetailRoute extends StatefulWidget {
 
 class _LibraryBookDetailRouteState extends State<LibraryBookDetailRoute> {
   late final ValueNotifier<bool> isSaved;
+  late final BookDetail bookDetail;
 
   @override
   void initState() {
     super.initState();
 
+    bookDetail = generateDummyBookDetail(widget.book);
     isSaved = ValueNotifier(false);
   }
 
@@ -38,19 +40,6 @@ class _LibraryBookDetailRouteState extends State<LibraryBookDetailRoute> {
 
   @override
   Widget build(BuildContext context) {
-    final bookDetail = {
-      'title': widget.book.title,
-      'author': widget.book.author,
-      'image': widget.book.image,
-      'completePercentage': widget.book.completePercentage,
-      'publishedYear': 2020,
-      'category': 'Hukum Perdata',
-      'totalPage': 400,
-      'publisher': 'Penerbit Erlangga',
-      'synopsis':
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum. Mauris ut aliquet justo, et consectetur lorem.\n\nNam semper vehicula ex, ac fermentum orci elementum ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum. Mauris ut aliquet justo, et consectetur.'
-    };
-
     return PopScope(
       canPop: false,
       onPopInvoked: (didPop) {
@@ -104,9 +93,7 @@ class _LibraryBookDetailRouteState extends State<LibraryBookDetailRoute> {
                                     ],
                                     image: DecorationImage(
                                       image: AssetImage(
-                                        AssetPath.getImage(
-                                          bookDetail['image'] as String,
-                                        ),
+                                        AssetPath.getImage(bookDetail.image),
                                       ),
                                       fit: BoxFit.fill,
                                     ),
@@ -122,7 +109,7 @@ class _LibraryBookDetailRouteState extends State<LibraryBookDetailRoute> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    '${bookDetail['title'] as String} (${bookDetail['publishedYear'] as int})',
+                                    '${bookDetail.title} (${bookDetail.publishedYear})',
                                     maxLines: 3,
                                     overflow: TextOverflow.ellipsis,
                                     style: textTheme.titleMedium!.copyWith(
@@ -142,7 +129,7 @@ class _LibraryBookDetailRouteState extends State<LibraryBookDetailRoute> {
                                       const SizedBox(width: 8),
                                       Expanded(
                                         child: Text(
-                                          bookDetail['author'] as String,
+                                          bookDetail.author,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: textTheme.bodySmall!.copyWith(
@@ -165,7 +152,7 @@ class _LibraryBookDetailRouteState extends State<LibraryBookDetailRoute> {
                                       const SizedBox(width: 8),
                                       Expanded(
                                         child: Text(
-                                          bookDetail['category'] as String,
+                                          bookDetail.category,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: textTheme.bodySmall!.copyWith(
@@ -255,7 +242,7 @@ class _LibraryBookDetailRouteState extends State<LibraryBookDetailRoute> {
                         Padding(
                           padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
                           child: Text(
-                            bookDetail['synopsis'] as String,
+                            bookDetail.synopsis,
                             style: textTheme.bodySmall,
                           ),
                         ),
@@ -264,27 +251,27 @@ class _LibraryBookDetailRouteState extends State<LibraryBookDetailRoute> {
                           children: [
                             buildBookDetailField(
                               label: 'Judul',
-                              value: bookDetail['title'] as String,
+                              value: bookDetail.title,
                             ),
                             buildBookDetailField(
                               label: 'Penulis',
-                              value: bookDetail['author'] as String,
+                              value: bookDetail.author,
                             ),
                             buildBookDetailField(
                               label: 'Tahun Terbit',
-                              value: '${bookDetail['publishedYear'] as int}',
+                              value: '${bookDetail.publishedYear}',
                             ),
                             buildBookDetailField(
                               label: 'Kategori',
-                              value: bookDetail['category'] as String,
+                              value: bookDetail.category,
                             ),
                             buildBookDetailField(
                               label: 'Jumlah Halaman',
-                              value: '${bookDetail['totalPage'] as int} Hal.',
+                              value: '${bookDetail.totalPage} Hal.',
                             ),
                             buildBookDetailField(
                               label: 'Jumlah Halaman',
-                              value: bookDetail['publisher'] as String,
+                              value: bookDetail.publisher,
                               bottomPadding: 0,
                             ),
                           ],
@@ -317,7 +304,7 @@ class _LibraryBookDetailRouteState extends State<LibraryBookDetailRoute> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (bookDetail['completePercentage'] != null) ...[
+              if (bookDetail.completePercentage != null) ...[
                 Text(
                   'Progres Membaca',
                   style: textTheme.bodyMedium!.copyWith(
@@ -332,11 +319,11 @@ class _LibraryBookDetailRouteState extends State<LibraryBookDetailRoute> {
                   animation: true,
                   animationDuration: 1000,
                   curve: Curves.easeIn,
-                  percent: (bookDetail['completePercentage'] as double) / 100,
+                  percent: bookDetail.completePercentage! / 100,
                   progressColor: successColor,
                   backgroundColor: secondaryTextColor,
                   trailing: Text(
-                    '${(bookDetail['completePercentage'] as double).toInt()}%',
+                    '${bookDetail.completePercentage!.toInt()}%',
                   ),
                 ),
               ] else

@@ -113,6 +113,27 @@ class Book {
   });
 }
 
+//! BookDetail
+class BookDetail extends Book {
+  final String category;
+  final int totalPage;
+  final String publisher;
+  final int publishedYear;
+  final String synopsis;
+
+  BookDetail({
+    required super.title,
+    required super.author,
+    required super.image,
+    super.completePercentage,
+    required this.category,
+    required this.totalPage,
+    required this.publisher,
+    required this.publishedYear,
+    required this.synopsis,
+  });
+}
+
 const dummyBooks = [
   Book(
     title: 'Cyber Bullying: Hak-hak Digital Right on Online Safety',
@@ -279,7 +300,7 @@ const dummyQuestions = [
 class Course {
   final String title;
   final String image;
-  final int completionTime;
+  final int completionTime; // hours
   final int totalStudents;
   final double? rating;
   final String? status;
@@ -310,6 +331,98 @@ class Course {
       status: status ?? this.status,
     );
   }
+}
+
+class CourseDetail extends Course {
+  final String description;
+  final List<Lesson> lessons;
+  final double? completePercentage;
+  final String? certificateUrl;
+
+  CourseDetail({
+    required super.title,
+    required super.image,
+    required super.completionTime,
+    required super.totalStudents,
+    super.rating,
+    super.status,
+    required this.description,
+    required this.lessons,
+    this.completePercentage,
+    this.certificateUrl,
+  });
+}
+
+class Lesson {
+  final String title;
+  final int completionTime; // minutes
+  final List<Article> articles;
+  final List<Quiz>? quizzes;
+
+  const Lesson({
+    required this.title,
+    required this.completionTime,
+    required this.articles,
+    this.quizzes,
+  });
+}
+
+class Article {
+  final String title;
+  final int completionTime; // minutes
+  final String content;
+
+  const Article({
+    required this.title,
+    required this.completionTime,
+    required this.content,
+  });
+}
+
+class Quiz {
+  final String title;
+  final String description;
+  final int completionTime; // minutes
+  final String status;
+  final Score? currentScore;
+  final List<Score>? scoreHistory;
+  final List<Item> items;
+
+  const Quiz({
+    required this.title,
+    required this.description,
+    required this.completionTime,
+    required this.status,
+    this.currentScore,
+    this.scoreHistory,
+    required this.items,
+  });
+}
+
+class Score {
+  final int score;
+  final String status;
+  final DateTime dateObtained;
+
+  Score({
+    required this.score,
+    required this.status,
+    required this.dateObtained,
+  });
+}
+
+class Item {
+  final String question;
+  final Map<int, String> answers;
+  final int rightAnswerOption;
+  final String rightAnswerDescription;
+
+  const Item({
+    required this.question,
+    required this.answers,
+    required this.rightAnswerOption,
+    required this.rightAnswerDescription,
+  });
 }
 
 const dummyCourses = [
@@ -365,3 +478,153 @@ const dummyCourses = [
     status: 'passed',
   ),
 ];
+
+BookDetail generateDummyBookDetail(Book book) {
+  return BookDetail(
+    title: book.title,
+    author: book.author,
+    image: book.image,
+    completePercentage: book.completePercentage,
+    category: 'Hukum Perdata',
+    totalPage: 400,
+    publisher: 'Penerbit Erlangga',
+    publishedYear: 2018,
+    synopsis:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum. Mauris ut aliquet justo, et consectetur lorem.\n\nNam semper vehicula ex, ac fermentum orci elementum ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum. Mauris ut aliquet justo, et consectetur.',
+  );
+}
+
+CourseDetail generateDummyCourseDetail(Course course) {
+  final scores = [
+    Score(
+      score: 100,
+      status: 'Lulus',
+      dateObtained: DateTime.now(),
+    ),
+    Score(
+      score: 50,
+      status: 'Tidak Lulus',
+      dateObtained: DateTime.now(),
+    ),
+  ];
+
+  const item = Item(
+    question:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit ut ac interdum orci?',
+    answers: {
+      1: 'Choice 1',
+      2: 'Choice 2',
+      3: 'Choice 3',
+      4: 'Choice 4',
+    },
+    rightAnswerOption: 3,
+    rightAnswerDescription: 'Choice 3',
+  );
+
+  final quizzes = [
+    Quiz(
+      title: 'Quiz 1: Pengenalan Dokumen Hukum',
+      description:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac interdum orci. Praesent auctor sapien non quam tristique, sit amet venenatis ante tincidunt. Aliquam cursus purus sed ultrices sagittis.',
+      completionTime: 5,
+      status: 'Belum Dikerjakan',
+      items: List<Item>.generate(7, (_) => item),
+    ),
+    Quiz(
+      title: 'Quiz 2: Proses Penerjemahan Dokumen Hukum',
+      description:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac interdum orci. Praesent auctor sapien non quam tristique, sit amet venenatis ante tincidunt. Aliquam cursus purus sed ultrices sagittis.',
+      completionTime: 5,
+      status: 'Lulus',
+      currentScore: scores.first,
+      scoreHistory: scores,
+      items: List<Item>.generate(7, (_) => item),
+    ),
+    Quiz(
+      title: 'Quiz 2: Proses Penerjemahan Dokumen Hukum',
+      description:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac interdum orci. Praesent auctor sapien non quam tristique, sit amet venenatis ante tincidunt. Aliquam cursus purus sed ultrices sagittis.',
+      completionTime: 5,
+      status: 'Tidak Lulus',
+      currentScore: scores.last,
+      scoreHistory: scores.reversed.toList(),
+      items: List<Item>.generate(7, (_) => item),
+    ),
+  ];
+
+  const articles = [
+    Article(
+      title: 'Materi 1: Pengenalan Dokumen Hukum',
+      completionTime: 10,
+      content: '',
+    ),
+    Article(
+      title: 'Materi 2: Mengapa Perlu Menerjemahkan Dokumen Hukum?',
+      completionTime: 10,
+      content: '',
+    ),
+    Article(
+      title: 'Materi 3: Proses Penerjemahan Dokumen Hukum',
+      completionTime: 10,
+      content: '',
+    ),
+  ];
+
+  final lessons = [
+    Lesson(
+      title: 'Intro: Tips Menerjemahkan Dokumen Hukum Bahasa Asing',
+      completionTime: 30,
+      articles: articles,
+      quizzes: [quizzes.first, quizzes.last],
+    ),
+    Lesson(
+      title: 'Prinsip Penerjemahan Dokumen Hukum',
+      completionTime: 30,
+      articles: articles,
+      quizzes: [quizzes.first, quizzes[1]],
+    ),
+    Lesson(
+      title: 'Aspek-aspek dalam Menerjemahan Dokumen Hukum',
+      completionTime: 30,
+      articles: articles,
+      quizzes: [quizzes.first, quizzes.first],
+    ),
+    Lesson(
+      title: 'Profesi Penerjemah Hukum',
+      completionTime: 30,
+      articles: articles,
+      quizzes: [quizzes[1], quizzes.last],
+    ),
+    Lesson(
+      title: 'Studi Kasus & Penutup',
+      completionTime: 30,
+      articles: articles,
+      quizzes: [quizzes.last, quizzes.last],
+    ),
+  ];
+
+  final completePercentage = switch (course.status) {
+    'active' => 65.0,
+    'passed' => 100.0,
+    _ => null,
+  };
+
+  final certificateUrl = switch (course.status) {
+    'passed' => '',
+    _ => null,
+  };
+
+  return CourseDetail(
+    title: course.title,
+    image: course.image,
+    completionTime: course.completionTime,
+    totalStudents: course.totalStudents,
+    rating: course.rating,
+    status: course.status,
+    description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum. Mauris ut aliquet justo, et consectetur lorem.\n\nNam semper vehicula ex, ac fermentum orci elementum ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum. Mauris ut aliquet justo, et consectetur.',
+    lessons: lessons,
+    completePercentage: completePercentage,
+    certificateUrl: certificateUrl,
+  );
+}

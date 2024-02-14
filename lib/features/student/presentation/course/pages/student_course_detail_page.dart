@@ -16,6 +16,8 @@ class StudentCourseDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final courseDetail = generateDummyCourseDetail(course);
+
     return Scaffold(
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(96),
@@ -153,6 +155,15 @@ class StudentCourseDetailPage extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             buildActionButton(),
+            const SizedBox(height: 16),
+            Text(
+              'Deskripsi Kelas',
+              style: textTheme.titleMedium,
+            ),
+            Divider(
+              color: Theme.of(context).dividerColor,
+              height: 12,
+            ),
           ],
         ),
       ),
