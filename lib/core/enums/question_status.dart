@@ -1,1 +1,5 @@
-enum QuestionStatus { open, discuss, solved }
+enum QuestionStatus {
+  open,
+  discuss,
+  solved,
+}

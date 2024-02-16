@@ -2,21 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/ink_well_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class CurriculumCard extends StatelessWidget {
-  final String title;
+  final Curriculum curriculum;
+  final bool showCompletionTime;
+  final bool showStatus;
   final VoidCallback? onTap;
 
-  const CurriculumCard({super.key, required this.title, this.onTap});
+  const CurriculumCard({
+    super.key,
+    required this.curriculum,
+    this.showCompletionTime = false,
+    this.showStatus = false,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
     return InkWellContainer(
       width: double.infinity,
-      radius: 8,
       color: scaffoldBackgroundColor,
+      radius: 8,
       boxShadow: [
         BoxShadow(
           color: Colors.black.withOpacity(.08),
@@ -37,13 +46,25 @@ class CurriculumCard extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(20),
-            child: Text(
-              '$title\n',
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: textTheme.titleMedium!.copyWith(
-                color: primaryColor,
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '${curriculum.title}\n',
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: textTheme.titleMedium!.copyWith(
+                    color: primaryColor,
+                  ),
+                ),
+                if (showCompletionTime)
+                  Text(
+                    '(${curriculum.completionTime} menit)',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: textTheme.bodySmall,
+                  ),
+              ],
             ),
           ),
         ],

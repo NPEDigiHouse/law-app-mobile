@@ -5,10 +5,13 @@ import 'package:law_app/core/extensions/number_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 import 'package:law_app/features/student/presentation/course/widget/curriculum_card.dart';
+import 'package:law_app/features/student/presentation/course/widget/enroll_course_dialog.dart';
 
 class StudentCourseDetailPage extends StatelessWidget {
   final Course course;
@@ -93,7 +96,7 @@ class StudentCourseDetailPage extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    '(${course.rating}/5 Rating)',
+                    '(${course.rating}/5)',
                     style: textTheme.bodyMedium!.copyWith(
                       color: primaryColor,
                     ),
@@ -155,8 +158,11 @@ class StudentCourseDetailPage extends StatelessWidget {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              child: buildActionButton(),
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              child: buildActionButton(
+                context: context,
+                courseDetail: courseDetail,
+              ),
             ),
             Text(
               'Deskripsi Kelas',
@@ -187,7 +193,7 @@ class StudentCourseDetailPage extends StatelessWidget {
                   bottom: index == courseDetail.curriculums.length - 1 ? 0 : 10,
                 ),
                 child: CurriculumCard(
-                  title: courseDetail.curriculums[index].title,
+                  curriculum: courseDetail.curriculums[index],
                 ),
               ),
             ),
@@ -197,21 +203,31 @@ class StudentCourseDetailPage extends StatelessWidget {
     );
   }
 
-  Widget buildActionButton() {
+  Widget buildActionButton({
+    required BuildContext context,
+    required CourseDetail courseDetail,
+  }) {
     switch (course.status) {
       case null:
         return FilledButton.icon(
-          onPressed: () {},
+          onPressed: () => showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (_) => EnrollCourseDialog(courseDetail: courseDetail),
+          ),
           icon: SvgAsset(
             assetPath: AssetPath.getIcon('book-bold-plus.svg'),
             color: secondaryColor,
             width: 20,
           ),
-          label: const Text('Ambil Course'),
+          label: const Text('Daftar Sekarang!'),
         ).fullWidth();
       case 'active':
         return FilledButton.icon(
-          onPressed: () {},
+          onPressed: () => navigatorKey.currentState!.pushNamed(
+            studentCourseProgressRoute,
+            arguments: courseDetail,
+          ),
           icon: SvgAsset(
             assetPath: AssetPath.getIcon('book-bold.svg'),
             color: secondaryColor,

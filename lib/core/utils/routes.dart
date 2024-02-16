@@ -233,8 +233,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => StudentCourseDetailPage(course: course),
       );
     case studentCourseProgressRoute:
+      final courseDetail = settings.arguments as CourseDetail;
+
       return MaterialPageRoute(
-        builder: (_) => const StudentCourseProgressPage(),
+        builder: (_) => StudentCourseProgressPage(courseDetail: courseDetail),
       );
     case studentCourseMaterialRoute:
       return MaterialPageRoute(

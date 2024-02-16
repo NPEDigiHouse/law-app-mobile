@@ -300,7 +300,7 @@ const dummyQuestions = [
 class Course {
   final String title;
   final String image;
-  final int completionTime; // hours
+  final int completionTime;
   final int totalStudents;
   final double? rating;
   final String? status;
@@ -333,6 +333,7 @@ class Course {
   }
 }
 
+//! CourseDetail
 class CourseDetail extends Course {
   final String description;
   final List<Curriculum> curriculums;
@@ -353,52 +354,61 @@ class CourseDetail extends Course {
   });
 }
 
+//! Curriculum
 class Curriculum {
   final String title;
-  final int completionTime; // minutes
-  final List<Article> articles;
-  final List<Quiz>? quizzes;
+  final int completionTime;
+  final bool? isComplete;
+  final List<Material> materials;
 
   const Curriculum({
     required this.title,
     required this.completionTime,
-    required this.articles,
-    this.quizzes,
+    this.isComplete,
+    required this.materials,
   });
 }
 
-class Article {
+//! Material
+abstract class Material {}
+
+//! Article
+class Article implements Material {
   final String title;
-  final int completionTime; // minutes
+  final int completionTime;
+  final bool? isComplete;
   final String content;
 
   const Article({
     required this.title,
     required this.completionTime,
+    this.isComplete,
     required this.content,
   });
 }
 
-class Quiz {
+//! Quiz
+class Quiz implements Material {
   final String title;
+  final int completionTime;
+  final bool? isComplete;
   final String description;
-  final int completionTime; // minutes
-  final String status;
   final Score? currentScore;
   final List<Score>? scoreHistory;
   final List<Item> items;
 
   const Quiz({
     required this.title,
-    required this.description,
     required this.completionTime,
-    required this.status,
+    this.isComplete,
+    required this.description,
     this.currentScore,
     this.scoreHistory,
     required this.items,
   });
 }
 
+//! Score
 class Score {
   final int score;
   final String status;
@@ -411,6 +421,7 @@ class Score {
   });
 }
 
+//! Item
 class Item {
   final String question;
   final Map<int, String> answers;
@@ -527,7 +538,6 @@ CourseDetail generateDummyCourseDetail(Course course) {
       description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac interdum orci. Praesent auctor sapien non quam tristique, sit amet venenatis ante tincidunt. Aliquam cursus purus sed ultrices sagittis.',
       completionTime: 5,
-      status: 'Belum Dikerjakan',
       items: List<Item>.generate(7, (_) => item),
     ),
     Quiz(
@@ -535,7 +545,6 @@ CourseDetail generateDummyCourseDetail(Course course) {
       description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac interdum orci. Praesent auctor sapien non quam tristique, sit amet venenatis ante tincidunt. Aliquam cursus purus sed ultrices sagittis.',
       completionTime: 5,
-      status: 'Lulus',
       currentScore: scores.first,
       scoreHistory: scores,
       items: List<Item>.generate(7, (_) => item),
@@ -545,7 +554,6 @@ CourseDetail generateDummyCourseDetail(Course course) {
       description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac interdum orci. Praesent auctor sapien non quam tristique, sit amet venenatis ante tincidunt. Aliquam cursus purus sed ultrices sagittis.',
       completionTime: 5,
-      status: 'Tidak Lulus',
       currentScore: scores.last,
       scoreHistory: scores.reversed.toList(),
       items: List<Item>.generate(7, (_) => item),
@@ -557,11 +565,13 @@ CourseDetail generateDummyCourseDetail(Course course) {
       title: 'Materi 1: Pengenalan Dokumen Hukum',
       completionTime: 10,
       content: '',
+      isComplete: true,
     ),
     Article(
       title: 'Materi 2: Mengapa Perlu Menerjemahkan Dokumen Hukum?',
       completionTime: 10,
       content: '',
+      isComplete: true,
     ),
     Article(
       title: 'Materi 3: Proses Penerjemahan Dokumen Hukum',
@@ -574,32 +584,29 @@ CourseDetail generateDummyCourseDetail(Course course) {
     Curriculum(
       title: 'Intro: Tips Menerjemahkan Dokumen Hukum Bahasa Asing',
       completionTime: 30,
-      articles: articles,
-      quizzes: [quizzes.first, quizzes.last],
+      materials: [...articles, quizzes.first, quizzes.last],
+      isComplete: true,
     ),
     Curriculum(
       title: 'Prinsip Penerjemahan Dokumen Hukum',
       completionTime: 30,
-      articles: articles,
-      quizzes: [quizzes.first, quizzes[1]],
+      materials: [...articles, quizzes.first, quizzes[1]],
+      isComplete: true,
     ),
     Curriculum(
       title: 'Aspek-aspek dalam Menerjemahan Dokumen Hukum',
       completionTime: 30,
-      articles: articles,
-      quizzes: [quizzes.first, quizzes.first],
+      materials: [...articles, quizzes.first, quizzes.first],
     ),
     Curriculum(
       title: 'Profesi Penerjemah Hukum',
       completionTime: 30,
-      articles: articles,
-      quizzes: [quizzes[1], quizzes.last],
+      materials: [...articles, quizzes[1], quizzes.last],
     ),
     Curriculum(
       title: 'Studi Kasus & Penutup',
       completionTime: 30,
-      articles: articles,
-      quizzes: [quizzes.last, quizzes.last],
+      materials: [...articles, quizzes.last, quizzes.last],
     ),
   ];
 

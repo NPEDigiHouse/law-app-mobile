@@ -16,8 +16,8 @@ import 'package:law_app/features/shared/widgets/network_error_bottom_sheet.dart'
 
 extension NavigationExtension on BuildContext {
   void back() {
-    scaffoldMessengerKey.currentState!.hideCurrentMaterialBanner();
-    navigatorKey.currentState!.pop();
+    scaffoldMessengerKey.currentState?.hideCurrentMaterialBanner();
+    navigatorKey.currentState?.pop();
   }
 }
 

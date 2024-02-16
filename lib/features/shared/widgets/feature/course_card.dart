@@ -20,8 +20,8 @@ class CourseCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWellContainer(
-      radius: 12,
       color: scaffoldBackgroundColor,
+      radius: 12,
       padding: const EdgeInsets.all(10),
       boxShadow: [
         BoxShadow(

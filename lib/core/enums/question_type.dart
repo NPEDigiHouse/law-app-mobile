@@ -1,1 +1,4 @@
-enum QuestionType { general, specific }
+enum QuestionType {
+  general,
+  specific,
+}

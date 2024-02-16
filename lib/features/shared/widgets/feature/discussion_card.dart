@@ -35,7 +35,6 @@ class DiscussionCard extends StatelessWidget {
       height: height,
       color: scaffoldBackgroundColor,
       radius: 12,
-      onTap: onTap,
       padding: const EdgeInsets.symmetric(
         vertical: 16,
         horizontal: 20,
@@ -48,6 +47,7 @@ class DiscussionCard extends StatelessWidget {
           spreadRadius: -1,
         ),
       ],
+      onTap: onTap,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
