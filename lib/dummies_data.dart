@@ -335,7 +335,7 @@ class Course {
 
 class CourseDetail extends Course {
   final String description;
-  final List<Lesson> lessons;
+  final List<Curriculum> curriculums;
   final double? completePercentage;
   final String? certificateUrl;
 
@@ -347,19 +347,19 @@ class CourseDetail extends Course {
     super.rating,
     super.status,
     required this.description,
-    required this.lessons,
+    required this.curriculums,
     this.completePercentage,
     this.certificateUrl,
   });
 }
 
-class Lesson {
+class Curriculum {
   final String title;
   final int completionTime; // minutes
   final List<Article> articles;
   final List<Quiz>? quizzes;
 
-  const Lesson({
+  const Curriculum({
     required this.title,
     required this.completionTime,
     required this.articles,
@@ -570,32 +570,32 @@ CourseDetail generateDummyCourseDetail(Course course) {
     ),
   ];
 
-  final lessons = [
-    Lesson(
+  final curriculums = [
+    Curriculum(
       title: 'Intro: Tips Menerjemahkan Dokumen Hukum Bahasa Asing',
       completionTime: 30,
       articles: articles,
       quizzes: [quizzes.first, quizzes.last],
     ),
-    Lesson(
+    Curriculum(
       title: 'Prinsip Penerjemahan Dokumen Hukum',
       completionTime: 30,
       articles: articles,
       quizzes: [quizzes.first, quizzes[1]],
     ),
-    Lesson(
+    Curriculum(
       title: 'Aspek-aspek dalam Menerjemahan Dokumen Hukum',
       completionTime: 30,
       articles: articles,
       quizzes: [quizzes.first, quizzes.first],
     ),
-    Lesson(
+    Curriculum(
       title: 'Profesi Penerjemah Hukum',
       completionTime: 30,
       articles: articles,
       quizzes: [quizzes[1], quizzes.last],
     ),
-    Lesson(
+    Curriculum(
       title: 'Studi Kasus & Penutup',
       completionTime: 30,
       articles: articles,
@@ -623,7 +623,7 @@ CourseDetail generateDummyCourseDetail(Course course) {
     status: course.status,
     description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum. Mauris ut aliquet justo, et consectetur lorem.\n\nNam semper vehicula ex, ac fermentum orci elementum ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum. Mauris ut aliquet justo, et consectetur.',
-    lessons: lessons,
+    curriculums: curriculums,
     completePercentage: completePercentage,
     certificateUrl: certificateUrl,
   );

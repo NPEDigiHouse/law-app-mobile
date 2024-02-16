@@ -23,6 +23,9 @@ import 'package:law_app/features/profile/presentation/pages/faq_page.dart';
 import 'package:law_app/features/profile/presentation/pages/profile_page.dart';
 import 'package:law_app/features/shared/pages/public_discussion_page.dart';
 import 'package:law_app/features/student/presentation/course/pages/student_course_detail_page.dart';
+import 'package:law_app/features/student/presentation/course/pages/student_course_material_page.dart';
+import 'package:law_app/features/student/presentation/course/pages/student_course_progress_page.dart';
+import 'package:law_app/features/student/presentation/course/pages/student_course_room_page.dart';
 import 'package:law_app/features/student/presentation/course/pages/student_course_search_page.dart';
 import 'package:law_app/features/student/presentation/discussion/pages/student_discussion_detail_page.dart';
 import 'package:law_app/features/student/presentation/discussion/pages/student_question_list_page.dart';
@@ -73,6 +76,9 @@ const teacherQuestionHistoryRoute = '/teacher-question-history';
 
 const studentCourseSearchRoute = '/student-course-search';
 const studentCourseDetailRoute = '/student-course-detail';
+const studentCourseProgressRoute = '/student-course-detail/progress';
+const studentCourseMaterialRoute = '/student-course-detail/progress/material';
+const studentCourseRoomRoute = '/student-course-detail/progress/material/room';
 
 // App routes generator
 Route<dynamic>? generateAppRoutes(RouteSettings settings) {
@@ -225,6 +231,18 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
 
       return MaterialPageRoute(
         builder: (_) => StudentCourseDetailPage(course: course),
+      );
+    case studentCourseProgressRoute:
+      return MaterialPageRoute(
+        builder: (_) => const StudentCourseProgressPage(),
+      );
+    case studentCourseMaterialRoute:
+      return MaterialPageRoute(
+        builder: (_) => const StudentCourseMaterialPage(),
+      );
+    case studentCourseRoomRoute:
+      return MaterialPageRoute(
+        builder: (_) => const StudentCourseRoomPage(),
       );
     default:
       return null;

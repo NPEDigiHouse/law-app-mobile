@@ -8,6 +8,7 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
+import 'package:law_app/features/student/presentation/course/widget/curriculum_card.dart';
 
 class StudentCourseDetailPage extends StatelessWidget {
   final Course course;
@@ -16,7 +17,7 @@ class StudentCourseDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final courseDetail = generateDummyCourseDetail(course);
+    final courseDetail = generateDummyCourseDetail(course);
 
     return Scaffold(
       appBar: const PreferredSize(
@@ -153,16 +154,42 @@ class StudentCourseDetailPage extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
-            buildActionButton(),
-            const SizedBox(height: 16),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              child: buildActionButton(),
+            ),
             Text(
               'Deskripsi Kelas',
               style: textTheme.titleMedium,
             ),
             Divider(
               color: Theme.of(context).dividerColor,
-              height: 12,
+              height: 10,
+            ),
+            Text(
+              courseDetail.description,
+              style: textTheme.bodySmall,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Kurikulum',
+              style: textTheme.titleMedium,
+            ),
+            Divider(
+              color: Theme.of(context).dividerColor,
+              height: 10,
+            ),
+            const SizedBox(height: 8),
+            ...List<Padding>.generate(
+              courseDetail.curriculums.length,
+              (index) => Padding(
+                padding: EdgeInsets.only(
+                  bottom: index == courseDetail.curriculums.length - 1 ? 0 : 10,
+                ),
+                child: CurriculumCard(
+                  title: courseDetail.curriculums[index].title,
+                ),
+              ),
             ),
           ],
         ),
