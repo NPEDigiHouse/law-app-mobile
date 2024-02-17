@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:law_app/core/extensions/button_extension.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 import 'package:law_app/features/student/presentation/course/widget/curriculum_card.dart';
@@ -134,7 +137,7 @@ class StudentCourseProgressPage extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(
-                        top: 16,
+                        top: 12,
                         bottom: 8,
                       ),
                       child: Text(
@@ -152,12 +155,19 @@ class StudentCourseProgressPage extends StatelessWidget {
                         ),
                         child: CurriculumCard(
                           curriculum: courseDetail.curriculums[index],
-                          showCompletionTime: true,
-                          showStatus: true,
-                          onTap: () {},
+                          showDetail: true,
+                          onTap: () => navigatorKey.currentState!.pushNamed(
+                            studentCourseLessonRoute,
+                            arguments: courseDetail.curriculums[index],
+                          ),
                         ),
                       ),
                     ),
+                    const SizedBox(height: 12),
+                    FilledButton(
+                      onPressed: () {},
+                      child: const Text('Klaim Sertifikat'),
+                    ).fullWidth(),
                   ],
                 ),
               ),

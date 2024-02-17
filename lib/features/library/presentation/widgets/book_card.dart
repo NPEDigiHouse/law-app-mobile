@@ -5,7 +5,7 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
-import 'package:law_app/dummies_data.dart' hide Material;
+import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/label_chip.dart';
 
 class BookCard extends StatelessWidget {

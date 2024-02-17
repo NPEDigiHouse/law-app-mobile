@@ -359,48 +359,52 @@ class Curriculum {
   final String title;
   final int completionTime;
   final bool? isComplete;
-  final List<Material> materials;
+  final List<Lesson> lessons;
 
   const Curriculum({
     required this.title,
     required this.completionTime,
     this.isComplete,
-    required this.materials,
+    required this.lessons,
   });
 }
 
-//! Material
-abstract class Material {}
-
-//! Article
-class Article implements Material {
+//! Lesson
+class Lesson {
   final String title;
   final int completionTime;
   final bool? isComplete;
-  final String content;
 
-  const Article({
+  const Lesson({
     required this.title,
     required this.completionTime,
     this.isComplete,
+  });
+}
+
+//! Article
+class Article extends Lesson {
+  final String content;
+
+  const Article({
+    required super.title,
+    required super.completionTime,
+    super.isComplete,
     required this.content,
   });
 }
 
 //! Quiz
-class Quiz implements Material {
-  final String title;
-  final int completionTime;
-  final bool? isComplete;
+class Quiz extends Lesson {
   final String description;
   final Score? currentScore;
   final List<Score>? scoreHistory;
   final List<Item> items;
 
   const Quiz({
-    required this.title,
-    required this.completionTime,
-    this.isComplete,
+    required super.title,
+    required super.completionTime,
+    super.isComplete,
     required this.description,
     this.currentScore,
     this.scoreHistory,
@@ -440,7 +444,7 @@ const dummyCourses = [
   Course(
     title: 'Kupas Tuntas Praktik Hukum Arbitrase',
     image: 'sample-course-image.jpg',
-    completionTime: 48,
+    completionTime: 18,
     totalStudents: 500,
     rating: 4,
   ),
@@ -455,7 +459,7 @@ const dummyCourses = [
   Course(
     title: 'Tips Menerjemahkan Dokumen Hukum Berbahasa Asing',
     image: 'sample-course-image.jpg',
-    completionTime: 36,
+    completionTime: 15,
     totalStudents: 731,
     rating: 5,
     status: 'active',
@@ -463,27 +467,27 @@ const dummyCourses = [
   Course(
     title: 'Memahami Aspek Penting Kebijakan Publik',
     image: 'sample-course-image.jpg',
-    completionTime: 72,
+    completionTime: 20,
     totalStudents: 198,
     status: 'passed',
   ),
   Course(
     title: 'Penyampaian Laporan Kegiatan Penanaman Modal (LKPM)',
     image: 'sample-course-image.jpg',
-    completionTime: 40,
+    completionTime: 10,
     totalStudents: 632,
     rating: 2,
   ),
   Course(
     title: 'Pengantar Dasar-Dasar Kontrak',
     image: 'sample-course-image.jpg',
-    completionTime: 52,
+    completionTime: 8,
     totalStudents: 1200,
   ),
   Course(
     title: 'Mempersiapkan Karier Ideal Bagi Lulusan Fakultas Hukum',
     image: 'sample-course-image.jpg',
-    completionTime: 16,
+    completionTime: 3,
     totalStudents: 10000,
     rating: 4,
     status: 'passed',
@@ -562,19 +566,19 @@ CourseDetail generateDummyCourseDetail(Course course) {
 
   const articles = [
     Article(
-      title: 'Materi 1: Pengenalan Dokumen Hukum',
+      title: 'Pelajaran 1: Pengenalan Dokumen Hukum',
       completionTime: 10,
       content: '',
       isComplete: true,
     ),
     Article(
-      title: 'Materi 2: Mengapa Perlu Menerjemahkan Dokumen Hukum?',
+      title: 'Pelajaran 2: Mengapa Perlu Menerjemahkan Dokumen Hukum?',
       completionTime: 10,
       content: '',
       isComplete: true,
     ),
     Article(
-      title: 'Materi 3: Proses Penerjemahan Dokumen Hukum',
+      title: 'Pelajaran 3: Proses Penerjemahan Dokumen Hukum',
       completionTime: 10,
       content: '',
     ),
@@ -584,29 +588,29 @@ CourseDetail generateDummyCourseDetail(Course course) {
     Curriculum(
       title: 'Intro: Tips Menerjemahkan Dokumen Hukum Bahasa Asing',
       completionTime: 30,
-      materials: [...articles, quizzes.first, quizzes.last],
+      lessons: [...articles, quizzes.first, quizzes.last],
       isComplete: true,
     ),
     Curriculum(
       title: 'Prinsip Penerjemahan Dokumen Hukum',
       completionTime: 30,
-      materials: [...articles, quizzes.first, quizzes[1]],
+      lessons: [...articles, quizzes.first, quizzes[1]],
       isComplete: true,
     ),
     Curriculum(
       title: 'Aspek-aspek dalam Menerjemahan Dokumen Hukum',
       completionTime: 30,
-      materials: [...articles, quizzes.first, quizzes.first],
+      lessons: [...articles, quizzes.first, quizzes.first],
     ),
     Curriculum(
       title: 'Profesi Penerjemah Hukum',
       completionTime: 30,
-      materials: [...articles, quizzes[1], quizzes.last],
+      lessons: [...articles, quizzes[1], quizzes.last],
     ),
     Curriculum(
       title: 'Studi Kasus & Penutup',
       completionTime: 30,
-      materials: [...articles, quizzes.last, quizzes.last],
+      lessons: [...articles, quizzes.last, quizzes.last],
     ),
   ];
 

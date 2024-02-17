@@ -8,15 +8,13 @@ import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class CurriculumCard extends StatelessWidget {
   final Curriculum curriculum;
-  final bool showCompletionTime;
-  final bool showStatus;
+  final bool showDetail;
   final VoidCallback? onTap;
 
   const CurriculumCard({
     super.key,
     required this.curriculum,
-    this.showCompletionTime = false,
-    this.showStatus = false,
+    this.showDetail = false,
     this.onTap,
   });
 
@@ -45,25 +43,59 @@ class CurriculumCard extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.symmetric(
+              vertical: 16,
+              horizontal: 20,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '${curriculum.title}\n',
+                  showDetail ? curriculum.title : '${curriculum.title}\n',
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: textTheme.titleMedium!.copyWith(
                     color: primaryColor,
                   ),
                 ),
-                if (showCompletionTime)
-                  Text(
-                    '(${curriculum.completionTime} menit)',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: textTheme.bodySmall,
-                  ),
+                if (showDetail) ...[
+                  const SizedBox(height: 4),
+                  if (curriculum.isComplete != null)
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.verified_rounded,
+                          color: successColor,
+                          size: 16,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          'Diselesaikan',
+                          style: textTheme.bodySmall!.copyWith(
+                            fontWeight: FontWeight.w700,
+                            color: successColor,
+                          ),
+                        ),
+                      ],
+                    )
+                  else
+                    Row(
+                      children: [
+                        SvgAsset(
+                          assetPath: AssetPath.getIcon('clock-solid.svg'),
+                          color: secondaryTextColor,
+                          width: 16,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          '${curriculum.completionTime} menit',
+                          style: textTheme.bodySmall!.copyWith(
+                            color: secondaryTextColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                ],
               ],
             ),
           ),

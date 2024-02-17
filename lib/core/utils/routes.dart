@@ -22,10 +22,13 @@ import 'package:law_app/features/profile/presentation/pages/contact_us_page.dart
 import 'package:law_app/features/profile/presentation/pages/faq_page.dart';
 import 'package:law_app/features/profile/presentation/pages/profile_page.dart';
 import 'package:law_app/features/shared/pages/public_discussion_page.dart';
+import 'package:law_app/features/student/presentation/course/pages/quiz/student_course_quiz_home_page.dart';
+import 'package:law_app/features/student/presentation/course/pages/quiz/student_course_quiz_page.dart';
+import 'package:law_app/features/student/presentation/course/pages/student_course_article_page.dart';
 import 'package:law_app/features/student/presentation/course/pages/student_course_detail_page.dart';
-import 'package:law_app/features/student/presentation/course/pages/student_course_material_page.dart';
+import 'package:law_app/features/student/presentation/course/pages/student_course_lesson_page.dart';
 import 'package:law_app/features/student/presentation/course/pages/student_course_progress_page.dart';
-import 'package:law_app/features/student/presentation/course/pages/student_course_room_page.dart';
+import 'package:law_app/features/student/presentation/course/pages/student_course_rate_page.dart';
 import 'package:law_app/features/student/presentation/course/pages/student_course_search_page.dart';
 import 'package:law_app/features/student/presentation/discussion/pages/student_discussion_detail_page.dart';
 import 'package:law_app/features/student/presentation/discussion/pages/student_question_list_page.dart';
@@ -76,9 +79,12 @@ const teacherQuestionHistoryRoute = '/teacher-question-history';
 
 const studentCourseSearchRoute = '/student-course-search';
 const studentCourseDetailRoute = '/student-course-detail';
-const studentCourseProgressRoute = '/student-course-detail/progress';
-const studentCourseMaterialRoute = '/student-course-detail/progress/material';
-const studentCourseRoomRoute = '/student-course-detail/progress/material/room';
+const studentCourseProgressRoute = '/student-course-progress';
+const studentCourseLessonRoute = '/student-course-lesson';
+const studentCourseArticleRoute = '/student-course-article';
+const studentCourseQuizHomeRoute = '/student-course-quiz-home';
+const studentCourseQuizRoute = '/student-course-quiz';
+const studentCourseRateRoute = '/student-course-rate';
 
 // App routes generator
 Route<dynamic>? generateAppRoutes(RouteSettings settings) {
@@ -238,13 +244,27 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => StudentCourseProgressPage(courseDetail: courseDetail),
       );
-    case studentCourseMaterialRoute:
+    case studentCourseLessonRoute:
+      final curriculum = settings.arguments as Curriculum;
+
       return MaterialPageRoute(
-        builder: (_) => const StudentCourseMaterialPage(),
+        builder: (_) => StudentCourseLessonPage(curriculum: curriculum),
       );
-    case studentCourseRoomRoute:
+    case studentCourseArticleRoute:
       return MaterialPageRoute(
-        builder: (_) => const StudentCourseRoomPage(),
+        builder: (_) => const StudentCourseArticlePage(),
+      );
+    case studentCourseQuizHomeRoute:
+      return MaterialPageRoute(
+        builder: (_) => const StudentCourseQuizHomePage(),
+      );
+    case studentCourseQuizRoute:
+      return MaterialPageRoute(
+        builder: (_) => const StudentCourseQuizPage(),
+      );
+    case studentCourseRateRoute:
+      return MaterialPageRoute(
+        builder: (_) => const StudentCourseRatePage(),
       );
     default:
       return null;
