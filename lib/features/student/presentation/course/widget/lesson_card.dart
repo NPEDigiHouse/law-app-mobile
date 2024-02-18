@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
+import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/ink_well_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class LessonCard extends StatelessWidget {
   final Lesson lesson;
-  final VoidCallback? onTap;
 
-  const LessonCard({
-    super.key,
-    required this.lesson,
-    this.onTap,
-  });
+  const LessonCard({super.key, required this.lesson});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +26,12 @@ class LessonCard extends StatelessWidget {
           spreadRadius: 1,
         ),
       ],
-      onTap: onTap,
+      onTap: () => navigatorKey.currentState!.pushNamed(
+        lesson is Article
+            ? studentCourseArticleRoute
+            : studentCourseQuizHomeRoute,
+        arguments: lesson is Article ? lesson as Article : lesson as Quiz,
+      ),
       child: Padding(
         padding: const EdgeInsets.symmetric(
           vertical: 16,
@@ -45,7 +47,11 @@ class LessonCard extends StatelessWidget {
               )
             else
               SvgAsset(
-                assetPath: AssetPath.getIcon('read-outlined.svg'),
+                assetPath: AssetPath.getIcon(
+                  lesson is Article
+                      ? 'read-outlined.svg'
+                      : 'note-edit-line.svg',
+                ),
                 color: primaryTextColor,
                 width: 20,
               ),

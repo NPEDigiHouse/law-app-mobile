@@ -88,7 +88,7 @@ class CurriculumCard extends StatelessWidget {
                         ),
                         const SizedBox(width: 4),
                         Text(
-                          '${curriculum.completionTime} menit',
+                          '${curriculum.completionTime} Menit',
                           style: textTheme.bodySmall!.copyWith(
                             color: secondaryTextColor,
                           ),

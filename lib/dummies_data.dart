@@ -414,12 +414,12 @@ class Quiz extends Lesson {
 
 //! Score
 class Score {
-  final int score;
+  final int value;
   final String status;
   final DateTime dateObtained;
 
   Score({
-    required this.score,
+    required this.value,
     required this.status,
     required this.dateObtained,
   });
@@ -512,13 +512,13 @@ BookDetail generateDummyBookDetail(Book book) {
 CourseDetail generateDummyCourseDetail(Course course) {
   final scores = [
     Score(
-      score: 100,
-      status: 'Lulus',
+      value: 100,
+      status: 'passed',
       dateObtained: DateTime.now(),
     ),
     Score(
-      score: 50,
-      status: 'Tidak Lulus',
+      value: 50,
+      status: 'failed',
       dateObtained: DateTime.now(),
     ),
   ];

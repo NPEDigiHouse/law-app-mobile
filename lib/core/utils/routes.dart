@@ -251,12 +251,16 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => StudentCourseLessonPage(curriculum: curriculum),
       );
     case studentCourseArticleRoute:
+      final article = settings.arguments as Article;
+
       return MaterialPageRoute(
-        builder: (_) => const StudentCourseArticlePage(),
+        builder: (_) => StudentCourseArticlePage(article: article),
       );
     case studentCourseQuizHomeRoute:
+      final quiz = settings.arguments as Quiz;
+
       return MaterialPageRoute(
-        builder: (_) => const StudentCourseQuizHomePage(),
+        builder: (_) => StudentCourseQuizHomePage(quiz: quiz),
       );
     case studentCourseQuizRoute:
       return MaterialPageRoute(
