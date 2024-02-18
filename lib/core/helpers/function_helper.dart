@@ -32,6 +32,13 @@ class FunctionHelper {
     ).join('');
   }
 
+  static String formattedCountDownTimer([int seconds = 0]) {
+    final sec = '${seconds % 60}'.padLeft(2, '0');
+    final min = '${seconds ~/ 60}'.padLeft(2, '0');
+
+    return '$min:$sec';
+  }
+
   static Color getColorByDiscussionStatus(String status) {
     switch (status) {
       case 'open':

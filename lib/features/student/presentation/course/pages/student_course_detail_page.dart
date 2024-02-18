@@ -255,7 +255,10 @@ class StudentCourseDetailPage extends StatelessWidget {
               label: const Text('Lihat Sertifikat'),
             ).fullWidth(),
             FilledButton.icon(
-              onPressed: () {},
+              onPressed: () => navigatorKey.currentState!.pushNamed(
+                studentCourseProgressRoute,
+                arguments: courseDetail,
+              ),
               icon: SvgAsset(
                 assetPath: AssetPath.getIcon('book-bold.svg'),
                 color: primaryColor,

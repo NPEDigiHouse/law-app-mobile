@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:law_app/core/extensions/button_extension.dart';
+import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/extensions/datetime_extension.dart';
 import 'package:law_app/core/extensions/string_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
+import 'package:law_app/features/student/presentation/course/pages/quiz/student_course_quiz_page.dart';
 
 class StudentCourseQuizHomePage extends StatelessWidget {
   final Quiz quiz;
@@ -76,7 +80,26 @@ class StudentCourseQuizHomePage extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             FilledButton(
-              onPressed: () {},
+              onPressed: () async {
+                final value = await context.showConfirmDialog(
+                  title: 'Kerjakan Quiz?',
+                  message: 'Apakah kamu siap mengerjakan quiz ini?',
+                  primaryButtonText: 'Kerjakan',
+                  onPressedPrimaryButton: () {
+                    navigatorKey.currentState!.pop(true);
+                  },
+                );
+
+                if (value != null) {
+                  navigatorKey.currentState!.pushNamed(
+                    studentCourseQuizRoute,
+                    arguments: StudentCourseQuizArgs(
+                      duration: quiz.completionTime,
+                      items: quiz.items,
+                    ),
+                  );
+                }
+              },
               style: FilledButton.styleFrom(
                 foregroundColor: firstTry ? secondaryColor : primaryColor,
                 backgroundColor: firstTry ? primaryColor : secondaryColor,
@@ -134,8 +157,8 @@ class StudentCourseQuizHomePage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        width: 32,
-                        height: 32,
+                        width: 36,
+                        height: 36,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
                           color: secondaryColor,
@@ -173,8 +196,8 @@ class StudentCourseQuizHomePage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Container(
-                        width: 32,
-                        height: 32,
+                        width: 36,
+                        height: 36,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
                           color: secondaryColor,

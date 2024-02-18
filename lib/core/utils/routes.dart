@@ -263,8 +263,13 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => StudentCourseQuizHomePage(quiz: quiz),
       );
     case studentCourseQuizRoute:
+      final args = settings.arguments as StudentCourseQuizArgs;
+
       return MaterialPageRoute(
-        builder: (_) => const StudentCourseQuizPage(),
+        builder: (_) => StudentCourseQuizPage(
+          duration: args.duration,
+          items: args.items,
+        ),
       );
     case studentCourseRateRoute:
       return MaterialPageRoute(

@@ -428,15 +428,13 @@ class Score {
 //! Item
 class Item {
   final String question;
-  final Map<int, String> answers;
-  final int rightAnswerOption;
-  final String rightAnswerDescription;
+  final Map<String, String> answers;
+  final String rightAnswerOption;
 
   const Item({
     required this.question,
     required this.answers,
     required this.rightAnswerOption,
-    required this.rightAnswerDescription,
   });
 }
 
@@ -527,13 +525,12 @@ CourseDetail generateDummyCourseDetail(Course course) {
     question:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit ut ac interdum orci?',
     answers: {
-      1: 'Choice 1',
-      2: 'Choice 2',
-      3: 'Choice 3',
-      4: 'Choice 4',
+      'A': 'Choice 1',
+      'B': 'Choice 2',
+      'C': 'Choice 3',
+      'D': 'Choice 4',
     },
-    rightAnswerOption: 3,
-    rightAnswerDescription: 'Choice 3',
+    rightAnswerOption: 'A',
   );
 
   final quizzes = [
@@ -541,14 +538,14 @@ CourseDetail generateDummyCourseDetail(Course course) {
       title: 'Quiz 1: Pengenalan Dokumen Hukum',
       description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac interdum orci. Praesent auctor sapien non quam tristique, sit amet venenatis ante tincidunt. Aliquam cursus purus sed ultrices sagittis.',
-      completionTime: 5,
+      completionTime: 2,
       items: List<Item>.generate(7, (_) => item),
     ),
     Quiz(
       title: 'Quiz 2: Proses Penerjemahan Dokumen Hukum',
       description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac interdum orci. Praesent auctor sapien non quam tristique, sit amet venenatis ante tincidunt. Aliquam cursus purus sed ultrices sagittis.',
-      completionTime: 5,
+      completionTime: 2,
       currentScore: scores.first,
       scoreHistory: scores,
       items: List<Item>.generate(7, (_) => item),
@@ -557,7 +554,7 @@ CourseDetail generateDummyCourseDetail(Course course) {
       title: 'Quiz 2: Proses Penerjemahan Dokumen Hukum',
       description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac interdum orci. Praesent auctor sapien non quam tristique, sit amet venenatis ante tincidunt. Aliquam cursus purus sed ultrices sagittis.',
-      completionTime: 5,
+      completionTime: 2,
       currentScore: scores.last,
       scoreHistory: scores.reversed.toList(),
       items: List<Item>.generate(7, (_) => item),
