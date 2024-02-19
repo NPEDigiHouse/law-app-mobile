@@ -538,14 +538,14 @@ CourseDetail generateDummyCourseDetail(Course course) {
       title: 'Quiz 1: Pengenalan Dokumen Hukum',
       description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac interdum orci. Praesent auctor sapien non quam tristique, sit amet venenatis ante tincidunt. Aliquam cursus purus sed ultrices sagittis.',
-      completionTime: 2,
+      completionTime: 1,
       items: List<Item>.generate(7, (_) => item),
     ),
     Quiz(
       title: 'Quiz 2: Proses Penerjemahan Dokumen Hukum',
       description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac interdum orci. Praesent auctor sapien non quam tristique, sit amet venenatis ante tincidunt. Aliquam cursus purus sed ultrices sagittis.',
-      completionTime: 2,
+      completionTime: 1,
       currentScore: scores.first,
       scoreHistory: scores,
       items: List<Item>.generate(7, (_) => item),
@@ -554,7 +554,7 @@ CourseDetail generateDummyCourseDetail(Course course) {
       title: 'Quiz 2: Proses Penerjemahan Dokumen Hukum',
       description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac interdum orci. Praesent auctor sapien non quam tristique, sit amet venenatis ante tincidunt. Aliquam cursus purus sed ultrices sagittis.',
-      completionTime: 2,
+      completionTime: 1,
       currentScore: scores.last,
       scoreHistory: scores.reversed.toList(),
       items: List<Item>.generate(7, (_) => item),

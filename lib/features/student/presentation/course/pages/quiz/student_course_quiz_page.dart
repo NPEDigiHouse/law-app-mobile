@@ -13,7 +13,7 @@ import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 import 'package:law_app/features/student/presentation/course/widget/option_card.dart';
 
-class StudentCourseQuizPage extends StatefulWidget {
+class StudentCourseQuizPage extends ConsumerStatefulWidget {
   final int duration;
   final List<Item> items;
 
@@ -24,10 +24,11 @@ class StudentCourseQuizPage extends StatefulWidget {
   });
 
   @override
-  State<StudentCourseQuizPage> createState() => _StudentCourseQuizPageState();
+  ConsumerState<StudentCourseQuizPage> createState() =>
+      _StudentCourseQuizPageState();
 }
 
-class _StudentCourseQuizPageState extends State<StudentCourseQuizPage> {
+class _StudentCourseQuizPageState extends ConsumerState<StudentCourseQuizPage> {
   late final ValueNotifier<int> selectedPage;
   late final PageController pageController;
 
@@ -49,14 +50,32 @@ class _StudentCourseQuizPageState extends State<StudentCourseQuizPage> {
 
   @override
   Widget build(BuildContext context) {
+    final timerProvider = CountDownTimerProvider(
+      initialValue: widget.duration * 60,
+    );
+
+    final timer = ref.watch(timerProvider);
+
+    final seconds = timer.when<int?>(
+      data: (value) => value,
+      error: (error, stackTrace) => null,
+      loading: () => null,
+    );
+
+    ref.listen(timerProvider, (previous, next) {
+      if (next.value == 0) {
+        navigatorKey.currentState!.pop();
+      }
+    });
+
     return PopScope(
       canPop: false,
       onPopInvoked: (didPop) {
         if (didPop) return;
 
         context.showConfirmDialog(
-          title: 'Konfirmasi',
-          message: 'Apakan kamu yakin ingin membatalkan quiz ini?',
+          title: 'Batalkan Quiz?',
+          message: 'Apakah kamu yakin ingin membatalkan quiz ini?',
           primaryButtonText: 'Batalkan',
           onPressedPrimaryButton: () {
             context.back();
@@ -65,42 +84,90 @@ class _StudentCourseQuizPageState extends State<StudentCourseQuizPage> {
         );
       },
       child: Scaffold(
-        appBar: const PreferredSize(
-          preferredSize: Size.fromHeight(96),
-          child: HeaderContainer(
-            title: 'Quiz',
-          ),
-        ),
-        body: PageView(
+        body: NestedScrollView(
           physics: const NeverScrollableScrollPhysics(),
-          controller: pageController,
-          onPageChanged: (index) => selectedPage.value = index,
-          children: List<ValueListenableBuilder<int>>.generate(
-            widget.items.length,
-            (index) {
-              return ValueListenableBuilder(
-                valueListenable: selectedPage,
-                builder: (context, page, child) {
-                  return QuestionPage(
-                    duration: widget.duration,
-                    number: index + 1,
-                    item: widget.items[index],
-                    isFirst: page == 0,
-                    isLast: page == widget.items.length - 1,
-                    onPressedPreviousButton: () {
-                      pageController.jumpToPage(page - 1);
-                    },
-                    onPressedNextButton: () {
-                      pageController.jumpToPage(page + 1);
-                    },
-                  );
-                },
-              );
-            },
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
+            return [
+              const SliverAppBar(
+                pinned: true,
+                toolbarHeight: 96,
+                automaticallyImplyLeading: false,
+                flexibleSpace: HeaderContainer(
+                  title: 'Quiz',
+                ),
+              ),
+            ];
+          },
+          body: CustomScrollView(
+            slivers: [
+              SliverPadding(
+                padding: const EdgeInsets.fromLTRB(20, 24, 20, 16),
+                sliver: SliverToBoxAdapter(
+                  child: Center(
+                    child: Container(
+                      width: 80,
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 6,
+                        horizontal: 12,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        color: getColorByRemainingSeconds(seconds),
+                      ),
+                      child: Center(
+                        child: Text(
+                          FunctionHelper.formattedCountDownTimer(seconds ?? 0),
+                          style: textTheme.titleMedium!.copyWith(
+                            color: scaffoldBackgroundColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SliverFillRemaining(
+                child: PageView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  controller: pageController,
+                  onPageChanged: (index) => selectedPage.value = index,
+                  children: List<ValueListenableBuilder<int>>.generate(
+                    widget.items.length,
+                    (index) => ValueListenableBuilder(
+                      valueListenable: selectedPage,
+                      builder: (context, page, child) {
+                        return QuestionPage(
+                          number: index + 1,
+                          item: widget.items[index],
+                          isFirst: page == 0,
+                          isLast: page == widget.items.length - 1,
+                          onPressedPreviousButton: () {
+                            pageController.jumpToPage(page - 1);
+                          },
+                          onPressedNextButton: () {
+                            pageController.jumpToPage(page + 1);
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
     );
+  }
+
+  Color getColorByRemainingSeconds(int? seconds) {
+    if (seconds == null) return scaffoldBackgroundColor;
+
+    if (seconds < 30) return errorColor;
+
+    if (seconds < 60) return warningColor;
+
+    return primaryColor;
   }
 }
 
@@ -114,8 +181,7 @@ class StudentCourseQuizArgs {
   });
 }
 
-class QuestionPage extends ConsumerStatefulWidget {
-  final int duration;
+class QuestionPage extends StatefulWidget {
   final int number;
   final Item item;
   final bool isFirst;
@@ -125,7 +191,6 @@ class QuestionPage extends ConsumerStatefulWidget {
 
   const QuestionPage({
     super.key,
-    required this.duration,
     required this.number,
     required this.item,
     required this.isFirst,
@@ -135,10 +200,10 @@ class QuestionPage extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<QuestionPage> createState() => _QuestionPageState();
+  State<QuestionPage> createState() => _QuestionPageState();
 }
 
-class _QuestionPageState extends ConsumerState<QuestionPage>
+class _QuestionPageState extends State<QuestionPage>
     with AutomaticKeepAliveClientMixin {
   late final ValueNotifier<String?> selectedOption;
 
@@ -163,120 +228,56 @@ class _QuestionPageState extends ConsumerState<QuestionPage>
   Widget build(BuildContext context) {
     super.build(context);
 
-    final timer = ref.watch(
-      CountDownTimerProvider(initialValue: widget.duration * 60),
-    );
+    return ListView(
+      physics: const NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
+      shrinkWrap: true,
+      children: [
+        Text(
+          'Soal No. ${widget.number}',
+          style: textTheme.titleLarge!.copyWith(
+            color: primaryColor,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(
+            top: 4,
+            bottom: 16,
+          ),
+          child: Text(widget.item.question),
+        ),
+        ...List<ValueListenableBuilder<String?>>.generate(
+          widget.item.answers.length,
+          (index) => ValueListenableBuilder(
+            valueListenable: selectedOption,
+            builder: (context, option, child) {
+              final options = widget.item.answers.keys.toList();
+              final values = widget.item.answers.values.toList();
 
-    final seconds = timer.when<int?>(
-      data: (value) => value,
-      error: (error, stackTrace) => null,
-      loading: () => null,
-    );
-
-    ref.listen(
-      CountDownTimerProvider(initialValue: widget.duration * 60),
-      (previous, next) {
-        if (next.value == 0) {
-          navigatorKey.currentState!.pop();
-        }
-      },
-    );
-
-    return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(
-        vertical: 24,
-        horizontal: 20,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(
-            child: Container(
-              width: 80,
-              padding: const EdgeInsets.symmetric(
-                vertical: 6,
-                horizontal: 12,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(6),
-                color: getColorByRemainingSeconds(seconds),
-              ),
-              child: Center(
-                child: Text(
-                  FunctionHelper.formattedCountDownTimer(seconds ?? 0),
-                  style: textTheme.titleMedium!.copyWith(
-                    color: scaffoldBackgroundColor,
-                  ),
+              return Padding(
+                padding: EdgeInsets.only(
+                  bottom: index == options.length - 1 ? 0 : 8,
                 ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-          Text(
-            'Soal No. ${widget.number}',
-            style: textTheme.titleLarge!.copyWith(
-              color: primaryColor,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-              top: 8,
-              bottom: 20,
-            ),
-            child: Text(widget.item.question),
-          ),
-          ...List<ValueListenableBuilder<String?>>.generate(
-            widget.item.answers.length,
-            (index) {
-              return ValueListenableBuilder(
-                valueListenable: selectedOption,
-                builder: (context, option, child) {
-                  final options = widget.item.answers.keys.toList();
-                  final values = widget.item.answers.values.toList();
-
-                  return Padding(
-                    padding: EdgeInsets.only(
-                      bottom: index == options.length - 1 ? 0 : 8,
-                    ),
-                    child: OptionCard(
-                      label: '${options[index]}. ${values[index]}',
-                      selected: option == options[index],
-                      onSelected: (_) => selectedOption.value = options[index],
-                    ),
-                  );
-                },
+                child: OptionCard(
+                  label: '${options[index]}. ${values[index]}',
+                  selected: option == options[index],
+                  onSelected: (_) => selectedOption.value = options[index],
+                ),
               );
             },
           ),
-          const SizedBox(height: 24),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Visibility(
-                visible: !widget.isFirst,
-                replacement: const SizedBox(
-                  width: 36,
-                  height: 36,
-                ),
-                child: Container(
-                  width: 36,
-                  height: 36,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: secondaryColor,
-                  ),
-                  child: IconButton(
-                    onPressed: widget.onPressedPreviousButton,
-                    icon: SvgAsset(
-                      assetPath: AssetPath.getIcon('caret-line-left.svg'),
-                      color: primaryColor,
-                      width: 20,
-                    ),
-                    tooltip: 'Sebelumnya',
-                  ),
-                ),
+        ),
+        const SizedBox(height: 24),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Visibility(
+              visible: !widget.isFirst,
+              replacement: const SizedBox(
+                width: 36,
+                height: 36,
               ),
-              Container(
+              child: Container(
                 width: 36,
                 height: 36,
                 decoration: BoxDecoration(
@@ -284,68 +285,75 @@ class _QuestionPageState extends ConsumerState<QuestionPage>
                   color: secondaryColor,
                 ),
                 child: IconButton(
-                  onPressed: () {},
+                  onPressed: widget.onPressedPreviousButton,
                   icon: SvgAsset(
-                    assetPath: AssetPath.getIcon('grid-view-solid.svg'),
+                    assetPath: AssetPath.getIcon('caret-line-left.svg'),
                     color: primaryColor,
                     width: 20,
                   ),
-                  tooltip: 'Navigasi Soal',
+                  tooltip: 'Sebelumnya',
                 ),
               ),
-              Visibility(
-                visible: !widget.isLast,
-                replacement: const SizedBox(
-                  width: 36,
-                  height: 36,
+            ),
+            Container(
+              width: 36,
+              height: 36,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: secondaryColor,
+              ),
+              child: IconButton(
+                onPressed: () {},
+                icon: SvgAsset(
+                  assetPath: AssetPath.getIcon('grid-view-solid.svg'),
+                  color: primaryColor,
+                  width: 20,
                 ),
-                child: Container(
-                  width: 36,
-                  height: 36,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: secondaryColor,
+                tooltip: 'Navigasi Soal',
+              ),
+            ),
+            Visibility(
+              visible: !widget.isLast,
+              replacement: const SizedBox(
+                width: 36,
+                height: 36,
+              ),
+              child: Container(
+                width: 36,
+                height: 36,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: secondaryColor,
+                ),
+                child: IconButton(
+                  onPressed: widget.onPressedNextButton,
+                  icon: SvgAsset(
+                    assetPath: AssetPath.getIcon('caret-line-right.svg'),
+                    color: primaryColor,
+                    width: 20,
                   ),
-                  child: IconButton(
-                    onPressed: widget.onPressedNextButton,
-                    icon: SvgAsset(
-                      assetPath: AssetPath.getIcon('caret-line-right.svg'),
-                      color: primaryColor,
-                      width: 20,
-                    ),
-                    tooltip: 'Selanjutnya',
-                  ),
+                  tooltip: 'Selanjutnya',
                 ),
               ),
-            ],
-          ),
-          if (widget.isLast) ...[
-            const SizedBox(height: 20),
-            FilledButton(
-              onPressed: () => context.showConfirmDialog(
-                title: 'Submit Quiz?',
-                message: 'Pastikan kamu yakin dengan semua jawabanmu.',
-                primaryButtonText: 'Submit',
-                onPressedPrimaryButton: () {
-                  navigatorKey.currentState!.pop();
-                  navigatorKey.currentState!.pop();
-                },
-              ),
-              child: const Text('Submit Quiz!'),
-            ).fullWidth(),
+            ),
           ],
+        ),
+        if (widget.isLast) ...[
+          const SizedBox(height: 20),
+          FilledButton(
+            onPressed: () => context.showConfirmDialog(
+              title: 'Submit Quiz?',
+              message: 'Pastikan kamu yakin dengan semua jawaban kamu.',
+              primaryButtonText: 'Submit',
+              onPressedPrimaryButton: () {
+                navigatorKey.currentState!.pop();
+                navigatorKey.currentState!.pop();
+              },
+            ),
+            child: const Text('Submit Quiz!'),
+          ).fullWidth(),
         ],
-      ),
+      ],
     );
-  }
-
-  Color getColorByRemainingSeconds(int? seconds) {
-    if (seconds == null) return scaffoldBackgroundColor;
-
-    if (seconds < 30) return errorColor;
-
-    if (seconds < 60) return warningColor;
-
-    return primaryColor;
   }
 }
