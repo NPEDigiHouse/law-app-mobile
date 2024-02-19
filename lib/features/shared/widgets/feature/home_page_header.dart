@@ -11,17 +11,17 @@ import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class HomePageHeader extends StatelessWidget {
-  final bool isAdmin;
+  final User user;
   final bool isProfile;
   final VoidCallback? onPressedProfileIcon;
-  final Widget child;
+  final Widget? child;
 
   const HomePageHeader({
     super.key,
-    required this.isAdmin,
-    required this.isProfile,
+    required this.user,
+    this.isProfile = false,
     this.onPressedProfileIcon,
-    required this.child,
+    this.child,
   });
 
   @override
@@ -34,7 +34,7 @@ class HomePageHeader extends StatelessWidget {
             height: AppSize.getAppHeight(context),
           ),
         Container(
-          height: !isAdmin ? 230 : 260,
+          height: !(user.roleId == 0) ? 224 : 248,
           width: double.infinity,
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.vertical(
@@ -59,11 +59,11 @@ class HomePageHeader extends StatelessWidget {
                 ),
               ),
               Positioned(
-                top: !isAdmin ? 20 : 40,
+                top: !(user.roleId == 0) ? 20 : 40,
                 left: 20,
                 right: 20,
                 child: SafeArea(
-                  child: !isAdmin
+                  child: !(user.roleId == 0)
                       ? Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -87,7 +87,7 @@ class HomePageHeader extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    '(${getRoleById(user.roleId)})',
+                                    '${getRoleById(user.roleId)}',
                                     style: textTheme.bodyMedium!.copyWith(
                                       color: accentTextColor,
                                     ),
@@ -138,47 +138,41 @@ class HomePageHeader extends StatelessWidget {
                             borderRadius: BorderRadius.circular(12),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(.2),
+                                color: Colors.black.withOpacity(.1),
                                 offset: const Offset(2, 2),
                                 blurRadius: 4,
+                                spreadRadius: -1,
                               ),
                             ],
                           ),
                           child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               SvgAsset(
                                 width: 40,
                                 height: 40,
                                 assetPath: AssetPath.getVector("app_logo.svg"),
                               ),
-                              const SizedBox(width: 12),
+                              const SizedBox(width: 8),
                               Expanded(
-                                child: RichText(
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  text: TextSpan(
-                                    style: textTheme.titleLarge,
-                                    children: [
-                                      const TextSpan(
-                                        text: 'Sobat Hukum App\n',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w400,
-                                          color: primaryTextColor,
-                                        ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Sobat Hukum App',
+                                      style: textTheme.bodyLarge,
+                                    ),
+                                    Text(
+                                      'Admin',
+                                      style: textTheme.titleSmall!.copyWith(
+                                        color: primaryColor,
                                       ),
-                                      TextSpan(
-                                        text: user.username,
-                                        style: const TextStyle(
-                                          color: primaryColor,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
                               const SizedBox(width: 12),
-                              InkWell(
+                              GestureDetector(
                                 onTap: onPressedProfileIcon,
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -189,13 +183,13 @@ class HomePageHeader extends StatelessWidget {
                                     ),
                                   ),
                                   child: CircleAvatar(
-                                    radius: 23,
+                                    radius: 20,
                                     foregroundImage: AssetImage(
                                       AssetPath.getImage("no-profile.jpg"),
                                     ),
                                   ),
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ),
@@ -205,10 +199,10 @@ class HomePageHeader extends StatelessWidget {
           ),
         ),
         Positioned(
-          top: !isAdmin ? 150 : 170,
+          top: !(user.roleId == 0) ? 140 : 170,
           left: 20,
           right: 20,
-          child: child,
+          child: child!,
         ),
       ],
     );

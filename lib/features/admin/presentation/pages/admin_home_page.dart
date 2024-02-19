@@ -7,6 +7,7 @@ import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/dashboard.dart';
 import 'package:law_app/features/shared/widgets/feature/home_page_header.dart';
+import 'package:law_app/features/shared/widgets/ink_well_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class AdminHomePage extends StatelessWidget {
@@ -18,22 +19,22 @@ class AdminHomePage extends StatelessWidget {
       {
         "icon": "dictionary-book-solid.svg",
         "count": 20,
-        "text": "Total Kata",
+        "text": "Total\nGlosarium",
       },
       {
         "icon": "book-bold.svg",
         "count": 9,
-        "text": "Total Buku",
+        "text": "Total\nBuku",
       },
       {
         "icon": "user-solid.svg",
         "count": 200,
-        "text": "Total User",
+        "text": "Total\nUser",
       },
       {
         "icon": "question-circle-line.svg",
         "count": 20,
-        "text": "Total Pertanyaan",
+        "text": "Total\nPertanyaan",
       },
     ];
 
@@ -74,27 +75,18 @@ class AdminHomePage extends StatelessWidget {
         child: Column(
           children: [
             HomePageHeader(
-              isAdmin: true,
+              user: admin,
               isProfile: false,
-              onPressedProfileIcon: () {
-                navigatorKey.currentState!.pushNamed(
-                  profileRoute,
-                  arguments: admin.roleId,
-                );
-              },
+              onPressedProfileIcon: () => navigatorKey.currentState!.pushNamed(
+                profileRoute,
+                arguments: admin.roleId,
+              ),
               child: const Dashboard(
                 items: dashboardItems,
               ),
             ),
-            const SizedBox(height: 84),
-            Container(
-              height: 2,
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              color: secondaryTextColor,
-            ),
-            const SizedBox(height: 24),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.fromLTRB(20, 90, 20, 24),
               child: GridView.count(
                 physics: const NeverScrollableScrollPhysics(),
                 padding: const EdgeInsets.all(0),
@@ -102,29 +94,33 @@ class AdminHomePage extends StatelessWidget {
                 crossAxisCount: 2,
                 crossAxisSpacing: 8,
                 mainAxisSpacing: 8,
-                childAspectRatio: 5 / 4,
-                children: List<Container>.generate(
+                childAspectRatio: 6 / 5,
+                children: List<InkWellContainer>.generate(
                   menu.length,
-                  (index) => Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: scaffoldBackgroundColor,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(.2),
-                          offset: const Offset(2, 2),
-                          blurRadius: 4,
-                        ),
-                      ],
+                  (index) => InkWellContainer(
+                    color: scaffoldBackgroundColor,
+                    radius: 12,
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 16,
+                      horizontal: 12,
                     ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(.1),
+                        offset: const Offset(2, 2),
+                        blurRadius: 4,
+                        spreadRadius: -1,
+                      ),
+                    ],
+                    onTap: () {},
                     child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          height: 50,
-                          width: 50,
-                          padding: const EdgeInsets.all(8),
+                          height: 48,
+                          width: 48,
+                          padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
                             color: secondaryColor,
@@ -136,10 +132,8 @@ class AdminHomePage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 12),
+                        const Spacer(),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Expanded(
                               child: Text(
@@ -150,26 +144,22 @@ class AdminHomePage extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            InkWell(
-                              onTap: () {},
-                              child: SvgAsset(
-                                height: 24,
-                                width: 24,
-                                color: accentColor,
-                                assetPath: AssetPath.getIcon(
-                                  "caret-line-right.svg",
-                                ),
+                            SvgAsset(
+                              height: 18,
+                              width: 18,
+                              color: accentColor,
+                              assetPath: AssetPath.getIcon(
+                                "caret-line-right.svg",
                               ),
                             ),
                           ],
-                        )
+                        ),
                       ],
                     ),
                   ),
                 ),
               ),
             ),
-            const SizedBox(height: 24),
           ],
         ),
       ),

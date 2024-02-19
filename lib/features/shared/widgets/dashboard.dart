@@ -11,8 +11,7 @@ class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(12),
+      height: 144,
       decoration: BoxDecoration(
         color: scaffoldBackgroundColor,
         borderRadius: BorderRadius.circular(16),
@@ -25,40 +24,48 @@ class Dashboard extends StatelessWidget {
           ),
         ],
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: List<SizedBox>.generate(
-          items.length,
-          (index) => SizedBox(
-            width: 80,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                GradientBackgroundIcon(
-                  icon: items[index]["icon"] as String,
-                  size: 58,
-                ),
-                const SizedBox(height: 4),
-                Flexible(
-                  child: Text(
-                    '${items[index]["count"] as int}',
-                    style: textTheme.titleMedium!.copyWith(
-                      color: primaryColor,
-                    ),
-                  ),
-                ),
-                Flexible(
-                  child: Text(
-                    items[index]["text"] as String,
-                    textAlign: TextAlign.center,
-                    style: textTheme.bodyMedium!.copyWith(
-                      height: 0,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+      child: Center(
+        child: ListView.builder(
+          padding: const EdgeInsets.symmetric(
+            vertical: 16,
+            horizontal: 12,
           ),
+          shrinkWrap: true,
+          scrollDirection: Axis.horizontal,
+          itemCount: items.length,
+          itemBuilder: (context, index) {
+            return SizedBox(
+              width: 84,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  GradientBackgroundIcon(
+                    icon: items[index]["icon"] as String,
+                    size: 56,
+                  ),
+                  const SizedBox(height: 4),
+                  Flexible(
+                    child: Text(
+                      '${items[index]["count"] as int}',
+                      textAlign: TextAlign.center,
+                      style: textTheme.titleMedium!.copyWith(
+                        color: primaryColor,
+                      ),
+                    ),
+                  ),
+                  Flexible(
+                    child: Text(
+                      items[index]["text"] as String,
+                      textAlign: TextAlign.center,
+                      style: textTheme.bodySmall!.copyWith(
+                        height: 0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
         ),
       ),
     );

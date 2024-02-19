@@ -151,8 +151,8 @@ class _LoginPageState extends State<LoginPage>
     if (formKey.currentState!.saveAndValidate()) {
       final data = formKey.currentState!.value;
 
-      if (data['username'] != user.username ||
-          data['password'] != user.password) {
+      if (data['username'] != admin.username ||
+          data['password'] != admin.password) {
         // Show failure message
         context.showBanner(
           message: 'Username atau password salah!',
@@ -161,11 +161,13 @@ class _LoginPageState extends State<LoginPage>
       } else {
         // Show loading - send data - close loading
 
-        // Navigate to main menu
-        navigatorKey.currentState!.pushReplacementNamed(
-          mainMenuRoute,
-          arguments: user.roleId,
-        );
+        // Navigate to main menu or user page
+        // navigatorKey.currentState!.pushReplacementNamed(
+        //   mainMenuRoute,
+        //   arguments: admin.roleId,
+        // );
+
+        navigatorKey.currentState!.pushReplacementNamed(adminHomeRoute);
       }
     }
   }

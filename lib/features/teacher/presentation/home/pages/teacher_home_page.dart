@@ -18,7 +18,6 @@ class TeacherHomePage extends StatefulWidget {
 
 class _TeacherHomePageState extends State<TeacherHomePage> {
   late final List<Map<String, dynamic>> dashboardItems;
-  late final List<Map<String, String>> booksItems;
 
   @override
   void initState() {
@@ -28,31 +27,12 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
       {
         "icon": "question-circle-line.svg",
         "count": 20,
-        "text": "Pertanyaan Dijawab",
+        "text": "Pertanyaan\nDijawab",
       },
       {
         "icon": "book-bold.svg",
         "count": 9,
-        "text": "Buku yang Dibaca",
-      },
-    ];
-
-    booksItems = [
-      {
-        "img": "sample-book-cover.jpg",
-        "title": "Books 1",
-      },
-      {
-        "img": "sample-book-cover.jpg",
-        "title": "Books 2",
-      },
-      {
-        "img": "sample-book-cover.jpg",
-        "title": "Books 3",
-      },
-      {
-        "img": "sample-book-cover.jpg",
-        "title": "Books 4",
+        "text": "Buku\nDibaca",
       },
     ];
   }
@@ -65,64 +45,61 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
         child: Column(
           children: [
             HomePageHeader(
-              isAdmin: false,
-              isProfile: false,
-              onPressedProfileIcon: () {
-                navigatorKey.currentState!.pushNamed(
-                  profileRoute,
-                  arguments: teacher.roleId,
-                );
-              },
+              user: teacher,
+              onPressedProfileIcon: () => navigatorKey.currentState!.pushNamed(
+                profileRoute,
+                arguments: teacher.roleId,
+              ),
               child: Dashboard(
                 items: dashboardItems,
               ),
             ),
-            const SizedBox(height: 100),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.fromLTRB(20, 86, 20, 24),
               child: Column(
                 children: [
                   Row(
                     children: [
                       Expanded(
                         child: Text(
-                          "Perlu Dijawab",
-                          style: textTheme.headlineSmall!.copyWith(
+                          'Perlu Dijawab',
+                          style: textTheme.titleLarge!.copyWith(
                             color: primaryColor,
                           ),
                         ),
                       ),
-                      Text(
-                        "Lihat Lebih Banyak >",
-                        style: textTheme.bodySmall!.copyWith(
-                          color: primaryTextColor,
+                      GestureDetector(
+                        onTap: () => navigatorKey.currentState!.pushNamed(
+                          teacherQuestionListRoute,
+                        ),
+                        child: Text(
+                          'Lihat Selengkapnya >',
+                          style: textTheme.bodySmall!.copyWith(
+                            color: primaryColor,
+                          ),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
-                  ListView.builder(
+                  const SizedBox(height: 12),
+                  ListView.separated(
                     physics: const NeverScrollableScrollPhysics(),
                     padding: const EdgeInsets.all(0),
                     shrinkWrap: true,
                     itemCount: 3,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Padding(
-                        padding: EdgeInsets.only(
-                          top: index == 0 ? 0 : 4,
-                          bottom: index == 2 ? 0 : 4,
-                        ),
-                        child: DiscussionCard(
-                          question: dummyQuestions[index],
-                          roleId: 2,
-                        ),
+                    itemBuilder: (context, index) {
+                      return DiscussionCard(
+                        question: dummyQuestions[index],
+                        roleId: 2,
                       );
                     },
-                  )
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(height: 8);
+                    },
+                  ),
                 ],
               ),
             ),
-            const SizedBox(height: 32),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
@@ -131,16 +108,21 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
                     children: [
                       Expanded(
                         child: Text(
-                          "Buku Terbaru",
-                          style: textTheme.headlineSmall!.copyWith(
+                          'Buku Terbaru',
+                          style: textTheme.titleLarge!.copyWith(
                             color: primaryColor,
                           ),
                         ),
                       ),
-                      Text(
-                        "Lihat Lebih Banyak >",
-                        style: textTheme.bodySmall!.copyWith(
-                          color: primaryTextColor,
+                      GestureDetector(
+                        onTap: () => navigatorKey.currentState!.pushNamed(
+                          libraryBookListRoute,
+                        ),
+                        child: Text(
+                          'Lihat Selengkapnya >',
+                          style: textTheme.bodySmall!.copyWith(
+                            color: primaryColor,
+                          ),
                         ),
                       ),
                     ],
@@ -152,30 +134,31 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
                       color: secondaryTextColor,
                     ),
                   ),
-                  const SizedBox(height: 12),
-                  SizedBox(
-                    height: 200,
-                    child: ListView.builder(
-                      padding: const EdgeInsets.all(0),
-                      shrinkWrap: true,
-                      clipBehavior: Clip.none,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 4,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Padding(
-                          padding: EdgeInsets.only(
-                            left: index == 0 ? 0 : 4,
-                            right: index == 5 ? 0 : 4,
-                          ),
-                          child: BookItem(
-                            book: dummyBooks[index],
-                            width: 120,
-                          ),
-                        );
-                      },
-                    ),
-                  )
                 ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 12,
+                bottom: 24,
+              ),
+              child: SizedBox(
+                height: 180,
+                child: ListView.separated(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  itemCount: 5,
+                  itemBuilder: (context, index) {
+                    return BookItem(
+                      book: dummyBooks[index],
+                      width: 120,
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(width: 8);
+                  },
+                ),
               ),
             ),
           ],

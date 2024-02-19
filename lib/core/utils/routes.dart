@@ -32,11 +32,9 @@ import 'package:law_app/features/student/presentation/course/pages/student_cours
 import 'package:law_app/features/student/presentation/course/pages/student_course_search_page.dart';
 import 'package:law_app/features/student/presentation/discussion/pages/student_discussion_detail_page.dart';
 import 'package:law_app/features/student/presentation/discussion/pages/student_question_list_page.dart';
-import 'package:law_app/features/student/presentation/home/pages/student_home_page.dart';
 import 'package:law_app/features/teacher/presentation/discussion/pages/teacher_discussion_detail_page.dart';
 import 'package:law_app/features/teacher/presentation/discussion/pages/teacher_question_history_page.dart';
 import 'package:law_app/features/teacher/presentation/discussion/pages/teacher_question_list_page.dart';
-import 'package:law_app/features/teacher/presentation/home/pages/teacher_home_page.dart';
 
 // Register the RouteObserver as a navigation observer
 final routeObserver = RouteObserver<ModalRoute<void>>();
@@ -56,10 +54,6 @@ const contactUsRoute = '/profile/contact-us';
 const certificateRoute = '/profile/certificate';
 const notificationRoute = '/notification';
 const adDetailRoute = '/ad-detail';
-
-const studentHomeRoute = '/student-home';
-const teacherHomeRoute = '/teacher-home';
-const adminHomeRoute = '/admin-home';
 
 const glossarySearchRoute = '/glossary-search';
 const glossaryDetailRoute = '/glossary-detail';
@@ -85,6 +79,8 @@ const studentCourseArticleRoute = '/student-course-article';
 const studentCourseQuizHomeRoute = '/student-course-quiz-home';
 const studentCourseQuizRoute = '/student-course-quiz';
 const studentCourseRateRoute = '/student-course-rate';
+
+const adminHomeRoute = '/admin-home';
 
 // App routes generator
 Route<dynamic>? generateAppRoutes(RouteSettings settings) {
@@ -151,18 +147,6 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
     case adDetailRoute:
       return MaterialPageRoute(
         builder: (_) => const AdDetailPage(),
-      );
-    case studentHomeRoute:
-      return MaterialPageRoute(
-        builder: (_) => const StudentHomePage(),
-      );
-    case teacherHomeRoute:
-      return MaterialPageRoute(
-        builder: (_) => const TeacherHomePage(),
-      );
-    case adminHomeRoute:
-      return MaterialPageRoute(
-        builder: (_) => const AdminHomePage(),
       );
     case glossarySearchRoute:
       return PageRouteBuilder(
@@ -276,6 +260,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
 
       return MaterialPageRoute(
         builder: (_) => StudentCourseRatePage(courseDetail: courseDetail),
+      );
+    case adminHomeRoute:
+      return MaterialPageRoute(
+        builder: (_) => const AdminHomePage(),
       );
     default:
       return null;

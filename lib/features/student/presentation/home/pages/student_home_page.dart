@@ -31,17 +31,17 @@ class _StudentHomePageState extends State<StudentHomePage> {
       {
         "icon": "chalkboard-teacher-fill.svg",
         "count": 2,
-        "text": "Course Diambil",
+        "text": "Course\nDiambil",
       },
       {
         "icon": "question-circle-line.svg",
         "count": 20,
-        "text": "Pertanyaan Saya",
+        "text": "Pertanyaan\nDipakai",
       },
       {
         "icon": "book-bold.svg",
         "count": 9,
-        "text": "Buku yang Dibaca",
+        "text": "Buku\nDibaca",
       },
     ];
 
@@ -73,21 +73,18 @@ class _StudentHomePageState extends State<StudentHomePage> {
         child: Column(
           children: [
             HomePageHeader(
-              isAdmin: false,
-              isProfile: false,
-              onPressedProfileIcon: () {
-                navigatorKey.currentState!.pushNamed(
-                  profileRoute,
-                  arguments: user.roleId,
-                );
-              },
+              user: user,
+              onPressedProfileIcon: () => navigatorKey.currentState!.pushNamed(
+                profileRoute,
+                arguments: user.roleId,
+              ),
               child: Dashboard(
                 items: dashboardItems,
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(
-                top: 80,
+                top: 86,
                 bottom: 24,
               ),
               child: CustomCarousel(
@@ -177,26 +174,30 @@ class _StudentHomePageState extends State<StudentHomePage> {
                 ],
               ),
             ),
-            const SizedBox(height: 12),
-            SizedBox(
-              height: 180,
-              child: ListView.separated(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return BookItem(
-                    book: dummyBooks[index],
-                    width: 120,
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return const SizedBox(width: 8);
-                },
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 12,
+                bottom: 24,
+              ),
+              child: SizedBox(
+                height: 180,
+                child: ListView.separated(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  itemCount: 5,
+                  itemBuilder: (context, index) {
+                    return BookItem(
+                      book: dummyBooks[index],
+                      width: 120,
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(width: 8);
+                  },
+                ),
               ),
             ),
-            const SizedBox(height: 24),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
