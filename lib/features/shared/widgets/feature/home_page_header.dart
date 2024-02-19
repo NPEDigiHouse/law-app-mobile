@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:law_app/core/helpers/app_size.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
+import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class HomePageHeader extends StatelessWidget {
@@ -69,36 +71,23 @@ class HomePageHeader extends StatelessWidget {
                             Flexible(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  RichText(
-                                    overflow: TextOverflow.ellipsis,
-                                    text: TextSpan(
-                                      style: textTheme.headlineMedium,
-                                      children: [
-                                        const TextSpan(
-                                          text: 'Selamat Datang,\n',
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w400,
-                                            color: scaffoldBackgroundColor,
-                                          ),
-                                        ),
-                                        TextSpan(
-                                          text: '${user.username}!',
-                                          style: const TextStyle(
-                                            color: accentTextColor,
-                                          ),
-                                        ),
-                                      ],
+                                  Text(
+                                    'Selamat Datang,',
+                                    style: textTheme.bodyLarge!.copyWith(
+                                      color: scaffoldBackgroundColor,
                                     ),
                                   ),
                                   Text(
-                                    user.roleId == 0
-                                        ? "Admin"
-                                        : user.roleId == 1
-                                            ? "Pakar"
-                                            : "Siswa",
+                                    FunctionHelper.getUserNickname(
+                                      user.fullName,
+                                    ),
+                                    style: textTheme.headlineMedium!.copyWith(
+                                      color: accentTextColor,
+                                    ),
+                                  ),
+                                  Text(
+                                    '(${getRoleById(user.roleId)})',
                                     style: textTheme.bodyMedium!.copyWith(
                                       color: accentTextColor,
                                     ),
@@ -108,24 +97,19 @@ class HomePageHeader extends StatelessWidget {
                             ),
                             Row(
                               children: [
-                                SizedBox(
-                                  child: TextButton(
-                                    onPressed: () {
-                                      navigatorKey.currentState!.pushNamed(
-                                        notificationRoute,
-                                      );
-                                    },
-                                    child: SvgAsset(
-                                      width: 36,
-                                      height: 36,
-                                      color: scaffoldBackgroundColor,
-                                      assetPath: AssetPath.getIcon(
-                                        "notification-solid.svg",
-                                      ),
-                                    ),
-                                  ),
+                                CustomIconButton(
+                                  iconName: 'notification-solid.svg',
+                                  color: scaffoldBackgroundColor,
+                                  size: 36,
+                                  tooltip: 'Notifikasi',
+                                  onPressed: () {
+                                    navigatorKey.currentState!.pushNamed(
+                                      notificationRoute,
+                                    );
+                                  },
                                 ),
-                                InkWell(
+                                const SizedBox(width: 4),
+                                GestureDetector(
                                   onTap: onPressedProfileIcon,
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -136,7 +120,7 @@ class HomePageHeader extends StatelessWidget {
                                       ),
                                     ),
                                     child: CircleAvatar(
-                                      radius: 23,
+                                      radius: 20,
                                       foregroundImage: AssetImage(
                                         AssetPath.getImage("no-profile.jpg"),
                                       ),
@@ -144,7 +128,7 @@ class HomePageHeader extends StatelessWidget {
                                   ),
                                 ),
                               ],
-                            )
+                            ),
                           ],
                         )
                       : Container(
@@ -221,12 +205,25 @@ class HomePageHeader extends StatelessWidget {
           ),
         ),
         Positioned(
-          top: !isAdmin ? 160 : 180,
+          top: !isAdmin ? 150 : 170,
           left: 20,
           right: 20,
           child: child,
         ),
       ],
     );
+  }
+
+  String? getRoleById(int id) {
+    switch (id) {
+      case 0:
+        return 'Admin';
+      case 1:
+        return 'Student';
+      case 2:
+        return 'Pakar';
+      default:
+        return null;
+    }
   }
 }

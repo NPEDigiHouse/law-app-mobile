@@ -1,6 +1,4 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
@@ -11,6 +9,8 @@ import 'package:law_app/features/shared/widgets/feature/book_item.dart';
 import 'package:law_app/features/shared/widgets/feature/course_card.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
 import 'package:law_app/features/shared/widgets/feature/home_page_header.dart';
+import 'package:law_app/features/student/presentation/course/pages/student_course_home_page.dart';
+import 'package:law_app/features/student/presentation/home/widgets/custom_carousel.dart';
 
 class StudentHomePage extends StatefulWidget {
   const StudentHomePage({super.key});
@@ -22,7 +22,6 @@ class StudentHomePage extends StatefulWidget {
 class _StudentHomePageState extends State<StudentHomePage> {
   late final List<Map<String, dynamic>> dashboardItems;
   late final List<Map<String, String>> carouselItems;
-  late final List<Map<String, dynamic>> courseItems;
 
   @override
   void initState() {
@@ -64,33 +63,6 @@ class _StudentHomePageState extends State<StudentHomePage> {
         "text": "Promo Mingguan 4",
       },
     ];
-
-    courseItems = [
-      {
-        "img": "sample-course-image.jpg",
-        "title": "Tips Menerjemahkan Dokumen Hukum Berbahasa Asing",
-        "completionTime": 48.8,
-        "isActive": true,
-        "totalStudent": 100,
-        "rating": 5.0,
-      },
-      {
-        "img": "sample-course-image.jpg",
-        "title": "Tips Menerjemahkan",
-        "completionTime": 48.8,
-        "isActive": false,
-        "totalStudent": 150,
-        "rating": 0.0,
-      },
-      {
-        "img": "sample-course-image.jpg",
-        "title": "Tips Menerjemahkan Dokumen",
-        "completionTime": 48.8,
-        "isActive": true,
-        "totalStudent": 110,
-        "rating": 3.5,
-      },
-    ];
   }
 
   @override
@@ -113,11 +85,15 @@ class _StudentHomePageState extends State<StudentHomePage> {
                 items: dashboardItems,
               ),
             ),
-            const SizedBox(height: 100),
-            CustomCarouselWithIndicator(
-              items: carouselItems,
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 80,
+                bottom: 24,
+              ),
+              child: CustomCarousel(
+                items: carouselItems,
+              ),
             ),
-            const SizedBox(height: 24),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
@@ -126,43 +102,44 @@ class _StudentHomePageState extends State<StudentHomePage> {
                     children: [
                       Expanded(
                         child: Text(
-                          "Sedang Hangat",
-                          style: textTheme.headlineSmall!.copyWith(
+                          'Sedang Hangat',
+                          style: textTheme.titleLarge!.copyWith(
                             color: primaryColor,
                           ),
                         ),
                       ),
-                      Text(
-                        "Lihat Lebih Banyak >",
-                        style: textTheme.bodySmall!.copyWith(
-                          color: primaryTextColor,
+                      GestureDetector(
+                        onTap: () => navigatorKey.currentState!.pushNamed(
+                          publicDiscussionRoute,
+                          arguments: 1,
+                        ),
+                        child: Text(
+                          'Lihat Selengkapnya >',
+                          style: textTheme.bodySmall!.copyWith(
+                            color: primaryColor,
+                          ),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
-                  ListView.builder(
+                  ListView.separated(
                     physics: const NeverScrollableScrollPhysics(),
-                    padding: const EdgeInsets.all(0),
+                    padding: const EdgeInsets.fromLTRB(0, 12, 0, 24),
                     shrinkWrap: true,
                     itemCount: 3,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Padding(
-                        padding: EdgeInsets.only(
-                          top: index == 0 ? 0 : 4,
-                          bottom: index == 2 ? 0 : 4,
-                        ),
-                        child: DiscussionCard(
-                          question: dummyQuestions[index],
-                          roleId: 1,
-                        ),
+                    itemBuilder: (context, index) {
+                      return DiscussionCard(
+                        question: dummyQuestions[index],
+                        roleId: 1,
                       );
                     },
-                  )
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(height: 8);
+                    },
+                  ),
                 ],
               ),
             ),
-            const SizedBox(height: 32),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
@@ -171,16 +148,21 @@ class _StudentHomePageState extends State<StudentHomePage> {
                     children: [
                       Expanded(
                         child: Text(
-                          "Buku Terbaru",
-                          style: textTheme.headlineSmall!.copyWith(
+                          'Buku Terbaru',
+                          style: textTheme.titleLarge!.copyWith(
                             color: primaryColor,
                           ),
                         ),
                       ),
-                      Text(
-                        "Lihat Lebih Banyak >",
-                        style: textTheme.bodySmall!.copyWith(
-                          color: primaryTextColor,
+                      GestureDetector(
+                        onTap: () => navigatorKey.currentState!.pushNamed(
+                          libraryBookListRoute,
+                        ),
+                        child: Text(
+                          'Lihat Selengkapnya >',
+                          style: textTheme.bodySmall!.copyWith(
+                            color: primaryColor,
+                          ),
                         ),
                       ),
                     ],
@@ -192,30 +174,26 @@ class _StudentHomePageState extends State<StudentHomePage> {
                       color: secondaryTextColor,
                     ),
                   ),
-                  const SizedBox(height: 12),
-                  SizedBox(
-                    height: 200,
-                    child: ListView.builder(
-                      padding: const EdgeInsets.all(0),
-                      shrinkWrap: true,
-                      clipBehavior: Clip.none,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 4,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Padding(
-                          padding: EdgeInsets.only(
-                            left: index == 0 ? 0 : 4,
-                            right: index == 5 ? 0 : 4,
-                          ),
-                          child: BookItem(
-                            book: dummyBooks[index],
-                            width: 120,
-                          ),
-                        );
-                      },
-                    ),
-                  )
                 ],
+              ),
+            ),
+            const SizedBox(height: 12),
+            SizedBox(
+              height: 180,
+              child: ListView.separated(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                itemCount: 5,
+                itemBuilder: (context, index) {
+                  return BookItem(
+                    book: dummyBooks[index],
+                    width: 120,
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return const SizedBox(width: 8);
+                },
               ),
             ),
             const SizedBox(height: 24),
@@ -227,16 +205,23 @@ class _StudentHomePageState extends State<StudentHomePage> {
                     children: [
                       Expanded(
                         child: Text(
-                          "Popular Course",
-                          style: textTheme.headlineSmall!.copyWith(
+                          'Popular Course',
+                          style: textTheme.titleLarge!.copyWith(
                             color: primaryColor,
                           ),
                         ),
                       ),
-                      Text(
-                        "Lihat Lebih Banyak >",
-                        style: textTheme.bodySmall!.copyWith(
-                          color: primaryTextColor,
+                      GestureDetector(
+                        onTap: () => navigatorKey.currentState!.push(
+                          MaterialPageRoute(
+                            builder: (_) => const StudentCourseHomePage(),
+                          ),
+                        ),
+                        child: Text(
+                          'Lihat Selengkapnya >',
+                          style: textTheme.bodySmall!.copyWith(
+                            color: primaryColor,
+                          ),
                         ),
                       ),
                     ],
@@ -248,139 +233,26 @@ class _StudentHomePageState extends State<StudentHomePage> {
                       color: secondaryTextColor,
                     ),
                   ),
-                  const SizedBox(height: 8),
-                  ListView.builder(
+                  ListView.separated(
                     physics: const NeverScrollableScrollPhysics(),
-                    padding: const EdgeInsets.all(0),
+                    padding: const EdgeInsets.fromLTRB(0, 12, 0, 24),
                     shrinkWrap: true,
                     itemCount: 3,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Padding(
-                        padding: EdgeInsets.only(
-                          top: index == 0 ? 0 : 4,
-                          bottom: index == 2 ? 0 : 4,
-                        ),
-                        child: CourseCard(
-                          course: dummyCourses[index],
-                        ),
+                    itemBuilder: (context, index) {
+                      return CourseCard(
+                        course: dummyCourses[index],
                       );
                     },
-                  )
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(height: 8);
+                    },
+                  ),
                 ],
               ),
             ),
           ],
         ),
       ),
-    );
-  }
-}
-
-class CustomCarouselWithIndicator extends StatefulWidget {
-  final List<Map<String, dynamic>> items;
-
-  const CustomCarouselWithIndicator({super.key, required this.items});
-
-  @override
-  State<CustomCarouselWithIndicator> createState() =>
-      _CustomCarouselWithIndicatorState();
-}
-
-class _CustomCarouselWithIndicatorState
-    extends State<CustomCarouselWithIndicator> {
-  late final ValueNotifier<int> carouselIndex;
-
-  @override
-  void initState() {
-    super.initState();
-
-    carouselIndex = ValueNotifier(0);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-
-    carouselIndex.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        CarouselSlider(
-          items: widget.items.map((item) {
-            return Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(
-                    AssetPath.getImage(item["img"] as String),
-                  ),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Color.fromARGB(18, 244, 133, 125),
-                      Color.fromARGB(115, 31, 6, 4),
-                    ],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        item["text"] as String,
-                        style: textTheme.titleLarge!.copyWith(
-                          color: scaffoldBackgroundColor,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            );
-          }).toList(),
-          options: CarouselOptions(
-            onPageChanged: (index, reason) => carouselIndex.value = index,
-            viewportFraction: 1,
-            height: 160,
-            autoPlay: true,
-            autoPlayInterval: const Duration(milliseconds: 7000),
-          ),
-        ),
-        const SizedBox(height: 8),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: List<ValueListenableBuilder>.generate(
-            widget.items.length,
-            (index) => ValueListenableBuilder(
-              valueListenable: carouselIndex,
-              builder: (context, carouselIndex, child) {
-                return Container(
-                  width: 8,
-                  height: 8,
-                  margin: const EdgeInsets.symmetric(horizontal: 4),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    color: carouselIndex == index
-                        ? primaryColor
-                        : secondaryTextColor,
-                  ),
-                );
-              },
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

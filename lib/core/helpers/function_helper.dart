@@ -39,19 +39,6 @@ class FunctionHelper {
     return '$min:$sec';
   }
 
-  static Color getColorByDiscussionStatus(String status) {
-    switch (status) {
-      case 'open':
-        return infoColor;
-      case 'discuss':
-        return warningColor;
-      case 'solved':
-        return successColor;
-      default:
-        return secondaryTextColor;
-    }
-  }
-
   static bool handleFabVisibilityOnScroll(
     UserScrollNotification notification,
     AnimationController fabAnimationController,
@@ -93,6 +80,27 @@ class FunctionHelper {
       ref.read(isSearchingProvider.notifier).state = false;
     } else {
       navigatorKey.currentState!.pop();
+    }
+  }
+
+  static String getUserNickname(String fullname) {
+    final name = fullname.split(' ');
+
+    if (name.length >= 2) return name[1];
+
+    return name.first;
+  }
+
+  static Color getColorByDiscussionStatus(String status) {
+    switch (status) {
+      case 'open':
+        return infoColor;
+      case 'discuss':
+        return warningColor;
+      case 'solved':
+        return successColor;
+      default:
+        return secondaryTextColor;
     }
   }
 }

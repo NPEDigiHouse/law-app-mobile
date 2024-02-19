@@ -4,13 +4,13 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class GradientBackgroundIcon extends StatelessWidget {
-  final double size;
   final String icon;
+  final double size;
 
   const GradientBackgroundIcon({
     super.key,
-    required this.size,
     required this.icon,
+    required this.size,
   });
 
   @override
