@@ -10,8 +10,8 @@ import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
-import 'package:law_app/features/student/presentation/course/widget/curriculum_card.dart';
-import 'package:law_app/features/student/presentation/course/widget/enroll_course_dialog.dart';
+import 'package:law_app/features/student/presentation/course/widgets/curriculum_card.dart';
+import 'package:law_app/features/student/presentation/course/widgets/enroll_course_dialog.dart';
 
 class StudentCourseDetailPage extends StatelessWidget {
   final Course course;

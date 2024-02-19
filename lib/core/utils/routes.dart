@@ -22,12 +22,12 @@ import 'package:law_app/features/profile/presentation/pages/contact_us_page.dart
 import 'package:law_app/features/profile/presentation/pages/faq_page.dart';
 import 'package:law_app/features/profile/presentation/pages/profile_page.dart';
 import 'package:law_app/features/shared/pages/public_discussion_page.dart';
-import 'package:law_app/features/student/presentation/course/pages/quiz/student_course_quiz_home_page.dart';
-import 'package:law_app/features/student/presentation/course/pages/quiz/student_course_quiz_page.dart';
 import 'package:law_app/features/student/presentation/course/pages/student_course_article_page.dart';
 import 'package:law_app/features/student/presentation/course/pages/student_course_detail_page.dart';
 import 'package:law_app/features/student/presentation/course/pages/student_course_lesson_page.dart';
 import 'package:law_app/features/student/presentation/course/pages/student_course_progress_page.dart';
+import 'package:law_app/features/student/presentation/course/pages/student_course_quiz_home_page.dart';
+import 'package:law_app/features/student/presentation/course/pages/student_course_quiz_page.dart';
 import 'package:law_app/features/student/presentation/course/pages/student_course_rate_page.dart';
 import 'package:law_app/features/student/presentation/course/pages/student_course_search_page.dart';
 import 'package:law_app/features/student/presentation/discussion/pages/student_discussion_detail_page.dart';

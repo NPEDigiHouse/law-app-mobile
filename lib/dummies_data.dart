@@ -523,7 +523,7 @@ CourseDetail generateDummyCourseDetail(Course course) {
 
   const item = Item(
     question:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit ut ac interdum orci?',
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit ut ac interdum orci. Aliquam cursus purus sed ultrices sagittis?',
     answers: {
       'A': 'Choice 1',
       'B': 'Choice 2',

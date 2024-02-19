@@ -11,7 +11,7 @@ import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
-import 'package:law_app/features/student/presentation/course/pages/quiz/student_course_quiz_page.dart';
+import 'package:law_app/features/student/presentation/course/pages/student_course_quiz_page.dart';
 
 class StudentCourseQuizHomePage extends StatelessWidget {
   final Quiz quiz;
@@ -91,13 +91,17 @@ class StudentCourseQuizHomePage extends StatelessWidget {
                 );
 
                 if (value != null) {
-                  navigatorKey.currentState!.pushNamed(
+                  final result = await navigatorKey.currentState!.pushNamed(
                     studentCourseQuizRoute,
                     arguments: StudentCourseQuizArgs(
                       duration: quiz.completionTime,
                       items: quiz.items,
                     ),
                   );
+
+                  if (result != null) {
+                    debugPrint((result as List<String>).toString());
+                  }
                 }
               },
               style: FilledButton.styleFrom(

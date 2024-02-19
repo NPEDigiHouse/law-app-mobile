@@ -10,7 +10,7 @@ import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
 import 'package:law_app/features/shared/widgets/feature/course_card.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
-import 'package:law_app/features/student/presentation/course/widget/course_list_bottom_sheet.dart';
+import 'package:law_app/features/student/presentation/course/widgets/course_list_bottom_sheet.dart';
 
 class StudentCourseHomePage extends StatefulWidget {
   const StudentCourseHomePage({super.key});

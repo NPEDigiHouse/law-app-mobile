@@ -201,7 +201,7 @@ class _RegisterPageState extends State<RegisterPage>
                           CustomTextField(
                             name: 'dateOfBirth',
                             label: 'Tanggal Lahir',
-                            hintText: 'dd/mm/yyyy',
+                            hintText: 'dd/MM/yyyy',
                             hasPrefixIcon: false,
                             suffixIconName: 'calendar.svg',
                             textInputType: TextInputType.none,

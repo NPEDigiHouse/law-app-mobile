@@ -32,7 +32,7 @@ class OptionCard extends StatelessWidget {
       onTap: () => onSelected(!selected),
       child: Padding(
         padding: const EdgeInsets.symmetric(
-          vertical: 24,
+          vertical: 20,
           horizontal: 16,
         ),
         child: Text(

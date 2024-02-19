@@ -5,7 +5,7 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
-import 'package:law_app/features/student/presentation/course/widget/lesson_card.dart';
+import 'package:law_app/features/student/presentation/course/widgets/lesson_card.dart';
 
 class StudentCourseLessonPage extends StatelessWidget {
   final Curriculum curriculum;

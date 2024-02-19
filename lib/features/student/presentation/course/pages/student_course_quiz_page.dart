@@ -11,7 +11,7 @@ import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/providers/count_down_timer_provider.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
-import 'package:law_app/features/student/presentation/course/widget/option_card.dart';
+import 'package:law_app/features/student/presentation/course/widgets/option_card.dart';
 
 class StudentCourseQuizPage extends ConsumerStatefulWidget {
   final int duration;
@@ -31,6 +31,7 @@ class StudentCourseQuizPage extends ConsumerStatefulWidget {
 class _StudentCourseQuizPageState extends ConsumerState<StudentCourseQuizPage> {
   late final ValueNotifier<int> selectedPage;
   late final PageController pageController;
+  late List<String> results;
 
   @override
   void initState() {
@@ -38,6 +39,7 @@ class _StudentCourseQuizPageState extends ConsumerState<StudentCourseQuizPage> {
 
     selectedPage = ValueNotifier(0);
     pageController = PageController();
+    results = List<String>.generate(widget.items.length, (_) => '');
   }
 
   @override
@@ -64,7 +66,7 @@ class _StudentCourseQuizPageState extends ConsumerState<StudentCourseQuizPage> {
 
     ref.listen(timerProvider, (previous, next) {
       if (next.value == 0) {
-        navigatorKey.currentState!.pop();
+        navigatorKey.currentState!.pop(results);
       }
     });
 
@@ -147,6 +149,9 @@ class _StudentCourseQuizPageState extends ConsumerState<StudentCourseQuizPage> {
                           onPressedNextButton: () {
                             pageController.jumpToPage(page + 1);
                           },
+                          onOptionChanged: (option) => results[index] = option,
+                          results:
+                              page == widget.items.length - 1 ? results : null,
                         );
                       },
                     ),
@@ -188,6 +193,8 @@ class QuestionPage extends StatefulWidget {
   final bool isLast;
   final VoidCallback onPressedPreviousButton;
   final VoidCallback onPressedNextButton;
+  final ValueChanged<String> onOptionChanged;
+  final List<String>? results;
 
   const QuestionPage({
     super.key,
@@ -197,6 +204,8 @@ class QuestionPage extends StatefulWidget {
     required this.isLast,
     required this.onPressedPreviousButton,
     required this.onPressedNextButton,
+    required this.onOptionChanged,
+    this.results,
   });
 
   @override
@@ -261,7 +270,10 @@ class _QuestionPageState extends State<QuestionPage>
                 child: OptionCard(
                   label: '${options[index]}. ${values[index]}',
                   selected: option == options[index],
-                  onSelected: (_) => selectedOption.value = options[index],
+                  onSelected: (_) {
+                    selectedOption.value = options[index];
+                    widget.onOptionChanged(options[index]);
+                  },
                 ),
               );
             },
@@ -341,15 +353,30 @@ class _QuestionPageState extends State<QuestionPage>
         if (widget.isLast) ...[
           const SizedBox(height: 20),
           FilledButton(
-            onPressed: () => context.showConfirmDialog(
-              title: 'Submit Quiz?',
-              message: 'Pastikan kamu yakin dengan semua jawaban kamu.',
-              primaryButtonText: 'Submit',
-              onPressedPrimaryButton: () {
-                navigatorKey.currentState!.pop();
-                navigatorKey.currentState!.pop();
-              },
-            ),
+            onPressed: () {
+              if (widget.results!.contains('')) {
+                context.showCustomAlertDialog(
+                  title: 'Submit Quiz?',
+                  message:
+                      'Masih terdapat pertanyaan yang belum dijawab! Yakin ingin mengumpulkan quiz sekarang?',
+                  primaryButtonText: 'Submit',
+                  onPressedPrimaryButton: () {
+                    navigatorKey.currentState!.pop();
+                    navigatorKey.currentState!.pop(widget.results);
+                  },
+                );
+              } else {
+                context.showConfirmDialog(
+                  title: 'Submit Quiz?',
+                  message: 'Pastikan kamu yakin dengan semua jawaban kamu.',
+                  primaryButtonText: 'Submit',
+                  onPressedPrimaryButton: () {
+                    navigatorKey.currentState!.pop();
+                    navigatorKey.currentState!.pop(widget.results);
+                  },
+                );
+              }
+            },
             child: const Text('Submit Quiz!'),
           ).fullWidth(),
         ],

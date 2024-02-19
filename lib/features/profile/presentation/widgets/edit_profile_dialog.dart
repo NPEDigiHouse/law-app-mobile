@@ -93,7 +93,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
               isSmall: true,
               name: "dateOfBirth",
               label: "Tanggal Lahir",
-              hintText: "dd/mm/yyyy",
+              hintText: "dd/MM/yyyy",
               initialValue: user.dateOfBirth,
               hasPrefixIcon: false,
               suffixIconName: "calendar.svg",
