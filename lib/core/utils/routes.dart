@@ -272,8 +272,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         ),
       );
     case studentCourseRateRoute:
+      final courseDetail = settings.arguments as CourseDetail;
+
       return MaterialPageRoute(
-        builder: (_) => const StudentCourseRatePage(),
+        builder: (_) => StudentCourseRatePage(courseDetail: courseDetail),
       );
     default:
       return null;

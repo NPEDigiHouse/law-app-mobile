@@ -165,8 +165,11 @@ class StudentCourseProgressPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 12),
                     FilledButton(
-                      onPressed: () {},
-                      child: const Text('Klaim Sertifikat'),
+                      onPressed: () => navigatorKey.currentState!.pushNamed(
+                        studentCourseRateRoute,
+                        arguments: courseDetail,
+                      ),
+                      child: const Text('Dapatkan Sertifikat'),
                     ).fullWidth(),
                   ],
                 ),
