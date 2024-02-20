@@ -30,7 +30,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
           children: [
             CustomTextField(
               isSmall: true,
-              name: "name",
+              name: "fullname",
               label: "Nama Lengkap",
               hintText: "Masukkan nama lengkap kamu",
               initialValue: user.fullName,
@@ -92,7 +92,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
             const SizedBox(height: 10),
             CustomTextField(
               isSmall: true,
-              name: "dateOfBirth",
+              name: "birthDate",
               label: "Tanggal Lahir",
               hintText: "dd MMMM yyyy",
               initialValue: user.dateOfBirth,
@@ -133,7 +133,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
   }
 
   Future<void> showBirthDatePicker() async {
-    final dateOfBirth = await showDatePicker(
+    final birthDate = await showDatePicker(
       context: context,
       initialDate: date,
       firstDate: DateTime(date.year - 30),
@@ -143,12 +143,12 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
       locale: const Locale('id', 'ID'),
     );
 
-    if (dateOfBirth != null) {
-      date = dateOfBirth;
+    if (birthDate != null) {
+      date = birthDate;
 
       final value = date.toStringPattern('dd MMMM yyyy');
 
-      formKey.currentState!.fields['dateOfBirth']!.didChange(value);
+      formKey.currentState!.fields['birthDate']!.didChange(value);
     }
   }
 

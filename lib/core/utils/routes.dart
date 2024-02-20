@@ -100,13 +100,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => const ForgotpasswordPage(),
       );
     case otpRoute:
-      final otpPageArgs = settings.arguments as OtpPageArgs;
+      final email = settings.arguments as String;
 
       return MaterialPageRoute(
-        builder: (_) => OtpPage(
-          email: otpPageArgs.email,
-          userData: otpPageArgs.userData,
-        ),
+        builder: (_) => OtpPage(email: email),
       );
     case resetPasswordRoute:
       return MaterialPageRoute(

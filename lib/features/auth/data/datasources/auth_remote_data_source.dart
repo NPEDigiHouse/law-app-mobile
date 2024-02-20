@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/services/api_service.dart';
@@ -15,24 +16,21 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<bool> signUp({required UserSignUpModel userSignUpModel}) async {
     try {
-      final uri = Uri.parse('${ApiService.baseUrl}/auth/signup');
-
       final response = await client.post(
-        uri,
+        Uri.parse('${ApiService.baseUrl}/auth/signup'),
         headers: {
-          "content-type": 'application/json',
-          "authorization": 'Basic ${ApiService.token}'
+          'Content-Type': 'application/json',
         },
-        body: userSignUpModel.toMap(),
+        body: userSignUpModel.toJson(),
       );
 
       if (response.statusCode == 200) {
         return true;
       }
 
-      throw const ServerException('server_error');
-    } catch (_) {
-      throw http.ClientException('client_error');
+      throw ServerException(jsonDecode(response.body)['message']);
+    } catch (e) {
+      throw http.ClientException(e.toString());
     }
   }
 }

@@ -13,7 +13,6 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/dummies_data.dart';
-import 'package:law_app/features/auth/presentation/pages/otp_page.dart';
 import 'package:law_app/features/auth/presentation/widgets/secondary_header.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 import 'package:law_app/features/shared/widgets/text_field/custom_text_field.dart';
@@ -142,7 +141,7 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage>
         // Navigate to otp page if success
         navigatorKey.currentState!.pushNamed(
           otpRoute,
-          arguments: OtpPageArgs(email: email),
+          arguments: email,
         );
       }
     }

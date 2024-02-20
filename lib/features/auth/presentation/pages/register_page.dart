@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/button_extension.dart';
@@ -13,19 +14,20 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/dummies_data.dart';
-import 'package:law_app/features/auth/presentation/pages/otp_page.dart';
+import 'package:law_app/features/auth/data/models/user_register_model.dart';
+import 'package:law_app/features/auth/presentation/providers/sign_up_provider.dart';
 import 'package:law_app/features/auth/presentation/widgets/primary_header.dart';
 import 'package:law_app/features/shared/widgets/text_field/custom_text_field.dart';
 import 'package:law_app/features/shared/widgets/text_field/password_text_field.dart';
 
-class RegisterPage extends StatefulWidget {
+class RegisterPage extends ConsumerStatefulWidget {
   const RegisterPage({super.key});
 
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  ConsumerState<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage>
+class _RegisterPageState extends ConsumerState<RegisterPage>
     with AfterLayoutMixin<RegisterPage> {
   late final ValueNotifier<String> password;
 
@@ -90,7 +92,7 @@ class _RegisterPageState extends State<RegisterPage>
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           CustomTextField(
-                            name: 'name',
+                            name: 'fullname',
                             label: 'Nama Lengkap',
                             hintText: 'Masukkan nama lengkap kamu',
                             hasPrefixIcon: false,
@@ -200,7 +202,7 @@ class _RegisterPageState extends State<RegisterPage>
                           ),
                           const SizedBox(height: 20),
                           CustomTextField(
-                            name: 'dateOfBirth',
+                            name: 'birthDate',
                             label: 'Tanggal Lahir',
                             hintText: 'dd MMMM yyyy',
                             hasPrefixIcon: false,
@@ -257,7 +259,7 @@ class _RegisterPageState extends State<RegisterPage>
                     ),
                     const SizedBox(height: 20),
                     FilledButton(
-                      onPressed: sendOtpCode,
+                      onPressed: register,
                       child: const Text('Daftarkan Sekarang'),
                     ).fullWidth(),
                   ],
@@ -283,7 +285,7 @@ class _RegisterPageState extends State<RegisterPage>
   }
 
   Future<void> showBirthDatePicker() async {
-    final dateOfBirth = await showDatePicker(
+    final birthDate = await showDatePicker(
       context: context,
       initialDate: date,
       firstDate: DateTime(date.year - 30),
@@ -293,20 +295,34 @@ class _RegisterPageState extends State<RegisterPage>
       locale: const Locale('id', 'ID'),
     );
 
-    if (dateOfBirth != null) {
-      date = dateOfBirth;
+    if (birthDate != null) {
+      date = birthDate;
 
       final value = date.toStringPattern('dd MMMM yyyy');
 
-      formKey.currentState!.fields['dateOfBirth']!.didChange(value);
+      formKey.currentState!.fields['birthDate']!.didChange(value);
     }
   }
 
-  void sendOtpCode() {
+  void register() {
     FocusManager.instance.primaryFocus?.unfocus();
 
     if (formKey.currentState!.saveAndValidate()) {
       final data = formKey.currentState!.value;
+
+      final userSignUpModel = UserSignUpModel(
+        fullname: data['fullname'],
+        username: data['username'],
+        email: data['email'],
+        password: data['password'],
+        birthDate: data['birthDate'],
+        phoneNumber: data['phoneNumber'],
+        role: 'student',
+      );
+
+      ref.read(signUpProvider.notifier).signUp(
+            userSignUpModel: userSignUpModel,
+          );
 
       if (data['email'] == user.email) {
         // Show failure message
@@ -317,13 +333,14 @@ class _RegisterPageState extends State<RegisterPage>
       } else {
         // Show loading - send data - close loading
 
-        // Navigate to otp page if success
-        navigatorKey.currentState!.pushNamed(
-          otpRoute,
-          arguments: OtpPageArgs(
-            email: data['email'],
-            userData: data,
-          ),
+        // Navigate to login page if success, with banner data
+        navigatorKey.currentState!.pushReplacementNamed(
+          loginRoute,
+          arguments: {
+            'message':
+                'Akun Anda berhasil dibuat. Silahkan login dengan akun tersebut.',
+            'bannerType': BannerType.success,
+          },
         );
       }
     }

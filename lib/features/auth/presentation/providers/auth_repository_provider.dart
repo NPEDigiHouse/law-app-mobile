@@ -1,16 +1,14 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:law_app/core/utils/http_client.dart';
-import 'package:law_app/features/auth/data/datasources/auth_remote_data_source.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:law_app/features/auth/data/repositories/auth_repository.dart';
+import 'package:law_app/features/auth/presentation/providers/auth_remote_data_source_provider.dart';
 import 'package:law_app/features/shared/providers/network_info_provider.dart';
 
-final authRemoteDataSourceProvider = Provider<AuthRemoteDataSource>(
-  (ref) => AuthRemoteDataSourceImpl(client: HttpClient.client),
-);
+part 'auth_repository_provider.g.dart';
 
-final authRepositoryProvider = Provider<AuthRepository>(
-  (ref) => AuthRepositoryImpl(
+@riverpod
+AuthRepository authRepository(AuthRepositoryRef ref) {
+  return AuthRepositoryImpl(
     authRemoteDataSource: ref.watch(authRemoteDataSourceProvider),
     networkInfo: ref.watch(networkInfoProvider),
-  ),
-);
+  );
+}

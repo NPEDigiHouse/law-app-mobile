@@ -33,13 +33,13 @@ class AuthRepositoryImpl implements AuthRepository {
         );
 
         return Right(result);
-      } on ServerException {
-        return const Left(ServerFailure('server_failure'));
-      } on ClientException {
-        return const Left(ClientFailure('client_failure'));
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message));
+      } on ClientException catch (e) {
+        return Left(ClientFailure(e.message));
       }
+    } else {
+      return const Left(ConnectionFailure('no_internet_connection'));
     }
-
-    return const Left(ConnectionFailure('connection_failure'));
   }
 }

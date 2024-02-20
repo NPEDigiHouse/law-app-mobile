@@ -7,12 +7,12 @@ part 'sign_up_provider.g.dart';
 
 @riverpod
 class SignUp extends _$SignUp {
-  Failure? failure;
-  bool? success;
+  Failure? _failure;
+  bool? _success;
 
   @override
   ({Failure? failure, bool? success}) build() {
-    return (failure: failure, success: success);
+    return (failure: _failure, success: _success);
   }
 
   Future<void> signUp({required UserSignUpModel userSignUpModel}) async {
@@ -21,8 +21,8 @@ class SignUp extends _$SignUp {
         );
 
     result.fold(
-      (l) => failure = l,
-      (r) => success = r,
+      (l) => _failure = l,
+      (r) => _success = r,
     );
   }
 }

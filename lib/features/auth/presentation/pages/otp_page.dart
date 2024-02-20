@@ -21,9 +21,8 @@ import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class OtpPage extends StatefulWidget {
   final String email;
-  final Map<String, dynamic>? userData;
 
-  const OtpPage({super.key, required this.email, this.userData});
+  const OtpPage({super.key, required this.email});
 
   @override
   State<OtpPage> createState() => _OtpPageState();
@@ -262,22 +261,7 @@ class _OtpPageState extends State<OtpPage> with AfterLayoutMixin<OtpPage> {
         type: BannerType.error,
       );
     } else {
-      // Show loading - send data - remove loading
-
-      // Check whether to navigate to reset password page or login page
-      if (widget.userData != null) {
-        navigatorKey.currentState!.pushNamedAndRemoveUntil(
-          loginRoute,
-          (route) => false,
-          arguments: {
-            'message':
-                'Akun Anda berhasil dibuat. Silahkan login menggunakan akun tersebut.',
-            'bannerType': BannerType.success,
-          },
-        );
-      } else {
-        navigatorKey.currentState!.pushReplacementNamed(resetPasswordRoute);
-      }
+      navigatorKey.currentState!.pushReplacementNamed(resetPasswordRoute);
     }
   }
 
@@ -291,11 +275,4 @@ class _OtpPageState extends State<OtpPage> with AfterLayoutMixin<OtpPage> {
       type: BannerType.success,
     );
   }
-}
-
-class OtpPageArgs {
-  final String email;
-  final Map<String, dynamic>? userData;
-
-  OtpPageArgs({required this.email, this.userData});
 }
