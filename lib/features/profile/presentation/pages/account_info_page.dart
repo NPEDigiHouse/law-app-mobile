@@ -8,11 +8,13 @@ import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 
 class AccountInfoPage extends StatelessWidget {
-  const AccountInfoPage({super.key});
+  final User user;
+
+  const AccountInfoPage({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
-    final accountInformations = [
+    final accountInfo = [
       {
         "title": "Nama Lengkap",
         "value": user.fullName,
@@ -45,7 +47,10 @@ class AccountInfoPage extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.symmetric(
+            vertical: 24,
+            horizontal: 20,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -57,44 +62,27 @@ class AccountInfoPage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      Container(
-                        width: 16,
-                        height: 16,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: secondaryTextColor,
-                        ),
+                  CircleAvatar(
+                    radius: 56,
+                    backgroundColor: accentColor,
+                    child: CircleAvatar(
+                      radius: 54,
+                      foregroundImage: AssetImage(
+                        AssetPath.getImage(user.profilePict),
                       ),
-                      const SizedBox(width: 8),
-                      Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: scaffoldBackgroundColor,
-                          border: Border.all(
-                            color: accentColor,
-                          ),
-                        ),
-                        child: CircleAvatar(
-                          radius: 56,
-                          foregroundImage: AssetImage(
-                            AssetPath.getImage("no-profile.jpg"),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  FilledButton(
-                    onPressed: () {},
-                    style: FilledButton.styleFrom(
-                      backgroundColor: secondaryColor,
-                      foregroundColor: primaryColor,
                     ),
-                    child: const Text("Ubah Foto Profil"),
+                  ),
+                  const SizedBox(width: 24),
+                  Expanded(
+                    child: FilledButton(
+                      onPressed: () {},
+                      style: FilledButton.styleFrom(
+                        backgroundColor: secondaryColor,
+                        foregroundColor: primaryColor,
+                      ),
+                      child: const Text("Ubah Foto Profil"),
+                    ),
                   ),
                 ],
               ),
@@ -107,15 +95,14 @@ class AccountInfoPage extends StatelessWidget {
               ),
               ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
+                padding: EdgeInsets.zero,
                 shrinkWrap: true,
-                itemCount: accountInformations.length,
+                itemCount: accountInfo.length,
                 itemBuilder: (context, index) {
-                  final lastIndex = accountInformations.length - 1;
-
                   return Row(
                     children: [
                       SizedBox(
-                        height: 88,
+                        height: 70,
                         child: Stack(
                           children: [
                             Positioned(
@@ -128,9 +115,9 @@ class AccountInfoPage extends StatelessWidget {
                                   children: [
                                     Expanded(
                                       child: Container(
-                                        width: 4,
+                                        width: 2,
                                         decoration: BoxDecoration(
-                                          color: (index != 0)
+                                          color: index != 0
                                               ? secondaryTextColor
                                               : Colors.transparent,
                                         ),
@@ -138,9 +125,9 @@ class AccountInfoPage extends StatelessWidget {
                                     ),
                                     Expanded(
                                       child: Container(
-                                        width: 4,
+                                        width: 2,
                                         decoration: BoxDecoration(
-                                          color: (index != lastIndex)
+                                          color: index != accountInfo.length - 1
                                               ? secondaryTextColor
                                               : Colors.transparent,
                                         ),
@@ -153,7 +140,6 @@ class AccountInfoPage extends StatelessWidget {
                             Positioned(
                               child: Center(
                                 child: Container(
-                                  alignment: Alignment.center,
                                   width: 12,
                                   height: 12,
                                   decoration: const BoxDecoration(
@@ -172,16 +158,16 @@ class AccountInfoPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              accountInformations[index]["title"]!,
-                              style: textTheme.bodyLarge!.copyWith(
+                              accountInfo[index]["title"]!,
+                              style: textTheme.bodySmall!.copyWith(
                                 color: primaryColor,
                               ),
                             ),
                             Text(
-                              accountInformations[index]["value"]!,
+                              accountInfo[index]["value"]!,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
-                              style: textTheme.titleLarge!.copyWith(
+                              style: textTheme.titleMedium!.copyWith(
                                 color: primaryTextColor,
                               ),
                             ),
@@ -192,7 +178,7 @@ class AccountInfoPage extends StatelessWidget {
                   );
                 },
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 8),
               FilledButton(
                 onPressed: () => context.showChangePasswordDialog(),
                 style: FilledButton.styleFrom(
@@ -201,7 +187,6 @@ class AccountInfoPage extends StatelessWidget {
                 ),
                 child: const Text("Ubah Password"),
               ).fullWidth(),
-              const SizedBox(height: 4),
               FilledButton(
                 onPressed: () => context.showEditProfileDialog(),
                 child: const Text("Ubah Data"),

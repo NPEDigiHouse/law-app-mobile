@@ -6,6 +6,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/button_extension.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
+import 'package:law_app/core/extensions/datetime_extension.dart';
 import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
@@ -201,7 +202,7 @@ class _RegisterPageState extends State<RegisterPage>
                           CustomTextField(
                             name: 'dateOfBirth',
                             label: 'Tanggal Lahir',
-                            hintText: 'dd/MM/yyyy',
+                            hintText: 'dd MMMM yyyy',
                             hasPrefixIcon: false,
                             suffixIconName: 'calendar.svg',
                             textInputType: TextInputType.none,
@@ -295,7 +296,7 @@ class _RegisterPageState extends State<RegisterPage>
     if (dateOfBirth != null) {
       date = dateOfBirth;
 
-      final value = '${date.day}/${date.month}/${date.year}';
+      final value = date.toStringPattern('dd MMMM yyyy');
 
       formKey.currentState!.fields['dateOfBirth']!.didChange(value);
     }

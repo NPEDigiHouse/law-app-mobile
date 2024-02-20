@@ -11,7 +11,7 @@ class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 144,
+      height: 146,
       decoration: BoxDecoration(
         color: scaffoldBackgroundColor,
         borderRadius: BorderRadius.circular(16),
@@ -26,43 +26,42 @@ class Dashboard extends StatelessWidget {
       ),
       child: Center(
         child: ListView.builder(
-          padding: const EdgeInsets.symmetric(
-            vertical: 16,
-            horizontal: 12,
-          ),
-          shrinkWrap: true,
+          padding: const EdgeInsets.symmetric(horizontal: 12),
           scrollDirection: Axis.horizontal,
+          shrinkWrap: true,
           itemCount: items.length,
           itemBuilder: (context, index) {
-            return SizedBox(
-              width: 84,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  GradientBackgroundIcon(
-                    icon: items[index]["icon"] as String,
-                    size: 56,
-                  ),
-                  const SizedBox(height: 4),
-                  Flexible(
-                    child: Text(
-                      '${items[index]["count"] as int}',
-                      textAlign: TextAlign.center,
-                      style: textTheme.titleMedium!.copyWith(
-                        color: primaryColor,
+            return Center(
+              child: SizedBox(
+                width: 84,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    GradientBackgroundIcon(
+                      icon: items[index]["icon"],
+                      size: 56,
+                    ),
+                    const SizedBox(height: 4),
+                    Flexible(
+                      child: Text(
+                        '${items[index]["count"]}',
+                        textAlign: TextAlign.center,
+                        style: textTheme.titleMedium!.copyWith(
+                          color: primaryColor,
+                        ),
                       ),
                     ),
-                  ),
-                  Flexible(
-                    child: Text(
-                      items[index]["text"] as String,
-                      textAlign: TextAlign.center,
-                      style: textTheme.bodySmall!.copyWith(
-                        height: 0,
+                    Flexible(
+                      child: Text(
+                        items[index]["text"],
+                        textAlign: TextAlign.center,
+                        style: textTheme.bodySmall!.copyWith(
+                          height: 0,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           },

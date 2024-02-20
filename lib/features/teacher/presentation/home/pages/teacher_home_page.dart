@@ -48,7 +48,7 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
               user: teacher,
               onPressedProfileIcon: () => navigatorKey.currentState!.pushNamed(
                 profileRoute,
-                arguments: teacher.roleId,
+                arguments: teacher,
               ),
               child: Dashboard(
                 items: dashboardItems,

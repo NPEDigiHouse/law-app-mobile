@@ -14,14 +14,14 @@ class HomePageHeader extends StatelessWidget {
   final User user;
   final bool isProfile;
   final VoidCallback? onPressedProfileIcon;
-  final Widget? child;
+  final Widget child;
 
   const HomePageHeader({
     super.key,
     required this.user,
     this.isProfile = false,
     this.onPressedProfileIcon,
-    this.child,
+    required this.child,
   });
 
   @override
@@ -122,7 +122,7 @@ class HomePageHeader extends StatelessWidget {
                                     child: CircleAvatar(
                                       radius: 20,
                                       foregroundImage: AssetImage(
-                                        AssetPath.getImage("no-profile.jpg"),
+                                        AssetPath.getImage(user.profilePict),
                                       ),
                                     ),
                                   ),
@@ -185,7 +185,7 @@ class HomePageHeader extends StatelessWidget {
                                   child: CircleAvatar(
                                     radius: 20,
                                     foregroundImage: AssetImage(
-                                      AssetPath.getImage("no-profile.jpg"),
+                                      AssetPath.getImage(user.profilePict),
                                     ),
                                   ),
                                 ),
@@ -202,7 +202,7 @@ class HomePageHeader extends StatelessWidget {
           top: !(user.roleId == 0) ? 140 : 170,
           left: 20,
           right: 20,
-          child: child!,
+          child: child,
         ),
       ],
     );

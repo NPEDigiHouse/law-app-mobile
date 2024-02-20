@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:law_app/core/extensions/datetime_extension.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/dialog/custom_dialog.dart';
@@ -93,7 +94,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
               isSmall: true,
               name: "dateOfBirth",
               label: "Tanggal Lahir",
-              hintText: "dd/MM/yyyy",
+              hintText: "dd MMMM yyyy",
               initialValue: user.dateOfBirth,
               hasPrefixIcon: false,
               suffixIconName: "calendar.svg",
@@ -145,7 +146,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
     if (dateOfBirth != null) {
       date = dateOfBirth;
 
-      final value = '${date.day}/${date.month}/${date.year}';
+      final value = date.toStringPattern('dd MMMM yyyy');
 
       formKey.currentState!.fields['dateOfBirth']!.didChange(value);
     }

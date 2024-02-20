@@ -119,14 +119,16 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => MainMenuPage(roleId: roleId),
       );
     case profileRoute:
-      final roleId = settings.arguments as int;
+      final user = settings.arguments as User;
 
       return MaterialPageRoute(
-        builder: (_) => ProfilePage(roleId: roleId),
+        builder: (_) => ProfilePage(user: user),
       );
     case accountInfoRoute:
+      final user = settings.arguments as User;
+
       return MaterialPageRoute(
-        builder: (_) => const AccountInfoPage(),
+        builder: (_) => AccountInfoPage(user: user),
       );
     case faqRoute:
       return MaterialPageRoute(

@@ -29,7 +29,7 @@ class AdminHomePage extends StatelessWidget {
       {
         "icon": "user-solid.svg",
         "count": 200,
-        "text": "Total\nUser",
+        "text": "Total\nPengguna",
       },
       {
         "icon": "question-circle-line.svg",
@@ -38,34 +38,41 @@ class AdminHomePage extends StatelessWidget {
       },
     ];
 
-    const menu = [
+    final menu = [
       {
         "icon": "user-solid.svg",
         "text": "Master Data",
+        "onTap": () {},
       },
       {
         "icon": "question-circle-fill.svg",
         "text": "Kelola Pertanyaan",
+        "onTap": () {},
       },
       {
         "icon": "chalkboard-teacher-fill.svg",
         "text": "Kelola Course",
+        "onTap": () {},
       },
       {
         "icon": "book-bold.svg",
         "text": "Manajemen Buku",
+        "onTap": () {},
       },
       {
         "icon": "dictionary-book-solid.svg",
         "text": "Kelola Glosarium",
+        "onTap": () {},
       },
       {
         "icon": "link-line.svg",
         "text": "Referensi",
+        "onTap": () {},
       },
       {
         "icon": "ads-icon.svg",
         "text": "Kelola Ads",
+        "onTap": () {},
       },
     ];
 
@@ -76,10 +83,9 @@ class AdminHomePage extends StatelessWidget {
           children: [
             HomePageHeader(
               user: admin,
-              isProfile: false,
               onPressedProfileIcon: () => navigatorKey.currentState!.pushNamed(
                 profileRoute,
-                arguments: admin.roleId,
+                arguments: admin,
               ),
               child: const Dashboard(
                 items: dashboardItems,
@@ -112,7 +118,7 @@ class AdminHomePage extends StatelessWidget {
                         spreadRadius: -1,
                       ),
                     ],
-                    onTap: () {},
+                    onTap: menu[index]["onTap"]! as VoidCallback,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -128,31 +134,18 @@ class AdminHomePage extends StatelessWidget {
                           child: SvgAsset(
                             color: primaryColor,
                             assetPath: AssetPath.getIcon(
-                              menu[index]["icon"]!,
+                              menu[index]["icon"]! as String,
                             ),
                           ),
                         ),
                         const Spacer(),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                menu[index]["text"]!,
-                                maxLines: 2,
-                                style: textTheme.titleMedium!.copyWith(
-                                  color: primaryColor,
-                                ),
-                              ),
+                        Expanded(
+                          child: Text(
+                            menu[index]["text"]! as String,
+                            style: textTheme.titleMedium!.copyWith(
+                              color: primaryColor,
                             ),
-                            SvgAsset(
-                              height: 18,
-                              width: 18,
-                              color: accentColor,
-                              assetPath: AssetPath.getIcon(
-                                "caret-line-right.svg",
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
                       ],
                     ),
