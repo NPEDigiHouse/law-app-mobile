@@ -5,3 +5,9 @@ class ServerException implements Exception {
 
   const ServerException(this.message);
 }
+
+class PreferenceException implements Exception {
+  final String message;
+
+  const PreferenceException(this.message);
+}

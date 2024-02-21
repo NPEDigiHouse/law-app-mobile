@@ -13,6 +13,9 @@ abstract class AuthRemoteDataSource {
 
   /// Sign In
   Future<bool> signIn({required String username, required String password});
+
+  /// Is sign in
+  Future<bool> isSignIn();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -87,6 +90,17 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       } else {
         throw http.ClientException(e.toString());
       }
+    }
+  }
+
+  @override
+  Future<bool> isSignIn() async {
+    try {
+      String? token = await preferencesHelper.getAccessToken();
+
+      return token != null;
+    } catch (e) {
+      throw PreferenceException(e.toString());
     }
   }
 }

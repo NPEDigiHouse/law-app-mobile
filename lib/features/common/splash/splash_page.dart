@@ -5,8 +5,7 @@ import 'package:law_app/core/configs/app_configs.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
-import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/core/utils/routes.dart';
+import 'package:law_app/features/common/wrapper/wrapper.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class SplashPage extends StatefulWidget {
@@ -78,7 +77,9 @@ class _SplashPageState extends State<SplashPage>
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) {
     Timer(const Duration(seconds: 3), () {
-      navigatorKey.currentState!.pushReplacementNamed(loginRoute);
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const Wrapper()),
+      );
     });
   }
 }

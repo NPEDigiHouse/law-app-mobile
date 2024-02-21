@@ -8,8 +8,6 @@ class CredentialSaver {
       AuthPreferencesHelper preferencesHelper = AuthPreferencesHelper();
 
       accessToken = await preferencesHelper.getAccessToken();
-
-      print(accessToken);
     }
   }
 }

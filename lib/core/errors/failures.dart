@@ -21,3 +21,7 @@ class ConnectionFailure extends Failure {
 class ClientFailure extends Failure {
   const ClientFailure(super.message);
 }
+
+class PreferenceFailure extends Failure {
+  const PreferenceFailure(super.message);
+}

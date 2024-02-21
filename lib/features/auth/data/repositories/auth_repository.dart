@@ -18,6 +18,9 @@ abstract class AuthRepository {
     required String username,
     required String password,
   });
+
+  // Is Sign in
+  Future<Either<Failure, bool>> isSignIn();
 }
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -77,6 +80,17 @@ class AuthRepositoryImpl implements AuthRepository {
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> isSignIn() async {
+    try {
+      final result = await authRemoteDataSource.isSignIn();
+
+      return Right(result);
+    } on PreferenceException catch (e) {
+      return Left(PreferenceFailure(e.message));
     }
   }
 }
