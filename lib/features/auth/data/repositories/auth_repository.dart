@@ -8,12 +8,12 @@ import 'package:law_app/features/auth/data/datasources/auth_remote_data_source.d
 import 'package:law_app/features/auth/data/models/user_register_model.dart';
 
 abstract class AuthRepository {
-  // Sign Up
+  /// Sign Up
   Future<Either<Failure, bool>> signUp({
     required UserSignUpModel userSignUpModel,
   });
 
-  // Sign In
+  /// Sign In
   Future<Either<Failure, bool>> signIn({
     required String username,
     required String password,

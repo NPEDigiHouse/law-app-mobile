@@ -51,6 +51,7 @@ dependencies:
   intl: any
   percent_indicator: ^4.2.3
   riverpod_annotation: ^2.3.4
+  shared_preferences: ^2.2.2
   timeago: ^3.6.1
 
 dev_dependencies:
