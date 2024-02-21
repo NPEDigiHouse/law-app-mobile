@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:law_app/core/const/const.dart';
+import 'package:law_app/core/constants/const.dart';
 import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/button_extension.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
@@ -76,11 +76,11 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
             navigatorKey.currentState!.pop();
 
             if (data != null) {
-              navigatorKey.currentState!.pushReplacementNamed(
+              navigatorKey.currentState!.pushNamedAndRemoveUntil(
                 loginRoute,
+                (route) => false,
                 arguments: {
-                  'message':
-                      'Akun Anda berhasil dibuat. Silahkan login dengan akun tersebut.',
+                  'message': 'Akun Anda berhasil dibuat.',
                   'bannerType': BannerType.success,
                 },
               );

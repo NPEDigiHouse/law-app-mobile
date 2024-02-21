@@ -2,7 +2,9 @@ import 'dart:async';
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:law_app/core/constants/const.dart';
 import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/button_extension.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
@@ -11,25 +13,61 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/auth/presentation/providers/sign_in_provider.dart';
 import 'package:law_app/features/auth/presentation/widgets/primary_header.dart';
 import 'package:law_app/features/shared/widgets/text_field/custom_text_field.dart';
 import 'package:law_app/features/shared/widgets/text_field/password_text_field.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends ConsumerStatefulWidget {
   final Map<String, Object>? bannerData;
 
   const LoginPage({super.key, this.bannerData});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  ConsumerState<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage>
+class _LoginPageState extends ConsumerState<LoginPage>
     with AfterLayoutMixin<LoginPage> {
   final formKey = GlobalKey<FormBuilderState>();
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(
+      signInProvider,
+      (_, state) {
+        return state.whenOrNull(
+          loading: () => context.showLoadingDialog(),
+          error: (error, _) {
+            navigatorKey.currentState!.pop();
+
+            if ('$error' == kNoInternetConnection) {
+              context.showNetworkErrorModalBottomSheet(
+                onPressedPrimaryButton: () {
+                  ref.invalidate(signInProvider);
+                },
+              );
+            } else {
+              context.showBanner(
+                message: '$error',
+                type: BannerType.error,
+              );
+            }
+          },
+          data: (data) {
+            navigatorKey.currentState!.pop();
+
+            if (data != null) {
+              navigatorKey.currentState!.pushReplacementNamed(
+                mainMenuRoute,
+                arguments: user.roleId,
+              );
+            }
+          },
+        );
+      },
+    );
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -151,24 +189,10 @@ class _LoginPageState extends State<LoginPage>
     if (formKey.currentState!.saveAndValidate()) {
       final data = formKey.currentState!.value;
 
-      if (data['username'] != teacher.username ||
-          data['password'] != teacher.password) {
-        // Show failure message
-        context.showBanner(
-          message: 'Username atau password salah!',
-          type: BannerType.error,
-        );
-      } else {
-        // Show loading - send data - close loading
-
-        //  Navigate to main menu or user page
-        navigatorKey.currentState!.pushReplacementNamed(
-          mainMenuRoute,
-          arguments: teacher.roleId,
-        );
-
-        // navigatorKey.currentState!.pushReplacementNamed(adminHomeRoute);
-      }
+      ref.read(signInProvider.notifier).signIn(
+            username: data['username'],
+            password: data['password'],
+          );
     }
   }
 }
