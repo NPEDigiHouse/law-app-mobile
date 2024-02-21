@@ -66,7 +66,7 @@ class DiscussionReplyCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  responder.fullName,
+                  responder.name,
                   style: textTheme.titleSmall,
                 ),
                 Text(

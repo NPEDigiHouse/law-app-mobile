@@ -24,13 +24,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         body: userSignUpModel.toJson(),
       );
 
-      if (response.statusCode == 200) {
+      if (jsonDecode(response.body)['code'] == 200) {
         return true;
+      } else {
+        throw ServerException(jsonDecode(response.body)['message'] as String);
       }
-
-      throw ServerException(jsonDecode(response.body)['message']);
     } catch (e) {
-      throw http.ClientException(e.toString());
+      throw http.ClientException('client_error');
     }
   }
 }

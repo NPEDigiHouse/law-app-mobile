@@ -17,7 +17,7 @@ class AccountInfoPage extends StatelessWidget {
     final accountInfo = [
       {
         "title": "Nama Lengkap",
-        "value": user.fullName,
+        "value": user.name,
       },
       {
         "title": "Username",

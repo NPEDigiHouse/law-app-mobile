@@ -140,7 +140,7 @@ class _TeacherDiscussionHomePageState extends State<TeacherDiscussionHomePage>
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        teacher.fullName,
+                                        teacher.name,
                                         style: textTheme.titleLarge!.copyWith(
                                           color: primaryColor,
                                           fontSize: 18,

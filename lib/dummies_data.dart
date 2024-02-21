@@ -2,7 +2,7 @@
 class User {
   final String username;
   final String password;
-  final String fullName;
+  final String name;
   final String email;
   final String dateOfBirth;
   final String phone;
@@ -13,7 +13,7 @@ class User {
   const User({
     required this.username,
     required this.password,
-    required this.fullName,
+    required this.name,
     required this.email,
     required this.dateOfBirth,
     required this.phone,
@@ -26,7 +26,7 @@ class User {
 const user = User(
   username: 'test',
   password: 'test',
-  fullName: 'Kamaruddin Al maliki',
+  name: 'Kamaruddin Al maliki',
   email: 'test@gmail.com',
   dateOfBirth: '21 Desember 2001',
   phone: '082290380510',
@@ -38,7 +38,7 @@ const user = User(
 const teacher = User(
   username: 'teacher',
   password: 'teacher',
-  fullName: 'Dr. Edy Saputra Rusdi',
+  name: 'Dr. Edy Saputra Rusdi',
   email: 'teacher@gmail.com',
   dateOfBirth: '21 Desember 2001',
   phone: '082290380510',
@@ -50,7 +50,7 @@ const teacher = User(
 const admin = User(
   username: 'admin',
   password: 'admin',
-  fullName: 'Admin',
+  name: 'Admin',
   email: 'admin@gmail.com',
   dateOfBirth: '21 Desember 2001',
   phone: '0897182974',
@@ -278,7 +278,7 @@ const dummyQuestions = [
     owner: User(
       username: 'nanda',
       password: 'nanda',
-      fullName: 'Ananda Lesmono',
+      name: 'Ananda Lesmono',
       email: 'nanda@gmail.com',
       dateOfBirth: '21 Desember 2001',
       phone: '0897182974',

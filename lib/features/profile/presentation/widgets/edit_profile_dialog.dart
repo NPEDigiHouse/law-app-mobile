@@ -30,10 +30,10 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
           children: [
             CustomTextField(
               isSmall: true,
-              name: "fullname",
+              name: "name",
               label: "Nama Lengkap",
               hintText: "Masukkan nama lengkap kamu",
-              initialValue: user.fullName,
+              initialValue: user.name,
               hasPrefixIcon: false,
               hasSuffixIcon: false,
               textInputType: TextInputType.name,

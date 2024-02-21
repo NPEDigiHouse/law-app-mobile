@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 
 class UserSignUpModel extends Equatable {
-  final String fullname;
+  final String name;
   final String username;
   final String email;
   final String password;
@@ -11,7 +11,7 @@ class UserSignUpModel extends Equatable {
   final String role;
 
   const UserSignUpModel({
-    required this.fullname,
+    required this.name,
     required this.username,
     required this.email,
     required this.password,
@@ -21,7 +21,7 @@ class UserSignUpModel extends Equatable {
   });
 
   UserSignUpModel copyWith({
-    String? fullname,
+    String? name,
     String? username,
     String? email,
     String? password,
@@ -30,7 +30,7 @@ class UserSignUpModel extends Equatable {
     String? role,
   }) {
     return UserSignUpModel(
-      fullname: fullname ?? this.fullname,
+      name: name ?? this.name,
       username: username ?? this.username,
       email: email ?? this.email,
       password: password ?? this.password,
@@ -42,7 +42,7 @@ class UserSignUpModel extends Equatable {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'fullname': fullname,
+      'name': name,
       'username': username,
       'email': email,
       'password': password,
@@ -54,7 +54,7 @@ class UserSignUpModel extends Equatable {
 
   factory UserSignUpModel.fromMap(Map<String, dynamic> map) {
     return UserSignUpModel(
-      fullname: map['fullname'] as String,
+      name: map['name'] as String,
       username: map['username'] as String,
       email: map['email'] as String,
       password: map['password'] as String,
@@ -72,7 +72,7 @@ class UserSignUpModel extends Equatable {
   @override
   List<Object> get props {
     return [
-      fullname,
+      name,
       username,
       email,
       password,

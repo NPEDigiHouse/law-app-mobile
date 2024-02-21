@@ -80,7 +80,7 @@ class HomePageHeader extends StatelessWidget {
                                   ),
                                   Text(
                                     FunctionHelper.getUserNickname(
-                                      user.fullName,
+                                      user.name,
                                     ),
                                     style: textTheme.headlineMedium!.copyWith(
                                       color: accentTextColor,

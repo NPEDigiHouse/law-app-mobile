@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class NetworkErrorBottomSheet extends StatelessWidget {
@@ -71,7 +72,8 @@ class NetworkErrorBottomSheet extends StatelessWidget {
               const SizedBox(width: 16),
               Expanded(
                 child: FilledButton(
-                  onPressed: onPressedPrimaryButton,
+                  onPressed: onPressedPrimaryButton ??
+                      () => navigatorKey.currentState!.pop(),
                   style: FilledButton.styleFrom(
                     padding: const EdgeInsets.all(0),
                   ),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:law_app/core/const/const.dart';
 import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/button_extension.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
@@ -13,7 +14,6 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
-import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/auth/data/models/user_register_model.dart';
 import 'package:law_app/features/auth/presentation/providers/sign_up_provider.dart';
 import 'package:law_app/features/auth/presentation/widgets/primary_header.dart';
@@ -51,6 +51,45 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(
+      signUpProvider,
+      (_, state) {
+        return state.whenOrNull(
+          loading: () => context.showLoadingDialog(),
+          error: (error, _) {
+            navigatorKey.currentState!.pop();
+
+            if ('$error' == kNoInternetConnection) {
+              context.showNetworkErrorModalBottomSheet(
+                onPressedPrimaryButton: () {
+                  ref.invalidate(signUpProvider);
+                },
+              );
+            } else {
+              context.showBanner(
+                message: '$error',
+                type: BannerType.error,
+              );
+            }
+          },
+          data: (data) {
+            navigatorKey.currentState!.pop();
+
+            if (data != null) {
+              navigatorKey.currentState!.pushReplacementNamed(
+                loginRoute,
+                arguments: {
+                  'message':
+                      'Akun Anda berhasil dibuat. Silahkan login dengan akun tersebut.',
+                  'bannerType': BannerType.success,
+                },
+              );
+            }
+          },
+        );
+      },
+    );
+
     return PopScope(
       canPop: false,
       onPopInvoked: (didPop) {
@@ -92,7 +131,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           CustomTextField(
-                            name: 'fullname',
+                            name: 'name',
                             label: 'Nama Lengkap',
                             hintText: 'Masukkan nama lengkap kamu',
                             hasPrefixIcon: false,
@@ -311,38 +350,18 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
       final data = formKey.currentState!.value;
 
       final userSignUpModel = UserSignUpModel(
-        fullname: data['fullname'],
+        name: data['name'],
         username: data['username'],
         email: data['email'],
         password: data['password'],
-        birthDate: data['birthDate'],
+        birthDate: date.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
         phoneNumber: data['phoneNumber'],
         role: 'student',
       );
 
-      ref.read(signUpProvider.notifier).signUp(
-            userSignUpModel: userSignUpModel,
-          );
-
-      if (data['email'] == user.email) {
-        // Show failure message
-        context.showBanner(
-          message: 'Email yang Anda masukkan sudah terdaftar!',
-          type: BannerType.error,
-        );
-      } else {
-        // Show loading - send data - close loading
-
-        // Navigate to login page if success, with banner data
-        navigatorKey.currentState!.pushReplacementNamed(
-          loginRoute,
-          arguments: {
-            'message':
-                'Akun Anda berhasil dibuat. Silahkan login dengan akun tersebut.',
-            'bannerType': BannerType.success,
-          },
-        );
-      }
+      ref
+          .read(signUpProvider.notifier)
+          .signUp(userSignUpModel: userSignUpModel);
     }
   }
 }

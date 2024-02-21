@@ -7,22 +7,34 @@ part 'sign_up_provider.g.dart';
 
 @riverpod
 class SignUp extends _$SignUp {
-  Failure? _failure;
-  bool? _success;
-
   @override
-  ({Failure? failure, bool? success}) build() {
-    return (failure: _failure, success: _success);
+  AsyncValue<bool?> build() {
+    return const AsyncValue.data(null);
   }
 
   Future<void> signUp({required UserSignUpModel userSignUpModel}) async {
-    final result = await ref.watch(authRepositoryProvider).signUp(
-          userSignUpModel: userSignUpModel,
-        );
+    bool? success;
+    Failure? failure;
 
-    result.fold(
-      (l) => _failure = l,
-      (r) => _success = r,
-    );
+    try {
+      state = const AsyncValue.loading();
+
+      final result = await ref
+          .watch(authRepositoryProvider)
+          .signUp(userSignUpModel: userSignUpModel);
+
+      result.fold(
+        (l) => failure = l,
+        (r) => success = r,
+      );
+    } catch (e) {
+      state = AsyncValue.error((e as Failure).message, StackTrace.current);
+    } finally {
+      if (success != null) {
+        state = AsyncValue.data(success);
+      } else {
+        state = AsyncValue.error(failure!.message, StackTrace.current);
+      }
+    }
   }
 }

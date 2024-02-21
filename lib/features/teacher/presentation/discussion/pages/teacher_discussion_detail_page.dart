@@ -56,7 +56,7 @@ class TeacherDiscussionDetailPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        question.owner.fullName,
+                        question.owner.name,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: textTheme.titleSmall,

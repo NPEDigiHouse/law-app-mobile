@@ -83,12 +83,12 @@ class FunctionHelper {
     }
   }
 
-  static String getUserNickname(String fullname) {
-    final name = fullname.split(' ');
+  static String getUserNickname(String name) {
+    final names = name.split(' ');
 
-    if (name.length >= 2) return name[1];
+    if (names.length >= 2) return names[1];
 
-    return name.first;
+    return names.first;
   }
 
   static Color getColorByDiscussionStatus(String status) {
