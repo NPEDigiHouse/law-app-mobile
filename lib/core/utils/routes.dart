@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/admin/presentation/pages/admin_home_page.dart';
+import 'package:law_app/features/auth/data/models/user_credential_model.dart';
 import 'package:law_app/features/auth/presentation/pages/forgot_password_page.dart';
 import 'package:law_app/features/auth/presentation/pages/login_page.dart';
 import 'package:law_app/features/auth/presentation/pages/otp_page.dart';
@@ -110,10 +111,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => const ResetPasswordPage(),
       );
     case mainMenuRoute:
-      final roleId = settings.arguments as int;
+      final userCredential = settings.arguments as UserCredentialModel;
 
       return MaterialPageRoute(
-        builder: (_) => MainMenuPage(roleId: roleId),
+        builder: (_) => MainMenuPage(userCredential: userCredential),
       );
     case profileRoute:
       final user = settings.arguments as User;
@@ -261,8 +262,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => StudentCourseRatePage(courseDetail: courseDetail),
       );
     case adminHomeRoute:
+      final userCredential = settings.arguments as UserCredentialModel;
+
       return MaterialPageRoute(
-        builder: (_) => const AdminHomePage(),
+        builder: (_) => AdminHomePage(userCredential: userCredential),
       );
     default:
       return null;

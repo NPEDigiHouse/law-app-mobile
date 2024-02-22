@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
+import 'package:law_app/features/auth/data/models/user_credential_model.dart';
 import 'package:law_app/features/glossary/presentation/pages/glossary_home_page.dart';
 import 'package:law_app/features/library/presentation/pages/library_home_page.dart';
 import 'package:law_app/features/shared/widgets/custom_navigation_bar.dart';
@@ -10,9 +11,9 @@ import 'package:law_app/features/teacher/presentation/discussion/pages/teacher_d
 import 'package:law_app/features/teacher/presentation/home/pages/teacher_home_page.dart';
 
 class MainMenuPage extends StatefulWidget {
-  final int roleId;
+  final UserCredentialModel userCredential;
 
-  const MainMenuPage({super.key, required this.roleId});
+  const MainMenuPage({super.key, required this.userCredential});
 
   @override
   State<MainMenuPage> createState() => _MainMenuPageState();
@@ -29,7 +30,7 @@ class _MainMenuPageState extends State<MainMenuPage> {
 
     selectedIndex = ValueNotifier(0);
     pageController = PageController();
-    pages = widget.roleId == 1
+    pages = widget.userCredential.role == 'student'
         ? [
             const StudentHomePage(),
             const StudentDiscussionHomePage(),
@@ -67,7 +68,7 @@ class _MainMenuPageState extends State<MainMenuPage> {
         valueListenable: selectedIndex,
         builder: (context, index, child) {
           return CustomNavigationBar(
-            roleId: widget.roleId,
+            role: widget.userCredential.role ?? '',
             currentIndex: index,
             onTap: (index) => pageController.jumpToPage(index),
           );

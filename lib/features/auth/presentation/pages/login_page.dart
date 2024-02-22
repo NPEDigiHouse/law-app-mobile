@@ -12,7 +12,6 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
-import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/auth/presentation/providers/sign_in_provider.dart';
 import 'package:law_app/features/auth/presentation/widgets/primary_header.dart';
 import 'package:law_app/features/shared/widgets/text_field/custom_text_field.dart';
@@ -44,23 +43,19 @@ class _LoginPageState extends ConsumerState<LoginPage>
             if ('$error' == kNoInternetConnection) {
               context.showNetworkErrorModalBottomSheet(
                 onPressedPrimaryButton: () {
+                  navigatorKey.currentState!.pop();
                   ref.invalidate(signInProvider);
                 },
               );
             } else {
-              context.showBanner(
-                message: '$error',
-                type: BannerType.error,
-              );
+              context.showBanner(message: '$error', type: BannerType.error);
             }
           },
           data: (data) {
-            navigatorKey.currentState!.pop();
-
-            if (data != null) {
+            if (data.$1 != null && data.$2 != null) {
               navigatorKey.currentState!.pushReplacementNamed(
-                mainMenuRoute,
-                arguments: user.roleId,
+                data.$2!.role == 'admin' ? adminHomeRoute : mainMenuRoute,
+                arguments: data.$2,
               );
             }
           },

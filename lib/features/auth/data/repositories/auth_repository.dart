@@ -5,6 +5,7 @@ import 'package:law_app/core/constants/const.dart';
 import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/errors/failures.dart';
 import 'package:law_app/features/auth/data/datasources/auth_remote_data_source.dart';
+import 'package:law_app/features/auth/data/models/user_credential_model.dart';
 import 'package:law_app/features/auth/data/models/user_register_model.dart';
 
 abstract class AuthRepository {
@@ -21,6 +22,9 @@ abstract class AuthRepository {
 
   // Is Sign in
   Future<Either<Failure, bool>> isSignIn();
+
+  /// Get user credential
+  Future<Either<Failure, UserCredentialModel>> getUserCredential();
 }
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -91,6 +95,23 @@ class AuthRepositoryImpl implements AuthRepository {
       return Right(result);
     } on PreferenceException catch (e) {
       return Left(PreferenceFailure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, UserCredentialModel>> getUserCredential() async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await authRemoteDataSource.getUserCredential();
+
+        return Right(result);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message));
+      } on ClientException catch (e) {
+        return Left(ClientFailure(e.message));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
     }
   }
 }

@@ -1,10 +1,12 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/helpers/auth_preferences_helper.dart';
 import 'package:law_app/core/services/api_service.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/data_response.dart';
+import 'package:law_app/features/auth/data/models/user_credential_model.dart';
 import 'package:law_app/features/auth/data/models/user_register_model.dart';
 
 abstract class AuthRemoteDataSource {
@@ -16,6 +18,9 @@ abstract class AuthRemoteDataSource {
 
   /// Is sign in
   Future<bool> isSignIn();
+
+  /// Get user credential
+  Future<UserCredentialModel> getUserCredential();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -33,7 +38,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final response = await client.post(
         Uri.parse('${ApiService.baseUrl}/auth/signup'),
         headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
+          HttpHeaders.contentTypeHeader: 'application/json',
         },
         body: userSignUpModel.toJson(),
       );
@@ -63,7 +68,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final response = await client.post(
         Uri.parse('${ApiService.baseUrl}/auth/login'),
         headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
+          HttpHeaders.contentTypeHeader: 'application/json',
         },
         body: jsonEncode({
           'username': username,
@@ -101,6 +106,36 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       return token != null;
     } catch (e) {
       throw PreferenceException(e.toString());
+    }
+  }
+
+  @override
+  Future<UserCredentialModel> getUserCredential() async {
+    try {
+      final response = await client.get(
+        Uri.parse('${ApiService.baseUrl}/auth/credential'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code == 200) {
+        final data = result.data as Map<String, dynamic>;
+
+        return UserCredentialModel.fromMap(data);
+      } else {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      if (e is ServerException) {
+        rethrow;
+      } else {
+        throw http.ClientException(e.toString());
+      }
     }
   }
 }

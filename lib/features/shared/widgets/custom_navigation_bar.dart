@@ -5,13 +5,13 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class CustomNavigationBar extends StatelessWidget {
-  final int roleId;
+  final String role;
   final int currentIndex;
   final ValueChanged<int> onTap;
 
   const CustomNavigationBar({
     super.key,
-    required this.roleId,
+    required this.role,
     required this.currentIndex,
     required this.onTap,
   });
@@ -70,7 +70,7 @@ class CustomNavigationBar extends StatelessWidget {
               ),
               label: 'Discussion',
             ),
-            if (roleId == 1)
+            if (role == 'student')
               BottomNavigationBarItem(
                 icon: SvgAsset(
                   assetPath: AssetPath.getIcon('course-unselected.svg'),

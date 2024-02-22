@@ -62,19 +62,15 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
             if ('$error' == kNoInternetConnection) {
               context.showNetworkErrorModalBottomSheet(
                 onPressedPrimaryButton: () {
+                  navigatorKey.currentState!.pop();
                   ref.invalidate(signUpProvider);
                 },
               );
             } else {
-              context.showBanner(
-                message: '$error',
-                type: BannerType.error,
-              );
+              context.showBanner(message: '$error', type: BannerType.error);
             }
           },
           data: (data) {
-            navigatorKey.currentState!.pop();
-
             if (data != null) {
               navigatorKey.currentState!.pushNamedAndRemoveUntil(
                 loginRoute,

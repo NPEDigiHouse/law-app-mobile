@@ -1,14 +1,17 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:law_app/core/errors/failures.dart';
+import 'package:law_app/features/auth/data/models/user_credential_model.dart';
 import 'package:law_app/features/auth/presentation/providers/auth_repository_provider.dart';
+import 'package:law_app/features/auth/presentation/providers/get_user_credential_provider.dart';
 
 part 'is_sign_in_provider.g.dart';
 
 @riverpod
 class IsSignIn extends _$IsSignIn {
   @override
-  Future<bool?> build() async {
-    bool? success;
+  Future<(bool?, UserCredentialModel?)> build() async {
+    bool? isSignIn;
+    UserCredentialModel? userCredential;
     Failure? failure;
 
     try {
@@ -18,18 +21,34 @@ class IsSignIn extends _$IsSignIn {
 
       result.fold(
         (l) => failure = l,
-        (r) => success = r,
+        (r) {
+          isSignIn = r;
+
+          if (r) {
+            ref.listen(getUserCredentialProvider, (_, state) {
+              return state.whenOrNull(
+                error: (error, _) {
+                  this.state = AsyncValue.error(
+                    (error as Failure).message,
+                    StackTrace.current,
+                  );
+                },
+                data: (data) {
+                  this.state = AsyncValue.data((isSignIn, data));
+                },
+              );
+            });
+          }
+        },
       );
     } catch (e) {
       state = AsyncValue.error((e as Failure).message, StackTrace.current);
     } finally {
-      if (success != null) {
-        state = AsyncValue.data(success);
-      } else {
+      if (failure != null) {
         state = AsyncValue.error(failure!.message, StackTrace.current);
       }
     }
 
-    return success;
+    return (isSignIn, userCredential);
   }
 }

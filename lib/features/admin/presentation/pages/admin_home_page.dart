@@ -5,13 +5,16 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/auth/data/models/user_credential_model.dart';
 import 'package:law_app/features/shared/widgets/dashboard.dart';
 import 'package:law_app/features/shared/widgets/feature/home_page_header.dart';
 import 'package:law_app/features/shared/widgets/ink_well_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class AdminHomePage extends StatelessWidget {
-  const AdminHomePage({super.key});
+  final UserCredentialModel userCredential;
+
+  const AdminHomePage({super.key, required this.userCredential});
 
   @override
   Widget build(BuildContext context) {
