@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:law_app/dummies_data.dart';
-import 'package:law_app/features/admin/presentation/pages/admin_home_page.dart';
+import 'package:law_app/features/admin/presentation/home/pages/admin_home_page.dart';
 import 'package:law_app/features/auth/data/models/user_credential_model.dart';
 import 'package:law_app/features/auth/presentation/pages/forgot_password_page.dart';
 import 'package:law_app/features/auth/presentation/pages/login_page.dart';
