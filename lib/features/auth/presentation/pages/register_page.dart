@@ -54,7 +54,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
     ref.listen(
       signUpProvider,
       (_, state) {
-        return state.whenOrNull(
+        state.whenOrNull(
           loading: () => context.showLoadingDialog(),
           error: (error, _) {
             navigatorKey.currentState!.pop();

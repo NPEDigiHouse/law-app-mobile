@@ -35,7 +35,7 @@ class SignIn extends _$SignIn {
 
           if (r) {
             ref.listen(getUserCredentialProvider, (_, state) {
-              return state.whenOrNull(
+              state.whenOrNull(
                 error: (error, _) {
                   this.state = AsyncValue.error(
                     (error as Failure).message,

@@ -25,6 +25,9 @@ abstract class AuthRepository {
 
   /// Get user credential
   Future<Either<Failure, UserCredentialModel>> getUserCredential();
+
+  /// Log out
+  Future<Either<Failure, bool>> logOut();
 }
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -112,6 +115,17 @@ class AuthRepositoryImpl implements AuthRepository {
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> logOut() async {
+    try {
+      final result = await authRemoteDataSource.logOut();
+
+      return Right(result);
+    } on PreferenceException catch (e) {
+      return Left(PreferenceFailure(e.message));
     }
   }
 }

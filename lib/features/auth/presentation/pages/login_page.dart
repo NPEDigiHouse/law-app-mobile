@@ -35,7 +35,7 @@ class _LoginPageState extends ConsumerState<LoginPage>
     ref.listen(
       signInProvider,
       (_, state) {
-        return state.whenOrNull(
+        state.whenOrNull(
           loading: () => context.showLoadingDialog(),
           error: (error, _) {
             navigatorKey.currentState!.pop();
@@ -53,8 +53,9 @@ class _LoginPageState extends ConsumerState<LoginPage>
           },
           data: (data) {
             if (data.$1 != null && data.$2 != null) {
-              navigatorKey.currentState!.pushReplacementNamed(
+              navigatorKey.currentState!.pushNamedAndRemoveUntil(
                 data.$2!.role == 'admin' ? adminHomeRoute : mainMenuRoute,
+                (route) => false,
                 arguments: data.$2,
               );
             }

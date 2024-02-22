@@ -168,8 +168,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
         loginRoute,
         (route) => false,
         arguments: {
-          'message':
-              'Password Anda berhasil diubah. Silahkan login menggunakan password baru.',
+          'message': 'Password Anda berhasil diubah.',
           'bannerType': BannerType.success,
         },
       );

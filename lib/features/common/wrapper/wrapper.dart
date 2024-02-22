@@ -17,7 +17,7 @@ class Wrapper extends ConsumerWidget {
     ref.listen(
       isSignInProvider,
       (_, state) {
-        return state.whenOrNull(
+        state.whenOrNull(
           error: (error, _) {
             if ('$error' == kNoInternetConnection) {
               context.showNetworkErrorModalBottomSheet(

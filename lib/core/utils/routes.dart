@@ -10,6 +10,7 @@ import 'package:law_app/features/auth/presentation/pages/reset_password_page.dar
 import 'package:law_app/features/common/ad/ad_detail_page.dart';
 import 'package:law_app/features/common/menu/main_menu_page.dart';
 import 'package:law_app/features/common/notification/notification_page.dart';
+import 'package:law_app/features/common/wrapper/wrapper.dart';
 import 'package:law_app/features/glossary/presentation/pages/glossary_detail_page.dart';
 import 'package:law_app/features/glossary/presentation/pages/glossary_search_page.dart';
 import 'package:law_app/features/library/presentation/pages/library_book_detail_page.dart';
@@ -41,6 +42,7 @@ import 'package:law_app/features/teacher/presentation/discussion/pages/teacher_q
 final routeObserver = RouteObserver<ModalRoute<void>>();
 
 // Some routes name
+const wrapperRoute = '/wrapper';
 const loginRoute = '/login';
 const registerRoute = '/register';
 const forgotPasswordRoute = '/forgot-password';
@@ -86,6 +88,10 @@ const adminHomeRoute = '/admin-home';
 // App routes generator
 Route<dynamic>? generateAppRoutes(RouteSettings settings) {
   switch (settings.name) {
+    case wrapperRoute:
+      return MaterialPageRoute(
+        builder: (_) => const Wrapper(),
+      );
     case loginRoute:
       final bannerData = settings.arguments as Map<String, Object>?;
 

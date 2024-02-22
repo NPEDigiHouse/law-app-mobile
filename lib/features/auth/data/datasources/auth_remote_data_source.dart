@@ -21,6 +21,9 @@ abstract class AuthRemoteDataSource {
 
   /// Get user credential
   Future<UserCredentialModel> getUserCredential();
+
+  /// Log out
+  Future<bool> logOut();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -80,12 +83,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       if (result.code == 200) {
         final token = result.data as String;
-
-        preferencesHelper.setAccessToken(token);
+        final isSet = await preferencesHelper.setAccessToken(token);
 
         CredentialSaver.accessToken = token;
 
-        return true;
+        return isSet;
       } else {
         throw ServerException('${result.message}');
       }
@@ -136,6 +138,19 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       } else {
         throw http.ClientException(e.toString());
       }
+    }
+  }
+
+  @override
+  Future<bool> logOut() async {
+    try {
+      final result = await preferencesHelper.removeAccessToken();
+
+      CredentialSaver.accessToken = null;
+
+      return result;
+    } catch (e) {
+      throw PreferenceException(e.toString());
     }
   }
 }

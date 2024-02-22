@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
@@ -6,17 +8,35 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/auth/presentation/providers/log_out_provider.dart';
 import 'package:law_app/features/shared/widgets/feature/home_page_header.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends ConsumerWidget {
   final User user;
 
   const ProfilePage({super.key, required this.user});
 
   @override
-  Widget build(BuildContext context) {
-    final menuItems = getUserMenuItems(context, user);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final menuItems = getMenuItems(context, ref, user);
+
+    ref.listen(logOutProvider, (_, state) {
+      state.whenOrNull(
+        error: (error, stackTrace) => context.showBanner(
+          message: '$error',
+          type: BannerType.error,
+        ),
+        data: (data) {
+          if (data != null) {
+            navigatorKey.currentState!.pushNamedAndRemoveUntil(
+              loginRoute,
+              (route) => false,
+            );
+          }
+        },
+      );
+    });
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -98,7 +118,11 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  List<Map<String, dynamic>> getUserMenuItems(BuildContext context, User user) {
+  List<Map<String, dynamic>> getMenuItems(
+    BuildContext context,
+    WidgetRef ref,
+    User user,
+  ) {
     final menuItems = [
       {
         "icon": "users-solid.svg",
@@ -150,10 +174,7 @@ class ProfilePage extends StatelessWidget {
             title: "Log Out?",
             message: "Dengan ini, seluruh sesi Anda akan berakhir.",
             onPressedPrimaryButton: () {
-              navigatorKey.currentState!.pushNamedAndRemoveUntil(
-                loginRoute,
-                (route) => false,
-              );
+              ref.read(logOutProvider.notifier).logOut();
             },
           );
         },
