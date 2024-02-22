@@ -1,12 +1,19 @@
+// Dart imports:
 import 'dart:async';
-import 'package:after_layout/after_layout.dart';
+
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:after_layout/after_layout.dart';
+
+// Project imports:
 import 'package:law_app/core/configs/app_configs.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
+import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class SplashPage extends StatefulWidget {

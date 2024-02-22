@@ -1,6 +1,11 @@
+// Dart imports:
 import 'dart:convert';
 import 'dart:io';
+
+// Package imports:
 import 'package:http/http.dart' as http;
+
+// Project imports:
 import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/helpers/auth_preferences_helper.dart';
 import 'package:law_app/core/services/api_service.dart';

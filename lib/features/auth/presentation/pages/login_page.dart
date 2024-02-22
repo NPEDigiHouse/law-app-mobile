@@ -1,17 +1,24 @@
+// Dart imports:
 import 'dart:async';
-import 'package:after_layout/after_layout.dart';
+
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:after_layout/after_layout.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:law_app/core/constants/const.dart';
+
+// Project imports:
 import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/button_extension.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
+import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/features/auth/presentation/providers/sign_in_provider.dart';
 import 'package:law_app/features/auth/presentation/widgets/primary_header.dart';
 import 'package:law_app/features/shared/widgets/text_field/custom_text_field.dart';

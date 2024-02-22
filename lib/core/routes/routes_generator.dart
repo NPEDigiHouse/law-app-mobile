@@ -1,4 +1,8 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Project imports:
+import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/admin/presentation/home/pages/admin_home_page.dart';
 import 'package:law_app/features/auth/data/models/user_credential_model.dart';
@@ -40,50 +44,6 @@ import 'package:law_app/features/teacher/presentation/discussion/pages/teacher_q
 
 // Register the RouteObserver as a navigation observer
 final routeObserver = RouteObserver<ModalRoute<void>>();
-
-// Some routes name
-const wrapperRoute = '/wrapper';
-const loginRoute = '/login';
-const registerRoute = '/register';
-const forgotPasswordRoute = '/forgot-password';
-const otpRoute = '/otp';
-const resetPasswordRoute = '/reset-password';
-const mainMenuRoute = '/main-menu';
-
-const profileRoute = '/profile';
-const accountInfoRoute = '/profile/account-info';
-const faqRoute = '/profile/faq';
-const contactUsRoute = '/profile/contact-us';
-const certificateRoute = '/profile/certificate';
-const notificationRoute = '/notification';
-const adDetailRoute = '/ad-detail';
-
-const glossarySearchRoute = '/glossary-search';
-const glossaryDetailRoute = '/glossary-detail';
-
-const libraryBookListRoute = '/library-book-list';
-const libraryFinishedBookRoute = '/library-finished-book';
-const librarySavedBookRoute = '/library-saved-book';
-const librarySearchRoute = '/library-search';
-const libraryBookDetailRoute = '/library-book-detail';
-
-const publicDiscussionRoute = '/public-discussion';
-const studentQuestionListRoute = '/student-question-list';
-const studentDiscussionDetailRoute = '/student-discussion-detail';
-const teacherQuestionListRoute = '/teacher-question-list';
-const teacherDiscussionDetailRoute = '/teacher-discussion-detail';
-const teacherQuestionHistoryRoute = '/teacher-question-history';
-
-const studentCourseSearchRoute = '/student-course-search';
-const studentCourseDetailRoute = '/student-course-detail';
-const studentCourseProgressRoute = '/student-course-progress';
-const studentCourseLessonRoute = '/student-course-lesson';
-const studentCourseArticleRoute = '/student-course-article';
-const studentCourseQuizHomeRoute = '/student-course-quiz-home';
-const studentCourseQuizRoute = '/student-course-quiz';
-const studentCourseRateRoute = '/student-course-rate';
-
-const adminHomeRoute = '/admin-home';
 
 // App routes generator
 Route<dynamic>? generateAppRoutes(RouteSettings settings) {

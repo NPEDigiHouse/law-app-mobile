@@ -1,4 +1,7 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Project imports:
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
 

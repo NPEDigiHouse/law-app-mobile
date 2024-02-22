@@ -1,4 +1,7 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Project imports:
 import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/utils/keys.dart';

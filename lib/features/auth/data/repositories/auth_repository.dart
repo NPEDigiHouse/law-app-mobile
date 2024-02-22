@@ -1,9 +1,12 @@
+// Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart';
+
+// Project imports:
 import 'package:law_app/core/connections/network_info.dart';
-import 'package:law_app/core/constants/const.dart';
 import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/errors/failures.dart';
+import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:law_app/features/auth/data/models/user_credential_model.dart';
 import 'package:law_app/features/auth/data/models/user_register_model.dart';

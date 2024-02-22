@@ -1,5 +1,10 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+
+// Project imports:
 import 'package:law_app/core/styles/color_scheme.dart';
 
 class LoadingIndicator extends StatelessWidget {

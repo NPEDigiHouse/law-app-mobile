@@ -1,5 +1,10 @@
+// Dart imports:
 import 'dart:convert';
+
+// Package imports:
 import 'package:equatable/equatable.dart';
+
+// Project imports:
 import 'package:law_app/core/extensions/datetime_extension.dart';
 
 class UserCredentialModel extends Equatable {

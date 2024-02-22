@@ -1,4 +1,7 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Project imports:
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/features/auth/data/models/user_credential_model.dart';
 import 'package:law_app/features/glossary/presentation/pages/glossary_home_page.dart';

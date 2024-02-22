@@ -1,10 +1,15 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:law_app/core/constants/const.dart';
+
+// Project imports:
 import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
+import 'package:law_app/core/routes/route_names.dart';
+import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/features/auth/data/models/user_credential_model.dart';
 import 'package:law_app/features/auth/presentation/providers/is_sign_in_provider.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';

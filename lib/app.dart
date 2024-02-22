@@ -1,8 +1,13 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_localizations/flutter_localizations.dart';
+
+// Project imports:
+import 'package:law_app/core/routes/routes_generator.dart';
 import 'package:law_app/core/themes/light_theme.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/core/utils/routes.dart';
 import 'package:law_app/features/common/splash/splash_page.dart';
 
 class LawApp extends StatelessWidget {

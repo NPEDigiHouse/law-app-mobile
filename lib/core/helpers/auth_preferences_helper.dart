@@ -1,6 +1,9 @@
-import 'package:law_app/core/constants/const.dart';
-import 'package:law_app/core/utils/credential_saver.dart';
+// Package imports:
 import 'package:shared_preferences/shared_preferences.dart';
+
+// Project imports:
+import 'package:law_app/core/utils/const.dart';
+import 'package:law_app/core/utils/credential_saver.dart';
 
 class AuthPreferencesHelper {
   // Singleton class
