@@ -9,14 +9,14 @@ import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/admin/data/models/user_model.dart';
 import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
 import 'package:law_app/features/shared/widgets/ink_well_container.dart';
 import 'package:law_app/features/shared/widgets/label_chip.dart';
 
 class UserCard extends StatelessWidget {
-  final User user;
+  final UserModel user;
 
   const UserCard({super.key, required this.user});
 
@@ -43,8 +43,8 @@ class UserCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          CircleProfileAvatar(
-            image: user.profilePict,
+          const CircleProfileAvatar(
+            image: 'no-profile.jpg',
             radius: 28,
             borderColor: accentColor,
             borderSize: 1,
@@ -64,15 +64,15 @@ class UserCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  user.name,
+                  '${user.name}',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: textTheme.titleSmall,
                 ),
                 const SizedBox(height: 4),
                 LabelChip(
-                  text: user.role.toCapitalize(),
-                  color: FunctionHelper.getColorByRole(user.role),
+                  text: '${user.role?.toCapitalize()}',
+                  color: FunctionHelper.getColorByRole(user.role ?? ''),
                 ),
               ],
             ),

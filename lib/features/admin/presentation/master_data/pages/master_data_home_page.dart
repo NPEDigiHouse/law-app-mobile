@@ -3,34 +3,37 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:easy_debounce/easy_debounce.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
+import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/admin/presentation/master_data/pages/master_data_form_page.dart';
+import 'package:law_app/features/admin/presentation/master_data/providers/master_data_provider.dart';
 import 'package:law_app/features/admin/presentation/master_data/widgets/user_card.dart';
 import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
+import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 import 'package:law_app/features/shared/widgets/text_field/search_field.dart';
 
-class MasterDataHomePage extends StatefulWidget {
+class MasterDataHomePage extends ConsumerStatefulWidget {
   const MasterDataHomePage({super.key});
 
   @override
-  State<MasterDataHomePage> createState() => _MasterDataHomePageState();
+  ConsumerState<MasterDataHomePage> createState() => _MasterDataHomePageState();
 }
 
-class _MasterDataHomePageState extends State<MasterDataHomePage>
+class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
     with SingleTickerProviderStateMixin {
-  late List<User> users;
   late final List<String> roles;
   late final ValueNotifier<String> selectedRole;
   late final ValueNotifier<String> query;
@@ -40,11 +43,6 @@ class _MasterDataHomePageState extends State<MasterDataHomePage>
   void initState() {
     super.initState();
 
-    users = [
-      ...List<User>.generate(4, (index) => user),
-      ...List<User>.generate(3, (index) => teacher),
-      ...List<User>.generate(3, (index) => admin),
-    ];
     roles = [
       'Semua',
       'Student',
@@ -72,6 +70,30 @@ class _MasterDataHomePageState extends State<MasterDataHomePage>
 
   @override
   Widget build(BuildContext context) {
+    final users = ref.watch(masterDataProvider);
+
+    ref.listen(
+      masterDataProvider,
+      (_, state) {
+        state.when(
+          error: (error, _) {
+            if ('$error' == kNoInternetConnection) {
+              context.showNetworkErrorModalBottomSheet(
+                onPressedPrimaryButton: () {
+                  navigatorKey.currentState!.pop();
+                  ref.invalidate(masterDataProvider);
+                },
+              );
+            } else {
+              context.showBanner(message: '$error', type: BannerType.error);
+            }
+          },
+          loading: () {},
+          data: (_) {},
+        );
+      },
+    );
+
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: PreferredSize(
@@ -207,13 +229,17 @@ class _MasterDataHomePageState extends State<MasterDataHomePage>
                 ),
               ),
             ),
-            Builder(
-              builder: (context) {
-                if (users.isEmpty) {
+            users.when(
+              data: (data) {
+                if (data == null) {
+                  return const SliverFillRemaining();
+                }
+
+                if (data.isEmpty) {
                   return const SliverFillRemaining(
                     child: CustomInformation(
                       illustrationName: 'house-searching-cuate.svg',
-                      title: 'Pengguna Tidak Ditemukan',
+                      title: 'Belum Ada Data',
                     ),
                   );
                 }
@@ -225,16 +251,24 @@ class _MasterDataHomePageState extends State<MasterDataHomePage>
                       (context, index) {
                         return Padding(
                           padding: EdgeInsets.only(
-                            bottom: index == users.length - 1 ? 0 : 8,
+                            bottom: index == data.length - 1 ? 0 : 8,
                           ),
                           child: UserCard(
-                            user: users[index],
+                            user: data[index],
                           ),
                         );
                       },
-                      childCount: users.length,
+                      childCount: data.length,
                     ),
                   ),
+                );
+              },
+              error: (error, _) {
+                return const SliverFillRemaining();
+              },
+              loading: () {
+                return const SliverFillRemaining(
+                  child: LoadingIndicator(),
                 );
               },
             ),

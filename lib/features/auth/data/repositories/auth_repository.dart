@@ -7,14 +7,14 @@ import 'package:law_app/core/connections/network_info.dart';
 import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/errors/failures.dart';
 import 'package:law_app/core/utils/const.dart';
-import 'package:law_app/features/auth/data/datasources/auth_remote_data_source.dart';
+import 'package:law_app/features/auth/data/datasources/auth_data_source.dart';
 import 'package:law_app/features/auth/data/models/user_credential_model.dart';
-import 'package:law_app/features/auth/data/models/user_register_model.dart';
+import 'package:law_app/features/shared/models/user_post_model.dart';
 
 abstract class AuthRepository {
   /// Sign Up
   Future<Either<Failure, bool>> signUp({
-    required UserSignUpModel userSignUpModel,
+    required UserPostModel userSignUpModel,
   });
 
   /// Sign In
@@ -34,27 +34,34 @@ abstract class AuthRepository {
 }
 
 class AuthRepositoryImpl implements AuthRepository {
-  final AuthRemoteDataSource authRemoteDataSource;
+  final AuthDataSource authDataSource;
   final NetworkInfo networkInfo;
 
   AuthRepositoryImpl({
-    required this.authRemoteDataSource,
+    required this.authDataSource,
     required this.networkInfo,
   });
 
   @override
   Future<Either<Failure, bool>> signUp({
-    required UserSignUpModel userSignUpModel,
+    required UserPostModel userSignUpModel,
   }) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await authRemoteDataSource.signUp(
+        final result = await authDataSource.signUp(
           userSignUpModel: userSignUpModel,
         );
 
         return Right(result);
       } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
+        switch (e.message) {
+          case kUsernameAlreadyExist:
+            return const Left(ServerFailure('Username telah terdaftar'));
+          case kEmailAlreadyExist:
+            return const Left(ServerFailure('Email telah terdaftar'));
+          default:
+            return Left(ServerFailure(e.message));
+        }
       } on ClientException catch (e) {
         return Left(ClientFailure(e.message));
       }
@@ -70,7 +77,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await authRemoteDataSource.signIn(
+        final result = await authDataSource.signIn(
           username: username,
           password: password,
         );
@@ -96,7 +103,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<Failure, bool>> isSignIn() async {
     try {
-      final result = await authRemoteDataSource.isSignIn();
+      final result = await authDataSource.isSignIn();
 
       return Right(result);
     } on PreferenceException catch (e) {
@@ -108,7 +115,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<Failure, UserCredentialModel>> getUserCredential() async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await authRemoteDataSource.getUserCredential();
+        final result = await authDataSource.getUserCredential();
 
         return Right(result);
       } on ServerException catch (e) {
@@ -124,7 +131,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<Failure, bool>> logOut() async {
     try {
-      final result = await authRemoteDataSource.logOut();
+      final result = await authDataSource.logOut();
 
       return Right(result);
     } on PreferenceException catch (e) {

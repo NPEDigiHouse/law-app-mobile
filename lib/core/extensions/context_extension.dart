@@ -203,18 +203,14 @@ extension BannerExtension on BuildContext {
 
 extension ModalBottomSheetExtension on BuildContext {
   Future<Object?> showNetworkErrorModalBottomSheet({
-    bool isScrollControlled = true,
-    bool isDismissible = true,
-    bool enableDrag = true,
     VoidCallback? onPressedPrimaryButton,
   }) {
     return showModalBottomSheet(
       context: this,
-      isScrollControlled: isScrollControlled,
-      isDismissible: isDismissible,
-      enableDrag: enableDrag,
+      isScrollControlled: true,
+      isDismissible: false,
+      enableDrag: false,
       builder: (context) => NetworkErrorBottomSheet(
-        isFixed: !isDismissible && !enableDrag,
         onPressedPrimaryButton: onPressedPrimaryButton,
       ),
     );

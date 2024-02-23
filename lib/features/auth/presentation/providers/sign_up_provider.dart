@@ -3,8 +3,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
 import 'package:law_app/core/errors/failures.dart';
-import 'package:law_app/features/auth/data/models/user_register_model.dart';
-import 'package:law_app/features/auth/presentation/providers/auth_repository_provider.dart';
+import 'package:law_app/features/auth/presentation/providers/repository_provider/auth_repository_provider.dart';
+import 'package:law_app/features/shared/models/user_post_model.dart';
 
 part 'sign_up_provider.g.dart';
 
@@ -15,7 +15,7 @@ class SignUp extends _$SignUp {
     return const AsyncValue.data(null);
   }
 
-  Future<void> signUp({required UserSignUpModel userSignUpModel}) async {
+  Future<void> signUp({required UserPostModel userSignUpModel}) async {
     bool? success;
     Failure? failure;
 
