@@ -163,7 +163,6 @@ extension DialogExtension on BuildContext {
       builder: (_) => SortingDialog(
         title: title,
         items: items,
-        primaryButtonText: primaryButtonText,
         onSubmitted: onSubmitted,
       ),
     );

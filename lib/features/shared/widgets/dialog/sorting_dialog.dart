@@ -11,14 +11,12 @@ import 'package:law_app/features/shared/widgets/text_field/custom_dropdown_field
 class SortingDialog extends StatelessWidget {
   final String title;
   final List<String> items;
-  final String? primaryButtonText;
   final void Function(Map<String, dynamic> value)? onSubmitted;
 
   const SortingDialog({
     super.key,
     required this.title,
     required this.items,
-    this.primaryButtonText,
     this.onSubmitted,
   });
 
@@ -29,7 +27,7 @@ class SortingDialog extends StatelessWidget {
 
     return CustomDialog(
       title: title,
-      primaryButtonText: primaryButtonText,
+      primaryButtonText: 'Terapkan',
       onPressedPrimaryButton: () => submit(formKey),
       child: FormBuilder(
         key: formKey,

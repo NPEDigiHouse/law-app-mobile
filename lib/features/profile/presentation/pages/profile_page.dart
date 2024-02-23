@@ -186,11 +186,11 @@ class ProfilePage extends ConsumerWidget {
       },
     ];
 
-    if (user.roleId == 0) {
+    if (user.role == 'admin') {
       return [menuItems.first, menuItems.last];
     }
 
-    if (user.roleId == 2) {
+    if (user.role == 'teacher') {
       return [...menuItems.sublist(0, 4), menuItems.last];
     }
 

@@ -16,7 +16,6 @@ class HeaderContainer extends StatelessWidget {
   final String? trailingButtonIconName;
   final String? trailingButtonTooltip;
   final VoidCallback? onPressedTrailingButton;
-  final bool clipBorder;
   final Widget? child;
 
   const HeaderContainer({
@@ -28,7 +27,6 @@ class HeaderContainer extends StatelessWidget {
     this.trailingButtonIconName,
     this.trailingButtonTooltip,
     this.onPressedTrailingButton,
-    this.clipBorder = false,
     this.child,
   });
 
@@ -42,17 +40,6 @@ class HeaderContainer extends StatelessWidget {
       assert(!withBackButton && !withTrailingButton && title == null);
     }
 
-    return clipBorder
-        ? ClipRRect(
-            borderRadius: const BorderRadius.vertical(
-              bottom: Radius.circular(20),
-            ),
-            child: buildHeaderContainer(context),
-          )
-        : buildHeaderContainer(context);
-  }
-
-  Container buildHeaderContainer(BuildContext context) {
     return Container(
       height: height,
       decoration: const BoxDecoration(

@@ -2,10 +2,10 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
 
 class DiscussionReplyCard extends StatelessWidget {
   final User questionOwner;
@@ -35,15 +35,9 @@ class DiscussionReplyCard extends StatelessWidget {
 
   List<Widget> buildRowChildren(bool isLeft) {
     return [
-      CircleAvatar(
+      CircleProfileAvatar(
+        image: responder.profilePict,
         radius: 16,
-        backgroundColor: secondaryColor,
-        child: CircleAvatar(
-          radius: 14,
-          foregroundImage: AssetImage(
-            AssetPath.getImage(responder.profilePict),
-          ),
-        ),
       ),
       const SizedBox(width: 8),
       Expanded(

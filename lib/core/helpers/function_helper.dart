@@ -110,4 +110,17 @@ class FunctionHelper {
         return secondaryTextColor;
     }
   }
+
+  static Color getColorByRole(String role) {
+    switch (role) {
+      case 'student':
+        return infoColor;
+      case 'teacher ':
+        return warningColor;
+      case 'admin':
+        return primaryColor;
+      default:
+        return secondaryTextColor;
+    }
+  }
 }

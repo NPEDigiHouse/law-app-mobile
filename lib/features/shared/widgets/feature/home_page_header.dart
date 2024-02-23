@@ -1,5 +1,6 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:law_app/core/extensions/string_extension.dart';
 
 // Project imports:
 import 'package:law_app/core/helpers/app_size.dart';
@@ -10,6 +11,7 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
@@ -37,7 +39,7 @@ class HomePageHeader extends StatelessWidget {
             height: AppSize.getAppHeight(context),
           ),
         Container(
-          height: !(user.roleId == 0) ? 224 : 248,
+          height: !(user.role == 'admin') ? 224 : 248,
           width: double.infinity,
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.vertical(
@@ -62,11 +64,11 @@ class HomePageHeader extends StatelessWidget {
                 ),
               ),
               Positioned(
-                top: !(user.roleId == 0) ? 20 : 40,
+                top: !(user.role == 'admin') ? 20 : 40,
                 left: 20,
                 right: 20,
                 child: SafeArea(
-                  child: !(user.roleId == 0)
+                  child: !(user.role == 'admin')
                       ? Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -90,7 +92,7 @@ class HomePageHeader extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    '${getRoleById(user.roleId)}',
+                                    user.role.toCapitalize(),
                                     style: textTheme.bodyMedium!.copyWith(
                                       color: accentTextColor,
                                     ),
@@ -114,20 +116,11 @@ class HomePageHeader extends StatelessWidget {
                                 const SizedBox(width: 4),
                                 GestureDetector(
                                   onTap: onPressedProfileIcon,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: scaffoldBackgroundColor,
-                                      border: Border.all(
-                                        color: accentColor,
-                                      ),
-                                    ),
-                                    child: CircleAvatar(
-                                      radius: 20,
-                                      foregroundImage: AssetImage(
-                                        AssetPath.getImage(user.profilePict),
-                                      ),
-                                    ),
+                                  child: CircleProfileAvatar(
+                                    image: user.profilePict,
+                                    radius: 20,
+                                    borderColor: accentColor,
+                                    borderSize: 1,
                                   ),
                                 ),
                               ],
@@ -177,20 +170,11 @@ class HomePageHeader extends StatelessWidget {
                               const SizedBox(width: 12),
                               GestureDetector(
                                 onTap: onPressedProfileIcon,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: scaffoldBackgroundColor,
-                                    border: Border.all(
-                                      color: accentColor,
-                                    ),
-                                  ),
-                                  child: CircleAvatar(
-                                    radius: 20,
-                                    foregroundImage: AssetImage(
-                                      AssetPath.getImage(user.profilePict),
-                                    ),
-                                  ),
+                                child: CircleProfileAvatar(
+                                  image: user.profilePict,
+                                  radius: 20,
+                                  borderColor: accentColor,
+                                  borderSize: 1,
                                 ),
                               ),
                             ],
@@ -202,25 +186,12 @@ class HomePageHeader extends StatelessWidget {
           ),
         ),
         Positioned(
-          top: !(user.roleId == 0) ? 140 : 170,
+          top: !(user.role == 'admin') ? 140 : 170,
           left: 20,
           right: 20,
           child: child,
         ),
       ],
     );
-  }
-
-  String? getRoleById(int id) {
-    switch (id) {
-      case 0:
-        return 'Admin';
-      case 1:
-        return 'Student';
-      case 2:
-        return 'Pakar';
-      default:
-        return null;
-    }
   }
 }

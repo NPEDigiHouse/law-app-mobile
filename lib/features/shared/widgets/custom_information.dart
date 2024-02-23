@@ -10,7 +10,7 @@ import 'package:law_app/features/shared/widgets/svg_asset.dart';
 class CustomInformation extends StatelessWidget {
   final String illustrationName;
   final String title;
-  final String subtitle;
+  final String? subtitle;
   final double size;
   final bool withScaffold;
 
@@ -18,7 +18,7 @@ class CustomInformation extends StatelessWidget {
     super.key,
     required this.illustrationName,
     required this.title,
-    required this.subtitle,
+    this.subtitle,
     this.size = 260.0,
     this.withScaffold = false,
   });
@@ -49,12 +49,13 @@ class CustomInformation extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 4),
-            Text(
-              subtitle,
-              style: textTheme.bodySmall!.copyWith(
-                color: const Color(0xFF737373),
+            if (subtitle != null)
+              Text(
+                subtitle!,
+                style: textTheme.bodySmall!.copyWith(
+                  color: const Color(0xFF737373),
+                ),
               ),
-            ),
           ],
         ),
       ),

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/admin/presentation/home/pages/admin_home_page.dart';
+import 'package:law_app/features/admin/presentation/master_data/pages/master_data_home_page.dart';
 import 'package:law_app/features/auth/data/models/user_credential_model.dart';
 import 'package:law_app/features/auth/presentation/pages/forgot_password_page.dart';
 import 'package:law_app/features/auth/presentation/pages/login_page.dart';
@@ -232,6 +233,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
 
       return MaterialPageRoute(
         builder: (_) => AdminHomePage(userCredential: userCredential),
+      );
+    case masterDataHomeRoute:
+      return MaterialPageRoute(
+        builder: (_) => const MasterDataHomePage(),
       );
     default:
       return null;
