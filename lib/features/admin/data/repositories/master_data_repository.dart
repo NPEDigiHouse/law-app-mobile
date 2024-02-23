@@ -12,11 +12,15 @@ import 'package:law_app/features/admin/data/models/user_model.dart';
 
 abstract class MasterDataRepository {
   /// Get Users
-  Future<Either<Failure, List<UserModel>>> getUsers([
+  Future<Either<Failure, List<UserModel>>> getUsers({
     String query = '',
     String sortBy = '',
     String sortOrder = '',
-  ]);
+    String? role,
+  });
+
+  /// Delete user
+  Future<Either<Failure, void>> deleteUser({required int id});
 }
 
 class MasterDataRepositoryImpl implements MasterDataRepository {
@@ -29,18 +33,37 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
   });
 
   @override
-  Future<Either<Failure, List<UserModel>>> getUsers([
+  Future<Either<Failure, List<UserModel>>> getUsers({
     String query = '',
     String sortBy = '',
     String sortOrder = '',
-  ]) async {
+    String? role,
+  }) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await masterDataSource.getUsers(
-          query,
-          sortBy,
-          sortOrder,
+          query: query,
+          sortBy: sortBy,
+          sortOrder: sortOrder,
+          role: role,
         );
+
+        return Right(result);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message));
+      } on ClientException catch (e) {
+        return Left(ClientFailure(e.message));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteUser({required int id}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await masterDataSource.deleteUser(id: id);
 
         return Right(result);
       } on ServerException catch (e) {

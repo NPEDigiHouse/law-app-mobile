@@ -8,6 +8,7 @@ import 'package:equatable/equatable.dart';
 import 'package:law_app/core/extensions/datetime_extension.dart';
 
 class UserModel extends Equatable {
+  final int? id;
   final String? name;
   final String? username;
   final String? email;
@@ -16,6 +17,7 @@ class UserModel extends Equatable {
   final String? role;
 
   const UserModel({
+    this.id,
     this.name,
     this.username,
     this.email,
@@ -25,6 +27,7 @@ class UserModel extends Equatable {
   });
 
   UserModel copyWith({
+    int? id,
     String? name,
     String? username,
     String? email,
@@ -33,6 +36,7 @@ class UserModel extends Equatable {
     String? role,
   }) {
     return UserModel(
+      id: id ?? this.id,
       name: name ?? this.name,
       username: username ?? this.username,
       email: email ?? this.email,
@@ -44,6 +48,7 @@ class UserModel extends Equatable {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'id': id,
       'name': name,
       'username': username,
       'email': email,
@@ -55,6 +60,7 @@ class UserModel extends Equatable {
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
+      id: map['id'] as int?,
       name: map['name'] as String?,
       username: map['username'] as String?,
       email: map['email'] as String?,
@@ -72,6 +78,7 @@ class UserModel extends Equatable {
   @override
   List<Object?> get props {
     return [
+      id,
       name,
       username,
       email,

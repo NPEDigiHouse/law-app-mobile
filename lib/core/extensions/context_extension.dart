@@ -152,17 +152,16 @@ extension DialogExtension on BuildContext {
   }
 
   Future<Object?> showSortingDialog({
-    required String title,
     required List<String> items,
-    String? primaryButtonText,
+    List<String>? values,
     void Function(Map<String, dynamic> value)? onSubmitted,
   }) {
     return showDialog(
       context: this,
       barrierDismissible: false,
       builder: (_) => SortingDialog(
-        title: title,
         items: items,
+        values: values,
         onSubmitted: onSubmitted,
       ),
     );

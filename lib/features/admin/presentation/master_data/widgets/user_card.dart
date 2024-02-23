@@ -1,5 +1,6 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
 import 'package:law_app/core/extensions/context_extension.dart';
@@ -10,18 +11,19 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/user_model.dart';
+import 'package:law_app/features/admin/presentation/master_data/providers/master_data_provider.dart';
 import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
 import 'package:law_app/features/shared/widgets/ink_well_container.dart';
 import 'package:law_app/features/shared/widgets/label_chip.dart';
 
-class UserCard extends StatelessWidget {
+class UserCard extends ConsumerWidget {
   final UserModel user;
 
   const UserCard({super.key, required this.user});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return InkWellContainer(
       color: scaffoldBackgroundColor,
       radius: 10,
@@ -86,7 +88,9 @@ class UserCard extends StatelessWidget {
               title: 'Hapus User',
               message: 'Anda yakin ingin menghapus seluruh data user ini?',
               primaryButtonText: 'Hapus',
-              onPressedPrimaryButton: () {},
+              onPressedPrimaryButton: () {
+                ref.read(masterDataProvider.notifier).deleteUser(id: user.id!);
+              },
             ),
             tooltip: 'Hapus',
           ),

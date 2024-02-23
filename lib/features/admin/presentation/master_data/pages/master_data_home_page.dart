@@ -143,15 +143,24 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
                       ),
                       child: IconButton(
                         onPressed: () => context.showSortingDialog(
-                          title: 'Urutkan Item',
-                          onSubmitted: (value) {},
                           items: [
                             'Nama',
                             'Username',
                             'Email',
-                            'No. HP',
-                            'Tanggal Lahir',
                           ],
+                          values: [
+                            'name',
+                            'username',
+                            'email',
+                          ],
+                          onSubmitted: (value) {
+                            ref.read(masterDataProvider.notifier).sortUsers(
+                                  sortBy: value['sortBy'],
+                                  sortOrder: value['sortOrder'],
+                                );
+
+                            navigatorKey.currentState!.pop();
+                          },
                         ),
                         icon: SvgAsset(
                           assetPath:
@@ -217,6 +226,12 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
                           selected: role == roles[index],
                           onSelected: (_) {
                             selectedRole.value = roles[index];
+
+                            ref.read(masterDataProvider.notifier).filterUsers(
+                                  role: roles[index] == 'Semua'
+                                      ? null
+                                      : roles[index].toLowerCase(),
+                                );
                           },
                         );
                       },
@@ -235,11 +250,20 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
                   return const SliverFillRemaining();
                 }
 
+                if (query.value.isNotEmpty && data.isEmpty) {
+                  return const SliverFillRemaining(
+                    child: CustomInformation(
+                      illustrationName: 'house-searching-cuate.svg',
+                      title: 'User tidak ditemukan',
+                    ),
+                  );
+                }
+
                 if (data.isEmpty) {
                   return const SliverFillRemaining(
                     child: CustomInformation(
                       illustrationName: 'house-searching-cuate.svg',
-                      title: 'Belum Ada Data',
+                      title: 'Belum ada data',
                     ),
                   );
                 }
@@ -333,14 +357,14 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
   void searchUser(String query) {
     this.query.value = query;
 
-    EasyDebounce.debounce(
-      'search-debouncer',
-      const Duration(milliseconds: 800),
-      () {},
-    );
-
-    if (query.isEmpty) {
-      EasyDebounce.fire('search-debouncer');
+    if (query.isNotEmpty) {
+      EasyDebounce.debounce(
+        'search-debouncer',
+        const Duration(milliseconds: 800),
+        () => ref.read(masterDataProvider.notifier).searchUsers(query: query),
+      );
+    } else {
+      ref.invalidate(masterDataProvider);
     }
   }
 }
