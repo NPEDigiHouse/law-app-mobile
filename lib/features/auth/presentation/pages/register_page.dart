@@ -40,7 +40,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
 
   final formKey = GlobalKey<FormBuilderState>();
 
-  var date = DateTime.now();
+  DateTime date = DateTime.now();
 
   @override
   void initState() {

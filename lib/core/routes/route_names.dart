@@ -50,3 +50,5 @@ const studentCourseRateRoute = '/student-course-rate';
 // Admin routes
 const adminHomeRoute = '/admin-home';
 const masterDataHomeRoute = '/master-data-home';
+const masterDataFormRoute = '/master-data-form';
+const masterDataUserDetailRoute = '/master-data-user-detail';

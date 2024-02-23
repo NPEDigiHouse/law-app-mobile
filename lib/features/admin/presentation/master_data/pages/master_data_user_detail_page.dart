@@ -4,16 +4,19 @@ import 'package:flutter/material.dart';
 // Project imports:
 import 'package:law_app/core/extensions/button_extension.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
+import 'package:law_app/core/extensions/string_extension.dart';
+import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/dummies_data.dart';
-import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
+import 'package:law_app/features/admin/presentation/master_data/pages/master_data_form_page.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 
-class AccountInfoPage extends StatelessWidget {
+class MasterDataUserDetailPage extends StatelessWidget {
   final User user;
 
-  const AccountInfoPage({super.key, required this.user});
+  const MasterDataUserDetailPage({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +44,20 @@ class AccountInfoPage extends StatelessWidget {
     ];
 
     return Scaffold(
-      appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(96),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(96),
         child: HeaderContainer(
-          title: 'Informasi Akun',
+          title: 'Detail Pengguna',
           withBackButton: true,
+          withTrailingButton: true,
+          trailingButtonIconName: 'trash-line.svg',
+          trailingButtonTooltip: 'Hapus',
+          onPressedTrailingButton: () => context.showConfirmDialog(
+            title: 'Hapus User',
+            message: 'Anda yakin ingin menghapus seluruh data user ini?',
+            primaryButtonText: 'Hapus',
+            onPressedPrimaryButton: () {},
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -57,34 +69,6 @@ class AccountInfoPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "Foto Profil",
-                style: textTheme.headlineSmall!.copyWith(
-                  color: primaryColor,
-                ),
-              ),
-              const SizedBox(height: 16),
-              Row(
-                children: [
-                  CircleProfileAvatar(
-                    image: user.profilePict,
-                    radius: 56,
-                    borderColor: accentColor,
-                  ),
-                  const SizedBox(width: 24),
-                  Expanded(
-                    child: FilledButton(
-                      onPressed: () {},
-                      style: FilledButton.styleFrom(
-                        backgroundColor: secondaryColor,
-                        foregroundColor: primaryColor,
-                      ),
-                      child: const Text("Ubah Foto Profil"),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 32),
               Text(
                 "Data Diri",
                 style: textTheme.headlineSmall!.copyWith(
@@ -176,22 +160,22 @@ class AccountInfoPage extends StatelessWidget {
                   );
                 },
               ),
-              const SizedBox(height: 8),
-              FilledButton(
-                onPressed: () => context.showChangePasswordDialog(),
-                style: FilledButton.styleFrom(
-                  backgroundColor: secondaryColor,
-                  foregroundColor: primaryColor,
-                ),
-                child: const Text("Ubah Password"),
-              ).fullWidth(),
-              FilledButton(
-                onPressed: () => context.showEditProfileDialog(),
-                child: const Text("Ubah Data"),
-              ).fullWidth(),
             ],
           ),
         ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
+        child: FilledButton(
+          onPressed: () => navigatorKey.currentState!.pushNamed(
+            masterDataFormRoute,
+            arguments: MasterDataFormArgs(
+              title: 'Edit ${user.role.toCapitalize()}',
+              user: user,
+            ),
+          ),
+          child: const Text("Ubah Data"),
+        ).fullWidth(),
       ),
     );
   }

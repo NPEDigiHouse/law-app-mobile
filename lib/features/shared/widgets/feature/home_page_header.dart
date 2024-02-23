@@ -1,8 +1,8 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:law_app/core/extensions/string_extension.dart';
 
 // Project imports:
+import 'package:law_app/core/extensions/string_extension.dart';
 import 'package:law_app/core/helpers/app_size.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/helpers/function_helper.dart';

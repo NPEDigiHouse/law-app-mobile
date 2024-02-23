@@ -5,7 +5,7 @@ class User {
   final String name;
   final String email;
   final String dateOfBirth;
-  final String phone;
+  final String phoneNumber;
   final String profilePict;
   final String role;
   final int otp;
@@ -16,7 +16,7 @@ class User {
     required this.name,
     required this.email,
     required this.dateOfBirth,
-    required this.phone,
+    required this.phoneNumber,
     required this.profilePict,
     required this.otp,
     required this.role,
@@ -29,7 +29,7 @@ const user = User(
   name: 'Kamaruddin Al maliki',
   email: 'test@gmail.com',
   dateOfBirth: '21 Desember 2001',
-  phone: '082290380510',
+  phoneNumber: '082290380510',
   profilePict: 'no-profile.jpg',
   role: 'student',
   otp: 1234,
@@ -41,7 +41,7 @@ const teacher = User(
   name: 'Dr. Edy Saputra Rusdi',
   email: 'teacher@gmail.com',
   dateOfBirth: '8 Oktober 1980',
-  phone: '089141602912',
+  phoneNumber: '089141602912',
   profilePict: 'no-profile-2.jpg',
   role: 'teacher',
   otp: 1234,
@@ -53,7 +53,7 @@ const admin = User(
   name: 'Admin',
   email: 'admin@gmail.com',
   dateOfBirth: '13 Maret 2004',
-  phone: '080120010001',
+  phoneNumber: '080120010001',
   profilePict: 'no-profile-2.jpg',
   role: 'admin',
   otp: 1234,
@@ -281,7 +281,7 @@ const dummyQuestions = [
       name: 'Ananda Lesmono',
       email: 'nanda@gmail.com',
       dateOfBirth: '21 Desember 2001',
-      phone: '0897182974',
+      phoneNumber: '0897182974',
       profilePict: 'no-profile.jpg',
       role: 'student',
       otp: 1234,

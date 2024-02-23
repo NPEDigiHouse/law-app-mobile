@@ -22,7 +22,7 @@ class EditProfileDialog extends StatefulWidget {
 class _EditProfileDialogState extends State<EditProfileDialog> {
   final formKey = GlobalKey<FormBuilderState>();
 
-  var date = DateTime.now();
+  DateTime date = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -51,26 +51,6 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                 FormBuilderValidators.match(
                   r'^[a-zA-Z\s]*$',
                   errorText: "Nama tidak valid",
-                )
-              ],
-            ),
-            const SizedBox(height: 10),
-            CustomTextField(
-              isSmall: true,
-              name: "username",
-              label: "Username",
-              hintText: "Masukkan username kamu",
-              initialValue: user.username,
-              hasPrefixIcon: false,
-              hasSuffixIcon: false,
-              textInputAction: TextInputAction.next,
-              validators: [
-                FormBuilderValidators.required(
-                  errorText: "Bagian ini harus diisi",
-                ),
-                FormBuilderValidators.match(
-                  r'^(?=.*[a-zA-Z])\d*[a-zA-Z\d]*$',
-                  errorText: "Username tidak valid",
                 )
               ],
             ),
@@ -116,8 +96,8 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
               isSmall: true,
               name: "phoneNumber",
               label: "No. HP",
-              hintText: "Masukkan nomor hp kamu",
-              initialValue: user.phone,
+              hintText: "+62xxx",
+              initialValue: user.phoneNumber,
               hasPrefixIcon: false,
               hasSuffixIcon: false,
               textInputType: TextInputType.number,
