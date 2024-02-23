@@ -6,14 +6,14 @@ import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
 
 class QuestionListPage extends StatefulWidget {
-  final int roleId;
+  final String role;
   final List<Question> questions;
   final bool isDetail;
   final bool withProfile;
 
   const QuestionListPage({
     super.key,
-    required this.roleId,
+    required this.role,
     required this.questions,
     this.isDetail = false,
     this.withProfile = false,
@@ -34,7 +34,7 @@ class _QuestionListPageState extends State<QuestionListPage>
       itemBuilder: (context, index) {
         return DiscussionCard(
           question: widget.questions[index],
-          roleId: widget.roleId,
+          role: widget.role,
           isDetail: widget.isDetail,
           withProfile: widget.withProfile,
         );

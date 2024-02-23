@@ -78,7 +78,7 @@ class _TeacherQuestionListPageState
               itemBuilder: (context, index) {
                 return DiscussionCard(
                   question: items[index],
-                  roleId: 2,
+                  role: 'teacher',
                   isDetail: true,
                   withProfile: true,
                 );

@@ -159,13 +159,13 @@ class _StudentQuestionListPageState extends State<StudentQuestionListPage> {
               },
               children: [
                 QuestionListPage(
-                  roleId: 1,
+                  role: 'student',
                   questions: dummyQuestions
                       .map((e) => e.copyWith(type: 'general'))
                       .toList(),
                 ),
                 QuestionListPage(
-                  roleId: 1,
+                  role: 'student',
                   questions: dummyQuestions
                       .map((e) => e.copyWith(type: 'specific'))
                       .toList(),

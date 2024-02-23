@@ -14,7 +14,7 @@ import 'package:law_app/features/shared/widgets/ink_well_container.dart';
 import 'package:law_app/features/shared/widgets/label_chip.dart';
 
 class DiscussionCard extends StatelessWidget {
-  final int roleId;
+  final String role;
   final Question question;
   final bool isDetail;
   final bool withProfile;
@@ -23,7 +23,7 @@ class DiscussionCard extends StatelessWidget {
 
   const DiscussionCard({
     super.key,
-    required this.roleId,
+    required this.role,
     required this.question,
     this.isDetail = false,
     this.withProfile = false,
@@ -157,16 +157,16 @@ class DiscussionCard extends StatelessWidget {
   }
 
   void onTap() {
-    switch (roleId) {
-      case 0:
+    switch (role) {
+      case 'admin':
         break;
-      case 1:
+      case 'student':
         navigatorKey.currentState!.pushNamed(
           studentDiscussionDetailRoute,
           arguments: question,
         );
         break;
-      case 2:
+      case 'teacher':
         navigatorKey.currentState!.pushNamed(
           teacherDiscussionDetailRoute,
           arguments: question,

@@ -19,9 +19,9 @@ import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/text_field/search_field.dart';
 
 class PublicDiscussionPage extends ConsumerStatefulWidget {
-  final int roleId;
+  final String role;
 
-  const PublicDiscussionPage({super.key, required this.roleId});
+  const PublicDiscussionPage({super.key, required this.role});
 
   @override
   ConsumerState<PublicDiscussionPage> createState() =>
@@ -171,7 +171,7 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
                             ),
                             child: DiscussionCard(
                               question: items[index],
-                              roleId: widget.roleId,
+                              role: widget.role,
                               isDetail: true,
                               withProfile: true,
                             ),

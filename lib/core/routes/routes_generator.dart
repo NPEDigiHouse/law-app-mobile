@@ -150,10 +150,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => LibraryBookDetailRoute(book: book),
       );
     case publicDiscussionRoute:
-      final roleId = settings.arguments as int;
+      final role = settings.arguments as String;
 
       return MaterialPageRoute(
-        builder: (_) => PublicDiscussionPage(roleId: roleId),
+        builder: (_) => PublicDiscussionPage(role: role),
       );
     case studentQuestionListRoute:
       return MaterialPageRoute(

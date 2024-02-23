@@ -83,7 +83,7 @@ class _TeacherQuestionHistoryPageState
                 itemBuilder: (context, index) {
                   return DiscussionCard(
                     question: questions[index],
-                    roleId: 2,
+                    role: 'teacher',
                     isDetail: true,
                     withProfile: true,
                   );
@@ -110,7 +110,7 @@ class _TeacherQuestionHistoryPageState
               },
               children: [
                 QuestionListPage(
-                  roleId: 2,
+                  role: 'teacher',
                   questions: dummyQuestions
                       .map((e) => e.copyWith(status: 'discuss'))
                       .toList(),
@@ -118,7 +118,7 @@ class _TeacherQuestionHistoryPageState
                   withProfile: true,
                 ),
                 QuestionListPage(
-                  roleId: 2,
+                  role: 'teacher',
                   questions: dummyQuestions
                       .map((e) => e.copyWith(status: 'solved'))
                       .toList(),
