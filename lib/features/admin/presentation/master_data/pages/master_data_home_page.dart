@@ -30,30 +30,15 @@ class MasterDataHomePage extends StatefulWidget {
 
 class _MasterDataHomePageState extends State<MasterDataHomePage>
     with SingleTickerProviderStateMixin {
-  late final AnimationController fabAnimationController;
-  late final ScrollController scrollController;
-
   late List<User> users;
   late final List<String> roles;
-
   late final ValueNotifier<String> selectedRole;
   late final ValueNotifier<String> query;
+  late final AnimationController fabAnimationController;
 
   @override
   void initState() {
     super.initState();
-
-    fabAnimationController = AnimationController(
-      vsync: this,
-      duration: kThemeAnimationDuration,
-    );
-
-    scrollController = ScrollController()
-      ..addListener(() {
-        if (scrollController.offset == 0) {
-          fabAnimationController.reverse();
-        }
-      });
 
     users = [
       ...List<User>.generate(4, (index) => user),
@@ -69,6 +54,11 @@ class _MasterDataHomePageState extends State<MasterDataHomePage>
 
     selectedRole = ValueNotifier(roles.first);
     query = ValueNotifier('');
+
+    fabAnimationController = AnimationController(
+      vsync: this,
+      duration: kThemeAnimationDuration,
+    )..forward();
   }
 
   @override
@@ -76,7 +66,6 @@ class _MasterDataHomePageState extends State<MasterDataHomePage>
     super.dispose();
 
     fabAnimationController.dispose();
-    scrollController.dispose();
     selectedRole.dispose();
     query.dispose();
   }
@@ -177,7 +166,6 @@ class _MasterDataHomePageState extends State<MasterDataHomePage>
           );
         },
         child: CustomScrollView(
-          controller: scrollController,
           slivers: [
             SliverAppBar(
               pinned: true,
