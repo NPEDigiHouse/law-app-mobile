@@ -11,8 +11,8 @@ part 'create_user_provider.g.dart';
 @riverpod
 class CreateUser extends _$CreateUser {
   @override
-  AsyncValue<void> build() {
-    return const AsyncValue.loading();
+  AsyncValue<bool?> build() {
+    return const AsyncValue.data(null);
   }
 
   Future<void> createUser({required UserPostModel userPostModel}) async {
@@ -35,7 +35,7 @@ class CreateUser extends _$CreateUser {
       if (failure != null) {
         state = AsyncValue.error(failure!.message, StackTrace.current);
       } else {
-        state = const AsyncValue.data(null);
+        state = const AsyncValue.data(true);
       }
     }
   }

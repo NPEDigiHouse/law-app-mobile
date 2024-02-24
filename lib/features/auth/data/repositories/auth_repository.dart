@@ -31,6 +31,16 @@ abstract class AuthRepository {
 
   /// Log out
   Future<Either<Failure, bool>> logOut();
+
+  /// Ask reset password
+  Future<Either<Failure, String>> askResetPassword({required String email});
+
+  /// Reset password
+  Future<Either<Failure, bool>> resetPassword({
+    required String email,
+    required String resetPasswordToken,
+    required String newPassword,
+  });
 }
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -136,6 +146,55 @@ class AuthRepositoryImpl implements AuthRepository {
       return Right(result);
     } on PreferenceException catch (e) {
       return Left(PreferenceFailure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> askResetPassword({
+    required String email,
+  }) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await authDataSource.askResetPassword(email: email);
+
+        return Right(result);
+      } on ServerException catch (e) {
+        switch (e.message) {
+          case kUserNotFound:
+            return const Left(ServerFailure('Email tidak terdaftar'));
+          default:
+            return Left(ServerFailure(e.message));
+        }
+      } on ClientException catch (e) {
+        return Left(ClientFailure(e.message));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> resetPassword({
+    required String email,
+    required String resetPasswordToken,
+    required String newPassword,
+  }) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await authDataSource.resetPassword(
+          email: email,
+          resetPasswordToken: resetPasswordToken,
+          newPassword: newPassword,
+        );
+
+        return Right(result);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message));
+      } on ClientException catch (e) {
+        return Left(ClientFailure(e.message));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
     }
   }
 }

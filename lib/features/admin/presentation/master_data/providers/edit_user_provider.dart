@@ -10,8 +10,8 @@ part 'edit_user_provider.g.dart';
 @riverpod
 class EditUser extends _$EditUser {
   @override
-  AsyncValue<void> build() {
-    return const AsyncValue.loading();
+  AsyncValue<bool?> build() {
+    return const AsyncValue.data(null);
   }
 
   Future<void> editUser({
@@ -44,7 +44,7 @@ class EditUser extends _$EditUser {
       if (failure != null) {
         state = AsyncValue.error(failure!.message, StackTrace.current);
       } else {
-        state = const AsyncValue.data(null);
+        state = const AsyncValue.data(true);
       }
     }
   }

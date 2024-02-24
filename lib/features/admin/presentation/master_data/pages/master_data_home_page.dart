@@ -63,27 +63,24 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
     final query = ref.watch(queryProvider);
     final users = ref.watch(getUsersProvider);
 
-    ref.listen(
-      getUsersProvider,
-      (_, state) {
-        state.when(
-          error: (error, _) {
-            if ('$error' == kNoInternetConnection) {
-              context.showNetworkErrorModalBottomSheet(
-                onPressedPrimaryButton: () {
-                  navigatorKey.currentState!.pop();
-                  ref.invalidate(getUsersProvider);
-                },
-              );
-            } else {
-              context.showBanner(message: '$error', type: BannerType.error);
-            }
-          },
-          loading: () {},
-          data: (_) {},
-        );
-      },
-    );
+    ref.listen(getUsersProvider, (_, state) {
+      state.when(
+        error: (error, _) {
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet(
+              onPressedPrimaryButton: () {
+                navigatorKey.currentState!.pop();
+                ref.invalidate(getUsersProvider);
+              },
+            );
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+        loading: () {},
+        data: (_) {},
+      );
+    });
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -210,29 +207,13 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
             ),
           ),
           users.when(
-            loading: () {
-              return const SliverFillRemaining(
-                child: LoadingIndicator(),
-              );
-            },
-            error: (error, __) {
-              return const SliverFillRemaining(
-                child: CustomInformation(
-                  illustrationName: 'error-lost-in-space-cuate.svg',
-                  title: 'Oops! Terjadi kesalahan',
-                  size: 250,
-                ),
-              );
-            },
+            loading: () => const SliverFillRemaining(
+              child: LoadingIndicator(),
+            ),
+            error: (_, __) => const SliverFillRemaining(),
             data: (data) {
               if (data == null) {
-                return const SliverFillRemaining(
-                  child: CustomInformation(
-                    illustrationName: 'error-lost-in-space-cuate.svg',
-                    title: 'Oops! Terjadi kesalahan',
-                    size: 250,
-                  ),
-                );
+                return const SliverFillRemaining();
               }
 
               if (query.isNotEmpty && data.isEmpty) {
@@ -288,7 +269,7 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
                 navigatorKey.currentState!.pop();
                 navigatorKey.currentState!.pushNamed(
                   masterDataFormRoute,
-                  arguments: const MasterDataFormArgs(
+                  arguments: const MasterDataFormPageArgs(
                     title: 'Tambah Student',
                   ),
                 );
@@ -300,7 +281,7 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
                 navigatorKey.currentState!.pop();
                 navigatorKey.currentState!.pushNamed(
                   masterDataFormRoute,
-                  arguments: const MasterDataFormArgs(
+                  arguments: const MasterDataFormPageArgs(
                     title: 'Tambah Teacher',
                   ),
                 );
@@ -312,7 +293,7 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
                 navigatorKey.currentState!.pop();
                 navigatorKey.currentState!.pushNamed(
                   masterDataFormRoute,
-                  arguments: const MasterDataFormArgs(
+                  arguments: const MasterDataFormPageArgs(
                     title: 'Tambah Admin',
                   ),
                 );

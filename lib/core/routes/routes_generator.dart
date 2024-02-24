@@ -70,14 +70,16 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => const ForgotpasswordPage(),
       );
     case otpRoute:
-      final email = settings.arguments as String;
+      final args = settings.arguments as OtpPageArgs;
 
       return MaterialPageRoute(
-        builder: (_) => OtpPage(email: email),
+        builder: (_) => OtpPage(email: args.email, otp: args.otp),
       );
     case resetPasswordRoute:
+      final args = settings.arguments as OtpPageArgs;
+
       return MaterialPageRoute(
-        builder: (_) => const ResetPasswordPage(),
+        builder: (_) => ResetPasswordPage(email: args.email, otp: args.otp),
       );
     case mainMenuRoute:
       final userCredential = settings.arguments as UserCredentialModel;
@@ -216,7 +218,7 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => StudentCourseQuizHomePage(quiz: quiz),
       );
     case studentCourseQuizRoute:
-      final args = settings.arguments as StudentCourseQuizArgs;
+      final args = settings.arguments as StudentCourseQuizPageArgs;
 
       return MaterialPageRoute(
         builder: (_) => StudentCourseQuizPage(
@@ -241,7 +243,7 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => const MasterDataHomePage(),
       );
     case masterDataFormRoute:
-      final args = settings.arguments as MasterDataFormArgs;
+      final args = settings.arguments as MasterDataFormPageArgs;
 
       return MaterialPageRoute(
         builder: (_) => MasterDataFormPage(

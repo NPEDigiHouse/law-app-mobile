@@ -29,6 +29,16 @@ abstract class AuthDataSource {
 
   /// Log out
   Future<bool> logOut();
+
+  /// Ask reset password
+  Future<String> askResetPassword({required String email});
+
+  /// Reset password
+  Future<bool> resetPassword({
+    required String email,
+    required String resetPasswordToken,
+    required String newPassword,
+  });
 }
 
 class AuthDataSourceImpl implements AuthDataSource {
@@ -156,6 +166,68 @@ class AuthDataSourceImpl implements AuthDataSource {
       return result;
     } catch (e) {
       throw PreferenceException(e.toString());
+    }
+  }
+
+  @override
+  Future<String> askResetPassword({required String email}) async {
+    try {
+      final response = await client.post(
+        Uri.parse('${ApiService.baseUrl}/users/ask-reset-password'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+        },
+        body: jsonEncode({'email': email}),
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code == 200) {
+        return result.data['resetToken'] as String;
+      } else {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      if (e is ServerException) {
+        rethrow;
+      } else {
+        throw http.ClientException(e.toString());
+      }
+    }
+  }
+
+  @override
+  Future<bool> resetPassword({
+    required String email,
+    required String resetPasswordToken,
+    required String newPassword,
+  }) async {
+    try {
+      final response = await client.post(
+        Uri.parse('${ApiService.baseUrl}/users/reset-password'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+        },
+        body: jsonEncode({
+          'email': email,
+          'resetPasswordToken': resetPasswordToken,
+          'newPassword': newPassword,
+        }),
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code == 200) {
+        return true;
+      } else {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      if (e is ServerException) {
+        rethrow;
+      } else {
+        throw http.ClientException(e.toString());
+      }
     }
   }
 }

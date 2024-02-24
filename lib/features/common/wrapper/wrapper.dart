@@ -19,26 +19,23 @@ class Wrapper extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(
-      isSignInProvider,
-      (_, state) {
-        state.whenOrNull(
-          error: (error, _) {
-            if ('$error' == kNoInternetConnection) {
-              context.showNetworkErrorModalBottomSheet(
-                onPressedPrimaryButton: () {
-                  navigatorKey.currentState!.pop();
-                  ref.invalidate(isSignInProvider);
-                },
-              );
-            } else {
-              context.showBanner(message: '$error', type: BannerType.error);
-            }
-          },
-          data: (data) => navigatePage(data.$1, data.$2),
-        );
-      },
-    );
+    ref.listen(isSignInProvider, (_, state) {
+      state.whenOrNull(
+        error: (error, _) {
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet(
+              onPressedPrimaryButton: () {
+                navigatorKey.currentState!.pop();
+                ref.invalidate(isSignInProvider);
+              },
+            );
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+        data: (data) => navigatePage(data.$1, data.$2),
+      );
+    });
 
     return const LoadingIndicator(withScaffold: true);
   }

@@ -39,32 +39,29 @@ class _LoginPageState extends ConsumerState<LoginPage>
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(
-      signInProvider,
-      (_, state) {
-        state.whenOrNull(
-          loading: () => context.showLoadingDialog(),
-          error: (error, _) {
-            navigatorKey.currentState!.pop();
+    ref.listen(signInProvider, (_, state) {
+      state.whenOrNull(
+        loading: () => context.showLoadingDialog(),
+        error: (error, _) {
+          navigatorKey.currentState!.pop();
 
-            if ('$error' == kNoInternetConnection) {
-              context.showNetworkErrorModalBottomSheet();
-            } else {
-              context.showBanner(message: '$error', type: BannerType.error);
-            }
-          },
-          data: (data) {
-            if (data.$1 != null && data.$2 != null) {
-              navigatorKey.currentState!.pushNamedAndRemoveUntil(
-                data.$2!.role == 'admin' ? adminHomeRoute : mainMenuRoute,
-                (route) => false,
-                arguments: data.$2,
-              );
-            }
-          },
-        );
-      },
-    );
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet();
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+        data: (data) {
+          if (data.$1 != null && data.$2 != null) {
+            navigatorKey.currentState!.pushNamedAndRemoveUntil(
+              data.$2!.role == 'admin' ? adminHomeRoute : mainMenuRoute,
+              (route) => false,
+              arguments: data.$2,
+            );
+          }
+        },
+      );
+    });
 
     return Scaffold(
       body: SingleChildScrollView(

@@ -43,55 +43,59 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(
-      editUserProvider,
-      (_, state) {
-        state.when(
-          error: (error, _) {
-            if ('$error' == kNoInternetConnection) {
-              context.showNetworkErrorModalBottomSheet(
-                onPressedPrimaryButton: () {
-                  navigatorKey.currentState!.pop();
-                  ref.invalidate(editUserProvider);
-                },
-              );
-            } else {
-              context.showBanner(message: '$error', type: BannerType.error);
-            }
-          },
-          loading: () {},
-          data: (_) {
+    ref.listen(editUserProvider, (_, state) {
+      state.when(
+        error: (error, _) {
+          navigatorKey.currentState!.pop();
+
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet(
+              onPressedPrimaryButton: () {
+                navigatorKey.currentState!.pop();
+                ref.invalidate(editUserProvider);
+              },
+            );
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+        loading: () => context.showLoadingDialog(),
+        data: (data) {
+          if (data != null) {
             ref.invalidate(GetUserDetailProvider(id: widget.user!.id!));
             navigatorKey.currentState!.pop();
-          },
-        );
-      },
-    );
+            navigatorKey.currentState!.pop();
+          }
+        },
+      );
+    });
 
-    ref.listen(
-      createUserProvider,
-      (_, state) {
-        state.when(
-          error: (error, _) {
-            if ('$error' == kNoInternetConnection) {
-              context.showNetworkErrorModalBottomSheet(
-                onPressedPrimaryButton: () {
-                  navigatorKey.currentState!.pop();
-                  ref.invalidate(createUserProvider);
-                },
-              );
-            } else {
-              context.showBanner(message: '$error', type: BannerType.error);
-            }
-          },
-          loading: () {},
-          data: (_) {
+    ref.listen(createUserProvider, (_, state) {
+      state.when(
+        error: (error, _) {
+          navigatorKey.currentState!.pop();
+
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet(
+              onPressedPrimaryButton: () {
+                navigatorKey.currentState!.pop();
+                ref.invalidate(createUserProvider);
+              },
+            );
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+        loading: () => context.showLoadingDialog(),
+        data: (data) {
+          if (data != null) {
             ref.invalidate(getUsersProvider);
             navigatorKey.currentState!.pop();
-          },
-        );
-      },
-    );
+            navigatorKey.currentState!.pop();
+          }
+        },
+      );
+    });
 
     return Scaffold(
       appBar: PreferredSize(
@@ -277,11 +281,11 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> {
   }
 }
 
-class MasterDataFormArgs {
+class MasterDataFormPageArgs {
   final String title;
   final UserModel? user;
 
-  const MasterDataFormArgs({
+  const MasterDataFormPageArgs({
     required this.title,
     this.user,
   });

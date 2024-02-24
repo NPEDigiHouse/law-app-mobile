@@ -175,11 +175,11 @@ class _StudentCourseQuizPageState extends ConsumerState<StudentCourseQuizPage> {
   }
 }
 
-class StudentCourseQuizArgs {
+class StudentCourseQuizPageArgs {
   final int duration;
   final List<Item> items;
 
-  const StudentCourseQuizArgs({
+  const StudentCourseQuizPageArgs({
     required this.duration,
     required this.items,
   });

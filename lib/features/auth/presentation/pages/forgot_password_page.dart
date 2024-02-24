@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 // Project imports:
@@ -18,25 +19,54 @@ import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/auth/presentation/pages/otp_page.dart';
+import 'package:law_app/features/auth/presentation/providers/ask_reset_password_provider.dart';
 import 'package:law_app/features/auth/presentation/widgets/secondary_header.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 import 'package:law_app/features/shared/widgets/text_field/custom_text_field.dart';
 
-class ForgotpasswordPage extends StatefulWidget {
+class ForgotpasswordPage extends ConsumerStatefulWidget {
   const ForgotpasswordPage({super.key});
 
   @override
-  State<ForgotpasswordPage> createState() => _ForgotpasswordPageState();
+  ConsumerState<ForgotpasswordPage> createState() => _ForgotpasswordPageState();
 }
 
-class _ForgotpasswordPageState extends State<ForgotpasswordPage>
+class _ForgotpasswordPageState extends ConsumerState<ForgotpasswordPage>
     with AfterLayoutMixin<ForgotpasswordPage> {
   final formKey = GlobalKey<FormBuilderState>();
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(askResetPasswordProvider, (_, state) {
+      state.whenOrNull(
+        loading: () => context.showLoadingDialog(),
+        error: (error, _) {
+          navigatorKey.currentState!.pop();
+
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet();
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+        data: (data) {
+          if (data != null) {
+            navigatorKey.currentState!.pop();
+            navigatorKey.currentState!.pushNamed(
+              otpRoute,
+              arguments: OtpPageArgs(
+                email: formKey.currentState!.value['email'],
+                otp: data,
+              ),
+            );
+          }
+        },
+      );
+    });
+
     return PopScope(
       canPop: false,
       onPopInvoked: (didPop) {
@@ -134,23 +164,11 @@ class _ForgotpasswordPageState extends State<ForgotpasswordPage>
     FocusManager.instance.primaryFocus?.unfocus();
 
     if (formKey.currentState!.saveAndValidate()) {
-      final email = formKey.currentState!.value['email'] as String;
+      String email = formKey.currentState!.value['email'];
 
-      if (email != user.email) {
-        // Show failure message
-        context.showBanner(
-          message: 'Email tidak terdaftar!',
-          type: BannerType.error,
-        );
-      } else {
-        // Show loading - send data - close loading
-
-        // Navigate to otp page if success
-        navigatorKey.currentState!.pushNamed(
-          otpRoute,
-          arguments: email,
-        );
-      }
+      ref
+          .read(askResetPasswordProvider.notifier)
+          .askResetPassword(email: email);
     }
   }
 }

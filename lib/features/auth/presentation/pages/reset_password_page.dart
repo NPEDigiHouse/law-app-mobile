@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 // Project imports:
@@ -13,19 +14,28 @@ import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/features/auth/presentation/providers/reset_password_provider.dart';
 import 'package:law_app/features/auth/presentation/widgets/secondary_header.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 import 'package:law_app/features/shared/widgets/text_field/password_text_field.dart';
 
-class ResetPasswordPage extends StatefulWidget {
-  const ResetPasswordPage({super.key});
+class ResetPasswordPage extends ConsumerStatefulWidget {
+  final String email;
+  final String otp;
+
+  const ResetPasswordPage({
+    super.key,
+    required this.email,
+    required this.otp,
+  });
 
   @override
-  State<ResetPasswordPage> createState() => _ResetPasswordPageState();
+  ConsumerState<ResetPasswordPage> createState() => _ResetPasswordPageState();
 }
 
-class _ResetPasswordPageState extends State<ResetPasswordPage> {
+class _ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
   late final ValueNotifier<String> password;
 
   final formKey = GlobalKey<FormBuilderState>();
@@ -46,6 +56,33 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(resetPasswordProvider, (_, state) {
+      state.whenOrNull(
+        loading: () => context.showLoadingDialog(),
+        error: (error, _) {
+          navigatorKey.currentState!.pop();
+
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet();
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+        data: (data) {
+          if (data != null) {
+            navigatorKey.currentState!.pushNamedAndRemoveUntil(
+              loginRoute,
+              (route) => false,
+              arguments: {
+                'message': 'Password Anda berhasil diubah.',
+                'bannerType': BannerType.success,
+              },
+            );
+          }
+        },
+      );
+    });
+
     return PopScope(
       canPop: false,
       onPopInvoked: (didPop) {
@@ -164,19 +201,13 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     FocusManager.instance.primaryFocus?.unfocus();
 
     if (formKey.currentState!.saveAndValidate()) {
-      // final data = formKey.currentState!.value;
+      String password = formKey.currentState!.value['password'];
 
-      // Show loading - send data - close loading
-
-      // Navigate to login page if success, with banner data
-      navigatorKey.currentState!.pushNamedAndRemoveUntil(
-        loginRoute,
-        (route) => false,
-        arguments: {
-          'message': 'Password Anda berhasil diubah.',
-          'bannerType': BannerType.success,
-        },
-      );
+      ref.read(resetPasswordProvider.notifier).resetPassword(
+            email: widget.email,
+            resetPasswordToken: widget.otp,
+            newPassword: password,
+          );
     }
   }
 }
