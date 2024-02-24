@@ -65,14 +65,19 @@ class MasterDataUserDetailPage extends ConsumerWidget {
 
     return userDetail.when(
       loading: () => const LoadingIndicator(withScaffold: true),
-      error: (error, _) => const CustomInformation(
+      error: (error, __) => const CustomInformation(
         illustrationName: 'error-lost-in-space-cuate.svg',
-        title: 'Oops! Terdapat kesalahan',
+        title: 'Oops! Terjadi kesalahan',
         size: 250,
-        withScaffold: true,
       ),
       data: (userDetail) {
-        if (userDetail == null) return const SizedBox();
+        if (userDetail == null) {
+          return const CustomInformation(
+            illustrationName: 'error-lost-in-space-cuate.svg',
+            title: 'Oops! Terjadi kesalahan',
+            size: 250,
+          );
+        }
 
         final userValues = userDetail.toMap().values.toList();
 

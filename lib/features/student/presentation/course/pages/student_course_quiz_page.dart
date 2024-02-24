@@ -66,8 +66,8 @@ class _StudentCourseQuizPageState extends ConsumerState<StudentCourseQuizPage> {
       loading: () => null,
     );
 
-    ref.listen(timerProvider, (previous, next) {
-      if (next.value == 0) {
+    ref.listen(timerProvider, (_, state) {
+      if (state.value == 0) {
         if (ModalRoute.of(context)?.isCurrent != true) {
           navigatorKey.currentState!.pop();
         }

@@ -210,9 +210,29 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
             ),
           ),
           users.when(
+            loading: () {
+              return const SliverFillRemaining(
+                child: LoadingIndicator(),
+              );
+            },
+            error: (error, __) {
+              return const SliverFillRemaining(
+                child: CustomInformation(
+                  illustrationName: 'error-lost-in-space-cuate.svg',
+                  title: 'Oops! Terjadi kesalahan',
+                  size: 250,
+                ),
+              );
+            },
             data: (data) {
               if (data == null) {
-                return const SliverFillRemaining();
+                return const SliverFillRemaining(
+                  child: CustomInformation(
+                    illustrationName: 'error-lost-in-space-cuate.svg',
+                    title: 'Oops! Terjadi kesalahan',
+                    size: 250,
+                  ),
+                );
               }
 
               if (query.isNotEmpty && data.isEmpty) {
@@ -250,14 +270,6 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
                     childCount: data.length,
                   ),
                 ),
-              );
-            },
-            error: (_, __) {
-              return const SliverFillRemaining();
-            },
-            loading: () {
-              return const SliverFillRemaining(
-                child: LoadingIndicator(),
               );
             },
           ),
