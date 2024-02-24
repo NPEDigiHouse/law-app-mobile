@@ -153,7 +153,7 @@ class ProfilePage extends ConsumerWidget {
         "text": "Hubungi Kami",
         "color": primaryTextColor,
         "onTap": () {
-          navigatorKey.currentState!.pushNamed(contactUsRoute);
+          navigatorKey.currentState!.pushNamed(contactUsRoute, arguments: false);
         },
       },
       {

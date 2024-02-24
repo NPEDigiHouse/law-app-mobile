@@ -49,3 +49,6 @@ const studentCourseRateRoute = '/student-course-rate';
 
 // Admin routes
 const adminHomeRoute = '/admin-home';
+const adminReferenceRoute = '/admin-reference';
+const adminManageQuestionCategoryRoute = '/admin-manage-question-category';
+const adminManageAdRoute = '/admin-manage-ad';

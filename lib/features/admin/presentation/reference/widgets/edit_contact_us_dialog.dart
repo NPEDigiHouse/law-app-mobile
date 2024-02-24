@@ -43,10 +43,10 @@ class EditContactUsDialog extends StatelessWidget {
               child: Column(
                 children: [
                   CustomTextField(
-                    name: items[index]["formName"],
-                    label: items[index]["formLabel"],
-                    hintText: items[index]["formHint"],
-                    initialValue: items[index]["formValue"],
+                    name: "name",
+                    label: items[index]["contactName"],
+                    hintText: "Masukkan ${items[index]["contactName"]}",
+                    initialValue: items[index]["text"],
                     hasPrefixIcon: false,
                     hasSuffixIcon: false,
                     textInputAction: TextInputAction.next,
@@ -58,10 +58,10 @@ class EditContactUsDialog extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   CustomTextField(
-                    name: items[index]["linkName"],
-                    label: items[index]["linkLabel"],
-                    hintText: items[index]["linkHint"],
-                    initialValue: items[index]["linkValue"],
+                    name: "link",
+                    label: "Link",
+                    hintText: "Masukkan link tujuan",
+                    initialValue: "",
                     hasPrefixIcon: false,
                     hasSuffixIcon: false,
                     textInputType: TextInputType.url,

@@ -73,7 +73,9 @@ class AdminHomePage extends StatelessWidget {
       {
         "icon": "link-line.svg",
         "text": "Referensi",
-        "onTap": () {},
+        "onTap": () {
+          navigatorKey.currentState!.pushNamed(adminReferenceRoute);
+        },
       },
       {
         "icon": "ads-icon.svg",
@@ -144,7 +146,9 @@ class AdminHomePage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const Spacer(),
+                        const SizedBox(
+                          height: 8,
+                        ),
                         Expanded(
                           child: Text(
                             menu[index]["text"]! as String,

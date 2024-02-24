@@ -9,11 +9,13 @@ import 'package:law_app/features/shared/widgets/svg_asset.dart';
 class GradientBackgroundIcon extends StatelessWidget {
   final String icon;
   final double size;
+  final double padding;
 
   const GradientBackgroundIcon({
     super.key,
     required this.icon,
     required this.size,
+    this.padding = 8,
   });
 
   @override
@@ -21,7 +23,7 @@ class GradientBackgroundIcon extends StatelessWidget {
     return Container(
       width: size,
       height: size,
-      padding: const EdgeInsets.all(8),
+      padding: EdgeInsets.all(padding),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         gradient: const LinearGradient(

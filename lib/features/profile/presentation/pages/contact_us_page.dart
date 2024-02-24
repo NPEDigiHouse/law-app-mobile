@@ -1,5 +1,6 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:law_app/core/extensions/context_extension.dart';
 
 // Project imports:
 import 'package:law_app/core/helpers/asset_path.dart';
@@ -10,7 +11,11 @@ import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class ContactUsPage extends StatelessWidget {
-  const ContactUsPage({super.key});
+  final bool isAdmin;
+  const ContactUsPage({
+    super.key,
+    required this.isAdmin,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +38,34 @@ class ContactUsPage extends StatelessWidget {
     ];
 
     return Scaffold(
-      appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(96),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(96),
         child: HeaderContainer(
-          title: 'Hubungi Kami',
+          title: isAdmin ? "Kelola Kontak Kami" : "Hubungi Kami",
           withBackButton: true,
         ),
       ),
+      floatingActionButton: isAdmin
+          ? Container(
+              width: 60,
+              height: 60,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                gradient:
+                    const LinearGradient(colors: GradientColors.redPastel),
+              ),
+              child: IconButton(
+                onPressed: () =>
+                    context.showEditContactUsDialog(items: contactUsItems),
+                icon: SvgAsset(
+                  assetPath: AssetPath.getIcon('pencil-solid.svg'),
+                  color: secondaryColor,
+                  width: 32,
+                ),
+                tooltip: 'Kembali',
+              ),
+            )
+          : null,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20),

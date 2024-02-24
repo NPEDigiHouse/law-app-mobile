@@ -51,7 +51,7 @@ class Wrapper extends ConsumerWidget {
     if (isSignIn) {
       if (userCredential != null) {
         navigatorKey.currentState!.pushReplacementNamed(
-          userCredential.role == 'admin' ? adminHomeRoute : mainMenuRoute,
+          userCredential.role == 'student' ? adminHomeRoute : mainMenuRoute,
           arguments: userCredential,
         );
       }
