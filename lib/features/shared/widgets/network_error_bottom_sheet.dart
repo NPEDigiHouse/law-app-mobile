@@ -12,12 +12,10 @@ import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class NetworkErrorBottomSheet extends StatelessWidget {
-  final bool isFixed;
   final VoidCallback? onPressedPrimaryButton;
 
   const NetworkErrorBottomSheet({
     super.key,
-    this.isFixed = false,
     this.onPressedPrimaryButton,
   });
 
@@ -28,17 +26,6 @@ class NetworkErrorBottomSheet extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (!isFixed)
-            Center(
-              child: Container(
-                width: 50,
-                height: 4,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
-                  color: secondaryTextColor,
-                ),
-              ),
-            ),
           const SizedBox(height: 12),
           SvgAsset(
             assetPath: AssetPath.getVector('error-lost-in-space-cuate.svg'),

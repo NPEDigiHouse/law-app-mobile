@@ -153,18 +153,16 @@ extension DialogExtension on BuildContext {
   }
 
   Future<Object?> showSortingDialog({
-    required String title,
     required List<String> items,
-    String? primaryButtonText,
+    List<String>? values,
     void Function(Map<String, dynamic> value)? onSubmitted,
   }) {
     return showDialog(
       context: this,
       barrierDismissible: false,
       builder: (_) => SortingDialog(
-        title: title,
         items: items,
-        primaryButtonText: primaryButtonText,
+        values: values,
         onSubmitted: onSubmitted,
       ),
     );
@@ -213,18 +211,14 @@ extension BannerExtension on BuildContext {
 
 extension ModalBottomSheetExtension on BuildContext {
   Future<Object?> showNetworkErrorModalBottomSheet({
-    bool isScrollControlled = true,
-    bool isDismissible = true,
-    bool enableDrag = true,
     VoidCallback? onPressedPrimaryButton,
   }) {
     return showModalBottomSheet(
       context: this,
-      isScrollControlled: isScrollControlled,
-      isDismissible: isDismissible,
-      enableDrag: enableDrag,
+      isScrollControlled: true,
+      isDismissible: false,
+      enableDrag: false,
       builder: (context) => NetworkErrorBottomSheet(
-        isFixed: !isDismissible && !enableDrag,
         onPressedPrimaryButton: onPressedPrimaryButton,
       ),
     );

@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 // Project imports:
 import 'package:law_app/core/extensions/button_extension.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
-import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 
 class AccountInfoPage extends StatelessWidget {
@@ -36,7 +36,7 @@ class AccountInfoPage extends StatelessWidget {
       },
       {
         "title": "No. Hp",
-        "value": user.phone,
+        "value": user.phoneNumber,
       },
     ];
 
@@ -66,15 +66,10 @@ class AccountInfoPage extends StatelessWidget {
               const SizedBox(height: 16),
               Row(
                 children: [
-                  CircleAvatar(
+                  CircleProfileAvatar(
+                    image: user.profilePict,
                     radius: 56,
-                    backgroundColor: accentColor,
-                    child: CircleAvatar(
-                      radius: 54,
-                      foregroundImage: AssetImage(
-                        AssetPath.getImage(user.profilePict),
-                      ),
-                    ),
+                    borderColor: accentColor,
                   ),
                   const SizedBox(width: 24),
                   Expanded(

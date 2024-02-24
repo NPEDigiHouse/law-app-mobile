@@ -12,11 +12,11 @@ import 'package:law_app/core/services/api_service.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/data_response.dart';
 import 'package:law_app/features/auth/data/models/user_credential_model.dart';
-import 'package:law_app/features/auth/data/models/user_register_model.dart';
+import 'package:law_app/features/shared/models/user_post_model.dart';
 
-abstract class AuthRemoteDataSource {
+abstract class AuthDataSource {
   /// Sign up
-  Future<bool> signUp({required UserSignUpModel userSignUpModel});
+  Future<bool> signUp({required UserPostModel userPostModel});
 
   /// Sign In
   Future<bool> signIn({required String username, required String password});
@@ -31,24 +31,24 @@ abstract class AuthRemoteDataSource {
   Future<bool> logOut();
 }
 
-class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
+class AuthDataSourceImpl implements AuthDataSource {
   final http.Client client;
   final AuthPreferencesHelper preferencesHelper;
 
-  AuthRemoteDataSourceImpl({
+  AuthDataSourceImpl({
     required this.client,
     required this.preferencesHelper,
   });
 
   @override
-  Future<bool> signUp({required UserSignUpModel userSignUpModel}) async {
+  Future<bool> signUp({required UserPostModel userPostModel}) async {
     try {
       final response = await client.post(
         Uri.parse('${ApiService.baseUrl}/auth/signup'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
         },
-        body: userSignUpModel.toJson(),
+        body: userPostModel.toJson(),
       );
 
       final result = DataResponse.fromJson(jsonDecode(response.body));

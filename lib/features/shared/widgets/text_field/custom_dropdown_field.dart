@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 // Project imports:
-import 'package:law_app/core/extensions/string_extension.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 
@@ -67,13 +66,13 @@ class _CustomDropdownFieldState extends State<CustomDropdownField> {
             name: widget.name,
             initialValue: widget.values != null
                 ? widget.values!.first
-                : widget.items.first.toCamelCase(),
+                : widget.items.first,
             items: List<DropdownMenuItem<String>>.generate(
               widget.items.length,
               (index) => DropdownMenuItem(
                 value: widget.values != null
                     ? widget.values![index]
-                    : widget.items[index].toCamelCase(),
+                    : widget.items[index],
                 child: Text(widget.items[index]),
               ),
             ),

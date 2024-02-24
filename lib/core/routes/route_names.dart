@@ -52,3 +52,6 @@ const adminHomeRoute = '/admin-home';
 const adminReferenceRoute = '/admin-reference';
 const adminManageQuestionCategoryRoute = '/admin-manage-question-category';
 const adminManageAdRoute = '/admin-manage-ad';
+const masterDataHomeRoute = '/master-data-home';
+const masterDataFormRoute = '/master-data-form';
+const masterDataUserDetailRoute = '/master-data-user-detail';

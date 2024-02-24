@@ -4,7 +4,7 @@ import 'dart:convert';
 // Package imports:
 import 'package:equatable/equatable.dart';
 
-class UserSignUpModel extends Equatable {
+class UserPostModel extends Equatable {
   final String name;
   final String username;
   final String email;
@@ -13,7 +13,7 @@ class UserSignUpModel extends Equatable {
   final String phoneNumber;
   final String role;
 
-  const UserSignUpModel({
+  const UserPostModel({
     required this.name,
     required this.username,
     required this.email,
@@ -23,7 +23,7 @@ class UserSignUpModel extends Equatable {
     required this.role,
   });
 
-  UserSignUpModel copyWith({
+  UserPostModel copyWith({
     String? name,
     String? username,
     String? email,
@@ -32,7 +32,7 @@ class UserSignUpModel extends Equatable {
     String? phoneNumber,
     String? role,
   }) {
-    return UserSignUpModel(
+    return UserPostModel(
       name: name ?? this.name,
       username: username ?? this.username,
       email: email ?? this.email,
@@ -55,8 +55,8 @@ class UserSignUpModel extends Equatable {
     };
   }
 
-  factory UserSignUpModel.fromMap(Map<String, dynamic> map) {
-    return UserSignUpModel(
+  factory UserPostModel.fromMap(Map<String, dynamic> map) {
+    return UserPostModel(
       name: map['name'] as String,
       username: map['username'] as String,
       email: map['email'] as String,
@@ -69,8 +69,8 @@ class UserSignUpModel extends Equatable {
 
   String toJson() => json.encode(toMap());
 
-  factory UserSignUpModel.fromJson(String source) =>
-      UserSignUpModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory UserPostModel.fromJson(String source) =>
+      UserPostModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   List<Object> get props {

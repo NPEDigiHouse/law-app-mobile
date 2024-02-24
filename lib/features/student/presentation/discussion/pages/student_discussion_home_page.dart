@@ -264,7 +264,7 @@ class _StudentDiscussionHomePageState extends State<StudentDiscussionHomePage>
                   itemBuilder: (context, index) {
                     return DiscussionCard(
                       question: dummyQuestions[index],
-                      roleId: 1,
+                      role: 'student',
                       width: 300,
                     );
                   },
@@ -312,7 +312,7 @@ class _StudentDiscussionHomePageState extends State<StudentDiscussionHomePage>
                   ),
                   child: DiscussionCard(
                     question: dummyQuestions[index],
-                    roleId: 1,
+                    role: 'student',
                     isDetail: true,
                     withProfile: true,
                   ),

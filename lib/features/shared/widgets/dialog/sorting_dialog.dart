@@ -9,16 +9,14 @@ import 'package:law_app/features/shared/widgets/dialog/custom_dialog.dart';
 import 'package:law_app/features/shared/widgets/text_field/custom_dropdown_field.dart';
 
 class SortingDialog extends StatelessWidget {
-  final String title;
   final List<String> items;
-  final String? primaryButtonText;
+  final List<String>? values;
   final void Function(Map<String, dynamic> value)? onSubmitted;
 
   const SortingDialog({
     super.key,
-    required this.title,
     required this.items,
-    this.primaryButtonText,
+    this.values,
     this.onSubmitted,
   });
 
@@ -28,8 +26,8 @@ class SortingDialog extends StatelessWidget {
     final sortingOrders = {'asc': 'Meningkat', 'desc': 'Menurun'};
 
     return CustomDialog(
-      title: title,
-      primaryButtonText: primaryButtonText,
+      title: 'Urutkan Data',
+      primaryButtonText: 'Terapkan',
       onPressedPrimaryButton: () => submit(formKey),
       child: FormBuilder(
         key: formKey,
@@ -40,12 +38,13 @@ class SortingDialog extends StatelessWidget {
               name: 'sortBy',
               label: 'Urut Berdasarkan',
               items: items,
+              values: values,
               onChanged: (_) {},
             ),
             const SizedBox(height: 16),
             CustomDropdownField(
               isSmall: true,
-              name: 'type',
+              name: 'sortOrder',
               label: 'Urut Secara',
               items: sortingOrders.values.toList(),
               values: sortingOrders.keys.toList(),

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 // Project imports:
 import 'package:law_app/core/extensions/button_extension.dart';
-import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
@@ -11,6 +10,7 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/animated_fab.dart';
+import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
@@ -160,15 +160,8 @@ class _TeacherDiscussionHomePageState extends State<TeacherDiscussionHomePage>
                                   ),
                                 ),
                                 const SizedBox(width: 8),
-                                CircleAvatar(
-                                  radius: 24,
-                                  backgroundColor: secondaryColor,
-                                  child: CircleAvatar(
-                                    radius: 22,
-                                    foregroundImage: AssetImage(
-                                      AssetPath.getImage(teacher.profilePict),
-                                    ),
-                                  ),
+                                CircleProfileAvatar(
+                                  image: teacher.profilePict,
                                 ),
                               ],
                             ),
@@ -340,7 +333,7 @@ class _TeacherDiscussionHomePageState extends State<TeacherDiscussionHomePage>
                   itemBuilder: (context, index) {
                     return DiscussionCard(
                       question: dummyQuestions[index],
-                      roleId: 2,
+                      role: 'teacher',
                       width: 300,
                     );
                   },
@@ -387,7 +380,7 @@ class _TeacherDiscussionHomePageState extends State<TeacherDiscussionHomePage>
                   ),
                   child: DiscussionCard(
                     question: dummyQuestions[index],
-                    roleId: 2,
+                    role: 'teacher',
                     isDetail: true,
                     withProfile: true,
                   ),

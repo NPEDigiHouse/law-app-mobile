@@ -21,9 +21,9 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/auth/data/models/user_register_model.dart';
 import 'package:law_app/features/auth/presentation/providers/sign_up_provider.dart';
 import 'package:law_app/features/auth/presentation/widgets/primary_header.dart';
+import 'package:law_app/features/shared/models/user_post_model.dart';
 import 'package:law_app/features/shared/widgets/text_field/custom_text_field.dart';
 import 'package:law_app/features/shared/widgets/text_field/password_text_field.dart';
 
@@ -40,7 +40,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
 
   final formKey = GlobalKey<FormBuilderState>();
 
-  var date = DateTime.now();
+  DateTime date = DateTime.now();
 
   @override
   void initState() {
@@ -67,12 +67,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
             navigatorKey.currentState!.pop();
 
             if ('$error' == kNoInternetConnection) {
-              context.showNetworkErrorModalBottomSheet(
-                onPressedPrimaryButton: () {
-                  navigatorKey.currentState!.pop();
-                  ref.invalidate(signUpProvider);
-                },
-              );
+              context.showNetworkErrorModalBottomSheet();
             } else {
               context.showBanner(message: '$error', type: BannerType.error);
             }
@@ -352,7 +347,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
     if (formKey.currentState!.saveAndValidate()) {
       final data = formKey.currentState!.value;
 
-      final userSignUpModel = UserSignUpModel(
+      final userPostModel = UserPostModel(
         name: data['name'],
         username: data['username'],
         email: data['email'],
@@ -362,9 +357,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
         role: 'student',
       );
 
-      ref
-          .read(signUpProvider.notifier)
-          .signUp(userSignUpModel: userSignUpModel);
+      ref.read(signUpProvider.notifier).signUp(userPostModel: userPostModel);
     }
   }
 }

@@ -50,27 +50,25 @@ class FunctionHelper {
     UserScrollNotification notification,
     AnimationController fabAnimationController,
   ) {
-    if (notification.depth == 0) {
-      switch (notification.direction) {
-        case ScrollDirection.forward:
-          if (notification.metrics.maxScrollExtent !=
-              notification.metrics.minScrollExtent) {
-            if (notification.metrics.pixels != 0) {
-              fabAnimationController.forward();
-            }
-          }
-          break;
+    if (notification.depth != 0) return false;
 
-        case ScrollDirection.reverse:
-          if (notification.metrics.maxScrollExtent !=
-              notification.metrics.minScrollExtent) {
-            fabAnimationController.reverse();
+    switch (notification.direction) {
+      case ScrollDirection.forward:
+        if (notification.metrics.maxScrollExtent !=
+            notification.metrics.minScrollExtent) {
+          if (notification.metrics.pixels != 0) {
+            fabAnimationController.forward();
           }
-          break;
-
-        case ScrollDirection.idle:
-          break;
-      }
+        }
+        break;
+      case ScrollDirection.reverse:
+        if (notification.metrics.maxScrollExtent !=
+            notification.metrics.minScrollExtent) {
+          fabAnimationController.reverse();
+        }
+        break;
+      case ScrollDirection.idle:
+        break;
     }
 
     return false;
@@ -106,6 +104,19 @@ class FunctionHelper {
         return warningColor;
       case 'solved':
         return successColor;
+      default:
+        return secondaryTextColor;
+    }
+  }
+
+  static Color getColorByRole(String role) {
+    switch (role) {
+      case 'student':
+        return infoColor;
+      case 'teacher':
+        return warningColor;
+      case 'admin':
+        return primaryColor;
       default:
         return secondaryTextColor;
     }

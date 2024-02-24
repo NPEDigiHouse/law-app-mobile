@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 
 // Project imports:
 import 'package:law_app/core/extensions/string_extension.dart';
-import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
 import 'package:law_app/features/shared/widgets/ink_well_container.dart';
 import 'package:law_app/features/shared/widgets/label_chip.dart';
 
 class DiscussionCard extends StatelessWidget {
-  final int roleId;
+  final String role;
   final Question question;
   final bool isDetail;
   final bool withProfile;
@@ -23,7 +23,7 @@ class DiscussionCard extends StatelessWidget {
 
   const DiscussionCard({
     super.key,
-    required this.roleId,
+    required this.role,
     required this.question,
     this.isDetail = false,
     this.withProfile = false,
@@ -61,15 +61,9 @@ class DiscussionCard extends StatelessWidget {
                   Expanded(
                     child: Row(
                       children: [
-                        CircleAvatar(
+                        CircleProfileAvatar(
+                          image: question.owner.profilePict,
                           radius: 20,
-                          backgroundColor: secondaryColor,
-                          child: CircleAvatar(
-                            radius: 18,
-                            foregroundImage: AssetImage(
-                              AssetPath.getImage(question.owner.profilePict),
-                            ),
-                          ),
                         ),
                         const SizedBox(width: 10),
                         Expanded(
@@ -163,16 +157,16 @@ class DiscussionCard extends StatelessWidget {
   }
 
   void onTap() {
-    switch (roleId) {
-      case 0:
+    switch (role) {
+      case 'admin':
         break;
-      case 1:
+      case 'student':
         navigatorKey.currentState!.pushNamed(
           studentDiscussionDetailRoute,
           arguments: question,
         );
         break;
-      case 2:
+      case 'teacher':
         navigatorKey.currentState!.pushNamed(
           teacherDiscussionDetailRoute,
           arguments: question,

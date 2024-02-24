@@ -48,12 +48,7 @@ class _LoginPageState extends ConsumerState<LoginPage>
             navigatorKey.currentState!.pop();
 
             if ('$error' == kNoInternetConnection) {
-              context.showNetworkErrorModalBottomSheet(
-                onPressedPrimaryButton: () {
-                  navigatorKey.currentState!.pop();
-                  ref.invalidate(signInProvider);
-                },
-              );
+              context.showNetworkErrorModalBottomSheet();
             } else {
               context.showBanner(message: '$error', type: BannerType.error);
             }

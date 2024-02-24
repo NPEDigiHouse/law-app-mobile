@@ -48,7 +48,9 @@ class AdminHomePage extends StatelessWidget {
       {
         "icon": "user-solid.svg",
         "text": "Master Data",
-        "onTap": () {},
+        "onTap": () => navigatorKey.currentState!.pushNamed(
+              masterDataHomeRoute,
+            ),
       },
       {
         "icon": "question-circle-fill.svg",

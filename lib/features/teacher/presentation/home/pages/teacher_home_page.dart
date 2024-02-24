@@ -93,7 +93,7 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
                     itemBuilder: (context, index) {
                       return DiscussionCard(
                         question: dummyQuestions[index],
-                        roleId: 2,
+                        role: 'teacher',
                       );
                     },
                     separatorBuilder: (context, index) {
