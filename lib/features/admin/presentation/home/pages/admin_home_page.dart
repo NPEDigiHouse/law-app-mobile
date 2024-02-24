@@ -75,14 +75,16 @@ class AdminHomePage extends StatelessWidget {
       {
         "icon": "link-line.svg",
         "text": "Referensi",
-        "onTap": () {
-          navigatorKey.currentState!.pushNamed(adminReferenceRoute);
-        },
+        "onTap": () => navigatorKey.currentState!.pushNamed(
+              adminReferenceRoute,
+            ),
       },
       {
         "icon": "ads-icon.svg",
         "text": "Kelola Ads",
-        "onTap": () {},
+        "onTap": () => navigatorKey.currentState!.pushNamed(
+              adminManageAdRoute,
+            ),
       },
     ];
 

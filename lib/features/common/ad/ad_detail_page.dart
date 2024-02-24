@@ -8,17 +8,25 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 
 class AdDetailPage extends StatelessWidget {
-  const AdDetailPage({super.key});
+  final bool isAdmin;
+  const AdDetailPage({super.key, required this.isAdmin});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(96),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(96),
         child: HeaderContainer(
-          title: 'Notifikasi',
+          title: 'Ad Detail',
           withBackButton: true,
+          withTrailingButton: true,
+          trailingButtonIconName: "pencil-solid.svg",
+          trailingButtonTooltip: "edit",
+          onPressedTrailingButton: () {
+            // TODO: navigate to edit ad detail
+            debugPrint("trail button pressed");
+          },
         ),
       ),
       body: SingleChildScrollView(

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // Project imports:
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/admin/presentation/ad/pages/admin_add_simple_ad_page.dart';
 import 'package:law_app/features/admin/presentation/ad/pages/admin_manage_ad_page.dart';
 import 'package:law_app/features/admin/presentation/home/pages/admin_home_page.dart';
 import 'package:law_app/features/admin/presentation/reference/pages/admin_manage_question_category.dart';
@@ -124,8 +125,9 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => const NotificationPage(),
       );
     case adDetailRoute:
+      final isAdmin = settings.arguments as bool;
       return MaterialPageRoute(
-        builder: (_) => const AdDetailPage(),
+        builder: (_) => AdDetailPage(isAdmin: isAdmin),
       );
     case glossarySearchRoute:
       return PageRouteBuilder(
@@ -257,6 +259,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
     case adminManageAdRoute:
       return MaterialPageRoute(
         builder: (_) => const AdminManageAdPage(),
+      );
+    case adminAddSimpleAdRoute:
+      return MaterialPageRoute(
+        builder: (_) => const AdminAddSimpleAdPage(),
       );
     case masterDataHomeRoute:
       return MaterialPageRoute(
