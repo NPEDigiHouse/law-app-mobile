@@ -3,38 +3,40 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
 import 'package:law_app/core/errors/failures.dart';
-import 'package:law_app/features/admin/data/models/user_model.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/repository_provider/master_data_repository_provider.dart';
+import 'package:law_app/features/shared/models/user_post_model.dart';
 
-part 'get_user_detail_provider.g.dart';
+part 'create_user_provider.g.dart';
 
 @riverpod
-class GetUserDetail extends _$GetUserDetail {
+class CreateUser extends _$CreateUser {
   @override
-  Future<UserModel?> build({required int id}) async {
-    UserModel? user;
+  AsyncValue<void> build() {
+    return const AsyncValue.loading();
+  }
+
+  Future<void> createUser({required UserPostModel userPostModel}) async {
     Failure? failure;
 
     try {
       state = const AsyncValue.loading();
 
-      final result =
-          await ref.watch(masterDataRepositoryProvider).getUserDetail(id: id);
+      final result = await ref
+          .watch(masterDataRepositoryProvider)
+          .createUser(userPostModel: userPostModel);
 
       result.fold(
         (l) => failure = l,
-        (r) => user = r,
+        (r) => {},
       );
     } catch (e) {
       state = AsyncValue.error((e as Failure).message, StackTrace.current);
     } finally {
-      if (user != null) {
-        state = AsyncValue.data(user);
-      } else {
+      if (failure != null) {
         state = AsyncValue.error(failure!.message, StackTrace.current);
+      } else {
+        state = const AsyncValue.data(null);
       }
     }
-
-    return user;
   }
 }

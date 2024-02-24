@@ -23,9 +23,6 @@ abstract class MasterDataRepository {
   /// Get user detail
   Future<Either<Failure, UserModel>> getUserDetail({required int id});
 
-  /// Delete user
-  Future<Either<Failure, void>> deleteUser({required int id});
-
   /// Create user
   Future<Either<Failure, void>> createUser({
     required UserPostModel userPostModel,
@@ -39,6 +36,9 @@ abstract class MasterDataRepository {
     String? birthDate,
     String? phoneNumber,
   });
+
+  /// Delete user
+  Future<Either<Failure, void>> deleteUser({required int id});
 }
 
 class MasterDataRepositoryImpl implements MasterDataRepository {
@@ -82,23 +82,6 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
     if (await networkInfo.isConnected) {
       try {
         final result = await masterDataSource.getUserDetail(id: id);
-
-        return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
-      }
-    } else {
-      return const Left(ConnectionFailure(kNoInternetConnection));
-    }
-  }
-
-  @override
-  Future<Either<Failure, void>> deleteUser({required int id}) async {
-    if (await networkInfo.isConnected) {
-      try {
-        final result = await masterDataSource.deleteUser(id: id);
 
         return Right(result);
       } on ServerException catch (e) {
@@ -165,6 +148,23 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
           default:
             return Left(ServerFailure(e.message));
         }
+      } on ClientException catch (e) {
+        return Left(ClientFailure(e.message));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteUser({required int id}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await masterDataSource.deleteUser(id: id);
+
+        return Right(result);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message));
       } on ClientException catch (e) {
         return Left(ClientFailure(e.message));
       }

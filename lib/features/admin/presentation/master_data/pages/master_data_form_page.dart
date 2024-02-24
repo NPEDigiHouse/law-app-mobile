@@ -7,17 +7,22 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 // Project imports:
+import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/button_extension.dart';
+import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/extensions/datetime_extension.dart';
+import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/user_model.dart';
+import 'package:law_app/features/admin/presentation/master_data/providers/create_user_provider.dart';
+import 'package:law_app/features/admin/presentation/master_data/providers/edit_user_provider.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/get_user_detail_provider.dart';
-import 'package:law_app/features/admin/presentation/master_data/providers/master_data_provider.dart';
+import 'package:law_app/features/admin/presentation/master_data/providers/get_users_provider.dart';
 import 'package:law_app/features/shared/models/user_post_model.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/text_field/custom_text_field.dart';
 
-class MasterDataFormPage extends StatefulWidget {
+class MasterDataFormPage extends ConsumerStatefulWidget {
   final String title;
   final UserModel? user;
 
@@ -28,16 +33,66 @@ class MasterDataFormPage extends StatefulWidget {
   });
 
   @override
-  State<MasterDataFormPage> createState() => _MasterDataFormPageState();
+  ConsumerState<MasterDataFormPage> createState() => _MasterDataFormPageState();
 }
 
-class _MasterDataFormPageState extends State<MasterDataFormPage> {
+class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> {
   final formKey = GlobalKey<FormBuilderState>();
 
   DateTime date = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(
+      editUserProvider,
+      (_, state) {
+        state.when(
+          error: (error, _) {
+            if ('$error' == kNoInternetConnection) {
+              context.showNetworkErrorModalBottomSheet(
+                onPressedPrimaryButton: () {
+                  navigatorKey.currentState!.pop();
+                  ref.invalidate(editUserProvider);
+                },
+              );
+            } else {
+              context.showBanner(message: '$error', type: BannerType.error);
+            }
+          },
+          loading: () {},
+          data: (_) {
+            ref.invalidate(GetUserDetailProvider(id: widget.user!.id!));
+            navigatorKey.currentState!.pop();
+          },
+        );
+      },
+    );
+
+    ref.listen(
+      createUserProvider,
+      (_, state) {
+        state.when(
+          error: (error, _) {
+            if ('$error' == kNoInternetConnection) {
+              context.showNetworkErrorModalBottomSheet(
+                onPressedPrimaryButton: () {
+                  navigatorKey.currentState!.pop();
+                  ref.invalidate(createUserProvider);
+                },
+              );
+            } else {
+              context.showBanner(message: '$error', type: BannerType.error);
+            }
+          },
+          loading: () {},
+          data: (_) {
+            ref.invalidate(getUsersProvider);
+            navigatorKey.currentState!.pop();
+          },
+        );
+      },
+    );
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(96),
@@ -156,48 +211,38 @@ class _MasterDataFormPageState extends State<MasterDataFormPage> {
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
-        child: Consumer(
-          builder: (context, ref, child) {
-            return FilledButton(
-              onPressed: () {
-                widget.user != null ? editUser(ref) : createUser(ref);
-              },
-              child: Text('${widget.user != null ? "Edit" : "Tambah"} User'),
-            ).fullWidth();
-          },
-        ),
+        child: FilledButton(
+          onPressed: widget.user != null ? editUser : createUser,
+          child: Text('${widget.user != null ? "Edit" : "Tambah"} User'),
+        ).fullWidth(),
       ),
     );
   }
 
-  void editUser(WidgetRef ref) {
+  void editUser() {
     FocusManager.instance.primaryFocus?.unfocus();
 
     if (formKey.currentState!.saveAndValidate()) {
       final data = formKey.currentState!.value;
 
-      ref.read(masterDataProvider.notifier).editUser(
+      ref.read(editUserProvider.notifier).editUser(
             id: widget.user!.id!,
             name: data['name'],
             email: data['email'],
             birthDate: date.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
             phoneNumber: data['phoneNumber'],
           );
-
-      ref.invalidate(GetUserDetailProvider(id: widget.user!.id!));
-
-      navigatorKey.currentState!.pop();
     }
   }
 
-  void createUser(WidgetRef ref) {
+  void createUser() {
     FocusManager.instance.primaryFocus?.unfocus();
 
     if (formKey.currentState!.saveAndValidate()) {
       final data = formKey.currentState!.value;
       final role = widget.title.split(' ').last.toLowerCase();
 
-      ref.read(masterDataProvider.notifier).createUser(
+      ref.read(createUserProvider.notifier).createUser(
             userPostModel: UserPostModel(
               name: data['name'],
               username: data['username'],
@@ -208,8 +253,6 @@ class _MasterDataFormPageState extends State<MasterDataFormPage> {
               role: role,
             ),
           );
-
-      navigatorKey.currentState!.pop();
     }
   }
 

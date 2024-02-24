@@ -25,9 +25,6 @@ abstract class MasterDataSource {
   /// Get user detail
   Future<UserModel> getUserDetail({required int id});
 
-  /// Delete user
-  Future<void> deleteUser({required int id});
-
   /// Create user
   Future<void> createUser({required UserPostModel userPostModel});
 
@@ -39,6 +36,9 @@ abstract class MasterDataSource {
     String? birthDate,
     String? phoneNumber,
   });
+
+  /// Delete user
+  Future<void> deleteUser({required int id});
 }
 
 class MasterDataSourceImpl implements MasterDataSource {
@@ -116,32 +116,6 @@ class MasterDataSourceImpl implements MasterDataSource {
   }
 
   @override
-  Future<void> deleteUser({required int id}) async {
-    try {
-      final response = await client.delete(
-        Uri.parse('${ApiService.baseUrl}/users/$id'),
-        headers: {
-          HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
-        },
-      );
-
-      final result = DataResponse.fromJson(jsonDecode(response.body));
-
-      if (result.code != 200) {
-        throw ServerException('${result.message}');
-      }
-    } catch (e) {
-      if (e is ServerException) {
-        rethrow;
-      } else {
-        throw http.ClientException(e.toString());
-      }
-    }
-  }
-
-  @override
   Future<void> createUser({required UserPostModel userPostModel}) async {
     try {
       final response = await client.post(
@@ -190,6 +164,32 @@ class MasterDataSourceImpl implements MasterDataSource {
           'birthDate': birthDate,
           'phoneNumber': phoneNumber,
         }),
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code != 200) {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      if (e is ServerException) {
+        rethrow;
+      } else {
+        throw http.ClientException(e.toString());
+      }
+    }
+  }
+
+  @override
+  Future<void> deleteUser({required int id}) async {
+    try {
+      final response = await client.delete(
+        Uri.parse('${ApiService.baseUrl}/users/$id'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
       );
 
       final result = DataResponse.fromJson(jsonDecode(response.body));

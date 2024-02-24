@@ -16,7 +16,7 @@ import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/presentation/master_data/pages/master_data_form_page.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/get_user_detail_provider.dart';
-import 'package:law_app/features/admin/presentation/master_data/providers/master_data_provider.dart';
+import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 
@@ -63,42 +63,34 @@ class MasterDataUserDetailPage extends ConsumerWidget {
       },
     );
 
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(96),
-        child: HeaderContainer(
-          title: 'Detail Pengguna',
-          withBackButton: true,
-          withTrailingButton: true,
-          trailingButtonIconName: 'trash-line.svg',
-          trailingButtonTooltip: 'Hapus',
-          onPressedTrailingButton: () => context.showConfirmDialog(
-            title: 'Hapus User',
-            message: 'Anda yakin ingin menghapus seluruh data user ini?',
-            primaryButtonText: 'Hapus',
-            onPressedPrimaryButton: () {
-              ref.read(masterDataProvider.notifier).deleteUser(id: id);
-
-              navigatorKey.currentState!.pop();
-              navigatorKey.currentState!.pop();
-            },
-          ),
-        ),
+    return userDetail.when(
+      loading: () => const LoadingIndicator(withScaffold: true),
+      error: (error, _) => const CustomInformation(
+        illustrationName: 'error-lost-in-space-cuate.svg',
+        title: 'Oops! Terdapat kesalahan',
+        size: 250,
+        withScaffold: true,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 24,
-            horizontal: 20,
+      data: (userDetail) {
+        if (userDetail == null) return const SizedBox();
+
+        final userValues = userDetail.toMap().values.toList();
+
+        return Scaffold(
+          appBar: const PreferredSize(
+            preferredSize: Size.fromHeight(96),
+            child: HeaderContainer(
+              title: 'Detail Pengguna',
+              withBackButton: true,
+            ),
           ),
-          child: userDetail.whenOrNull(
-            loading: () => const LoadingIndicator(),
-            data: (user) {
-              if (user == null) return null;
-
-              final userValues = user.toMap().values.toList();
-
-              return Column(
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 24,
+                horizontal: 20,
+              ),
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -194,30 +186,24 @@ class MasterDataUserDetailPage extends ConsumerWidget {
                     },
                   ),
                 ],
-              );
-            },
+              ),
+            ),
           ),
-        ),
-      ),
-      bottomNavigationBar: userDetail.whenOrNull(
-        data: (user) {
-          if (user == null) return null;
-
-          return Padding(
+          bottomNavigationBar: Padding(
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
             child: FilledButton(
               onPressed: () => navigatorKey.currentState!.pushNamed(
                 masterDataFormRoute,
                 arguments: MasterDataFormArgs(
-                  title: 'Edit ${user.role?.toCapitalize()}',
-                  user: user,
+                  title: 'Edit ${userDetail.role?.toCapitalize()}',
+                  user: userDetail,
                 ),
               ),
               child: const Text("Ubah Data"),
             ).fullWidth(),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }
