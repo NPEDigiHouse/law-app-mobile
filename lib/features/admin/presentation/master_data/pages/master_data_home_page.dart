@@ -9,7 +9,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
-import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
@@ -18,6 +17,7 @@ import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/presentation/master_data/pages/master_data_form_page.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/master_data_provider.dart';
 import 'package:law_app/features/admin/presentation/master_data/widgets/user_card.dart';
+import 'package:law_app/features/shared/providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
@@ -36,8 +36,6 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
     with SingleTickerProviderStateMixin {
   late final List<String> roles;
   late final ValueNotifier<String> selectedRole;
-  late final ValueNotifier<String> query;
-  late final AnimationController fabAnimationController;
 
   @override
   void initState() {
@@ -51,25 +49,18 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
     ];
 
     selectedRole = ValueNotifier(roles.first);
-    query = ValueNotifier('');
-
-    fabAnimationController = AnimationController(
-      vsync: this,
-      duration: kThemeAnimationDuration,
-    )..forward();
   }
 
   @override
   void dispose() {
     super.dispose();
 
-    fabAnimationController.dispose();
     selectedRole.dispose();
-    query.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final query = ref.watch(queryProvider);
     final users = ref.watch(masterDataProvider);
 
     ref.listen(
@@ -86,6 +77,7 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
               );
             } else {
               context.showBanner(message: '$error', type: BannerType.error);
+              ref.invalidate(masterDataProvider);
             }
           },
           loading: () {},
@@ -153,18 +145,12 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
                             'username',
                             'email',
                           ],
-                          onSubmitted: (value) {
-                            ref.read(masterDataProvider.notifier).sortUsers(
-                                  sortBy: value['sortBy'],
-                                  sortOrder: value['sortOrder'],
-                                );
-
-                            navigatorKey.currentState!.pop();
-                          },
+                          onSubmitted: sortUsers,
                         ),
                         icon: SvgAsset(
-                          assetPath:
-                              AssetPath.getIcon('sort-by-line-right.svg'),
+                          assetPath: AssetPath.getIcon(
+                            'sort-by-line-right.svg',
+                          ),
                           color: primaryColor,
                           width: 24,
                         ),
@@ -174,188 +160,166 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
                   ],
                 ),
                 const SizedBox(height: 20),
-                ValueListenableBuilder(
-                  valueListenable: query,
-                  builder: (context, query, child) {
-                    return SearchField(
-                      text: query,
-                      hintText: 'Cari pengguna',
-                      onChanged: searchUser,
-                    );
-                  },
+                SearchField(
+                  text: query,
+                  hintText: 'Cari pengguna',
+                  onChanged: searchUsers,
                 ),
               ],
             ),
           ),
         ),
       ),
-      body: NotificationListener<UserScrollNotification>(
-        onNotification: (notification) {
-          return FunctionHelper.handleFabVisibilityOnScroll(
-            notification,
-            fabAnimationController,
-          );
-        },
-        child: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              pinned: true,
-              toolbarHeight: 64,
-              automaticallyImplyLeading: false,
-              flexibleSpace: Container(
-                decoration: BoxDecoration(
-                  color: scaffoldBackgroundColor,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(.1),
-                      offset: const Offset(0, 2),
-                      blurRadius: 4,
-                      spreadRadius: -1,
-                    ),
-                  ],
-                ),
-                child: ListView.separated(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return ValueListenableBuilder(
-                      valueListenable: selectedRole,
-                      builder: (context, role, child) {
-                        return CustomFilterChip(
-                          label: roles[index],
-                          selected: role == roles[index],
-                          onSelected: (_) {
-                            selectedRole.value = roles[index];
-
-                            ref.read(masterDataProvider.notifier).filterUsers(
-                                  role: roles[index] == 'Semua'
-                                      ? null
-                                      : roles[index].toLowerCase(),
-                                );
-                          },
-                        );
-                      },
-                    );
-                  },
-                  separatorBuilder: (context, index) {
-                    return const SizedBox(width: 8);
-                  },
-                  itemCount: roles.length,
-                ),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            pinned: true,
+            toolbarHeight: 64,
+            automaticallyImplyLeading: false,
+            flexibleSpace: Container(
+              decoration: BoxDecoration(
+                color: scaffoldBackgroundColor,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(.1),
+                    offset: const Offset(0, 2),
+                    blurRadius: 4,
+                    spreadRadius: -1,
+                  ),
+                ],
+              ),
+              child: ListView.separated(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return ValueListenableBuilder(
+                    valueListenable: selectedRole,
+                    builder: (context, role, child) {
+                      return CustomFilterChip(
+                        label: roles[index],
+                        selected: role == roles[index],
+                        onSelected: (_) => filterUsers(roles[index]),
+                      );
+                    },
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return const SizedBox(width: 8);
+                },
+                itemCount: roles.length,
               ),
             ),
-            users.when(
-              data: (data) {
-                if (data == null) {
-                  return const SliverFillRemaining();
-                }
+          ),
+          users.when(
+            data: (data) {
+              if (data == null) {
+                return const SliverFillRemaining();
+              }
 
-                if (query.value.isNotEmpty && data.isEmpty) {
-                  return const SliverFillRemaining(
-                    child: CustomInformation(
-                      illustrationName: 'house-searching-cuate.svg',
-                      title: 'User tidak ditemukan',
-                    ),
-                  );
-                }
+              if (query.isNotEmpty && data.isEmpty) {
+                return const SliverFillRemaining(
+                  child: CustomInformation(
+                    illustrationName: 'house-searching-cuate.svg',
+                    title: 'User tidak ditemukan',
+                  ),
+                );
+              }
 
-                if (data.isEmpty) {
-                  return const SliverFillRemaining(
-                    child: CustomInformation(
-                      illustrationName: 'house-searching-cuate.svg',
-                      title: 'Belum ada data',
-                    ),
-                  );
-                }
+              if (data.isEmpty) {
+                return const SliverFillRemaining(
+                  child: CustomInformation(
+                    illustrationName: 'house-searching-cuate.svg',
+                    title: 'Belum ada data',
+                  ),
+                );
+              }
 
-                return SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 24),
-                  sliver: SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        return Padding(
-                          padding: EdgeInsets.only(
-                            bottom: index == data.length - 1 ? 0 : 8,
-                          ),
-                          child: UserCard(
-                            user: data[index],
-                          ),
-                        );
-                      },
-                      childCount: data.length,
-                    ),
+              return SliverPadding(
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 24),
+                sliver: SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                      return Padding(
+                        padding: EdgeInsets.only(
+                          bottom: index == data.length - 1 ? 0 : 8,
+                        ),
+                        child: UserCard(
+                          user: data[index],
+                        ),
+                      );
+                    },
+                    childCount: data.length,
+                  ),
+                ),
+              );
+            },
+            error: (_, __) {
+              return const SliverFillRemaining();
+            },
+            loading: () {
+              return const SliverFillRemaining(
+                child: LoadingIndicator(),
+              );
+            },
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        elevation: 2,
+        backgroundColor: primaryColor,
+        tooltip: 'Tambah Pengguna',
+        onPressed: () => context.showCustomSelectorDialog(
+          title: 'Pilih Role',
+          items: [
+            {
+              'text': 'Student',
+              'onTap': () {
+                navigatorKey.currentState!.pop();
+                navigatorKey.currentState!.pushNamed(
+                  masterDataFormRoute,
+                  arguments: const MasterDataFormArgs(
+                    title: 'Tambah Student',
                   ),
                 );
               },
-              error: (error, _) {
-                return const SliverFillRemaining();
-              },
-              loading: () {
-                return const SliverFillRemaining(
-                  child: LoadingIndicator(),
+            },
+            {
+              'text': 'Pakar',
+              'onTap': () {
+                navigatorKey.currentState!.pop();
+                navigatorKey.currentState!.pushNamed(
+                  masterDataFormRoute,
+                  arguments: const MasterDataFormArgs(
+                    title: 'Tambah Teacher',
+                  ),
                 );
               },
-            ),
+            },
+            {
+              'text': 'Admin',
+              'onTap': () {
+                navigatorKey.currentState!.pop();
+                navigatorKey.currentState!.pushNamed(
+                  masterDataFormRoute,
+                  arguments: const MasterDataFormArgs(
+                    title: 'Tambah Admin',
+                  ),
+                );
+              },
+            },
           ],
         ),
-      ),
-      floatingActionButton: ScaleTransition(
-        scale: fabAnimationController,
-        alignment: Alignment.bottomCenter,
-        child: FloatingActionButton(
-          elevation: 2,
-          backgroundColor: primaryColor,
-          tooltip: 'Tambah Pengguna',
-          onPressed: () => context.showCustomSelectorDialog(
-            title: 'Pilih Role',
-            items: [
-              {
-                'text': 'Student',
-                'onTap': () {
-                  navigatorKey.currentState!.pushNamed(
-                    masterDataFormRoute,
-                    arguments: const MasterDataFormArgs(
-                      title: 'Tambah Student',
-                    ),
-                  );
-                },
-              },
-              {
-                'text': 'Pakar',
-                'onTap': () {
-                  navigatorKey.currentState!.pushNamed(
-                    masterDataFormRoute,
-                    arguments: const MasterDataFormArgs(
-                      title: 'Tambah Pakar',
-                    ),
-                  );
-                },
-              },
-              {
-                'text': 'Admin',
-                'onTap': () {
-                  navigatorKey.currentState!.pushNamed(
-                    masterDataFormRoute,
-                    arguments: const MasterDataFormArgs(
-                      title: 'Tambah Admin',
-                    ),
-                  );
-                },
-              },
-            ],
-          ),
-          child: SvgAsset(
-            assetPath: AssetPath.getIcon('plus-line.svg'),
-            color: scaffoldBackgroundColor,
-            width: 24,
-          ),
+        child: SvgAsset(
+          assetPath: AssetPath.getIcon('plus-line.svg'),
+          color: scaffoldBackgroundColor,
+          width: 24,
         ),
       ),
     );
   }
 
-  void searchUser(String query) {
-    this.query.value = query;
+  void searchUsers(String query) {
+    ref.read(queryProvider.notifier).state = query;
 
     if (query.isNotEmpty) {
       EasyDebounce.debounce(
@@ -366,5 +330,24 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
     } else {
       ref.invalidate(masterDataProvider);
     }
+  }
+
+  void sortUsers(Map<String, dynamic> value) {
+    ref.read(queryProvider.notifier).state = '';
+    ref.read(masterDataProvider.notifier).sortUsers(
+          sortBy: value['sortBy'],
+          sortOrder: value['sortOrder'],
+        );
+
+    navigatorKey.currentState!.pop();
+  }
+
+  void filterUsers(String role) {
+    selectedRole.value = role;
+
+    ref.read(queryProvider.notifier).state = '';
+    ref.read(masterDataProvider.notifier).filterUsers(
+          role: role == 'Semua' ? null : role.toLowerCase(),
+        );
   }
 }

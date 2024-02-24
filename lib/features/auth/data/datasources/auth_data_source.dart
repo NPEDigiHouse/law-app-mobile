@@ -16,7 +16,7 @@ import 'package:law_app/features/shared/models/user_post_model.dart';
 
 abstract class AuthDataSource {
   /// Sign up
-  Future<bool> signUp({required UserPostModel userSignUpModel});
+  Future<bool> signUp({required UserPostModel userPostModel});
 
   /// Sign In
   Future<bool> signIn({required String username, required String password});
@@ -41,14 +41,14 @@ class AuthDataSourceImpl implements AuthDataSource {
   });
 
   @override
-  Future<bool> signUp({required UserPostModel userSignUpModel}) async {
+  Future<bool> signUp({required UserPostModel userPostModel}) async {
     try {
       final response = await client.post(
         Uri.parse('${ApiService.baseUrl}/auth/signup'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
         },
-        body: userSignUpModel.toJson(),
+        body: userPostModel.toJson(),
       );
 
       final result = DataResponse.fromJson(jsonDecode(response.body));

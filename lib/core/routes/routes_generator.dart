@@ -250,10 +250,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         ),
       );
     case masterDataUserDetailRoute:
-      final user = settings.arguments as User;
+      final id = settings.arguments as int;
 
       return MaterialPageRoute(
-        builder: (_) => MasterDataUserDetailPage(user: user),
+        builder: (_) => MasterDataUserDetailPage(id: id),
       );
     default:
       return null;

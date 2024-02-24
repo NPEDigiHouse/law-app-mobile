@@ -14,7 +14,7 @@ import 'package:law_app/features/shared/models/user_post_model.dart';
 abstract class AuthRepository {
   /// Sign Up
   Future<Either<Failure, bool>> signUp({
-    required UserPostModel userSignUpModel,
+    required UserPostModel userPostModel,
   });
 
   /// Sign In
@@ -44,12 +44,12 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, bool>> signUp({
-    required UserPostModel userSignUpModel,
+    required UserPostModel userPostModel,
   }) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await authDataSource.signUp(
-          userSignUpModel: userSignUpModel,
+          userPostModel: userPostModel,
         );
 
         return Right(result);

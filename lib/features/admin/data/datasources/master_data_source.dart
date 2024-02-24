@@ -11,6 +11,7 @@ import 'package:law_app/core/services/api_service.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/data_response.dart';
 import 'package:law_app/features/admin/data/models/user_model.dart';
+import 'package:law_app/features/shared/models/user_post_model.dart';
 
 abstract class MasterDataSource {
   /// Get Users
@@ -21,8 +22,23 @@ abstract class MasterDataSource {
     String? role,
   });
 
+  /// Get user detail
+  Future<UserModel> getUserDetail({required int id});
+
   /// Delete user
   Future<void> deleteUser({required int id});
+
+  /// Create user
+  Future<void> createUser({required UserPostModel userPostModel});
+
+  /// Edit user
+  Future<void> editUser({
+    required int id,
+    String? name,
+    String? email,
+    String? birthDate,
+    String? phoneNumber,
+  });
 }
 
 class MasterDataSourceImpl implements MasterDataSource {
@@ -72,6 +88,34 @@ class MasterDataSourceImpl implements MasterDataSource {
   }
 
   @override
+  Future<UserModel> getUserDetail({required int id}) async {
+    try {
+      final response = await client.get(
+        Uri.parse('${ApiService.baseUrl}/users/$id'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code == 200) {
+        return UserModel.fromMap(result.data);
+      } else {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      if (e is ServerException) {
+        rethrow;
+      } else {
+        throw http.ClientException(e.toString());
+      }
+    }
+  }
+
+  @override
   Future<void> deleteUser({required int id}) async {
     try {
       final response = await client.delete(
@@ -81,6 +125,71 @@ class MasterDataSourceImpl implements MasterDataSource {
           HttpHeaders.authorizationHeader:
               'Bearer ${CredentialSaver.accessToken}'
         },
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code != 200) {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      if (e is ServerException) {
+        rethrow;
+      } else {
+        throw http.ClientException(e.toString());
+      }
+    }
+  }
+
+  @override
+  Future<void> createUser({required UserPostModel userPostModel}) async {
+    try {
+      final response = await client.post(
+        Uri.parse('${ApiService.baseUrl}/auth/signup'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+        body: userPostModel.toJson(),
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code != 200) {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      if (e is ServerException) {
+        rethrow;
+      } else {
+        throw http.ClientException(e.toString());
+      }
+    }
+  }
+
+  @override
+  Future<void> editUser({
+    required int id,
+    String? name,
+    String? email,
+    String? birthDate,
+    String? phoneNumber,
+  }) async {
+    try {
+      final response = await client.put(
+        Uri.parse('${ApiService.baseUrl}/users/$id'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+        body: jsonEncode({
+          'name': name,
+          'email': email,
+          'birthDate': birthDate,
+          'phoneNumber': phoneNumber,
+        }),
       );
 
       final result = DataResponse.fromJson(jsonDecode(response.body));

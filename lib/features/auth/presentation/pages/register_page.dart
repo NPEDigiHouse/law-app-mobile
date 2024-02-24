@@ -67,12 +67,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
             navigatorKey.currentState!.pop();
 
             if ('$error' == kNoInternetConnection) {
-              context.showNetworkErrorModalBottomSheet(
-                onPressedPrimaryButton: () {
-                  navigatorKey.currentState!.pop();
-                  ref.invalidate(signUpProvider);
-                },
-              );
+              context.showNetworkErrorModalBottomSheet();
             } else {
               context.showBanner(message: '$error', type: BannerType.error);
             }
@@ -352,7 +347,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
     if (formKey.currentState!.saveAndValidate()) {
       final data = formKey.currentState!.value;
 
-      final userSignUpModel = UserPostModel(
+      final userPostModel = UserPostModel(
         name: data['name'],
         username: data['username'],
         email: data['email'],
@@ -362,9 +357,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
         role: 'student',
       );
 
-      ref
-          .read(signUpProvider.notifier)
-          .signUp(userSignUpModel: userSignUpModel);
+      ref.read(signUpProvider.notifier).signUp(userPostModel: userPostModel);
     }
   }
 }

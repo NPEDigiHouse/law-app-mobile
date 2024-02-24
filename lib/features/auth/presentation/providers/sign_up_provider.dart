@@ -15,7 +15,7 @@ class SignUp extends _$SignUp {
     return const AsyncValue.data(null);
   }
 
-  Future<void> signUp({required UserPostModel userSignUpModel}) async {
+  Future<void> signUp({required UserPostModel userPostModel}) async {
     bool? success;
     Failure? failure;
 
@@ -24,7 +24,7 @@ class SignUp extends _$SignUp {
 
       final result = await ref
           .watch(authRepositoryProvider)
-          .signUp(userSignUpModel: userSignUpModel);
+          .signUp(userPostModel: userPostModel);
 
       result.fold(
         (l) => failure = l,

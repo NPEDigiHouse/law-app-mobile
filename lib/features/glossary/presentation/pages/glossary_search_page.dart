@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:easy_debounce/easy_debounce.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
 import 'package:law_app/core/routes/route_names.dart';
@@ -11,37 +12,17 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/glossary/presentation/widgets/search_empty_text.dart';
+import 'package:law_app/features/shared/providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/text_field/search_field.dart';
 
-class GlossarySearchPage extends StatefulWidget {
+class GlossarySearchPage extends ConsumerWidget {
   const GlossarySearchPage({super.key});
 
   @override
-  State<GlossarySearchPage> createState() => _GlossarySearchPageState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final query = ref.watch(queryProvider);
 
-class _GlossarySearchPageState extends State<GlossarySearchPage> {
-  late final ValueNotifier<String> query;
-  late List<Glossary> glossaries;
-
-  @override
-  void initState() {
-    super.initState();
-
-    query = ValueNotifier('');
-    glossaries = dummyGlossaries;
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-
-    query.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(124),
@@ -55,20 +36,15 @@ class _GlossarySearchPageState extends State<GlossarySearchPage> {
                 ),
               ),
               const SizedBox(height: 10),
-              ValueListenableBuilder(
-                valueListenable: query,
-                builder: (context, query, child) {
-                  return SearchField(
-                    text: query,
-                    hintText: 'Cari kosa kata',
-                    autoFocus: true,
-                    onChanged: searchTerm,
-                    onFocusChange: (isFocus) {
-                      if (!isFocus && query.isEmpty) {
-                        navigatorKey.currentState!.pop();
-                      }
-                    },
-                  );
+              SearchField(
+                text: query,
+                hintText: 'Cari kosa kata',
+                autoFocus: true,
+                onChanged: (query) => searchTerm(ref, query),
+                onFocusChange: (isFocus) {
+                  if (!isFocus && query.isEmpty) {
+                    navigatorKey.currentState!.pop();
+                  }
                 },
               ),
             ],
@@ -77,14 +53,14 @@ class _GlossarySearchPageState extends State<GlossarySearchPage> {
       ),
       body: Builder(
         builder: (context) {
-          if (query.value.isEmpty) {
+          if (query.isEmpty) {
             return const SearchEmptyText(
               title: 'Hasil Pencarian',
               subtitle: 'Hasil pencarian kamu akan muncul di sini.',
             );
           }
 
-          if (glossaries.isEmpty) {
+          if (dummyGlossaries.isEmpty) {
             return const SearchEmptyText(
               title: 'Hasil Tidak Ditemukan',
               subtitle: 'Tidak ada istilah yang cocok untuk kata tersebut.',
@@ -97,7 +73,7 @@ class _GlossarySearchPageState extends State<GlossarySearchPage> {
               return ListTile(
                 contentPadding: const EdgeInsets.symmetric(horizontal: 20),
                 title: Text(
-                  glossaries[index].term,
+                  dummyGlossaries[index].term,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -108,35 +84,35 @@ class _GlossarySearchPageState extends State<GlossarySearchPage> {
                 ),
                 onTap: () => navigatorKey.currentState!.pushNamed(
                   glossaryDetailRoute,
-                  arguments: glossaries[index],
+                  arguments: dummyGlossaries[index],
                 ),
                 visualDensity: const VisualDensity(
                   vertical: VisualDensity.minimumDensity,
                 ),
               );
             },
-            itemCount: glossaries.length,
+            itemCount: dummyGlossaries.length,
           );
         },
       ),
     );
   }
 
-  void searchTerm(String query) {
-    this.query.value = query;
+  void searchTerm(WidgetRef ref, String query) {
+    ref.read(queryProvider.notifier).state = query;
 
     EasyDebounce.debounce(
       'search-debouncer',
       const Duration(milliseconds: 800),
       () {
-        final result = dummyGlossaries.where((glossary) {
-          final queryLower = query.toLowerCase();
-          final termLower = glossary.term.toLowerCase();
+        // final result = dummyGlossaries.where((glossary) {
+        //   final queryLower = query.toLowerCase();
+        //   final termLower = glossary.term.toLowerCase();
 
-          return termLower.contains(queryLower);
-        }).toList();
+        //   return termLower.contains(queryLower);
+        // }).toList();
 
-        setState(() => glossaries = result);
+        // setState(() => glossaries = result);
       },
     );
 

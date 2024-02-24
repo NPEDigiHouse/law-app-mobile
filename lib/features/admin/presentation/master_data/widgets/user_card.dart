@@ -1,5 +1,7 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
@@ -41,7 +43,7 @@ class UserCard extends ConsumerWidget {
       ],
       onTap: () => navigatorKey.currentState!.pushNamed(
         masterDataUserDetailRoute,
-        arguments: user,
+        arguments: user.id,
       ),
       child: Row(
         children: [
@@ -90,6 +92,8 @@ class UserCard extends ConsumerWidget {
               primaryButtonText: 'Hapus',
               onPressedPrimaryButton: () {
                 ref.read(masterDataProvider.notifier).deleteUser(id: user.id!);
+
+                navigatorKey.currentState!.pop();
               },
             ),
             tooltip: 'Hapus',

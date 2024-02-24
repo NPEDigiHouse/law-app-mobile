@@ -3,18 +3,23 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 // Project imports:
 import 'package:law_app/core/extensions/button_extension.dart';
 import 'package:law_app/core/extensions/datetime_extension.dart';
-import 'package:law_app/dummies_data.dart';
+import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/features/admin/data/models/user_model.dart';
+import 'package:law_app/features/admin/presentation/master_data/providers/get_user_detail_provider.dart';
+import 'package:law_app/features/admin/presentation/master_data/providers/master_data_provider.dart';
+import 'package:law_app/features/shared/models/user_post_model.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/text_field/custom_text_field.dart';
 
 class MasterDataFormPage extends StatefulWidget {
   final String title;
-  final User? user;
+  final UserModel? user;
 
   const MasterDataFormPage({
     super.key,
@@ -53,7 +58,7 @@ class _MasterDataFormPageState extends State<MasterDataFormPage> {
               CustomTextField(
                 name: 'name',
                 label: 'Nama Lengkap',
-                hintText: 'Masukkan nama lengkap kamu',
+                hintText: 'Masukkan nama lengkap',
                 initialValue: widget.user?.name,
                 hasPrefixIcon: false,
                 hasSuffixIcon: false,
@@ -70,11 +75,31 @@ class _MasterDataFormPageState extends State<MasterDataFormPage> {
                   ),
                 ],
               ),
+              if (widget.user == null) ...[
+                const SizedBox(height: 20),
+                CustomTextField(
+                  name: 'username',
+                  label: 'Username',
+                  hintText: 'Masukkan username',
+                  hasPrefixIcon: false,
+                  hasSuffixIcon: false,
+                  textInputAction: TextInputAction.next,
+                  validators: [
+                    FormBuilderValidators.required(
+                      errorText: 'Bagian ini harus diisi',
+                    ),
+                    FormBuilderValidators.match(
+                      r'^(?=.*[a-zA-Z])\d*[a-zA-Z\d]*$',
+                      errorText: 'Username tidak valid',
+                    ),
+                  ],
+                ),
+              ],
               const SizedBox(height: 20),
               CustomTextField(
                 name: 'email',
                 label: 'Email',
-                hintText: 'Masukkan email kamu',
+                hintText: 'Masukkan email',
                 initialValue: widget.user?.email,
                 hasPrefixIcon: false,
                 hasSuffixIcon: false,
@@ -94,7 +119,8 @@ class _MasterDataFormPageState extends State<MasterDataFormPage> {
                 name: 'birthDate',
                 label: 'Tanggal Lahir',
                 hintText: 'dd MMMM yyyy',
-                initialValue: widget.user?.dateOfBirth,
+                initialValue:
+                    widget.user?.birthDate?.toStringPattern('dd MMMM yyyy'),
                 hasPrefixIcon: false,
                 suffixIconName: 'calendar.svg',
                 textInputType: TextInputType.none,
@@ -130,12 +156,61 @@ class _MasterDataFormPageState extends State<MasterDataFormPage> {
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
-        child: FilledButton(
-          onPressed: () {},
-          child: Text('${widget.user != null ? "Edit" : "Tambah"} User'),
-        ).fullWidth(),
+        child: Consumer(
+          builder: (context, ref, child) {
+            return FilledButton(
+              onPressed: () {
+                widget.user != null ? editUser(ref) : createUser(ref);
+              },
+              child: Text('${widget.user != null ? "Edit" : "Tambah"} User'),
+            ).fullWidth();
+          },
+        ),
       ),
     );
+  }
+
+  void editUser(WidgetRef ref) {
+    FocusManager.instance.primaryFocus?.unfocus();
+
+    if (formKey.currentState!.saveAndValidate()) {
+      final data = formKey.currentState!.value;
+
+      ref.read(masterDataProvider.notifier).editUser(
+            id: widget.user!.id!,
+            name: data['name'],
+            email: data['email'],
+            birthDate: date.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
+            phoneNumber: data['phoneNumber'],
+          );
+
+      ref.invalidate(GetUserDetailProvider(id: widget.user!.id!));
+
+      navigatorKey.currentState!.pop();
+    }
+  }
+
+  void createUser(WidgetRef ref) {
+    FocusManager.instance.primaryFocus?.unfocus();
+
+    if (formKey.currentState!.saveAndValidate()) {
+      final data = formKey.currentState!.value;
+      final role = widget.title.split(' ').last.toLowerCase();
+
+      ref.read(masterDataProvider.notifier).createUser(
+            userPostModel: UserPostModel(
+              name: data['name'],
+              username: data['username'],
+              email: data['email'],
+              password: data['username'],
+              birthDate: date.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
+              phoneNumber: data['phoneNumber'],
+              role: role,
+            ),
+          );
+
+      navigatorKey.currentState!.pop();
+    }
   }
 
   Future<void> showBirthDatePicker() async {
@@ -161,7 +236,7 @@ class _MasterDataFormPageState extends State<MasterDataFormPage> {
 
 class MasterDataFormArgs {
   final String title;
-  final User? user;
+  final UserModel? user;
 
   const MasterDataFormArgs({
     required this.title,
