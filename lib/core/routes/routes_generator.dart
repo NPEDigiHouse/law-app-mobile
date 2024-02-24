@@ -6,6 +6,15 @@ import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/admin/presentation/ad/pages/admin_add_simple_ad_page.dart';
 import 'package:law_app/features/admin/presentation/ad/pages/admin_manage_ad_page.dart';
+import 'package:law_app/features/admin/presentation/course/pages/admin_course_add_question_page.dart';
+import 'package:law_app/features/admin/presentation/course/pages/admin_course_article_page.dart';
+import 'package:law_app/features/admin/presentation/course/pages/admin_course_curriculum_page.dart';
+import 'package:law_app/features/admin/presentation/course/pages/admin_course_detail_page.dart';
+import 'package:law_app/features/admin/presentation/course/pages/admin_course_lesson_page.dart';
+import 'package:law_app/features/admin/presentation/course/pages/admin_course_question_list_page.dart';
+import 'package:law_app/features/admin/presentation/course/pages/admin_course_quiz_home_page.dart';
+import 'package:law_app/features/admin/presentation/course/pages/admin_course_search_page.dart';
+import 'package:law_app/features/admin/presentation/course/pages/admin_manage_course_page.dart';
 import 'package:law_app/features/admin/presentation/home/pages/admin_home_page.dart';
 import 'package:law_app/features/admin/presentation/reference/pages/admin_manage_question_category.dart';
 import 'package:law_app/features/admin/presentation/reference/pages/admin_reference_page.dart';
@@ -221,6 +230,7 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => StudentCourseArticlePage(article: article),
       );
+
     case studentCourseQuizHomeRoute:
       final quiz = settings.arguments as Quiz;
 
@@ -263,6 +273,53 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
     case adminAddSimpleAdRoute:
       return MaterialPageRoute(
         builder: (_) => const AdminAddSimpleAdPage(),
+      );
+    case adminManageCourseRoute:
+      return MaterialPageRoute(
+        builder: (_) => const AdminManageCoursePage(),
+      );
+    case adminCourseSearchRoute:
+      return MaterialPageRoute(
+        builder: (_) => const AdminCourseSearchPage(),
+      );
+    case adminCourseDetailRoute:
+      final course = settings.arguments as Course;
+      return MaterialPageRoute(
+        builder: (_) => AdminCourseDetailPage(course: course),
+      );
+    case adminCourseCurriculumRoute:
+      final courseDetail = settings.arguments as CourseDetail;
+      return MaterialPageRoute(
+        builder: (_) => AdminCourseCurriculumPage(courseDetail: courseDetail),
+      );
+    case adminCourseLessonRoute:
+      final curriculum = settings.arguments as Curriculum;
+      return MaterialPageRoute(
+        builder: (_) => AdminCourseLessonPage(curriculum: curriculum),
+      );
+    case adminCourseArticleRoute:
+      final article = settings.arguments as Article;
+
+      return MaterialPageRoute(
+        builder: (_) => AdminCourseArticlePage(article: article),
+      );
+    case adminCourseQuizHomeRoute:
+      final quiz = settings.arguments as Quiz;
+
+      return MaterialPageRoute(
+        builder: (_) => AdminCourseQuizHomePage(quiz: quiz),
+      );
+    case adminCourseQuestionListRoute:
+      final items = settings.arguments as List<Item>;
+
+      return MaterialPageRoute(
+        builder: (_) => AdminCourseQuestionListPage(items: items),
+      );
+    case adminCourseAddQuestionRoute:
+      final item = settings.arguments as Item?;
+
+      return MaterialPageRoute(
+        builder: (_) => AdminCourseAddQuestionPage(item: item, isEdit: item != null),
       );
     case masterDataHomeRoute:
       return MaterialPageRoute(

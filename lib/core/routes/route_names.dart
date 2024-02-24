@@ -53,6 +53,15 @@ const adminReferenceRoute = '/admin-reference';
 const adminManageQuestionCategoryRoute = '/admin-manage-question-category';
 const adminManageAdRoute = '/admin-manage-ad';
 const adminAddSimpleAdRoute = '/admin-add-simple-ad';
+const adminManageCourseRoute = '/admin-manage-course';
+const adminCourseSearchRoute = '/admin-course-search';
+const adminCourseDetailRoute = '/admin-course-detail';
+const adminCourseCurriculumRoute = '/admin-course-curriculum';
+const adminCourseLessonRoute = '/admin-course-lesson';
+const adminCourseArticleRoute = '/admin-course-article';
+const adminCourseQuizHomeRoute = '/admin-course-quiz-home';
+const adminCourseQuestionListRoute = '/admin-course-question-list';
+const adminCourseAddQuestionRoute = '/admin-course-add-question';
 
 const masterDataHomeRoute = '/master-data-home';
 const masterDataFormRoute = '/master-data-form';

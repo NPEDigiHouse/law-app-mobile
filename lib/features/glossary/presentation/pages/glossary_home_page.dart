@@ -44,7 +44,7 @@ class GlossaryHomePage extends StatelessWidget {
                 canRequestFocus: false,
                 textInputAction: TextInputAction.none,
                 onTap: () => navigatorKey.currentState!.pushNamed(
-                  glossarySearchRoute,
+                  studentCourseSearchRoute,
                 ),
               ),
             ],

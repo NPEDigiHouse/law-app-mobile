@@ -246,7 +246,7 @@ class _FAQContainerState extends State<FAQContainer> {
                               ),
                               tooltip: 'Hapus',
                             ),
-                          )
+                          ),
                         ],
                       )
                   ],

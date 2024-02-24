@@ -60,7 +60,8 @@ class AdminHomePage extends StatelessWidget {
       {
         "icon": "chalkboard-teacher-fill.svg",
         "text": "Kelola Course",
-        "onTap": () {},
+        "onTap": () =>
+            navigatorKey.currentState!.pushNamed(adminManageCourseRoute),
       },
       {
         "icon": "book-bold.svg",

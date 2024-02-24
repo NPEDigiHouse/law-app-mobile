@@ -61,7 +61,7 @@ class AdminManageQuestionCategory extends StatelessWidget {
             color: secondaryColor,
             width: 32,
           ),
-          tooltip: 'Kembali',
+          tooltip: 'Tambah',
         ),
       ),
       body: SingleChildScrollView(

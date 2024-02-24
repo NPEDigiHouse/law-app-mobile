@@ -56,11 +56,11 @@ class AdminReferencePage extends StatelessWidget {
               color: secondaryColor,
               onTap: items[index]["onTap"],
               margin: EdgeInsets.only(
-                bottom: index == items.length ? 0 : 8,
+                bottom: index == items.length ? 0 : 12,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(.2),
+                  color: Colors.black.withOpacity(.15),
                   offset: const Offset(2, 2),
                   blurRadius: 4,
                 ),

@@ -19,8 +19,15 @@ import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class CourseCard extends StatelessWidget {
   final Course course;
+  final bool isAdmin;
+  final bool withLabelChip;
 
-  const CourseCard({super.key, required this.course});
+  const CourseCard({
+    super.key,
+    required this.course,
+    this.withLabelChip = true,
+    this.isAdmin = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +43,7 @@ class CourseCard extends StatelessWidget {
         ),
       ],
       onTap: () => navigatorKey.currentState!.pushNamed(
-        studentCourseDetailRoute,
+        isAdmin ? adminCourseDetailRoute : studentCourseDetailRoute,
         arguments: course,
       ),
       child: Row(
@@ -157,7 +164,7 @@ class CourseCard extends StatelessWidget {
                           ),
                         ),
                       ),
-                    if (course.status != null) ...[
+                    if (withLabelChip && course.status != null) ...[
                       const SizedBox(width: 4),
                       Builder(
                         builder: (context) {
