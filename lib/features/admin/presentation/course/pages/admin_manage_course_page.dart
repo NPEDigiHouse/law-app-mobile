@@ -73,6 +73,23 @@ class AdminManageCoursePage extends StatelessWidget {
           ),
         ),
       ),
+      floatingActionButton: Container(
+        width: 60,
+        height: 60,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          gradient: const LinearGradient(colors: GradientColors.redPastel),
+        ),
+        child: IconButton(
+          onPressed: () => navigatorKey.currentState!.pushNamed(adminAddCourseRoute),
+          icon: SvgAsset(
+            assetPath: AssetPath.getIcon('plus-line.svg'),
+            color: secondaryColor,
+            width: 32,
+          ),
+          tooltip: 'Tambah',
+        ),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20),

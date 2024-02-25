@@ -6,7 +6,10 @@ import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/admin/presentation/ad/pages/admin_add_simple_ad_page.dart';
 import 'package:law_app/features/admin/presentation/ad/pages/admin_manage_ad_page.dart';
+import 'package:law_app/features/admin/presentation/course/pages/admin_add_course_page.dart';
+import 'package:law_app/features/admin/presentation/course/pages/admin_course_add_article_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_add_question_page.dart';
+import 'package:law_app/features/admin/presentation/course/pages/admin_course_add_quiz_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_article_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_curriculum_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_detail_page.dart';
@@ -278,6 +281,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => const AdminManageCoursePage(),
       );
+    case adminAddCourseRoute:
+      return MaterialPageRoute(
+        builder: (_) => const AdminAddCoursePage(),
+      );
     case adminCourseSearchRoute:
       return MaterialPageRoute(
         builder: (_) => const AdminCourseSearchPage(),
@@ -296,6 +303,14 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       final curriculum = settings.arguments as Curriculum;
       return MaterialPageRoute(
         builder: (_) => AdminCourseLessonPage(curriculum: curriculum),
+      );
+    case adminCourseAddArticleRoute:
+      return MaterialPageRoute(
+        builder: (_) => const AdminCourseAddArticlePage(),
+      );
+    case adminCourseAddQuizRoute:
+      return MaterialPageRoute(
+        builder: (_) => const AdminCourseAddQuizPage(),
       );
     case adminCourseArticleRoute:
       final article = settings.arguments as Article;
@@ -319,7 +334,8 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       final item = settings.arguments as Item?;
 
       return MaterialPageRoute(
-        builder: (_) => AdminCourseAddQuestionPage(item: item, isEdit: item != null),
+        builder: (_) =>
+            AdminCourseAddQuestionPage(item: item, isEdit: item != null),
       );
     case masterDataHomeRoute:
       return MaterialPageRoute(

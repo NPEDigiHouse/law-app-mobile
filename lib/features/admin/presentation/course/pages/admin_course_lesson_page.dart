@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:law_app/core/extensions/button_extension.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
+import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/admin/presentation/course/widgets/admin_lesson_card.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
@@ -72,11 +74,26 @@ class AdminCourseLessonPage extends StatelessWidget {
               height: 12,
             ),
             FilledButton(
-              onPressed: () => context.showSingleFormDialog(
-                title: "Tambah Kurikulum",
-                name: "curriculum",
-                label: "Nama Kurikulum",
-                hintText: "Masukkan nama kurikulum",
+              onPressed: () => context.showCustomSelectorDialog(
+                title: "Pilih Jenis Materi",
+                items: [
+                  {
+                    "text": "Materi Biasa",
+                    "onTap": () {
+                      navigatorKey.currentState!.pop();
+                      navigatorKey.currentState!
+                          .pushNamed(adminCourseAddArticleRoute);
+                    },
+                  },
+                  {
+                    "text": "Quiz",
+                    "onTap": () {
+                      navigatorKey.currentState!.pop();
+                      navigatorKey.currentState!
+                          .pushNamed(adminCourseAddQuizRoute);
+                    },
+                  }
+                ],
               ),
               child: const Text('Tambah Materi'),
             ).fullWidth(),

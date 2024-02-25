@@ -47,6 +47,7 @@ dependencies:
   flutter_svg: ^2.0.9
   form_builder_validators: ^9.1.0
   http: ^1.2.0
+  image_picker: ^1.0.7
   internet_connection_checker: ^1.0.0+1
   intl: any
   percent_indicator: ^4.2.3
