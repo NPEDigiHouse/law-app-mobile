@@ -3,7 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
 import 'package:law_app/core/errors/failures.dart';
-import 'package:law_app/features/admin/presentation/master_data/providers/repository_provider/master_data_repository_provider.dart';
+import 'package:law_app/features/admin/presentation/master_data/providers/repositories_provider/master_data_repository_provider.dart';
 import 'package:law_app/features/shared/models/user_post_model.dart';
 
 part 'create_user_provider.g.dart';
@@ -15,15 +15,14 @@ class CreateUser extends _$CreateUser {
     return const AsyncValue.data(null);
   }
 
-  Future<void> createUser({required UserPostModel userPostModel}) async {
+  Future<void> createUser({required UserPostModel user}) async {
     Failure? failure;
 
     try {
       state = const AsyncValue.loading();
 
-      final result = await ref
-          .watch(masterDataRepositoryProvider)
-          .createUser(userPostModel: userPostModel);
+      final result =
+          await ref.watch(masterDataRepositoryProvider).createUser(user: user);
 
       result.fold(
         (l) => failure = l,

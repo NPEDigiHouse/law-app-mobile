@@ -230,11 +230,12 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> {
       final data = formKey.currentState!.value;
 
       ref.read(editUserProvider.notifier).editUser(
-            id: widget.user!.id!,
-            name: data['name'],
-            email: data['email'],
-            birthDate: date.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
-            phoneNumber: data['phoneNumber'],
+            user: widget.user!.copyWith(
+              name: data['name'],
+              email: data['email'],
+              birthDate: date,
+              phoneNumber: data['phoneNumber'],
+            ),
           );
     }
   }
@@ -247,7 +248,7 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> {
       final role = widget.title.split(' ').last.toLowerCase();
 
       ref.read(createUserProvider.notifier).createUser(
-            userPostModel: UserPostModel(
+            user: UserPostModel(
               name: data['name'],
               username: data['username'],
               email: data['email'],

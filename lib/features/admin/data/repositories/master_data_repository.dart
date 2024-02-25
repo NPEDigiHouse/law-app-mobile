@@ -24,18 +24,10 @@ abstract class MasterDataRepository {
   Future<Either<Failure, UserModel>> getUserDetail({required int id});
 
   /// Create user
-  Future<Either<Failure, void>> createUser({
-    required UserPostModel userPostModel,
-  });
+  Future<Either<Failure, void>> createUser({required UserPostModel user});
 
   /// Edit user
-  Future<Either<Failure, void>> editUser({
-    required int id,
-    String? name,
-    String? email,
-    String? birthDate,
-    String? phoneNumber,
-  });
+  Future<Either<Failure, void>> editUser({required UserModel user});
 
   /// Delete user
   Future<Either<Failure, void>> deleteUser({required int id});
@@ -96,13 +88,11 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
 
   @override
   Future<Either<Failure, void>> createUser({
-    required UserPostModel userPostModel,
+    required UserPostModel user,
   }) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await masterDataSource.createUser(
-          userPostModel: userPostModel,
-        );
+        final result = await masterDataSource.createUser(user: user);
 
         return Right(result);
       } on ServerException catch (e) {
@@ -123,22 +113,10 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
   }
 
   @override
-  Future<Either<Failure, void>> editUser({
-    required int id,
-    String? name,
-    String? email,
-    String? birthDate,
-    String? phoneNumber,
-  }) async {
+  Future<Either<Failure, void>> editUser({required UserModel user}) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await masterDataSource.editUser(
-          id: id,
-          name: name,
-          email: email,
-          birthDate: birthDate,
-          phoneNumber: phoneNumber,
-        );
+        final result = await masterDataSource.editUser(user: user);
 
         return Right(result);
       } on ServerException catch (e) {

@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 
 // Project imports:
 import 'package:law_app/core/errors/exceptions.dart';
+import 'package:law_app/core/extensions/datetime_extension.dart';
 import 'package:law_app/core/services/api_service.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/data_response.dart';
@@ -26,16 +27,10 @@ abstract class MasterDataSource {
   Future<UserModel> getUserDetail({required int id});
 
   /// Create user
-  Future<void> createUser({required UserPostModel userPostModel});
+  Future<void> createUser({required UserPostModel user});
 
   /// Edit user
-  Future<void> editUser({
-    required int id,
-    String? name,
-    String? email,
-    String? birthDate,
-    String? phoneNumber,
-  });
+  Future<void> editUser({required UserModel user});
 
   /// Delete user
   Future<void> deleteUser({required int id});
@@ -116,7 +111,7 @@ class MasterDataSourceImpl implements MasterDataSource {
   }
 
   @override
-  Future<void> createUser({required UserPostModel userPostModel}) async {
+  Future<void> createUser({required UserPostModel user}) async {
     try {
       final response = await client.post(
         Uri.parse('${ApiService.baseUrl}/auth/signup'),
@@ -125,7 +120,7 @@ class MasterDataSourceImpl implements MasterDataSource {
           HttpHeaders.authorizationHeader:
               'Bearer ${CredentialSaver.accessToken}'
         },
-        body: userPostModel.toJson(),
+        body: user.toJson(),
       );
 
       final result = DataResponse.fromJson(jsonDecode(response.body));
@@ -143,26 +138,21 @@ class MasterDataSourceImpl implements MasterDataSource {
   }
 
   @override
-  Future<void> editUser({
-    required int id,
-    String? name,
-    String? email,
-    String? birthDate,
-    String? phoneNumber,
-  }) async {
+  Future<void> editUser({required UserModel user}) async {
     try {
       final response = await client.put(
-        Uri.parse('${ApiService.baseUrl}/users/$id'),
+        Uri.parse('${ApiService.baseUrl}/users/${user.id}'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader:
               'Bearer ${CredentialSaver.accessToken}'
         },
         body: jsonEncode({
-          'name': name,
-          'email': email,
-          'birthDate': birthDate,
-          'phoneNumber': phoneNumber,
+          'name': user.name,
+          'email': user.email,
+          'birthDate':
+              user.birthDate?.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
+          'phoneNumber': user.phoneNumber,
         }),
       );
 

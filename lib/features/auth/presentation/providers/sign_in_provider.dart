@@ -5,7 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:law_app/core/errors/failures.dart';
 import 'package:law_app/features/auth/data/models/user_credential_model.dart';
 import 'package:law_app/features/auth/presentation/providers/get_user_credential_provider.dart';
-import 'package:law_app/features/auth/presentation/providers/repository_provider/auth_repository_provider.dart';
+import 'package:law_app/features/auth/presentation/providers/repositories_provider/auth_repository_provider.dart';
 
 part 'sign_in_provider.g.dart';
 
