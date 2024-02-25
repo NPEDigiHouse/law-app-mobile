@@ -1,14 +1,15 @@
-// Package imports:
+// Dart imports:
 import 'dart:convert';
 import 'dart:io';
 
+// Package imports:
 import 'package:http/http.dart' as http;
+
+// Project imports:
 import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/services/api_service.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/data_response.dart';
-
-// Project imports:
 import 'package:law_app/features/glossary/data/models/glossary_model.dart';
 import 'package:law_app/features/shared/models/glossary_post_model.dart';
 

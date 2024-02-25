@@ -1,6 +1,9 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
+// Package imports:
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 // Project imports:
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/routes/route_names.dart';
@@ -11,11 +14,11 @@ import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/text_field/search_field.dart';
 
-class GlossaryHomePage extends StatelessWidget {
+class GlossaryHomePage extends ConsumerWidget {
   const GlossaryHomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: PreferredSize(

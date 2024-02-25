@@ -2,10 +2,11 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:law_app/core/enums/banner_type.dart';
 
 // Project imports:
+import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
@@ -111,7 +112,7 @@ class GlossaryManagementPage extends ConsumerWidget {
                 SearchField(
                   text: query,
                   hintText: 'Cari kosa kata',
-                  onChanged: searchGlossaries,
+                  onChanged: (query) => searchGlossaries(ref, query),
                 ),
               ],
             ),
@@ -180,17 +181,19 @@ class GlossaryManagementPage extends ConsumerWidget {
     );
   }
 
-  void searchGlossaries(String query) {
-    // ref.read(queryProvider.notifier).state = query;
+  void searchGlossaries(WidgetRef ref, String query) {
+    ref.read(queryProvider.notifier).state = query;
 
-    // if (query.isNotEmpty) {
-    //   EasyDebounce.debounce(
-    //     'search-debouncer',
-    //     const Duration(milliseconds: 800),
-    //     () => ref.read(getUsersProvider.notifier).searchUsers(query: query),
-    //   );
-    // } else {
-    //   ref.invalidate(getUsersProvider);
-    // }
+    if (query.isNotEmpty) {
+      EasyDebounce.debounce(
+        'search-debouncer',
+        const Duration(milliseconds: 800),
+        () => ref
+            .read(glossariesProvider.notifier)
+            .searchGlossaries(query: query),
+      );
+    } else {
+      ref.invalidate(glossariesProvider);
+    }
   }
 }
