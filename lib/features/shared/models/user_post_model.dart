@@ -73,6 +73,9 @@ class UserPostModel extends Equatable {
       UserPostModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
+  bool get stringify => true;
+
+  @override
   List<Object> get props {
     return [
       name,
@@ -84,7 +87,4 @@ class UserPostModel extends Equatable {
       role,
     ];
   }
-
-  @override
-  bool get stringify => true;
 }

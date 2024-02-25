@@ -76,6 +76,9 @@ class UserModel extends Equatable {
       UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
+  bool get stringify => true;
+
+  @override
   List<Object?> get props {
     return [
       id,
@@ -87,7 +90,4 @@ class UserModel extends Equatable {
       role,
     ];
   }
-
-  @override
-  bool get stringify => true;
 }

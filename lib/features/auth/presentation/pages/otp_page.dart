@@ -79,7 +79,6 @@ class _OtpPageState extends ConsumerState<OtpPage>
 
     ref.listen(askResetPasswordProvider, (_, state) {
       state.whenOrNull(
-        loading: () => context.showLoadingDialog(),
         error: (error, _) {
           navigatorKey.currentState!.pop();
 
@@ -91,7 +90,12 @@ class _OtpPageState extends ConsumerState<OtpPage>
         },
         data: (data) {
           if (data != null) {
-            navigatorKey.currentState!.pop();
+            ref.invalidate(countDownTimerProvider);
+
+            context.showBanner(
+              message: 'Kode OTP telah terkirim ke email ${widget.email}',
+              type: BannerType.success,
+            );
           }
         },
       );
@@ -295,17 +299,10 @@ class _OtpPageState extends ConsumerState<OtpPage>
   }
 
   void resendOtp() {
+    ref.invalidate(askResetPasswordProvider);
     ref
         .read(askResetPasswordProvider.notifier)
-        .askResetPassword(email: widget.email)
-        .then((_) {
-      ref.invalidate(countDownTimerProvider);
-
-      context.showBanner(
-        message: 'Kode OTP telah terkirim ke email ${widget.email}',
-        type: BannerType.success,
-      );
-    });
+        .askResetPassword(email: widget.email);
   }
 }
 

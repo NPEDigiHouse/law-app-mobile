@@ -2,15 +2,22 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
+import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
+import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class GlossaryDetailPage extends StatelessWidget {
   final Glossary glossary;
+  final bool isAdmin;
 
-  const GlossaryDetailPage({super.key, required this.glossary});
+  const GlossaryDetailPage({
+    super.key,
+    required this.glossary,
+    this.isAdmin = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +48,19 @@ class GlossaryDetailPage extends StatelessWidget {
           ],
         ),
       ),
+      floatingActionButton: isAdmin
+          ? FloatingActionButton(
+              elevation: 2,
+              backgroundColor: primaryColor,
+              tooltip: 'Edit Kosa Kata',
+              onPressed: () {},
+              child: SvgAsset(
+                assetPath: AssetPath.getIcon('pencil-solid.svg'),
+                color: scaffoldBackgroundColor,
+                width: 24,
+              ),
+            )
+          : null,
     );
   }
 }

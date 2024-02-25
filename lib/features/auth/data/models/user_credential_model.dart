@@ -86,6 +86,9 @@ class UserCredentialModel extends Equatable {
       UserCredentialModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
+  bool get stringify => true;
+
+  @override
   List<Object?> get props {
     return [
       name,
@@ -98,7 +101,4 @@ class UserCredentialModel extends Equatable {
       totalWeeklySpecificQuestionsQuota,
     ];
   }
-
-  @override
-  bool get stringify => true;
 }
