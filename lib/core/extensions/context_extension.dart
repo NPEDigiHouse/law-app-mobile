@@ -123,9 +123,11 @@ extension DialogExtension on BuildContext {
 
   Future<Object?> showSingleFormTextAreaDialog({
     required String title,
+    String? textFieldInitialValue,
     required String textFieldName,
     required String textFieldLabel,
     required String textFieldHint,
+    String? textAreaInitialValue,
     required String textAreaName,
     required String textAreaLabel,
     required String textAreaHint,
@@ -138,9 +140,11 @@ extension DialogExtension on BuildContext {
       barrierDismissible: false,
       builder: (_) => SingleFormTextAreaDialog(
         title: title,
+        textFieldInitialValue: textFieldInitialValue,
         textFieldName: textFieldName,
         textFieldLabel: textFieldLabel,
         textFieldHint: textFieldHint,
+        textAreaInitialValue: textAreaInitialValue,
         textAreaName: textAreaName,
         textAreaLabel: textAreaLabel,
         textAreaHint: textAreaHint,

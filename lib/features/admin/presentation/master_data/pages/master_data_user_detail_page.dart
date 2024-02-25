@@ -34,11 +34,11 @@ class MasterDataUserDetailPage extends ConsumerWidget {
       "No. Hp",
     ];
 
-    var userDetail = ref.watch(GetUserDetailProvider(id: id));
+    var user = ref.watch(GetUserDetailProvider(id: id));
 
     ref.listen(GetUserDetailProvider(id: id), (previous, next) {
       if (previous != next) {
-        userDetail = next;
+        user = next;
       }
 
       next.when(
@@ -59,15 +59,15 @@ class MasterDataUserDetailPage extends ConsumerWidget {
       );
     });
 
-    return userDetail.when(
+    return user.when(
       loading: () => const LoadingIndicator(withScaffold: true),
       error: (error, __) => const Scaffold(),
-      data: (userDetail) {
-        if (userDetail == null) {
+      data: (user) {
+        if (user == null) {
           return const Scaffold();
         }
 
-        final userValues = userDetail.toMap().values.toList();
+        final userValues = user.toMap().values.toList();
 
         return Scaffold(
           appBar: const PreferredSize(
@@ -188,8 +188,8 @@ class MasterDataUserDetailPage extends ConsumerWidget {
               onPressed: () => navigatorKey.currentState!.pushNamed(
                 masterDataFormRoute,
                 arguments: MasterDataFormPageArgs(
-                  title: 'Edit ${userDetail.role?.toCapitalize()}',
-                  user: userDetail,
+                  title: 'Edit ${user.role?.toCapitalize()}',
+                  user: user,
                 ),
               ),
               child: const Text("Ubah Data"),

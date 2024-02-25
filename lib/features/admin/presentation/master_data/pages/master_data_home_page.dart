@@ -15,7 +15,7 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/presentation/master_data/pages/master_data_form_page.dart';
-import 'package:law_app/features/admin/presentation/master_data/providers/get_users_provider.dart';
+import 'package:law_app/features/admin/presentation/master_data/providers/master_data_provider.dart';
 import 'package:law_app/features/admin/presentation/master_data/widgets/user_card.dart';
 import 'package:law_app/features/shared/providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
@@ -61,16 +61,16 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
   @override
   Widget build(BuildContext context) {
     final query = ref.watch(queryProvider);
-    final users = ref.watch(getUsersProvider);
+    final users = ref.watch(masterDataProvider);
 
-    ref.listen(getUsersProvider, (_, state) {
+    ref.listen(masterDataProvider, (_, state) {
       state.when(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
                 navigatorKey.currentState!.pop();
-                ref.invalidate(getUsersProvider);
+                ref.invalidate(masterDataProvider);
               },
             );
           } else {
@@ -317,16 +317,16 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
       EasyDebounce.debounce(
         'search-debouncer',
         const Duration(milliseconds: 800),
-        () => ref.read(getUsersProvider.notifier).searchUsers(query: query),
+        () => ref.read(masterDataProvider.notifier).searchUsers(query: query),
       );
     } else {
-      ref.invalidate(getUsersProvider);
+      ref.invalidate(masterDataProvider);
     }
   }
 
   void sortUsers(Map<String, dynamic> value) {
     ref.read(queryProvider.notifier).state = '';
-    ref.read(getUsersProvider.notifier).sortUsers(
+    ref.read(masterDataProvider.notifier).sortUsers(
           sortBy: value['sortBy'],
           sortOrder: value['sortOrder'],
         );
@@ -338,7 +338,7 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
     selectedRole.value = role;
 
     ref.read(queryProvider.notifier).state = '';
-    ref.read(getUsersProvider.notifier).filterUsers(
+    ref.read(masterDataProvider.notifier).filterUsers(
           role: role == 'Semua' ? null : role.toLowerCase(),
         );
   }

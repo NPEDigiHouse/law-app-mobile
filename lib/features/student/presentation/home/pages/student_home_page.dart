@@ -111,7 +111,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
                       GestureDetector(
                         onTap: () => navigatorKey.currentState!.pushNamed(
                           publicDiscussionRoute,
-                          arguments: 1,
+                          arguments: 'student',
                         ),
                         child: Text(
                           'Lihat Selengkapnya >',

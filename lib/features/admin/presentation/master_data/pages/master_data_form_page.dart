@@ -17,7 +17,7 @@ import 'package:law_app/features/admin/data/models/user_model.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/create_user_provider.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/edit_user_provider.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/get_user_detail_provider.dart';
-import 'package:law_app/features/admin/presentation/master_data/providers/get_users_provider.dart';
+import 'package:law_app/features/admin/presentation/master_data/providers/master_data_provider.dart';
 import 'package:law_app/features/shared/models/user_post_model.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/text_field/custom_text_field.dart';
@@ -49,12 +49,7 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> {
           navigatorKey.currentState!.pop();
 
           if ('$error' == kNoInternetConnection) {
-            context.showNetworkErrorModalBottomSheet(
-              onPressedPrimaryButton: () {
-                navigatorKey.currentState!.pop();
-                ref.invalidate(editUserProvider);
-              },
-            );
+            context.showNetworkErrorModalBottomSheet();
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
           }
@@ -76,12 +71,7 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> {
           navigatorKey.currentState!.pop();
 
           if ('$error' == kNoInternetConnection) {
-            context.showNetworkErrorModalBottomSheet(
-              onPressedPrimaryButton: () {
-                navigatorKey.currentState!.pop();
-                ref.invalidate(createUserProvider);
-              },
-            );
+            context.showNetworkErrorModalBottomSheet();
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
           }
@@ -89,7 +79,7 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> {
         loading: () => context.showLoadingDialog(),
         data: (data) {
           if (data != null) {
-            ref.invalidate(getUsersProvider);
+            ref.invalidate(masterDataProvider);
             navigatorKey.currentState!.pop();
             navigatorKey.currentState!.pop();
           }

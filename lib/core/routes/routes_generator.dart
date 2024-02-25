@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // Project imports:
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/admin/presentation/glossary/pages/glossary_management_page.dart';
 import 'package:law_app/features/admin/presentation/home/pages/admin_home_page.dart';
 import 'package:law_app/features/admin/presentation/master_data/pages/master_data_form_page.dart';
 import 'package:law_app/features/admin/presentation/master_data/pages/master_data_home_page.dart';
@@ -73,13 +74,19 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       final args = settings.arguments as OtpPageArgs;
 
       return MaterialPageRoute(
-        builder: (_) => OtpPage(email: args.email, otp: args.otp),
+        builder: (_) => OtpPage(
+          email: args.email,
+          otp: args.otp,
+        ),
       );
     case resetPasswordRoute:
       final args = settings.arguments as OtpPageArgs;
 
       return MaterialPageRoute(
-        builder: (_) => ResetPasswordPage(email: args.email, otp: args.otp),
+        builder: (_) => ResetPasswordPage(
+          email: args.email,
+          otp: args.otp,
+        ),
       );
     case mainMenuRoute:
       final userCredential = settings.arguments as UserCredentialModel;
@@ -126,10 +133,13 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         reverseTransitionDuration: Duration.zero,
       );
     case glossaryDetailRoute:
-      final glossary = settings.arguments as Glossary;
+      final args = settings.arguments as GlossaryDetailPageArgs;
 
       return MaterialPageRoute(
-        builder: (_) => GlossaryDetailPage(glossary: glossary),
+        builder: (_) => GlossaryDetailPage(
+          id: args.id,
+          isAdmin: args.isAdmin,
+        ),
       );
     case libraryBookListRoute:
       return MaterialPageRoute(
@@ -256,6 +266,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
 
       return MaterialPageRoute(
         builder: (_) => MasterDataUserDetailPage(id: id),
+      );
+    case glossaryManagementRoute:
+      return MaterialPageRoute(
+        builder: (_) => const GlossaryManagementPage(),
       );
     default:
       return null;

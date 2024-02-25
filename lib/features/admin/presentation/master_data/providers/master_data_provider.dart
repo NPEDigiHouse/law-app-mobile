@@ -6,10 +6,10 @@ import 'package:law_app/core/errors/failures.dart';
 import 'package:law_app/features/admin/data/models/user_model.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/repositories_provider/master_data_repository_provider.dart';
 
-part 'get_users_provider.g.dart';
+part 'master_data_provider.g.dart';
 
 @riverpod
-class GetUsers extends _$GetUsers {
+class MasterData extends _$MasterData {
   @override
   Future<List<UserModel>?> build() async {
     List<UserModel>? users;
@@ -44,9 +44,8 @@ class GetUsers extends _$GetUsers {
     try {
       state = const AsyncValue.loading();
 
-      final result = await ref.watch(masterDataRepositoryProvider).getUsers(
-            query: query,
-          );
+      final result =
+          await ref.watch(masterDataRepositoryProvider).getUsers(query: query);
 
       result.fold(
         (l) => failure = l,
@@ -97,9 +96,8 @@ class GetUsers extends _$GetUsers {
     try {
       state = const AsyncValue.loading();
 
-      final result = await ref.watch(masterDataRepositoryProvider).getUsers(
-            role: role,
-          );
+      final result =
+          await ref.watch(masterDataRepositoryProvider).getUsers(role: role);
 
       result.fold(
         (l) => failure = l,
@@ -122,9 +120,8 @@ class GetUsers extends _$GetUsers {
     try {
       state = const AsyncValue.loading();
 
-      final result = await ref.watch(masterDataRepositoryProvider).deleteUser(
-            id: id,
-          );
+      final result =
+          await ref.watch(masterDataRepositoryProvider).deleteUser(id: id);
 
       result.fold(
         (l) => failure = l,

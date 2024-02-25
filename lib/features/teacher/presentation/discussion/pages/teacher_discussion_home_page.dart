@@ -313,7 +313,7 @@ class _TeacherDiscussionHomePageState extends State<TeacherDiscussionHomePage>
                     GestureDetector(
                       onTap: () => navigatorKey.currentState!.pushNamed(
                         publicDiscussionRoute,
-                        arguments: 2,
+                        arguments: 'teacher',
                       ),
                       child: Text(
                         'Lihat Selengkapnya >',

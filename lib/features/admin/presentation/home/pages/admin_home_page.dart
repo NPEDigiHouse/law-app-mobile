@@ -70,7 +70,9 @@ class AdminHomePage extends StatelessWidget {
       {
         "icon": "dictionary-book-solid.svg",
         "text": "Kelola Glosarium",
-        "onTap": () {},
+        "onTap": () => navigatorKey.currentState!.pushNamed(
+              glossaryManagementRoute,
+            ),
       },
       {
         "icon": "link-line.svg",
