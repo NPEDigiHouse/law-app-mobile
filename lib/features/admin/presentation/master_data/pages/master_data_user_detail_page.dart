@@ -13,6 +13,7 @@ import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
+import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/presentation/master_data/pages/master_data_form_page.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/get_user_detail_provider.dart';
@@ -20,12 +21,11 @@ import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 
 class MasterDataUserDetailPage extends ConsumerWidget {
-  final int id;
-
-  const MasterDataUserDetailPage({super.key, required this.id});
+  const MasterDataUserDetailPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final id = CredentialSaver.user!.id!;
     final sections = [
       "Nama Lengkap",
       "Username",

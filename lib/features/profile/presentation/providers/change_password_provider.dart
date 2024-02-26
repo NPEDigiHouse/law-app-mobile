@@ -1,9 +1,9 @@
 // Package imports:
-import 'package:law_app/features/profile/presentation/providers/repositories_provider/profile_repository_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
 import 'package:law_app/core/errors/failures.dart';
+import 'package:law_app/features/profile/presentation/providers/repositories_provider/profile_repository_provider.dart';
 
 part 'change_password_provider.g.dart';
 

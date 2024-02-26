@@ -192,7 +192,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
                               FormBuilderValidators.required(
                                 errorText: 'Bagian ini harus diisi',
                               ),
-                              FormBuilderValidators.maxLength(
+                              FormBuilderValidators.minLength(
                                 8,
                                 errorText: 'Password minimal 8 karakter',
                               ),

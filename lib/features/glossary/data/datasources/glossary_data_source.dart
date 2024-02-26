@@ -6,8 +6,8 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 // Project imports:
-import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/configs/api_configs.dart';
+import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/data_response.dart';
 import 'package:law_app/features/glossary/data/models/glossary_model.dart';

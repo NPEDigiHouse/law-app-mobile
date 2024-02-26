@@ -1,5 +1,8 @@
+// Package imports:
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+
+// Project imports:
 import 'package:law_app/core/styles/color_scheme.dart';
 
 class ImageService {

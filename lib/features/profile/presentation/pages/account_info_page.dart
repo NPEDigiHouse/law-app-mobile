@@ -1,33 +1,36 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:law_app/core/enums/banner_type.dart';
 
 // Project imports:
+import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/button_extension.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/services/image_service.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
+import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/profile/presentation/providers/delete_profile_picture_provider.dart';
+import 'package:law_app/features/profile/presentation/providers/change_password_provider.dart';
 import 'package:law_app/features/profile/presentation/providers/edit_profile_provider.dart';
 import 'package:law_app/features/profile/presentation/providers/get_profile_detail_provider.dart';
 import 'package:law_app/features/profile/presentation/widgets/change_password_dialog.dart';
+import 'package:law_app/features/profile/presentation/widgets/edit_profile_dialog.dart';
 import 'package:law_app/features/shared/models/user_model.dart';
 import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 
 class AccountInfoPage extends ConsumerWidget {
-  final int id;
-
-  const AccountInfoPage({super.key, required this.id});
+  const AccountInfoPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final id = CredentialSaver.user!.id!;
     final sections = [
       "Nama Lengkap",
       "Username",
@@ -76,13 +79,19 @@ class AccountInfoPage extends ConsumerWidget {
         data: (data) {
           if (data != null) {
             ref.invalidate(GetProfileDetailProvider(id: id));
+
+            context.showBanner(
+              message: 'Berhasil mengedit profile!',
+              type: BannerType.success,
+            );
+
             navigatorKey.currentState!.pop();
           }
         },
       );
     });
 
-    ref.listen(deleteProfilePictureProvider, (_, state) {
+    ref.listen(changePasswordProvider, (_, state) {
       state.when(
         error: (error, _) {
           navigatorKey.currentState!.pop();
@@ -97,6 +106,12 @@ class AccountInfoPage extends ConsumerWidget {
         data: (data) {
           if (data != null) {
             ref.invalidate(GetProfileDetailProvider(id: id));
+
+            context.showBanner(
+              message: 'Password Anda berhasil diubah!',
+              type: BannerType.success,
+            );
+
             navigatorKey.currentState!.pop();
           }
         },
@@ -147,7 +162,9 @@ class AccountInfoPage extends ConsumerWidget {
                       const SizedBox(width: 24),
                       Expanded(
                         child: FilledButton(
-                          onPressed: () async {},
+                          onPressed: () {
+                            showActionsModalBottomSheet(context, ref, user);
+                          },
                           style: FilledButton.styleFrom(
                             backgroundColor: secondaryColor,
                             foregroundColor: primaryColor,
@@ -252,13 +269,11 @@ class AccountInfoPage extends ConsumerWidget {
                   ),
                   const SizedBox(height: 16),
                   FilledButton(
-                    onPressed: () async {
-                      final result = await showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (_) => const ChangePasswordDialog(),
-                      );
-                    },
+                    onPressed: () => showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (_) => const ChangePasswordDialog(),
+                    ),
                     style: FilledButton.styleFrom(
                       backgroundColor: secondaryColor,
                       foregroundColor: primaryColor,
@@ -266,7 +281,11 @@ class AccountInfoPage extends ConsumerWidget {
                     child: const Text("Ganti Password"),
                   ).fullWidth(),
                   FilledButton(
-                    onPressed: () => context.showEditProfileDialog(),
+                    onPressed: () => showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (_) => EditProfileDialog(user: user),
+                    ),
                     child: const Text("Edit Profile"),
                   ).fullWidth(),
                 ],
@@ -278,7 +297,7 @@ class AccountInfoPage extends ConsumerWidget {
     );
   }
 
-  Future<void> showImageActionsModalBottomSheet(
+  Future<void> showActionsModalBottomSheet(
     BuildContext context,
     WidgetRef ref,
     UserModel user,
@@ -290,46 +309,41 @@ class AccountInfoPage extends ConsumerWidget {
       builder: (context) => BottomSheet(
         onClosing: () {},
         enableDrag: false,
-        builder: (context) => Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: const Icon(
-                Icons.photo_camera_outlined,
-                color: primaryColor,
+        builder: (context) => Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                contentPadding: const EdgeInsets.symmetric(horizontal: 24),
+                leading: const Icon(
+                  Icons.photo_camera_outlined,
+                  color: primaryColor,
+                ),
+                title: const Text('Ambil Gambar'),
+                textColor: primaryColor,
+                onTap: () async {
+                  await getAndSetProfilePicture(ref, user, ImageSource.camera);
+                  navigatorKey.currentState!.pop();
+                },
+                visualDensity: const VisualDensity(vertical: -2),
               ),
-              title: const Text('Ambil Gambar'),
-              textColor: primaryColor,
-              onTap: () async {
-                await getAndSetProfilePicture(ref, user, ImageSource.camera);
-                navigatorKey.currentState!.pop();
-              },
-            ),
-            ListTile(
-              leading: const Icon(
-                Icons.photo_library_outlined,
-                color: primaryColor,
+              ListTile(
+                contentPadding: const EdgeInsets.symmetric(horizontal: 24),
+                leading: const Icon(
+                  Icons.photo_library_outlined,
+                  color: primaryColor,
+                ),
+                title: const Text('Pilih File Gambar'),
+                textColor: primaryColor,
+                onTap: () async {
+                  await getAndSetProfilePicture(ref, user, ImageSource.gallery);
+                  navigatorKey.currentState!.pop();
+                },
+                visualDensity: const VisualDensity(vertical: -2),
               ),
-              title: const Text('Pilih File Gambar'),
-              textColor: primaryColor,
-              onTap: () async {
-                await getAndSetProfilePicture(ref, user, ImageSource.gallery);
-                navigatorKey.currentState!.pop();
-              },
-            ),
-            ListTile(
-              leading: const Icon(
-                Icons.delete_outline_rounded,
-                color: primaryColor,
-              ),
-              title: const Text('Hapus Foto Profil'),
-              textColor: primaryColor,
-              onTap: () {
-                deleteProfilePicture(ref, user);
-                navigatorKey.currentState!.pop();
-              },
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -351,11 +365,5 @@ class AccountInfoPage extends ConsumerWidget {
             .editProfile(user: user, path: compressedImagePath);
       }
     }
-  }
-
-  void deleteProfilePicture(WidgetRef ref, UserModel user) {
-    ref
-        .read(deleteProfilePictureProvider.notifier)
-        .deleteProfilePicture(user: user);
   }
 }

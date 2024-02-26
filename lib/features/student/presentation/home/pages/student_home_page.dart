@@ -65,7 +65,6 @@ class StudentHomePage extends StatelessWidget {
             HomePageHeader(
               onPressedProfileIcon: () => navigatorKey.currentState!.pushNamed(
                 profileRoute,
-                arguments: user,
               ),
               child: Dashboard(
                 items: dashboardItems,

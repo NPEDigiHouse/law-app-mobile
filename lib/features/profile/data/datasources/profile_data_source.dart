@@ -1,15 +1,16 @@
-// Package imports:
+// Dart imports:
 import 'dart:convert';
 import 'dart:io';
 
+// Package imports:
 import 'package:http/http.dart' as http;
+
+// Project imports:
 import 'package:law_app/core/configs/api_configs.dart';
 import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/extensions/datetime_extension.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/data_response.dart';
-
-// Project imports:
 import 'package:law_app/features/shared/models/user_model.dart';
 
 abstract class ProfileDataSource {
@@ -21,9 +22,6 @@ abstract class ProfileDataSource {
     required UserModel user,
     String? path,
   });
-
-  /// Delete profile picture
-  Future<void> deleteProfilePicture({required UserModel user});
 
   /// Change password
   Future<void> changePassword({
@@ -72,10 +70,18 @@ class ProfileDataSourceImpl implements ProfileDataSource {
     String? path,
   }) async {
     try {
-      String? fileEncode;
+      final body = {
+        'name': user.name,
+        'email': user.email,
+        'phoneNumber': user.phoneNumber,
+        'birthDate':
+            user.birthDate?.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
+      };
 
       if (path != null) {
-        fileEncode = base64Encode(File(path).readAsBytesSync());
+        final fileEncode = base64Encode(File(path).readAsBytesSync());
+
+        body['profilePicture'] = 'data:image/png;base64,$fileEncode';
       }
 
       final response = await client.put(
@@ -85,16 +91,7 @@ class ProfileDataSourceImpl implements ProfileDataSource {
           HttpHeaders.authorizationHeader:
               'Bearer ${CredentialSaver.accessToken}'
         },
-        body: jsonEncode({
-          'name': user.name,
-          'email': user.email,
-          'phoneNumber': user.phoneNumber,
-          'profilePicture': path != null
-              ? 'data:image/png;base64,$fileEncode'
-              : user.profilePicture,
-          'birthDate':
-              user.birthDate?.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
-        }),
+        body: jsonEncode(body),
       );
 
       final result = DataResponse.fromJson(jsonDecode(response.body));
@@ -107,40 +104,6 @@ class ProfileDataSourceImpl implements ProfileDataSource {
         throw http.ClientException(e.toString());
       } else {
         rethrow;
-      }
-    }
-  }
-
-  @override
-  Future<void> deleteProfilePicture({required UserModel user}) async {
-    try {
-      final response = await client.put(
-        Uri.parse('${ApiConfigs.baseUrl}/users/${user.id}'),
-        headers: {
-          HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
-        },
-        body: jsonEncode({
-          'name': user.name,
-          'email': user.email,
-          'phoneNumber': user.phoneNumber,
-          'profilePicture': null,
-          'birthDate':
-              user.birthDate?.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
-        }),
-      );
-
-      final result = DataResponse.fromJson(jsonDecode(response.body));
-
-      if (result.code != 200) {
-        throw ServerException('${result.message}');
-      }
-    } catch (e) {
-      if (e is ServerException) {
-        rethrow;
-      } else {
-        throw http.ClientException(e.toString());
       }
     }
   }

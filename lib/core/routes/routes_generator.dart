@@ -96,10 +96,8 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => const ProfilePage(),
       );
     case accountInfoRoute:
-      final id = settings.arguments as int;
-
       return MaterialPageRoute(
-        builder: (_) => AccountInfoPage(id: id),
+        builder: (_) => const AccountInfoPage(),
       );
     case faqRoute:
       return MaterialPageRoute(
@@ -255,10 +253,8 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         ),
       );
     case masterDataUserDetailRoute:
-      final id = settings.arguments as int;
-
       return MaterialPageRoute(
-        builder: (_) => MasterDataUserDetailPage(id: id),
+        builder: (_) => const MasterDataUserDetailPage(),
       );
     case glossaryManagementRoute:
       return MaterialPageRoute(

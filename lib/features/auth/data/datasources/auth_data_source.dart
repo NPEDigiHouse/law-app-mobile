@@ -6,9 +6,9 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 // Project imports:
+import 'package:law_app/core/configs/api_configs.dart';
 import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/helpers/auth_preferences_helper.dart';
-import 'package:law_app/core/configs/api_configs.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/data_response.dart';
 import 'package:law_app/features/auth/data/models/user_credential_model.dart';
@@ -146,6 +146,8 @@ class AuthDataSourceImpl implements AuthDataSource {
         final userCredential = UserCredentialModel.fromMap(userData);
 
         await preferencesHelper.setUserCredential(userCredential);
+
+        CredentialSaver.user = userCredential;
 
         return userCredential;
       } else {

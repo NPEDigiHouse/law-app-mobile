@@ -1,6 +1,7 @@
-// Package imports:
+// Dart imports:
 import 'dart:io';
 
+// Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart';
 
@@ -21,9 +22,6 @@ abstract class ProfileRepository {
     required UserModel user,
     String? path,
   });
-
-  /// Delete profile picture
-  Future<Either<Failure, void>> deleteProfilePicture({required UserModel user});
 
   /// Change password
   Future<Either<Failure, void>> changePassword({
@@ -83,25 +81,6 @@ class ProfileRepositoryImpl implements ProfileRepository {
         return Left(ClientFailure(e.message));
       } on FileSystemException catch (e) {
         return Left(FileSystemFailure(e.message));
-      }
-    } else {
-      return const Left(ConnectionFailure(kNoInternetConnection));
-    }
-  }
-
-  @override
-  Future<Either<Failure, void>> deleteProfilePicture({
-    required UserModel user,
-  }) async {
-    if (await networkInfo.isConnected) {
-      try {
-        final result = await profileDataSource.deleteProfilePicture(user: user);
-
-        return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
