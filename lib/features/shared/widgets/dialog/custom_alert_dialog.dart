@@ -79,9 +79,16 @@ class CustomAlertDialog extends ConsumerWidget {
                   child: Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: backgroundColor ?? secondaryColor,
-                      shape: BoxShape.circle,
-                    ),
+                        color: backgroundColor ?? secondaryColor,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(.1),
+                            offset: const Offset(2, 2),
+                            blurRadius: 4,
+                            spreadRadius: -1,
+                          ),
+                        ]),
                     child: SvgAsset(
                       assetPath: AssetPath.getIcon(
                         "exclamation-circle-line.svg",

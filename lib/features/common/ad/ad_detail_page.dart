@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 
 // Project imports:
 import 'package:law_app/core/helpers/asset_path.dart';
+import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 
 class AdDetailPage extends StatelessWidget {
@@ -23,9 +25,8 @@ class AdDetailPage extends StatelessWidget {
           withTrailingButton: true,
           trailingButtonIconName: "pencil-solid.svg",
           trailingButtonTooltip: "edit",
-          onPressedTrailingButton: () {
-            // TODO: navigate to edit ad detail
-          },
+          onPressedTrailingButton: () =>
+              navigatorKey.currentState!.pushNamed(adminAddDetailAdRoute), // TODO: edit ad detail
         ),
       ),
       body: SingleChildScrollView(

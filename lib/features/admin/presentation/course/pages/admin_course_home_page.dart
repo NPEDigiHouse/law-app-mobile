@@ -11,8 +11,8 @@ import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 import 'package:law_app/features/shared/widgets/text_field/search_field.dart';
 
-class AdminManageCoursePage extends StatelessWidget {
-  const AdminManageCoursePage({super.key});
+class AdminCourseHomePage extends StatelessWidget {
+  const AdminCourseHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {

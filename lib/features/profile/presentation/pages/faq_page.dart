@@ -208,11 +208,14 @@ class _FAQContainerState extends State<FAQContainer> {
                                 title: "Tambah FAQ",
                                 textFieldName: "question",
                                 textFieldLabel: "Pertanyaan",
+                                textFieldInitialValue:
+                                    widget.faqItem["question"],
                                 textFieldHint: "Masukkan pertanyaan",
                                 textAreaName: "description",
                                 textAreaLabel: "Deskripsi",
                                 textAreaHint:
                                     "Masukkan deskripsi / jawaban dari pertanyaan",
+                                textAreaInitialValue: widget.faqItem["answer"],
                               ),
                               icon: SvgAsset(
                                 assetPath:

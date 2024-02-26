@@ -51,9 +51,12 @@ const studentCourseRateRoute = '/student-course-rate';
 const adminHomeRoute = '/admin-home';
 const adminReferenceRoute = '/admin-reference';
 const adminManageQuestionCategoryRoute = '/admin-manage-question-category';
-const adminManageAdRoute = '/admin-manage-ad';
+
+const adminAdHomeRoute = '/admin-ad-home';
 const adminAddSimpleAdRoute = '/admin-add-simple-ad';
-const adminManageCourseRoute = '/admin-manage-course';
+const adminAddDetailAdRoute = '/admin-add-detail-ad';
+
+const adminCourseHomeRoute = '/admin-course-home';
 const adminAddCourseRoute = '/admin-add-course';
 const adminCourseSearchRoute = '/admin-course-search';
 const adminCourseDetailRoute = '/admin-course-detail';
@@ -61,11 +64,13 @@ const adminCourseCurriculumRoute = '/admin-course-curriculum';
 const adminCourseLessonRoute = '/admin-course-lesson';
 const adminCourseAddArticleRoute = '/admin-course-add-article';
 const adminCourseAddQuizRoute = '/admin-course-add-quiz';
-const addCourseAddQuizRoute = '/admin-course-add-article';
 const adminCourseArticleRoute = '/admin-course-article';
 const adminCourseQuizHomeRoute = '/admin-course-quiz-home';
 const adminCourseQuestionListRoute = '/admin-course-question-list';
 const adminCourseAddQuestionRoute = '/admin-course-add-question';
+
+const adminDiscussionHomeRoute = '/admin-discussion-home';
+const adminDiscussionDetailRoute = '/admin-discussion-detail';
 
 const masterDataHomeRoute = '/master-data-home';
 const masterDataFormRoute = '/master-data-form';

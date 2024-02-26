@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:law_app/core/extensions/button_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
@@ -12,14 +11,14 @@ import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 import 'package:law_app/features/shared/widgets/text_field/custom_text_field.dart';
 
-class AdminAddCoursePage extends StatefulWidget {
-  const AdminAddCoursePage({super.key});
+class AdminAddDetailAdPage extends StatefulWidget {
+  const AdminAddDetailAdPage({super.key});
 
   @override
-  State<AdminAddCoursePage> createState() => _AdminAddCoursePageState();
+  State<AdminAddDetailAdPage> createState() => _AdminAddDetailAdPageState();
 }
 
-class _AdminAddCoursePageState extends State<AdminAddCoursePage> {
+class _AdminAddDetailAdPageState extends State<AdminAddDetailAdPage> {
   late final ValueNotifier<File?> selectedImage;
 
   Future _selectPhotoFromGallery() async {
@@ -47,20 +46,25 @@ class _AdminAddCoursePageState extends State<AdminAddCoursePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(96),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(96),
         child: HeaderContainer(
-          title: 'Tambah Course',
+          title: 'Tambah Ad Detail',
           withBackButton: true,
+          withTrailingButton: true,
+          trailingButtonIconName: "check-line.svg",
+          onPressedTrailingButton: () {},
+          trailingButtonTooltip: "Tambah",
         ),
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Sampul Course",
+                "Foto Ad",
                 textAlign: TextAlign.center,
                 style: textTheme.titleLarge!.copyWith(
                   color: primaryColor,
@@ -136,51 +140,40 @@ class _AdminAddCoursePageState extends State<AdminAddCoursePage> {
                   ],
                 ),
               ),
-              const Divider(
-                color: secondaryTextColor,
-                height: 40,
+              const SizedBox(
+                height: 24,
               ),
               FormBuilder(
                 child: Column(
                   children: [
                     CustomTextField(
-                      name: "course_title",
-                      label: "Judul Course",
+                      name: "ad_title",
+                      label: "Judul Ad",
+                      hintText: "Masukkan judul",
                       hasPrefixIcon: false,
                       hasSuffixIcon: false,
-                      hintText: "Masukkan judul course",
+                      textInputType: TextInputType.text,
                       validators: [
                         FormBuilderValidators.required(
                           errorText: "Bagian ini harus diisi",
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    CustomTextField(
-                      name: "course_description",
-                      label: "Descripsi",
-                      hasPrefixIcon: false,
-                      hasSuffixIcon: false,
-                      hintText: "Masukkan deskripsi",
-                      maxLines: 4,
-                      validators: [
-                        FormBuilderValidators.required(
-                          errorText: "Bagian ini harus diisi",
-                        )
+                        ),
                       ],
                     ),
                   ],
                 ),
               ),
               const SizedBox(
+                height: 12,
+              ),
+              Text(
+                "Konten",
+                textAlign: TextAlign.left,
+                style: textTheme.titleSmall!,
+              ),
+              const SizedBox(
                 height: 24,
               ),
-              FilledButton(
-                onPressed: () {},
-                child: const Text("Tambah Course"),
-              ).fullWidth(),
+              // TODO : Implement WYSIWYG
             ],
           ),
         ),

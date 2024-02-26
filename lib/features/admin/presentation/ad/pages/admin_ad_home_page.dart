@@ -9,8 +9,8 @@ import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/ink_well_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
-class AdminManageAdPage extends StatelessWidget {
-  const AdminManageAdPage({super.key});
+class AdminAdHomePage extends StatelessWidget {
+  const AdminAdHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +81,7 @@ class AdminManageAdPage extends StatelessWidget {
                 "text": "Ads Detail",
                 "onTap": () {
                   navigatorKey.currentState!.pop();
-                  // TODO: make add ads detail page
+                  navigatorKey.currentState!.pushNamed(adminAddDetailAdRoute);
                 },
               }
             ],
@@ -129,7 +129,6 @@ class AdminManageAdPage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(8),
                               image: DecorationImage(
                                 fit: BoxFit.cover,
-                                // TODO: change image
                                 image: AssetImage(
                                   AssetPath.getImage(
                                     items[index]["image"],

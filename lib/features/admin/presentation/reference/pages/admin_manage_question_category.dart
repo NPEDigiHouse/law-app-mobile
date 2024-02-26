@@ -106,9 +106,10 @@ class AdminManageQuestionCategory extends StatelessWidget {
                           ),
                           child: IconButton(
                             onPressed: () => context.showSingleFormDialog(
-                              title: "Tambah Kategori Pertanyaan",
+                              title: "Edit Kategori Pertanyaan",
                               name: "question_category",
                               label: "Kategori Pertanyaan",
+                              initialValue: items[index]["categoryName"],
                               hintText: "Masukkan kategori pertanyaan",
                             ),
                             icon: SvgAsset(

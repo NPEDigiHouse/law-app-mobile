@@ -1,5 +1,6 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:law_app/core/enums/question_type.dart';
 
 // Project imports:
 import 'package:law_app/core/extensions/string_extension.dart';
@@ -111,13 +112,27 @@ class DiscussionCard extends StatelessWidget {
             SizedBox(height: withProfile ? 12 : 6),
           ],
           if (isDetail && withProfile) ...[
-            Text(
-              question.category,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: textTheme.bodySmall!.copyWith(
-                color: secondaryTextColor,
-              ),
+            Row(
+              children: [
+                Text(
+                  question.category,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: textTheme.bodySmall!.copyWith(
+                    color: secondaryTextColor,
+                  ),
+                ),
+                if (question.type == QuestionType.specific.name)
+                  Text(
+                    " • Pertanyaan Khusus",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: textTheme.labelSmall!.copyWith(
+                      color: secondaryTextColor,
+                      fontWeight: FontWeight.w700
+                    ),
+                  ),
+              ],
             ),
             const SizedBox(height: 2),
           ],
@@ -159,6 +174,10 @@ class DiscussionCard extends StatelessWidget {
   void onTap() {
     switch (role) {
       case 'admin':
+        navigatorKey.currentState!.pushNamed(
+          adminDiscussionDetailRoute,
+          arguments: question,
+        );
         break;
       case 'student':
         navigatorKey.currentState!.pushNamed(

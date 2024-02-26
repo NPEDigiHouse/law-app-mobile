@@ -145,7 +145,10 @@ class ProfilePage extends ConsumerWidget {
         "text": "Frequently Asked Question",
         "color": primaryTextColor,
         "onTap": () {
-          navigatorKey.currentState!.pushNamed(faqRoute);
+          navigatorKey.currentState!.pushNamed(
+            faqRoute,
+            arguments: false,
+          );
         },
       },
       {
@@ -153,7 +156,10 @@ class ProfilePage extends ConsumerWidget {
         "text": "Hubungi Kami",
         "color": primaryTextColor,
         "onTap": () {
-          navigatorKey.currentState!.pushNamed(contactUsRoute, arguments: false);
+          navigatorKey.currentState!.pushNamed(
+            contactUsRoute,
+            arguments: false,
+          );
         },
       },
       {
