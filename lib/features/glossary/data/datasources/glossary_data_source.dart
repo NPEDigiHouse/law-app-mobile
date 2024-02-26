@@ -32,6 +32,19 @@ abstract class GlossaryDataSource {
 
   /// Delete glossary
   Future<void> deleteGlossary({required int id});
+
+  /// Create glossaries search history
+  Future<void> createGlossarySearchHistory(
+      {required GlossaryPostModel glossary});
+
+  /// Get glossaries search history
+  Future<List<GlossaryModel>> getGlossariesSearchHistory();
+
+  /// Delete single glossary search history
+  Future<void> deleteGlossarySearchHistory({required int id});
+
+  /// Delete all glossaries search history
+  Future<void> deleteAllGlossariesSearchHistory();
 }
 
 class GlossaryDataSourceImpl implements GlossaryDataSource {
@@ -187,5 +200,30 @@ class GlossaryDataSourceImpl implements GlossaryDataSource {
         throw http.ClientException(e.toString());
       }
     }
+  }
+
+  @override
+  Future<void> createGlossarySearchHistory(
+      {required GlossaryPostModel glossary}) async {
+    // TODO: implement createGlossarySearchHistory
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<GlossaryModel>> getGlossariesSearchHistory() async {
+    // TODO: implement getGlossariesSearchHistory
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> deleteGlossarySearchHistory({required int id}) async {
+    // TODO: implement deleteGlossarySearchHistory
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> deleteAllGlossariesSearchHistory() async {
+    // TODO: implement deleteAllGlossariesSearchHistory
+    throw UnimplementedError();
   }
 }

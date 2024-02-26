@@ -11,7 +11,7 @@ import 'package:law_app/core/extensions/datetime_extension.dart';
 import 'package:law_app/core/services/api_service.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/data_response.dart';
-import 'package:law_app/features/admin/data/models/user_model.dart';
+import 'package:law_app/features/shared/models/user_model.dart';
 import 'package:law_app/features/shared/models/user_post_model.dart';
 
 abstract class MasterDataSource {
