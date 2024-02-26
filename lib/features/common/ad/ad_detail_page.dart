@@ -25,7 +25,6 @@ class AdDetailPage extends StatelessWidget {
           trailingButtonTooltip: "edit",
           onPressedTrailingButton: () {
             // TODO: navigate to edit ad detail
-            debugPrint("trail button pressed");
           },
         ),
       ),

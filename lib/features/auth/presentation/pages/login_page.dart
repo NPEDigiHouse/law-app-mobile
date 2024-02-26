@@ -57,8 +57,7 @@ class _LoginPageState extends ConsumerState<LoginPage>
             if (data.$1 != null && data.$2 != null) {
               debugPrint(data.$2!.role);
               navigatorKey.currentState!.pushNamedAndRemoveUntil(
-                // TODO : Change back to 'admin'
-                data.$2!.role == 'student' ? adminHomeRoute : mainMenuRoute,
+                data.$2!.role == 'admin' ? adminHomeRoute : mainMenuRoute,
                 (route) => false,
                 arguments: data.$2,
               );
