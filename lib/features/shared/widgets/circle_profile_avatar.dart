@@ -4,16 +4,17 @@ import 'package:flutter/material.dart';
 // Project imports:
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class CircleProfileAvatar extends StatelessWidget {
-  final String image;
+  final String? imageUrl;
   final double radius;
   final Color? borderColor;
   final double borderSize;
 
   const CircleProfileAvatar({
     super.key,
-    required this.image,
+    required this.imageUrl,
     this.radius = 24.0,
     this.borderColor = secondaryColor,
     this.borderSize = 2.0,
@@ -21,14 +22,43 @@ class CircleProfileAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (imageUrl != null) {
+      return CachedNetworkImage(
+        imageUrl: imageUrl!,
+        imageBuilder: (context, imageProvider) {
+          return buildProfileImage(imageProvider);
+        },
+        placeholder: (context, url) {
+          return SizedBox(
+            width: radius,
+            height: radius,
+            child: const CircularProgressIndicator(
+              color: accentColor,
+              strokeWidth: 3,
+            ),
+          );
+        },
+        errorWidget: (context, url, error) {
+          return Icon(
+            Icons.error_outline_outlined,
+            size: radius,
+          );
+        },
+      );
+    }
+
+    return buildProfileImage(
+      AssetImage(AssetPath.getImage('no-profile-2.jpg')),
+    );
+  }
+
+  CircleAvatar buildProfileImage(ImageProvider<Object> imageProvider) {
     return CircleAvatar(
       radius: radius,
       backgroundColor: borderColor,
       child: CircleAvatar(
         radius: radius - borderSize,
-        foregroundImage: AssetImage(
-          AssetPath.getImage(image),
-        ),
+        foregroundImage: imageProvider,
       ),
     );
   }

@@ -98,14 +98,8 @@ class GlossaryRepositoryImpl implements GlossaryRepository {
         );
 
         return Right(result);
-      } on ServerException catch (e) {
-        switch (e.message) {
-          case '':
-            return const Left(ServerFailure(''));
-
-          default:
-            return Left(ServerFailure(e.message));
-        }
+      } on ServerException {
+        return const Left(ServerFailure('Terjadi kesalahan.'));
       } on ClientException catch (e) {
         return Left(ClientFailure(e.message));
       }
@@ -125,13 +119,8 @@ class GlossaryRepositoryImpl implements GlossaryRepository {
         );
 
         return Right(result);
-      } on ServerException catch (e) {
-        switch (e.message) {
-          case '':
-            return const Left(ServerFailure(''));
-          default:
-            return Left(ServerFailure(e.message));
-        }
+      } on ServerException {
+        return const Left(ServerFailure('Terjadi kesalahan.'));
       } on ClientException catch (e) {
         return Left(ClientFailure(e.message));
       }

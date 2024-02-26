@@ -1,4 +1,5 @@
 // Package imports:
+import 'package:law_app/features/auth/data/models/user_credential_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // Project imports:
@@ -6,7 +7,7 @@ import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 
 class AuthPreferencesHelper {
-  // Singleton class
+  /// Singleton class
   static AuthPreferencesHelper? _instance;
 
   AuthPreferencesHelper._internal() {
@@ -16,7 +17,7 @@ class AuthPreferencesHelper {
   factory AuthPreferencesHelper() =>
       _instance ?? AuthPreferencesHelper._internal();
 
-  // Singleton shared preferences
+  /// Singleton shared preferences
   static SharedPreferences? _preferences;
 
   Future<SharedPreferences> _initPreferences() async {
@@ -53,5 +54,35 @@ class AuthPreferencesHelper {
     final pr = await preferences;
 
     return await pr!.remove(accessTokenKey);
+  }
+
+  Future<bool> setUserCredential(UserCredentialModel userCredential) async {
+    final pr = await preferences;
+
+    return await pr!.setString(userCredentialKey, userCredential.toJson());
+  }
+
+  Future<UserCredentialModel?> getUserCredential() async {
+    final pr = await preferences;
+
+    if (pr!.containsKey(userCredentialKey)) {
+      final data = pr.getString(userCredentialKey);
+
+      final userCredential = UserCredentialModel.fromJson(data ?? '');
+
+      CredentialSaver.user ??= userCredential;
+
+      return userCredential;
+    }
+
+    return null;
+  }
+
+  Future<bool> removeUserCredential() async {
+    CredentialSaver.user = null;
+
+    final pr = await preferences;
+
+    return await pr!.remove(userCredentialKey);
   }
 }

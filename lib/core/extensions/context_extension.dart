@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/widget_utils.dart';
-import 'package:law_app/features/profile/presentation/widgets/change_password_dialog.dart';
 import 'package:law_app/features/profile/presentation/widgets/edit_profile_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/confirm_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/custom_alert_dialog.dart';
@@ -176,14 +175,6 @@ extension DialogExtension on BuildContext {
       context: this,
       barrierDismissible: false,
       builder: (_) => const EditProfileDialog(),
-    );
-  }
-
-  Future<Object?> showChangePasswordDialog() {
-    return showDialog(
-      context: this,
-      barrierDismissible: false,
-      builder: (_) => const ChangePasswordDialog(),
     );
   }
 }

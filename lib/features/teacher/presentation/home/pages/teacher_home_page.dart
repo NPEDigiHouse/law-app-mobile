@@ -12,21 +12,12 @@ import 'package:law_app/features/shared/widgets/feature/book_item.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
 import 'package:law_app/features/shared/widgets/feature/home_page_header.dart';
 
-class TeacherHomePage extends StatefulWidget {
+class TeacherHomePage extends StatelessWidget {
   const TeacherHomePage({super.key});
 
   @override
-  State<TeacherHomePage> createState() => _TeacherHomePageState();
-}
-
-class _TeacherHomePageState extends State<TeacherHomePage> {
-  late final List<Map<String, dynamic>> dashboardItems;
-
-  @override
-  void initState() {
-    super.initState();
-
-    dashboardItems = [
+  Widget build(BuildContext context) {
+    final dashboardItems = [
       {
         "icon": "question-circle-line.svg",
         "count": 20,
@@ -38,20 +29,15 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
         "text": "Buku\nDibaca",
       },
     ];
-  }
 
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SingleChildScrollView(
         child: Column(
           children: [
             HomePageHeader(
-              user: teacher,
               onPressedProfileIcon: () => navigatorKey.currentState!.pushNamed(
                 profileRoute,
-                arguments: teacher,
               ),
               child: Dashboard(
                 items: dashboardItems,

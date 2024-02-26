@@ -65,7 +65,7 @@ class UserModel extends Equatable {
       'birthDate': birthDate?.toStringPattern("dd MMMM yyyy"),
       'phoneNumber': phoneNumber,
       'profilePicture': profilePicture,
-      'teacherDiscussionCategories': expertises?.map((e) => e.toMap()).toList(),
+      'expertises': expertises?.map((e) => e.toMap()).toList(),
     };
   }
 

@@ -5,3 +5,4 @@ const kUsernameAlreadyExist = 'USERNAME_ALREADY_EXIST';
 const kEmailAlreadyExist = 'EMAIL_ALREADY_EXIST';
 
 const accessTokenKey = 'ACCESS_TOKEN';
+const userCredentialKey = 'USER_CREDENTIAL';

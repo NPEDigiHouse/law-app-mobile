@@ -164,7 +164,7 @@ class MasterDataUserDetailPage extends ConsumerWidget {
                                   ),
                                 ),
                                 Text(
-                                  '${userValues[index + 1]}',
+                                  '${userValues[index + 2]}',
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: textTheme.titleMedium!.copyWith(

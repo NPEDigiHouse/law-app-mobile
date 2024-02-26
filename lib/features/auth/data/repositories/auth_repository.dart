@@ -66,9 +66,9 @@ class AuthRepositoryImpl implements AuthRepository {
       } on ServerException catch (e) {
         switch (e.message) {
           case kUsernameAlreadyExist:
-            return const Left(ServerFailure('Username telah terdaftar'));
+            return const Left(ServerFailure('Username telah digunakan'));
           case kEmailAlreadyExist:
-            return const Left(ServerFailure('Email telah terdaftar'));
+            return const Left(ServerFailure('Email telah digunakan'));
           default:
             return Left(ServerFailure(e.message));
         }

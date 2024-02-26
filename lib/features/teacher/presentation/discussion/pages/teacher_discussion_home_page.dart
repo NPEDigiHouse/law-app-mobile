@@ -7,6 +7,7 @@ import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/animated_fab.dart';
@@ -143,7 +144,7 @@ class _TeacherDiscussionHomePageState extends State<TeacherDiscussionHomePage>
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        teacher.name,
+                                        '${CredentialSaver.user!.name}',
                                         style: textTheme.titleLarge!.copyWith(
                                           color: primaryColor,
                                           fontSize: 18,
@@ -161,7 +162,8 @@ class _TeacherDiscussionHomePageState extends State<TeacherDiscussionHomePage>
                                 ),
                                 const SizedBox(width: 8),
                                 CircleProfileAvatar(
-                                  image: teacher.profilePict,
+                                  imageUrl:
+                                      CredentialSaver.user!.profilePicture,
                                 ),
                               ],
                             ),
@@ -313,7 +315,7 @@ class _TeacherDiscussionHomePageState extends State<TeacherDiscussionHomePage>
                     GestureDetector(
                       onTap: () => navigatorKey.currentState!.pushNamed(
                         publicDiscussionRoute,
-                        arguments: 'teacher',
+                        arguments: CredentialSaver.user!.role,
                       ),
                       child: Text(
                         'Lihat Selengkapnya >',
@@ -333,7 +335,7 @@ class _TeacherDiscussionHomePageState extends State<TeacherDiscussionHomePage>
                   itemBuilder: (context, index) {
                     return DiscussionCard(
                       question: dummyQuestions[index],
-                      role: 'teacher',
+                      role: '${CredentialSaver.user!.role}',
                       width: 300,
                     );
                   },
@@ -380,7 +382,7 @@ class _TeacherDiscussionHomePageState extends State<TeacherDiscussionHomePage>
                   ),
                   child: DiscussionCard(
                     question: dummyQuestions[index],
-                    role: 'teacher',
+                    role: '${CredentialSaver.user!.role}',
                     isDetail: true,
                     withProfile: true,
                   ),

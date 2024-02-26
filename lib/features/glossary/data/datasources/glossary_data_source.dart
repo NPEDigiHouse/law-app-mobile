@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 
 // Project imports:
 import 'package:law_app/core/errors/exceptions.dart';
-import 'package:law_app/core/services/api_service.dart';
+import 'package:law_app/core/configs/api_configs.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/data_response.dart';
 import 'package:law_app/features/glossary/data/models/glossary_model.dart';
@@ -34,8 +34,9 @@ abstract class GlossaryDataSource {
   Future<void> deleteGlossary({required int id});
 
   /// Create glossaries search history
-  Future<void> createGlossarySearchHistory(
-      {required GlossaryPostModel glossary});
+  Future<void> createGlossarySearchHistory({
+    required GlossaryPostModel glossary,
+  });
 
   /// Get glossaries search history
   Future<List<GlossaryModel>> getGlossariesSearchHistory();
@@ -63,7 +64,7 @@ class GlossaryDataSourceImpl implements GlossaryDataSource {
           'term=$query&offset=${offset ?? ''}&limit=${limit ?? ''}';
 
       final response = await client.get(
-        Uri.parse('${ApiService.baseUrl}/glosariums?$queryParams'),
+        Uri.parse('${ApiConfigs.baseUrl}/glosariums?$queryParams'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader:
@@ -95,7 +96,7 @@ class GlossaryDataSourceImpl implements GlossaryDataSource {
   Future<GlossaryModel> getGlossaryDetail({required int id}) async {
     try {
       final response = await client.get(
-        Uri.parse('${ApiService.baseUrl}/glosariums/$id'),
+        Uri.parse('${ApiConfigs.baseUrl}/glosariums/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader:
@@ -123,7 +124,7 @@ class GlossaryDataSourceImpl implements GlossaryDataSource {
   Future<void> createGlossary({required GlossaryPostModel glossary}) async {
     try {
       final response = await client.post(
-        Uri.parse('${ApiService.baseUrl}/glosariums'),
+        Uri.parse('${ApiConfigs.baseUrl}/glosariums'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader:
@@ -150,7 +151,7 @@ class GlossaryDataSourceImpl implements GlossaryDataSource {
   Future<void> editGlossary({required GlossaryModel glossary}) async {
     try {
       final response = await client.put(
-        Uri.parse('${ApiService.baseUrl}/glosariums/${glossary.id}'),
+        Uri.parse('${ApiConfigs.baseUrl}/glosariums/${glossary.id}'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader:
@@ -180,7 +181,7 @@ class GlossaryDataSourceImpl implements GlossaryDataSource {
   Future<void> deleteGlossary({required int id}) async {
     try {
       final response = await client.delete(
-        Uri.parse('${ApiService.baseUrl}/glosariums/$id'),
+        Uri.parse('${ApiConfigs.baseUrl}/glosariums/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader:
@@ -203,8 +204,9 @@ class GlossaryDataSourceImpl implements GlossaryDataSource {
   }
 
   @override
-  Future<void> createGlossarySearchHistory(
-      {required GlossaryPostModel glossary}) async {
+  Future<void> createGlossarySearchHistory({
+    required GlossaryPostModel glossary,
+  }) async {
     // TODO: implement createGlossarySearchHistory
     throw UnimplementedError();
   }

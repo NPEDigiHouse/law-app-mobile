@@ -9,7 +9,6 @@ import 'package:law_app/features/admin/presentation/home/pages/admin_home_page.d
 import 'package:law_app/features/admin/presentation/master_data/pages/master_data_form_page.dart';
 import 'package:law_app/features/admin/presentation/master_data/pages/master_data_home_page.dart';
 import 'package:law_app/features/admin/presentation/master_data/pages/master_data_user_detail_page.dart';
-import 'package:law_app/features/auth/data/models/user_credential_model.dart';
 import 'package:law_app/features/auth/presentation/pages/forgot_password_page.dart';
 import 'package:law_app/features/auth/presentation/pages/login_page.dart';
 import 'package:law_app/features/auth/presentation/pages/otp_page.dart';
@@ -89,22 +88,18 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         ),
       );
     case mainMenuRoute:
-      final userCredential = settings.arguments as UserCredentialModel;
-
       return MaterialPageRoute(
-        builder: (_) => MainMenuPage(userCredential: userCredential),
+        builder: (_) => const MainMenuPage(),
       );
     case profileRoute:
-      final user = settings.arguments as User;
-
       return MaterialPageRoute(
-        builder: (_) => ProfilePage(user: user),
+        builder: (_) => const ProfilePage(),
       );
     case accountInfoRoute:
-      final user = settings.arguments as User;
+      final id = settings.arguments as int;
 
       return MaterialPageRoute(
-        builder: (_) => AccountInfoPage(user: user),
+        builder: (_) => AccountInfoPage(id: id),
       );
     case faqRoute:
       return MaterialPageRoute(
@@ -243,10 +238,8 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => StudentCourseRatePage(courseDetail: courseDetail),
       );
     case adminHomeRoute:
-      final userCredential = settings.arguments as UserCredentialModel;
-
       return MaterialPageRoute(
-        builder: (_) => AdminHomePage(userCredential: userCredential),
+        builder: (_) => const AdminHomePage(),
       );
     case masterDataHomeRoute:
       return MaterialPageRoute(

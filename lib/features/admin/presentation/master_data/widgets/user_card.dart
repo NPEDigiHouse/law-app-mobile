@@ -47,8 +47,8 @@ class UserCard extends ConsumerWidget {
       ),
       child: Row(
         children: [
-          const CircleProfileAvatar(
-            image: 'no-profile.jpg',
+          CircleProfileAvatar(
+            imageUrl: user.profilePicture,
             radius: 28,
             borderColor: accentColor,
             borderSize: 1,

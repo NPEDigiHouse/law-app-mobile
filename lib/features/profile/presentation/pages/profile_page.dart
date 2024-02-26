@@ -11,20 +11,18 @@ import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/auth/presentation/providers/log_out_provider.dart';
 import 'package:law_app/features/shared/widgets/feature/home_page_header.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class ProfilePage extends ConsumerWidget {
-  final User user;
-
-  const ProfilePage({super.key, required this.user});
+  const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final menuItems = getMenuItems(context, ref, user);
+    final menuItems = getMenuItems(context, ref);
 
     ref.listen(logOutProvider, (_, state) {
       state.whenOrNull(
@@ -46,7 +44,6 @@ class ProfilePage extends ConsumerWidget {
     return Scaffold(
       backgroundColor: backgroundColor,
       body: HomePageHeader(
-        user: user,
         isProfile: true,
         child: Container(
           width: double.infinity,
@@ -123,21 +120,14 @@ class ProfilePage extends ConsumerWidget {
     );
   }
 
-  List<Map<String, dynamic>> getMenuItems(
-    BuildContext context,
-    WidgetRef ref,
-    User user,
-  ) {
+  List<Map<String, dynamic>> getMenuItems(BuildContext context, WidgetRef ref) {
     final menuItems = [
       {
         "icon": "users-solid.svg",
         "text": "Informasi Akun",
         "color": primaryTextColor,
         "onTap": () {
-          navigatorKey.currentState!.pushNamed(
-            accountInfoRoute,
-            arguments: user,
-          );
+          navigatorKey.currentState!.pushNamed(accountInfoRoute);
         },
       },
       {
@@ -186,11 +176,11 @@ class ProfilePage extends ConsumerWidget {
       },
     ];
 
-    if (user.role == 'admin') {
+    if (CredentialSaver.user!.role == 'admin') {
       return [menuItems.first, menuItems.last];
     }
 
-    if (user.role == 'teacher') {
+    if (CredentialSaver.user!.role == 'teacher') {
       return [...menuItems.sublist(0, 4), menuItems.last];
     }
 

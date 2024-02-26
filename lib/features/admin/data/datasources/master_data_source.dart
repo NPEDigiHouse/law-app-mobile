@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 // Project imports:
 import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/extensions/datetime_extension.dart';
-import 'package:law_app/core/services/api_service.dart';
+import 'package:law_app/core/configs/api_configs.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/data_response.dart';
 import 'package:law_app/features/shared/models/user_model.dart';
@@ -53,7 +53,7 @@ class MasterDataSourceImpl implements MasterDataSource {
 
       final response = await client.get(
         Uri.parse(
-          '${ApiService.baseUrl}/users?${role != null ? 'role=$role' : queryParams}',
+          '${ApiConfigs.baseUrl}/users?${role != null ? 'role=$role' : queryParams}',
         ),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
@@ -86,7 +86,7 @@ class MasterDataSourceImpl implements MasterDataSource {
   Future<UserModel> getUserDetail({required int id}) async {
     try {
       final response = await client.get(
-        Uri.parse('${ApiService.baseUrl}/users/$id'),
+        Uri.parse('${ApiConfigs.baseUrl}/users/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader:
@@ -114,7 +114,7 @@ class MasterDataSourceImpl implements MasterDataSource {
   Future<void> createUser({required UserPostModel user}) async {
     try {
       final response = await client.post(
-        Uri.parse('${ApiService.baseUrl}/auth/signup'),
+        Uri.parse('${ApiConfigs.baseUrl}/auth/signup'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader:
@@ -141,7 +141,7 @@ class MasterDataSourceImpl implements MasterDataSource {
   Future<void> editUser({required UserModel user}) async {
     try {
       final response = await client.put(
-        Uri.parse('${ApiService.baseUrl}/users/${user.id}'),
+        Uri.parse('${ApiConfigs.baseUrl}/users/${user.id}'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader:
@@ -174,7 +174,7 @@ class MasterDataSourceImpl implements MasterDataSource {
   Future<void> deleteUser({required int id}) async {
     try {
       final response = await client.delete(
-        Uri.parse('${ApiService.baseUrl}/users/$id'),
+        Uri.parse('${ApiConfigs.baseUrl}/users/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader:
