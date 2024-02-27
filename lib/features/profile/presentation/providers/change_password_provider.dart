@@ -19,8 +19,6 @@ class ChangePassword extends _$ChangePassword {
     required String currentPassword,
     required String newPassword,
   }) async {
-    Failure? failure;
-
     try {
       state = const AsyncValue.loading();
 
@@ -31,17 +29,11 @@ class ChangePassword extends _$ChangePassword {
           );
 
       result.fold(
-        (l) => failure = l,
-        (r) => {},
+        (l) => state = AsyncValue.error(l.message, StackTrace.current),
+        (r) => state = const AsyncValue.data(true),
       );
     } catch (e) {
       state = AsyncValue.error((e as Failure).message, StackTrace.current);
-    } finally {
-      if (failure != null) {
-        state = AsyncValue.error(failure!.message, StackTrace.current);
-      } else {
-        state = const AsyncValue.data(true);
-      }
     }
   }
 }

@@ -16,28 +16,19 @@ class SearchGlossary extends _$SearchGlossary {
   }
 
   Future<void> searchGlossary({String query = ''}) async {
-    List<GlossaryModel>? glossaries;
-    Failure? failure;
-
     try {
       state = const AsyncValue.loading();
 
       final result = await ref
           .watch(glossaryRepositoryProvider)
-          .getGlossaries(query: query, offset: 0, limit: 10);
+          .getGlossaries(query: query);
 
       result.fold(
-        (l) => failure = l,
-        (r) => glossaries = r,
+        (l) => state = AsyncValue.error(l.message, StackTrace.current),
+        (r) => state = AsyncValue.data(r),
       );
     } catch (e) {
       state = AsyncValue.error((e as Failure).message, StackTrace.current);
-    } finally {
-      if (glossaries != null) {
-        state = AsyncValue.data(glossaries);
-      } else {
-        state = AsyncValue.error(failure!.message, StackTrace.current);
-      }
     }
   }
 }

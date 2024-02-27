@@ -16,8 +16,6 @@ class EditGlossary extends _$EditGlossary {
   }
 
   Future<void> editGlossary({required GlossaryModel glossary}) async {
-    Failure? failure;
-
     try {
       state = const AsyncValue.loading();
 
@@ -26,17 +24,11 @@ class EditGlossary extends _$EditGlossary {
           .editGlossary(glossary: glossary);
 
       result.fold(
-        (l) => failure = l,
-        (r) => {},
+        (l) => state = AsyncValue.error(l.message, StackTrace.current),
+        (r) => state = const AsyncValue.data(true),
       );
     } catch (e) {
       state = AsyncValue.error((e as Failure).message, StackTrace.current);
-    } finally {
-      if (failure != null) {
-        state = AsyncValue.error(failure!.message, StackTrace.current);
-      } else {
-        state = const AsyncValue.data(true);
-      }
     }
   }
 }

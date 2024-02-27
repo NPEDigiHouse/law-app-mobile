@@ -14,7 +14,6 @@ class Glossaries extends _$Glossaries {
   @override
   Future<List<GlossaryModel>?> build() async {
     List<GlossaryModel>? glossaries;
-    Failure? failure;
 
     try {
       state = const AsyncValue.loading();
@@ -24,26 +23,20 @@ class Glossaries extends _$Glossaries {
           .getGlossaries(offset: 0, limit: 10);
 
       result.fold(
-        (l) => failure = l,
-        (r) => glossaries = r,
+        (l) => state = AsyncValue.error(l.message, StackTrace.current),
+        (r) {
+          glossaries = r;
+          state = AsyncValue.data(r);
+        },
       );
     } catch (e) {
       state = AsyncValue.error((e as Failure).message, StackTrace.current);
-    } finally {
-      if (glossaries != null) {
-        state = AsyncValue.data(glossaries);
-      } else {
-        state = AsyncValue.error(failure!.message, StackTrace.current);
-      }
     }
 
     return glossaries;
   }
 
   Future<void> searchGlossaries({String query = ''}) async {
-    List<GlossaryModel>? glossaries;
-    Failure? failure;
-
     try {
       state = const AsyncValue.loading();
 
@@ -52,23 +45,15 @@ class Glossaries extends _$Glossaries {
           .getGlossaries(query: query, offset: 0, limit: 10);
 
       result.fold(
-        (l) => failure = l,
-        (r) => glossaries = r,
+        (l) => state = AsyncValue.error(l.message, StackTrace.current),
+        (r) => state = AsyncValue.data(r),
       );
     } catch (e) {
       state = AsyncValue.error((e as Failure).message, StackTrace.current);
-    } finally {
-      if (glossaries != null) {
-        state = AsyncValue.data(glossaries);
-      } else {
-        state = AsyncValue.error(failure!.message, StackTrace.current);
-      }
     }
   }
 
   Future<void> createGlossary({required GlossaryPostModel glossary}) async {
-    Failure? failure;
-
     try {
       state = const AsyncValue.loading();
 
@@ -77,23 +62,15 @@ class Glossaries extends _$Glossaries {
           .createGlossary(glossary: glossary);
 
       result.fold(
-        (l) => failure = l,
+        (l) => state = AsyncValue.error(l.message, StackTrace.current),
         (r) => {},
       );
     } catch (e) {
       state = AsyncValue.error((e as Failure).message, StackTrace.current);
-    } finally {
-      if (failure != null) {
-        state = AsyncValue.error(failure!.message, StackTrace.current);
-      } else {
-        ref.invalidateSelf();
-      }
     }
   }
 
   Future<void> deleteGlossary({required int id}) async {
-    Failure? failure;
-
     try {
       state = const AsyncValue.loading();
 
@@ -101,17 +78,11 @@ class Glossaries extends _$Glossaries {
           await ref.watch(glossaryRepositoryProvider).deleteGlossary(id: id);
 
       result.fold(
-        (l) => failure = l,
-        (r) => {},
+        (l) => state = AsyncValue.error(l.message, StackTrace.current),
+        (r) => ref.invalidateSelf(),
       );
     } catch (e) {
       state = AsyncValue.error((e as Failure).message, StackTrace.current);
-    } finally {
-      if (failure != null) {
-        state = AsyncValue.error(failure!.message, StackTrace.current);
-      } else {
-        ref.invalidateSelf();
-      }
     }
   }
 }

@@ -15,7 +15,6 @@ class IsSignIn extends _$IsSignIn {
   Future<(bool?, UserCredentialModel?)> build() async {
     bool? isSignIn;
     UserCredentialModel? userCredential;
-    Failure? failure;
 
     try {
       state = const AsyncValue.loading();
@@ -23,7 +22,7 @@ class IsSignIn extends _$IsSignIn {
       final result = await ref.watch(authRepositoryProvider).isSignIn();
 
       result.fold(
-        (l) => failure = l,
+        (l) => state = AsyncValue.error(l.message, StackTrace.current),
         (r) {
           isSignIn = r;
 
@@ -37,6 +36,7 @@ class IsSignIn extends _$IsSignIn {
                   );
                 },
                 data: (data) {
+                  userCredential = data;
                   this.state = AsyncValue.data((isSignIn, data));
                 },
               );
@@ -46,10 +46,6 @@ class IsSignIn extends _$IsSignIn {
       );
     } catch (e) {
       state = AsyncValue.error((e as Failure).message, StackTrace.current);
-    } finally {
-      if (failure != null) {
-        state = AsyncValue.error(failure!.message, StackTrace.current);
-      }
     }
 
     return (isSignIn, userCredential);

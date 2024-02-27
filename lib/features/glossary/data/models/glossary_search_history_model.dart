@@ -1,4 +1,7 @@
+// Package imports:
 import 'package:equatable/equatable.dart';
+
+// Project imports:
 import 'package:law_app/features/glossary/data/models/glossary_model.dart';
 
 class GlossarySearchHistoryModel extends Equatable {

@@ -15,9 +15,6 @@ class AskResetPassword extends _$AskResetPassword {
   }
 
   Future<void> askResetPassword({required String email}) async {
-    String? otp;
-    Failure? failure;
-
     try {
       state = const AsyncValue.loading();
 
@@ -26,17 +23,11 @@ class AskResetPassword extends _$AskResetPassword {
           .askResetPassword(email: email);
 
       result.fold(
-        (l) => failure = l,
-        (r) => otp = r,
+        (l) => state = AsyncValue.error(l.message, StackTrace.current),
+        (r) => state = AsyncValue.data(r),
       );
     } catch (e) {
       state = AsyncValue.error((e as Failure).message, StackTrace.current);
-    } finally {
-      if (otp != null) {
-        state = AsyncValue.data(otp);
-      } else {
-        state = AsyncValue.error(failure!.message, StackTrace.current);
-      }
     }
   }
 }

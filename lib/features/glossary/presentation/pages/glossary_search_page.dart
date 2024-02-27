@@ -98,7 +98,7 @@ class GlossarySearchPage extends ConsumerWidget {
           }
 
           return ListView.builder(
-            padding: const EdgeInsets.only(top: 8),
+            padding: const EdgeInsets.symmetric(vertical: 8),
             itemBuilder: (context, index) {
               return ListTile(
                 contentPadding: const EdgeInsets.symmetric(horizontal: 20),

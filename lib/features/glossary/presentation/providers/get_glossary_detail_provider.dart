@@ -13,7 +13,6 @@ class GetGlossaryDetail extends _$GetGlossaryDetail {
   @override
   Future<GlossaryModel?> build({required int id}) async {
     GlossaryModel? glossary;
-    Failure? failure;
 
     try {
       state = const AsyncValue.loading();
@@ -22,17 +21,14 @@ class GetGlossaryDetail extends _$GetGlossaryDetail {
           await ref.watch(glossaryRepositoryProvider).getGlossaryDetail(id: id);
 
       result.fold(
-        (l) => failure = l,
-        (r) => glossary = r,
+        (l) => state = AsyncValue.error(l.message, StackTrace.current),
+        (r) {
+          glossary = r;
+          state = AsyncValue.data(r);
+        },
       );
     } catch (e) {
       state = AsyncValue.error((e as Failure).message, StackTrace.current);
-    } finally {
-      if (glossary != null) {
-        state = AsyncValue.data(glossary);
-      } else {
-        state = AsyncValue.error(failure!.message, StackTrace.current);
-      }
     }
 
     return glossary;

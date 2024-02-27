@@ -16,8 +16,6 @@ class EditUser extends _$EditUser {
   }
 
   Future<void> editUser({required UserModel user}) async {
-    Failure? failure;
-
     try {
       state = const AsyncValue.loading();
 
@@ -25,17 +23,11 @@ class EditUser extends _$EditUser {
           await ref.watch(masterDataRepositoryProvider).editUser(user: user);
 
       result.fold(
-        (l) => failure = l,
+        (l) => state = AsyncValue.error(l.message, StackTrace.current),
         (r) => {},
       );
     } catch (e) {
       state = AsyncValue.error((e as Failure).message, StackTrace.current);
-    } finally {
-      if (failure != null) {
-        state = AsyncValue.error(failure!.message, StackTrace.current);
-      } else {
-        state = const AsyncValue.data(true);
-      }
     }
   }
 }

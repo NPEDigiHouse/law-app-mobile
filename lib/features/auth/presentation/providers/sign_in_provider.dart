@@ -20,9 +20,6 @@ class SignIn extends _$SignIn {
     required String username,
     required String password,
   }) async {
-    bool? success;
-    Failure? failure;
-
     try {
       state = const AsyncValue.loading();
 
@@ -32,10 +29,8 @@ class SignIn extends _$SignIn {
           );
 
       result.fold(
-        (l) => failure = l,
+        (l) => state = AsyncValue.error(l.message, StackTrace.current),
         (r) {
-          success = r;
-
           if (r) {
             ref.listen(getUserCredentialProvider, (_, state) {
               state.whenOrNull(
@@ -46,7 +41,7 @@ class SignIn extends _$SignIn {
                   );
                 },
                 data: (data) {
-                  this.state = AsyncValue.data((success, data));
+                  this.state = AsyncValue.data((r, data));
                 },
               );
             });
@@ -55,10 +50,6 @@ class SignIn extends _$SignIn {
       );
     } catch (e) {
       state = AsyncValue.error((e as Failure).message, StackTrace.current);
-    } finally {
-      if (failure != null) {
-        state = AsyncValue.error(failure!.message, StackTrace.current);
-      }
     }
   }
 }

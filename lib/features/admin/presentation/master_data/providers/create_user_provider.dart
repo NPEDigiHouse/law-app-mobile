@@ -16,8 +16,6 @@ class CreateUser extends _$CreateUser {
   }
 
   Future<void> createUser({required UserPostModel user}) async {
-    Failure? failure;
-
     try {
       state = const AsyncValue.loading();
 
@@ -25,17 +23,11 @@ class CreateUser extends _$CreateUser {
           await ref.watch(masterDataRepositoryProvider).createUser(user: user);
 
       result.fold(
-        (l) => failure = l,
+        (l) => state = AsyncValue.error(l.message, StackTrace.current),
         (r) => {},
       );
     } catch (e) {
       state = AsyncValue.error((e as Failure).message, StackTrace.current);
-    } finally {
-      if (failure != null) {
-        state = AsyncValue.error(failure!.message, StackTrace.current);
-      } else {
-        state = const AsyncValue.data(true);
-      }
     }
   }
 }

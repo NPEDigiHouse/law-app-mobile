@@ -87,9 +87,8 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
   }
 
   @override
-  Future<Either<Failure, void>> createUser({
-    required UserPostModel user,
-  }) async {
+  Future<Either<Failure, void>> createUser(
+      {required UserPostModel user}) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await masterDataSource.createUser(user: user);

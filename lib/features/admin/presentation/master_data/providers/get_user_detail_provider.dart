@@ -13,7 +13,6 @@ class GetUserDetail extends _$GetUserDetail {
   @override
   Future<UserModel?> build({required int id}) async {
     UserModel? user;
-    Failure? failure;
 
     try {
       state = const AsyncValue.loading();
@@ -22,17 +21,14 @@ class GetUserDetail extends _$GetUserDetail {
           await ref.watch(masterDataRepositoryProvider).getUserDetail(id: id);
 
       result.fold(
-        (l) => failure = l,
-        (r) => user = r,
+        (l) => state = AsyncValue.error(l.message, StackTrace.current),
+        (r) {
+          user = r;
+          state = AsyncValue.data(r);
+        },
       );
     } catch (e) {
       state = AsyncValue.error((e as Failure).message, StackTrace.current);
-    } finally {
-      if (user != null) {
-        state = AsyncValue.data(user);
-      } else {
-        state = AsyncValue.error(failure!.message, StackTrace.current);
-      }
     }
 
     return user;

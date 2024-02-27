@@ -13,7 +13,6 @@ class GetProfileDetail extends _$GetProfileDetail {
   @override
   Future<UserModel?> build({required int id}) async {
     UserModel? user;
-    Failure? failure;
 
     try {
       state = const AsyncValue.loading();
@@ -22,17 +21,11 @@ class GetProfileDetail extends _$GetProfileDetail {
           await ref.watch(profileRepositoryProvider).getProfileDetail(id: id);
 
       result.fold(
-        (l) => failure = l,
+        (l) => state = AsyncValue.error(l.message, StackTrace.current),
         (r) => user = r,
       );
     } catch (e) {
       state = AsyncValue.error((e as Failure).message, StackTrace.current);
-    } finally {
-      if (user != null) {
-        state = AsyncValue.data(user);
-      } else {
-        state = AsyncValue.error(failure!.message, StackTrace.current);
-      }
     }
 
     return user;

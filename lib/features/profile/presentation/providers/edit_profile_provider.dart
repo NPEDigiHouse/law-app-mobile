@@ -16,8 +16,6 @@ class EditProfile extends _$EditProfile {
   }
 
   Future<void> editProfile({required UserModel user, String? path}) async {
-    Failure? failure;
-
     try {
       state = const AsyncValue.loading();
 
@@ -26,17 +24,11 @@ class EditProfile extends _$EditProfile {
           .editProfile(user: user, path: path);
 
       result.fold(
-        (l) => failure = l,
-        (r) => {},
+        (l) => state = AsyncValue.error(l.message, StackTrace.current),
+        (r) => state = const AsyncValue.data(true),
       );
     } catch (e) {
       state = AsyncValue.error((e as Failure).message, StackTrace.current);
-    } finally {
-      if (failure != null) {
-        state = AsyncValue.error(failure!.message, StackTrace.current);
-      } else {
-        state = const AsyncValue.data(true);
-      }
     }
   }
 }

@@ -16,9 +16,6 @@ class SignUp extends _$SignUp {
   }
 
   Future<void> signUp({required UserPostModel userPostModel}) async {
-    bool? success;
-    Failure? failure;
-
     try {
       state = const AsyncValue.loading();
 
@@ -27,17 +24,11 @@ class SignUp extends _$SignUp {
           .signUp(userPostModel: userPostModel);
 
       result.fold(
-        (l) => failure = l,
-        (r) => success = r,
+        (l) => state = AsyncValue.error(l.message, StackTrace.current),
+        (r) => state = AsyncValue.data(r),
       );
     } catch (e) {
       state = AsyncValue.error((e as Failure).message, StackTrace.current);
-    } finally {
-      if (success != null) {
-        state = AsyncValue.data(success);
-      } else {
-        state = AsyncValue.error(failure!.message, StackTrace.current);
-      }
     }
   }
 }

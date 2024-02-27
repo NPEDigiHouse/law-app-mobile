@@ -13,7 +13,6 @@ class MasterData extends _$MasterData {
   @override
   Future<List<UserModel>?> build() async {
     List<UserModel>? users;
-    Failure? failure;
 
     try {
       state = const AsyncValue.loading();
@@ -21,26 +20,20 @@ class MasterData extends _$MasterData {
       final result = await ref.watch(masterDataRepositoryProvider).getUsers();
 
       result.fold(
-        (l) => failure = l,
-        (r) => users = r,
+        (l) => state = AsyncValue.error(l.message, StackTrace.current),
+        (r) {
+          users = r;
+          state = AsyncValue.data(r);
+        },
       );
     } catch (e) {
       state = AsyncValue.error((e as Failure).message, StackTrace.current);
-    } finally {
-      if (users != null) {
-        state = AsyncValue.data(users);
-      } else {
-        state = AsyncValue.error(failure!.message, StackTrace.current);
-      }
     }
 
     return users;
   }
 
   Future<void> searchUsers({String query = ''}) async {
-    List<UserModel>? users;
-    Failure? failure;
-
     try {
       state = const AsyncValue.loading();
 
@@ -48,24 +41,15 @@ class MasterData extends _$MasterData {
           await ref.watch(masterDataRepositoryProvider).getUsers(query: query);
 
       result.fold(
-        (l) => failure = l,
-        (r) => users = r,
+        (l) => state = AsyncValue.error(l.message, StackTrace.current),
+        (r) => state = AsyncValue.data(r),
       );
     } catch (e) {
       state = AsyncValue.error((e as Failure).message, StackTrace.current);
-    } finally {
-      if (users != null) {
-        state = AsyncValue.data(users);
-      } else {
-        state = AsyncValue.error(failure!.message, StackTrace.current);
-      }
     }
   }
 
   Future<void> sortUsers({String sortBy = '', String sortOrder = ''}) async {
-    List<UserModel>? users;
-    Failure? failure;
-
     try {
       state = const AsyncValue.loading();
 
@@ -75,24 +59,15 @@ class MasterData extends _$MasterData {
           );
 
       result.fold(
-        (l) => failure = l,
-        (r) => users = r,
+        (l) => state = AsyncValue.error(l.message, StackTrace.current),
+        (r) => state = AsyncValue.data(r),
       );
     } catch (e) {
       state = AsyncValue.error((e as Failure).message, StackTrace.current);
-    } finally {
-      if (users != null) {
-        state = AsyncValue.data(users);
-      } else {
-        state = AsyncValue.error(failure!.message, StackTrace.current);
-      }
     }
   }
 
   Future<void> filterUsers({String? role}) async {
-    List<UserModel>? users;
-    Failure? failure;
-
     try {
       state = const AsyncValue.loading();
 
@@ -100,23 +75,15 @@ class MasterData extends _$MasterData {
           await ref.watch(masterDataRepositoryProvider).getUsers(role: role);
 
       result.fold(
-        (l) => failure = l,
-        (r) => users = r,
+        (l) => state = AsyncValue.error(l.message, StackTrace.current),
+        (r) => state = AsyncValue.data(r),
       );
     } catch (e) {
       state = AsyncValue.error((e as Failure).message, StackTrace.current);
-    } finally {
-      if (users != null) {
-        state = AsyncValue.data(users);
-      } else {
-        state = AsyncValue.error(failure!.message, StackTrace.current);
-      }
     }
   }
 
   Future<void> deleteUser({required int id}) async {
-    Failure? failure;
-
     try {
       state = const AsyncValue.loading();
 
@@ -124,17 +91,11 @@ class MasterData extends _$MasterData {
           await ref.watch(masterDataRepositoryProvider).deleteUser(id: id);
 
       result.fold(
-        (l) => failure = l,
-        (r) => {},
+        (l) => state = AsyncValue.error(l.message, StackTrace.current),
+        (r) => ref.invalidateSelf(),
       );
     } catch (e) {
       state = AsyncValue.error((e as Failure).message, StackTrace.current);
-    } finally {
-      if (failure != null) {
-        state = AsyncValue.error(failure!.message, StackTrace.current);
-      } else {
-        ref.invalidateSelf();
-      }
     }
   }
 }

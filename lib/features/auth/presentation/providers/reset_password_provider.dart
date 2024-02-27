@@ -19,9 +19,6 @@ class ResetPassword extends _$ResetPassword {
     required String resetPasswordToken,
     required String newPassword,
   }) async {
-    bool? success;
-    Failure? failure;
-
     try {
       state = const AsyncValue.loading();
 
@@ -32,17 +29,11 @@ class ResetPassword extends _$ResetPassword {
           );
 
       result.fold(
-        (l) => failure = l,
-        (r) => success = r,
+        (l) => state = AsyncValue.error(l.message, StackTrace.current),
+        (r) => state = AsyncValue.data(r),
       );
     } catch (e) {
       state = AsyncValue.error((e as Failure).message, StackTrace.current);
-    } finally {
-      if (success != null) {
-        state = AsyncValue.data(success);
-      } else {
-        state = AsyncValue.error(failure!.message, StackTrace.current);
-      }
     }
   }
 }
