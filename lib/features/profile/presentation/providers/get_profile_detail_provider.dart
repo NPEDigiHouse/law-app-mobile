@@ -22,7 +22,10 @@ class GetProfileDetail extends _$GetProfileDetail {
 
       result.fold(
         (l) => state = AsyncValue.error(l.message, StackTrace.current),
-        (r) => user = r,
+        (r) {
+          user = r;
+          state = AsyncValue.data(r);
+        },
       );
     } catch (e) {
       state = AsyncValue.error((e as Failure).message, StackTrace.current);

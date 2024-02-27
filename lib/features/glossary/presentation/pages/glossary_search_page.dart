@@ -14,6 +14,7 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/glossary/presentation/pages/glossary_detail_page.dart';
+import 'package:law_app/features/glossary/presentation/providers/glossary_search_history_provider.dart';
 import 'package:law_app/features/glossary/presentation/providers/search_glossary_provider.dart';
 import 'package:law_app/features/glossary/presentation/widgets/search_empty_text.dart';
 import 'package:law_app/features/shared/providers/search_provider.dart';
@@ -112,12 +113,20 @@ class GlossarySearchPage extends ConsumerWidget {
                   Icons.north_west_rounded,
                   size: 16,
                 ),
-                onTap: () => navigatorKey.currentState!.pushNamed(
-                  glossaryDetailRoute,
-                  arguments: GlossaryDetailPageArgs(
-                    id: data[index].id!,
-                  ),
-                ),
+                onTap: () {
+                  if (!ref
+                      .read(glossarySearchHistoryProvider.notifier)
+                      .isGlossaryAlreadyExist(data[index])) {
+                    ref
+                        .read(glossarySearchHistoryProvider.notifier)
+                        .createGlossarySearchHistory(id: data[index].id ?? 0);
+                  }
+
+                  navigatorKey.currentState!.pushNamed(
+                    glossaryDetailRoute,
+                    arguments: GlossaryDetailPageArgs(id: data[index].id!),
+                  );
+                },
                 visualDensity: const VisualDensity(
                   vertical: VisualDensity.minimumDensity,
                 ),

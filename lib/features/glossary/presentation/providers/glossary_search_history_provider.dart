@@ -3,6 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
 import 'package:law_app/core/errors/failures.dart';
+import 'package:law_app/features/glossary/data/models/glossary_model.dart';
 import 'package:law_app/features/glossary/data/models/glossary_search_history_model.dart';
 import 'package:law_app/features/glossary/presentation/providers/repositories_provider/glossary_repository_provider.dart';
 
@@ -23,7 +24,13 @@ class GlossarySearchHistory extends _$GlossarySearchHistory {
 
       result.fold(
         (l) => state = AsyncValue.error(l.message, StackTrace.current),
-        (r) => histories = r,
+        (r) {
+          final historiesSort = r
+            ..sort((a, b) => a.createdAt!.compareTo(b.createdAt!) * -1);
+
+          histories = historiesSort;
+          state = AsyncValue.data(historiesSort);
+        },
       );
     } catch (e) {
       state = AsyncValue.error((e as Failure).message, StackTrace.current);
@@ -49,7 +56,7 @@ class GlossarySearchHistory extends _$GlossarySearchHistory {
     }
   }
 
-  Future<void> deleteGlossary({required int id}) async {
+  Future<void> deleteGlossarySearchHistory({required int id}) async {
     try {
       state = const AsyncValue.loading();
 
@@ -81,5 +88,17 @@ class GlossarySearchHistory extends _$GlossarySearchHistory {
     } catch (e) {
       state = AsyncValue.error((e as Failure).message, StackTrace.current);
     }
+  }
+
+  bool isGlossaryAlreadyExist(GlossaryModel glossaryModel) {
+    final histories = state.valueOrNull;
+
+    if (histories != null) {
+      final test = histories.where((e) => e.glosarium == glossaryModel);
+
+      return test.isNotEmpty;
+    }
+
+    return false;
   }
 }

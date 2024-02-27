@@ -44,5 +44,5 @@ class GlossaryModel extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object?> get props => [title, description];
+  List<Object?> get props => [id, title, description];
 }
