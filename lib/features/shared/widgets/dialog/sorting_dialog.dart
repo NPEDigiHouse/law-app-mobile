@@ -6,7 +6,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 // Project imports:
 import 'package:law_app/features/shared/widgets/dialog/custom_dialog.dart';
-import 'package:law_app/features/shared/widgets/text_field/custom_dropdown_field.dart';
+import 'package:law_app/features/shared/widgets/form_field/custom_dropdown_field.dart';
 
 class SortingDialog extends StatelessWidget {
   final List<String> items;

@@ -11,7 +11,7 @@ import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/profile/presentation/providers/change_password_provider.dart';
 import 'package:law_app/features/shared/widgets/dialog/custom_dialog.dart';
-import 'package:law_app/features/shared/widgets/text_field/password_text_field.dart';
+import 'package:law_app/features/shared/widgets/form_field/password_text_field.dart';
 
 class ChangePasswordDialog extends ConsumerStatefulWidget {
   const ChangePasswordDialog({super.key});

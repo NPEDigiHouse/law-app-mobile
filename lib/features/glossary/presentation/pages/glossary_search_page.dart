@@ -18,9 +18,11 @@ import 'package:law_app/features/glossary/presentation/providers/glossary_search
 import 'package:law_app/features/glossary/presentation/providers/search_glossary_provider.dart';
 import 'package:law_app/features/glossary/presentation/widgets/search_empty_text.dart';
 import 'package:law_app/features/shared/providers/search_provider.dart';
+import 'package:law_app/features/shared/widgets/form_field/search_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
-import 'package:law_app/features/shared/widgets/text_field/search_field.dart';
+
+final offsetProvider = StateProvider.autoDispose<int>((ref) => 10);
 
 class GlossarySearchPage extends ConsumerWidget {
   const GlossarySearchPage({super.key});
@@ -29,6 +31,7 @@ class GlossarySearchPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final query = ref.watch(queryProvider);
     final glossaries = ref.watch(searchGlossaryProvider);
+    final offset = ref.watch(offsetProvider);
 
     if (query.isNotEmpty) {
       ref.listen(searchGlossaryProvider, (_, state) {
@@ -84,14 +87,17 @@ class GlossarySearchPage extends ConsumerWidget {
       body: glossaries.whenOrNull(
         loading: () => const LoadingIndicator(),
         data: (data) {
-          if (query.isEmpty || data == null) {
+          if (data == null || query.isEmpty) {
             return const SearchEmptyText(
               title: 'Hasil Pencarian',
               subtitle: 'Hasil pencarian kamu akan muncul di sini.',
             );
           }
 
-          if (data.isEmpty) {
+          final glossaries = data.glossaries;
+          final hasMore = data.hasMore;
+
+          if (glossaries.isEmpty) {
             return const SearchEmptyText(
               title: 'Hasil Tidak Ditemukan',
               subtitle: 'Tidak ada istilah yang cocok untuk kata tersebut.',
@@ -101,10 +107,14 @@ class GlossarySearchPage extends ConsumerWidget {
           return ListView.builder(
             padding: const EdgeInsets.symmetric(vertical: 8),
             itemBuilder: (context, index) {
+              if (index >= glossaries.length) {
+                return buildFetchMoreButton(ref, query, offset);
+              }
+
               return ListTile(
                 contentPadding: const EdgeInsets.symmetric(horizontal: 20),
                 title: Text(
-                  '${data[index].title}',
+                  '${glossaries[index].title}',
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -116,15 +126,17 @@ class GlossarySearchPage extends ConsumerWidget {
                 onTap: () {
                   if (!ref
                       .read(glossarySearchHistoryProvider.notifier)
-                      .isGlossaryAlreadyExist(data[index])) {
+                      .isGlossaryAlreadyExist(glossaries[index])) {
                     ref
                         .read(glossarySearchHistoryProvider.notifier)
-                        .createGlossarySearchHistory(id: data[index].id ?? 0);
+                        .createGlossarySearchHistory(id: glossaries[index].id!);
                   }
 
                   navigatorKey.currentState!.pushNamed(
                     glossaryDetailRoute,
-                    arguments: GlossaryDetailPageArgs(id: data[index].id!),
+                    arguments: GlossaryDetailPageArgs(
+                      id: glossaries[index].id!,
+                    ),
                   );
                 },
                 visualDensity: const VisualDensity(
@@ -132,9 +144,24 @@ class GlossarySearchPage extends ConsumerWidget {
                 ),
               );
             },
-            itemCount: data.length,
+            itemCount: hasMore ? glossaries.length + 1 : glossaries.length,
           );
         },
+      ),
+    );
+  }
+
+  Padding buildFetchMoreButton(WidgetRef ref, String query, int offset) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: TextButton(
+        onPressed: () {
+          ref
+              .read(searchGlossaryProvider.notifier)
+              .fetchMoreGlossary(query: query, offset: offset);
+          ref.read(offsetProvider.notifier).state = offset + 10;
+        },
+        child: const Text('Lihat hasil lainnya'),
       ),
     );
   }
@@ -146,9 +173,12 @@ class GlossarySearchPage extends ConsumerWidget {
       EasyDebounce.debounce(
         'search-debouncer',
         const Duration(milliseconds: 800),
-        () => ref
-            .read(searchGlossaryProvider.notifier)
-            .searchGlossary(query: query),
+        () {
+          ref
+              .read(searchGlossaryProvider.notifier)
+              .searchGlossary(query: query);
+          ref.invalidate(offsetProvider);
+        },
       );
     } else {
       ref.invalidate(searchGlossaryProvider);

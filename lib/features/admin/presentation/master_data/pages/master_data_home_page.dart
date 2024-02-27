@@ -20,10 +20,10 @@ import 'package:law_app/features/admin/presentation/master_data/widgets/user_car
 import 'package:law_app/features/shared/providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
+import 'package:law_app/features/shared/widgets/form_field/search_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
-import 'package:law_app/features/shared/widgets/text_field/search_field.dart';
 
 class MasterDataHomePage extends ConsumerStatefulWidget {
   const MasterDataHomePage({super.key});
@@ -212,9 +212,7 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
             ),
             error: (_, __) => const SliverFillRemaining(),
             data: (data) {
-              if (data == null) {
-                return const SliverFillRemaining();
-              }
+              if (data == null) return const SliverFillRemaining();
 
               if (query.isNotEmpty && data.isEmpty) {
                 return const SliverFillRemaining(

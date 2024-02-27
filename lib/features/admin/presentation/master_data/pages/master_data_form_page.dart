@@ -19,8 +19,8 @@ import 'package:law_app/features/admin/presentation/master_data/providers/get_us
 import 'package:law_app/features/admin/presentation/master_data/providers/master_data_provider.dart';
 import 'package:law_app/features/shared/models/user_model.dart';
 import 'package:law_app/features/shared/models/user_post_model.dart';
+import 'package:law_app/features/shared/widgets/form_field/custom_text_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
-import 'package:law_app/features/shared/widgets/text_field/custom_text_field.dart';
 
 class MasterDataFormPage extends ConsumerStatefulWidget {
   final String title;

@@ -18,8 +18,8 @@ import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/auth/presentation/providers/reset_password_provider.dart';
 import 'package:law_app/features/auth/presentation/widgets/secondary_header.dart';
+import 'package:law_app/features/shared/widgets/form_field/password_text_field.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
-import 'package:law_app/features/shared/widgets/text_field/password_text_field.dart';
 
 class ResetPasswordPage extends ConsumerStatefulWidget {
   final String email;

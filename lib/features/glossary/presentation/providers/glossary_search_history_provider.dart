@@ -91,10 +91,10 @@ class GlossarySearchHistory extends _$GlossarySearchHistory {
   }
 
   bool isGlossaryAlreadyExist(GlossaryModel glossaryModel) {
-    final histories = state.valueOrNull;
+    final previousState = state.valueOrNull;
 
-    if (histories != null) {
-      final test = histories.where((e) => e.glosarium == glossaryModel);
+    if (previousState != null) {
+      final test = previousState.where((e) => e.glosarium == glossaryModel);
 
       return test.isNotEmpty;
     }

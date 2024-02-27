@@ -8,8 +8,8 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 // Project imports:
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/shared/widgets/dialog/custom_dialog.dart';
-import 'package:law_app/features/shared/widgets/text_field/custom_dropdown_field.dart';
-import 'package:law_app/features/shared/widgets/text_field/custom_text_field.dart';
+import 'package:law_app/features/shared/widgets/form_field/custom_dropdown_field.dart';
+import 'package:law_app/features/shared/widgets/form_field/custom_text_field.dart';
 
 class CreateQuestionDialog extends StatelessWidget {
   final List<String> categories;

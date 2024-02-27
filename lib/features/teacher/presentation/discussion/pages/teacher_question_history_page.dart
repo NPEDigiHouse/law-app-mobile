@@ -15,8 +15,8 @@ import 'package:law_app/features/shared/pages/question_list_page.dart';
 import 'package:law_app/features/shared/providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
+import 'package:law_app/features/shared/widgets/form_field/search_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
-import 'package:law_app/features/shared/widgets/text_field/search_field.dart';
 
 class TeacherQuestionHistoryPage extends ConsumerStatefulWidget {
   const TeacherQuestionHistoryPage({super.key});

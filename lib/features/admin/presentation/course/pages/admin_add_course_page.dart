@@ -14,9 +14,9 @@ import 'package:law_app/core/extensions/button_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/features/shared/widgets/form_field/custom_text_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
-import 'package:law_app/features/shared/widgets/text_field/custom_text_field.dart';
 
 class AdminAddCoursePage extends StatefulWidget {
   const AdminAddCoursePage({super.key});

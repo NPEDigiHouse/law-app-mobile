@@ -122,9 +122,7 @@ class AccountInfoPage extends ConsumerWidget {
       loading: () => const LoadingIndicator(withScaffold: true),
       error: (error, __) => const Scaffold(),
       data: (user) {
-        if (user == null) {
-          return const Scaffold();
-        }
+        if (user == null) return const Scaffold();
 
         final userValues = user.toMap().values.toList();
 

@@ -24,8 +24,8 @@ import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/auth/presentation/pages/otp_page.dart';
 import 'package:law_app/features/auth/presentation/providers/ask_reset_password_provider.dart';
 import 'package:law_app/features/auth/presentation/widgets/secondary_header.dart';
+import 'package:law_app/features/shared/widgets/form_field/custom_text_field.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
-import 'package:law_app/features/shared/widgets/text_field/custom_text_field.dart';
 
 class ForgotpasswordPage extends ConsumerStatefulWidget {
   const ForgotpasswordPage({super.key});

@@ -12,7 +12,7 @@ import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/profile/presentation/providers/edit_profile_provider.dart';
 import 'package:law_app/features/shared/models/user_model.dart';
 import 'package:law_app/features/shared/widgets/dialog/custom_dialog.dart';
-import 'package:law_app/features/shared/widgets/text_field/custom_text_field.dart';
+import 'package:law_app/features/shared/widgets/form_field/custom_text_field.dart';
 
 class EditProfileDialog extends StatefulWidget {
   final UserModel user;

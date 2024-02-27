@@ -7,8 +7,8 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 
 // Project imports:
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/features/shared/widgets/form_field/custom_text_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
-import 'package:law_app/features/shared/widgets/text_field/custom_text_field.dart';
 
 class AdminCourseAddArticlePage extends StatefulWidget {
   const AdminCourseAddArticlePage({super.key});
@@ -19,7 +19,6 @@ class AdminCourseAddArticlePage extends StatefulWidget {
 }
 
 class _AdminCourseAddArticlePageState extends State<AdminCourseAddArticlePage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,7 +85,6 @@ class _AdminCourseAddArticlePageState extends State<AdminCourseAddArticlePage> {
               const SizedBox(
                 height: 24,
               ),
-              
             ],
           ),
         ),

@@ -24,8 +24,8 @@ import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/auth/presentation/providers/sign_up_provider.dart';
 import 'package:law_app/features/auth/presentation/widgets/primary_header.dart';
 import 'package:law_app/features/shared/models/user_post_model.dart';
-import 'package:law_app/features/shared/widgets/text_field/custom_text_field.dart';
-import 'package:law_app/features/shared/widgets/text_field/password_text_field.dart';
+import 'package:law_app/features/shared/widgets/form_field/custom_text_field.dart';
+import 'package:law_app/features/shared/widgets/form_field/password_text_field.dart';
 
 class RegisterPage extends ConsumerStatefulWidget {
   const RegisterPage({super.key});

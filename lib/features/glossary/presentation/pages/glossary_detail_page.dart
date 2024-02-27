@@ -82,9 +82,7 @@ class GlossaryDetailPage extends ConsumerWidget {
       loading: () => const LoadingIndicator(withScaffold: true),
       error: (error, __) => const Scaffold(),
       data: (glossary) {
-        if (glossary == null) {
-          return const Scaffold();
-        }
+        if (glossary == null) return const Scaffold();
 
         return Scaffold(
           appBar: const PreferredSize(

@@ -10,9 +10,9 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/feature/course_card.dart';
+import 'package:law_app/features/shared/widgets/form_field/search_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
-import 'package:law_app/features/shared/widgets/text_field/search_field.dart';
 
 class AdminCourseHomePage extends StatelessWidget {
   const AdminCourseHomePage({super.key});
@@ -84,7 +84,8 @@ class AdminCourseHomePage extends StatelessWidget {
           gradient: const LinearGradient(colors: GradientColors.redPastel),
         ),
         child: IconButton(
-          onPressed: () => navigatorKey.currentState!.pushNamed(adminAddCourseRoute),
+          onPressed: () =>
+              navigatorKey.currentState!.pushNamed(adminAddCourseRoute),
           icon: SvgAsset(
             assetPath: AssetPath.getIcon('plus-line.svg'),
             color: secondaryColor,

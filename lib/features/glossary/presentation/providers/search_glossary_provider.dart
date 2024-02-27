@@ -11,7 +11,7 @@ part 'search_glossary_provider.g.dart';
 @riverpod
 class SearchGlossary extends _$SearchGlossary {
   @override
-  AsyncValue<List<GlossaryModel>?> build() {
+  AsyncValue<({List<GlossaryModel> glossaries, bool hasMore})?> build() {
     return const AsyncValue.data(null);
   }
 
@@ -21,11 +21,41 @@ class SearchGlossary extends _$SearchGlossary {
 
       final result = await ref
           .watch(glossaryRepositoryProvider)
-          .getGlossaries(query: query);
+          .getGlossaries(query: query, offset: 0, limit: 10);
 
       result.fold(
         (l) => state = AsyncValue.error(l.message, StackTrace.current),
-        (r) => state = AsyncValue.data(r),
+        (r) => state = AsyncValue.data((
+          glossaries: r,
+          hasMore: r.length == 10,
+        )),
+      );
+    } catch (e) {
+      state = AsyncValue.error((e as Failure).message, StackTrace.current);
+    }
+  }
+
+  Future<void> fetchMoreGlossary({
+    required int offset,
+    String query = '',
+  }) async {
+    try {
+      final result = await ref
+          .watch(glossaryRepositoryProvider)
+          .getGlossaries(query: query, offset: offset, limit: 10);
+
+      result.fold(
+        (l) => state = AsyncValue.error(l.message, StackTrace.current),
+        (r) {
+          final previousState = state.valueOrNull;
+
+          if (previousState != null) {
+            state = AsyncValue.data((
+              glossaries: [...previousState.glossaries, ...r],
+              hasMore: r.length == 10,
+            ));
+          }
+        },
       );
     } catch (e) {
       state = AsyncValue.error((e as Failure).message, StackTrace.current);

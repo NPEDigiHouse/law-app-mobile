@@ -21,8 +21,8 @@ import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/auth/presentation/providers/sign_in_provider.dart';
 import 'package:law_app/features/auth/presentation/widgets/primary_header.dart';
-import 'package:law_app/features/shared/widgets/text_field/custom_text_field.dart';
-import 'package:law_app/features/shared/widgets/text_field/password_text_field.dart';
+import 'package:law_app/features/shared/widgets/form_field/custom_text_field.dart';
+import 'package:law_app/features/shared/widgets/form_field/password_text_field.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   final Map<String, Object>? bannerData;
