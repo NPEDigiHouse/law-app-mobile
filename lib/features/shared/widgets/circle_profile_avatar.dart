@@ -32,20 +32,28 @@ class CircleProfileAvatar extends StatelessWidget {
             return buildProfileImage(imageProvider);
           },
           placeholder: (context, url) {
-            return SizedBox(
-              width: radius,
-              height: radius,
-              child: const CircularProgressIndicator(
-                color: accentColor,
-                strokeWidth: 3,
+            return CircleAvatar(
+              radius: radius,
+              backgroundColor: secondaryColor,
+              child: SizedBox(
+                width: radius - 4,
+                height: radius - 4,
+                child: const CircularProgressIndicator(
+                  color: accentColor,
+                  strokeWidth: 3,
+                ),
               ),
             );
           },
           errorWidget: (context, url, error) {
-            return Icon(
-              Icons.error_outline_outlined,
-              color: primaryColor,
-              size: radius,
+            return CircleAvatar(
+              radius: radius,
+              backgroundColor: secondaryColor,
+              child: Icon(
+                Icons.no_photography_outlined,
+                color: primaryColor,
+                size: radius - 4,
+              ),
             );
           },
         );

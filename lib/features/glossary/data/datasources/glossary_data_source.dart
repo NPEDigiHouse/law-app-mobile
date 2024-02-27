@@ -11,6 +11,7 @@ import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/data_response.dart';
 import 'package:law_app/features/glossary/data/models/glossary_model.dart';
+import 'package:law_app/features/glossary/data/models/glossary_search_history_model.dart';
 import 'package:law_app/features/shared/models/glossary_post_model.dart';
 
 abstract class GlossaryDataSource {
@@ -34,12 +35,10 @@ abstract class GlossaryDataSource {
   Future<void> deleteGlossary({required int id});
 
   /// Create glossaries search history
-  Future<void> createGlossarySearchHistory({
-    required GlossaryPostModel glossary,
-  });
+  Future<void> createGlossarySearchHistory({required int id});
 
   /// Get glossaries search history
-  Future<List<GlossaryModel>> getGlossariesSearchHistory();
+  Future<List<GlossarySearchHistoryModel>> getGlossariesSearchHistory();
 
   /// Delete single glossary search history
   Future<void> deleteGlossarySearchHistory({required int id});
@@ -77,9 +76,7 @@ class GlossaryDataSourceImpl implements GlossaryDataSource {
       if (result.code == 200) {
         final data = result.data as List;
 
-        final glossaries = data.map((e) => GlossaryModel.fromMap(e)).toList();
-
-        return glossaries;
+        return data.map((e) => GlossaryModel.fromMap(e)).toList();
       } else {
         throw ServerException('${result.message}');
       }
@@ -204,28 +201,111 @@ class GlossaryDataSourceImpl implements GlossaryDataSource {
   }
 
   @override
-  Future<void> createGlossarySearchHistory({
-    required GlossaryPostModel glossary,
-  }) async {
-    // TODO: implement createGlossarySearchHistory
-    throw UnimplementedError();
+  Future<void> createGlossarySearchHistory({required int id}) async {
+    try {
+      final response = await client.post(
+        Uri.parse('${ApiConfigs.baseUrl}/glosariums-search-histories'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+        body: jsonEncode({'glosariumId': id}),
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code != 200) {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      if (e is ServerException) {
+        rethrow;
+      } else {
+        throw http.ClientException(e.toString());
+      }
+    }
   }
 
   @override
-  Future<List<GlossaryModel>> getGlossariesSearchHistory() async {
-    // TODO: implement getGlossariesSearchHistory
-    throw UnimplementedError();
+  Future<List<GlossarySearchHistoryModel>> getGlossariesSearchHistory() async {
+    try {
+      final response = await client.get(
+        Uri.parse('${ApiConfigs.baseUrl}/glosariums-search-histories'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code == 200) {
+        final data = result.data as List;
+
+        return data.map((e) => GlossarySearchHistoryModel.fromMap(e)).toList();
+      } else {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      if (e is ServerException) {
+        rethrow;
+      } else {
+        throw http.ClientException(e.toString());
+      }
+    }
   }
 
   @override
   Future<void> deleteGlossarySearchHistory({required int id}) async {
-    // TODO: implement deleteGlossarySearchHistory
-    throw UnimplementedError();
+    try {
+      final response = await client.delete(
+        Uri.parse('${ApiConfigs.baseUrl}/glosariums-search-histories/$id'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code != 200) {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      if (e is ServerException) {
+        rethrow;
+      } else {
+        throw http.ClientException(e.toString());
+      }
+    }
   }
 
   @override
   Future<void> deleteAllGlossariesSearchHistory() async {
-    // TODO: implement deleteAllGlossariesSearchHistory
-    throw UnimplementedError();
+    try {
+      final response = await client.delete(
+        Uri.parse('${ApiConfigs.baseUrl}/glosariums-search-histories/all'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code != 200) {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      if (e is ServerException) {
+        rethrow;
+      } else {
+        throw http.ClientException(e.toString());
+      }
+    }
   }
 }

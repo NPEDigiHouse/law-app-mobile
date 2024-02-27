@@ -30,17 +30,7 @@ class GlossaryPostModel extends Equatable {
     };
   }
 
-  factory GlossaryPostModel.fromMap(Map<String, dynamic> map) {
-    return GlossaryPostModel(
-      title: map['title'] as String,
-      description: map['description'] as String,
-    );
-  }
-
   String toJson() => json.encode(toMap());
-
-  factory GlossaryPostModel.fromJson(String source) =>
-      GlossaryPostModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   bool get stringify => true;

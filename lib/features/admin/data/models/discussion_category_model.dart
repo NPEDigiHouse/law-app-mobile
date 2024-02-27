@@ -1,6 +1,3 @@
-// Dart imports:
-import 'dart:convert';
-
 // Package imports:
 import 'package:equatable/equatable.dart';
 
@@ -36,12 +33,6 @@ class DiscussionCategoryModel extends Equatable {
       name: map['name'] as String?,
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory DiscussionCategoryModel.fromJson(String source) =>
-      DiscussionCategoryModel.fromMap(
-          json.decode(source) as Map<String, dynamic>);
 
   @override
   bool get stringify => true;

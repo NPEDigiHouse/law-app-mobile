@@ -1,6 +1,3 @@
-// Dart imports:
-import 'dart:convert';
-
 // Package imports:
 import 'package:equatable/equatable.dart';
 
@@ -42,11 +39,6 @@ class GlossaryModel extends Equatable {
       description: map['description'] as String?,
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory GlossaryModel.fromJson(String source) =>
-      GlossaryModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   bool get stringify => true;

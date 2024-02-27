@@ -67,9 +67,7 @@ class MasterDataSourceImpl implements MasterDataSource {
       if (result.code == 200) {
         final data = result.data as List;
 
-        final users = data.map((e) => UserModel.fromMap(e)).toList();
-
-        return users;
+        return data.map((e) => UserModel.fromMap(e)).toList();
       } else {
         throw ServerException('${result.message}');
       }
