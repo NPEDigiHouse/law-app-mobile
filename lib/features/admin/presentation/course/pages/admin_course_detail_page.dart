@@ -1,5 +1,10 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+
+// Project imports:
 import 'package:law_app/core/extensions/button_extension.dart';
 import 'package:law_app/core/extensions/number_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';

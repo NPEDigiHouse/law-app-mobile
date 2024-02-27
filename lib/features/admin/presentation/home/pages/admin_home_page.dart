@@ -51,14 +51,16 @@ class AdminHomePage extends StatelessWidget {
       {
         "icon": "question-circle-fill.svg",
         "text": "Kelola Pertanyaan",
-        "onTap": () =>
-            navigatorKey.currentState!.pushNamed(adminDiscussionHomeRoute),
+        "onTap": () => navigatorKey.currentState!.pushNamed(
+              adminDiscussionHomeRoute,
+            ),
       },
       {
         "icon": "chalkboard-teacher-fill.svg",
         "text": "Kelola Course",
-        "onTap": () =>
-            navigatorKey.currentState!.pushNamed(adminCourseHomeRoute),
+        "onTap": () => navigatorKey.currentState!.pushNamed(
+              adminCourseHomeRoute,
+            ),
       },
       {
         "icon": "book-bold.svg",

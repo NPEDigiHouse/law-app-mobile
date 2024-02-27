@@ -8,9 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/widget_utils.dart';
-import 'package:law_app/features/admin/presentation/reference/widgets/edit_contact_us_dialog.dart';
-import 'package:law_app/features/profile/presentation/widgets/change_password_dialog.dart';
-import 'package:law_app/features/profile/presentation/widgets/edit_profile_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/confirm_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/custom_alert_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/custom_selector_dialog.dart';
@@ -103,7 +100,7 @@ extension DialogExtension on BuildContext {
     required String name,
     required String label,
     required String hintText,
-    String initialValue = "",
+    String? initialValue,
     int maxLines = 1,
     String? primaryButtonText,
     void Function(Map<String, dynamic> value)? onSubmitted,
@@ -173,14 +170,7 @@ extension DialogExtension on BuildContext {
       ),
     );
   }
-
-  Future<Object?> showEditContactUsDialog({required List<Map<String, dynamic>> items}) {
-    return showDialog(
-      context: this,
-      barrierDismissible: false,
-      builder: (_) => EditContactUsDialog(items: items),
-    );
-  }
+}
 
 extension BannerExtension on BuildContext {
   void showBanner({

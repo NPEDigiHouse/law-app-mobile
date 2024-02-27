@@ -1,8 +1,8 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:law_app/core/enums/question_type.dart';
 
 // Project imports:
+import 'package:law_app/core/enums/question_type.dart';
 import 'package:law_app/core/extensions/string_extension.dart';
 import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/routes/route_names.dart';
@@ -115,12 +115,14 @@ class DiscussionCard extends StatelessWidget {
           if (isDetail && withProfile) ...[
             Row(
               children: [
-                Text(
-                  question.category,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: textTheme.bodySmall!.copyWith(
-                    color: secondaryTextColor,
+                Flexible(
+                  child: Text(
+                    question.category,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: textTheme.bodySmall!.copyWith(
+                      color: secondaryTextColor,
+                    ),
                   ),
                 ),
                 if (question.type == QuestionType.specific.name)
@@ -130,7 +132,7 @@ class DiscussionCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: textTheme.labelSmall!.copyWith(
                       color: secondaryTextColor,
-                      fontWeight: FontWeight.w700
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
               ],

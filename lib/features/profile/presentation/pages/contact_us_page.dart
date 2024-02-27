@@ -1,11 +1,11 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:law_app/core/extensions/context_extension.dart';
 
 // Project imports:
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/features/admin/presentation/reference/widgets/edit_contact_us_dialog.dart';
 import 'package:law_app/features/shared/widgets/gradient_background_icon.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
@@ -55,8 +55,12 @@ class ContactUsPage extends StatelessWidget {
                     const LinearGradient(colors: GradientColors.redPastel),
               ),
               child: IconButton(
-                onPressed: () =>
-                    context.showEditContactUsDialog(items: contactUsItems),
+                onPressed: () => showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (_) =>
+                      const EditContactUsDialog(items: contactUsItems),
+                ),
                 icon: SvgAsset(
                   assetPath: AssetPath.getIcon('pencil-solid.svg'),
                   color: secondaryColor,

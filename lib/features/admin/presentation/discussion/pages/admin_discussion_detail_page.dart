@@ -1,4 +1,7 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Project imports:
 import 'package:law_app/core/enums/question_status.dart';
 import 'package:law_app/core/enums/question_type.dart';
 import 'package:law_app/core/extensions/button_extension.dart';
@@ -58,7 +61,7 @@ class AdminDiscussionDetailPage extends StatelessWidget {
             Row(
               children: [
                 CircleProfileAvatar(
-                  image: question.owner.profilePict,
+                  imageUrl: question.owner.profilePict,
                   radius: 20,
                 ),
                 const SizedBox(width: 8),
@@ -201,7 +204,8 @@ class AdminDiscussionDetailPage extends StatelessWidget {
                   message:
                       'Sebaiknya masalah terjawab ditekan oleh Penanya. Namun apabila Penanya sudah tidak merespon lagi, selalu pastikan bahwa penanya sudah puas dengan jawabannya.',
                   withCheckbox: true,
-                  checkboxLabel: 'Saya memastikan Penanya puas dengan jawaban yang diberikan.',
+                  checkboxLabel:
+                      'Saya memastikan Penanya puas dengan jawaban yang diberikan.',
                   onPressedPrimaryButton: () {},
                 ),
                 style: FilledButton.styleFrom(

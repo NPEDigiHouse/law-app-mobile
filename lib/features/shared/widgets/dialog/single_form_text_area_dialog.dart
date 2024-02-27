@@ -37,7 +37,6 @@ class SingleFormTextAreaDialog extends StatelessWidget {
     this.textAreaMaxLines = 4,
     this.primaryButtonText,
     this.onSubmitted,
-    this.textFieldInitialValue, this.textAreaInitialValue,
   });
 
   @override
@@ -58,7 +57,6 @@ class SingleFormTextAreaDialog extends StatelessWidget {
               name: textFieldName,
               label: textFieldLabel,
               hintText: textFieldHint,
-              initialValue: textFieldInitialValue,
               maxLines: 1,
               hasPrefixIcon: false,
               hasSuffixIcon: false,
@@ -77,7 +75,6 @@ class SingleFormTextAreaDialog extends StatelessWidget {
               label: textAreaLabel,
               hintText: textAreaHint,
               maxLines: textAreaMaxLines,
-              initialValue: textAreaInitialValue,
               hasPrefixIcon: false,
               hasSuffixIcon: false,
               textInputAction: TextInputAction.newline,

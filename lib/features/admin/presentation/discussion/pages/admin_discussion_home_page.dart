@@ -1,6 +1,11 @@
-import 'package:easy_debounce/easy_debounce.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// Project imports:
 import 'package:law_app/core/enums/question_type.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
@@ -202,9 +207,6 @@ class _AdminDiscussionHomePageState
                   hintText: 'Cari judul diskusi',
                   autoFocus: true,
                   onChanged: searchDiscussion,
-                  onTapSuffixIcon: () {
-                    ref.read(isSearchingProvider.notifier).state = false;
-                  },
                   onFocusChange: (isFocus) {
                     if (!isFocus && query.isEmpty) {
                       ref.read(isSearchingProvider.notifier).state = false;
