@@ -55,22 +55,10 @@ class UserPostModel extends Equatable {
     };
   }
 
-  factory UserPostModel.fromMap(Map<String, dynamic> map) {
-    return UserPostModel(
-      name: map['name'] as String,
-      username: map['username'] as String,
-      email: map['email'] as String,
-      password: map['password'] as String,
-      birthDate: map['birthDate'] as String,
-      phoneNumber: map['phoneNumber'] as String,
-      role: map['role'] as String,
-    );
-  }
-
   String toJson() => json.encode(toMap());
 
-  factory UserPostModel.fromJson(String source) =>
-      UserPostModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  @override
+  bool get stringify => true;
 
   @override
   List<Object> get props {
@@ -84,7 +72,4 @@ class UserPostModel extends Equatable {
       role,
     ];
   }
-
-  @override
-  bool get stringify => true;
 }

@@ -6,9 +6,9 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 // Project imports:
+import 'package:law_app/core/configs/api_configs.dart';
 import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/helpers/auth_preferences_helper.dart';
-import 'package:law_app/core/services/api_service.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/data_response.dart';
 import 'package:law_app/features/auth/data/models/user_credential_model.dart';
@@ -29,6 +29,16 @@ abstract class AuthDataSource {
 
   /// Log out
   Future<bool> logOut();
+
+  /// Ask reset password
+  Future<String> askResetPassword({required String email});
+
+  /// Reset password
+  Future<bool> resetPassword({
+    required String email,
+    required String resetPasswordToken,
+    required String newPassword,
+  });
 }
 
 class AuthDataSourceImpl implements AuthDataSource {
@@ -44,7 +54,7 @@ class AuthDataSourceImpl implements AuthDataSource {
   Future<bool> signUp({required UserPostModel userPostModel}) async {
     try {
       final response = await client.post(
-        Uri.parse('${ApiService.baseUrl}/auth/signup'),
+        Uri.parse('${ApiConfigs.baseUrl}/auth/signup'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
         },
@@ -74,7 +84,7 @@ class AuthDataSourceImpl implements AuthDataSource {
   }) async {
     try {
       final response = await client.post(
-        Uri.parse('${ApiService.baseUrl}/auth/login'),
+        Uri.parse('${ApiConfigs.baseUrl}/auth/login'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
         },
@@ -108,9 +118,10 @@ class AuthDataSourceImpl implements AuthDataSource {
   @override
   Future<bool> isSignIn() async {
     try {
-      String? token = await preferencesHelper.getAccessToken();
+      final token = await preferencesHelper.getAccessToken();
+      final userCredential = await preferencesHelper.getUserCredential();
 
-      return token != null;
+      return token != null && userCredential != null;
     } catch (e) {
       throw PreferenceException(e.toString());
     }
@@ -120,7 +131,7 @@ class AuthDataSourceImpl implements AuthDataSource {
   Future<UserCredentialModel> getUserCredential() async {
     try {
       final response = await client.get(
-        Uri.parse('${ApiService.baseUrl}/auth/credential'),
+        Uri.parse('${ApiConfigs.baseUrl}/auth/credential'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader:
@@ -131,9 +142,14 @@ class AuthDataSourceImpl implements AuthDataSource {
       final result = DataResponse.fromJson(jsonDecode(response.body));
 
       if (result.code == 200) {
-        final data = result.data as Map<String, dynamic>;
+        final userData = result.data as Map<String, dynamic>;
+        final userCredential = UserCredentialModel.fromMap(userData);
 
-        return UserCredentialModel.fromMap(data);
+        await preferencesHelper.setUserCredential(userCredential);
+
+        CredentialSaver.user = userCredential;
+
+        return userCredential;
       } else {
         throw ServerException('${result.message}');
       }
@@ -149,13 +165,77 @@ class AuthDataSourceImpl implements AuthDataSource {
   @override
   Future<bool> logOut() async {
     try {
-      final result = await preferencesHelper.removeAccessToken();
+      final result1 = await preferencesHelper.removeAccessToken();
+      final result2 = await preferencesHelper.removeUserCredential();
 
       CredentialSaver.accessToken = null;
+      CredentialSaver.user = null;
 
-      return result;
+      return result1 && result2;
     } catch (e) {
       throw PreferenceException(e.toString());
+    }
+  }
+
+  @override
+  Future<String> askResetPassword({required String email}) async {
+    try {
+      final response = await client.post(
+        Uri.parse('${ApiConfigs.baseUrl}/users/ask-reset-password'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+        },
+        body: jsonEncode({'email': email}),
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code == 200) {
+        return result.data['resetToken'] as String;
+      } else {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      if (e is ServerException) {
+        rethrow;
+      } else {
+        throw http.ClientException(e.toString());
+      }
+    }
+  }
+
+  @override
+  Future<bool> resetPassword({
+    required String email,
+    required String resetPasswordToken,
+    required String newPassword,
+  }) async {
+    try {
+      final response = await client.post(
+        Uri.parse('${ApiConfigs.baseUrl}/users/reset-password'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+        },
+        body: jsonEncode({
+          'email': email,
+          'resetPasswordToken': resetPasswordToken,
+          'newPassword': newPassword,
+        }),
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code == 200) {
+        return true;
+      } else {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      if (e is ServerException) {
+        rethrow;
+      } else {
+        throw http.ClientException(e.toString());
+      }
     }
   }
 }

@@ -13,20 +13,19 @@ import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
+import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/presentation/master_data/pages/master_data_form_page.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/get_user_detail_provider.dart';
-import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 
 class MasterDataUserDetailPage extends ConsumerWidget {
-  final int id;
-
-  const MasterDataUserDetailPage({super.key, required this.id});
+  const MasterDataUserDetailPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final id = CredentialSaver.user!.id!;
     final sections = [
       "Nama Lengkap",
       "Username",
@@ -35,51 +34,40 @@ class MasterDataUserDetailPage extends ConsumerWidget {
       "No. Hp",
     ];
 
-    var userDetail = ref.watch(GetUserDetailProvider(id: id));
+    var user = ref.watch(GetUserDetailProvider(id: id));
 
-    ref.listen(
-      GetUserDetailProvider(id: id),
-      (previous, next) {
-        if (previous != next) {
-          userDetail = next;
-        }
+    ref.listen(GetUserDetailProvider(id: id), (previous, next) {
+      if (previous != next) {
+        user = next;
+      }
 
-        next.when(
-          error: (error, _) {
-            if ('$error' == kNoInternetConnection) {
-              context.showNetworkErrorModalBottomSheet(
-                onPressedPrimaryButton: () {
-                  navigatorKey.currentState!.pop();
-                  ref.invalidate(GetUserDetailProvider(id: id));
-                },
-              );
-            } else {
-              context.showBanner(message: '$error', type: BannerType.error);
-            }
-          },
-          loading: () {},
-          data: (_) {},
-        );
-      },
-    );
+      next.when(
+        error: (error, _) {
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet(
+              onPressedPrimaryButton: () {
+                navigatorKey.currentState!.pop();
+                ref.invalidate(GetUserDetailProvider(id: id));
+              },
+            );
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+        loading: () {},
+        data: (_) {},
+      );
+    });
 
-    return userDetail.when(
+    return user.when(
       loading: () => const LoadingIndicator(withScaffold: true),
-      error: (error, __) => const CustomInformation(
-        illustrationName: 'error-lost-in-space-cuate.svg',
-        title: 'Oops! Terjadi kesalahan',
-        size: 250,
-      ),
-      data: (userDetail) {
-        if (userDetail == null) {
-          return const CustomInformation(
-            illustrationName: 'error-lost-in-space-cuate.svg',
-            title: 'Oops! Terjadi kesalahan',
-            size: 250,
-          );
+      error: (error, __) => const Scaffold(),
+      data: (user) {
+        if (user == null) {
+          return const Scaffold();
         }
 
-        final userValues = userDetail.toMap().values.toList();
+        final userValues = user.toMap().values.toList();
 
         return Scaffold(
           appBar: const PreferredSize(
@@ -176,7 +164,7 @@ class MasterDataUserDetailPage extends ConsumerWidget {
                                   ),
                                 ),
                                 Text(
-                                  '${userValues[index + 1]}',
+                                  '${userValues[index + 2]}',
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: textTheme.titleMedium!.copyWith(
@@ -199,9 +187,9 @@ class MasterDataUserDetailPage extends ConsumerWidget {
             child: FilledButton(
               onPressed: () => navigatorKey.currentState!.pushNamed(
                 masterDataFormRoute,
-                arguments: MasterDataFormArgs(
-                  title: 'Edit ${userDetail.role?.toCapitalize()}',
-                  user: userDetail,
+                arguments: MasterDataFormPageArgs(
+                  title: 'Edit ${user.role?.toCapitalize()}',
+                  user: user,
                 ),
               ),
               child: const Text("Ubah Data"),

@@ -58,35 +58,32 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(
-      signUpProvider,
-      (_, state) {
-        state.whenOrNull(
-          loading: () => context.showLoadingDialog(),
-          error: (error, _) {
-            navigatorKey.currentState!.pop();
+    ref.listen(signUpProvider, (_, state) {
+      state.whenOrNull(
+        loading: () => context.showLoadingDialog(),
+        error: (error, _) {
+          navigatorKey.currentState!.pop();
 
-            if ('$error' == kNoInternetConnection) {
-              context.showNetworkErrorModalBottomSheet();
-            } else {
-              context.showBanner(message: '$error', type: BannerType.error);
-            }
-          },
-          data: (data) {
-            if (data != null) {
-              navigatorKey.currentState!.pushNamedAndRemoveUntil(
-                loginRoute,
-                (route) => false,
-                arguments: {
-                  'message': 'Akun Anda berhasil dibuat.',
-                  'bannerType': BannerType.success,
-                },
-              );
-            }
-          },
-        );
-      },
-    );
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet();
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+        data: (data) {
+          if (data != null) {
+            navigatorKey.currentState!.pushNamedAndRemoveUntil(
+              loginRoute,
+              (route) => false,
+              arguments: {
+                'message': 'Akun Anda berhasil dibuat.',
+                'bannerType': BannerType.success,
+              },
+            );
+          }
+        },
+      );
+    });
 
     return PopScope(
       canPop: false,
@@ -195,7 +192,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
                               FormBuilderValidators.required(
                                 errorText: 'Bagian ini harus diisi',
                               ),
-                              FormBuilderValidators.maxLength(
+                              FormBuilderValidators.minLength(
                                 8,
                                 errorText: 'Password minimal 8 karakter',
                               ),

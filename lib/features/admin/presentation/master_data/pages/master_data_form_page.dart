@@ -13,11 +13,11 @@ import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/extensions/datetime_extension.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/admin/data/models/user_model.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/create_user_provider.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/edit_user_provider.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/get_user_detail_provider.dart';
-import 'package:law_app/features/admin/presentation/master_data/providers/get_users_provider.dart';
+import 'package:law_app/features/admin/presentation/master_data/providers/master_data_provider.dart';
+import 'package:law_app/features/shared/models/user_model.dart';
 import 'package:law_app/features/shared/models/user_post_model.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/text_field/custom_text_field.dart';
@@ -43,55 +43,49 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(
-      editUserProvider,
-      (_, state) {
-        state.when(
-          error: (error, _) {
-            if ('$error' == kNoInternetConnection) {
-              context.showNetworkErrorModalBottomSheet(
-                onPressedPrimaryButton: () {
-                  navigatorKey.currentState!.pop();
-                  ref.invalidate(editUserProvider);
-                },
-              );
-            } else {
-              context.showBanner(message: '$error', type: BannerType.error);
-            }
-          },
-          loading: () {},
-          data: (_) {
+    ref.listen(editUserProvider, (_, state) {
+      state.when(
+        error: (error, _) {
+          navigatorKey.currentState!.pop();
+
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet();
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+        loading: () => context.showLoadingDialog(),
+        data: (data) {
+          if (data != null) {
             ref.invalidate(GetUserDetailProvider(id: widget.user!.id!));
             navigatorKey.currentState!.pop();
-          },
-        );
-      },
-    );
-
-    ref.listen(
-      createUserProvider,
-      (_, state) {
-        state.when(
-          error: (error, _) {
-            if ('$error' == kNoInternetConnection) {
-              context.showNetworkErrorModalBottomSheet(
-                onPressedPrimaryButton: () {
-                  navigatorKey.currentState!.pop();
-                  ref.invalidate(createUserProvider);
-                },
-              );
-            } else {
-              context.showBanner(message: '$error', type: BannerType.error);
-            }
-          },
-          loading: () {},
-          data: (_) {
-            ref.invalidate(getUsersProvider);
             navigatorKey.currentState!.pop();
-          },
-        );
-      },
-    );
+          }
+        },
+      );
+    });
+
+    ref.listen(createUserProvider, (_, state) {
+      state.when(
+        error: (error, _) {
+          navigatorKey.currentState!.pop();
+
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet();
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+        loading: () => context.showLoadingDialog(),
+        data: (data) {
+          if (data != null) {
+            ref.invalidate(masterDataProvider);
+            navigatorKey.currentState!.pop();
+            navigatorKey.currentState!.pop();
+          }
+        },
+      );
+    });
 
     return Scaffold(
       appBar: PreferredSize(
@@ -226,11 +220,12 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> {
       final data = formKey.currentState!.value;
 
       ref.read(editUserProvider.notifier).editUser(
-            id: widget.user!.id!,
-            name: data['name'],
-            email: data['email'],
-            birthDate: date.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
-            phoneNumber: data['phoneNumber'],
+            user: widget.user!.copyWith(
+              name: data['name'],
+              email: data['email'],
+              birthDate: date,
+              phoneNumber: data['phoneNumber'],
+            ),
           );
     }
   }
@@ -243,7 +238,7 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> {
       final role = widget.title.split(' ').last.toLowerCase();
 
       ref.read(createUserProvider.notifier).createUser(
-            userPostModel: UserPostModel(
+            user: UserPostModel(
               name: data['name'],
               username: data['username'],
               email: data['email'],
@@ -277,11 +272,11 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> {
   }
 }
 
-class MasterDataFormArgs {
+class MasterDataFormPageArgs {
   final String title;
   final UserModel? user;
 
-  const MasterDataFormArgs({
+  const MasterDataFormPageArgs({
     required this.title,
     this.user,
   });

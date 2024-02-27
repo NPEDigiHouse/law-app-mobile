@@ -75,3 +75,4 @@ const adminDiscussionDetailRoute = '/admin-discussion-detail';
 const masterDataHomeRoute = '/master-data-home';
 const masterDataFormRoute = '/master-data-form';
 const masterDataUserDetailRoute = '/master-data-user-detail';
+const glossaryManagementRoute = '/glossary-management';

@@ -15,22 +15,12 @@ import 'package:law_app/features/shared/widgets/feature/home_page_header.dart';
 import 'package:law_app/features/student/presentation/course/pages/student_course_home_page.dart';
 import 'package:law_app/features/student/presentation/home/widgets/custom_carousel.dart';
 
-class StudentHomePage extends StatefulWidget {
+class StudentHomePage extends StatelessWidget {
   const StudentHomePage({super.key});
 
   @override
-  State<StudentHomePage> createState() => _StudentHomePageState();
-}
-
-class _StudentHomePageState extends State<StudentHomePage> {
-  late final List<Map<String, dynamic>> dashboardItems;
-  late final List<Map<String, String>> carouselItems;
-
-  @override
-  void initState() {
-    super.initState();
-
-    dashboardItems = [
+  Widget build(BuildContext context) {
+    final dashboardItems = [
       {
         "icon": "chalkboard-teacher-fill.svg",
         "count": 2,
@@ -48,7 +38,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
       },
     ];
 
-    carouselItems = [
+    final carouselItems = [
       {
         "img": "sample_carousel_image1.jpg",
         "text": "Promo Mingguan 1",
@@ -66,20 +56,15 @@ class _StudentHomePageState extends State<StudentHomePage> {
         "text": "Promo Mingguan 4",
       },
     ];
-  }
 
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SingleChildScrollView(
         child: Column(
           children: [
             HomePageHeader(
-              user: user,
               onPressedProfileIcon: () => navigatorKey.currentState!.pushNamed(
                 profileRoute,
-                arguments: user,
               ),
               child: Dashboard(
                 items: dashboardItems,
@@ -111,7 +96,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
                       GestureDetector(
                         onTap: () => navigatorKey.currentState!.pushNamed(
                           publicDiscussionRoute,
-                          arguments: 1,
+                          arguments: 'student',
                         ),
                         child: Text(
                           'Lihat Selengkapnya >',

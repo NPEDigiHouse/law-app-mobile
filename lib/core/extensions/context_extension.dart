@@ -126,14 +126,14 @@ extension DialogExtension on BuildContext {
 
   Future<Object?> showSingleFormTextAreaDialog({
     required String title,
+    String? textFieldInitialValue,
     required String textFieldName,
     required String textFieldLabel,
     required String textFieldHint,
-    String? textFieldInitialValue,
+    String? textAreaInitialValue,
     required String textAreaName,
     required String textAreaLabel,
     required String textAreaHint,
-    String? textAreaInitialValue,
     int textAreaMaxLines = 4,
     String? primaryButtonText,
     void Function(Map<String, dynamic> value)? onSubmitted,
@@ -143,14 +143,14 @@ extension DialogExtension on BuildContext {
       barrierDismissible: false,
       builder: (_) => SingleFormTextAreaDialog(
         title: title,
+        textFieldInitialValue: textFieldInitialValue,
         textFieldName: textFieldName,
         textFieldLabel: textFieldLabel,
         textFieldHint: textFieldHint,
-        textFieldInitialValue: textFieldInitialValue,
+        textAreaInitialValue: textAreaInitialValue,
         textAreaName: textAreaName,
         textAreaLabel: textAreaLabel,
         textAreaHint: textAreaHint,
-        textAreaInitialValue: textAreaInitialValue,
         textAreaMaxLines: textAreaMaxLines,
         primaryButtonText: primaryButtonText,
         onSubmitted: onSubmitted,
@@ -174,30 +174,13 @@ extension DialogExtension on BuildContext {
     );
   }
 
-  Future<Object?> showEditProfileDialog() {
-    return showDialog(
-      context: this,
-      barrierDismissible: false,
-      builder: (_) => const EditProfileDialog(),
-    );
-  }
-
-  Future<Object?> showChangePasswordDialog() {
-    return showDialog(
-      context: this,
-      barrierDismissible: false,
-      builder: (_) => const ChangePasswordDialog(),
-    );
-  }
-
   Future<Object?> showEditContactUsDialog({required List<Map<String, dynamic>> items}) {
     return showDialog(
       context: this,
       barrierDismissible: false,
-      builder: (_) => EditContactUsDialog(items: items,),
+      builder: (_) => EditContactUsDialog(items: items),
     );
   }
-}
 
 extension BannerExtension on BuildContext {
   void showBanner({

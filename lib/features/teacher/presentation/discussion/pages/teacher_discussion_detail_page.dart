@@ -11,6 +11,7 @@ import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_reply_card.dart';
@@ -45,7 +46,7 @@ class TeacherDiscussionDetailPage extends StatelessWidget {
             Row(
               children: [
                 CircleProfileAvatar(
-                  image: question.owner.profilePict,
+                  imageUrl: CredentialSaver.user!.profilePicture,
                   radius: 20,
                 ),
                 const SizedBox(width: 8),

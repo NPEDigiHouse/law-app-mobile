@@ -7,17 +7,13 @@ import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/dummies_data.dart';
-import 'package:law_app/features/auth/data/models/user_credential_model.dart';
 import 'package:law_app/features/shared/widgets/dashboard.dart';
 import 'package:law_app/features/shared/widgets/feature/home_page_header.dart';
 import 'package:law_app/features/shared/widgets/ink_well_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class AdminHomePage extends StatelessWidget {
-  final UserCredentialModel userCredential;
-
-  const AdminHomePage({super.key, required this.userCredential});
+  const AdminHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +68,9 @@ class AdminHomePage extends StatelessWidget {
       {
         "icon": "dictionary-book-solid.svg",
         "text": "Kelola Glosarium",
-        "onTap": () {},
+        "onTap": () => navigatorKey.currentState!.pushNamed(
+              glossaryManagementRoute,
+            ),
       },
       {
         "icon": "link-line.svg",
@@ -96,10 +94,8 @@ class AdminHomePage extends StatelessWidget {
         child: Column(
           children: [
             HomePageHeader(
-              user: admin,
               onPressedProfileIcon: () => navigatorKey.currentState!.pushNamed(
                 profileRoute,
-                arguments: admin,
               ),
               child: const Dashboard(
                 items: dashboardItems,

@@ -21,13 +21,13 @@ import 'package:law_app/features/admin/presentation/course/pages/admin_course_se
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_home_page.dart';
 import 'package:law_app/features/admin/presentation/discussion/pages/admin_discussion_detail_page.dart';
 import 'package:law_app/features/admin/presentation/discussion/pages/admin_discussion_home_page.dart';
+import 'package:law_app/features/admin/presentation/glossary/pages/glossary_management_page.dart';
 import 'package:law_app/features/admin/presentation/home/pages/admin_home_page.dart';
 import 'package:law_app/features/admin/presentation/reference/pages/admin_manage_question_category.dart';
 import 'package:law_app/features/admin/presentation/reference/pages/admin_reference_page.dart';
 import 'package:law_app/features/admin/presentation/master_data/pages/master_data_form_page.dart';
 import 'package:law_app/features/admin/presentation/master_data/pages/master_data_home_page.dart';
 import 'package:law_app/features/admin/presentation/master_data/pages/master_data_user_detail_page.dart';
-import 'package:law_app/features/auth/data/models/user_credential_model.dart';
 import 'package:law_app/features/auth/presentation/pages/forgot_password_page.dart';
 import 'package:law_app/features/auth/presentation/pages/login_page.dart';
 import 'package:law_app/features/auth/presentation/pages/otp_page.dart';
@@ -89,32 +89,34 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => const ForgotpasswordPage(),
       );
     case otpRoute:
-      final email = settings.arguments as String;
+      final args = settings.arguments as OtpPageArgs;
 
       return MaterialPageRoute(
-        builder: (_) => OtpPage(email: email),
+        builder: (_) => OtpPage(
+          email: args.email,
+          otp: args.otp,
+        ),
       );
     case resetPasswordRoute:
+      final args = settings.arguments as OtpPageArgs;
+
       return MaterialPageRoute(
-        builder: (_) => const ResetPasswordPage(),
+        builder: (_) => ResetPasswordPage(
+          email: args.email,
+          otp: args.otp,
+        ),
       );
     case mainMenuRoute:
-      final userCredential = settings.arguments as UserCredentialModel;
-
       return MaterialPageRoute(
-        builder: (_) => MainMenuPage(userCredential: userCredential),
+        builder: (_) => const MainMenuPage(),
       );
     case profileRoute:
-      final user = settings.arguments as User;
-
       return MaterialPageRoute(
-        builder: (_) => ProfilePage(user: user),
+        builder: (_) => const ProfilePage(),
       );
     case accountInfoRoute:
-      final user = settings.arguments as User;
-
       return MaterialPageRoute(
-        builder: (_) => AccountInfoPage(user: user),
+        builder: (_) => const AccountInfoPage(),
       );
     case faqRoute:
       final isAdmin = settings.arguments as bool;
@@ -151,10 +153,13 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         reverseTransitionDuration: Duration.zero,
       );
     case glossaryDetailRoute:
-      final glossary = settings.arguments as Glossary;
+      final args = settings.arguments as GlossaryDetailPageArgs;
 
       return MaterialPageRoute(
-        builder: (_) => GlossaryDetailPage(glossary: glossary),
+        builder: (_) => GlossaryDetailPage(
+          id: args.id,
+          isAdmin: args.isAdmin,
+        ),
       );
     case libraryBookListRoute:
       return MaterialPageRoute(
@@ -244,7 +249,7 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => StudentCourseQuizHomePage(quiz: quiz),
       );
     case studentCourseQuizRoute:
-      final args = settings.arguments as StudentCourseQuizArgs;
+      final args = settings.arguments as StudentCourseQuizPageArgs;
 
       return MaterialPageRoute(
         builder: (_) => StudentCourseQuizPage(
@@ -259,10 +264,8 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => StudentCourseRatePage(courseDetail: courseDetail),
       );
     case adminHomeRoute:
-      final userCredential = settings.arguments as UserCredentialModel;
-
       return MaterialPageRoute(
-        builder: (_) => AdminHomePage(userCredential: userCredential),
+        builder: (_) => const AdminHomePage(),
       );
     case adminReferenceRoute:
       return MaterialPageRoute(
@@ -358,7 +361,7 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => const MasterDataHomePage(),
       );
     case masterDataFormRoute:
-      final args = settings.arguments as MasterDataFormArgs;
+      final args = settings.arguments as MasterDataFormPageArgs;
 
       return MaterialPageRoute(
         builder: (_) => MasterDataFormPage(
@@ -367,10 +370,12 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         ),
       );
     case masterDataUserDetailRoute:
-      final id = settings.arguments as int;
-
       return MaterialPageRoute(
-        builder: (_) => MasterDataUserDetailPage(id: id),
+        builder: (_) => const MasterDataUserDetailPage(),
+      );
+    case glossaryManagementRoute:
+      return MaterialPageRoute(
+        builder: (_) => const GlossaryManagementPage(),
       );
     default:
       return null;

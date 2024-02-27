@@ -15,7 +15,7 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/presentation/master_data/pages/master_data_form_page.dart';
-import 'package:law_app/features/admin/presentation/master_data/providers/get_users_provider.dart';
+import 'package:law_app/features/admin/presentation/master_data/providers/master_data_provider.dart';
 import 'package:law_app/features/admin/presentation/master_data/widgets/user_card.dart';
 import 'package:law_app/features/shared/providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
@@ -61,29 +61,26 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
   @override
   Widget build(BuildContext context) {
     final query = ref.watch(queryProvider);
-    final users = ref.watch(getUsersProvider);
+    final users = ref.watch(masterDataProvider);
 
-    ref.listen(
-      getUsersProvider,
-      (_, state) {
-        state.when(
-          error: (error, _) {
-            if ('$error' == kNoInternetConnection) {
-              context.showNetworkErrorModalBottomSheet(
-                onPressedPrimaryButton: () {
-                  navigatorKey.currentState!.pop();
-                  ref.invalidate(getUsersProvider);
-                },
-              );
-            } else {
-              context.showBanner(message: '$error', type: BannerType.error);
-            }
-          },
-          loading: () {},
-          data: (_) {},
-        );
-      },
-    );
+    ref.listen(masterDataProvider, (_, state) {
+      state.when(
+        error: (error, _) {
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet(
+              onPressedPrimaryButton: () {
+                navigatorKey.currentState!.pop();
+                ref.invalidate(masterDataProvider);
+              },
+            );
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+        loading: () {},
+        data: (_) {},
+      );
+    });
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -210,29 +207,13 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
             ),
           ),
           users.when(
-            loading: () {
-              return const SliverFillRemaining(
-                child: LoadingIndicator(),
-              );
-            },
-            error: (error, __) {
-              return const SliverFillRemaining(
-                child: CustomInformation(
-                  illustrationName: 'error-lost-in-space-cuate.svg',
-                  title: 'Oops! Terjadi kesalahan',
-                  size: 250,
-                ),
-              );
-            },
+            loading: () => const SliverFillRemaining(
+              child: LoadingIndicator(),
+            ),
+            error: (_, __) => const SliverFillRemaining(),
             data: (data) {
               if (data == null) {
-                return const SliverFillRemaining(
-                  child: CustomInformation(
-                    illustrationName: 'error-lost-in-space-cuate.svg',
-                    title: 'Oops! Terjadi kesalahan',
-                    size: 250,
-                  ),
-                );
+                return const SliverFillRemaining();
               }
 
               if (query.isNotEmpty && data.isEmpty) {
@@ -288,7 +269,7 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
                 navigatorKey.currentState!.pop();
                 navigatorKey.currentState!.pushNamed(
                   masterDataFormRoute,
-                  arguments: const MasterDataFormArgs(
+                  arguments: const MasterDataFormPageArgs(
                     title: 'Tambah Student',
                   ),
                 );
@@ -300,7 +281,7 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
                 navigatorKey.currentState!.pop();
                 navigatorKey.currentState!.pushNamed(
                   masterDataFormRoute,
-                  arguments: const MasterDataFormArgs(
+                  arguments: const MasterDataFormPageArgs(
                     title: 'Tambah Teacher',
                   ),
                 );
@@ -312,7 +293,7 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
                 navigatorKey.currentState!.pop();
                 navigatorKey.currentState!.pushNamed(
                   masterDataFormRoute,
-                  arguments: const MasterDataFormArgs(
+                  arguments: const MasterDataFormPageArgs(
                     title: 'Tambah Admin',
                   ),
                 );
@@ -336,16 +317,16 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
       EasyDebounce.debounce(
         'search-debouncer',
         const Duration(milliseconds: 800),
-        () => ref.read(getUsersProvider.notifier).searchUsers(query: query),
+        () => ref.read(masterDataProvider.notifier).searchUsers(query: query),
       );
     } else {
-      ref.invalidate(getUsersProvider);
+      ref.invalidate(masterDataProvider);
     }
   }
 
   void sortUsers(Map<String, dynamic> value) {
     ref.read(queryProvider.notifier).state = '';
-    ref.read(getUsersProvider.notifier).sortUsers(
+    ref.read(masterDataProvider.notifier).sortUsers(
           sortBy: value['sortBy'],
           sortOrder: value['sortOrder'],
         );
@@ -357,7 +338,7 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
     selectedRole.value = role;
 
     ref.read(queryProvider.notifier).state = '';
-    ref.read(getUsersProvider.notifier).filterUsers(
+    ref.read(masterDataProvider.notifier).filterUsers(
           role: role == 'Semua' ? null : role.toLowerCase(),
         );
   }

@@ -11,14 +11,14 @@ import 'package:law_app/features/shared/widgets/text_field/custom_text_field.dar
 
 class SingleFormTextAreaDialog extends StatelessWidget {
   final String title;
+  final String? textFieldInitialValue;
   final String textFieldName;
   final String textFieldLabel;
   final String textFieldHint;
-  final String? textFieldInitialValue;
+  final String? textAreaInitialValue;
   final String textAreaName;
   final String textAreaLabel;
   final String textAreaHint;
-  final String? textAreaInitialValue;
   final int textAreaMaxLines;
   final String? primaryButtonText;
   final void Function(Map<String, dynamic> value)? onSubmitted;
@@ -26,9 +26,11 @@ class SingleFormTextAreaDialog extends StatelessWidget {
   const SingleFormTextAreaDialog({
     super.key,
     required this.title,
+    this.textFieldInitialValue,
     required this.textFieldName,
     required this.textFieldLabel,
     required this.textFieldHint,
+    this.textAreaInitialValue,
     required this.textAreaName,
     required this.textAreaLabel,
     required this.textAreaHint,
@@ -52,6 +54,7 @@ class SingleFormTextAreaDialog extends StatelessWidget {
           children: [
             CustomTextField(
               isSmall: true,
+              initialValue: textFieldInitialValue,
               name: textFieldName,
               label: textFieldLabel,
               hintText: textFieldHint,
@@ -69,6 +72,7 @@ class SingleFormTextAreaDialog extends StatelessWidget {
             const SizedBox(height: 10),
             CustomTextField(
               isSmall: true,
+              initialValue: textAreaInitialValue,
               name: textAreaName,
               label: textAreaLabel,
               hintText: textAreaHint,

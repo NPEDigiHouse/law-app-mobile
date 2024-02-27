@@ -13,9 +13,7 @@ import 'package:law_app/features/shared/models/user_post_model.dart';
 
 abstract class AuthRepository {
   /// Sign Up
-  Future<Either<Failure, bool>> signUp({
-    required UserPostModel userPostModel,
-  });
+  Future<Either<Failure, bool>> signUp({required UserPostModel userPostModel});
 
   /// Sign In
   Future<Either<Failure, bool>> signIn({
@@ -31,6 +29,16 @@ abstract class AuthRepository {
 
   /// Log out
   Future<Either<Failure, bool>> logOut();
+
+  /// Ask reset password
+  Future<Either<Failure, String>> askResetPassword({required String email});
+
+  /// Reset password
+  Future<Either<Failure, bool>> resetPassword({
+    required String email,
+    required String resetPasswordToken,
+    required String newPassword,
+  });
 }
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -43,9 +51,8 @@ class AuthRepositoryImpl implements AuthRepository {
   });
 
   @override
-  Future<Either<Failure, bool>> signUp({
-    required UserPostModel userPostModel,
-  }) async {
+  Future<Either<Failure, bool>> signUp(
+      {required UserPostModel userPostModel}) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await authDataSource.signUp(
@@ -56,9 +63,9 @@ class AuthRepositoryImpl implements AuthRepository {
       } on ServerException catch (e) {
         switch (e.message) {
           case kUsernameAlreadyExist:
-            return const Left(ServerFailure('Username telah terdaftar'));
+            return const Left(ServerFailure('Username telah digunakan'));
           case kEmailAlreadyExist:
-            return const Left(ServerFailure('Email telah terdaftar'));
+            return const Left(ServerFailure('Email telah digunakan'));
           default:
             return Left(ServerFailure(e.message));
         }
@@ -136,6 +143,54 @@ class AuthRepositoryImpl implements AuthRepository {
       return Right(result);
     } on PreferenceException catch (e) {
       return Left(PreferenceFailure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> askResetPassword(
+      {required String email}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await authDataSource.askResetPassword(email: email);
+
+        return Right(result);
+      } on ServerException catch (e) {
+        switch (e.message) {
+          case kUserNotFound:
+            return const Left(ServerFailure('Email tidak terdaftar'));
+          default:
+            return Left(ServerFailure(e.message));
+        }
+      } on ClientException catch (e) {
+        return Left(ClientFailure(e.message));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> resetPassword({
+    required String email,
+    required String resetPasswordToken,
+    required String newPassword,
+  }) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await authDataSource.resetPassword(
+          email: email,
+          resetPasswordToken: resetPasswordToken,
+          newPassword: newPassword,
+        );
+
+        return Right(result);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message));
+      } on ClientException catch (e) {
+        return Left(ClientFailure(e.message));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
     }
   }
 }

@@ -96,7 +96,7 @@ class StudentCourseQuizHomePage extends StatelessWidget {
                 if (value != null) {
                   final result = await navigatorKey.currentState!.pushNamed(
                     studentCourseQuizRoute,
-                    arguments: StudentCourseQuizArgs(
+                    arguments: StudentCourseQuizPageArgs(
                       duration: quiz.completionTime,
                       items: quiz.items,
                     ),

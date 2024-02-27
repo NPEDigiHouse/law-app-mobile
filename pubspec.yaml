@@ -30,6 +30,7 @@ environment:
 dependencies:
   after_layout: ^1.2.0
   app_settings: ^5.1.1
+  cached_network_image: ^3.3.1
   carousel_slider: ^4.2.1
   cupertino_icons: ^1.0.2
   dartz: ^0.10.1
@@ -47,6 +48,7 @@ dependencies:
   flutter_svg: ^2.0.9
   form_builder_validators: ^9.1.0
   http: ^1.2.0
+  image_cropper: ^5.0.1
   image_picker: ^1.0.7
   internet_connection_checker: ^1.0.0+1
   intl: any

@@ -20,22 +20,29 @@ import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/auth/presentation/providers/ask_reset_password_provider.dart';
 import 'package:law_app/features/auth/presentation/widgets/secondary_header.dart';
 import 'package:law_app/features/shared/providers/count_down_timer_provider.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
-class OtpPage extends StatefulWidget {
+class OtpPage extends ConsumerStatefulWidget {
   final String email;
+  final String otp;
 
-  const OtpPage({super.key, required this.email});
+  const OtpPage({
+    super.key,
+    required this.email,
+    required this.otp,
+  });
 
   @override
-  State<OtpPage> createState() => _OtpPageState();
+  ConsumerState<OtpPage> createState() => _OtpPageState();
 }
 
-class _OtpPageState extends State<OtpPage> with AfterLayoutMixin<OtpPage> {
+class _OtpPageState extends ConsumerState<OtpPage>
+    with AfterLayoutMixin<OtpPage> {
   late final ValueNotifier<bool> isFilled;
 
   final formKey = GlobalKey<FormBuilderState>();
@@ -57,6 +64,42 @@ class _OtpPageState extends State<OtpPage> with AfterLayoutMixin<OtpPage> {
   @override
   Widget build(BuildContext context) {
     final fieldSize = (AppSize.getAppWidth(context) / 4) - 40;
+
+    final timer = ref.watch(
+      CountDownTimerProvider(initialValue: 60),
+    );
+
+    final value = timer.when<int?>(
+      data: (value) => value,
+      error: (error, stackTrace) => null,
+      loading: () => null,
+    );
+
+    final isDone = value == 0;
+
+    ref.listen(askResetPasswordProvider, (_, state) {
+      state.whenOrNull(
+        error: (error, _) {
+          navigatorKey.currentState!.pop();
+
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet();
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+        data: (data) {
+          if (data != null) {
+            ref.invalidate(countDownTimerProvider);
+
+            context.showBanner(
+              message: 'Kode OTP telah terkirim ke email ${widget.email}',
+              type: BannerType.success,
+            );
+          }
+        },
+      );
+    });
 
     return PopScope(
       canPop: false,
@@ -153,43 +196,23 @@ class _OtpPageState extends State<OtpPage> with AfterLayoutMixin<OtpPage> {
                       },
                     ),
                     const SizedBox(height: 20),
-                    Consumer(
-                      builder: (context, ref, child) {
-                        final timer = ref.watch(
-                          CountDownTimerProvider(initialValue: 30),
-                        );
-
-                        final value = timer.when<int?>(
-                          data: (value) => value,
-                          error: (error, stackTrace) => null,
-                          loading: () => null,
-                        );
-
-                        final isDone = value == 0;
-
-                        return Center(
-                          child: TextButton.icon(
-                            onPressed: isDone ? () => resendOtp(ref) : null,
-                            label: Text(
-                              'Kirim Ulang OTP ${isDone ? "" : "($value)"}',
-                            ),
-                            icon: Padding(
-                              padding: const EdgeInsets.only(bottom: 5),
-                              child: Transform.rotate(
-                                angle: -45 * math.pi / 180,
-                                child: SvgAsset(
-                                  assetPath: AssetPath.getIcon(
-                                    'send-filled.svg',
-                                  ),
-                                  color: isDone
-                                      ? primaryColor
-                                      : secondaryTextColor,
-                                ),
-                              ),
+                    Center(
+                      child: TextButton.icon(
+                        onPressed: isDone ? resendOtp : null,
+                        label: Text(
+                          'Kirim Ulang OTP ${isDone ? "" : "($value)"}',
+                        ),
+                        icon: Padding(
+                          padding: const EdgeInsets.only(bottom: 5),
+                          child: Transform.rotate(
+                            angle: -45 * math.pi / 180,
+                            child: SvgAsset(
+                              assetPath: AssetPath.getIcon('send-filled.svg'),
+                              color: isDone ? primaryColor : secondaryTextColor,
                             ),
                           ),
-                        );
-                      },
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -260,26 +283,35 @@ class _OtpPageState extends State<OtpPage> with AfterLayoutMixin<OtpPage> {
   void verifyOtp() {
     final data = formKey.currentState!.value;
     final values = data.values.cast<String?>().toList();
-    final otp = int.parse(values.join(''));
+    final otp = values.join('');
 
-    if (otp != user.otp) {
+    if (otp != widget.otp) {
       context.showBanner(
         message: 'Kode OTP yang Anda masukkan tidak sesuai!',
         type: BannerType.error,
       );
     } else {
-      navigatorKey.currentState!.pushReplacementNamed(resetPasswordRoute);
+      navigatorKey.currentState!.pushReplacementNamed(
+        resetPasswordRoute,
+        arguments: OtpPageArgs(email: widget.email, otp: otp),
+      );
     }
   }
 
-  void resendOtp(WidgetRef ref) {
-    // Show loading - send data - close loading
-
-    ref.invalidate(countDownTimerProvider);
-
-    context.showBanner(
-      message: 'Kode OTP telah terkirim ke email ${widget.email}',
-      type: BannerType.success,
-    );
+  void resendOtp() {
+    ref.invalidate(askResetPasswordProvider);
+    ref
+        .read(askResetPasswordProvider.notifier)
+        .askResetPassword(email: widget.email);
   }
+}
+
+class OtpPageArgs {
+  final String email;
+  final String otp;
+
+  const OtpPageArgs({
+    required this.email,
+    required this.otp,
+  });
 }

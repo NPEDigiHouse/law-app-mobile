@@ -9,21 +9,19 @@ import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class HomePageHeader extends StatelessWidget {
-  final User user;
   final bool isProfile;
   final VoidCallback? onPressedProfileIcon;
   final Widget child;
 
   const HomePageHeader({
     super.key,
-    required this.user,
     this.isProfile = false,
     this.onPressedProfileIcon,
     required this.child,
@@ -39,7 +37,7 @@ class HomePageHeader extends StatelessWidget {
             height: AppSize.getAppHeight(context),
           ),
         Container(
-          height: !(user.role == 'admin') ? 224 : 248,
+          height: !(CredentialSaver.user!.role == 'admin') ? 224 : 248,
           width: double.infinity,
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.vertical(
@@ -64,11 +62,11 @@ class HomePageHeader extends StatelessWidget {
                 ),
               ),
               Positioned(
-                top: !(user.role == 'admin') ? 20 : 40,
+                top: !(CredentialSaver.user!.role == 'admin') ? 20 : 40,
                 left: 20,
                 right: 20,
                 child: SafeArea(
-                  child: !(user.role == 'admin')
+                  child: !(CredentialSaver.user!.role == 'admin')
                       ? Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -85,14 +83,14 @@ class HomePageHeader extends StatelessWidget {
                                   ),
                                   Text(
                                     FunctionHelper.getUserNickname(
-                                      user.name,
+                                      '${CredentialSaver.user!.name}',
                                     ),
                                     style: textTheme.headlineMedium!.copyWith(
                                       color: accentTextColor,
                                     ),
                                   ),
                                   Text(
-                                    user.role.toCapitalize(),
+                                    '${CredentialSaver.user!.role?.toCapitalize()}',
                                     style: textTheme.bodyMedium!.copyWith(
                                       color: accentTextColor,
                                     ),
@@ -117,7 +115,8 @@ class HomePageHeader extends StatelessWidget {
                                 GestureDetector(
                                   onTap: onPressedProfileIcon,
                                   child: CircleProfileAvatar(
-                                    image: user.profilePict,
+                                    imageUrl:
+                                        CredentialSaver.user!.profilePicture,
                                     radius: 20,
                                     borderColor: accentColor,
                                     borderSize: 1,
@@ -171,7 +170,8 @@ class HomePageHeader extends StatelessWidget {
                               GestureDetector(
                                 onTap: onPressedProfileIcon,
                                 child: CircleProfileAvatar(
-                                  image: user.profilePict,
+                                  imageUrl:
+                                      CredentialSaver.user!.profilePicture,
                                   radius: 20,
                                   borderColor: accentColor,
                                   borderSize: 1,
@@ -186,7 +186,7 @@ class HomePageHeader extends StatelessWidget {
           ),
         ),
         Positioned(
-          top: !(user.role == 'admin') ? 140 : 170,
+          top: !(CredentialSaver.user!.role == 'admin') ? 140 : 170,
           left: 20,
           right: 20,
           child: child,

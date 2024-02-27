@@ -8,7 +8,7 @@ import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/errors/failures.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/features/admin/data/datasources/master_data_source.dart';
-import 'package:law_app/features/admin/data/models/user_model.dart';
+import 'package:law_app/features/shared/models/user_model.dart';
 import 'package:law_app/features/shared/models/user_post_model.dart';
 
 abstract class MasterDataRepository {
@@ -24,18 +24,10 @@ abstract class MasterDataRepository {
   Future<Either<Failure, UserModel>> getUserDetail({required int id});
 
   /// Create user
-  Future<Either<Failure, void>> createUser({
-    required UserPostModel userPostModel,
-  });
+  Future<Either<Failure, void>> createUser({required UserPostModel user});
 
   /// Edit user
-  Future<Either<Failure, void>> editUser({
-    required int id,
-    String? name,
-    String? email,
-    String? birthDate,
-    String? phoneNumber,
-  });
+  Future<Either<Failure, void>> editUser({required UserModel user});
 
   /// Delete user
   Future<Either<Failure, void>> deleteUser({required int id});
@@ -95,22 +87,19 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
   }
 
   @override
-  Future<Either<Failure, void>> createUser({
-    required UserPostModel userPostModel,
-  }) async {
+  Future<Either<Failure, void>> createUser(
+      {required UserPostModel user}) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await masterDataSource.createUser(
-          userPostModel: userPostModel,
-        );
+        final result = await masterDataSource.createUser(user: user);
 
         return Right(result);
       } on ServerException catch (e) {
         switch (e.message) {
           case kUsernameAlreadyExist:
-            return const Left(ServerFailure('Username telah terdaftar'));
+            return const Left(ServerFailure('Username telah digunakan'));
           case kEmailAlreadyExist:
-            return const Left(ServerFailure('Email telah terdaftar'));
+            return const Left(ServerFailure('Email telah digunakan'));
           default:
             return Left(ServerFailure(e.message));
         }
@@ -123,28 +112,16 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
   }
 
   @override
-  Future<Either<Failure, void>> editUser({
-    required int id,
-    String? name,
-    String? email,
-    String? birthDate,
-    String? phoneNumber,
-  }) async {
+  Future<Either<Failure, void>> editUser({required UserModel user}) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await masterDataSource.editUser(
-          id: id,
-          name: name,
-          email: email,
-          birthDate: birthDate,
-          phoneNumber: phoneNumber,
-        );
+        final result = await masterDataSource.editUser(user: user);
 
         return Right(result);
       } on ServerException catch (e) {
         switch (e.message) {
           case kEmailAlreadyExist:
-            return const Left(ServerFailure('Email telah terdaftar'));
+            return const Left(ServerFailure('Email telah digunakan'));
           default:
             return Left(ServerFailure(e.message));
         }

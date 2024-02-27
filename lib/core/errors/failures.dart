@@ -26,3 +26,7 @@ class ClientFailure extends Failure {
 class PreferenceFailure extends Failure {
   const PreferenceFailure(super.message);
 }
+
+class FileSystemFailure extends Failure {
+  const FileSystemFailure(super.message);
+}
