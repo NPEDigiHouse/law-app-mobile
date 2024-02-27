@@ -73,7 +73,7 @@ class GlossaryHomePage extends ConsumerWidget {
                 canRequestFocus: false,
                 textInputAction: TextInputAction.none,
                 onTap: () => navigatorKey.currentState!.pushNamed(
-                  glossarySearchRoute,
+                  studentCourseSearchRoute,
                 ),
               ),
             ],

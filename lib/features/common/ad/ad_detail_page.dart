@@ -3,22 +3,30 @@ import 'package:flutter/material.dart';
 
 // Project imports:
 import 'package:law_app/core/helpers/asset_path.dart';
+import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 
 class AdDetailPage extends StatelessWidget {
-  const AdDetailPage({super.key});
+  final bool isAdmin;
+  const AdDetailPage({super.key, required this.isAdmin});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(96),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(96),
         child: HeaderContainer(
-          title: 'Notifikasi',
+          title: 'Ad Detail',
           withBackButton: true,
+          withTrailingButton: true,
+          trailingButtonIconName: "pencil-solid.svg",
+          trailingButtonTooltip: "edit",
+          onPressedTrailingButton: () =>
+              navigatorKey.currentState!.pushNamed(adminAddDetailAdRoute), // TODO: edit ad detail
         ),
       ),
       body: SingleChildScrollView(

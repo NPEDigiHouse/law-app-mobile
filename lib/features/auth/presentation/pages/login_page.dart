@@ -44,7 +44,6 @@ class _LoginPageState extends ConsumerState<LoginPage>
         loading: () => context.showLoadingDialog(),
         error: (error, _) {
           navigatorKey.currentState!.pop();
-
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet();
           } else {

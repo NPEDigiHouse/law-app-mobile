@@ -38,7 +38,7 @@ class NotificationPage extends StatelessWidget {
         "title": "Dapatkan Promo Menarik, Pertanyaan Khusus Unlimited!",
         "meta": "Klik untuk selengkapnya!",
         "onTap": () {
-          navigatorKey.currentState!.pushNamed(adDetailRoute);
+          navigatorKey.currentState!.pushNamed(adDetailRoute, arguments: false);
         },
       },
     ];

@@ -14,6 +14,7 @@ class SingleFormDialog extends StatelessWidget {
   final String name;
   final String label;
   final String hintText;
+  final String initialValue;
   final int maxLines;
   final String? primaryButtonText;
   final void Function(Map<String, dynamic> value)? onSubmitted;
@@ -24,6 +25,7 @@ class SingleFormDialog extends StatelessWidget {
     required this.name,
     required this.label,
     required this.hintText,
+    required this.initialValue,
     this.maxLines = 1,
     this.primaryButtonText,
     this.onSubmitted,
@@ -44,6 +46,7 @@ class SingleFormDialog extends StatelessWidget {
           name: name,
           label: label,
           hintText: hintText,
+          initialValue: initialValue,
           hasPrefixIcon: false,
           hasSuffixIcon: false,
           maxLines: maxLines,

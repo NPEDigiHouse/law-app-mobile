@@ -51,12 +51,14 @@ class AdminHomePage extends StatelessWidget {
       {
         "icon": "question-circle-fill.svg",
         "text": "Kelola Pertanyaan",
-        "onTap": () {},
+        "onTap": () =>
+            navigatorKey.currentState!.pushNamed(adminDiscussionHomeRoute),
       },
       {
         "icon": "chalkboard-teacher-fill.svg",
         "text": "Kelola Course",
-        "onTap": () {},
+        "onTap": () =>
+            navigatorKey.currentState!.pushNamed(adminCourseHomeRoute),
       },
       {
         "icon": "book-bold.svg",
@@ -73,12 +75,16 @@ class AdminHomePage extends StatelessWidget {
       {
         "icon": "link-line.svg",
         "text": "Referensi",
-        "onTap": () {},
+        "onTap": () => navigatorKey.currentState!.pushNamed(
+              adminReferenceRoute,
+            ),
       },
       {
         "icon": "ads-icon.svg",
         "text": "Kelola Ads",
-        "onTap": () {},
+        "onTap": () => navigatorKey.currentState!.pushNamed(
+              adminAdHomeRoute,
+            ),
       },
     ];
 
@@ -142,7 +148,9 @@ class AdminHomePage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const Spacer(),
+                        const SizedBox(
+                          height: 8,
+                        ),
                         Expanded(
                           child: Text(
                             menu[index]["text"]! as String,

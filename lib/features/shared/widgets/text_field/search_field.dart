@@ -13,6 +13,7 @@ class SearchField extends StatefulWidget {
   final bool canRequestFocus;
   final String? hintText;
   final VoidCallback? onTap;
+  final VoidCallback? onTapSuffixIcon;
   final ValueChanged<String>? onChanged;
   final ValueChanged<bool>? onFocusChange;
   final TextInputAction textInputAction;
@@ -25,6 +26,7 @@ class SearchField extends StatefulWidget {
     this.canRequestFocus = true,
     this.hintText,
     this.onTap,
+    this.onTapSuffixIcon,
     this.onChanged,
     this.onFocusChange,
     this.textInputAction = TextInputAction.search,
@@ -106,6 +108,8 @@ class _SearchFieldState extends State<SearchField> {
 
   void resetQuery() {
     controller.clear();
+
+    if (widget.onTapSuffixIcon != null) widget.onTapSuffixIcon!();
 
     if (widget.onChanged != null) {
       widget.onChanged!('');

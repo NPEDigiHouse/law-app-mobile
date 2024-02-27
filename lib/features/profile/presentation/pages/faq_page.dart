@@ -1,5 +1,6 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:law_app/core/extensions/context_extension.dart';
 
 // Project imports:
 import 'package:law_app/core/helpers/asset_path.dart';
@@ -9,7 +10,11 @@ import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class FAQPage extends StatelessWidget {
-  const FAQPage({super.key});
+  final bool isAdmin;
+  const FAQPage({
+    super.key,
+    required this.isAdmin,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -42,13 +47,41 @@ class FAQPage extends StatelessWidget {
     ];
 
     return Scaffold(
-      appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(96),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(96),
         child: HeaderContainer(
-          title: 'FAQ',
+          title: isAdmin ? 'Kelola FAQ' : 'FAQ',
           withBackButton: true,
         ),
       ),
+      floatingActionButton: isAdmin
+          ? Container(
+              width: 60,
+              height: 60,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                gradient:
+                    const LinearGradient(colors: GradientColors.redPastel),
+              ),
+              child: IconButton(
+                onPressed: () => context.showSingleFormTextAreaDialog(
+                  title: "Tambah FAQ",
+                  textFieldName: "question",
+                  textFieldLabel: "Pertanyaan",
+                  textFieldHint: "Masukkan pertanyaan",
+                  textAreaName: "description",
+                  textAreaLabel: "Deskripsi",
+                  textAreaHint: "Masukkan deskripsi / jawaban dari pertanyaan",
+                ),
+                icon: SvgAsset(
+                  assetPath: AssetPath.getIcon('plus-line.svg'),
+                  color: secondaryColor,
+                  width: 32,
+                ),
+                tooltip: 'Kembali',
+              ),
+            )
+          : null,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20),
@@ -72,7 +105,10 @@ class FAQPage extends StatelessWidget {
                       top: 4,
                       bottom: 4,
                     ),
-                    child: FAQContainer(faqItem: faqItems[index]),
+                    child: FAQContainer(
+                      faqItem: faqItems[index],
+                      isAdmin: isAdmin,
+                    ),
                   );
                 },
                 separatorBuilder: (context, index) => const Divider(
@@ -88,9 +124,10 @@ class FAQPage extends StatelessWidget {
 }
 
 class FAQContainer extends StatefulWidget {
+  final bool isAdmin;
   final Map<String, String> faqItem;
 
-  const FAQContainer({super.key, required this.faqItem});
+  const FAQContainer({super.key, required this.faqItem, required this.isAdmin});
 
   @override
   State<FAQContainer> createState() => _FAQContainerState();
@@ -145,9 +182,77 @@ class _FAQContainerState extends State<FAQContainer> {
                 ),
               ),
               if (value)
-                Padding(
-                  padding: const EdgeInsets.only(top: 8),
-                  child: Text(widget.faqItem["answer"]!),
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Text(widget.faqItem["answer"]!),
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    if (widget.isAdmin)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Container(
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: infoColor,
+                            ),
+                            child: IconButton(
+                              onPressed: () =>
+                                  context.showSingleFormTextAreaDialog(
+                                title: "Tambah FAQ",
+                                textFieldName: "question",
+                                textFieldLabel: "Pertanyaan",
+                                textFieldInitialValue:
+                                    widget.faqItem["question"],
+                                textFieldHint: "Masukkan pertanyaan",
+                                textAreaName: "description",
+                                textAreaLabel: "Deskripsi",
+                                textAreaHint:
+                                    "Masukkan deskripsi / jawaban dari pertanyaan",
+                                textAreaInitialValue: widget.faqItem["answer"],
+                              ),
+                              icon: SvgAsset(
+                                assetPath:
+                                    AssetPath.getIcon('pencil-solid.svg'),
+                                color: secondaryColor,
+                                width: 32,
+                              ),
+                              tooltip: 'Edit',
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 12,
+                          ),
+                          Container(
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: errorColor,
+                            ),
+                            child: IconButton(
+                              onPressed: () => context.showConfirmDialog(
+                                title: "Hapus FAQ",
+                                message:
+                                    "Apakah Anda yakin ingin menghapus FAQ ini?",
+                              ),
+                              icon: SvgAsset(
+                                assetPath: AssetPath.getIcon('trash-solid.svg'),
+                                color: secondaryColor,
+                                width: 32,
+                              ),
+                              tooltip: 'Hapus',
+                            ),
+                          ),
+                        ],
+                      )
+                  ],
                 ),
             ],
           ),
