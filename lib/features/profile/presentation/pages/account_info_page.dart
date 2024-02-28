@@ -20,7 +20,7 @@ import 'package:law_app/features/profile/presentation/providers/edit_profile_pro
 import 'package:law_app/features/profile/presentation/providers/get_profile_detail_provider.dart';
 import 'package:law_app/features/profile/presentation/widgets/change_password_dialog.dart';
 import 'package:law_app/features/profile/presentation/widgets/edit_profile_dialog.dart';
-import 'package:law_app/features/shared/models/user_model.dart';
+import 'package:law_app/features/shared/models/user_detail_model.dart';
 import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
@@ -298,7 +298,7 @@ class AccountInfoPage extends ConsumerWidget {
   Future<void> showActionsModalBottomSheet(
     BuildContext context,
     WidgetRef ref,
-    UserModel user,
+    UserDetailModel user,
   ) async {
     return showModalBottomSheet(
       context: context,
@@ -349,7 +349,7 @@ class AccountInfoPage extends ConsumerWidget {
 
   Future<void> getAndSetProfilePicture(
     WidgetRef ref,
-    UserModel user,
+    UserDetailModel user,
     ImageSource source,
   ) async {
     final imagePath = await ImageService.pickImage(source);

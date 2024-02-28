@@ -26,7 +26,7 @@ import 'package:law_app/features/admin/presentation/home/pages/admin_home_page.d
 import 'package:law_app/features/admin/presentation/master_data/pages/master_data_form_page.dart';
 import 'package:law_app/features/admin/presentation/master_data/pages/master_data_home_page.dart';
 import 'package:law_app/features/admin/presentation/master_data/pages/master_data_user_detail_page.dart';
-import 'package:law_app/features/admin/presentation/reference/pages/question_category_page.dart';
+import 'package:law_app/features/admin/presentation/reference/pages/discussion_category_page.dart';
 import 'package:law_app/features/admin/presentation/reference/pages/reference_page.dart';
 import 'package:law_app/features/auth/presentation/pages/forgot_password_page.dart';
 import 'package:law_app/features/auth/presentation/pages/login_page.dart';
@@ -268,9 +268,9 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => const ReferencePage(),
       );
-    case questionCategoryRoute:
+    case discussionCategoryRoute:
       return MaterialPageRoute(
-        builder: (_) => const QuestionCategoryPage(),
+        builder: (_) => const DiscussionCategoryPage(),
       );
     case adminAdHomeRoute:
       return MaterialPageRoute(
@@ -367,8 +367,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         ),
       );
     case masterDataUserDetailRoute:
+      final id = settings.arguments as int;
+
       return MaterialPageRoute(
-        builder: (_) => const MasterDataUserDetailPage(),
+        builder: (_) => MasterDataUserDetailPage(id: id),
       );
     case glossaryManagementRoute:
       return MaterialPageRoute(

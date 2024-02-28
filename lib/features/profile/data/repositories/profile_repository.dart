@@ -11,15 +11,15 @@ import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/errors/failures.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/features/profile/data/datasources/profile_data_source.dart';
-import 'package:law_app/features/shared/models/user_model.dart';
+import 'package:law_app/features/shared/models/user_detail_model.dart';
 
 abstract class ProfileRepository {
   /// Get profile detail
-  Future<Either<Failure, UserModel>> getProfileDetail({required int id});
+  Future<Either<Failure, UserDetailModel>> getProfileDetail({required int id});
 
   /// Edit profile
   Future<Either<Failure, void>> editProfile({
-    required UserModel user,
+    required UserDetailModel user,
     String? path,
   });
 
@@ -41,7 +41,8 @@ class ProfileRepositoryImpl implements ProfileRepository {
   });
 
   @override
-  Future<Either<Failure, UserModel>> getProfileDetail({required int id}) async {
+  Future<Either<Failure, UserDetailModel>> getProfileDetail(
+      {required int id}) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await profileDataSource.getProfileDetail(id: id);
@@ -59,7 +60,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
 
   @override
   Future<Either<Failure, void>> editProfile({
-    required UserModel user,
+    required UserDetailModel user,
     String? path,
   }) async {
     if (await networkInfo.isConnected) {

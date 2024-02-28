@@ -11,7 +11,8 @@ import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/extensions/datetime_extension.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/data_response.dart';
-import 'package:law_app/features/shared/models/user_model.dart';
+import 'package:law_app/features/admin/data/models/user_model.dart';
+import 'package:law_app/features/shared/models/user_detail_model.dart';
 import 'package:law_app/features/shared/models/user_post_model.dart';
 
 abstract class MasterDataSource {
@@ -24,13 +25,13 @@ abstract class MasterDataSource {
   });
 
   /// Get user detail
-  Future<UserModel> getUserDetail({required int id});
+  Future<UserDetailModel> getUserDetail({required int id});
 
   /// Create user
   Future<void> createUser({required UserPostModel user});
 
   /// Edit user
-  Future<void> editUser({required UserModel user});
+  Future<void> editUser({required UserDetailModel user});
 
   /// Delete user
   Future<void> deleteUser({required int id});
@@ -81,7 +82,7 @@ class MasterDataSourceImpl implements MasterDataSource {
   }
 
   @override
-  Future<UserModel> getUserDetail({required int id}) async {
+  Future<UserDetailModel> getUserDetail({required int id}) async {
     try {
       final response = await client.get(
         Uri.parse('${ApiConfigs.baseUrl}/users/$id'),
@@ -95,7 +96,7 @@ class MasterDataSourceImpl implements MasterDataSource {
       final result = DataResponse.fromJson(jsonDecode(response.body));
 
       if (result.code == 200) {
-        return UserModel.fromMap(result.data);
+        return UserDetailModel.fromMap(result.data);
       } else {
         throw ServerException('${result.message}');
       }
@@ -136,7 +137,7 @@ class MasterDataSourceImpl implements MasterDataSource {
   }
 
   @override
-  Future<void> editUser({required UserModel user}) async {
+  Future<void> editUser({required UserDetailModel user}) async {
     try {
       final response = await client.put(
         Uri.parse('${ApiConfigs.baseUrl}/users/${user.id}'),

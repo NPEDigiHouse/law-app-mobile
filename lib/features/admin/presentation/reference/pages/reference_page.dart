@@ -20,7 +20,7 @@ class ReferencePage extends StatelessWidget {
         "icon": "grid-view-solid.svg",
         "text": "Kelola Kategori Pertanyaan",
         "onTap": () {
-          navigatorKey.currentState!.pushNamed(questionCategoryRoute);
+          navigatorKey.currentState!.pushNamed(discussionCategoryRoute);
         },
       },
       {

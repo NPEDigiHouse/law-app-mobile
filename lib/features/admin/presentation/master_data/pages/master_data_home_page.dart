@@ -17,7 +17,9 @@ import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/presentation/master_data/pages/master_data_form_page.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/master_data_provider.dart';
 import 'package:law_app/features/admin/presentation/master_data/widgets/user_card.dart';
+import 'package:law_app/features/admin/presentation/reference/providers/discussion_category_provider.dart';
 import 'package:law_app/features/shared/providers/search_provider.dart';
+import 'package:law_app/features/shared/providers/selected_role_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/form_field/search_field.dart';
@@ -34,34 +36,11 @@ class MasterDataHomePage extends ConsumerStatefulWidget {
 
 class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
     with SingleTickerProviderStateMixin {
-  late final List<String> roles;
-  late final ValueNotifier<String> selectedRole;
-
-  @override
-  void initState() {
-    super.initState();
-
-    roles = [
-      'Semua',
-      'Student',
-      'Teacher',
-      'Admin',
-    ];
-
-    selectedRole = ValueNotifier(roles.first);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-
-    selectedRole.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    final query = ref.watch(queryProvider);
     final users = ref.watch(masterDataProvider);
+    final query = ref.watch(queryProvider);
+    final selectedRole = ref.watch(selectedRoleProvider);
 
     ref.listen(masterDataProvider, (_, state) {
       state.when(
@@ -188,15 +167,10 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                  return ValueListenableBuilder(
-                    valueListenable: selectedRole,
-                    builder: (context, role, child) {
-                      return CustomFilterChip(
-                        label: roles[index],
-                        selected: role == roles[index],
-                        onSelected: (_) => filterUsers(roles[index]),
-                      );
-                    },
+                  return CustomFilterChip(
+                    label: roles[index],
+                    selected: selectedRole == roles[index],
+                    onSelected: (_) => filterUsers(roles[index]),
                   );
                 },
                 separatorBuilder: (context, index) {
@@ -281,14 +255,29 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
               },
               {
                 'text': 'Pakar',
-                'onTap': () {
-                  navigatorKey.currentState!.pop();
-                  navigatorKey.currentState!.pushNamed(
-                    masterDataFormRoute,
-                    arguments: const MasterDataFormPageArgs(
-                      title: 'Tambah Teacher',
-                    ),
-                  );
+                'onTap': () async {
+                  if (await canCreateTeacher()) {
+                    navigatorKey.currentState!.pop();
+                    navigatorKey.currentState!.pushNamed(
+                      masterDataFormRoute,
+                      arguments: const MasterDataFormPageArgs(
+                        title: 'Tambah Teacher',
+                      ),
+                    );
+                  } else {
+                    navigatorKey.currentState!.pop();
+
+                    if (context.mounted) {
+                      context.showCustomAlertDialog(
+                        title: 'Tidak Dapat Memilih Kepakaran!',
+                        message:
+                            'Daftar kategori pada referensi belum ada. Pastikan kamu menambahkan kategori terlebih dahulu, agar dapat menambahkan teacher.',
+                        onPressedPrimaryButton: () {
+                          navigatorKey.currentState!.pop();
+                        },
+                      );
+                    }
+                  }
                 },
               },
               {
@@ -341,11 +330,20 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
   }
 
   void filterUsers(String role) {
-    selectedRole.value = role;
-
+    ref.read(selectedRoleProvider.notifier).state = role;
     ref.read(queryProvider.notifier).state = '';
     ref.read(masterDataProvider.notifier).filterUsers(
           role: role == 'Semua' ? null : role.toLowerCase(),
         );
+  }
+
+  Future<bool> canCreateTeacher() async {
+    final categories = await ref.watch(discussionCategoryProvider.future);
+
+    if (categories != null) {
+      return categories.isNotEmpty;
+    }
+
+    return false;
   }
 }

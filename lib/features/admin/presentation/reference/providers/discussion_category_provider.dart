@@ -1,15 +1,15 @@
 // Package imports:
-import 'package:law_app/features/admin/data/models/discussion_category_model.dart';
-import 'package:law_app/features/admin/presentation/reference/providers/repositories_provider/reference_repository_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
 import 'package:law_app/core/errors/failures.dart';
+import 'package:law_app/features/admin/data/models/discussion_category_model.dart';
+import 'package:law_app/features/admin/presentation/reference/providers/repositories_provider/reference_repository_provider.dart';
 
-part 'reference_provider.g.dart';
+part 'discussion_category_provider.g.dart';
 
 @riverpod
-class Reference extends _$Reference {
+class DiscussionCategory extends _$DiscussionCategory {
   @override
   Future<List<DiscussionCategoryModel>?> build() async {
     List<DiscussionCategoryModel>? categories;

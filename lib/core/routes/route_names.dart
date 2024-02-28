@@ -77,4 +77,4 @@ const masterDataUserDetailRoute = '/master-data-user-detail';
 const glossaryManagementRoute = '/glossary-management';
 
 const referenceRoute = '/reference';
-const questionCategoryRoute = '/question-category';
+const discussionCategoryRoute = '/discussion-category';

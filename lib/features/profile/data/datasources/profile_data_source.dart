@@ -11,15 +11,15 @@ import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/extensions/datetime_extension.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/data_response.dart';
-import 'package:law_app/features/shared/models/user_model.dart';
+import 'package:law_app/features/shared/models/user_detail_model.dart';
 
 abstract class ProfileDataSource {
   /// Get profile detail
-  Future<UserModel> getProfileDetail({required int id});
+  Future<UserDetailModel> getProfileDetail({required int id});
 
   /// Edit profile
   Future<void> editProfile({
-    required UserModel user,
+    required UserDetailModel user,
     String? path,
   });
 
@@ -37,7 +37,7 @@ class ProfileDataSourceImpl implements ProfileDataSource {
   ProfileDataSourceImpl({required this.client});
 
   @override
-  Future<UserModel> getProfileDetail({required int id}) async {
+  Future<UserDetailModel> getProfileDetail({required int id}) async {
     try {
       final response = await client.get(
         Uri.parse('${ApiConfigs.baseUrl}/users/$id'),
@@ -51,7 +51,7 @@ class ProfileDataSourceImpl implements ProfileDataSource {
       final result = DataResponse.fromJson(jsonDecode(response.body));
 
       if (result.code == 200) {
-        return UserModel.fromMap(result.data);
+        return UserDetailModel.fromMap(result.data);
       } else {
         throw ServerException('${result.message}');
       }
@@ -66,7 +66,7 @@ class ProfileDataSourceImpl implements ProfileDataSource {
 
   @override
   Future<void> editProfile({
-    required UserModel user,
+    required UserDetailModel user,
     String? path,
   }) async {
     try {

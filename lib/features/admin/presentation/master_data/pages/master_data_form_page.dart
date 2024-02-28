@@ -17,14 +17,14 @@ import 'package:law_app/features/admin/presentation/master_data/providers/create
 import 'package:law_app/features/admin/presentation/master_data/providers/edit_user_provider.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/get_user_detail_provider.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/master_data_provider.dart';
-import 'package:law_app/features/shared/models/user_model.dart';
+import 'package:law_app/features/shared/models/user_detail_model.dart';
 import 'package:law_app/features/shared/models/user_post_model.dart';
 import 'package:law_app/features/shared/widgets/form_field/custom_text_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 
 class MasterDataFormPage extends ConsumerStatefulWidget {
   final String title;
-  final UserModel? user;
+  final UserDetailModel? user;
 
   const MasterDataFormPage({
     super.key,
@@ -274,7 +274,7 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> {
 
 class MasterDataFormPageArgs {
   final String title;
-  final UserModel? user;
+  final UserDetailModel? user;
 
   const MasterDataFormPageArgs({
     required this.title,

@@ -4,7 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 // Project imports:
 import 'package:law_app/core/errors/failures.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/repositories_provider/master_data_repository_provider.dart';
-import 'package:law_app/features/shared/models/user_model.dart';
+import 'package:law_app/features/shared/models/user_detail_model.dart';
 
 part 'edit_user_provider.g.dart';
 
@@ -15,7 +15,7 @@ class EditUser extends _$EditUser {
     return const AsyncValue.data(null);
   }
 
-  Future<void> editUser({required UserModel user}) async {
+  Future<void> editUser({required UserDetailModel user}) async {
     try {
       state = const AsyncValue.loading();
 
