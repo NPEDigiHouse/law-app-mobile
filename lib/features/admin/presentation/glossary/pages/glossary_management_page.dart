@@ -90,21 +90,9 @@ class GlossaryManagementPage extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    Container(
+                    const SizedBox(
                       width: 40,
                       height: 40,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: secondaryColor,
-                      ),
-                      child: IconButton(
-                        onPressed: () => ref.invalidate(glossariesProvider),
-                        icon: const Icon(
-                          Icons.refresh_rounded,
-                          color: primaryColor,
-                        ),
-                        tooltip: 'Muat Ulang',
-                      ),
                     ),
                   ],
                 ),

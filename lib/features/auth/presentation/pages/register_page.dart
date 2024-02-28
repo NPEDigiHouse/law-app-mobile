@@ -352,6 +352,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
         birthDate: date.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
         phoneNumber: data['phoneNumber'],
         role: 'student',
+        teacherDiscussionCategoryIds: const [],
       );
 
       ref.read(signUpProvider.notifier).signUp(userPostModel: userPostModel);

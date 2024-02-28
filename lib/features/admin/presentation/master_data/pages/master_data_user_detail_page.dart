@@ -8,14 +8,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/button_extension.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
+import 'package:law_app/core/extensions/datetime_extension.dart';
 import 'package:law_app/core/extensions/string_extension.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/features/admin/data/models/discussion_category_model.dart';
 import 'package:law_app/features/admin/presentation/master_data/pages/master_data_form_page.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/get_user_detail_provider.dart';
+import 'package:law_app/features/admin/presentation/reference/providers/discussion_category_provider.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 
@@ -26,14 +29,6 @@ class MasterDataUserDetailPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final sections = [
-      "Nama Lengkap",
-      "Username",
-      "Email",
-      "Tanggal Lahir",
-      "No. Hp",
-    ];
-
     var user = ref.watch(GetUserDetailProvider(id: id));
 
     ref.listen(GetUserDetailProvider(id: id), (previous, next) {
@@ -65,7 +60,18 @@ class MasterDataUserDetailPage extends ConsumerWidget {
       data: (user) {
         if (user == null) return const Scaffold();
 
-        final userValues = user.toMap().values.toList();
+        final userData = {
+          "Nama Lengkap": user.name,
+          "Username": user.username,
+          "Email": user.email,
+          "Tanggal Lahir": user.birthDate?.toStringPattern('dd MMMM yyyy'),
+          "No. Hp": user.phoneNumber,
+        };
+
+        if (user.role == 'teacher') {
+          userData["Kepakaran"] =
+              '${user.expertises?.map((e) => e.name).toList().join(', ')}';
+        }
 
         return Scaffold(
           appBar: const PreferredSize(
@@ -94,7 +100,7 @@ class MasterDataUserDetailPage extends ConsumerWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     padding: EdgeInsets.zero,
                     shrinkWrap: true,
-                    itemCount: sections.length,
+                    itemCount: userData.length,
                     itemBuilder: (context, index) {
                       return Row(
                         children: [
@@ -125,7 +131,7 @@ class MasterDataUserDetailPage extends ConsumerWidget {
                                             width: 2,
                                             decoration: BoxDecoration(
                                               color:
-                                                  index != sections.length - 1
+                                                  index != userData.length - 1
                                                       ? secondaryTextColor
                                                       : Colors.transparent,
                                             ),
@@ -156,13 +162,13 @@ class MasterDataUserDetailPage extends ConsumerWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  sections[index],
+                                  userData.keys.toList()[index],
                                   style: textTheme.bodySmall!.copyWith(
                                     color: primaryColor,
                                   ),
                                 ),
                                 Text(
-                                  '${userValues[index + 2]}',
+                                  '${userData.values.toList()[index]}',
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: textTheme.titleMedium!.copyWith(
@@ -176,25 +182,46 @@ class MasterDataUserDetailPage extends ConsumerWidget {
                       );
                     },
                   ),
+                  const SizedBox(height: 16),
+                  FilledButton(
+                    onPressed: () async {
+                      if (user.role == 'teacher') {
+                        final categories = await getDiscussionCategories(ref);
+
+                        navigatorKey.currentState!.pushNamed(
+                          masterDataFormRoute,
+                          arguments: MasterDataFormPageArgs(
+                            title: 'Edit ${user.role?.toCapitalize()}',
+                            user: user,
+                            discussionCategories: categories,
+                          ),
+                        );
+                      } else {
+                        navigatorKey.currentState!.pushNamed(
+                          masterDataFormRoute,
+                          arguments: MasterDataFormPageArgs(
+                            title: 'Edit ${user.role?.toCapitalize()}',
+                            user: user,
+                          ),
+                        );
+                      }
+                    },
+                    child: const Text("Ubah Data"),
+                  ).fullWidth()
                 ],
               ),
             ),
           ),
-          bottomNavigationBar: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
-            child: FilledButton(
-              onPressed: () => navigatorKey.currentState!.pushNamed(
-                masterDataFormRoute,
-                arguments: MasterDataFormPageArgs(
-                  title: 'Edit ${user.role?.toCapitalize()}',
-                  user: user,
-                ),
-              ),
-              child: const Text("Ubah Data"),
-            ).fullWidth(),
-          ),
         );
       },
     );
+  }
+
+  Future<List<DiscussionCategoryModel>> getDiscussionCategories(
+    WidgetRef ref,
+  ) async {
+    final categories = await ref.watch(discussionCategoryProvider.future);
+
+    return categories ?? [];
   }
 }

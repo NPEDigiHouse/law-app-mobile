@@ -59,10 +59,10 @@ class UserDetailModel extends Equatable {
       'name': name,
       'username': username,
       'email': email,
-      'birthDate': birthDate?.toStringPattern("dd MMMM yyyy"),
+      'birthDate': birthDate?.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
       'phoneNumber': phoneNumber,
       'profilePicture': profilePicture,
-      'expertises': expertises?.map((e) => e.toMap()).toList(),
+      'teacherDiscussionCategories': expertises?.map((e) => e.toMap()).toList(),
     };
   }
 

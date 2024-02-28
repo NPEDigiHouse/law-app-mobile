@@ -14,6 +14,7 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/features/admin/data/models/discussion_category_model.dart';
 import 'package:law_app/features/admin/presentation/master_data/pages/master_data_form_page.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/master_data_provider.dart';
 import 'package:law_app/features/admin/presentation/master_data/widgets/user_card.dart';
@@ -256,12 +257,15 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
               {
                 'text': 'Pakar',
                 'onTap': () async {
-                  if (await canCreateTeacher()) {
+                  final categories = await getDiscussionCategories();
+
+                  if (categories.isNotEmpty) {
                     navigatorKey.currentState!.pop();
                     navigatorKey.currentState!.pushNamed(
                       masterDataFormRoute,
-                      arguments: const MasterDataFormPageArgs(
+                      arguments: MasterDataFormPageArgs(
                         title: 'Tambah Teacher',
+                        discussionCategories: categories,
                       ),
                     );
                   } else {
@@ -271,7 +275,7 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
                       context.showCustomAlertDialog(
                         title: 'Tidak Dapat Memilih Kepakaran!',
                         message:
-                            'Daftar kategori pada referensi belum ada. Pastikan kamu menambahkan kategori terlebih dahulu, agar dapat menambahkan teacher.',
+                            'Daftar kategori pada referensi belum ada. Pastikan kamu menambahkan kategori terlebih dahulu, agar dapat menambahkan pakar.',
                         onPressedPrimaryButton: () {
                           navigatorKey.currentState!.pop();
                         },
@@ -337,13 +341,9 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
         );
   }
 
-  Future<bool> canCreateTeacher() async {
+  Future<List<DiscussionCategoryModel>> getDiscussionCategories() async {
     final categories = await ref.watch(discussionCategoryProvider.future);
 
-    if (categories != null) {
-      return categories.isNotEmpty;
-    }
-
-    return false;
+    return categories ?? [];
   }
 }

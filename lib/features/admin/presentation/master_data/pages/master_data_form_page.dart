@@ -11,8 +11,11 @@ import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/button_extension.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/extensions/datetime_extension.dart';
+import 'package:law_app/core/styles/color_scheme.dart';
+import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/features/admin/data/models/discussion_category_model.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/create_user_provider.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/edit_user_provider.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/get_user_detail_provider.dart';
@@ -25,11 +28,13 @@ import 'package:law_app/features/shared/widgets/header_container.dart';
 class MasterDataFormPage extends ConsumerStatefulWidget {
   final String title;
   final UserDetailModel? user;
+  final List<DiscussionCategoryModel>? discussionCategories;
 
   const MasterDataFormPage({
     super.key,
     required this.title,
     this.user,
+    this.discussionCategories,
   });
 
   @override
@@ -37,12 +42,28 @@ class MasterDataFormPage extends ConsumerStatefulWidget {
 }
 
 class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> {
-  final formKey = GlobalKey<FormBuilderState>();
+  late GlobalKey<FormBuilderState> formKey;
+  late DateTime date;
+  late List<DiscussionCategoryModel> selectedExpertises;
 
-  DateTime date = DateTime.now();
+  @override
+  void initState() {
+    super.initState();
+
+    formKey = GlobalKey<FormBuilderState>();
+    date = DateTime.now();
+
+    if (widget.user != null) {
+      selectedExpertises = widget.user!.expertises!;
+    } else {
+      selectedExpertises = [];
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final isTeacher = widget.title.split(' ').last.toLowerCase() == 'teacher';
+
     ref.listen(editUserProvider, (_, state) {
       state.when(
         error: (error, _) {
@@ -56,11 +77,11 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> {
         },
         loading: () => context.showLoadingDialog(),
         data: (data) {
-          if (data != null) {
-            ref.invalidate(GetUserDetailProvider(id: widget.user!.id!));
-            navigatorKey.currentState!.pop();
-            navigatorKey.currentState!.pop();
-          }
+          ref.invalidate(GetUserDetailProvider(id: widget.user!.id!));
+          ref.invalidate(masterDataProvider);
+
+          navigatorKey.currentState!.pop();
+          navigatorKey.currentState!.pop();
         },
       );
     });
@@ -80,6 +101,7 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> {
         data: (data) {
           if (data != null) {
             ref.invalidate(masterDataProvider);
+
             navigatorKey.currentState!.pop();
             navigatorKey.currentState!.pop();
           }
@@ -103,6 +125,7 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> {
         child: FormBuilder(
           key: formKey,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomTextField(
                 name: 'name',
@@ -199,55 +222,141 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> {
                   ),
                 ],
               ),
+              if (isTeacher) buildTeacherCheckboxes(),
+              SizedBox(height: isTeacher ? 12 : 20),
+              FilledButton(
+                onPressed: widget.user != null
+                    ? () => editUser(isTeacher)
+                    : () => createUser(isTeacher),
+                child: Text('${widget.user != null ? "Edit" : "Tambah"} User'),
+              ).fullWidth(),
             ],
           ),
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
-        child: FilledButton(
-          onPressed: widget.user != null ? editUser : createUser,
-          child: Text('${widget.user != null ? "Edit" : "Tambah"} User'),
-        ).fullWidth(),
-      ),
     );
   }
 
-  void editUser() {
+  Column buildTeacherCheckboxes() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 20),
+        Text(
+          'Pilih Kepakaran',
+          style: textTheme.titleSmall,
+        ),
+        const SizedBox(height: 6),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: List<Row>.generate(
+            widget.discussionCategories!.length,
+            (index) {
+              final category = widget.discussionCategories![index];
+
+              return Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Checkbox(
+                    value: selectedExpertises.contains(category),
+                    checkColor: scaffoldBackgroundColor,
+                    side: const BorderSide(
+                      color: secondaryTextColor,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    visualDensity: const VisualDensity(
+                      vertical: VisualDensity.minimumDensity,
+                      horizontal: VisualDensity.minimumDensity,
+                    ),
+                    onChanged: (_) {
+                      setState(() {
+                        if (selectedExpertises.contains(category)) {
+                          selectedExpertises.remove(category);
+                        } else {
+                          selectedExpertises.add(category);
+                        }
+                      });
+                    },
+                  ),
+                  const SizedBox(width: 4),
+                  Flexible(
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          if (selectedExpertises.contains(category)) {
+                            selectedExpertises.remove(category);
+                          } else {
+                            selectedExpertises.add(category);
+                          }
+                        });
+                      },
+                      child: Text('${category.name}'),
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  void editUser(bool isTeacher) {
     FocusManager.instance.primaryFocus?.unfocus();
 
     if (formKey.currentState!.saveAndValidate()) {
-      final data = formKey.currentState!.value;
+      if (isTeacher && selectedExpertises.isEmpty) {
+        context.showBanner(
+          message: 'Pilih setidaknya 1 kepakaran yang dimiliki pakar!',
+          type: BannerType.error,
+        );
+      } else {
+        final data = formKey.currentState!.value;
 
-      ref.read(editUserProvider.notifier).editUser(
-            user: widget.user!.copyWith(
-              name: data['name'],
-              email: data['email'],
-              birthDate: date,
-              phoneNumber: data['phoneNumber'],
-            ),
-          );
+        ref.read(editUserProvider.notifier).editUser(
+              user: widget.user!.copyWith(
+                name: data['name'],
+                email: data['email'],
+                phoneNumber: data['phoneNumber'],
+                birthDate: date,
+                expertises: selectedExpertises,
+              ),
+            );
+      }
     }
   }
 
-  void createUser() {
+  void createUser(bool isTeacher) {
     FocusManager.instance.primaryFocus?.unfocus();
 
     if (formKey.currentState!.saveAndValidate()) {
-      final data = formKey.currentState!.value;
-      final role = widget.title.split(' ').last.toLowerCase();
+      if (isTeacher && selectedExpertises.isEmpty) {
+        context.showBanner(
+          message: 'Pilih setidaknya 1 kepakaran yang dimiliki pakar!',
+          type: BannerType.error,
+        );
+      } else {
+        final data = formKey.currentState!.value;
+        final role = widget.title.split(' ').last.toLowerCase();
 
-      ref.read(createUserProvider.notifier).createUser(
-            user: UserPostModel(
-              name: data['name'],
-              username: data['username'],
-              email: data['email'],
-              password: data['username'],
-              birthDate: date.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
-              phoneNumber: data['phoneNumber'],
-              role: role,
-            ),
-          );
+        ref.read(createUserProvider.notifier).createUser(
+              user: UserPostModel(
+                role: role,
+                name: data['name'],
+                username: data['username'],
+                email: data['email'],
+                password: data['username'],
+                phoneNumber: data['phoneNumber'],
+                birthDate: date.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
+                teacherDiscussionCategoryIds:
+                    selectedExpertises.map((e) => e.id!).toList(),
+              ),
+            );
+      }
     }
   }
 
@@ -275,9 +384,11 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> {
 class MasterDataFormPageArgs {
   final String title;
   final UserDetailModel? user;
+  final List<DiscussionCategoryModel>? discussionCategories;
 
   const MasterDataFormPageArgs({
     required this.title,
     this.user,
+    this.discussionCategories,
   });
 }

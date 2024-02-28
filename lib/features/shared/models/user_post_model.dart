@@ -12,6 +12,7 @@ class UserPostModel extends Equatable {
   final String birthDate;
   final String phoneNumber;
   final String role;
+  final List<int> teacherDiscussionCategoryIds;
 
   const UserPostModel({
     required this.name,
@@ -21,6 +22,7 @@ class UserPostModel extends Equatable {
     required this.birthDate,
     required this.phoneNumber,
     required this.role,
+    required this.teacherDiscussionCategoryIds,
   });
 
   UserPostModel copyWith({
@@ -31,6 +33,7 @@ class UserPostModel extends Equatable {
     String? birthDate,
     String? phoneNumber,
     String? role,
+    List<int>? teacherDiscussionCategoryIds,
   }) {
     return UserPostModel(
       name: name ?? this.name,
@@ -40,6 +43,8 @@ class UserPostModel extends Equatable {
       birthDate: birthDate ?? this.birthDate,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       role: role ?? this.role,
+      teacherDiscussionCategoryIds:
+          teacherDiscussionCategoryIds ?? this.teacherDiscussionCategoryIds,
     );
   }
 
@@ -52,6 +57,7 @@ class UserPostModel extends Equatable {
       'birthDate': birthDate,
       'phoneNumber': phoneNumber,
       'role': role,
+      'teacherDiscussionCategoryIds': teacherDiscussionCategoryIds,
     };
   }
 
@@ -70,6 +76,7 @@ class UserPostModel extends Equatable {
       birthDate,
       phoneNumber,
       role,
+      teacherDiscussionCategoryIds,
     ];
   }
 }

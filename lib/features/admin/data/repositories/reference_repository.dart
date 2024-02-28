@@ -66,7 +66,9 @@ class ReferenceRepositoryImpl implements ReferenceRepository {
       } on ServerException catch (e) {
         switch (e.message) {
           case kCategoryAlreadyExist:
-            return const Left(ServerFailure('Kategori sudah ada'));
+            return const Left(
+              ServerFailure('Telah terdapat kategori dengan nama yang sama'),
+            );
           default:
             return Left(ServerFailure(e.message));
         }
@@ -90,7 +92,9 @@ class ReferenceRepositoryImpl implements ReferenceRepository {
       } on ServerException catch (e) {
         switch (e.message) {
           case kCategoryAlreadyExist:
-            return const Left(ServerFailure('Kategori sudah ada'));
+            return const Left(
+              ServerFailure('Telah terdapat kategori dengan nama yang sama'),
+            );
           default:
             return Left(ServerFailure(e.message));
         }

@@ -1,18 +1,26 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
+// Package imports:
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 // Project imports:
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/features/admin/data/models/discussion_category_model.dart';
+import 'package:law_app/features/admin/presentation/reference/providers/discussion_category_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
 import 'package:law_app/features/shared/widgets/ink_well_container.dart';
 
-class DiscussionCategoryCard extends StatelessWidget {
-  const DiscussionCategoryCard({super.key});
+class DiscussionCategoryCard extends ConsumerWidget {
+  final DiscussionCategoryModel category;
+
+  const DiscussionCategoryCard({super.key, required this.category});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return InkWellContainer(
       radius: 12,
       color: scaffoldBackgroundColor,
@@ -32,7 +40,7 @@ class DiscussionCategoryCard extends StatelessWidget {
         children: [
           Expanded(
             child: Text(
-              '',
+              '${category.name}',
               style: textTheme.titleMedium,
             ),
           ),
@@ -45,13 +53,21 @@ class DiscussionCategoryCard extends StatelessWidget {
                 color: infoColor,
                 size: 20,
                 onPressed: () => context.showSingleFormDialog(
-                  title: "Edit Kategori Pertanyaan",
+                  title: "Edit Kategori Diskusi",
                   name: "name",
-                  label: "Kategori Pertanyaan",
-                  hintText: "Masukkan kategori pertanyaan",
-                  initialValue: '',
+                  label: "Kategori",
+                  hintText: "Masukkan nama kategori",
+                  initialValue: category.name,
                   primaryButtonText: 'Simpan',
-                  onSubmitted: (value) {},
+                  onSubmitted: (value) {
+                    final newCategory = category.copyWith(name: value['name']);
+
+                    ref
+                        .read(discussionCategoryProvider.notifier)
+                        .editDiscussionCategory(category: newCategory);
+
+                    navigatorKey.currentState!.pop();
+                  },
                 ),
                 tooltip: 'Edit',
               ),
@@ -63,7 +79,13 @@ class DiscussionCategoryCard extends StatelessWidget {
                   title: "Konfirmasi",
                   message: "Anda yakin ingin menghapus kategori ini?",
                   primaryButtonText: 'Hapus',
-                  onPressedPrimaryButton: () {},
+                  onPressedPrimaryButton: () {
+                    ref
+                        .read(discussionCategoryProvider.notifier)
+                        .deleteDiscussionCategory(id: category.id!);
+
+                    navigatorKey.currentState!.pop();
+                  },
                 ),
                 tooltip: 'Hapus',
               ),

@@ -14,6 +14,7 @@ import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/glossary/presentation/providers/edit_glossary_provider.dart';
 import 'package:law_app/features/glossary/presentation/providers/get_glossary_detail_provider.dart';
+import 'package:law_app/features/glossary/presentation/providers/glossaries_provider.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
@@ -71,6 +72,8 @@ class GlossaryDetailPage extends ConsumerWidget {
           data: (data) {
             if (data != null) {
               ref.invalidate(GetGlossaryDetailProvider(id: id));
+              ref.invalidate(glossariesProvider);
+
               navigatorKey.currentState!.pop();
             }
           },

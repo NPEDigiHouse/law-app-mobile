@@ -12,6 +12,7 @@ import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/services/image_service.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/extensions/datetime_extension.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
@@ -31,13 +32,6 @@ class AccountInfoPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final id = CredentialSaver.user!.id!;
-    final sections = [
-      "Nama Lengkap",
-      "Username",
-      "Email",
-      "Tanggal Lahir",
-      "No. Hp",
-    ];
 
     var user = ref.watch(GetProfileDetailProvider(id: id));
 
@@ -108,7 +102,7 @@ class AccountInfoPage extends ConsumerWidget {
             ref.invalidate(GetProfileDetailProvider(id: id));
 
             context.showBanner(
-              message: 'Password Anda berhasil diubah!',
+              message: 'Password kamu berhasil diubah!',
               type: BannerType.success,
             );
 
@@ -124,7 +118,18 @@ class AccountInfoPage extends ConsumerWidget {
       data: (user) {
         if (user == null) return const Scaffold();
 
-        final userValues = user.toMap().values.toList();
+        final userData = {
+          "Nama Lengkap": user.name,
+          "Username": user.username,
+          "Email": user.email,
+          "Tanggal Lahir": user.birthDate?.toStringPattern('dd MMMM yyyy'),
+          "No. Hp": user.phoneNumber,
+        };
+
+        if (user.role == 'teacher') {
+          userData["Kepakaran"] =
+              '${user.expertises?.map((e) => e.name).toList().join(', ')}.';
+        }
 
         return Scaffold(
           appBar: const PreferredSize(
@@ -183,7 +188,7 @@ class AccountInfoPage extends ConsumerWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     padding: EdgeInsets.zero,
                     shrinkWrap: true,
-                    itemCount: sections.length,
+                    itemCount: userData.length,
                     itemBuilder: (context, index) {
                       return Row(
                         children: [
@@ -214,7 +219,7 @@ class AccountInfoPage extends ConsumerWidget {
                                             width: 2,
                                             decoration: BoxDecoration(
                                               color:
-                                                  index != sections.length - 1
+                                                  index != userData.length - 1
                                                       ? secondaryTextColor
                                                       : Colors.transparent,
                                             ),
@@ -245,13 +250,13 @@ class AccountInfoPage extends ConsumerWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  sections[index],
+                                  userData.keys.toList()[index],
                                   style: textTheme.bodySmall!.copyWith(
                                     color: primaryColor,
                                   ),
                                 ),
                                 Text(
-                                  '${userValues[index + 2]}',
+                                  '${userData.values.toList()[index]}',
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: textTheme.titleMedium!.copyWith(

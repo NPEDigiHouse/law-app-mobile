@@ -152,6 +152,8 @@ class MasterDataSourceImpl implements MasterDataSource {
           'phoneNumber': user.phoneNumber,
           'birthDate':
               user.birthDate?.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
+          'teacherDiscussionCategoryIds':
+              user.expertises?.map((e) => e.id).toList(),
         }),
       );
 

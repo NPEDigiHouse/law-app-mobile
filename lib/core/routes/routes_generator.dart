@@ -364,6 +364,7 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => MasterDataFormPage(
           title: args.title,
           user: args.user,
+          discussionCategories: args.discussionCategories,
         ),
       );
     case masterDataUserDetailRoute:

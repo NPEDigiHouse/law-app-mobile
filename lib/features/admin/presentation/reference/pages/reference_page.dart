@@ -18,7 +18,7 @@ class ReferencePage extends StatelessWidget {
     List<Map<String, dynamic>> items = [
       {
         "icon": "grid-view-solid.svg",
-        "text": "Kelola Kategori Pertanyaan",
+        "text": "Kelola Kategori Diskusi",
         "onTap": () {
           navigatorKey.currentState!.pushNamed(discussionCategoryRoute);
         },

@@ -24,7 +24,7 @@ class CreateUser extends _$CreateUser {
 
       result.fold(
         (l) => state = AsyncValue.error(l.message, StackTrace.current),
-        (r) => {},
+        (r) => state = const AsyncValue.data(true),
       );
     } catch (e) {
       state = AsyncValue.error((e as Failure).message, StackTrace.current);
