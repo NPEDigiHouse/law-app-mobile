@@ -8,53 +8,35 @@ import 'package:http/http.dart' as http;
 // Project imports:
 import 'package:law_app/core/configs/api_configs.dart';
 import 'package:law_app/core/errors/exceptions.dart';
-import 'package:law_app/core/extensions/datetime_extension.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/data_response.dart';
-import 'package:law_app/features/shared/models/user_model.dart';
-import 'package:law_app/features/shared/models/user_post_model.dart';
+import 'package:law_app/features/admin/data/models/discussion_category_model.dart';
 
-abstract class MasterDataSource {
-  /// Get Users
-  Future<List<UserModel>> getUsers({
-    String query = '',
-    String sortBy = '',
-    String sortOrder = '',
-    String? role,
-  });
+abstract class ReferenceDataSource {
+  /// Get discussion categories
+  Future<List<DiscussionCategoryModel>> getDiscussionCategories();
 
-  /// Get user detail
-  Future<UserModel> getUserDetail({required int id});
+  /// Create discussion categories
+  Future<void> createDiscussionCategory({required String name});
 
-  /// Create user
-  Future<void> createUser({required UserPostModel user});
+  /// Edit discussion categories
+  Future<void> editDiscussionCategory(
+      {required DiscussionCategoryModel category});
 
-  /// Edit user
-  Future<void> editUser({required UserModel user});
-
-  /// Delete user
-  Future<void> deleteUser({required int id});
+  /// Delete discussion categories
+  Future<void> deleteDiscussionCategory({required int id});
 }
 
-class MasterDataSourceImpl implements MasterDataSource {
+class ReferenceDataSourceImpl implements ReferenceDataSource {
   final http.Client client;
 
-  MasterDataSourceImpl({required this.client});
+  ReferenceDataSourceImpl({required this.client});
 
   @override
-  Future<List<UserModel>> getUsers({
-    String query = '',
-    String sortBy = '',
-    String sortOrder = '',
-    String? role,
-  }) async {
+  Future<List<DiscussionCategoryModel>> getDiscussionCategories() async {
     try {
-      final queryParams = 'term=$query&sortBy=$sortBy&sortOrder=$sortOrder';
-
       final response = await client.get(
-        Uri.parse(
-          '${ApiConfigs.baseUrl}/users?${role != null ? 'role=$role' : queryParams}',
-        ),
+        Uri.parse('${ApiConfigs.baseUrl}/discussion-categories'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader:
@@ -67,7 +49,7 @@ class MasterDataSourceImpl implements MasterDataSource {
       if (result.code == 200) {
         final data = result.data as List;
 
-        return data.map((e) => UserModel.fromMap(e)).toList();
+        return data.map((e) => DiscussionCategoryModel.fromMap(e)).toList();
       } else {
         throw ServerException('${result.message}');
       }
@@ -81,44 +63,16 @@ class MasterDataSourceImpl implements MasterDataSource {
   }
 
   @override
-  Future<UserModel> getUserDetail({required int id}) async {
-    try {
-      final response = await client.get(
-        Uri.parse('${ApiConfigs.baseUrl}/users/$id'),
-        headers: {
-          HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
-        },
-      );
-
-      final result = DataResponse.fromJson(jsonDecode(response.body));
-
-      if (result.code == 200) {
-        return UserModel.fromMap(result.data);
-      } else {
-        throw ServerException('${result.message}');
-      }
-    } catch (e) {
-      if (e is ServerException) {
-        rethrow;
-      } else {
-        throw http.ClientException(e.toString());
-      }
-    }
-  }
-
-  @override
-  Future<void> createUser({required UserPostModel user}) async {
+  Future<void> createDiscussionCategory({required String name}) async {
     try {
       final response = await client.post(
-        Uri.parse('${ApiConfigs.baseUrl}/auth/signup'),
+        Uri.parse('${ApiConfigs.baseUrl}/discussion-categories'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader:
               'Bearer ${CredentialSaver.accessToken}'
         },
-        body: user.toJson(),
+        body: jsonEncode({'name': name}),
       );
 
       final result = DataResponse.fromJson(jsonDecode(response.body));
@@ -136,22 +90,17 @@ class MasterDataSourceImpl implements MasterDataSource {
   }
 
   @override
-  Future<void> editUser({required UserModel user}) async {
+  Future<void> editDiscussionCategory(
+      {required DiscussionCategoryModel category}) async {
     try {
       final response = await client.put(
-        Uri.parse('${ApiConfigs.baseUrl}/users/${user.id}'),
+        Uri.parse('${ApiConfigs.baseUrl}/discussion-categories/${category.id}'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader:
               'Bearer ${CredentialSaver.accessToken}'
         },
-        body: jsonEncode({
-          'name': user.name,
-          'email': user.email,
-          'phoneNumber': user.phoneNumber,
-          'birthDate':
-              user.birthDate?.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
-        }),
+        body: jsonEncode({'name': category.name}),
       );
 
       final result = DataResponse.fromJson(jsonDecode(response.body));
@@ -169,10 +118,10 @@ class MasterDataSourceImpl implements MasterDataSource {
   }
 
   @override
-  Future<void> deleteUser({required int id}) async {
+  Future<void> deleteDiscussionCategory({required int id}) async {
     try {
       final response = await client.delete(
-        Uri.parse('${ApiConfigs.baseUrl}/users/$id'),
+        Uri.parse('${ApiConfigs.baseUrl}/discussion-categories/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader:

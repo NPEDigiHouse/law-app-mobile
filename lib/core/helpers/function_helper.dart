@@ -7,9 +7,9 @@ import 'package:flutter/rendering.dart';
 
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:law_app/core/extensions/string_extension.dart';
 
 // Project imports:
+import 'package:law_app/core/extensions/string_extension.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/shared/providers/search_provider.dart';

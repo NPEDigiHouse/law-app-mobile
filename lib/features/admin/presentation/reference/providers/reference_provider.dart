@@ -1,30 +1,30 @@
 // Package imports:
+import 'package:law_app/features/admin/data/models/discussion_category_model.dart';
+import 'package:law_app/features/admin/presentation/reference/providers/repositories_provider/reference_repository_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
 import 'package:law_app/core/errors/failures.dart';
-import 'package:law_app/features/glossary/data/models/glossary_model.dart';
-import 'package:law_app/features/glossary/presentation/providers/repositories_provider/glossary_repository_provider.dart';
-import 'package:law_app/features/shared/models/glossary_post_model.dart';
 
-part 'glossaries_provider.g.dart';
+part 'reference_provider.g.dart';
 
 @riverpod
-class Glossaries extends _$Glossaries {
+class Reference extends _$Reference {
   @override
-  Future<List<GlossaryModel>?> build() async {
-    List<GlossaryModel>? glossaries;
+  Future<List<DiscussionCategoryModel>?> build() async {
+    List<DiscussionCategoryModel>? categories;
 
     try {
       state = const AsyncValue.loading();
 
-      final result =
-          await ref.watch(glossaryRepositoryProvider).getGlossaries();
+      final result = await ref
+          .watch(referenceRepositoryProvider)
+          .getDiscussionCategories();
 
       result.fold(
         (l) => state = AsyncValue.error(l.message, StackTrace.current),
         (r) {
-          glossaries = r;
+          categories = r;
           state = AsyncValue.data(r);
         },
       );
@@ -32,33 +32,16 @@ class Glossaries extends _$Glossaries {
       state = AsyncValue.error((e as Failure).message, StackTrace.current);
     }
 
-    return glossaries;
+    return categories;
   }
 
-  Future<void> searchGlossaries({String query = ''}) async {
+  Future<void> createDiscussionCategory({required String name}) async {
     try {
       state = const AsyncValue.loading();
 
       final result = await ref
-          .watch(glossaryRepositoryProvider)
-          .getGlossaries(query: query);
-
-      result.fold(
-        (l) => state = AsyncValue.error(l.message, StackTrace.current),
-        (r) => state = AsyncValue.data(r),
-      );
-    } catch (e) {
-      state = AsyncValue.error((e as Failure).message, StackTrace.current);
-    }
-  }
-
-  Future<void> createGlossary({required GlossaryPostModel glossary}) async {
-    try {
-      state = const AsyncValue.loading();
-
-      final result = await ref
-          .watch(glossaryRepositoryProvider)
-          .createGlossary(glossary: glossary);
+          .watch(referenceRepositoryProvider)
+          .createDiscussionCategory(name: name);
 
       result.fold(
         (l) => state = AsyncValue.error(l.message, StackTrace.current),
@@ -69,12 +52,31 @@ class Glossaries extends _$Glossaries {
     }
   }
 
-  Future<void> deleteGlossary({required int id}) async {
+  Future<void> editDiscussionCategory(
+      {required DiscussionCategoryModel category}) async {
     try {
       state = const AsyncValue.loading();
 
-      final result =
-          await ref.watch(glossaryRepositoryProvider).deleteGlossary(id: id);
+      final result = await ref
+          .watch(referenceRepositoryProvider)
+          .editDiscussionCategory(category: category);
+
+      result.fold(
+        (l) => state = AsyncValue.error(l.message, StackTrace.current),
+        (r) => ref.invalidateSelf(),
+      );
+    } catch (e) {
+      state = AsyncValue.error((e as Failure).message, StackTrace.current);
+    }
+  }
+
+  Future<void> deleteDiscussionCategory({required int id}) async {
+    try {
+      state = const AsyncValue.loading();
+
+      final result = await ref
+          .watch(referenceRepositoryProvider)
+          .deleteDiscussionCategory(id: id);
 
       result.fold(
         (l) => state = AsyncValue.error(l.message, StackTrace.current),

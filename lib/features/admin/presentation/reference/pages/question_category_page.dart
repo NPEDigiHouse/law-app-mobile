@@ -11,8 +11,8 @@ import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/ink_well_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
-class ManageQuestionCategory extends StatelessWidget {
-  const ManageQuestionCategory({super.key});
+class QuestionCategoryPage extends StatelessWidget {
+  const QuestionCategoryPage({super.key});
 
   @override
   Widget build(BuildContext context) {
