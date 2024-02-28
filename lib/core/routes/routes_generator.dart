@@ -26,8 +26,8 @@ import 'package:law_app/features/admin/presentation/home/pages/admin_home_page.d
 import 'package:law_app/features/admin/presentation/master_data/pages/master_data_form_page.dart';
 import 'package:law_app/features/admin/presentation/master_data/pages/master_data_home_page.dart';
 import 'package:law_app/features/admin/presentation/master_data/pages/master_data_user_detail_page.dart';
-import 'package:law_app/features/admin/presentation/reference/pages/admin_manage_question_category.dart';
-import 'package:law_app/features/admin/presentation/reference/pages/admin_reference_page.dart';
+import 'package:law_app/features/admin/presentation/reference/pages/manage_question_category.dart';
+import 'package:law_app/features/admin/presentation/reference/pages/reference_page.dart';
 import 'package:law_app/features/auth/presentation/pages/forgot_password_page.dart';
 import 'package:law_app/features/auth/presentation/pages/login_page.dart';
 import 'package:law_app/features/auth/presentation/pages/otp_page.dart';
@@ -120,18 +120,15 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       );
     case faqRoute:
       final isAdmin = settings.arguments as bool;
+
       return MaterialPageRoute(
-        builder: (_) => FAQPage(
-          isAdmin: isAdmin,
-        ),
+        builder: (_) => FAQPage(isAdmin: isAdmin),
       );
     case contactUsRoute:
       final isAdmin = settings.arguments as bool;
 
       return MaterialPageRoute(
-        builder: (_) => ContactUsPage(
-          isAdmin: isAdmin,
-        ),
+        builder: (_) => ContactUsPage(isAdmin: isAdmin),
       );
     case certificateRoute:
       return MaterialPageRoute(
@@ -267,13 +264,13 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => const AdminHomePage(),
       );
-    case adminReferenceRoute:
+    case referenceRoute:
       return MaterialPageRoute(
-        builder: (_) => const AdminReferencePage(),
+        builder: (_) => const ReferencePage(),
       );
-    case adminManageQuestionCategoryRoute:
+    case manageQuestionCategoryRoute:
       return MaterialPageRoute(
-        builder: (_) => const AdminManageQuestionCategory(),
+        builder: (_) => const ManageQuestionCategory(),
       );
     case adminAdHomeRoute:
       return MaterialPageRoute(

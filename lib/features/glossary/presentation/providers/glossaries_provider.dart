@@ -18,9 +18,8 @@ class Glossaries extends _$Glossaries {
     try {
       state = const AsyncValue.loading();
 
-      final result = await ref
-          .watch(glossaryRepositoryProvider)
-          .getGlossaries(offset: 0, limit: 10);
+      final result =
+          await ref.watch(glossaryRepositoryProvider).getGlossaries();
 
       result.fold(
         (l) => state = AsyncValue.error(l.message, StackTrace.current),
@@ -42,7 +41,7 @@ class Glossaries extends _$Glossaries {
 
       final result = await ref
           .watch(glossaryRepositoryProvider)
-          .getGlossaries(query: query, offset: 0, limit: 10);
+          .getGlossaries(query: query);
 
       result.fold(
         (l) => state = AsyncValue.error(l.message, StackTrace.current),

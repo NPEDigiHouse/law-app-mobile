@@ -11,10 +11,10 @@ const mainMenuRoute = '/main-menu';
 
 // Profile and sub menu profile routes
 const profileRoute = '/profile';
-const accountInfoRoute = '/profile/account-info';
-const faqRoute = '/profile/faq';
-const contactUsRoute = '/profile/contact-us';
-const certificateRoute = '/profile/certificate';
+const accountInfoRoute = '/account-info';
+const faqRoute = '/faq';
+const contactUsRoute = '/contact-us';
+const certificateRoute = '/certificate';
 const notificationRoute = '/notification';
 const adDetailRoute = '/ad-detail';
 
@@ -49,8 +49,6 @@ const studentCourseRateRoute = '/student-course-rate';
 
 // Admin routes
 const adminHomeRoute = '/admin-home';
-const adminReferenceRoute = '/admin-reference';
-const adminManageQuestionCategoryRoute = '/admin-manage-question-category';
 
 const adminAdHomeRoute = '/admin-ad-home';
 const adminAddSimpleAdRoute = '/admin-add-simple-ad';
@@ -75,4 +73,8 @@ const adminDiscussionDetailRoute = '/admin-discussion-detail';
 const masterDataHomeRoute = '/master-data-home';
 const masterDataFormRoute = '/master-data-form';
 const masterDataUserDetailRoute = '/master-data-user-detail';
+
 const glossaryManagementRoute = '/glossary-management';
+
+const referenceRoute = '/reference';
+const manageQuestionCategoryRoute = '/manage-question-category';

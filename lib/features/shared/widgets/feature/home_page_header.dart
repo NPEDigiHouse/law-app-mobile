@@ -90,7 +90,7 @@ class HomePageHeader extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    '${CredentialSaver.user!.role?.toCapitalize()}',
+                                    CredentialSaver.user!.role!.toCapitalize(),
                                     style: textTheme.bodyMedium!.copyWith(
                                       color: accentTextColor,
                                     ),
@@ -158,7 +158,9 @@ class HomePageHeader extends StatelessWidget {
                                       style: textTheme.bodyLarge,
                                     ),
                                     Text(
-                                      'Admin',
+                                      FunctionHelper.getUserNickname(
+                                        '${CredentialSaver.user!.name}',
+                                      ),
                                       style: textTheme.titleSmall!.copyWith(
                                         color: primaryColor,
                                       ),

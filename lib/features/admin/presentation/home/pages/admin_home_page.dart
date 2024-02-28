@@ -78,7 +78,7 @@ class AdminHomePage extends StatelessWidget {
         "icon": "link-line.svg",
         "text": "Referensi",
         "onTap": () => navigatorKey.currentState!.pushNamed(
-              adminReferenceRoute,
+              referenceRoute,
             ),
       },
       {

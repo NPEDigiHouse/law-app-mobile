@@ -12,32 +12,28 @@ import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class ContactUsPage extends StatelessWidget {
   final bool isAdmin;
-  const ContactUsPage({
-    super.key,
-    required this.isAdmin,
-  });
+
+  const ContactUsPage({super.key, this.isAdmin = false});
 
   @override
   Widget build(BuildContext context) {
-    const contactUsItems = [
+    const items = [
       {
         "icon": "whatsapp-fill.svg",
-        "contactName": "WhatsApp",
-        "text": "082910291823",
+        "contact": "WhatsApp",
       },
       {
         "icon": "envelope-solid.svg",
-        "contactName": "Email",
-        "text": "sobathukumapp@gmail.com",
+        "contact": "Email",
       },
       {
         "icon": "map-marker-solid.svg",
-        "contactName": "Alamat",
-        "text": "Jl. Perintis Kemerdekaan KM.15",
+        "contact": "Alamat",
       },
     ];
 
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(96),
         child: HeaderContainer(
@@ -45,34 +41,12 @@ class ContactUsPage extends StatelessWidget {
           withBackButton: true,
         ),
       ),
-      floatingActionButton: isAdmin
-          ? Container(
-              width: 60,
-              height: 60,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                gradient:
-                    const LinearGradient(colors: GradientColors.redPastel),
-              ),
-              child: IconButton(
-                onPressed: () => showDialog(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (_) =>
-                      const EditContactUsDialog(items: contactUsItems),
-                ),
-                icon: SvgAsset(
-                  assetPath: AssetPath.getIcon('pencil-solid.svg'),
-                  color: secondaryColor,
-                  width: 32,
-                ),
-                tooltip: 'Kembali',
-              ),
-            )
-          : null,
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.symmetric(
+            vertical: 24,
+            horizontal: 20,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -83,87 +57,104 @@ class ContactUsPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              ListView.builder(
+              ListView.separated(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: contactUsItems.length,
+                itemCount: items.length,
                 itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(
-                      top: 4,
-                      bottom: 4,
+                  return Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: scaffoldBackgroundColor,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(.1),
+                          offset: const Offset(2, 2),
+                          blurRadius: 4,
+                          spreadRadius: -1,
+                        ),
+                      ],
                     ),
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: scaffoldBackgroundColor,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(.2),
-                            offset: const Offset(2, 2),
-                            blurRadius: 4,
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        children: [
-                          GradientBackgroundIcon(
-                            icon: contactUsItems[index]["icon"]!,
-                            size: 72,
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  contactUsItems[index]["contactName"]!,
-                                  style: textTheme.titleMedium!.copyWith(
-                                    color: primaryTextColor,
-                                  ),
-                                ),
-                                Text(
-                                  contactUsItems[index]["text"]!,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: textTheme.bodyLarge!.copyWith(
-                                    color: primaryTextColor,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: secondaryColor,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: IconButton(
-                              onPressed: () {},
-                              icon: SvgAsset(
-                                height: 20,
-                                width: 20,
-                                color: primaryColor,
-                                assetPath: AssetPath.getIcon(
-                                  "caret-line-right.svg",
+                    child: Row(
+                      children: [
+                        GradientBackgroundIcon(
+                          icon: '${items[index]["icon"]}',
+                          size: 64,
+                          padding: 12,
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${items[index]["contact"]}',
+                                style: textTheme.titleMedium,
+                              ),
+                              Text(
+                                'Value',
+                                style: textTheme.bodyMedium!.copyWith(
+                                  color: primaryColor,
                                 ),
                               ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Container(
+                          width: 36,
+                          height: 36,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: secondaryColor,
+                          ),
+                          child: IconButton(
+                            onPressed: () {},
+                            icon: SvgAsset(
+                              assetPath: AssetPath.getIcon(
+                                "caret-line-right.svg",
+                              ),
+                              color: primaryColor,
+                              width: 20,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   );
                 },
+                separatorBuilder: (_, __) => const SizedBox(height: 8),
               ),
             ],
           ),
         ),
       ),
+      floatingActionButton: isAdmin
+          ? Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                gradient: const LinearGradient(
+                  colors: GradientColors.redPastel,
+                ),
+              ),
+              child: IconButton(
+                onPressed: () => showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (_) => const EditContactUsDialog(items: items),
+                ),
+                icon: SvgAsset(
+                  assetPath: AssetPath.getIcon('pencil-solid.svg'),
+                  color: scaffoldBackgroundColor,
+                  width: 24,
+                ),
+                tooltip: 'Edit',
+              ),
+            )
+          : null,
     );
   }
 }

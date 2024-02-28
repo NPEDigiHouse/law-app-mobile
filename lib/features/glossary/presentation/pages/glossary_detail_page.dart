@@ -112,39 +112,46 @@ class GlossaryDetailPage extends ConsumerWidget {
             ),
           ),
           floatingActionButton: isAdmin
-              ? FloatingActionButton(
-                  elevation: 2,
-                  backgroundColor: primaryColor,
-                  tooltip: 'Edit Kosa Kata',
-                  onPressed: () => context.showSingleFormTextAreaDialog(
-                    title: 'Edit Kosa Kata',
-                    textFieldInitialValue: '${glossary.title}',
-                    textFieldName: 'title',
-                    textFieldLabel: 'Kata/Istilah',
-                    textFieldHint: 'Masukkan kata/istilah',
-                    textAreaInitialValue: '${glossary.description}',
-                    textAreaName: 'description',
-                    textAreaLabel: 'Pengertian/Deskripsi',
-                    textAreaHint:
-                        'Masukkan pengertian/deskripsi dari kosa kata',
-                    primaryButtonText: 'Edit',
-                    onSubmitted: (value) {
-                      final newGlossary = glossary.copyWith(
-                        title: value['title'],
-                        description: value['description'],
-                      );
-
-                      ref
-                          .read(editGlossaryProvider.notifier)
-                          .editGlossary(glossary: newGlossary);
-
-                      navigatorKey.currentState!.pop();
-                    },
+              ? Container(
+                  width: 48,
+                  height: 48,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    gradient: const LinearGradient(
+                      colors: GradientColors.redPastel,
+                    ),
                   ),
-                  child: SvgAsset(
-                    assetPath: AssetPath.getIcon('pencil-solid.svg'),
-                    color: scaffoldBackgroundColor,
-                    width: 24,
+                  child: IconButton(
+                    onPressed: () => context.showSingleFormTextAreaDialog(
+                      title: 'Edit Kosa Kata',
+                      textFieldInitialValue: '${glossary.title}',
+                      textFieldName: 'title',
+                      textFieldLabel: 'Kata/Istilah',
+                      textFieldHint: 'Masukkan kata/istilah',
+                      textAreaInitialValue: '${glossary.description}',
+                      textAreaName: 'description',
+                      textAreaLabel: 'Pengertian/Deskripsi',
+                      textAreaHint: 'Masukkan pengertian/deskripsi',
+                      primaryButtonText: 'Edit',
+                      onSubmitted: (value) {
+                        final newGlossary = glossary.copyWith(
+                          title: value['title'],
+                          description: value['description'],
+                        );
+
+                        ref
+                            .read(editGlossaryProvider.notifier)
+                            .editGlossary(glossary: newGlossary);
+
+                        navigatorKey.currentState!.pop();
+                      },
+                    ),
+                    icon: SvgAsset(
+                      assetPath: AssetPath.getIcon('pencil-solid.svg'),
+                      color: scaffoldBackgroundColor,
+                      width: 24,
+                    ),
+                    tooltip: 'Edit',
                   ),
                 )
               : null,

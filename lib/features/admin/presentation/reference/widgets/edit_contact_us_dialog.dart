@@ -12,30 +12,22 @@ import 'package:law_app/features/shared/widgets/form_field/custom_text_field.dar
 
 class EditContactUsDialog extends StatelessWidget {
   final List<Map<String, dynamic>> items;
-  final String? primaryButtonText;
-  final VoidCallback? onPressedPrimaryButton;
 
-  const EditContactUsDialog({
-    super.key,
-    required this.items,
-    this.primaryButtonText,
-    this.onPressedPrimaryButton,
-  });
+  const EditContactUsDialog({super.key, required this.items});
 
   @override
   Widget build(BuildContext context) {
     return CustomDialog(
       title: "Edit Kontak Kami",
-      primaryButtonText: primaryButtonText,
-      onPressedPrimaryButton: onPressedPrimaryButton,
+      primaryButtonText: 'Edit',
+      onPressedPrimaryButton: () {},
+      childPadding: const EdgeInsets.fromLTRB(20, 4, 20, 8),
       child: ListView.separated(
         physics: const NeverScrollableScrollPhysics(),
+        padding: EdgeInsets.zero,
         shrinkWrap: true,
-        separatorBuilder: (context, index) {
-          return const Divider(
-            color: secondaryTextColor,
-          );
-        },
+        separatorBuilder: (_, __) => const Divider(color: secondaryTextColor),
+        itemCount: items.length,
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
@@ -43,10 +35,11 @@ class EditContactUsDialog extends StatelessWidget {
               child: Column(
                 children: [
                   CustomTextField(
+                    isSmall: true,
                     name: "name",
-                    label: items[index]["contactName"],
-                    hintText: "Masukkan ${items[index]["contactName"]}",
-                    initialValue: items[index]["text"],
+                    label: "${items[index]["contact"]}",
+                    hintText: "Masukkan ${items[index]["contact"]}",
+                    initialValue: "",
                     hasPrefixIcon: false,
                     hasSuffixIcon: false,
                     textInputAction: TextInputAction.next,
@@ -56,16 +49,17 @@ class EditContactUsDialog extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 10),
                   CustomTextField(
+                    isSmall: true,
                     name: "link",
-                    label: "Link",
-                    hintText: "Masukkan link tujuan",
+                    label: "Link ${items[index]["contact"]}",
+                    hintText: "Masukkan link ${items[index]["contact"]}",
                     initialValue: "",
                     hasPrefixIcon: false,
                     hasSuffixIcon: false,
                     textInputType: TextInputType.url,
-                    textInputAction: TextInputAction.done,
+                    textInputAction: TextInputAction.next,
                     validators: [
                       FormBuilderValidators.required(
                         errorText: "Bagian ini harus diisi",
@@ -80,7 +74,6 @@ class EditContactUsDialog extends StatelessWidget {
             ),
           );
         },
-        itemCount: items.length,
       ),
     );
   }

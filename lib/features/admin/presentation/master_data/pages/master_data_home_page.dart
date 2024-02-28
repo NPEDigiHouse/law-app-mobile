@@ -254,55 +254,63 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        elevation: 2,
-        backgroundColor: primaryColor,
-        tooltip: 'Tambah Pengguna',
-        onPressed: () => context.showCustomSelectorDialog(
-          title: 'Pilih Role',
-          items: [
-            {
-              'text': 'Student',
-              'onTap': () {
-                navigatorKey.currentState!.pop();
-                navigatorKey.currentState!.pushNamed(
-                  masterDataFormRoute,
-                  arguments: const MasterDataFormPageArgs(
-                    title: 'Tambah Student',
-                  ),
-                );
-              },
-            },
-            {
-              'text': 'Pakar',
-              'onTap': () {
-                navigatorKey.currentState!.pop();
-                navigatorKey.currentState!.pushNamed(
-                  masterDataFormRoute,
-                  arguments: const MasterDataFormPageArgs(
-                    title: 'Tambah Teacher',
-                  ),
-                );
-              },
-            },
-            {
-              'text': 'Admin',
-              'onTap': () {
-                navigatorKey.currentState!.pop();
-                navigatorKey.currentState!.pushNamed(
-                  masterDataFormRoute,
-                  arguments: const MasterDataFormPageArgs(
-                    title: 'Tambah Admin',
-                  ),
-                );
-              },
-            },
-          ],
+      floatingActionButton: Container(
+        width: 48,
+        height: 48,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          gradient: const LinearGradient(
+            colors: GradientColors.redPastel,
+          ),
         ),
-        child: SvgAsset(
-          assetPath: AssetPath.getIcon('plus-line.svg'),
-          color: scaffoldBackgroundColor,
-          width: 24,
+        child: IconButton(
+          onPressed: () => context.showCustomSelectorDialog(
+            title: 'Pilih Role',
+            items: [
+              {
+                'text': 'Student',
+                'onTap': () {
+                  navigatorKey.currentState!.pop();
+                  navigatorKey.currentState!.pushNamed(
+                    masterDataFormRoute,
+                    arguments: const MasterDataFormPageArgs(
+                      title: 'Tambah Student',
+                    ),
+                  );
+                },
+              },
+              {
+                'text': 'Pakar',
+                'onTap': () {
+                  navigatorKey.currentState!.pop();
+                  navigatorKey.currentState!.pushNamed(
+                    masterDataFormRoute,
+                    arguments: const MasterDataFormPageArgs(
+                      title: 'Tambah Teacher',
+                    ),
+                  );
+                },
+              },
+              {
+                'text': 'Admin',
+                'onTap': () {
+                  navigatorKey.currentState!.pop();
+                  navigatorKey.currentState!.pushNamed(
+                    masterDataFormRoute,
+                    arguments: const MasterDataFormPageArgs(
+                      title: 'Tambah Admin',
+                    ),
+                  );
+                },
+              },
+            ],
+          ),
+          icon: SvgAsset(
+            assetPath: AssetPath.getIcon('plus-line.svg'),
+            color: scaffoldBackgroundColor,
+            width: 24,
+          ),
+          tooltip: 'Tambah',
         ),
       ),
     );

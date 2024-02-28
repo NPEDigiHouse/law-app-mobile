@@ -10,8 +10,8 @@ import 'package:law_app/features/shared/widgets/gradient_background_icon.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/ink_well_container.dart';
 
-class AdminReferencePage extends StatelessWidget {
-  const AdminReferencePage({super.key});
+class ReferencePage extends StatelessWidget {
+  const ReferencePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +20,7 @@ class AdminReferencePage extends StatelessWidget {
         "icon": "grid-view-solid.svg",
         "text": "Kelola Kategori Pertanyaan",
         "onTap": () {
-          navigatorKey.currentState!
-              .pushNamed(adminManageQuestionCategoryRoute);
+          navigatorKey.currentState!.pushNamed(manageQuestionCategoryRoute);
         },
       },
       {
@@ -39,6 +38,7 @@ class AdminReferencePage extends StatelessWidget {
         },
       },
     ];
+
     return Scaffold(
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(96),
@@ -48,9 +48,13 @@ class AdminReferencePage extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-        child: ListView.builder(
+        padding: const EdgeInsets.symmetric(
+          vertical: 24,
+          horizontal: 20,
+        ),
+        child: ListView.separated(
           physics: const NeverScrollableScrollPhysics(),
+          padding: EdgeInsets.zero,
           shrinkWrap: true,
           itemCount: items.length,
           itemBuilder: (context, index) {
@@ -58,38 +62,28 @@ class AdminReferencePage extends StatelessWidget {
               radius: 12,
               color: secondaryColor,
               onTap: items[index]["onTap"],
-              margin: EdgeInsets.only(
-                bottom: index == items.length ? 0 : 12,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(.15),
-                  offset: const Offset(2, 2),
-                  blurRadius: 4,
-                ),
-              ],
               padding: const EdgeInsets.all(12),
               child: Row(
                 children: [
                   GradientBackgroundIcon(
                     icon: items[index]["icon"],
                     padding: 12,
-                    size: 64,
+                    size: 56,
                   ),
-                  const SizedBox(width: 20),
+                  const SizedBox(width: 12),
                   Expanded(
                     child: Text(
                       items[index]["text"],
-                      maxLines: 3,
-                      style: textTheme.titleLarge!.copyWith(
+                      style: textTheme.titleMedium!.copyWith(
                         color: primaryColor,
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             );
           },
+          separatorBuilder: (context, index) => const SizedBox(height: 8),
         ),
       ),
     );

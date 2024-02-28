@@ -7,6 +7,7 @@ import 'package:flutter/rendering.dart';
 
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:law_app/core/extensions/string_extension.dart';
 
 // Project imports:
 import 'package:law_app/core/styles/color_scheme.dart';
@@ -93,7 +94,7 @@ class FunctionHelper {
 
     if (names.length >= 2) return names[1];
 
-    return names.first;
+    return names.first.toCapitalize();
   }
 
   static Color getColorByDiscussionStatus(String status) {

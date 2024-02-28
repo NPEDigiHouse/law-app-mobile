@@ -146,36 +146,44 @@ class GlossaryManagementPage extends ConsumerWidget {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        elevation: 2,
-        backgroundColor: primaryColor,
-        tooltip: 'Tambah Kosa Kata',
-        onPressed: () => context.showSingleFormTextAreaDialog(
-          title: 'Tambah Kosa Kata',
-          textFieldName: 'title',
-          textFieldLabel: 'Kata/Istilah',
-          textFieldHint: 'Masukkan kata/istilah',
-          textAreaName: 'description',
-          textAreaLabel: 'Pengertian/Deskripsi',
-          textAreaHint: 'Masukkan pengertian/deskripsi dari kosa kata',
-          primaryButtonText: 'Tambah',
-          onSubmitted: (value) {
-            final glossaryPost = GlossaryPostModel(
-              title: value['title'],
-              description: value['description'],
-            );
-
-            ref
-                .read(glossariesProvider.notifier)
-                .createGlossary(glossary: glossaryPost);
-
-            navigatorKey.currentState!.pop();
-          },
+      floatingActionButton: Container(
+        width: 48,
+        height: 48,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          gradient: const LinearGradient(
+            colors: GradientColors.redPastel,
+          ),
         ),
-        child: SvgAsset(
-          assetPath: AssetPath.getIcon('plus-line.svg'),
-          color: scaffoldBackgroundColor,
-          width: 24,
+        child: IconButton(
+          onPressed: () => context.showSingleFormTextAreaDialog(
+            title: 'Tambah Kosa Kata',
+            textFieldName: 'title',
+            textFieldLabel: 'Kata/Istilah',
+            textFieldHint: 'Masukkan kata/istilah',
+            textAreaName: 'description',
+            textAreaLabel: 'Pengertian/Deskripsi',
+            textAreaHint: 'Masukkan pengertian/deskripsi',
+            primaryButtonText: 'Tambah',
+            onSubmitted: (value) {
+              final glossaryPost = GlossaryPostModel(
+                title: value['title'],
+                description: value['description'],
+              );
+
+              ref
+                  .read(glossariesProvider.notifier)
+                  .createGlossary(glossary: glossaryPost);
+
+              navigatorKey.currentState!.pop();
+            },
+          ),
+          icon: SvgAsset(
+            assetPath: AssetPath.getIcon('plus-line.svg'),
+            color: scaffoldBackgroundColor,
+            width: 24,
+          ),
+          tooltip: 'Tambah',
         ),
       ),
     );
