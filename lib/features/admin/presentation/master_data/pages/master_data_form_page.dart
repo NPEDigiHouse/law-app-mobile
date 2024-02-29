@@ -15,13 +15,13 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/admin/data/models/discussion_category_model.dart';
+import 'package:law_app/features/admin/data/models/discussion_models/discussion_category_model.dart';
+import 'package:law_app/features/admin/data/models/user_models/user_detail_model.dart';
+import 'package:law_app/features/admin/data/models/user_models/user_post_model.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/create_user_provider.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/edit_user_provider.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/get_user_detail_provider.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/master_data_provider.dart';
-import 'package:law_app/features/shared/models/user_detail_model.dart';
-import 'package:law_app/features/shared/models/user_post_model.dart';
 import 'package:law_app/features/shared/widgets/form_field/custom_text_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 

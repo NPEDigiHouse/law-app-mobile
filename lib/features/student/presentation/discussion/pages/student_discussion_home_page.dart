@@ -1,32 +1,42 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
+// Package imports:
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 // Project imports:
+import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/button_extension.dart';
+import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/shared/providers/discussion_providers/discussions_provider.dart';
 import 'package:law_app/features/shared/widgets/animated_fab.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
+import 'package:law_app/features/shared/widgets/custom_information.dart';
+import 'package:law_app/features/shared/widgets/empty_content_text.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
+import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 import 'package:law_app/features/student/presentation/discussion/widgets/create_question_dialog.dart';
 
-class StudentDiscussionHomePage extends StatefulWidget {
+class StudentDiscussionHomePage extends ConsumerStatefulWidget {
   const StudentDiscussionHomePage({super.key});
 
   @override
-  State<StudentDiscussionHomePage> createState() =>
+  ConsumerState<StudentDiscussionHomePage> createState() =>
       _StudentDiscussionHomePageState();
 }
 
-class _StudentDiscussionHomePageState extends State<StudentDiscussionHomePage>
+class _StudentDiscussionHomePageState
+    extends ConsumerState<StudentDiscussionHomePage>
     with SingleTickerProviderStateMixin {
   late final AnimationController fabAnimationController;
   late final ScrollController scrollController;
@@ -58,275 +68,324 @@ class _StudentDiscussionHomePageState extends State<StudentDiscussionHomePage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      body: NotificationListener<UserScrollNotification>(
-        onNotification: (notification) {
-          return FunctionHelper.handleFabVisibilityOnScroll(
-            notification,
-            fabAnimationController,
-          );
+    var discussions = ref.watch(discussionsProvider);
+
+    ref.listen(discussionsProvider, (previous, next) {
+      if (previous != next) {
+        discussions = next;
+      }
+
+      next.when(
+        error: (error, _) {
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet(
+              onPressedPrimaryButton: () {
+                navigatorKey.currentState!.pop();
+                ref.invalidate(discussionsProvider);
+              },
+            );
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
         },
-        child: SingleChildScrollView(
-          controller: scrollController,
-          child: Column(
-            children: [
-              SizedBox(
-                height: 310,
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    HeaderContainer(
-                      height: 230,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
+        loading: () {},
+        data: (_) {},
+      );
+    });
+
+    return discussions.when(
+      loading: () => const LoadingIndicator(withScaffold: true),
+      error: (error, __) => const Scaffold(),
+      data: (discussions) {
+        if (discussions.publicDiscussions == null ||
+            discussions.userDiscussions == null) {
+          return const Scaffold();
+        }
+
+        final userDiscussions = discussions.userDiscussions;
+        final publicDiscussions = discussions.publicDiscussions;
+
+        return Scaffold(
+          backgroundColor: backgroundColor,
+          body: NotificationListener<UserScrollNotification>(
+            onNotification: (notification) {
+              return FunctionHelper.handleFabVisibilityOnScroll(
+                notification,
+                fabAnimationController,
+              );
+            },
+            child: SingleChildScrollView(
+              controller: scrollController,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 310,
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        HeaderContainer(
+                          height: 230,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Expanded(
-                                child: Text(
-                                  'Tanya Masalahmu',
-                                  style: textTheme.headlineMedium!.copyWith(
-                                    color: accentTextColor,
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      'Tanya Masalahmu',
+                                      style: textTheme.headlineMedium!.copyWith(
+                                        color: accentTextColor,
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                  CustomIconButton(
+                                    iconName: 'notification-solid.svg',
+                                    color: scaffoldBackgroundColor,
+                                    size: 28,
+                                    tooltip: 'Notifikasi',
+                                    onPressed: () {
+                                      navigatorKey.currentState!.pushNamed(
+                                        notificationRoute,
+                                      );
+                                    },
+                                  ),
+                                ],
                               ),
-                              CustomIconButton(
-                                iconName: 'notification-solid.svg',
-                                color: scaffoldBackgroundColor,
-                                size: 28,
-                                tooltip: 'Notifikasi',
-                                onPressed: () {
-                                  navigatorKey.currentState!.pushNamed(
-                                    notificationRoute,
-                                  );
-                                },
+                              const SizedBox(height: 8),
+                              Text(
+                                'Buat pertanyaan dan dapatkan jawaban dari para ahli secara langsung!',
+                                style: textTheme.bodySmall!.copyWith(
+                                  color: scaffoldBackgroundColor,
+                                ),
                               ),
                             ],
                           ),
-                          const SizedBox(height: 8),
-                          Text(
-                            'Buat pertanyaan dan dapatkan jawaban dari para ahli secara langsung!',
-                            style: textTheme.bodySmall!.copyWith(
+                        ),
+                        Positioned(
+                          left: 20,
+                          right: 20,
+                          bottom: 0,
+                          child: Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 16,
+                              horizontal: 20,
+                            ),
+                            decoration: BoxDecoration(
                               color: scaffoldBackgroundColor,
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(.1),
+                                  offset: const Offset(2, 2),
+                                  blurRadius: 4,
+                                  spreadRadius: -1,
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Flexible(
+                                      child: Text(
+                                        'Kesempatan Pertanyaan Mingguan',
+                                        style: textTheme.titleMedium!.copyWith(
+                                          color: primaryColor,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Tooltip(
+                                      message:
+                                          'Kesempatan bertanya akan di-reset setiap minggu.',
+                                      textStyle: textTheme.bodySmall!.copyWith(
+                                        color: scaffoldBackgroundColor,
+                                      ),
+                                      margin: const EdgeInsets.symmetric(
+                                        horizontal: 40,
+                                      ),
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 8,
+                                        horizontal: 16,
+                                      ),
+                                      verticalOffset: 12,
+                                      triggerMode: TooltipTriggerMode.tap,
+                                      showDuration: const Duration(seconds: 4),
+                                      child: SvgAsset(
+                                        assetPath: AssetPath.getIcon(
+                                          'info-circle-line.svg',
+                                        ),
+                                        color: primaryColor,
+                                        width: 14,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 8),
+                                Row(
+                                  children: [
+                                    const Expanded(
+                                      child: Text('Pertanyaan Umum'),
+                                    ),
+                                    Text(
+                                      '${CredentialSaver.user!.totalWeeklyGeneralQuestionsQuota}/3',
+                                      style: textTheme.titleSmall,
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 8),
+                                Row(
+                                  children: [
+                                    const Expanded(
+                                      child: Text('Pertanyaan Khusus'),
+                                    ),
+                                    Text(
+                                      '${CredentialSaver.user!.totalWeeklySpecificQuestionsQuota}/1',
+                                      style: textTheme.titleSmall,
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 10),
+                                FilledButton.icon(
+                                  onPressed: () => showDialog(
+                                    context: context,
+                                    barrierDismissible: false,
+                                    builder: (context) {
+                                      return const CreateQuestionDialog(
+                                        categories: [
+                                          'Pidana',
+                                          'Tata Negara',
+                                          'Syariah',
+                                          'Lainnya',
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                  icon: const Icon(Icons.add_rounded),
+                                  label: const Text('Buat Pertanyaan'),
+                                  style: FilledButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                ).fullWidth(),
+                              ],
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    Positioned(
-                      left: 20,
-                      right: 20,
-                      bottom: 0,
-                      child: Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 16,
-                          horizontal: 20,
-                        ),
-                        decoration: BoxDecoration(
-                          color: scaffoldBackgroundColor,
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(.1),
-                              offset: const Offset(2, 2),
-                              blurRadius: 4,
-                              spreadRadius: -1,
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Flexible(
-                                  child: Text(
-                                    'Kesempatan Pertanyaan Mingguan',
-                                    style: textTheme.titleMedium!.copyWith(
-                                      color: primaryColor,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: 4),
-                                Tooltip(
-                                  message:
-                                      'Kesempatan bertanya akan di-reset setiap minggu.',
-                                  textStyle: textTheme.bodySmall!.copyWith(
-                                    color: scaffoldBackgroundColor,
-                                  ),
-                                  margin: const EdgeInsets.symmetric(
-                                    horizontal: 40,
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 8,
-                                    horizontal: 16,
-                                  ),
-                                  verticalOffset: 12,
-                                  triggerMode: TooltipTriggerMode.tap,
-                                  showDuration: const Duration(seconds: 4),
-                                  child: SvgAsset(
-                                    assetPath: AssetPath.getIcon(
-                                      'info-circle-line.svg',
-                                    ),
-                                    color: primaryColor,
-                                    width: 14,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 8),
-                            Row(
-                              children: [
-                                const Expanded(
-                                  child: Text('Pertanyaan Umum'),
-                                ),
-                                Text(
-                                  '${CredentialSaver.user!.totalWeeklyGeneralQuestionsQuota}/3',
-                                  style: textTheme.titleSmall,
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 8),
-                            Row(
-                              children: [
-                                const Expanded(
-                                  child: Text('Pertanyaan Khusus'),
-                                ),
-                                Text(
-                                  '${CredentialSaver.user!.totalWeeklySpecificQuestionsQuota}/1',
-                                  style: textTheme.titleSmall,
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 10),
-                            FilledButton.icon(
-                              onPressed: () => showDialog(
-                                context: context,
-                                barrierDismissible: false,
-                                builder: (context) {
-                                  return const CreateQuestionDialog(
-                                    categories: [
-                                      'Pidana',
-                                      'Tata Negara',
-                                      'Syariah',
-                                      'Lainnya',
-                                    ],
-                                  );
-                                },
-                              ),
-                              icon: const Icon(Icons.add_rounded),
-                              label: const Text('Buat Pertanyaan'),
-                              style: FilledButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                              ),
-                            ).fullWidth(),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        'Pertanyaan Saya',
-                        style: textTheme.titleLarge!.copyWith(
-                          color: primaryColor,
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () => navigatorKey.currentState!.pushNamed(
-                        studentQuestionListRoute,
-                      ),
-                      child: Text(
-                        'Lihat Selengkapnya >',
-                        style: textTheme.bodySmall!.copyWith(
-                          color: primaryColor,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 135,
-                child: ListView.separated(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 4),
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return DiscussionCard(
-                      question: dummyQuestions[index],
-                      role: 'student',
-                      width: 300,
-                    );
-                  },
-                  separatorBuilder: (context, index) {
-                    return const SizedBox(width: 8);
-                  },
-                  itemCount: dummyQuestions.length,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        'Diskusi Umum',
-                        style: textTheme.titleLarge!.copyWith(
-                          color: primaryColor,
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () => navigatorKey.currentState!.pushNamed(
-                        publicDiscussionRoute,
-                        arguments: 'student',
-                      ),
-                      child: Text(
-                        'Lihat Selengkapnya >',
-                        style: textTheme.bodySmall!.copyWith(
-                          color: primaryColor,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              ...List<Padding>.generate(
-                dummyQuestions.length,
-                (index) => Padding(
-                  padding: EdgeInsets.fromLTRB(
-                    20,
-                    0,
-                    20,
-                    index == dummyQuestions.length - 1 ? 24 : 8,
                   ),
-                  child: DiscussionCard(
-                    question: dummyQuestions[index],
-                    role: 'student',
-                    isDetail: true,
-                    withProfile: true,
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            'Pertanyaan Saya',
+                            style: textTheme.titleLarge!.copyWith(
+                              color: primaryColor,
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () => navigatorKey.currentState!.pushNamed(
+                            studentQuestionListRoute,
+                          ),
+                          child: Text(
+                            'Lihat Selengkapnya >',
+                            style: textTheme.bodySmall!.copyWith(
+                              color: primaryColor,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
+                  SizedBox(
+                    height: 135,
+                    child: userDiscussions!.isEmpty
+                        ? const EmptyContentText(
+                            'Pertanyaan kamu belum ada. Mulailah bertanya dengan menekan tombol "Buat Pertanyaan".',
+                          )
+                        : ListView.separated(
+                            padding: const EdgeInsets.fromLTRB(20, 0, 20, 4),
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return DiscussionCard(
+                                discussion: userDiscussions[index],
+                                role: CredentialSaver.user!.role!,
+                                width: 300,
+                              );
+                            },
+                            separatorBuilder: (context, index) {
+                              return const SizedBox(width: 8);
+                            },
+                            itemCount: userDiscussions.length,
+                          ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            'Diskusi Umum',
+                            style: textTheme.titleLarge!.copyWith(
+                              color: primaryColor,
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () => navigatorKey.currentState!.pushNamed(
+                            publicDiscussionRoute,
+                            arguments: 'student',
+                          ),
+                          child: Text(
+                            'Lihat Selengkapnya >',
+                            style: textTheme.bodySmall!.copyWith(
+                              color: primaryColor,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  if (publicDiscussions!.isEmpty)
+                    const CustomInformation(
+                      title: 'Belum ada diskusi',
+                      subtitle: 'Diskusi umum masih kosong.',
+                    )
+                  else
+                    ...List<Padding>.generate(
+                      publicDiscussions.length,
+                      (index) => Padding(
+                        padding: EdgeInsets.fromLTRB(
+                          20,
+                          0,
+                          20,
+                          index == publicDiscussions.length - 1 ? 24 : 8,
+                        ),
+                        child: DiscussionCard(
+                          discussion: publicDiscussions[index],
+                          role: 'student',
+                          isDetail: true,
+                          withProfile: true,
+                        ),
+                      ),
+                    ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
-      floatingActionButton: AnimatedFloatingActionButton(
-        fabAnimationController: fabAnimationController,
-        scrollController: scrollController,
-      ),
+          floatingActionButton: AnimatedFloatingActionButton(
+            fabAnimationController: fabAnimationController,
+            scrollController: scrollController,
+          ),
+        );
+      },
     );
   }
 }

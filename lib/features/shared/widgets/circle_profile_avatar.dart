@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 // Project imports:
+import 'package:law_app/core/configs/api_configs.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 
@@ -24,10 +25,18 @@ class CircleProfileAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var url = imageUrl;
+
     if (imageUrl != null) {
-      if (imageUrl!.isNotEmpty) {
+      if (!imageUrl!.contains(ApiConfigs.baseFileUrl)) {
+        url = '${ApiConfigs.baseFileUrl}/$imageUrl';
+      }
+    }
+
+    if (url != null) {
+      if (url.isNotEmpty) {
         return CachedNetworkImage(
-          imageUrl: imageUrl!,
+          imageUrl: url,
           imageBuilder: (context, imageProvider) {
             return buildProfileImage(imageProvider);
           },

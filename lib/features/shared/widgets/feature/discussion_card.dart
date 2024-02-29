@@ -1,23 +1,24 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
+// Package imports:
+import 'package:timeago/timeago.dart' as timeago;
+
 // Project imports:
-import 'package:law_app/core/enums/question_type.dart';
 import 'package:law_app/core/extensions/string_extension.dart';
 import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
-import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/admin/data/models/discussion_models/discussion_model.dart';
 import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
 import 'package:law_app/features/shared/widgets/ink_well_container.dart';
 import 'package:law_app/features/shared/widgets/label_chip.dart';
 
 class DiscussionCard extends StatelessWidget {
   final String role;
-  final Question question;
+  final DiscussionModel discussion;
   final bool isDetail;
   final bool withProfile;
   final double? width;
@@ -26,7 +27,7 @@ class DiscussionCard extends StatelessWidget {
   const DiscussionCard({
     super.key,
     required this.role,
-    required this.question,
+    required this.discussion,
     this.isDetail = false,
     this.withProfile = false,
     this.width,
@@ -64,7 +65,7 @@ class DiscussionCard extends StatelessWidget {
                     child: Row(
                       children: [
                         CircleProfileAvatar(
-                          imageUrl: CredentialSaver.user!.profilePicture,
+                          imageUrl: discussion.asker?.profilePicture,
                           radius: 20,
                         ),
                         const SizedBox(width: 10),
@@ -73,13 +74,13 @@ class DiscussionCard extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                question.owner.name,
+                                '${discussion.asker?.name}',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: textTheme.titleSmall,
                               ),
                               Text(
-                                question.createdAt,
+                                timeago.format(discussion.createdAt!),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: textTheme.labelSmall!.copyWith(
@@ -95,7 +96,7 @@ class DiscussionCard extends StatelessWidget {
                 else
                   Expanded(
                     child: Text(
-                      question.category,
+                      '${discussion.category?.name}',
                       style: textTheme.bodySmall!.copyWith(
                         color: secondaryTextColor,
                       ),
@@ -103,9 +104,9 @@ class DiscussionCard extends StatelessWidget {
                   ),
                 const SizedBox(width: 8),
                 LabelChip(
-                  text: question.status.toCapitalize(),
+                  text: '${discussion.status?.toCapitalize()}',
                   color: FunctionHelper.getColorByDiscussionStatus(
-                    question.status,
+                    '${discussion.status}',
                   ),
                 ),
               ],
@@ -117,7 +118,7 @@ class DiscussionCard extends StatelessWidget {
               children: [
                 Flexible(
                   child: Text(
-                    question.category,
+                    '${discussion.category?.name}',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: textTheme.bodySmall!.copyWith(
@@ -125,12 +126,12 @@ class DiscussionCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (question.type == QuestionType.specific.name)
+                if (discussion.type == 'specific')
                   Text(
-                    " • Pertanyaan Khusus",
+                    ' • Pertanyaan Khusus',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: textTheme.labelSmall!.copyWith(
+                    style: textTheme.bodySmall!.copyWith(
                       color: secondaryTextColor,
                       fontWeight: FontWeight.w700,
                     ),
@@ -140,7 +141,7 @@ class DiscussionCard extends StatelessWidget {
             const SizedBox(height: 2),
           ],
           Text(
-            question.title,
+            '${discussion.title}',
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: textTheme.titleMedium!.copyWith(
@@ -150,7 +151,7 @@ class DiscussionCard extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            question.description,
+            '${discussion.description}',
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
             style: textTheme.bodySmall!.copyWith(
@@ -162,7 +163,7 @@ class DiscussionCard extends StatelessWidget {
             Align(
               alignment: Alignment.centerRight,
               child: Text(
-                question.createdAt,
+                timeago.format(discussion.createdAt!),
                 style: textTheme.labelSmall!.copyWith(
                   color: secondaryTextColor,
                 ),
@@ -179,19 +180,19 @@ class DiscussionCard extends StatelessWidget {
       case 'admin':
         navigatorKey.currentState!.pushNamed(
           adminDiscussionDetailRoute,
-          arguments: question,
+          arguments: discussion,
         );
         break;
       case 'student':
         navigatorKey.currentState!.pushNamed(
           studentDiscussionDetailRoute,
-          arguments: question,
+          arguments: discussion,
         );
         break;
       case 'teacher':
         navigatorKey.currentState!.pushNamed(
           teacherDiscussionDetailRoute,
-          arguments: question,
+          arguments: discussion,
         );
         break;
       default:

@@ -77,10 +77,12 @@ class TeacherHomePage extends StatelessWidget {
                     shrinkWrap: true,
                     itemCount: 3,
                     itemBuilder: (context, index) {
-                      return DiscussionCard(
-                        question: dummyQuestions[index],
-                        role: 'teacher',
-                      );
+                      return const SizedBox();
+
+                      // return DiscussionCard(
+                      //   question: dummyQuestions[index],
+                      //   role: 'teacher',
+                      // );
                     },
                     separatorBuilder: (context, index) {
                       return const SizedBox(height: 8);

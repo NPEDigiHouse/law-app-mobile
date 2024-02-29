@@ -10,7 +10,7 @@ import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/admin/data/models/glossary_model.dart';
+import 'package:law_app/features/admin/data/models/glossary_models/glossary_model.dart';
 import 'package:law_app/features/glossary/presentation/pages/glossary_detail_page.dart';
 import 'package:law_app/features/glossary/presentation/providers/glossaries_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';

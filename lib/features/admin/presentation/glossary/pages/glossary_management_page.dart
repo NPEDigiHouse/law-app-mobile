@@ -13,7 +13,7 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/admin/data/models/glossary_post_model.dart';
+import 'package:law_app/features/admin/data/models/glossary_models/glossary_post_model.dart';
 import 'package:law_app/features/admin/presentation/glossary/widgets/glossary_card.dart';
 import 'package:law_app/features/glossary/presentation/providers/glossaries_provider.dart';
 import 'package:law_app/features/shared/providers/search_provider.dart';

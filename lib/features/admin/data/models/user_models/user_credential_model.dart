@@ -6,7 +6,7 @@ import 'package:equatable/equatable.dart';
 
 // Project imports:
 import 'package:law_app/core/extensions/datetime_extension.dart';
-import 'package:law_app/features/admin/data/models/discussion_category_model.dart';
+import 'package:law_app/features/admin/data/models/discussion_models/discussion_category_model.dart';
 
 class UserCredentialModel extends Equatable {
   final int? id;
@@ -17,9 +17,9 @@ class UserCredentialModel extends Equatable {
   final DateTime? birthDate;
   final String? phoneNumber;
   final String? profilePicture;
-  final List<DiscussionCategoryModel>? expertises;
   final int? totalWeeklyGeneralQuestionsQuota;
   final int? totalWeeklySpecificQuestionsQuota;
+  final List<DiscussionCategoryModel>? expertises;
 
   const UserCredentialModel({
     this.id,
@@ -30,9 +30,9 @@ class UserCredentialModel extends Equatable {
     this.birthDate,
     this.phoneNumber,
     this.profilePicture,
-    this.expertises,
     this.totalWeeklyGeneralQuestionsQuota,
     this.totalWeeklySpecificQuestionsQuota,
+    this.expertises,
   });
 
   UserCredentialModel copyWith({
@@ -44,9 +44,9 @@ class UserCredentialModel extends Equatable {
     DateTime? birthDate,
     String? phoneNumber,
     String? profilePicture,
-    List<DiscussionCategoryModel>? expertises,
     int? totalWeeklyGeneralQuestionsQuota,
     int? totalWeeklySpecificQuestionsQuota,
+    List<DiscussionCategoryModel>? expertises,
   }) {
     return UserCredentialModel(
       id: id ?? this.id,
@@ -57,11 +57,11 @@ class UserCredentialModel extends Equatable {
       birthDate: birthDate ?? this.birthDate,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       profilePicture: profilePicture ?? this.profilePicture,
-      expertises: expertises ?? this.expertises,
       totalWeeklyGeneralQuestionsQuota: totalWeeklyGeneralQuestionsQuota ??
           this.totalWeeklyGeneralQuestionsQuota,
       totalWeeklySpecificQuestionsQuota: totalWeeklySpecificQuestionsQuota ??
           this.totalWeeklySpecificQuestionsQuota,
+      expertises: expertises ?? this.expertises,
     );
   }
 
@@ -75,9 +75,9 @@ class UserCredentialModel extends Equatable {
       'birthDate': birthDate?.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
       'phoneNumber': phoneNumber,
       'profilePicture': profilePicture,
-      'teacherDiscussionCategories': expertises?.map((e) => e.toMap()).toList(),
       'totalWeeklyGeneralQuestionsQuota': totalWeeklyGeneralQuestionsQuota,
       'totalWeeklySpecificQuestionsQuota': totalWeeklySpecificQuestionsQuota,
+      'teacherDiscussionCategories': expertises?.map((e) => e.toMap()).toList(),
     };
   }
 
@@ -91,15 +91,15 @@ class UserCredentialModel extends Equatable {
       birthDate: DateTime.tryParse((map['birthDate'] as String?) ?? ''),
       phoneNumber: map['phoneNumber'] as String?,
       profilePicture: map['profilePicture'] as String?,
+      totalWeeklyGeneralQuestionsQuota:
+          map['totalWeeklyGeneralQuestionsQuota'] as int?,
+      totalWeeklySpecificQuestionsQuota:
+          map['totalWeeklySpecificQuestionsQuota'] as int?,
       expertises: List<DiscussionCategoryModel>.from(
         (map['teacherDiscussionCategories'] as List).map(
           (e) => DiscussionCategoryModel.fromMap(e as Map<String, dynamic>),
         ),
       ),
-      totalWeeklyGeneralQuestionsQuota:
-          map['totalWeeklyGeneralQuestionsQuota'] as int?,
-      totalWeeklySpecificQuestionsQuota:
-          map['totalWeeklySpecificQuestionsQuota'] as int?,
     );
   }
 
@@ -122,9 +122,9 @@ class UserCredentialModel extends Equatable {
       birthDate,
       phoneNumber,
       profilePicture,
-      expertises,
       totalWeeklyGeneralQuestionsQuota,
       totalWeeklySpecificQuestionsQuota,
+      expertises,
     ];
   }
 }

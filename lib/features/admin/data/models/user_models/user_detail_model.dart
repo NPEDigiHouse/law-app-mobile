@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 
 // Project imports:
 import 'package:law_app/core/extensions/datetime_extension.dart';
-import 'package:law_app/features/admin/data/models/discussion_category_model.dart';
+import 'package:law_app/features/admin/data/models/discussion_models/discussion_category_model.dart';
 
 class UserDetailModel extends Equatable {
   final int? id;

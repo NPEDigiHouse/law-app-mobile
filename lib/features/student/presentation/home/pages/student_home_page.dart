@@ -113,10 +113,11 @@ class StudentHomePage extends StatelessWidget {
                     shrinkWrap: true,
                     itemCount: 3,
                     itemBuilder: (context, index) {
-                      return DiscussionCard(
-                        question: dummyQuestions[index],
-                        role: 'student',
-                      );
+                      return const SizedBox();
+                      // return DiscussionCard(
+                      //   question: dummyQuestions[index],
+                      //   role: 'student',
+                      // );
                     },
                     separatorBuilder: (context, index) {
                       return const SizedBox(height: 8);

@@ -76,12 +76,13 @@ class _TeacherQuestionListPageState
                 horizontal: 20,
               ),
               itemBuilder: (context, index) {
-                return DiscussionCard(
-                  question: items[index],
-                  role: 'teacher',
-                  isDetail: true,
-                  withProfile: true,
-                );
+                return const SizedBox();
+                // return DiscussionCard(
+                //   question: items[index],
+                //   role: 'teacher',
+                //   isDetail: true,
+                //   withProfile: true,
+                // );
               },
               separatorBuilder: (context, index) {
                 return const SizedBox(height: 8);

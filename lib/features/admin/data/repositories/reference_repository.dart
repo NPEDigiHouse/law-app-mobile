@@ -8,7 +8,7 @@ import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/errors/failures.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/features/admin/data/datasources/reference_data_source.dart';
-import 'package:law_app/features/admin/data/models/discussion_category_model.dart';
+import 'package:law_app/features/admin/data/models/discussion_models/discussion_category_model.dart';
 
 abstract class ReferenceRepository {
   /// Get discussion categories

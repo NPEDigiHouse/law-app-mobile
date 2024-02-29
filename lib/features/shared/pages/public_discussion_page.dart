@@ -14,7 +14,6 @@ import 'package:law_app/features/shared/providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/animated_fab.dart';
 import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
-import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
 import 'package:law_app/features/shared/widgets/form_field/search_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 
@@ -169,12 +168,13 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
                             padding: EdgeInsets.only(
                               bottom: index == items.length - 1 ? 0 : 8,
                             ),
-                            child: DiscussionCard(
-                              question: items[index],
-                              role: widget.role,
-                              isDetail: true,
-                              withProfile: true,
-                            ),
+                            child: const SizedBox(),
+                            // child: DiscussionCard(
+                            //   question: items[index],
+                            //   role: widget.role,
+                            //   isDetail: true,
+                            //   withProfile: true,
+                            // ),
                           );
                         },
                         childCount: items.length,

@@ -81,12 +81,13 @@ class _TeacherQuestionHistoryPageState
               return ListView.separated(
                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 24),
                 itemBuilder: (context, index) {
-                  return DiscussionCard(
-                    question: questions[index],
-                    role: 'teacher',
-                    isDetail: true,
-                    withProfile: true,
-                  );
+                  return const SizedBox();
+                  // return DiscussionCard(
+                  //   question: questions[index],
+                  //   role: 'teacher',
+                  //   isDetail: true,
+                  //   withProfile: true,
+                  // );
                 },
                 separatorBuilder: (context, index) {
                   return const SizedBox(height: 8);

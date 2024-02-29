@@ -8,17 +8,17 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class CustomInformation extends StatelessWidget {
-  final String illustrationName;
   final String title;
   final String? subtitle;
+  final String? illustrationName;
   final double size;
   final bool withScaffold;
 
   const CustomInformation({
     super.key,
-    required this.illustrationName,
     required this.title,
     this.subtitle,
+    this.illustrationName,
     this.size = 260.0,
     this.withScaffold = false,
   });
@@ -36,11 +36,13 @@ class CustomInformation extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            SvgAsset(
-              assetPath: AssetPath.getVector(illustrationName),
-              width: size,
-            ),
-            const SizedBox(height: 12),
+            if (illustrationName != null) ...[
+              SvgAsset(
+                assetPath: AssetPath.getVector(illustrationName!),
+                width: size,
+              ),
+              const SizedBox(height: 12),
+            ],
             Text(
               title,
               style: textTheme.headlineSmall!.copyWith(

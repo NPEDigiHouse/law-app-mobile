@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 // Project imports:
 import 'package:law_app/app.dart';
@@ -20,6 +21,10 @@ void main() {
 
   // Init credential saver
   CredentialSaver.init();
+
+  // Time ago localization
+  timeago.setLocaleMessages('id', timeago.IdMessages());
+  timeago.setDefaultLocale('id');
 
   runApp(
     const ProviderScope(

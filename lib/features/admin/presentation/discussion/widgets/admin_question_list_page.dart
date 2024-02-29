@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 // Project imports:
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
-import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
 
 class AdminQuestionListPage extends StatefulWidget {
   final List<Question> questions;
@@ -41,12 +40,13 @@ class _AdminQuestionListPageState extends State<AdminQuestionListPage>
     return ListView.separated(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 24),
       itemBuilder: (context, index) {
-        return DiscussionCard(
-          question: widget.questions[index],
-          role: "admin",
-          isDetail: widget.isDetail,
-          withProfile: widget.withProfile,
-        );
+        return const SizedBox();
+        // return DiscussionCard(
+        //   question: widget.questions[index],
+        //   role: "admin",
+        //   isDetail: widget.isDetail,
+        //   withProfile: widget.withProfile,
+        // );
       },
       separatorBuilder: (context, index) {
         return const SizedBox(height: 8);

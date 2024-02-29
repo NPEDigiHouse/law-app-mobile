@@ -10,7 +10,7 @@ import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/auth/data/models/user_credential_model.dart';
+import 'package:law_app/features/admin/data/models/user_models/user_credential_model.dart';
 import 'package:law_app/features/auth/presentation/providers/is_sign_in_provider.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 

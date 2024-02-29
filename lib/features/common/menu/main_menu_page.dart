@@ -1,6 +1,9 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
+// Package imports:
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 // Project imports:
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
@@ -13,14 +16,14 @@ import 'package:law_app/features/student/presentation/home/pages/student_home_pa
 import 'package:law_app/features/teacher/presentation/discussion/pages/teacher_discussion_home_page.dart';
 import 'package:law_app/features/teacher/presentation/home/pages/teacher_home_page.dart';
 
-class MainMenuPage extends StatefulWidget {
+class MainMenuPage extends ConsumerStatefulWidget {
   const MainMenuPage({super.key});
 
   @override
-  State<MainMenuPage> createState() => _MainMenuPageState();
+  ConsumerState<MainMenuPage> createState() => _MainMenuPageState();
 }
 
-class _MainMenuPageState extends State<MainMenuPage> {
+class _MainMenuPageState extends ConsumerState<MainMenuPage> {
   late final ValueNotifier<int> selectedIndex;
   late final PageController pageController;
   late final List<Widget> pages;

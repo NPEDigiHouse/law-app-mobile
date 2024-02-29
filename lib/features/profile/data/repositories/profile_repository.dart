@@ -10,8 +10,8 @@ import 'package:law_app/core/connections/network_info.dart';
 import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/errors/failures.dart';
 import 'package:law_app/core/utils/const.dart';
+import 'package:law_app/features/admin/data/models/user_models/user_detail_model.dart';
 import 'package:law_app/features/profile/data/datasources/profile_data_source.dart';
-import 'package:law_app/features/shared/models/user_detail_model.dart';
 
 abstract class ProfileRepository {
   /// Get profile detail

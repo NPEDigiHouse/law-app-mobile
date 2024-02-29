@@ -8,9 +8,9 @@ import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/errors/failures.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/features/admin/data/datasources/glossary_data_source.dart';
-import 'package:law_app/features/admin/data/models/glossary_model.dart';
-import 'package:law_app/features/admin/data/models/glossary_post_model.dart';
-import 'package:law_app/features/admin/data/models/glossary_search_history_model.dart';
+import 'package:law_app/features/admin/data/models/glossary_models/glossary_model.dart';
+import 'package:law_app/features/admin/data/models/glossary_models/glossary_post_model.dart';
+import 'package:law_app/features/admin/data/models/glossary_models/glossary_search_history_model.dart';
 
 abstract class GlossaryRepository {
   /// Get glossaries

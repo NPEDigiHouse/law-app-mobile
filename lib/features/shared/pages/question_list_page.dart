@@ -32,12 +32,13 @@ class _QuestionListPageState extends State<QuestionListPage>
     return ListView.separated(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 24),
       itemBuilder: (context, index) {
-        return DiscussionCard(
-          question: widget.questions[index],
-          role: widget.role,
-          isDetail: widget.isDetail,
-          withProfile: widget.withProfile,
-        );
+        return const SizedBox();
+        // return DiscussionCard(
+        //   question: widget.questions[index],
+        //   role: widget.role,
+        //   isDetail: widget.isDetail,
+        //   withProfile: widget.withProfile,
+        // );
       },
       separatorBuilder: (context, index) {
         return const SizedBox(height: 8);

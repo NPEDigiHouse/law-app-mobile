@@ -333,11 +333,12 @@ class _TeacherDiscussionHomePageState extends State<TeacherDiscussionHomePage>
                   padding: const EdgeInsets.fromLTRB(20, 0, 20, 4),
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
-                    return DiscussionCard(
-                      question: dummyQuestions[index],
-                      role: '${CredentialSaver.user!.role}',
-                      width: 300,
-                    );
+                    return const SizedBox();
+                    // return DiscussionCard(
+                    //   question: dummyQuestions[index],
+                    //   role: '${CredentialSaver.user!.role}',
+                    //   width: 300,
+                    // );
                   },
                   separatorBuilder: (context, index) {
                     return const SizedBox(width: 8);
@@ -380,12 +381,13 @@ class _TeacherDiscussionHomePageState extends State<TeacherDiscussionHomePage>
                     20,
                     index == dummyQuestions.length - 1 ? 24 : 8,
                   ),
-                  child: DiscussionCard(
-                    question: dummyQuestions[index],
-                    role: '${CredentialSaver.user!.role}',
-                    isDetail: true,
-                    withProfile: true,
-                  ),
+                  child: const SizedBox(),
+                  // child: DiscussionCard(
+                  //   question: dummyQuestions[index],
+                  //   role: '${CredentialSaver.user!.role}',
+                  //   isDetail: true,
+                  //   withProfile: true,
+                  // ),
                 ),
               ),
             ],

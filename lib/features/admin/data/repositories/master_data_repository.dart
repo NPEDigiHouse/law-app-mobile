@@ -8,9 +8,9 @@ import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/errors/failures.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/features/admin/data/datasources/master_data_source.dart';
-import 'package:law_app/features/admin/data/models/user_model.dart';
-import 'package:law_app/features/shared/models/user_detail_model.dart';
-import 'package:law_app/features/shared/models/user_post_model.dart';
+import 'package:law_app/features/admin/data/models/user_models/user_detail_model.dart';
+import 'package:law_app/features/admin/data/models/user_models/user_model.dart';
+import 'package:law_app/features/admin/data/models/user_models/user_post_model.dart';
 
 abstract class MasterDataRepository {
   /// Get Users
