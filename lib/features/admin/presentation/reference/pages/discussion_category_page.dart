@@ -49,7 +49,7 @@ class DiscussionCategoryPage extends ConsumerWidget {
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(96),
         child: HeaderContainer(
-          title: 'Kategori Pertanyaan',
+          title: 'Kategori Diskusi',
           withBackButton: true,
         ),
       ),

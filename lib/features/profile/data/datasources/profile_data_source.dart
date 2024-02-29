@@ -23,9 +23,6 @@ abstract class ProfileDataSource {
     String? path,
   });
 
-  /// Edit profile
-  Future<void> deleteProfilePicture();
-
   /// Change password
   Future<void> changePassword({
     required String email,
@@ -144,11 +141,5 @@ class ProfileDataSourceImpl implements ProfileDataSource {
         throw http.ClientException(e.toString());
       }
     }
-  }
-
-  @override
-  Future<void> deleteProfilePicture() {
-    // TODO: implement deleteProfilePicture
-    throw UnimplementedError();
   }
 }

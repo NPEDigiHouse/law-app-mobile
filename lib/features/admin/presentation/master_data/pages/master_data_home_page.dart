@@ -257,10 +257,11 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
               {
                 'text': 'Pakar',
                 'onTap': () async {
-                  final categories = await getDiscussionCategories();
+                  final categories = await getDiscussionCategories(context);
+
+                  navigatorKey.currentState!.pop();
 
                   if (categories.isNotEmpty) {
-                    navigatorKey.currentState!.pop();
                     navigatorKey.currentState!.pushNamed(
                       masterDataFormRoute,
                       arguments: MasterDataFormPageArgs(
@@ -269,18 +270,16 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
                       ),
                     );
                   } else {
-                    navigatorKey.currentState!.pop();
+                    if (!context.mounted) return;
 
-                    if (context.mounted) {
-                      context.showCustomAlertDialog(
-                        title: 'Tidak Dapat Memilih Kepakaran!',
-                        message:
-                            'Daftar kategori pada referensi belum ada. Pastikan kamu menambahkan kategori terlebih dahulu, agar dapat menambahkan pakar.',
-                        onPressedPrimaryButton: () {
-                          navigatorKey.currentState!.pop();
-                        },
-                      );
-                    }
+                    context.showCustomAlertDialog(
+                      title: 'Tidak Dapat Memilih Kepakaran!',
+                      message:
+                          'Daftar kategori pada referensi belum ada. Pastikan kamu menambahkan kategori terlebih dahulu, agar dapat menambahkan pakar.',
+                      onPressedPrimaryButton: () {
+                        navigatorKey.currentState!.pop();
+                      },
+                    );
                   }
                 },
               },
@@ -334,15 +333,25 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
   }
 
   void filterUsers(String role) {
-    ref.read(selectedRoleProvider.notifier).state = role;
     ref.read(queryProvider.notifier).state = '';
+    ref.read(selectedRoleProvider.notifier).state = role;
     ref.read(masterDataProvider.notifier).filterUsers(
           role: role == 'Semua' ? null : role.toLowerCase(),
         );
   }
 
-  Future<List<DiscussionCategoryModel>> getDiscussionCategories() async {
-    final categories = await ref.watch(discussionCategoryProvider.future);
+  Future<List<DiscussionCategoryModel>> getDiscussionCategories(
+    BuildContext context,
+  ) async {
+    List<DiscussionCategoryModel>? categories;
+
+    try {
+      categories = await ref.watch(discussionCategoryProvider.future);
+    } catch (e) {
+      if (context.mounted) {
+        context.showBanner(message: '$e', type: BannerType.error);
+      }
+    }
 
     return categories ?? [];
   }

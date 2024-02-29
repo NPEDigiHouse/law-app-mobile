@@ -9,10 +9,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/button_extension.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
+import 'package:law_app/core/extensions/datetime_extension.dart';
 import 'package:law_app/core/services/image_service.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
-import 'package:law_app/core/extensions/datetime_extension.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
@@ -102,7 +102,7 @@ class AccountInfoPage extends ConsumerWidget {
             ref.invalidate(GetProfileDetailProvider(id: id));
 
             context.showBanner(
-              message: 'Password kamu berhasil diubah!',
+              message: 'Password berhasil diubah!',
               type: BannerType.success,
             );
 

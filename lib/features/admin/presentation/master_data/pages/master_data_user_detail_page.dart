@@ -186,16 +186,19 @@ class MasterDataUserDetailPage extends ConsumerWidget {
                   FilledButton(
                     onPressed: () async {
                       if (user.role == 'teacher') {
-                        final categories = await getDiscussionCategories(ref);
+                        final categories =
+                            await getDiscussionCategories(context, ref);
 
-                        navigatorKey.currentState!.pushNamed(
-                          masterDataFormRoute,
-                          arguments: MasterDataFormPageArgs(
-                            title: 'Edit ${user.role?.toCapitalize()}',
-                            user: user,
-                            discussionCategories: categories,
-                          ),
-                        );
+                        if (categories.isNotEmpty) {
+                          navigatorKey.currentState!.pushNamed(
+                            masterDataFormRoute,
+                            arguments: MasterDataFormPageArgs(
+                              title: 'Edit ${user.role?.toCapitalize()}',
+                              user: user,
+                              discussionCategories: categories,
+                            ),
+                          );
+                        }
                       } else {
                         navigatorKey.currentState!.pushNamed(
                           masterDataFormRoute,
@@ -218,9 +221,18 @@ class MasterDataUserDetailPage extends ConsumerWidget {
   }
 
   Future<List<DiscussionCategoryModel>> getDiscussionCategories(
+    BuildContext context,
     WidgetRef ref,
   ) async {
-    final categories = await ref.watch(discussionCategoryProvider.future);
+    List<DiscussionCategoryModel>? categories;
+
+    try {
+      categories = await ref.watch(discussionCategoryProvider.future);
+    } catch (e) {
+      if (context.mounted) {
+        context.showBanner(message: '$e', type: BannerType.error);
+      }
+    }
 
     return categories ?? [];
   }

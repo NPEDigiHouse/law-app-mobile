@@ -47,18 +47,6 @@ const teacher = User(
   otp: 1234,
 );
 
-const admin = User(
-  username: 'admin',
-  password: 'admin',
-  name: 'Admin',
-  email: 'admin@gmail.com',
-  dateOfBirth: '13 Maret 2004',
-  phoneNumber: '080120010001',
-  profilePict: 'no-profile-2.jpg',
-  role: 'admin',
-  otp: 1234,
-);
-
 //! Book
 class Book {
   final String title;

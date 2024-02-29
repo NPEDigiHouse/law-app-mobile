@@ -8,6 +8,7 @@ import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/animated_fab.dart';
@@ -182,7 +183,7 @@ class _StudentDiscussionHomePageState extends State<StudentDiscussionHomePage>
                                   child: Text('Pertanyaan Umum'),
                                 ),
                                 Text(
-                                  '0/3',
+                                  '${CredentialSaver.user!.totalWeeklyGeneralQuestionsQuota}/3',
                                   style: textTheme.titleSmall,
                                 ),
                               ],
@@ -194,7 +195,7 @@ class _StudentDiscussionHomePageState extends State<StudentDiscussionHomePage>
                                   child: Text('Pertanyaan Khusus'),
                                 ),
                                 Text(
-                                  '0/1',
+                                  '${CredentialSaver.user!.totalWeeklySpecificQuestionsQuota}/1',
                                   style: textTheme.titleSmall,
                                 ),
                               ],
