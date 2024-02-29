@@ -112,16 +112,16 @@ class MasterDataSourceImpl implements MasterDataSource {
   @override
   Future<void> createUser({required UserPostModel user}) async {
     try {
-      final response = await client.post(
+      final request = http.MultipartRequest(
+        'POST',
         Uri.parse('${ApiConfigs.baseUrl}/auth/signup'),
-        headers: {
-          HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
-        },
-        body: user.toJson(),
-      );
+      )
+        ..fields.addAll(user.toMap())
+        ..headers[HttpHeaders.authorizationHeader] =
+            'Bearer ${CredentialSaver.accessToken}';
 
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
       final result = DataResponse.fromJson(jsonDecode(response.body));
 
       if (result.code != 200) {
@@ -139,24 +139,24 @@ class MasterDataSourceImpl implements MasterDataSource {
   @override
   Future<void> editUser({required UserDetailModel user}) async {
     try {
-      final response = await client.put(
+      final request = http.MultipartRequest(
+        'PUT',
         Uri.parse('${ApiConfigs.baseUrl}/users/${user.id}'),
-        headers: {
-          HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
-        },
-        body: jsonEncode({
-          'name': user.name,
-          'email': user.email,
-          'phoneNumber': user.phoneNumber,
-          'birthDate':
-              user.birthDate?.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
+      )
+        ..fields.addAll({
+          'name': '${user.name}',
+          'email': '${user.email}',
+          'phoneNumber': '${user.phoneNumber}',
           'teacherDiscussionCategoryIds':
-              user.expertises?.map((e) => e.id).toList(),
-        }),
-      );
+              '${user.expertises?.map((e) => e.id).toList()}',
+          'birthDate':
+              '${user.birthDate?.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'")}',
+        })
+        ..headers[HttpHeaders.authorizationHeader] =
+            'Bearer ${CredentialSaver.accessToken}';
 
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
       final result = DataResponse.fromJson(jsonDecode(response.body));
 
       if (result.code != 200) {

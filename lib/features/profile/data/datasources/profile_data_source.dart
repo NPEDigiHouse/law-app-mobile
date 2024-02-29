@@ -23,6 +23,9 @@ abstract class ProfileDataSource {
     String? path,
   });
 
+  /// Edit profile
+  Future<void> deleteProfilePicture();
+
   /// Change password
   Future<void> changePassword({
     required String email,
@@ -70,40 +73,40 @@ class ProfileDataSourceImpl implements ProfileDataSource {
     String? path,
   }) async {
     try {
-      final body = {
-        'name': user.name,
-        'email': user.email,
-        'phoneNumber': user.phoneNumber,
-        'birthDate':
-            user.birthDate?.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
-      };
+      final request = http.MultipartRequest(
+        'PUT',
+        Uri.parse('${ApiConfigs.baseUrl}/users/${user.id}'),
+      )
+        ..fields.addAll({
+          'name': '${user.name}',
+          'email': '${user.email}',
+          'phoneNumber': '${user.phoneNumber}',
+          'teacherDiscussionCategoryIds':
+              '${user.expertises?.map((e) => e.id).toList()}',
+          'birthDate':
+              '${user.birthDate?.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'")}',
+        })
+        ..headers[HttpHeaders.authorizationHeader] =
+            'Bearer ${CredentialSaver.accessToken}';
 
       if (path != null) {
-        final fileEncode = base64Encode(File(path).readAsBytesSync());
+        final file = await http.MultipartFile.fromPath('profilePicture', path);
 
-        body['profilePicture'] = 'data:image/png;base64,$fileEncode';
+        request.files.add(file);
       }
 
-      final response = await client.put(
-        Uri.parse('${ApiConfigs.baseUrl}/users/${user.id}'),
-        headers: {
-          HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
-        },
-        body: jsonEncode(body),
-      );
-
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
       final result = DataResponse.fromJson(jsonDecode(response.body));
 
       if (result.code != 200) {
         throw ServerException('${result.message}');
       }
     } catch (e) {
-      if (e is http.ClientException) {
-        throw http.ClientException(e.toString());
-      } else {
+      if (e is ServerException) {
         rethrow;
+      } else {
+        throw http.ClientException(e.toString());
       }
     }
   }
@@ -141,5 +144,11 @@ class ProfileDataSourceImpl implements ProfileDataSource {
         throw http.ClientException(e.toString());
       }
     }
+  }
+
+  @override
+  Future<void> deleteProfilePicture() {
+    // TODO: implement deleteProfilePicture
+    throw UnimplementedError();
   }
 }

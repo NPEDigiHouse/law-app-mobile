@@ -238,7 +238,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
                           CustomTextField(
                             name: 'birthDate',
                             label: 'Tanggal Lahir',
-                            hintText: 'dd MMMM yyyy',
+                            hintText: 'd MMMM yyyy',
                             hasPrefixIcon: false,
                             suffixIconName: 'calendar.svg',
                             textInputType: TextInputType.none,
@@ -332,7 +332,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
     if (birthDate != null) {
       date = birthDate;
 
-      final value = date.toStringPattern('dd MMMM yyyy');
+      final value = date.toStringPattern('d MMMM yyyy');
 
       formKey.currentState!.fields['birthDate']!.didChange(value);
     }
@@ -352,7 +352,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
         birthDate: date.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
         phoneNumber: data['phoneNumber'],
         role: 'student',
-        teacherDiscussionCategoryIds: const [],
+        teacherDiscussionCategoryIds: '[]',
       );
 
       ref.read(signUpProvider.notifier).signUp(userPostModel: userPostModel);

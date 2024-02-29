@@ -53,14 +53,13 @@ class AuthDataSourceImpl implements AuthDataSource {
   @override
   Future<bool> signUp({required UserPostModel userPostModel}) async {
     try {
-      final response = await client.post(
+      final request = http.MultipartRequest(
+        'POST',
         Uri.parse('${ApiConfigs.baseUrl}/auth/signup'),
-        headers: {
-          HttpHeaders.contentTypeHeader: 'application/json',
-        },
-        body: userPostModel.toJson(),
-      );
+      )..fields.addAll(userPostModel.toMap());
 
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
       final result = DataResponse.fromJson(jsonDecode(response.body));
 
       if (result.code == 200) {

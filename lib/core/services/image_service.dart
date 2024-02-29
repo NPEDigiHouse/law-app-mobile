@@ -23,7 +23,7 @@ class ImageService {
       aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
       maxWidth: 500,
       maxHeight: 500,
-      compressQuality: 40,
+      compressQuality: 50,
       uiSettings: [
         AndroidUiSettings(
           toolbarTitle: 'Crop Gambar',

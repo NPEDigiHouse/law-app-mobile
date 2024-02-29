@@ -122,13 +122,13 @@ class AccountInfoPage extends ConsumerWidget {
           "Nama Lengkap": user.name,
           "Username": user.username,
           "Email": user.email,
-          "Tanggal Lahir": user.birthDate?.toStringPattern('dd MMMM yyyy'),
+          "Tanggal Lahir": user.birthDate?.toStringPattern('d MMMM yyyy'),
           "No. Hp": user.phoneNumber,
         };
 
         if (user.role == 'teacher') {
           userData["Kepakaran"] =
-              '${user.expertises?.map((e) => e.name).toList().join(', ')}.';
+              '${user.expertises?.map((e) => e.name).toList().join(', ')}';
         }
 
         return Scaffold(

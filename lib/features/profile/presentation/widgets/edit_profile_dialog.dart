@@ -85,9 +85,9 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                   isSmall: true,
                   name: "birthDate",
                   label: "Tanggal Lahir",
-                  hintText: "dd MMMM yyyy",
+                  hintText: "d MMMM yyyy",
                   initialValue:
-                      widget.user.birthDate?.toStringPattern('dd MMMM yyyy'),
+                      widget.user.birthDate?.toStringPattern('d MMMM yyyy'),
                   hasPrefixIcon: false,
                   suffixIconName: "calendar.svg",
                   textInputType: TextInputType.none,
@@ -140,7 +140,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
     if (birthDate != null) {
       date = birthDate;
 
-      final value = date.toStringPattern('dd MMMM yyyy');
+      final value = date.toStringPattern('d MMMM yyyy');
 
       formKey.currentState!.fields['birthDate']!.didChange(value);
     }
@@ -156,8 +156,8 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
             user: widget.user.copyWith(
               name: data['name'],
               email: data['email'],
-              birthDate: date,
               phoneNumber: data['phoneNumber'],
+              birthDate: date,
             ),
           );
 

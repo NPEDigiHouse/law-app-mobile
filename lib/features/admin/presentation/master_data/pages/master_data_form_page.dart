@@ -190,9 +190,9 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> {
               CustomTextField(
                 name: 'birthDate',
                 label: 'Tanggal Lahir',
-                hintText: 'dd MMMM yyyy',
+                hintText: 'd MMMM yyyy',
                 initialValue:
-                    widget.user?.birthDate?.toStringPattern('dd MMMM yyyy'),
+                    widget.user?.birthDate?.toStringPattern('d MMMM yyyy'),
                 hasPrefixIcon: false,
                 suffixIconName: 'calendar.svg',
                 textInputType: TextInputType.none,
@@ -353,7 +353,7 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> {
                 phoneNumber: data['phoneNumber'],
                 birthDate: date.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
                 teacherDiscussionCategoryIds:
-                    selectedExpertises.map((e) => e.id!).toList(),
+                    '${selectedExpertises.map((e) => e.id!).toList()}',
               ),
             );
       }
@@ -374,7 +374,7 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> {
     if (birthDate != null) {
       date = birthDate;
 
-      final value = date.toStringPattern('dd MMMM yyyy');
+      final value = date.toStringPattern('d MMMM yyyy');
 
       formKey.currentState!.fields['birthDate']!.didChange(value);
     }

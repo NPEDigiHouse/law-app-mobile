@@ -64,7 +64,7 @@ class MasterDataUserDetailPage extends ConsumerWidget {
           "Nama Lengkap": user.name,
           "Username": user.username,
           "Email": user.email,
-          "Tanggal Lahir": user.birthDate?.toStringPattern('dd MMMM yyyy'),
+          "Tanggal Lahir": user.birthDate?.toStringPattern('d MMMM yyyy'),
           "No. Hp": user.phoneNumber,
         };
 

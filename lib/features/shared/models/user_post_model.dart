@@ -12,7 +12,7 @@ class UserPostModel extends Equatable {
   final String birthDate;
   final String phoneNumber;
   final String role;
-  final List<int> teacherDiscussionCategoryIds;
+  final String teacherDiscussionCategoryIds;
 
   const UserPostModel({
     required this.name,
@@ -33,7 +33,7 @@ class UserPostModel extends Equatable {
     String? birthDate,
     String? phoneNumber,
     String? role,
-    List<int>? teacherDiscussionCategoryIds,
+    String? teacherDiscussionCategoryIds,
   }) {
     return UserPostModel(
       name: name ?? this.name,
@@ -48,8 +48,8 @@ class UserPostModel extends Equatable {
     );
   }
 
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
+  Map<String, String> toMap() {
+    return <String, String>{
       'name': name,
       'username': username,
       'email': email,

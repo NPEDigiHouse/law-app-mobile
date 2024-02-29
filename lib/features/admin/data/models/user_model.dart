@@ -54,7 +54,7 @@ class UserModel extends Equatable {
       'name': name,
       'username': username,
       'email': email,
-      'birthDate': birthDate?.toStringPattern("dd MMMM yyyy"),
+      'birthDate': birthDate?.toStringPattern("d MMMM yyyy"),
       'phoneNumber': phoneNumber,
       'profilePicture': profilePicture,
     };

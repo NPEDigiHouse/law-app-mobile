@@ -59,7 +59,7 @@ class UserCard extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '@${user.username}',
+                  '${user.email}',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: textTheme.bodySmall!.copyWith(
