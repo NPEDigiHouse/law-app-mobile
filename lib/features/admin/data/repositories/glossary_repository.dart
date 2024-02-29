@@ -109,8 +109,15 @@ class GlossaryRepositoryImpl implements GlossaryRepository {
         );
 
         return Right(result);
-      } on ServerException {
-        return const Left(ServerFailure('Terjadi kesalahan'));
+      } on ServerException catch (e) {
+        switch (e.message) {
+          case kGlossaryAlreadyExist:
+            return const Left(
+              ServerFailure('Telah terdapat kosa kata yang sama'),
+            );
+          default:
+            return Left(ServerFailure(e.message));
+        }
       } on ClientException catch (e) {
         return Left(ClientFailure(e.message));
       }
@@ -129,8 +136,15 @@ class GlossaryRepositoryImpl implements GlossaryRepository {
         );
 
         return Right(result);
-      } on ServerException {
-        return const Left(ServerFailure('Terjadi kesalahan'));
+      } on ServerException catch (e) {
+        switch (e.message) {
+          case kGlossaryAlreadyExist:
+            return const Left(
+              ServerFailure('Telah terdapat kosa kata yang sama'),
+            );
+          default:
+            return Left(ServerFailure(e.message));
+        }
       } on ClientException catch (e) {
         return Left(ClientFailure(e.message));
       }

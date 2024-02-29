@@ -124,7 +124,14 @@ class DiscussionRepositoryImpl implements DiscussionRepository {
 
         return Right(result);
       } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
+        switch (e.message) {
+          case kNoGeneralQuestionLeft:
+            return const Left(
+              ServerFailure('Kuota pertanyaan umum telah habis'),
+            );
+          default:
+            return Left(ServerFailure(e.message));
+        }
       } on ClientException catch (e) {
         return Left(ClientFailure(e.message));
       }

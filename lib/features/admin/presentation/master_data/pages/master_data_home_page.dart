@@ -273,9 +273,8 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
                     if (!context.mounted) return;
 
                     context.showCustomAlertDialog(
-                      title: 'Tidak Dapat Memilih Kepakaran!',
-                      message:
-                          'Daftar kategori pada referensi belum ada. Pastikan kamu menambahkan kategori terlebih dahulu, agar dapat menambahkan pakar.',
+                      title: 'Tidak Dapat Memilih Pakar!',
+                      message: 'Saat ini, user role pakar belum dapat dibuat.',
                       onPressedPrimaryButton: () {
                         navigatorKey.currentState!.pop();
                       },
@@ -348,9 +347,7 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
     try {
       categories = await ref.watch(discussionCategoryProvider.future);
     } catch (e) {
-      if (context.mounted) {
-        context.showBanner(message: '$e', type: BannerType.error);
-      }
+      debugPrint('$e');
     }
 
     return categories ?? [];

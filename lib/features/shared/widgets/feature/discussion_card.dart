@@ -10,6 +10,7 @@ import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/discussion_models/discussion_model.dart';
 import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
@@ -17,7 +18,6 @@ import 'package:law_app/features/shared/widgets/ink_well_container.dart';
 import 'package:law_app/features/shared/widgets/label_chip.dart';
 
 class DiscussionCard extends StatelessWidget {
-  final String role;
   final DiscussionModel discussion;
   final bool isDetail;
   final bool withProfile;
@@ -26,7 +26,6 @@ class DiscussionCard extends StatelessWidget {
 
   const DiscussionCard({
     super.key,
-    required this.role,
     required this.discussion,
     this.isDetail = false,
     this.withProfile = false,
@@ -176,23 +175,23 @@ class DiscussionCard extends StatelessWidget {
   }
 
   void onTap() {
-    switch (role) {
+    switch (CredentialSaver.user!.role) {
       case 'admin':
         navigatorKey.currentState!.pushNamed(
           adminDiscussionDetailRoute,
-          arguments: discussion,
+          arguments: discussion.id,
         );
         break;
       case 'student':
         navigatorKey.currentState!.pushNamed(
           studentDiscussionDetailRoute,
-          arguments: discussion,
+          arguments: discussion.id,
         );
         break;
       case 'teacher':
         navigatorKey.currentState!.pushNamed(
           teacherDiscussionDetailRoute,
-          arguments: discussion,
+          arguments: discussion.id,
         );
         break;
       default:

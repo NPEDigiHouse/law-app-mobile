@@ -58,7 +58,7 @@ class DiscussionModel extends Equatable {
       'type': type,
       'category': category?.toMap(),
       'asker': asker?.toMap(),
-      'createdAt': createdAt!.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
+      'createdAt': createdAt?.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
     };
   }
 

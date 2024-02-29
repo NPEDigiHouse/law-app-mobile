@@ -14,7 +14,6 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
-import 'package:law_app/features/shared/widgets/feature/discussion_reply_card.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/label_chip.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
@@ -197,11 +196,11 @@ class TeacherDiscussionDetailPage extends StatelessWidget {
         5,
         (index) => Padding(
           padding: EdgeInsets.only(bottom: index == 4 ? 0 : 12),
-          child: DiscussionReplyCard(
-            questionOwner: question.owner,
-            responder: index.isEven ? teacher : question.owner,
-            reverse: true,
-          ),
+          // child: DiscussionReplyCard(
+          //   questionOwner: question.owner,
+          //   responder: index.isEven ? teacher : question.owner,
+          //   reverse: true,
+          // ),
         ),
       ),
     );

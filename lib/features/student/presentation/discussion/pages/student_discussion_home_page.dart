@@ -16,7 +16,10 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/shared/providers/discussion_providers/discussions_provider.dart';
+import 'package:law_app/features/admin/data/models/discussion_models/discussion_category_model.dart';
+import 'package:law_app/features/admin/presentation/reference/providers/discussion_category_provider.dart';
+import 'package:law_app/features/shared/providers/discussion_providers/create_discussion_provider.dart';
+import 'package:law_app/features/shared/providers/discussion_providers/get_discussions_provider.dart';
 import 'package:law_app/features/shared/widgets/animated_fab.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
@@ -68,20 +71,16 @@ class _StudentDiscussionHomePageState
 
   @override
   Widget build(BuildContext context) {
-    var discussions = ref.watch(discussionsProvider);
+    final discussions = ref.watch(getDiscussionsProvider);
 
-    ref.listen(discussionsProvider, (previous, next) {
-      if (previous != next) {
-        discussions = next;
-      }
-
-      next.when(
+    ref.listen(getDiscussionsProvider, (_, state) {
+      state.when(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
                 navigatorKey.currentState!.pop();
-                ref.invalidate(discussionsProvider);
+                ref.invalidate(getDiscussionsProvider);
               },
             );
           } else {
@@ -90,6 +89,29 @@ class _StudentDiscussionHomePageState
         },
         loading: () {},
         data: (_) {},
+      );
+    });
+
+    ref.listen(createDiscussionProvider, (_, state) {
+      state.when(
+        error: (error, _) {
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet();
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+        loading: () {},
+        data: (data) {
+          if (data != null) {
+            ref.invalidate(getDiscussionsProvider);
+
+            context.showBanner(
+              message: 'Berhasil membuat pertanyaan!',
+              type: BannerType.success,
+            );
+          }
+        },
       );
     });
 
@@ -249,20 +271,35 @@ class _StudentDiscussionHomePageState
                                 ),
                                 const SizedBox(height: 10),
                                 FilledButton.icon(
-                                  onPressed: () => showDialog(
-                                    context: context,
-                                    barrierDismissible: false,
-                                    builder: (context) {
-                                      return const CreateQuestionDialog(
-                                        categories: [
-                                          'Pidana',
-                                          'Tata Negara',
-                                          'Syariah',
-                                          'Lainnya',
-                                        ],
+                                  onPressed: () async {
+                                    final categories =
+                                        await getDiscussionCategories(context);
+
+                                    if (categories.isNotEmpty) {
+                                      if (!context.mounted) return;
+
+                                      showDialog(
+                                        context: context,
+                                        barrierDismissible: false,
+                                        builder: (context) {
+                                          return CreateQuestionDialog(
+                                            categories: categories,
+                                          );
+                                        },
                                       );
-                                    },
-                                  ),
+                                    } else {
+                                      if (!context.mounted) return;
+
+                                      context.showCustomAlertDialog(
+                                        title: 'Anda belum dapat bertanya!',
+                                        message:
+                                            'Saat ini kamu belum bisa bertanya, Silahkan mencoba lain kali.',
+                                        onPressedPrimaryButton: () {
+                                          navigatorKey.currentState!.pop();
+                                        },
+                                      );
+                                    }
+                                  },
                                   icon: const Icon(Icons.add_rounded),
                                   label: const Text('Buat Pertanyaan'),
                                   style: FilledButton.styleFrom(
@@ -316,7 +353,6 @@ class _StudentDiscussionHomePageState
                             itemBuilder: (context, index) {
                               return DiscussionCard(
                                 discussion: userDiscussions[index],
-                                role: CredentialSaver.user!.role!,
                                 width: 300,
                               );
                             },
@@ -370,7 +406,6 @@ class _StudentDiscussionHomePageState
                         ),
                         child: DiscussionCard(
                           discussion: publicDiscussions[index],
-                          role: 'student',
                           isDetail: true,
                           withProfile: true,
                         ),
@@ -387,5 +422,19 @@ class _StudentDiscussionHomePageState
         );
       },
     );
+  }
+
+  Future<List<DiscussionCategoryModel>> getDiscussionCategories(
+    BuildContext context,
+  ) async {
+    List<DiscussionCategoryModel>? categories;
+
+    try {
+      categories = await ref.watch(discussionCategoryProvider.future);
+    } catch (e) {
+      debugPrint('$e');
+    }
+
+    return categories ?? [];
   }
 }

@@ -27,14 +27,12 @@ class CircleProfileAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     var url = imageUrl;
 
-    if (imageUrl != null) {
-      if (!imageUrl!.contains(ApiConfigs.baseFileUrl)) {
-        url = '${ApiConfigs.baseFileUrl}/$imageUrl';
-      }
-    }
-
     if (url != null) {
       if (url.isNotEmpty) {
+        if (!imageUrl!.contains(ApiConfigs.baseFileUrl)) {
+          url = '${ApiConfigs.baseFileUrl}/$imageUrl';
+        }
+
         return CachedNetworkImage(
           imageUrl: url,
           imageBuilder: (context, imageProvider) {

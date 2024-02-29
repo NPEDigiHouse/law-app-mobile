@@ -2,6 +2,7 @@
 import 'package:equatable/equatable.dart';
 
 // Project imports:
+import 'package:law_app/core/extensions/datetime_extension.dart';
 import 'package:law_app/features/admin/data/models/discussion_models/discussion_category_model.dart';
 import 'package:law_app/features/admin/data/models/discussion_models/discussion_comment_model.dart';
 import 'package:law_app/features/admin/data/models/user_models/user_model.dart';
@@ -12,6 +13,7 @@ class DiscussionDetailModel extends Equatable {
   final String? title;
   final String? description;
   final String? type;
+  final DateTime? createdAt;
   final DiscussionCategoryModel? category;
   final UserModel? asker;
   final List<DiscussionCommentModel>? comments;
@@ -22,6 +24,7 @@ class DiscussionDetailModel extends Equatable {
     this.title,
     this.description,
     this.type,
+    this.createdAt,
     this.category,
     this.asker,
     this.comments,
@@ -33,6 +36,7 @@ class DiscussionDetailModel extends Equatable {
     String? title,
     String? description,
     String? type,
+    DateTime? createdAt,
     DiscussionCategoryModel? category,
     UserModel? asker,
     List<DiscussionCommentModel>? comments,
@@ -43,6 +47,7 @@ class DiscussionDetailModel extends Equatable {
       title: title ?? this.title,
       description: description ?? this.description,
       type: type ?? this.type,
+      createdAt: createdAt ?? this.createdAt,
       category: category ?? this.category,
       asker: asker ?? this.asker,
       comments: comments ?? this.comments,
@@ -56,6 +61,7 @@ class DiscussionDetailModel extends Equatable {
       'title': title,
       'description': description,
       'type': type,
+      'createdAt': createdAt?.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
       'category': category?.toMap(),
       'asker': asker?.toMap(),
       'comments': comments?.map((e) => e.toMap()).toList(),
@@ -69,6 +75,7 @@ class DiscussionDetailModel extends Equatable {
       title: map['title'] as String?,
       description: map['description'] as String?,
       type: map['type'] as String?,
+      createdAt: DateTime.tryParse((map['createdAt'] as String?) ?? ''),
       category: DiscussionCategoryModel.fromMap(
         map['category'] as Map<String, dynamic>,
       ),
@@ -94,6 +101,7 @@ class DiscussionDetailModel extends Equatable {
       title,
       description,
       type,
+      createdAt,
       category,
       asker,
       comments,

@@ -1,43 +1,46 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
+// Package imports:
+import 'package:timeago/timeago.dart' as timeago;
+
 // Project imports:
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
-import 'package:law_app/core/utils/credential_saver.dart';
-import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/admin/data/models/discussion_models/discussion_comment_model.dart';
+import 'package:law_app/features/admin/data/models/user_models/user_model.dart';
 import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
 
 class DiscussionReplyCard extends StatelessWidget {
-  final User questionOwner;
-  final User responder;
+  final DiscussionCommentModel comment;
+  final UserModel asker;
   final bool reverse;
 
   const DiscussionReplyCard({
     super.key,
-    required this.questionOwner,
-    required this.responder,
+    required this.comment,
+    required this.asker,
     this.reverse = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    var isLeft = questionOwner == responder;
+    var isLeft = asker == comment.user!;
 
     if (reverse) isLeft = !isLeft;
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: isLeft
-          ? buildRowChildren(isLeft)
-          : buildRowChildren(isLeft).reversed.toList(),
+          ? buildRowChildren(comment, isLeft)
+          : buildRowChildren(comment, isLeft).reversed.toList(),
     );
   }
 
-  List<Widget> buildRowChildren(bool isLeft) {
+  List<Widget> buildRowChildren(DiscussionCommentModel comment, bool isLeft) {
     return [
       CircleProfileAvatar(
-        imageUrl: CredentialSaver.user!.profilePicture,
+        imageUrl: comment.user!.profilePicture,
         radius: 16,
       ),
       const SizedBox(width: 8),
@@ -64,18 +67,18 @@ class DiscussionReplyCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  responder.name,
+                  '${comment.user?.name}',
                   style: textTheme.titleSmall,
                 ),
                 Text(
-                  '15 menit yang lalu',
+                  timeago.format(comment.createdAt!),
                   style: textTheme.labelSmall!.copyWith(
                     color: secondaryTextColor,
                   ),
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum.',
+                  '${comment.text}',
                   style: textTheme.bodySmall,
                 ),
               ],
