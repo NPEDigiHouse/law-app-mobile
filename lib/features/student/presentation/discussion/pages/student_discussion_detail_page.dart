@@ -42,6 +42,7 @@ class StudentDiscussionDetailPage extends ConsumerWidget {
       state.when(
         error: (error, _) {
           navigatorKey.currentState!.pop();
+          navigatorKey.currentState!.pop();
 
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet();
@@ -59,6 +60,7 @@ class StudentDiscussionDetailPage extends ConsumerWidget {
               type: BannerType.success,
             );
 
+            navigatorKey.currentState!.pop();
             navigatorKey.currentState!.pop();
             navigatorKey.currentState!.pop();
           }
@@ -91,8 +93,6 @@ class StudentDiscussionDetailPage extends ConsumerWidget {
                   ref
                       .read(deleteDiscussionProvider.notifier)
                       .deleteDiscussion(id: id);
-
-                  navigatorKey.currentState!.pop();
                 },
               ),
             ),
@@ -137,7 +137,7 @@ class StudentDiscussionDetailPage extends ConsumerWidget {
                     LabelChip(
                       text: '${discussion.status?.toCapitalize()}',
                       color: FunctionHelper.getColorByDiscussionStatus(
-                        '${discussion.status}',
+                        discussion.status!,
                       ),
                     ),
                   ],
@@ -279,9 +279,11 @@ class StudentDiscussionDetailPage extends ConsumerWidget {
 
     return Column(
       children: List<Padding>.generate(
-        5,
+        discussion.comments!.length,
         (index) => Padding(
-          padding: EdgeInsets.only(bottom: index == 4 ? 0 : 12),
+          padding: EdgeInsets.only(
+            bottom: index == discussion.comments!.length - 1 ? 0 : 12,
+          ),
           child: DiscussionReplyCard(
             comment: discussion.comments![index],
             asker: discussion.asker!,

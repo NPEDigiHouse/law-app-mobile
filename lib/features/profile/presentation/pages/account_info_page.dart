@@ -62,6 +62,7 @@ class AccountInfoPage extends ConsumerWidget {
       state.when(
         error: (error, _) {
           navigatorKey.currentState!.pop();
+          navigatorKey.currentState!.pop();
 
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet();
@@ -80,6 +81,7 @@ class AccountInfoPage extends ConsumerWidget {
             );
 
             navigatorKey.currentState!.pop();
+            navigatorKey.currentState!.pop();
           }
         },
       );
@@ -88,6 +90,7 @@ class AccountInfoPage extends ConsumerWidget {
     ref.listen(changePasswordProvider, (_, state) {
       state.when(
         error: (error, _) {
+          navigatorKey.currentState!.pop();
           navigatorKey.currentState!.pop();
 
           if ('$error' == kNoInternetConnection) {
@@ -106,6 +109,7 @@ class AccountInfoPage extends ConsumerWidget {
               type: BannerType.success,
             );
 
+            navigatorKey.currentState!.pop();
             navigatorKey.currentState!.pop();
           }
         },

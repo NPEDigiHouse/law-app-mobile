@@ -95,13 +95,16 @@ class _StudentDiscussionHomePageState
     ref.listen(createDiscussionProvider, (_, state) {
       state.when(
         error: (error, _) {
+          navigatorKey.currentState!.pop();
+          navigatorKey.currentState!.pop();
+
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet();
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
           }
         },
-        loading: () {},
+        loading: () => context.showLoadingDialog(),
         data: (data) {
           if (data != null) {
             ref.invalidate(getDiscussionsProvider);
@@ -110,6 +113,9 @@ class _StudentDiscussionHomePageState
               message: 'Berhasil membuat pertanyaan!',
               type: BannerType.success,
             );
+
+            navigatorKey.currentState!.pop();
+            navigatorKey.currentState!.pop();
           }
         },
       );

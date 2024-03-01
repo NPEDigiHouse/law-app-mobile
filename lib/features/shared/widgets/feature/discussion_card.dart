@@ -105,7 +105,7 @@ class DiscussionCard extends StatelessWidget {
                 LabelChip(
                   text: '${discussion.status?.toCapitalize()}',
                   color: FunctionHelper.getColorByDiscussionStatus(
-                    '${discussion.status}',
+                    discussion.status!,
                   ),
                 ),
               ],

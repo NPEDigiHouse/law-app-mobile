@@ -61,6 +61,7 @@ class GlossaryDetailPage extends ConsumerWidget {
         state.when(
           error: (error, _) {
             navigatorKey.currentState!.pop();
+            navigatorKey.currentState!.pop();
 
             if ('$error' == kNoInternetConnection) {
               context.showNetworkErrorModalBottomSheet();
@@ -74,6 +75,7 @@ class GlossaryDetailPage extends ConsumerWidget {
               ref.invalidate(GetGlossaryDetailProvider(id: id));
               ref.invalidate(glossariesProvider);
 
+              navigatorKey.currentState!.pop();
               navigatorKey.currentState!.pop();
             }
           },
@@ -145,8 +147,6 @@ class GlossaryDetailPage extends ConsumerWidget {
                         ref
                             .read(editGlossaryProvider.notifier)
                             .editGlossary(glossary: newGlossary);
-
-                        navigatorKey.currentState!.pop();
                       },
                     ),
                     icon: SvgAsset(
