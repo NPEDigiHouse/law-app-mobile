@@ -15,8 +15,6 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/admin/data/models/discussion_models/discussion_category_model.dart';
-import 'package:law_app/features/admin/presentation/reference/providers/discussion_category_provider.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/create_discussion_provider.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/get_all_discussions_provider.dart';
 import 'package:law_app/features/shared/widgets/animated_fab.dart';
@@ -121,7 +119,7 @@ class _StudentDiscussionHomePageState
 
     return discussions.when(
       loading: () => const LoadingIndicator(withScaffold: true),
-      error: (error, __) => const Scaffold(),
+      error: (_, __) => const Scaffold(),
       data: (discussions) {
         final userCredential = discussions.userCredential;
         final userDiscussions = discussions.userDiscussions;
@@ -278,8 +276,8 @@ class _StudentDiscussionHomePageState
                                 const SizedBox(height: 10),
                                 FilledButton.icon(
                                   onPressed: () async {
-                                    final categories =
-                                        await getDiscussionCategories(context);
+                                    final categories = await FunctionHelper
+                                        .getDiscussionCategories(context, ref);
 
                                     if (categories.isNotEmpty) {
                                       if (!context.mounted) return;
@@ -347,27 +345,28 @@ class _StudentDiscussionHomePageState
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 135,
-                    child: userDiscussions.isEmpty
-                        ? const EmptyContentText(
-                            'Pertanyaan kamu belum ada. Mulailah bertanya dengan menekan tombol "Buat Pertanyaan".',
-                          )
-                        : ListView.separated(
-                            padding: const EdgeInsets.fromLTRB(20, 0, 20, 4),
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              return DiscussionCard(
-                                discussion: userDiscussions[index],
-                                width: 300,
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return const SizedBox(width: 8);
-                            },
-                            itemCount: userDiscussions.length,
-                          ),
-                  ),
+                  if (userDiscussions.isEmpty)
+                    const EmptyContentText(
+                      'Pertanyaan kamu belum ada. Mulailah bertanya dengan menekan tombol "Buat Pertanyaan".',
+                    )
+                  else
+                    SizedBox(
+                      height: 135,
+                      child: ListView.separated(
+                        padding: const EdgeInsets.fromLTRB(20, 0, 20, 4),
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return DiscussionCard(
+                            discussion: userDiscussions[index],
+                            width: 300,
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return const SizedBox(width: 8);
+                        },
+                        itemCount: userDiscussions.length,
+                      ),
+                    ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
                     child: Row(
@@ -383,7 +382,6 @@ class _StudentDiscussionHomePageState
                         GestureDetector(
                           onTap: () => navigatorKey.currentState!.pushNamed(
                             publicDiscussionRoute,
-                            arguments: 'student',
                           ),
                           child: Text(
                             'Lihat Selengkapnya >',
@@ -427,19 +425,5 @@ class _StudentDiscussionHomePageState
         );
       },
     );
-  }
-
-  Future<List<DiscussionCategoryModel>> getDiscussionCategories(
-    BuildContext context,
-  ) async {
-    List<DiscussionCategoryModel>? categories;
-
-    try {
-      categories = await ref.watch(discussionCategoryProvider.future);
-    } catch (e) {
-      debugPrint('$e');
-    }
-
-    return categories ?? [];
   }
 }

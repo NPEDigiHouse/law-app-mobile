@@ -70,7 +70,7 @@ class StudentDiscussionDetailPage extends ConsumerWidget {
 
     return discussion.when(
       loading: () => const LoadingIndicator(withScaffold: true),
-      error: (error, __) => const Scaffold(),
+      error: (_, __) => const Scaffold(),
       data: (discussion) {
         if (discussion == null) return const Scaffold();
 
@@ -225,7 +225,7 @@ class StudentDiscussionDetailPage extends ConsumerWidget {
                 const SizedBox(height: 12),
                 buildDiscussionSection(discussion),
                 if (discussion.asker!.id == CredentialSaver.user!.id &&
-                    discussion.status == 'discuss') ...[
+                    discussion.status == 'onDiscussion') ...[
                   const SizedBox(height: 12),
                   FilledButton(
                     onPressed: () => context.showSingleFormDialog(

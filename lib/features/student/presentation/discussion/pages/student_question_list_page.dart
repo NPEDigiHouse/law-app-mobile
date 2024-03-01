@@ -49,20 +49,17 @@ class _StudentQuestionListPageState
 
   @override
   Widget build(BuildContext context) {
+    final status = ref.watch(discussionStatusProvider);
+    final type = ref.watch(discussionTypeProvider);
+
     final labels = discussionStatus.keys.toList();
 
     final discussions = ref.watch(
-      GetUserDiscussionsProvider(
-        type: ref.watch(discussionTypeProvider),
-        status: ref.watch(discussionStatusProvider),
-      ),
+      GetUserDiscussionsProvider(status: status, type: type),
     );
 
     ref.listen(
-      GetUserDiscussionsProvider(
-        type: ref.watch(discussionTypeProvider),
-        status: ref.watch(discussionStatusProvider),
-      ),
+      GetUserDiscussionsProvider(status: status, type: type),
       (_, state) {
         state.when(
           error: (error, _) {
@@ -165,11 +162,9 @@ class _StudentQuestionListPageState
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                  final selectedStatus = ref.watch(discussionStatusProvider);
-
                   return CustomFilterChip(
                     label: labels[index],
-                    selected: selectedStatus == discussionStatus[labels[index]],
+                    selected: status == discussionStatus[labels[index]],
                     onSelected: (_) {
                       ref.read(discussionStatusProvider.notifier).state =
                           discussionStatus[labels[index]]!;
@@ -188,13 +183,10 @@ class _StudentQuestionListPageState
               child: LoadingIndicator(),
             ),
             error: (_, __) => const SliverFillRemaining(),
-            data: (data) {
-              if (data.discussions == null || data.hasMore == null) {
+            data: (discussions) {
+              if (discussions == null) {
                 return const SliverFillRemaining();
               }
-
-              final discussions = data.discussions!;
-              // final hasMore = data.hasMore!;
 
               return SliverFillRemaining(
                 child: PageView(

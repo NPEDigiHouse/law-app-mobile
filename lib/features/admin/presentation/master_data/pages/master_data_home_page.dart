@@ -9,16 +9,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
+import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/admin/data/models/discussion_models/discussion_category_model.dart';
 import 'package:law_app/features/admin/presentation/master_data/pages/master_data_form_page.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/master_data_provider.dart';
 import 'package:law_app/features/admin/presentation/master_data/widgets/user_card.dart';
-import 'package:law_app/features/admin/presentation/reference/providers/discussion_category_provider.dart';
 import 'package:law_app/features/shared/providers/search_provider.dart';
 import 'package:law_app/features/shared/providers/user_role_filter_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
@@ -43,6 +42,7 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
 
     final users = ref.watch(masterDataProvider);
     final query = ref.watch(queryProvider);
+    final selectedRole = ref.watch(userRoleProvider);
 
     ref.listen(masterDataProvider, (_, state) {
       state.when(
@@ -169,12 +169,10 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                  final selectedRole = ref.watch(userRoleProvider);
-
                   return CustomFilterChip(
                     label: labels[index],
                     selected: selectedRole == userRoles[labels[index]],
-                    onSelected: (_) => filterUsers(labels[index]),
+                    onSelected: (_) => filterUsers(userRoles[labels[index]]!),
                   );
                 },
                 separatorBuilder: (context, index) {
@@ -260,7 +258,9 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
               {
                 'text': 'Pakar',
                 'onTap': () async {
-                  final categories = await getDiscussionCategories(context);
+                  final categories =
+                      await FunctionHelper.getDiscussionCategories(
+                          context, ref);
 
                   navigatorKey.currentState!.pop();
 
@@ -336,23 +336,7 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
 
   void filterUsers(String role) {
     ref.read(queryProvider.notifier).state = '';
-    ref.read(userRoleProvider.notifier).state = userRoles[role]!;
-    ref
-        .read(masterDataProvider.notifier)
-        .filterUsers(role: ref.watch(userRoleProvider));
-  }
-
-  Future<List<DiscussionCategoryModel>> getDiscussionCategories(
-    BuildContext context,
-  ) async {
-    List<DiscussionCategoryModel>? categories;
-
-    try {
-      categories = await ref.watch(discussionCategoryProvider.future);
-    } catch (e) {
-      debugPrint('$e');
-    }
-
-    return categories ?? [];
+    ref.read(userRoleProvider.notifier).state = role;
+    ref.read(masterDataProvider.notifier).filterUsers(role: role);
   }
 }

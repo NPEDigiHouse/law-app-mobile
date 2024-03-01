@@ -30,8 +30,6 @@ class _QuestionListPageState extends ConsumerState<QuestionListPage>
   Widget build(BuildContext context) {
     super.build(context);
 
-    // final offset = ref.watch(offsetProvider);
-
     return ListView.separated(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 24),
       itemBuilder: (context, index) {

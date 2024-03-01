@@ -11,93 +11,30 @@ part 'get_user_discussions_provider.g.dart';
 @riverpod
 class GetUserDiscussions extends _$GetUserDiscussions {
   @override
-  Future<({List<DiscussionModel>? discussions, bool? hasMore})> build({
+  Future<List<DiscussionModel>?> build({
     String status = '',
     String type = '',
   }) async {
     List<DiscussionModel>? discussions;
-    bool? hasMore;
 
     try {
       state = const AsyncValue.loading();
 
-      final result =
-          await ref.watch(discussionRepositoryProvider).getUserDiscussions(
-                status: status,
-                type: type,
-                offset: 0,
-                limit: 10,
-              );
+      final result = await ref
+          .watch(discussionRepositoryProvider)
+          .getUserDiscussions(status: status, type: type);
 
       result.fold(
         (l) => state = AsyncValue.error(l.message, StackTrace.current),
         (r) {
           discussions = r;
-          hasMore = r.length == 10;
-
-          state = AsyncValue.data((discussions: discussions, hasMore: hasMore));
+          state = AsyncValue.data(discussions);
         },
       );
     } catch (e) {
       state = AsyncValue.error((e as Failure).message, StackTrace.current);
     }
 
-    return (discussions: discussions, hasMore: hasMore);
+    return discussions;
   }
-
-  Future<void> fetchMoreUserDiscussions({
-    required int offset,
-    String status = '',
-    String type = '',
-  }) async {
-    try {
-      final result =
-          await ref.watch(discussionRepositoryProvider).getUserDiscussions(
-                status: status,
-                type: type,
-                offset: offset,
-                limit: 10,
-              );
-
-      result.fold(
-        (l) => state = AsyncValue.error(l.message, StackTrace.current),
-        (r) {
-          final previousState = state.valueOrNull;
-
-          if (previousState != null) {
-            state = AsyncValue.data((
-              discussions: [...previousState.discussions!, ...r],
-              hasMore: r.length == 10,
-            ));
-          }
-        },
-      );
-    } catch (e) {
-      state = AsyncValue.error((e as Failure).message, StackTrace.current);
-    }
-  }
-
-  // Future<void> filterUserDiscussions({
-  //   String status = '',
-  //   String type = '',
-  // }) async {
-  //   try {
-  //     state = const AsyncValue.loading();
-
-  //     final result =
-  //         await ref.watch(discussionRepositoryProvider).getUserDiscussions(
-  //               status: status,
-  //               type: type,
-  //               offset: 0,
-  //               limit: 10,
-  //             );
-
-  //     result.fold(
-  //       (l) => state = AsyncValue.error(l.message, StackTrace.current),
-  //       (r) => state = AsyncValue.data(r),
-  //     );
-  //   } catch (e) {
-  //     state = AsyncValue.error((e as Failure).message, StackTrace.current);
-  //   }
-  // }
 }

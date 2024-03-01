@@ -11,7 +11,7 @@ part 'get_public_discussions_provider.g.dart';
 @riverpod
 class GetPublicDiscussions extends _$GetPublicDiscussions {
   @override
-  Future<({List<DiscussionModel>? discussions, bool? hasMore})?> build({
+  Future<({List<DiscussionModel>? discussions, bool? hasMore})> build({
     String query = '',
     int? categoryId,
   }) async {

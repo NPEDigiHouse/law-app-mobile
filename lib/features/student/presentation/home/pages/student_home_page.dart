@@ -95,7 +95,6 @@ class StudentHomePage extends StatelessWidget {
                       GestureDetector(
                         onTap: () => navigatorKey.currentState!.pushNamed(
                           publicDiscussionRoute,
-                          arguments: 'student',
                         ),
                         child: Text(
                           'Lihat Selengkapnya >',

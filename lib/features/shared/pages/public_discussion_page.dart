@@ -6,21 +6,27 @@ import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
+import 'package:law_app/core/enums/banner_type.dart';
+import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
-import 'package:law_app/dummies_data.dart';
+import 'package:law_app/core/utils/const.dart';
+import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/features/shared/providers/discussion_filter_provider.dart';
+import 'package:law_app/features/shared/providers/discussion_providers/get_public_discussions_provider.dart';
+import 'package:law_app/features/shared/providers/offset_provider.dart';
 import 'package:law_app/features/shared/providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/animated_fab.dart';
 import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
+import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
 import 'package:law_app/features/shared/widgets/form_field/search_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
+import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 
 class PublicDiscussionPage extends ConsumerStatefulWidget {
-  final String role;
-
-  const PublicDiscussionPage({super.key, required this.role});
+  const PublicDiscussionPage({super.key});
 
   @override
   ConsumerState<PublicDiscussionPage> createState() =>
@@ -32,11 +38,7 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
   late final AnimationController fabAnimationController;
   late final ScrollController scrollController;
 
-  late final List<String> categories;
-  late final ValueNotifier<String> selectedCategory;
-
-  late final ValueNotifier<String> query;
-  late List<Question> questions;
+  Map<String, int?> categories = {'Semua': null};
 
   @override
   void initState() {
@@ -54,17 +56,13 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
         }
       });
 
-    categories = [
-      'Semua',
-      'Pidana',
-      'Tata Negara',
-      'Syariah',
-      'Lainnya',
-    ];
-
-    selectedCategory = ValueNotifier(categories.first);
-    query = ValueNotifier('');
-    questions = dummyQuestions;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FunctionHelper.getDiscussionCategories(context, ref).then((categories) {
+        for (var e in categories) {
+          this.categories[e.name!] = e.id!;
+        }
+      }).whenComplete(() => setState(() {}));
+    });
   }
 
   @override
@@ -73,14 +71,48 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
 
     fabAnimationController.dispose();
     scrollController.dispose();
-    selectedCategory.dispose();
-    query.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final isSearching = ref.watch(isSearchingProvider);
-    final items = isSearching ? questions : dummyQuestions;
+    final query = ref.watch(queryProvider);
+    final selectedCategoryId = ref.watch(discussionCategoryIdProvider);
+    final offset = ref.watch(offsetProvider);
+
+    final labels = categories.keys.toList();
+
+    final discussions = ref.watch(
+      GetPublicDiscussionsProvider(
+        query: query,
+        categoryId: selectedCategoryId,
+      ),
+    );
+
+    ref.listen(
+      GetPublicDiscussionsProvider(
+        query: query,
+        categoryId: selectedCategoryId,
+      ),
+      (_, state) {
+        state.when(
+          error: (error, _) {
+            if ('$error' == kNoInternetConnection) {
+              context.showNetworkErrorModalBottomSheet(
+                onPressedPrimaryButton: () {
+                  navigatorKey.currentState!.pop();
+                  ref.invalidate(getPublicDiscussionsProvider);
+                },
+              );
+            } else {
+              context.showBanner(message: '$error', type: BannerType.error);
+            }
+          },
+          loading: () {},
+          data: (_) {},
+        );
+      },
+    );
 
     return PopScope(
       canPop: false,
@@ -93,7 +125,7 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
           preferredSize: Size.fromHeight(isSearching ? 124 : 96),
           child: Container(
             color: scaffoldBackgroundColor,
-            child: buildHeaderContainer(isSearching),
+            child: buildHeaderContainer(isSearching, query, selectedCategoryId),
           ),
         ),
         body: NotificationListener<UserScrollNotification>(
@@ -106,50 +138,58 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
           child: CustomScrollView(
             controller: scrollController,
             slivers: [
-              if (items.isNotEmpty)
-                SliverAppBar(
-                  pinned: true,
-                  toolbarHeight: 64,
-                  automaticallyImplyLeading: false,
-                  flexibleSpace: Container(
-                    decoration: BoxDecoration(
-                      color: scaffoldBackgroundColor,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(.1),
-                          offset: const Offset(0, 2),
-                          blurRadius: 4,
-                          spreadRadius: -1,
-                        ),
-                      ],
-                    ),
-                    child: ListView.separated(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return ValueListenableBuilder(
-                          valueListenable: selectedCategory,
-                          builder: (context, category, child) {
-                            return CustomFilterChip(
-                              label: categories[index],
-                              selected: category == categories[index],
-                              onSelected: (_) {
-                                selectedCategory.value = categories[index];
-                              },
-                            );
-                          },
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(width: 8);
-                      },
-                      itemCount: categories.length,
-                    ),
+              SliverAppBar(
+                pinned: true,
+                toolbarHeight: 64,
+                automaticallyImplyLeading: false,
+                flexibleSpace: Container(
+                  decoration: BoxDecoration(
+                    color: scaffoldBackgroundColor,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(.1),
+                        offset: const Offset(0, 2),
+                        blurRadius: 4,
+                        spreadRadius: -1,
+                      ),
+                    ],
+                  ),
+                  child: ListView.separated(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return CustomFilterChip(
+                        label: labels[index],
+                        selected:
+                            selectedCategoryId == categories[labels[index]],
+                        onSelected: (_) {
+                          ref
+                              .read(discussionCategoryIdProvider.notifier)
+                              .state = categories[labels[index]];
+                        },
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(width: 8);
+                    },
+                    itemCount: categories.length,
                   ),
                 ),
-              Builder(
-                builder: (context) {
-                  if (isSearching && questions.isEmpty) {
+              ),
+              discussions.when(
+                loading: () => const SliverFillRemaining(
+                  child: LoadingIndicator(),
+                ),
+                error: (_, __) => const SliverFillRemaining(),
+                data: (data) {
+                  final discussions = data.discussions;
+                  final hasMore = data.hasMore;
+
+                  if (discussions == null || hasMore == null) {
+                    return const SliverFillRemaining();
+                  }
+
+                  if (isSearching && discussions.isEmpty) {
                     return const SliverFillRemaining(
                       child: CustomInformation(
                         illustrationName: 'discussion-cuate.svg',
@@ -164,20 +204,28 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
                     sliver: SliverList(
                       delegate: SliverChildBuilderDelegate(
                         (context, index) {
+                          if (index >= discussions.length) {
+                            return buildFetchMoreButton(
+                              query,
+                              offset,
+                              selectedCategoryId,
+                            );
+                          }
+
                           return Padding(
                             padding: EdgeInsets.only(
-                              bottom: index == items.length - 1 ? 0 : 8,
+                              bottom: index == discussions.length - 1 ? 0 : 8,
                             ),
-                            child: const SizedBox(),
-                            // child: DiscussionCard(
-                            //   question: items[index],
-                            //   role: widget.role,
-                            //   isDetail: true,
-                            //   withProfile: true,
-                            // ),
+                            child: DiscussionCard(
+                              discussion: discussions[index],
+                              isDetail: true,
+                              withProfile: true,
+                            ),
                           );
                         },
-                        childCount: items.length,
+                        childCount: hasMore
+                            ? discussions.length + 1
+                            : discussions.length,
                       ),
                     ),
                   );
@@ -194,7 +242,11 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
     );
   }
 
-  HeaderContainer buildHeaderContainer(bool isSearching) {
+  HeaderContainer buildHeaderContainer(
+    bool isSearching,
+    String query,
+    int? categoryId,
+  ) {
     if (isSearching) {
       return HeaderContainer(
         child: Column(
@@ -206,20 +258,15 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
               ),
             ),
             const SizedBox(height: 10),
-            ValueListenableBuilder(
-              valueListenable: query,
-              builder: (context, query, child) {
-                return SearchField(
-                  text: query,
-                  hintText: 'Cari judul diskusi',
-                  autoFocus: true,
-                  onChanged: searchDiscussion,
-                  onFocusChange: (isFocus) {
-                    if (!isFocus && query.isEmpty) {
-                      ref.read(isSearchingProvider.notifier).state = false;
-                    }
-                  },
-                );
+            SearchField(
+              text: query,
+              hintText: 'Cari judul diskusi',
+              autoFocus: true,
+              onChanged: (query) => searchDiscussion(query, categoryId),
+              onFocusChange: (isFocus) {
+                if (!isFocus && query.isEmpty) {
+                  ref.read(isSearchingProvider.notifier).state = false;
+                }
               },
             ),
           ],
@@ -239,26 +286,53 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
     );
   }
 
-  void searchDiscussion(String query) {
-    this.query.value = query;
+  Padding buildFetchMoreButton(
+    String query,
+    int offset,
+    int? categoryId,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: TextButton(
+        onPressed: () {
+          ref
+              .read(GetPublicDiscussionsProvider(
+                query: query,
+                categoryId: categoryId,
+              ).notifier)
+              .fetchMorePublicDiscussions(
+                query: query,
+                offset: offset,
+                categoryId: categoryId,
+              );
 
-    EasyDebounce.debounce(
-      'search-debouncer',
-      const Duration(milliseconds: 800),
-      () {
-        final result = dummyQuestions.where((question) {
-          final queryLower = query.toLowerCase();
-          final titleLower = question.title.toLowerCase();
-
-          return titleLower.contains(queryLower);
-        }).toList();
-
-        setState(() => questions = result);
-      },
+          ref.read(offsetProvider.notifier).state = offset + 10;
+        },
+        child: const Text('Lihat hasil lainnya'),
+      ),
     );
+  }
 
-    if (query.isEmpty) {
-      EasyDebounce.fire('search-debouncer');
+  void searchDiscussion(
+    String query,
+    int? categoryId,
+  ) {
+    ref.read(queryProvider.notifier).state = query;
+
+    if (query.isNotEmpty) {
+      EasyDebounce.debounce(
+        'search-debouncer',
+        const Duration(milliseconds: 800),
+        () {
+          ref.read(GetPublicDiscussionsProvider(
+            query: query,
+            categoryId: categoryId,
+          ));
+          ref.invalidate(offsetProvider);
+        },
+      );
+    } else {
+      ref.invalidate(getPublicDiscussionsProvider);
     }
   }
 }

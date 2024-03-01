@@ -12,6 +12,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:law_app/core/extensions/string_extension.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/features/admin/data/models/discussion_models/discussion_category_model.dart';
+import 'package:law_app/features/admin/presentation/reference/providers/discussion_category_provider.dart';
 import 'package:law_app/features/shared/providers/search_provider.dart';
 
 /// A collection of helper functions that are reusable for this app
@@ -121,5 +123,20 @@ class FunctionHelper {
       default:
         return secondaryTextColor;
     }
+  }
+
+  static Future<List<DiscussionCategoryModel>> getDiscussionCategories(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
+    List<DiscussionCategoryModel>? categories;
+
+    try {
+      categories = await ref.watch(discussionCategoryProvider.future);
+    } catch (e) {
+      debugPrint('$e');
+    }
+
+    return categories ?? [];
   }
 }

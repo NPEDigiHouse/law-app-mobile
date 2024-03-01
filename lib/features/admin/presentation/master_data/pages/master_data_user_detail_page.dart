@@ -10,15 +10,14 @@ import 'package:law_app/core/extensions/button_extension.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/extensions/datetime_extension.dart';
 import 'package:law_app/core/extensions/string_extension.dart';
+import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/admin/data/models/discussion_models/discussion_category_model.dart';
 import 'package:law_app/features/admin/presentation/master_data/pages/master_data_form_page.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/get_user_detail_provider.dart';
-import 'package:law_app/features/admin/presentation/reference/providers/discussion_category_provider.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 
@@ -187,7 +186,8 @@ class MasterDataUserDetailPage extends ConsumerWidget {
                     onPressed: () async {
                       if (user.role == 'teacher') {
                         final categories =
-                            await getDiscussionCategories(context, ref);
+                            await FunctionHelper.getDiscussionCategories(
+                                context, ref);
 
                         if (categories.isNotEmpty) {
                           navigatorKey.currentState!.pushNamed(
@@ -218,22 +218,5 @@ class MasterDataUserDetailPage extends ConsumerWidget {
         );
       },
     );
-  }
-
-  Future<List<DiscussionCategoryModel>> getDiscussionCategories(
-    BuildContext context,
-    WidgetRef ref,
-  ) async {
-    List<DiscussionCategoryModel>? categories;
-
-    try {
-      categories = await ref.watch(discussionCategoryProvider.future);
-    } catch (e) {
-      if (context.mounted) {
-        context.showBanner(message: '$e', type: BannerType.error);
-      }
-    }
-
-    return categories ?? [];
   }
 }
