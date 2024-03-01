@@ -4,6 +4,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 // Project imports:
 import 'package:law_app/core/errors/failures.dart';
 import 'package:law_app/features/admin/data/models/discussion_models/discussion_model.dart';
+import 'package:law_app/features/admin/data/models/user_models/user_credential_model.dart';
+import 'package:law_app/features/auth/presentation/providers/get_user_credential_provider.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/repositories_provider/discussion_repository_provider.dart';
 
 part 'get_discussions_provider.g.dart';
@@ -13,17 +15,20 @@ class GetDiscussions extends _$GetDiscussions {
   @override
   Future<
       ({
+        UserCredentialModel? userCredential,
         List<DiscussionModel>? userDiscussions,
         List<DiscussionModel>? publicDiscussions,
       })> build() async {
+    UserCredentialModel? userCredential;
     List<DiscussionModel>? userDiscussions;
     List<DiscussionModel>? publicDiscussions;
 
     try {
       state = const AsyncValue.loading();
 
-      final result1 =
-          await ref.watch(discussionRepositoryProvider).getUserDiscussions();
+      final result1 = await ref
+          .watch(discussionRepositoryProvider)
+          .getUserDiscussions(status: 'open', type: 'general');
 
       final result2 = await ref
           .watch(discussionRepositoryProvider)
@@ -39,10 +44,25 @@ class GetDiscussions extends _$GetDiscussions {
             (r) {
               publicDiscussions = r;
 
-              state = AsyncValue.data((
-                userDiscussions: userDiscussions,
-                publicDiscussions: publicDiscussions,
-              ));
+              ref.listen(getUserCredentialProvider, (_, state) {
+                state.whenOrNull(
+                  error: (error, _) {
+                    this.state = AsyncValue.error(
+                      (error as Failure).message,
+                      StackTrace.current,
+                    );
+                  },
+                  data: (data) {
+                    userCredential = data;
+
+                    this.state = AsyncValue.data((
+                      userCredential: data,
+                      userDiscussions: userDiscussions,
+                      publicDiscussions: publicDiscussions,
+                    ));
+                  },
+                );
+              });
             },
           );
         },
@@ -52,6 +72,7 @@ class GetDiscussions extends _$GetDiscussions {
     }
 
     return (
+      userCredential: userCredential,
       userDiscussions: userDiscussions,
       publicDiscussions: publicDiscussions,
     );

@@ -7,13 +7,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 // Project imports:
-import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/features/profile/presentation/providers/change_password_provider.dart';
 import 'package:law_app/features/shared/widgets/dialog/custom_dialog.dart';
 import 'package:law_app/features/shared/widgets/form_field/password_text_field.dart';
 
 class ChangePasswordDialog extends ConsumerStatefulWidget {
-  const ChangePasswordDialog({super.key});
+  final String email;
+
+  const ChangePasswordDialog({super.key, required this.email});
 
   @override
   ConsumerState<ChangePasswordDialog> createState() =>
@@ -121,7 +122,7 @@ class _ChangePasswordDialogState extends ConsumerState<ChangePasswordDialog> {
       final data = formKey.currentState!.value;
 
       ref.read(changePasswordProvider.notifier).changePassword(
-            email: CredentialSaver.user!.email!,
+            email: widget.email,
             currentPassword: data['currentPassword'],
             newPassword: data['newPassword'],
           );

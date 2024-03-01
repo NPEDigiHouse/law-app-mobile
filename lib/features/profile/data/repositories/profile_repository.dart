@@ -104,7 +104,12 @@ class ProfileRepositoryImpl implements ProfileRepository {
 
         return Right(result);
       } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
+        switch (e.message) {
+          case kUserNotFound:
+            return const Left(ServerFailure('Email kamu tidak terdaftar!'));
+          default:
+            return Left(ServerFailure(e.message));
+        }
       } on ClientException catch (e) {
         return Left(ClientFailure(e.message));
       }

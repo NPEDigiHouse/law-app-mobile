@@ -14,7 +14,6 @@ import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
-import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/discussion_models/discussion_category_model.dart';
 import 'package:law_app/features/admin/presentation/reference/providers/discussion_category_provider.dart';
@@ -22,7 +21,6 @@ import 'package:law_app/features/shared/providers/discussion_providers/create_di
 import 'package:law_app/features/shared/providers/discussion_providers/get_discussions_provider.dart';
 import 'package:law_app/features/shared/widgets/animated_fab.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
-import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/empty_content_text.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
@@ -125,13 +123,15 @@ class _StudentDiscussionHomePageState
       loading: () => const LoadingIndicator(withScaffold: true),
       error: (error, __) => const Scaffold(),
       data: (discussions) {
-        if (discussions.publicDiscussions == null ||
-            discussions.userDiscussions == null) {
-          return const Scaffold();
-        }
-
+        final userCredential = discussions.userCredential;
         final userDiscussions = discussions.userDiscussions;
         final publicDiscussions = discussions.publicDiscussions;
+
+        if (userCredential == null ||
+            userDiscussions == null ||
+            publicDiscussions == null) {
+          return const Scaffold();
+        }
 
         return Scaffold(
           backgroundColor: backgroundColor,
@@ -258,7 +258,7 @@ class _StudentDiscussionHomePageState
                                       child: Text('Pertanyaan Umum'),
                                     ),
                                     Text(
-                                      '${CredentialSaver.user!.totalWeeklyGeneralQuestionsQuota}/3',
+                                      '${userCredential.totalWeeklyGeneralQuestionsQuota}/3',
                                       style: textTheme.titleSmall,
                                     ),
                                   ],
@@ -270,7 +270,7 @@ class _StudentDiscussionHomePageState
                                       child: Text('Pertanyaan Khusus'),
                                     ),
                                     Text(
-                                      '${CredentialSaver.user!.totalWeeklySpecificQuestionsQuota}/1',
+                                      '${userCredential.totalWeeklySpecificQuestionsQuota}/1',
                                       style: textTheme.titleSmall,
                                     ),
                                   ],
@@ -349,7 +349,7 @@ class _StudentDiscussionHomePageState
                   ),
                   SizedBox(
                     height: 135,
-                    child: userDiscussions!.isEmpty
+                    child: userDiscussions.isEmpty
                         ? const EmptyContentText(
                             'Pertanyaan kamu belum ada. Mulailah bertanya dengan menekan tombol "Buat Pertanyaan".',
                           )
@@ -395,10 +395,9 @@ class _StudentDiscussionHomePageState
                       ],
                     ),
                   ),
-                  if (publicDiscussions!.isEmpty)
-                    const CustomInformation(
-                      title: 'Belum ada diskusi',
-                      subtitle: 'Diskusi umum masih kosong.',
+                  if (publicDiscussions.isEmpty)
+                    const EmptyContentText(
+                      'Belum terdapat diskusi umum. Pertanyaan umum dari siswa lain akan muncul di sini.',
                     )
                   else
                     ...List<Padding>.generate(

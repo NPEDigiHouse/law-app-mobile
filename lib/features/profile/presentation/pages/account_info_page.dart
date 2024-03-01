@@ -17,6 +17,7 @@ import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/user_models/user_detail_model.dart';
+import 'package:law_app/features/auth/presentation/providers/get_user_credential_provider.dart';
 import 'package:law_app/features/profile/presentation/providers/change_password_provider.dart';
 import 'package:law_app/features/profile/presentation/providers/edit_profile_provider.dart';
 import 'package:law_app/features/profile/presentation/providers/get_profile_detail_provider.dart';
@@ -74,6 +75,7 @@ class AccountInfoPage extends ConsumerWidget {
         data: (data) {
           if (data != null) {
             ref.invalidate(GetProfileDetailProvider(id: id));
+            ref.invalidate(getUserCredentialProvider);
 
             context.showBanner(
               message: 'Berhasil mengedit profile!',
@@ -279,7 +281,7 @@ class AccountInfoPage extends ConsumerWidget {
                     onPressed: () => showDialog(
                       context: context,
                       barrierDismissible: false,
-                      builder: (_) => const ChangePasswordDialog(),
+                      builder: (_) => ChangePasswordDialog(email: user.email!),
                     ),
                     style: FilledButton.styleFrom(
                       backgroundColor: secondaryColor,
@@ -331,7 +333,6 @@ class AccountInfoPage extends ConsumerWidget {
                 textColor: primaryColor,
                 onTap: () async {
                   await getAndSetProfilePicture(ref, user, ImageSource.camera);
-                  navigatorKey.currentState!.pop();
                 },
                 visualDensity: const VisualDensity(vertical: -2),
               ),
@@ -345,7 +346,6 @@ class AccountInfoPage extends ConsumerWidget {
                 textColor: primaryColor,
                 onTap: () async {
                   await getAndSetProfilePicture(ref, user, ImageSource.gallery);
-                  navigatorKey.currentState!.pop();
                 },
                 visualDensity: const VisualDensity(vertical: -2),
               ),
