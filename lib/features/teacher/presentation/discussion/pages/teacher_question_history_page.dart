@@ -11,7 +11,6 @@ import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/dummies_data.dart';
-import 'package:law_app/features/shared/pages/question_list_page.dart';
 import 'package:law_app/features/shared/providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/form_field/search_field.dart';

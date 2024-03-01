@@ -21,7 +21,7 @@ abstract class MasterDataSource {
     String query = '',
     String sortBy = '',
     String sortOrder = '',
-    String? role,
+    String role = '',
   });
 
   /// Get user detail
@@ -47,14 +47,14 @@ class MasterDataSourceImpl implements MasterDataSource {
     String query = '',
     String sortBy = '',
     String sortOrder = '',
-    String? role,
+    String role = '',
   }) async {
     try {
       final queryParams = 'term=$query&sortBy=$sortBy&sortOrder=$sortOrder';
 
       final response = await client.get(
         Uri.parse(
-          '${ApiConfigs.baseUrl}/users?${role != null ? 'role=$role' : queryParams}',
+          '${ApiConfigs.baseUrl}/users?${role.isEmpty ? queryParams : 'role=$role'}',
         ),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',

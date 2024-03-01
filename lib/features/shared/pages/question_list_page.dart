@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
 import 'package:law_app/features/admin/data/models/discussion_models/discussion_model.dart';
-import 'package:law_app/features/shared/providers/offset_provider.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
 
 class QuestionListPage extends ConsumerStatefulWidget {
@@ -31,7 +30,7 @@ class _QuestionListPageState extends ConsumerState<QuestionListPage>
   Widget build(BuildContext context) {
     super.build(context);
 
-    final offset = ref.watch(offsetProvider);
+    // final offset = ref.watch(offsetProvider);
 
     return ListView.separated(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 24),

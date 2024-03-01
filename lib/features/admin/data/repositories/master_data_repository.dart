@@ -18,7 +18,7 @@ abstract class MasterDataRepository {
     String query = '',
     String sortBy = '',
     String sortOrder = '',
-    String? role,
+    String role = '',
   });
 
   /// Get user detail
@@ -48,7 +48,7 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
     String query = '',
     String sortBy = '',
     String sortOrder = '',
-    String? role,
+    String role = '',
   }) async {
     if (await networkInfo.isConnected) {
       try {

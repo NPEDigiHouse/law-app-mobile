@@ -67,7 +67,7 @@ class MasterData extends _$MasterData {
     }
   }
 
-  Future<void> filterUsers({String? role}) async {
+  Future<void> filterUsers({String role = ''}) async {
     try {
       state = const AsyncValue.loading();
 
