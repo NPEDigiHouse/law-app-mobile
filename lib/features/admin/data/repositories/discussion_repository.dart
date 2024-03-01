@@ -15,14 +15,22 @@ import 'package:law_app/features/admin/data/models/discussion_models/discussion_
 abstract class DiscussionRepository {
   /// Get user discussions
   Future<Either<Failure, List<DiscussionModel>>> getUserDiscussions({
-    String? status,
-    String? type,
+    String query = '',
+    String status = '',
+    String type = '',
+    int? offset,
+    int? limit,
+    int? categoryId,
   });
 
   /// Get all discussions
   Future<Either<Failure, List<DiscussionModel>>> getDiscussions({
-    required String status,
-    required String type,
+    String query = '',
+    String status = '',
+    String type = '',
+    int? offset,
+    int? limit,
+    int? categoryId,
   });
 
   /// Get discussion detail
@@ -52,14 +60,22 @@ class DiscussionRepositoryImpl implements DiscussionRepository {
 
   @override
   Future<Either<Failure, List<DiscussionModel>>> getUserDiscussions({
-    String? status,
-    String? type,
+    String query = '',
+    String status = '',
+    String type = '',
+    int? offset,
+    int? limit,
+    int? categoryId,
   }) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await discussionDataSource.getUserDiscussions(
+          query: query,
           status: status,
           type: type,
+          offset: offset,
+          limit: limit,
+          categoryId: categoryId,
         );
 
         return Right(result);
@@ -75,14 +91,22 @@ class DiscussionRepositoryImpl implements DiscussionRepository {
 
   @override
   Future<Either<Failure, List<DiscussionModel>>> getDiscussions({
-    required String status,
-    required String type,
+    String query = '',
+    String status = '',
+    String type = '',
+    int? offset,
+    int? limit,
+    int? categoryId,
   }) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await discussionDataSource.getDiscussions(
+          query: query,
           status: status,
           type: type,
+          offset: offset,
+          limit: limit,
+          categoryId: categoryId,
         );
 
         return Right(result);

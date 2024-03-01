@@ -1,25 +1,33 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
+// Package imports:
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 // Project imports:
+import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/enums/question_type.dart';
+import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
-import 'package:law_app/dummies_data.dart';
+import 'package:law_app/core/utils/const.dart';
+import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/shared/pages/question_list_page.dart';
+import 'package:law_app/features/shared/providers/discussion_filter_provider.dart';
+import 'package:law_app/features/shared/providers/discussion_providers/get_user_discussions_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
+import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 
-class StudentQuestionListPage extends StatefulWidget {
+class StudentQuestionListPage extends ConsumerStatefulWidget {
   const StudentQuestionListPage({super.key});
 
   @override
-  State<StudentQuestionListPage> createState() =>
+  ConsumerState<StudentQuestionListPage> createState() =>
       _StudentQuestionListPageState();
 }
 
-class _StudentQuestionListPageState extends State<StudentQuestionListPage> {
-  late final List<String> status;
-  late final ValueNotifier<String> selectedStatus;
+class _StudentQuestionListPageState
+    extends ConsumerState<StudentQuestionListPage> {
   late final ValueNotifier<QuestionType> selectedType;
   late final PageController pageController;
 
@@ -27,8 +35,6 @@ class _StudentQuestionListPageState extends State<StudentQuestionListPage> {
   void initState() {
     super.initState();
 
-    status = ['Semua', 'Open', 'Discuss', 'Solved'];
-    selectedStatus = ValueNotifier(status.first);
     selectedType = ValueNotifier(QuestionType.general);
     pageController = PageController();
   }
@@ -38,12 +44,45 @@ class _StudentQuestionListPageState extends State<StudentQuestionListPage> {
     super.dispose();
 
     selectedType.dispose();
-    selectedStatus.dispose();
     pageController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final labels = discussionStatus.keys.toList();
+
+    final discussions = ref.watch(
+      GetUserDiscussionsProvider(
+        type: ref.watch(discussionTypeProvider),
+        status: ref.watch(discussionStatusProvider),
+      ),
+    );
+
+    ref.listen(
+      GetUserDiscussionsProvider(
+        type: ref.watch(discussionTypeProvider),
+        status: ref.watch(discussionStatusProvider),
+      ),
+      (_, state) {
+        state.when(
+          error: (error, _) {
+            if ('$error' == kNoInternetConnection) {
+              context.showNetworkErrorModalBottomSheet(
+                onPressedPrimaryButton: () {
+                  navigatorKey.currentState!.pop();
+                  ref.invalidate(getUserDiscussionsProvider);
+                },
+              );
+            } else {
+              context.showBanner(message: '$error', type: BannerType.error);
+            }
+          },
+          loading: () {},
+          data: (_) {},
+        );
+      },
+    );
+
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: PreferredSize(
@@ -91,6 +130,9 @@ class _StudentQuestionListPageState extends State<StudentQuestionListPage> {
                           duration: const Duration(milliseconds: 300),
                           curve: Curves.easeOut,
                         );
+
+                        ref.read(discussionTypeProvider.notifier).state =
+                            newSelection.first.name;
                       },
                     );
                   },
@@ -123,55 +165,58 @@ class _StudentQuestionListPageState extends State<StudentQuestionListPage> {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                  return ValueListenableBuilder(
-                    valueListenable: selectedStatus,
-                    builder: (context, status, child) {
-                      return CustomFilterChip(
-                        label: this.status[index],
-                        selected: status == this.status[index],
-                        onSelected: (_) {
-                          selectedStatus.value = this.status[index];
-                        },
-                      );
+                  final selectedStatus = ref.watch(discussionStatusProvider);
+
+                  return CustomFilterChip(
+                    label: labels[index],
+                    selected: selectedStatus == discussionStatus[labels[index]],
+                    onSelected: (_) {
+                      ref.read(discussionStatusProvider.notifier).state =
+                          discussionStatus[labels[index]]!;
                     },
                   );
                 },
                 separatorBuilder: (context, index) {
                   return const SizedBox(width: 8);
                 },
-                itemCount: status.length,
+                itemCount: discussionStatus.length,
               ),
             ),
           ),
-          SliverFillRemaining(
-            child: PageView(
-              physics: const NeverScrollableScrollPhysics(),
-              controller: pageController,
-              onPageChanged: (index) {
-                switch (index) {
-                  case 0:
-                    selectedType.value = QuestionType.general;
-                    break;
-                  case 1:
-                    selectedType.value = QuestionType.specific;
-                    break;
-                }
-              },
-              children: [
-                QuestionListPage(
-                  role: 'student',
-                  questions: dummyQuestions
-                      .map((e) => e.copyWith(type: 'general'))
-                      .toList(),
-                ),
-                QuestionListPage(
-                  role: 'student',
-                  questions: dummyQuestions
-                      .map((e) => e.copyWith(type: 'specific'))
-                      .toList(),
-                ),
-              ],
+          discussions.when(
+            loading: () => const SliverFillRemaining(
+              child: LoadingIndicator(),
             ),
+            error: (_, __) => const SliverFillRemaining(),
+            data: (data) {
+              if (data.discussions == null || data.hasMore == null) {
+                return const SliverFillRemaining();
+              }
+
+              final discussions = data.discussions!;
+              // final hasMore = data.hasMore!;
+
+              return SliverFillRemaining(
+                child: PageView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  controller: pageController,
+                  onPageChanged: (index) {
+                    switch (index) {
+                      case 0:
+                        selectedType.value = QuestionType.general;
+                        break;
+                      case 1:
+                        selectedType.value = QuestionType.specific;
+                        break;
+                    }
+                  },
+                  children: [
+                    QuestionListPage(discussions: discussions),
+                    QuestionListPage(discussions: discussions),
+                  ],
+                ),
+              );
+            },
           ),
         ],
       ),

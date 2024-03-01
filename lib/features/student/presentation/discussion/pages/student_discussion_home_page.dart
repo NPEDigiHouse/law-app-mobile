@@ -18,7 +18,7 @@ import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/discussion_models/discussion_category_model.dart';
 import 'package:law_app/features/admin/presentation/reference/providers/discussion_category_provider.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/create_discussion_provider.dart';
-import 'package:law_app/features/shared/providers/discussion_providers/get_discussions_provider.dart';
+import 'package:law_app/features/shared/providers/discussion_providers/get_all_discussions_provider.dart';
 import 'package:law_app/features/shared/widgets/animated_fab.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
 import 'package:law_app/features/shared/widgets/empty_content_text.dart';
@@ -69,16 +69,16 @@ class _StudentDiscussionHomePageState
 
   @override
   Widget build(BuildContext context) {
-    final discussions = ref.watch(getDiscussionsProvider);
+    final discussions = ref.watch(getAllDiscussionsProvider);
 
-    ref.listen(getDiscussionsProvider, (_, state) {
+    ref.listen(getAllDiscussionsProvider, (_, state) {
       state.when(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
                 navigatorKey.currentState!.pop();
-                ref.invalidate(getDiscussionsProvider);
+                ref.invalidate(getAllDiscussionsProvider);
               },
             );
           } else {
@@ -105,7 +105,7 @@ class _StudentDiscussionHomePageState
         loading: () => context.showLoadingDialog(),
         data: (data) {
           if (data != null) {
-            ref.invalidate(getDiscussionsProvider);
+            ref.invalidate(getAllDiscussionsProvider);
 
             context.showBanner(
               message: 'Berhasil membuat pertanyaan!',

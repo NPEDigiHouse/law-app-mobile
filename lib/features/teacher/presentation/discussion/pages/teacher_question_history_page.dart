@@ -109,22 +109,22 @@ class _TeacherQuestionHistoryPageState
                 }
               },
               children: [
-                QuestionListPage(
-                  role: 'teacher',
-                  questions: dummyQuestions
-                      .map((e) => e.copyWith(status: 'discuss'))
-                      .toList(),
-                  isDetail: true,
-                  withProfile: true,
-                ),
-                QuestionListPage(
-                  role: 'teacher',
-                  questions: dummyQuestions
-                      .map((e) => e.copyWith(status: 'solved'))
-                      .toList(),
-                  isDetail: true,
-                  withProfile: true,
-                ),
+                // QuestionListPage(
+                //   role: 'teacher',
+                //   questions: dummyQuestions
+                //       .map((e) => e.copyWith(status: 'discuss'))
+                //       .toList(),
+                //   isDetail: true,
+                //   withProfile: true,
+                // ),
+                // QuestionListPage(
+                //   role: 'teacher',
+                //   questions: dummyQuestions
+                //       .map((e) => e.copyWith(status: 'solved'))
+                //       .toList(),
+                //   isDetail: true,
+                //   withProfile: true,
+                // ),
               ],
             );
           },

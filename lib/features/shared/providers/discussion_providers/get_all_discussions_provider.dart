@@ -8,10 +8,10 @@ import 'package:law_app/features/admin/data/models/user_models/user_credential_m
 import 'package:law_app/features/auth/presentation/providers/get_user_credential_provider.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/repositories_provider/discussion_repository_provider.dart';
 
-part 'get_discussions_provider.g.dart';
+part 'get_all_discussions_provider.g.dart';
 
 @riverpod
-class GetDiscussions extends _$GetDiscussions {
+class GetAllDiscussions extends _$GetAllDiscussions {
   @override
   Future<
       ({
@@ -28,11 +28,11 @@ class GetDiscussions extends _$GetDiscussions {
 
       final result1 = await ref
           .watch(discussionRepositoryProvider)
-          .getUserDiscussions(status: 'open', type: 'general');
+          .getUserDiscussions(offset: 0, limit: 20);
 
       final result2 = await ref
           .watch(discussionRepositoryProvider)
-          .getDiscussions(status: 'open', type: 'general');
+          .getDiscussions(offset: 0, limit: 20);
 
       result1.fold(
         (l) => state = AsyncValue.error(l.message, StackTrace.current),

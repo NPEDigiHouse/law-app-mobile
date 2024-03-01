@@ -17,14 +17,22 @@ import 'package:law_app/features/admin/data/models/discussion_models/discussion_
 abstract class DiscussionDataSource {
   /// Get user discussions
   Future<List<DiscussionModel>> getUserDiscussions({
-    String? status,
-    String? type,
+    String query = '',
+    String status = '',
+    String type = '',
+    int? offset,
+    int? limit,
+    int? categoryId,
   });
 
   /// Get all discussions
   Future<List<DiscussionModel>> getDiscussions({
-    required String status,
-    required String type,
+    String query = '',
+    String status = '',
+    String type = '',
+    int? offset,
+    int? limit,
+    int? categoryId,
   });
 
   /// Get discussion detail
@@ -47,11 +55,16 @@ class DiscussionDataSourceImpl implements DiscussionDataSource {
 
   @override
   Future<List<DiscussionModel>> getUserDiscussions({
-    String? status,
-    String? type,
+    String query = '',
+    String status = '',
+    String type = '',
+    int? offset,
+    int? limit,
+    int? categoryId,
   }) async {
     try {
-      final queryParams = 'status=${status ?? ''}&type=${type ?? ''}';
+      final queryParams =
+          'offset=${offset ?? ''}&limit=${limit ?? ''}&status=$status&type=$type&term=$query&categoryId=${categoryId ?? ''}';
 
       final response = await client.get(
         Uri.parse('${ApiConfigs.baseUrl}/auth/user-discussions?$queryParams'),
@@ -82,11 +95,16 @@ class DiscussionDataSourceImpl implements DiscussionDataSource {
 
   @override
   Future<List<DiscussionModel>> getDiscussions({
-    required String status,
-    required String type,
+    String query = '',
+    String status = '',
+    String type = '',
+    int? offset,
+    int? limit,
+    int? categoryId,
   }) async {
     try {
-      final queryParams = 'status=$status&type=$type';
+      final queryParams =
+          'offset=${offset ?? ''}&limit=${limit ?? ''}&status=$status&type=$type&term=$query&categoryId=${categoryId ?? ''}';
 
       final response = await client.get(
         Uri.parse('${ApiConfigs.baseUrl}/user-discussions?$queryParams'),

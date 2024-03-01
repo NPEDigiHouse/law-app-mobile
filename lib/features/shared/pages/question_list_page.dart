@@ -1,48 +1,51 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
-// Project imports:
-import 'package:law_app/dummies_data.dart';
+// Package imports:
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class QuestionListPage extends StatefulWidget {
-  final String role;
-  final List<Question> questions;
+// Project imports:
+import 'package:law_app/features/admin/data/models/discussion_models/discussion_model.dart';
+import 'package:law_app/features/shared/providers/offset_provider.dart';
+import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
+
+class QuestionListPage extends ConsumerStatefulWidget {
+  final List<DiscussionModel> discussions;
   final bool isDetail;
   final bool withProfile;
 
   const QuestionListPage({
     super.key,
-    required this.role,
-    required this.questions,
+    required this.discussions,
     this.isDetail = false,
     this.withProfile = false,
   });
 
   @override
-  State<QuestionListPage> createState() => _QuestionListPageState();
+  ConsumerState<QuestionListPage> createState() => _QuestionListPageState();
 }
 
-class _QuestionListPageState extends State<QuestionListPage>
+class _QuestionListPageState extends ConsumerState<QuestionListPage>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
 
+    final offset = ref.watch(offsetProvider);
+
     return ListView.separated(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 24),
       itemBuilder: (context, index) {
-        return const SizedBox();
-        // return DiscussionCard(
-        //   question: widget.questions[index],
-        //   role: widget.role,
-        //   isDetail: widget.isDetail,
-        //   withProfile: widget.withProfile,
-        // );
+        return DiscussionCard(
+          discussion: widget.discussions[index],
+          isDetail: widget.isDetail,
+          withProfile: widget.withProfile,
+        );
       },
       separatorBuilder: (context, index) {
         return const SizedBox(height: 8);
       },
-      itemCount: widget.questions.length,
+      itemCount: widget.discussions.length,
     );
   }
 

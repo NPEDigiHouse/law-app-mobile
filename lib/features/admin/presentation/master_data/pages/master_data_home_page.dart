@@ -20,7 +20,7 @@ import 'package:law_app/features/admin/presentation/master_data/providers/master
 import 'package:law_app/features/admin/presentation/master_data/widgets/user_card.dart';
 import 'package:law_app/features/admin/presentation/reference/providers/discussion_category_provider.dart';
 import 'package:law_app/features/shared/providers/search_provider.dart';
-import 'package:law_app/features/shared/providers/selected_role_provider.dart';
+import 'package:law_app/features/shared/providers/user_role_filter_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/form_field/search_field.dart';
@@ -39,9 +39,10 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
     with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
+    final labels = userRoles.keys.toList();
+
     final users = ref.watch(masterDataProvider);
     final query = ref.watch(queryProvider);
-    final selectedRole = ref.watch(selectedRoleProvider);
 
     ref.listen(masterDataProvider, (_, state) {
       state.when(
@@ -168,16 +169,18 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
+                  final selectedRole = ref.watch(userRoleProvider);
+
                   return CustomFilterChip(
-                    label: roles[index],
-                    selected: selectedRole == roles[index],
-                    onSelected: (_) => filterUsers(roles[index]),
+                    label: labels[index],
+                    selected: selectedRole == userRoles[labels[index]],
+                    onSelected: (_) => filterUsers(labels[index]),
                   );
                 },
                 separatorBuilder: (context, index) {
                   return const SizedBox(width: 8);
                 },
-                itemCount: roles.length,
+                itemCount: userRoles.length,
               ),
             ),
           ),
@@ -333,10 +336,10 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
 
   void filterUsers(String role) {
     ref.read(queryProvider.notifier).state = '';
-    ref.read(selectedRoleProvider.notifier).state = role;
-    ref.read(masterDataProvider.notifier).filterUsers(
-          role: role == 'Semua' ? null : role.toLowerCase(),
-        );
+    ref.read(userRoleProvider.notifier).state = userRoles[role]!;
+    ref
+        .read(masterDataProvider.notifier)
+        .filterUsers(role: ref.watch(userRoleProvider));
   }
 
   Future<List<DiscussionCategoryModel>> getDiscussionCategories(

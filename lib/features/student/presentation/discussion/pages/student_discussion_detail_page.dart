@@ -19,8 +19,8 @@ import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/discussion_models/discussion_detail_model.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/delete_discussion_provider.dart';
+import 'package:law_app/features/shared/providers/discussion_providers/get_all_discussions_provider.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/get_discussion_detail_provider.dart';
-import 'package:law_app/features/shared/providers/discussion_providers/get_discussions_provider.dart';
 import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_reply_card.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
@@ -53,7 +53,7 @@ class StudentDiscussionDetailPage extends ConsumerWidget {
         loading: () => context.showLoadingDialog(),
         data: (data) {
           if (data != null) {
-            ref.invalidate(getDiscussionsProvider);
+            ref.invalidate(getAllDiscussionsProvider);
 
             context.showBanner(
               message: 'Pertanyaan kamu berhasil dihapus!',
