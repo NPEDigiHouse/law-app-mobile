@@ -1,9 +1,11 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:law_app/core/enums/banner_type.dart';
 
 // Project imports:
+import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/button_extension.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/extensions/string_extension.dart';
@@ -329,7 +331,7 @@ class _TeacherDiscussionHomePageState
                           FilledButton(
                             onPressed: () {
                               navigatorKey.currentState!.pushNamed(
-                                teacherQuestionHistoryRoute,
+                                teacherDiscussionHistoryRoute,
                               );
                             },
                             style: FilledButton.styleFrom(
@@ -407,7 +409,7 @@ class _TeacherDiscussionHomePageState
                         ),
                         GestureDetector(
                           onTap: () => navigatorKey.currentState!.pushNamed(
-                            teacherQuestionListRoute,
+                            teacherDiscussionListRoute,
                           ),
                           child: Text(
                             'Lihat Selengkapnya >',
@@ -420,8 +422,11 @@ class _TeacherDiscussionHomePageState
                     ),
                   ),
                   if (userDiscussions.isEmpty)
-                    const EmptyContentText(
-                      'Belum terdapat pertanyaan yang perlu dijawab.',
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 24),
+                      child: EmptyContentText(
+                        'Belum terdapat pertanyaan yang perlu dijawab.',
+                      ),
                     )
                   else
                     ...List<Padding>.generate(

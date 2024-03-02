@@ -1,5 +1,7 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
@@ -14,12 +16,12 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/features/admin/data/models/discussion_models/discussion_detail_model.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/get_discussion_detail_provider.dart';
 import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
+import 'package:law_app/features/shared/widgets/dialog/answer_discussion_dialog.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_reply_card.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/label_chip.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
-import 'package:law_app/features/shared/widgets/dialog/answer_question_dialog.dart';
 
 class TeacherDiscussionDetailPage extends ConsumerWidget {
   final int id;
@@ -188,7 +190,7 @@ class TeacherDiscussionDetailPage extends ConsumerWidget {
             context: context,
             barrierDismissible: false,
             builder: (context) {
-              return AnswerQuestionDialog(discussion: discussion);
+              return AnswerDiscussionDialog(discussion: discussion);
             },
           ),
           child: const Text('Jawab Sekarang!'),
@@ -200,9 +202,11 @@ class TeacherDiscussionDetailPage extends ConsumerWidget {
 
     return Column(
       children: List<Padding>.generate(
-        5,
+        discussion.comments!.length,
         (index) => Padding(
-          padding: EdgeInsets.only(bottom: index == 4 ? 0 : 12),
+          padding: EdgeInsets.only(
+            bottom: index == discussion.comments!.length - 1 ? 0 : 12,
+          ),
           child: DiscussionReplyCard(
             comment: discussion.comments![index],
             asker: discussion.asker!,

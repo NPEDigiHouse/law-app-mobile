@@ -31,11 +31,13 @@ const libraryBookDetailRoute = '/library-book-detail';
 
 // Discussion routes
 const publicDiscussionRoute = '/public-discussion';
-const studentQuestionListRoute = '/student-question-list';
+const studentDiscussionListRoute = '/student-discussion-list';
 const studentDiscussionDetailRoute = '/student-discussion-detail';
-const teacherQuestionListRoute = '/teacher-question-list';
+const teacherDiscussionListRoute = '/teacher-discussion-list';
 const teacherDiscussionDetailRoute = '/teacher-discussion-detail';
-const teacherQuestionHistoryRoute = '/teacher-question-history';
+const teacherDiscussionHistoryRoute = '/teacher-discussion-history';
+const adminDiscussionHomeRoute = '/admin-discussion-home';
+const adminDiscussionDetailRoute = '/admin-discussion-detail';
 
 // Course routes
 const studentCourseSearchRoute = '/student-course-search';
@@ -66,9 +68,6 @@ const adminCourseArticleRoute = '/admin-course-article';
 const adminCourseQuizHomeRoute = '/admin-course-quiz-home';
 const adminCourseQuestionListRoute = '/admin-course-question-list';
 const adminCourseAddQuestionRoute = '/admin-course-add-question';
-
-const adminDiscussionHomeRoute = '/admin-discussion-home';
-const adminDiscussionDetailRoute = '/admin-discussion-detail';
 
 const masterDataHomeRoute = '/master-data-home';
 const masterDataFormRoute = '/master-data-form';

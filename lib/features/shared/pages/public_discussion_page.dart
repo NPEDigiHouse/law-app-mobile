@@ -14,7 +14,7 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/shared/providers/discussion_filter_provider.dart';
-import 'package:law_app/features/shared/providers/discussion_providers/get_public_discussions_provider.dart';
+import 'package:law_app/features/shared/providers/discussion_providers/get_discussions_provider.dart';
 import 'package:law_app/features/shared/providers/offset_provider.dart';
 import 'package:law_app/features/shared/providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/animated_fab.dart';
@@ -77,22 +77,24 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
   Widget build(BuildContext context) {
     final isSearching = ref.watch(isSearchingProvider);
     final query = ref.watch(queryProvider);
-    final selectedCategoryId = ref.watch(discussionCategoryIdProvider);
+    final categoryId = ref.watch(discussionCategoryIdProvider);
     final offset = ref.watch(offsetProvider);
 
     final labels = categories.keys.toList();
 
     final discussions = ref.watch(
-      GetPublicDiscussionsProvider(
+      GetDiscussionsProvider(
         query: query,
-        categoryId: selectedCategoryId,
+        categoryId: categoryId,
+        type: 'general',
       ),
     );
 
     ref.listen(
-      GetPublicDiscussionsProvider(
+      GetDiscussionsProvider(
         query: query,
-        categoryId: selectedCategoryId,
+        categoryId: categoryId,
+        type: 'general',
       ),
       (_, state) {
         state.when(
@@ -101,7 +103,7 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
               context.showNetworkErrorModalBottomSheet(
                 onPressedPrimaryButton: () {
                   navigatorKey.currentState!.pop();
-                  ref.invalidate(getPublicDiscussionsProvider);
+                  ref.invalidate(getDiscussionsProvider);
                 },
               );
             } else {
@@ -121,8 +123,9 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
           ref,
           didPop,
           isSearching,
-          provider: GetPublicDiscussionsProvider(
-            categoryId: selectedCategoryId,
+          provider: GetDiscussionsProvider(
+            categoryId: categoryId,
+            type: 'general',
           ),
         );
       },
@@ -132,7 +135,7 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
           preferredSize: Size.fromHeight(isSearching ? 124 : 96),
           child: Container(
             color: scaffoldBackgroundColor,
-            child: buildHeaderContainer(isSearching, query, selectedCategoryId),
+            child: buildHeaderContainer(isSearching, query, categoryId),
           ),
         ),
         body: NotificationListener<UserScrollNotification>(
@@ -167,8 +170,7 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
                     itemBuilder: (context, index) {
                       return CustomFilterChip(
                         label: labels[index],
-                        selected:
-                            selectedCategoryId == categories[labels[index]],
+                        selected: categoryId == categories[labels[index]],
                         onSelected: (_) {
                           ref
                               .read(discussionCategoryIdProvider.notifier)
@@ -215,7 +217,7 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
                             return buildFetchMoreButton(
                               query,
                               offset,
-                              selectedCategoryId,
+                              categoryId,
                             );
                           }
 
@@ -301,14 +303,16 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
     return TextButton(
       onPressed: () {
         ref
-            .read(GetPublicDiscussionsProvider(
+            .read(GetDiscussionsProvider(
               query: query,
               categoryId: categoryId,
+              type: 'general',
             ).notifier)
-            .fetchMorePublicDiscussions(
+            .fetchMoreDiscussions(
               query: query,
-              offset: offset,
               categoryId: categoryId,
+              offset: offset,
+              type: 'general',
             );
 
         ref.read(offsetProvider.notifier).state = offset + 20;
@@ -328,16 +332,17 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
         'search-debouncer',
         const Duration(milliseconds: 800),
         () {
-          ref.read(GetPublicDiscussionsProvider(
+          ref.read(GetDiscussionsProvider(
             query: query,
             categoryId: categoryId,
+            type: 'general',
           ));
 
           ref.invalidate(offsetProvider);
         },
       );
     } else {
-      ref.invalidate(getPublicDiscussionsProvider);
+      ref.invalidate(getDiscussionsProvider);
     }
   }
 }

@@ -27,7 +27,7 @@ import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/label_chip.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
-import 'package:law_app/features/student/presentation/discussion/widgets/specific_question_info_dialog.dart';
+import 'package:law_app/features/shared/widgets/dialog/specific_question_info_dialog.dart';
 
 class StudentDiscussionDetailPage extends ConsumerWidget {
   final int id;

@@ -2,12 +2,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 const userRoles = {
-  'semua': '',
-  'student': 'student',
-  'teacher': 'teacher',
-  'admin': 'admin',
+  'Semua': '',
+  'Student': 'student',
+  'Teacher': 'teacher',
+  'Admin': 'admin',
 };
 
 final userRoleProvider = StateProvider.autoDispose<String>(
-  (ref) => userRoles['semua']!,
+  (ref) => userRoles['Semua']!,
 );

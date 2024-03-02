@@ -59,10 +59,10 @@ import 'package:law_app/features/student/presentation/course/pages/student_cours
 import 'package:law_app/features/student/presentation/course/pages/student_course_rate_page.dart';
 import 'package:law_app/features/student/presentation/course/pages/student_course_search_page.dart';
 import 'package:law_app/features/student/presentation/discussion/pages/student_discussion_detail_page.dart';
-import 'package:law_app/features/student/presentation/discussion/pages/student_question_list_page.dart';
+import 'package:law_app/features/student/presentation/discussion/pages/student_discussion_list_page.dart';
 import 'package:law_app/features/teacher/presentation/discussion/pages/teacher_discussion_detail_page.dart';
-import 'package:law_app/features/teacher/presentation/discussion/pages/teacher_question_history_page.dart';
-import 'package:law_app/features/teacher/presentation/discussion/pages/teacher_question_list_page.dart';
+import 'package:law_app/features/teacher/presentation/discussion/pages/teacher_discussion_history_page.dart';
+import 'package:law_app/features/teacher/presentation/discussion/pages/teacher_discussion_list_page.dart';
 
 // Register the RouteObserver as a navigation observer
 final routeObserver = RouteObserver<ModalRoute<void>>();
@@ -184,9 +184,9 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => const PublicDiscussionPage(),
       );
-    case studentQuestionListRoute:
+    case studentDiscussionListRoute:
       return MaterialPageRoute(
-        builder: (_) => const StudentQuestionListPage(),
+        builder: (_) => const StudentDiscussionListPage(),
       );
     case studentDiscussionDetailRoute:
       final id = settings.arguments as int;
@@ -194,9 +194,9 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => StudentDiscussionDetailPage(id: id),
       );
-    case teacherQuestionListRoute:
+    case teacherDiscussionListRoute:
       return MaterialPageRoute(
-        builder: (_) => const TeacherQuestionListPage(),
+        builder: (_) => const TeacherDiscussionListPage(),
       );
     case teacherDiscussionDetailRoute:
       final id = settings.arguments as int;
@@ -204,9 +204,9 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => TeacherDiscussionDetailPage(id: id),
       );
-    case teacherQuestionHistoryRoute:
+    case teacherDiscussionHistoryRoute:
       return MaterialPageRoute(
-        builder: (_) => const TeacherQuestionHistoryPage(),
+        builder: (_) => const TeacherDiscussionHistoryPage(),
       );
     case studentCourseSearchRoute:
       return MaterialPageRoute(
@@ -347,9 +347,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => const AdminDiscussionHomePage(),
       );
     case adminDiscussionDetailRoute:
-      final question = settings.arguments as Question;
+      final id = settings.arguments as int;
+
       return MaterialPageRoute(
-        builder: (_) => AdminDiscussionDetailPage(question: question),
+        builder: (_) => AdminDiscussionDetailPage(id: id),
       );
     case masterDataHomeRoute:
       return MaterialPageRoute(

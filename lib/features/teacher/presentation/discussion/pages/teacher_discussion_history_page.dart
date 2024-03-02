@@ -4,17 +4,18 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:law_app/core/enums/banner_type.dart';
 
 // Project imports:
+import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/enums/question_status.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
+import 'package:law_app/core/extensions/string_extension.dart';
 import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/shared/pages/question_list_page.dart';
+import 'package:law_app/features/shared/pages/discussion_list_page.dart';
 import 'package:law_app/features/shared/providers/discussion_filter_provider.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/get_user_discussions_provider.dart';
 import 'package:law_app/features/shared/providers/search_provider.dart';
@@ -24,33 +25,38 @@ import 'package:law_app/features/shared/widgets/form_field/search_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 
-class TeacherQuestionHistoryPage extends ConsumerStatefulWidget {
-  const TeacherQuestionHistoryPage({super.key});
+class TeacherDiscussionHistoryPage extends ConsumerStatefulWidget {
+  const TeacherDiscussionHistoryPage({super.key});
 
   @override
-  ConsumerState<TeacherQuestionHistoryPage> createState() =>
+  ConsumerState<TeacherDiscussionHistoryPage> createState() =>
       _TeacherQuestionHistoryPageState();
 }
 
 class _TeacherQuestionHistoryPageState
-    extends ConsumerState<TeacherQuestionHistoryPage> {
-  late final PageController pageController;
+    extends ConsumerState<TeacherDiscussionHistoryPage> {
   late final ValueNotifier<QuestionStatus> selectedStatus;
+  late final PageController pageController;
 
   @override
   void initState() {
     super.initState();
 
-    pageController = PageController();
     selectedStatus = ValueNotifier(QuestionStatus.discuss);
+    pageController = PageController();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(discussionStatusProvider.notifier).state =
+          discussionStatus[selectedStatus.value.name.toCapitalize()]!;
+    });
   }
 
   @override
   void dispose() {
     super.dispose();
 
-    pageController.dispose();
     selectedStatus.dispose();
+    pageController.dispose();
   }
 
   @override
@@ -141,7 +147,7 @@ class _TeacherQuestionHistoryPageState
                 separatorBuilder: (context, index) {
                   return const SizedBox(height: 8);
                 },
-                itemCount: discussions.length,
+                itemCount: items.length,
               );
             }
 
@@ -159,12 +165,12 @@ class _TeacherQuestionHistoryPageState
                 }
               },
               children: [
-                QuestionListPage(
+                DiscussionListPage(
                   discussions: discussions,
                   isDetail: true,
                   withProfile: true,
                 ),
-                QuestionListPage(
+                DiscussionListPage(
                   discussions: discussions,
                   isDetail: true,
                   withProfile: true,
@@ -193,7 +199,7 @@ class _TeacherQuestionHistoryPageState
               text: query,
               hintText: 'Cari judul pertanyaan',
               autoFocus: true,
-              onChanged: (query) => searchDiscussion(query),
+              onChanged: searchDiscussion,
               onFocusChange: (isFocus) {
                 if (!isFocus && query.isEmpty) {
                   ref.read(isSearchingProvider.notifier).state = false;
@@ -242,7 +248,9 @@ class _TeacherQuestionHistoryPageState
                   selected: {type},
                   showSelectedIcon: false,
                   onSelectionChanged: (newSelection) {
-                    selectedStatus.value = newSelection.first;
+                    final newValue = newSelection.first;
+
+                    selectedStatus.value = newValue;
 
                     pageController.animateToPage(
                       newSelection.first.index - 1,
@@ -251,7 +259,7 @@ class _TeacherQuestionHistoryPageState
                     );
 
                     ref.read(discussionStatusProvider.notifier).state =
-                        discussionStatus[newSelection.first.name]!;
+                        discussionStatus[newValue.name.toCapitalize()]!;
                   },
                 );
               },

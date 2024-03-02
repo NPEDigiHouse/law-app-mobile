@@ -19,7 +19,7 @@ class SpecificQuestionInfoDialog extends StatelessWidget {
           children: [
             const TextSpan(
               text:
-                  'Jika dirasa perlu, Admin akan melemparkan pertanyaan kamu ke Pakar kami dan menjadi\t',
+                  'Jika dirasa perlu, Admin akan melemparkan pertanyaan ke Pakar dan menjadi\t',
             ),
             TextSpan(
               text: 'Pertanyaan Khusus.',

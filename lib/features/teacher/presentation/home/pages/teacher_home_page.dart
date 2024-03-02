@@ -58,7 +58,7 @@ class TeacherHomePage extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () => navigatorKey.currentState!.pushNamed(
-                          teacherQuestionListRoute,
+                          teacherDiscussionListRoute,
                         ),
                         child: Text(
                           'Lihat Selengkapnya >',

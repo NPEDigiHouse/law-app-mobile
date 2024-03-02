@@ -333,7 +333,7 @@ class _StudentDiscussionHomePageState
                         ),
                         GestureDetector(
                           onTap: () => navigatorKey.currentState!.pushNamed(
-                            studentQuestionListRoute,
+                            studentDiscussionListRoute,
                           ),
                           child: Text(
                             'Lihat Selengkapnya >',

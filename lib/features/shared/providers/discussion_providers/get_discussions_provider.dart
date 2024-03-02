@@ -6,13 +6,15 @@ import 'package:law_app/core/errors/failures.dart';
 import 'package:law_app/features/admin/data/models/discussion_models/discussion_model.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/repositories_provider/discussion_repository_provider.dart';
 
-part 'get_public_discussions_provider.g.dart';
+part 'get_discussions_provider.g.dart';
 
 @riverpod
-class GetPublicDiscussions extends _$GetPublicDiscussions {
+class GetDiscussions extends _$GetDiscussions {
   @override
   Future<({List<DiscussionModel>? discussions, bool? hasMore})> build({
     String query = '',
+    String status = '',
+    String type = '',
     int? categoryId,
   }) async {
     List<DiscussionModel>? discussions;
@@ -24,8 +26,9 @@ class GetPublicDiscussions extends _$GetPublicDiscussions {
       final result =
           await ref.watch(discussionRepositoryProvider).getDiscussions(
                 query: query,
+                status: status,
+                type: type,
                 categoryId: categoryId,
-                type: 'general',
                 offset: 0,
                 limit: 20,
               );
@@ -46,17 +49,20 @@ class GetPublicDiscussions extends _$GetPublicDiscussions {
     return (discussions: discussions, hasMore: hasMore);
   }
 
-  Future<void> fetchMorePublicDiscussions({
-    required int offset,
+  Future<void> fetchMoreDiscussions({
     String query = '',
+    String status = '',
+    String type = '',
     int? categoryId,
+    required int offset,
   }) async {
     try {
       final result =
           await ref.watch(discussionRepositoryProvider).getDiscussions(
                 query: query,
+                status: status,
+                type: type,
                 categoryId: categoryId,
-                type: 'general',
                 offset: offset,
                 limit: 20,
               );

@@ -13,10 +13,10 @@ import 'package:law_app/features/admin/data/models/discussion_models/discussion_
 import 'package:law_app/features/shared/widgets/dialog/custom_dialog.dart';
 import 'package:law_app/features/shared/widgets/form_field/custom_text_field.dart';
 
-class AnswerQuestionDialog extends StatelessWidget {
+class AnswerDiscussionDialog extends StatelessWidget {
   final DiscussionDetailModel discussion;
 
-  const AnswerQuestionDialog({super.key, required this.discussion});
+  const AnswerDiscussionDialog({super.key, required this.discussion});
 
   @override
   Widget build(BuildContext context) {
