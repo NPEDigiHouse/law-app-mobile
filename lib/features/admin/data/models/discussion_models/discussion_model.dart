@@ -14,6 +14,7 @@ class DiscussionModel extends Equatable {
   final String? type;
   final DiscussionCategoryModel? category;
   final UserModel? asker;
+  final UserModel? handler;
   final DateTime? createdAt;
 
   const DiscussionModel({
@@ -24,6 +25,7 @@ class DiscussionModel extends Equatable {
     this.type,
     this.category,
     this.asker,
+    this.handler,
     this.createdAt,
   });
 
@@ -35,6 +37,7 @@ class DiscussionModel extends Equatable {
     String? type,
     DiscussionCategoryModel? category,
     UserModel? asker,
+    UserModel? handler,
     DateTime? createdAt,
   }) {
     return DiscussionModel(
@@ -45,6 +48,7 @@ class DiscussionModel extends Equatable {
       type: type ?? this.type,
       category: category ?? this.category,
       asker: asker ?? this.asker,
+      handler: handler ?? this.handler,
       createdAt: createdAt ?? this.createdAt,
     );
   }
@@ -58,6 +62,7 @@ class DiscussionModel extends Equatable {
       'type': type,
       'category': category?.toMap(),
       'asker': asker?.toMap(),
+      'handler': handler?.toMap(),
       'createdAt': createdAt?.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
     };
   }
@@ -74,6 +79,9 @@ class DiscussionModel extends Equatable {
       ),
       asker: UserModel.fromMap(
         map['asker'] as Map<String, dynamic>,
+      ),
+      handler: UserModel.fromMap(
+        map['handler'] as Map<String, dynamic>,
       ),
       createdAt: DateTime.tryParse((map['createdAt'] as String?) ?? ''),
     );
@@ -92,6 +100,7 @@ class DiscussionModel extends Equatable {
       type,
       category,
       asker,
+      handler,
       createdAt,
     ];
   }

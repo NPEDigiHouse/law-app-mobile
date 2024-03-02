@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:law_app/core/enums/banner_type.dart';
 
 // Project imports:
 import 'package:law_app/core/extensions/button_extension.dart';
@@ -13,7 +14,12 @@ import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/const.dart';
+import 'package:law_app/core/utils/credential_saver.dart';
+import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/discussion_models/discussion_detail_model.dart';
+import 'package:law_app/features/shared/providers/discussion_providers/create_discussion_comment_provider.dart';
+import 'package:law_app/features/shared/providers/discussion_providers/edit_discussion_provider.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/get_discussion_detail_provider.dart';
 import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
 import 'package:law_app/features/shared/widgets/dialog/answer_discussion_dialog.dart';
@@ -31,6 +37,73 @@ class TeacherDiscussionDetailPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final discussion = ref.watch(GetDiscussionDetailProvider(id: id));
+
+    ref.listen(GetDiscussionDetailProvider(id: id), (_, state) {
+      state.when(
+        error: (error, _) {
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet(
+              onPressedPrimaryButton: () {
+                navigatorKey.currentState!.pop();
+                ref.invalidate(getDiscussionDetailProvider);
+              },
+            );
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+        loading: () {},
+        data: (_) {},
+      );
+    });
+
+    ref.listen(createDiscussionCommentProvider, (_, state) {
+      state.when(
+        error: (error, _) {
+          navigatorKey.currentState!.pop();
+          navigatorKey.currentState!.pop();
+
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet();
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+        loading: () => context.showLoadingDialog(),
+        data: (data) {
+          if (data != null) {
+            ref.invalidate(getDiscussionDetailProvider);
+
+            navigatorKey.currentState!.pop();
+            navigatorKey.currentState!.pop();
+          }
+        },
+      );
+    });
+
+    ref.listen(editDiscussionProvider, (_, state) {
+      state.when(
+        error: (error, _) {
+          navigatorKey.currentState!.pop();
+          navigatorKey.currentState!.pop();
+
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet();
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+        loading: () => context.showLoadingDialog(),
+        data: (data) {
+          if (data != null) {
+            ref.invalidate(getDiscussionDetailProvider);
+
+            navigatorKey.currentState!.pop();
+            navigatorKey.currentState!.pop();
+          }
+        },
+      );
+    });
 
     return discussion.when(
       loading: () => const LoadingIndicator(withScaffold: true),
@@ -143,12 +216,30 @@ class TeacherDiscussionDetailPage extends ConsumerWidget {
                   FilledButton(
                     onPressed: () => context.showSingleFormDialog(
                       title: 'Beri Tanggapan',
-                      name: 'response',
+                      name: 'text',
                       label: 'Tanggapan',
                       hintText: 'Masukkan tanggapan kamu',
                       maxLines: 4,
                       primaryButtonText: 'Submit',
-                      onSubmitted: (value) {},
+                      onSubmitted: (value) {
+                        if (discussion.handler == null) {
+                          ref
+                              .read(editDiscussionProvider.notifier)
+                              .editDiscussion(
+                                discussionId: discussion.id!,
+                                handlerId: CredentialSaver.user!.id,
+                                status: 'onDiscussion',
+                              );
+                        }
+
+                        ref
+                            .read(createDiscussionCommentProvider.notifier)
+                            .createDiscussionComment(
+                              userId: CredentialSaver.user!.id!,
+                              discussionId: discussion.id!,
+                              text: value['text'],
+                            );
+                      },
                     ),
                     child: const Text('Beri Tanggapan'),
                   ).fullWidth(),
@@ -162,7 +253,14 @@ class TeacherDiscussionDetailPage extends ConsumerWidget {
                           'Saya memastikan Penanya puas dengan jawaban yang diberikan.',
                       foregroundColor: warningColor,
                       backgroundColor: const Color(0xFFFCF6DF),
-                      onPressedPrimaryButton: () {},
+                      onPressedPrimaryButton: () {
+                        ref
+                            .read(editDiscussionProvider.notifier)
+                            .editDiscussion(
+                              discussionId: discussion.id!,
+                              status: 'solved',
+                            );
+                      },
                     ),
                     style: FilledButton.styleFrom(
                       backgroundColor: secondaryColor,

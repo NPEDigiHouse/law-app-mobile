@@ -42,11 +42,22 @@ abstract class DiscussionRepository {
       {required DiscussionPostModel discussion});
 
   /// Edit discussion
-  Future<Either<Failure, void>> editDiscussion(
-      {required DiscussionDetailModel discussion});
+  Future<Either<Failure, void>> editDiscussion({
+    required int discussionId,
+    int? handlerId,
+    String? status,
+    String? type,
+  });
 
   /// Delete discussion
   Future<Either<Failure, void>> deleteDiscussion({required int id});
+
+  // Create discussion answer
+  Future<Either<Failure, void>> createDiscussionComment({
+    required int userId,
+    required int discussionId,
+    required String text,
+  });
 }
 
 class DiscussionRepositoryImpl implements DiscussionRepository {
@@ -165,16 +176,33 @@ class DiscussionRepositoryImpl implements DiscussionRepository {
   }
 
   @override
-  Future<Either<Failure, void>> editDiscussion(
-      {required DiscussionDetailModel discussion}) async {
+  Future<Either<Failure, void>> editDiscussion({
+    required int discussionId,
+    int? handlerId,
+    String? status,
+    String? type,
+  }) async {
     if (await networkInfo.isConnected) {
       try {
-        final result =
-            await discussionDataSource.editDiscussion(discussion: discussion);
+        final result = await discussionDataSource.editDiscussion(
+          discussionId: discussionId,
+          handlerId: handlerId,
+          status: status,
+          type: type,
+        );
 
         return Right(result);
       } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
+        switch (e.message) {
+          case kNoSpecificQuestionLeft:
+            return const Left(
+              ServerFailure(
+                'Kuota pertanyaan khusus oleh siswa ini telah habis',
+              ),
+            );
+          default:
+            return Left(ServerFailure(e.message));
+        }
       } on ClientException catch (e) {
         return Left(ClientFailure(e.message));
       }
@@ -188,6 +216,31 @@ class DiscussionRepositoryImpl implements DiscussionRepository {
     if (await networkInfo.isConnected) {
       try {
         final result = await discussionDataSource.deleteDiscussion(id: id);
+
+        return Right(result);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message));
+      } on ClientException catch (e) {
+        return Left(ClientFailure(e.message));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> createDiscussionComment({
+    required int userId,
+    required int discussionId,
+    required String text,
+  }) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await discussionDataSource.createDiscussionComment(
+          userId: userId,
+          discussionId: discussionId,
+          text: text,
+        );
 
         return Right(result);
       } on ServerException catch (e) {

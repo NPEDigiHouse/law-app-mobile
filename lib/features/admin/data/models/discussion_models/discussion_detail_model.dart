@@ -16,6 +16,7 @@ class DiscussionDetailModel extends Equatable {
   final DateTime? createdAt;
   final DiscussionCategoryModel? category;
   final UserModel? asker;
+  final UserModel? handler;
   final List<DiscussionCommentModel>? comments;
 
   const DiscussionDetailModel({
@@ -27,6 +28,7 @@ class DiscussionDetailModel extends Equatable {
     this.createdAt,
     this.category,
     this.asker,
+    this.handler,
     this.comments,
   });
 
@@ -39,6 +41,7 @@ class DiscussionDetailModel extends Equatable {
     DateTime? createdAt,
     DiscussionCategoryModel? category,
     UserModel? asker,
+    UserModel? handler,
     List<DiscussionCommentModel>? comments,
   }) {
     return DiscussionDetailModel(
@@ -50,6 +53,7 @@ class DiscussionDetailModel extends Equatable {
       createdAt: createdAt ?? this.createdAt,
       category: category ?? this.category,
       asker: asker ?? this.asker,
+      handler: handler ?? this.handler,
       comments: comments ?? this.comments,
     );
   }
@@ -64,6 +68,7 @@ class DiscussionDetailModel extends Equatable {
       'createdAt': createdAt?.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
       'category': category?.toMap(),
       'asker': asker?.toMap(),
+      'handler': handler?.toMap(),
       'comments': comments?.map((e) => e.toMap()).toList(),
     };
   }
@@ -81,6 +86,9 @@ class DiscussionDetailModel extends Equatable {
       ),
       asker: UserModel.fromMap(
         map['asker'] as Map<String, dynamic>,
+      ),
+      handler: UserModel.fromMap(
+        map['handler'] as Map<String, dynamic>,
       ),
       comments: List<DiscussionCommentModel>.from(
         (map['comments'] as List).map(
@@ -104,6 +112,7 @@ class DiscussionDetailModel extends Equatable {
       createdAt,
       category,
       asker,
+      handler,
       comments,
     ];
   }

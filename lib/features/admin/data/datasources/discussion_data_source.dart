@@ -42,10 +42,22 @@ abstract class DiscussionDataSource {
   Future<void> createDiscussion({required DiscussionPostModel discussion});
 
   /// Edit discussion
-  Future<void> editDiscussion({required DiscussionDetailModel discussion});
+  Future<void> editDiscussion({
+    required int discussionId,
+    int? handlerId,
+    String? status,
+    String? type,
+  });
 
   /// Delete discussion
   Future<void> deleteDiscussion({required int id});
+
+  // Create discussion answer
+  Future<void> createDiscussionComment({
+    required int userId,
+    required int discussionId,
+    required String text,
+  });
 }
 
 class DiscussionDataSourceImpl implements DiscussionDataSource {
@@ -190,20 +202,27 @@ class DiscussionDataSourceImpl implements DiscussionDataSource {
   }
 
   @override
-  Future<void> editDiscussion(
-      {required DiscussionDetailModel discussion}) async {
+  Future<void> editDiscussion({
+    required int discussionId,
+    int? handlerId,
+    String? status,
+    String? type,
+  }) async {
     try {
+      final body = {};
+
+      if (handlerId != null) body['handlerId'] = handlerId;
+      if (status != null) body['status'] = status;
+      if (type != null) body['type'] = type;
+
       final response = await client.put(
-        Uri.parse('${ApiConfigs.baseUrl}/user-discussions/${discussion.id}'),
+        Uri.parse('${ApiConfigs.baseUrl}/user-discussions/$discussionId'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader:
               'Bearer ${CredentialSaver.accessToken}'
         },
-        body: jsonEncode({
-          'status': discussion.status,
-          'type': discussion.type,
-        }),
+        body: jsonEncode(body),
       );
 
       final result = DataResponse.fromJson(jsonDecode(response.body));
@@ -230,6 +249,41 @@ class DiscussionDataSourceImpl implements DiscussionDataSource {
           HttpHeaders.authorizationHeader:
               'Bearer ${CredentialSaver.accessToken}'
         },
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code != 200) {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      if (e is ServerException) {
+        rethrow;
+      } else {
+        throw http.ClientException(e.toString());
+      }
+    }
+  }
+
+  @override
+  Future<void> createDiscussionComment({
+    required int userId,
+    required int discussionId,
+    required String text,
+  }) async {
+    try {
+      final response = await client.post(
+        Uri.parse('${ApiConfigs.baseUrl}/discussion-comments'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+        body: jsonEncode({
+          'userId': userId,
+          'discussionid': discussionId,
+          'text': text,
+        }),
       );
 
       final result = DataResponse.fromJson(jsonDecode(response.body));
