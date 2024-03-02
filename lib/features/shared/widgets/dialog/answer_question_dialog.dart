@@ -9,14 +9,14 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/admin/data/models/discussion_models/discussion_detail_model.dart';
 import 'package:law_app/features/shared/widgets/dialog/custom_dialog.dart';
 import 'package:law_app/features/shared/widgets/form_field/custom_text_field.dart';
 
 class AnswerQuestionDialog extends StatelessWidget {
-  final Question question;
+  final DiscussionDetailModel discussion;
 
-  const AnswerQuestionDialog({super.key, required this.question});
+  const AnswerQuestionDialog({super.key, required this.discussion});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class AnswerQuestionDialog extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            question.title,
+            '${discussion.title}',
             style: textTheme.titleMedium!.copyWith(
               color: primaryColor,
               height: 0,
@@ -37,7 +37,7 @@ class AnswerQuestionDialog extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            question.description,
+            '${discussion.description}',
             style: textTheme.bodySmall,
           ),
           const SizedBox(height: 8),

@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // Project imports:
 import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
+import 'package:law_app/core/extensions/string_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/routes/route_names.dart';
@@ -38,7 +39,7 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
     with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    final labels = userRoles.keys.toList();
+    final labels = userRoles.keys.map((e) => e.toCapitalize()).toList();
 
     final users = ref.watch(masterDataProvider);
     final query = ref.watch(queryProvider);

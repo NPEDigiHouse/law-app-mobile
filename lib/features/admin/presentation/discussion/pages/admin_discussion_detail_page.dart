@@ -17,7 +17,6 @@ import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/label_chip.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 import 'package:law_app/features/student/presentation/discussion/widgets/specific_question_info_dialog.dart';
-import 'package:law_app/features/teacher/presentation/discussion/widgets/answer_question_dialog.dart';
 
 class AdminDiscussionDetailPage extends StatelessWidget {
   final Question question;
@@ -232,7 +231,8 @@ class AdminDiscussionDetailPage extends StatelessWidget {
             context: context,
             barrierDismissible: false,
             builder: (context) {
-              return AnswerQuestionDialog(question: question);
+              return const SizedBox();
+              // return AnswerQuestionDialog(question: question);
             },
           ),
           child: const Text('Jawab Sekarang!'),

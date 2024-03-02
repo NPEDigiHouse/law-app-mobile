@@ -92,8 +92,10 @@ class HomePageHeader extends ConsumerWidget {
       loading: () => const SizedBox(),
       error: (error, stackTrace) => const SizedBox(),
       data: (user) {
+        if (user == null) return const SizedBox();
+
         return SafeArea(
-          child: !(CredentialSaver.user!.role == 'admin')
+          child: !(user.role == 'admin')
               ? Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -109,15 +111,13 @@ class HomePageHeader extends ConsumerWidget {
                             ),
                           ),
                           Text(
-                            FunctionHelper.getUserNickname(
-                              user!.name!,
-                            ),
+                            FunctionHelper.getUserNickname(user.name!),
                             style: textTheme.headlineMedium!.copyWith(
                               color: accentTextColor,
                             ),
                           ),
                           Text(
-                            CredentialSaver.user!.role!.toCapitalize(),
+                            user.role!.toCapitalize(),
                             style: textTheme.bodyMedium!.copyWith(
                               color: accentTextColor,
                             ),
@@ -184,9 +184,7 @@ class HomePageHeader extends ConsumerWidget {
                               style: textTheme.bodyLarge,
                             ),
                             Text(
-                              FunctionHelper.getUserNickname(
-                                user!.name!,
-                              ),
+                              FunctionHelper.getUserNickname(user.name!),
                               style: textTheme.titleSmall!.copyWith(
                                 color: primaryColor,
                               ),

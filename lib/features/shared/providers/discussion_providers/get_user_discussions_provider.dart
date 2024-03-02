@@ -12,6 +12,7 @@ part 'get_user_discussions_provider.g.dart';
 class GetUserDiscussions extends _$GetUserDiscussions {
   @override
   Future<List<DiscussionModel>?> build({
+    String query = '',
     String status = '',
     String type = '',
   }) async {
@@ -22,7 +23,7 @@ class GetUserDiscussions extends _$GetUserDiscussions {
 
       final result = await ref
           .watch(discussionRepositoryProvider)
-          .getUserDiscussions(status: status, type: type);
+          .getUserDiscussions(query: query, status: status, type: type);
 
       result.fold(
         (l) => state = AsyncValue.error(l.message, StackTrace.current),

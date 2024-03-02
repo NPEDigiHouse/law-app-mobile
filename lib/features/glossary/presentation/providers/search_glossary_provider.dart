@@ -21,13 +21,13 @@ class SearchGlossary extends _$SearchGlossary {
 
       final result = await ref
           .watch(glossaryRepositoryProvider)
-          .getGlossaries(query: query, offset: 0, limit: 10);
+          .getGlossaries(query: query, offset: 0, limit: 20);
 
       result.fold(
         (l) => state = AsyncValue.error(l.message, StackTrace.current),
         (r) => state = AsyncValue.data((
           glossaries: r,
-          hasMore: r.length == 10,
+          hasMore: r.length == 20,
         )),
       );
     } catch (e) {
@@ -42,7 +42,7 @@ class SearchGlossary extends _$SearchGlossary {
     try {
       final result = await ref
           .watch(glossaryRepositoryProvider)
-          .getGlossaries(query: query, offset: offset, limit: 10);
+          .getGlossaries(query: query, offset: offset, limit: 20);
 
       result.fold(
         (l) => state = AsyncValue.error(l.message, StackTrace.current),
@@ -52,7 +52,7 @@ class SearchGlossary extends _$SearchGlossary {
           if (previousState != null) {
             state = AsyncValue.data((
               glossaries: [...previousState.glossaries, ...r],
-              hasMore: r.length == 10,
+              hasMore: r.length == 20,
             ));
           }
         },

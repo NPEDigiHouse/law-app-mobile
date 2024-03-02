@@ -7,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 // Project imports:
-import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/features/admin/data/models/discussion_models/discussion_category_model.dart';
 import 'package:law_app/features/admin/data/models/discussion_models/discussion_post_model.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/create_discussion_provider.dart';
@@ -88,7 +87,6 @@ class CreateQuestionDialog extends ConsumerWidget {
               title: data['title'],
               description: data['description'],
               categoryId: int.parse(data['categoryId']),
-              askerId: CredentialSaver.user!.id!,
             ),
           );
     }

@@ -80,12 +80,16 @@ class FunctionHelper {
   static void handleSearchingOnPop(
     WidgetRef ref,
     bool didPop,
-    bool isSearching,
-  ) {
+    bool isSearching, {
+    ProviderOrFamily? provider,
+  }) {
     if (didPop) return;
 
     if (isSearching) {
       ref.read(isSearchingProvider.notifier).state = false;
+      ref.read(queryProvider.notifier).state = '';
+
+      if (provider != null) ref.invalidate(provider);
     } else {
       navigatorKey.currentState!.pop();
     }

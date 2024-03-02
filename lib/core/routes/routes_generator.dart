@@ -199,10 +199,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => const TeacherQuestionListPage(),
       );
     case teacherDiscussionDetailRoute:
-      final question = settings.arguments as Question;
+      final id = settings.arguments as int;
 
       return MaterialPageRoute(
-        builder: (_) => TeacherDiscussionDetailPage(question: question),
+        builder: (_) => TeacherDiscussionDetailPage(id: id),
       );
     case teacherQuestionHistoryRoute:
       return MaterialPageRoute(

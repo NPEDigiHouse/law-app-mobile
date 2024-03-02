@@ -117,7 +117,14 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
     return PopScope(
       canPop: false,
       onPopInvoked: (didPop) {
-        return FunctionHelper.handleSearchingOnPop(ref, didPop, isSearching);
+        return FunctionHelper.handleSearchingOnPop(
+          ref,
+          didPop,
+          isSearching,
+          provider: GetPublicDiscussionsProvider(
+            categoryId: selectedCategoryId,
+          ),
+        );
       },
       child: Scaffold(
         backgroundColor: backgroundColor,
@@ -189,7 +196,7 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
                     return const SliverFillRemaining();
                   }
 
-                  if (isSearching && discussions.isEmpty) {
+                  if (isSearching && query.isNotEmpty && discussions.isEmpty) {
                     return const SliverFillRemaining(
                       child: CustomInformation(
                         illustrationName: 'discussion-cuate.svg',
@@ -286,30 +293,27 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
     );
   }
 
-  Padding buildFetchMoreButton(
+  TextButton buildFetchMoreButton(
     String query,
     int offset,
     int? categoryId,
   ) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: TextButton(
-        onPressed: () {
-          ref
-              .read(GetPublicDiscussionsProvider(
-                query: query,
-                categoryId: categoryId,
-              ).notifier)
-              .fetchMorePublicDiscussions(
-                query: query,
-                offset: offset,
-                categoryId: categoryId,
-              );
+    return TextButton(
+      onPressed: () {
+        ref
+            .read(GetPublicDiscussionsProvider(
+              query: query,
+              categoryId: categoryId,
+            ).notifier)
+            .fetchMorePublicDiscussions(
+              query: query,
+              offset: offset,
+              categoryId: categoryId,
+            );
 
-          ref.read(offsetProvider.notifier).state = offset + 10;
-        },
-        child: const Text('Lihat hasil lainnya'),
-      ),
+        ref.read(offsetProvider.notifier).state = offset + 20;
+      },
+      child: const Text('Lihat hasil lainnya'),
     );
   }
 
@@ -328,6 +332,7 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
             query: query,
             categoryId: categoryId,
           ));
+
           ref.invalidate(offsetProvider);
         },
       );

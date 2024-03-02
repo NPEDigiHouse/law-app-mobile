@@ -4,17 +4,25 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:law_app/core/enums/banner_type.dart';
 
 // Project imports:
 import 'package:law_app/core/enums/question_status.dart';
+import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
-import 'package:law_app/dummies_data.dart';
+import 'package:law_app/core/utils/const.dart';
+import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/features/shared/pages/question_list_page.dart';
+import 'package:law_app/features/shared/providers/discussion_filter_provider.dart';
+import 'package:law_app/features/shared/providers/discussion_providers/get_user_discussions_provider.dart';
 import 'package:law_app/features/shared/providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
+import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
 import 'package:law_app/features/shared/widgets/form_field/search_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
+import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 
 class TeacherQuestionHistoryPage extends ConsumerStatefulWidget {
   const TeacherQuestionHistoryPage({super.key});
@@ -28,8 +36,6 @@ class _TeacherQuestionHistoryPageState
     extends ConsumerState<TeacherQuestionHistoryPage> {
   late final PageController pageController;
   late final ValueNotifier<QuestionStatus> selectedStatus;
-  late final ValueNotifier<String> query;
-  late List<Question> questions;
 
   @override
   void initState() {
@@ -37,8 +43,6 @@ class _TeacherQuestionHistoryPageState
 
     pageController = PageController();
     selectedStatus = ValueNotifier(QuestionStatus.discuss);
-    query = ValueNotifier('');
-    questions = dummyQuestions;
   }
 
   @override
@@ -47,28 +51,74 @@ class _TeacherQuestionHistoryPageState
 
     pageController.dispose();
     selectedStatus.dispose();
-    query.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final isSearching = ref.watch(isSearchingProvider);
+    final query = ref.watch(queryProvider);
+    final status = ref.watch(discussionStatusProvider);
+
+    final discussions = ref.watch(
+      GetUserDiscussionsProvider(
+        query: query,
+        status: status,
+        type: 'specific',
+      ),
+    );
+
+    ref.listen(
+      GetUserDiscussionsProvider(
+        query: query,
+        status: status,
+        type: 'specific',
+      ),
+      (_, state) {
+        state.when(
+          error: (error, _) {
+            if ('$error' == kNoInternetConnection) {
+              context.showNetworkErrorModalBottomSheet(
+                onPressedPrimaryButton: () {
+                  navigatorKey.currentState!.pop();
+                  ref.invalidate(getUserDiscussionsProvider);
+                },
+              );
+            } else {
+              context.showBanner(message: '$error', type: BannerType.error);
+            }
+          },
+          loading: () {},
+          data: (_) {},
+        );
+      },
+    );
 
     return PopScope(
       canPop: false,
       onPopInvoked: (didPop) {
-        return FunctionHelper.handleSearchingOnPop(ref, didPop, isSearching);
+        return FunctionHelper.handleSearchingOnPop(
+          ref,
+          didPop,
+          isSearching,
+          provider: GetUserDiscussionsProvider(
+            status: status,
+            type: 'specific',
+          ),
+        );
       },
       child: Scaffold(
         backgroundColor: backgroundColor,
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(isSearching ? 124 : 180),
-          child: buildHeaderContainer(isSearching),
+          child: buildHeaderContainer(isSearching, query),
         ),
-        body: Builder(
-          builder: (context) {
-            if (isSearching) {
-              if (questions.isEmpty) {
+        body: discussions.whenOrNull(
+          loading: () => const LoadingIndicator(),
+          data: (discussions) {
+            if (discussions == null) return null;
+
+            if (isSearching && query.isNotEmpty) {
+              if (discussions.isEmpty) {
                 return const CustomInformation(
                   illustrationName: 'discussion-cuate.svg',
                   title: 'Pertanyaan tidak ditemukan',
@@ -76,21 +126,22 @@ class _TeacherQuestionHistoryPageState
                 );
               }
 
+              final items =
+                  discussions.where((e) => e.status != 'open').toList();
+
               return ListView.separated(
                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 24),
                 itemBuilder: (context, index) {
-                  return const SizedBox();
-                  // return DiscussionCard(
-                  //   question: questions[index],
-                  //   role: 'teacher',
-                  //   isDetail: true,
-                  //   withProfile: true,
-                  // );
+                  return DiscussionCard(
+                    discussion: items[index],
+                    isDetail: true,
+                    withProfile: true,
+                  );
                 },
                 separatorBuilder: (context, index) {
                   return const SizedBox(height: 8);
                 },
-                itemCount: questions.length,
+                itemCount: discussions.length,
               );
             }
 
@@ -108,22 +159,16 @@ class _TeacherQuestionHistoryPageState
                 }
               },
               children: [
-                // QuestionListPage(
-                //   role: 'teacher',
-                //   questions: dummyQuestions
-                //       .map((e) => e.copyWith(status: 'discuss'))
-                //       .toList(),
-                //   isDetail: true,
-                //   withProfile: true,
-                // ),
-                // QuestionListPage(
-                //   role: 'teacher',
-                //   questions: dummyQuestions
-                //       .map((e) => e.copyWith(status: 'solved'))
-                //       .toList(),
-                //   isDetail: true,
-                //   withProfile: true,
-                // ),
+                QuestionListPage(
+                  discussions: discussions,
+                  isDetail: true,
+                  withProfile: true,
+                ),
+                QuestionListPage(
+                  discussions: discussions,
+                  isDetail: true,
+                  withProfile: true,
+                ),
               ],
             );
           },
@@ -132,7 +177,7 @@ class _TeacherQuestionHistoryPageState
     );
   }
 
-  Widget buildHeaderContainer(bool isSearching) {
+  Widget buildHeaderContainer(bool isSearching, String query) {
     if (isSearching) {
       return HeaderContainer(
         child: Column(
@@ -144,20 +189,15 @@ class _TeacherQuestionHistoryPageState
               ),
             ),
             const SizedBox(height: 10),
-            ValueListenableBuilder(
-              valueListenable: query,
-              builder: (context, query, child) {
-                return SearchField(
-                  text: query,
-                  hintText: 'Cari judul pertanyaan',
-                  autoFocus: true,
-                  onChanged: searchQuestion,
-                  onFocusChange: (isFocus) {
-                    if (!isFocus && query.isEmpty) {
-                      ref.read(isSearchingProvider.notifier).state = false;
-                    }
-                  },
-                );
+            SearchField(
+              text: query,
+              hintText: 'Cari judul pertanyaan',
+              autoFocus: true,
+              onChanged: (query) => searchDiscussion(query),
+              onFocusChange: (isFocus) {
+                if (!isFocus && query.isEmpty) {
+                  ref.read(isSearchingProvider.notifier).state = false;
+                }
               },
             ),
           ],
@@ -209,6 +249,9 @@ class _TeacherQuestionHistoryPageState
                       duration: const Duration(milliseconds: 300),
                       curve: Curves.easeOut,
                     );
+
+                    ref.read(discussionStatusProvider.notifier).state =
+                        discussionStatus[newSelection.first.name]!;
                   },
                 );
               },
@@ -219,26 +262,22 @@ class _TeacherQuestionHistoryPageState
     );
   }
 
-  void searchQuestion(String query) {
-    this.query.value = query;
+  void searchDiscussion(String query) {
+    ref.read(queryProvider.notifier).state = query;
 
-    EasyDebounce.debounce(
-      'search-debouncer',
-      const Duration(milliseconds: 800),
-      () {
-        final result = dummyQuestions.where((question) {
-          final queryLower = query.toLowerCase();
-          final titleLower = question.title.toLowerCase();
-
-          return titleLower.contains(queryLower);
-        }).toList();
-
-        setState(() => questions = result);
-      },
-    );
-
-    if (query.isEmpty) {
-      EasyDebounce.fire('search-debouncer');
+    if (query.isNotEmpty) {
+      EasyDebounce.debounce(
+        'search-debouncer',
+        const Duration(milliseconds: 800),
+        () {
+          ref.read(GetUserDiscussionsProvider(
+            query: query,
+            type: 'specific',
+          ));
+        },
+      );
+    } else {
+      ref.invalidate(getUserDiscussionsProvider);
     }
   }
 }

@@ -2,14 +2,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 const discussionStatus = {
-  'Semua': '',
-  'Open': 'open',
-  'Discuss': 'onDiscussion',
-  'Solved': 'solved',
+  'semua': '',
+  'open': 'open',
+  'discuss': 'onDiscussion',
+  'solved': 'solved',
 };
 
 final discussionStatusProvider =
-    StateProvider.autoDispose<String>((ref) => discussionStatus['Semua']!);
+    StateProvider.autoDispose<String>((ref) => discussionStatus['semua']!);
 
 final discussionTypeProvider =
     StateProvider.autoDispose<String>((ref) => 'general');

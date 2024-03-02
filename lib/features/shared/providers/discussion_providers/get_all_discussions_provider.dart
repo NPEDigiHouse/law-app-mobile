@@ -32,7 +32,7 @@ class GetAllDiscussions extends _$GetAllDiscussions {
 
       final result2 = await ref
           .watch(discussionRepositoryProvider)
-          .getDiscussions(offset: 0, limit: 20);
+          .getDiscussions(offset: 0, limit: 20, type: 'general');
 
       result1.fold(
         (l) => state = AsyncValue.error(l.message, StackTrace.current),

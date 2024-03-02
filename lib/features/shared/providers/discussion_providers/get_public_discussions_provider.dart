@@ -27,14 +27,14 @@ class GetPublicDiscussions extends _$GetPublicDiscussions {
                 categoryId: categoryId,
                 type: 'general',
                 offset: 0,
-                limit: 10,
+                limit: 20,
               );
 
       result.fold(
         (l) => state = AsyncValue.error(l.message, StackTrace.current),
         (r) {
           discussions = r;
-          hasMore = r.length == 10;
+          hasMore = r.length == 20;
 
           state = AsyncValue.data((discussions: discussions, hasMore: hasMore));
         },
@@ -58,7 +58,7 @@ class GetPublicDiscussions extends _$GetPublicDiscussions {
                 categoryId: categoryId,
                 type: 'general',
                 offset: offset,
-                limit: 10,
+                limit: 20,
               );
 
       result.fold(
@@ -69,7 +69,7 @@ class GetPublicDiscussions extends _$GetPublicDiscussions {
           if (previousState != null) {
             state = AsyncValue.data((
               discussions: [...previousState.discussions!, ...r],
-              hasMore: r.length == 10,
+              hasMore: r.length == 20,
             ));
           }
         },

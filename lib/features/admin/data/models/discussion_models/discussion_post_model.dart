@@ -7,13 +7,11 @@ import 'package:equatable/equatable.dart';
 class DiscussionPostModel extends Equatable {
   final String title;
   final String description;
-  final int askerId;
   final int categoryId;
 
   const DiscussionPostModel({
     required this.title,
     required this.description,
-    required this.askerId,
     required this.categoryId,
   });
 
@@ -26,7 +24,6 @@ class DiscussionPostModel extends Equatable {
     return DiscussionPostModel(
       title: title ?? this.title,
       description: description ?? this.description,
-      askerId: askerId ?? this.askerId,
       categoryId: categoryId ?? this.categoryId,
     );
   }
@@ -35,7 +32,6 @@ class DiscussionPostModel extends Equatable {
     return <String, dynamic>{
       'title': title,
       'description': description,
-      'askerId': askerId,
       'categoryId': categoryId,
     };
   }
@@ -46,10 +42,5 @@ class DiscussionPostModel extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object> get props => [
-        title,
-        description,
-        askerId,
-        categoryId,
-      ];
+  List<Object> get props => [title, description, categoryId];
 }

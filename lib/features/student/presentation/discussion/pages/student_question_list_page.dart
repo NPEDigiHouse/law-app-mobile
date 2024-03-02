@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/enums/question_type.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
+import 'package:law_app/core/extensions/string_extension.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
@@ -52,7 +53,7 @@ class _StudentQuestionListPageState
     final status = ref.watch(discussionStatusProvider);
     final type = ref.watch(discussionTypeProvider);
 
-    final labels = discussionStatus.keys.toList();
+    final labels = discussionStatus.keys.map((e) => e.toCapitalize()).toList();
 
     final discussions = ref.watch(
       GetUserDiscussionsProvider(status: status, type: type),
