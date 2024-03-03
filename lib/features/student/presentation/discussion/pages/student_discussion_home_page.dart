@@ -16,7 +16,7 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/create_discussion_provider.dart';
-import 'package:law_app/features/shared/providers/discussion_providers/get_all_discussions_provider.dart';
+import 'package:law_app/features/shared/providers/discussion_providers/student_discussions_provider.dart';
 import 'package:law_app/features/shared/widgets/animated_fab.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
 import 'package:law_app/features/shared/widgets/empty_content_text.dart';
@@ -67,16 +67,20 @@ class _StudentDiscussionHomePageState
 
   @override
   Widget build(BuildContext context) {
-    final discussions = ref.watch(getAllDiscussionsProvider);
+    var discussions = ref.watch(studentDiscussionsProvider);
 
-    ref.listen(getAllDiscussionsProvider, (_, state) {
-      state.when(
+    ref.listen(studentDiscussionsProvider, (previous, next) {
+      if (previous != next) {
+        discussions = next;
+      }
+
+      next.when(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
                 navigatorKey.currentState!.pop();
-                ref.invalidate(getAllDiscussionsProvider);
+                ref.invalidate(studentDiscussionsProvider);
               },
             );
           } else {
@@ -103,15 +107,15 @@ class _StudentDiscussionHomePageState
         loading: () => context.showLoadingDialog(),
         data: (data) {
           if (data != null) {
-            ref.invalidate(getAllDiscussionsProvider);
+            navigatorKey.currentState!.pop();
+            navigatorKey.currentState!.pop();
+
+            ref.invalidate(studentDiscussionsProvider);
 
             context.showBanner(
               message: 'Berhasil membuat pertanyaan!',
               type: BannerType.success,
             );
-
-            navigatorKey.currentState!.pop();
-            navigatorKey.currentState!.pop();
           }
         },
       );
@@ -351,13 +355,14 @@ class _StudentDiscussionHomePageState
                     )
                   else
                     SizedBox(
-                      height: 135,
+                      height: 175,
                       child: ListView.separated(
                         padding: const EdgeInsets.fromLTRB(20, 0, 20, 4),
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
                           return DiscussionCard(
                             discussion: userDiscussions[index],
+                            isDetail: true,
                             width: 300,
                           );
                         },

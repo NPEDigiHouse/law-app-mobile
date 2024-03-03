@@ -15,15 +15,24 @@ class GetUserDiscussions extends _$GetUserDiscussions {
     String query = '',
     String status = '',
     String type = '',
+    int? offset,
+    int? limit,
+    int? categoryId,
   }) async {
     List<DiscussionModel>? discussions;
 
     try {
       state = const AsyncValue.loading();
 
-      final result = await ref
-          .watch(discussionRepositoryProvider)
-          .getUserDiscussions(query: query, status: status, type: type);
+      final result =
+          await ref.watch(discussionRepositoryProvider).getUserDiscussions(
+                query: query,
+                status: status,
+                type: type,
+                offset: offset,
+                limit: limit,
+                categoryId: categoryId,
+              );
 
       result.fold(
         (l) => state = AsyncValue.error(l.message, StackTrace.current),

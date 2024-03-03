@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:law_app/core/enums/banner_type.dart';
 
 // Project imports:
+import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/enums/question_type.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/function_helper.dart';
@@ -20,7 +20,6 @@ import 'package:law_app/features/shared/providers/discussion_providers/get_discu
 import 'package:law_app/features/shared/providers/offset_provider.dart';
 import 'package:law_app/features/shared/providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
-import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/form_field/search_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
@@ -56,19 +55,20 @@ class _AdminDiscussionHomePageState
 
   @override
   Widget build(BuildContext context) {
+    final labels = discussionStatus.keys.toList();
     final isSearching = ref.watch(isSearchingProvider);
     final query = ref.watch(queryProvider);
     final type = ref.watch(discussionTypeProvider);
     final status = ref.watch(discussionStatusProvider);
     final offset = ref.watch(offsetProvider);
 
-    final labels = discussionStatus.keys.toList();
-
-    final discussions = ref.watch(
+    var discussions = ref.watch(
       GetDiscussionsProvider(
         query: query,
         type: type,
         status: status,
+        offset: offset,
+        limit: 20,
       ),
     );
 
@@ -77,9 +77,15 @@ class _AdminDiscussionHomePageState
         query: query,
         type: type,
         status: status,
+        offset: offset,
+        limit: 20,
       ),
-      (_, state) {
-        state.when(
+      (previous, next) {
+        if (previous != next) {
+          discussions = next;
+        }
+
+        next.when(
           error: (error, _) {
             if ('$error' == kNoInternetConnection) {
               context.showNetworkErrorModalBottomSheet(
@@ -108,13 +114,15 @@ class _AdminDiscussionHomePageState
           provider: GetDiscussionsProvider(
             type: type,
             status: status,
+            offset: 0,
+            limit: 20,
           ),
         );
       },
       child: Scaffold(
         backgroundColor: backgroundColor,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(isSearching ? 220 : 180),
+          preferredSize: const Size.fromHeight(180),
           child: SizedBox(
             height: isSearching ? 220 : 180,
             child: Stack(
@@ -218,16 +226,6 @@ class _AdminDiscussionHomePageState
                   return const SliverFillRemaining();
                 }
 
-                if (isSearching && query.isNotEmpty && discussions.isEmpty) {
-                  return const SliverFillRemaining(
-                    child: CustomInformation(
-                      illustrationName: 'discussion-cuate.svg',
-                      title: 'Diskusi tidak ditemukan',
-                      subtitle: 'Judul diskusi tersebut tidak ditemukan.',
-                    ),
-                  );
-                }
-
                 return SliverFillRemaining(
                   child: PageView(
                     physics: const NeverScrollableScrollPhysics(),
@@ -312,6 +310,7 @@ class _AdminDiscussionHomePageState
     }
 
     return HeaderContainer(
+      height: 180,
       title: 'Kelola Pertanyaan',
       withBackButton: true,
       withTrailingButton: true,
@@ -334,12 +333,15 @@ class _AdminDiscussionHomePageState
           query: query,
           type: type,
           status: status,
+          offset: offset,
+          limit: 20,
         ).notifier)
         .fetchMoreDiscussions(
           query: query,
           type: type,
           status: status,
           offset: offset,
+          limit: 20,
         );
 
     ref.read(offsetProvider.notifier).state = offset + 20;
@@ -361,6 +363,8 @@ class _AdminDiscussionHomePageState
             query: query,
             type: type,
             status: status,
+            offset: 0,
+            limit: 20,
           ));
 
           ref.invalidate(offsetProvider);

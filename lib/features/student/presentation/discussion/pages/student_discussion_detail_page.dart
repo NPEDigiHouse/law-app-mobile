@@ -22,13 +22,15 @@ import 'package:law_app/features/shared/providers/discussion_providers/create_di
 import 'package:law_app/features/shared/providers/discussion_providers/delete_discussion_provider.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/edit_discussion_provider.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/get_discussion_detail_provider.dart';
+import 'package:law_app/features/shared/providers/discussion_providers/get_user_discussions_provider.dart';
+import 'package:law_app/features/shared/providers/discussion_providers/student_discussions_provider.dart';
 import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
+import 'package:law_app/features/shared/widgets/dialog/specific_question_info_dialog.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_reply_card.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/label_chip.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
-import 'package:law_app/features/shared/widgets/dialog/specific_question_info_dialog.dart';
 
 class StudentDiscussionDetailPage extends ConsumerWidget {
   final int id;
@@ -37,16 +39,20 @@ class StudentDiscussionDetailPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final discussion = ref.watch(GetDiscussionDetailProvider(id: id));
+    var discussion = ref.watch(GetDiscussionDetailProvider(id: id));
 
-    ref.listen(GetDiscussionDetailProvider(id: id), (_, state) {
-      state.when(
+    ref.listen(GetDiscussionDetailProvider(id: id), (previous, next) {
+      if (previous != next) {
+        discussion = next;
+      }
+
+      next.when(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
                 navigatorKey.currentState!.pop();
-                ref.invalidate(getDiscussionDetailProvider);
+                ref.invalidate(GetDiscussionDetailProvider(id: id));
               },
             );
           } else {
@@ -73,6 +79,9 @@ class StudentDiscussionDetailPage extends ConsumerWidget {
         loading: () => context.showLoadingDialog(),
         data: (data) {
           if (data != null) {
+            ref.invalidate(getUserDiscussionsProvider);
+            ref.invalidate(studentDiscussionsProvider);
+
             context.showBanner(
               message: 'Pertanyaan kamu berhasil dihapus!',
               type: BannerType.success,
@@ -101,7 +110,9 @@ class StudentDiscussionDetailPage extends ConsumerWidget {
         loading: () => context.showLoadingDialog(),
         data: (data) {
           if (data != null) {
-            ref.invalidate(getDiscussionDetailProvider);
+            ref.invalidate(GetDiscussionDetailProvider(id: id));
+            ref.invalidate(getUserDiscussionsProvider);
+            ref.invalidate(studentDiscussionsProvider);
 
             navigatorKey.currentState!.pop();
             navigatorKey.currentState!.pop();
@@ -125,7 +136,7 @@ class StudentDiscussionDetailPage extends ConsumerWidget {
         loading: () => context.showLoadingDialog(),
         data: (data) {
           if (data != null) {
-            ref.invalidate(getDiscussionDetailProvider);
+            ref.invalidate(GetDiscussionDetailProvider(id: id));
 
             navigatorKey.currentState!.pop();
             navigatorKey.currentState!.pop();

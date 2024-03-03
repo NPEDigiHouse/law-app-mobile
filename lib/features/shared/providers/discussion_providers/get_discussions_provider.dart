@@ -15,6 +15,8 @@ class GetDiscussions extends _$GetDiscussions {
     String query = '',
     String status = '',
     String type = '',
+    int? offset,
+    int? limit,
     int? categoryId,
   }) async {
     List<DiscussionModel>? discussions;
@@ -28,16 +30,16 @@ class GetDiscussions extends _$GetDiscussions {
                 query: query,
                 status: status,
                 type: type,
+                offset: offset,
+                limit: limit,
                 categoryId: categoryId,
-                offset: 0,
-                limit: 20,
               );
 
       result.fold(
         (l) => state = AsyncValue.error(l.message, StackTrace.current),
         (r) {
           discussions = r;
-          hasMore = r.length == 20;
+          hasMore = r.length == limit;
 
           state = AsyncValue.data((discussions: discussions, hasMore: hasMore));
         },
@@ -53,8 +55,9 @@ class GetDiscussions extends _$GetDiscussions {
     String query = '',
     String status = '',
     String type = '',
+    int? offset,
+    int? limit,
     int? categoryId,
-    required int offset,
   }) async {
     try {
       final result =
@@ -62,9 +65,9 @@ class GetDiscussions extends _$GetDiscussions {
                 query: query,
                 status: status,
                 type: type,
-                categoryId: categoryId,
                 offset: offset,
-                limit: 20,
+                limit: limit,
+                categoryId: categoryId,
               );
 
       result.fold(
@@ -75,7 +78,7 @@ class GetDiscussions extends _$GetDiscussions {
           if (previousState != null) {
             state = AsyncValue.data((
               discussions: [...previousState.discussions!, ...r],
-              hasMore: r.length == 20,
+              hasMore: r.length == limit,
             ));
           }
         },

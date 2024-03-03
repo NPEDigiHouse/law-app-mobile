@@ -1,10 +1,13 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:law_app/core/helpers/function_helper.dart';
+import 'package:law_app/features/shared/widgets/label_chip.dart';
 
 // Package imports:
 import 'package:timeago/timeago.dart' as timeago;
 
 // Project imports:
+import 'package:law_app/core/extensions/string_extension.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/features/admin/data/models/discussion_models/discussion_comment_model.dart';
@@ -66,10 +69,26 @@ class DiscussionReplyCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  '${comment.user?.name}',
-                  style: textTheme.titleSmall,
+                Row(
+                  children: [
+                    Flexible(
+                      child: Text(
+                        '${comment.user?.name}',
+                        style: textTheme.titleSmall,
+                      ),
+                    ),
+                    if (comment.user!.role! != 'student') ...[
+                      const SizedBox(width: 8),
+                      LabelChip(
+                        text: '${comment.user?.role?.toCapitalize()}',
+                        color: FunctionHelper.getColorByRole(
+                          comment.user!.role!,
+                        ),
+                      ),
+                    ]
+                  ],
                 ),
+                const SizedBox(height: 2),
                 Text(
                   timeago.format(comment.createdAt!),
                   style: textTheme.labelSmall!.copyWith(

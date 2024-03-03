@@ -281,7 +281,7 @@ class DiscussionDataSourceImpl implements DiscussionDataSource {
         },
         body: jsonEncode({
           'userId': userId,
-          'discussionid': discussionId,
+          'discussionId': discussionId,
           'text': text,
         }),
       );

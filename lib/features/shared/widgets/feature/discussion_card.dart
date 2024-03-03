@@ -54,6 +54,7 @@ class DiscussionCard extends StatelessWidget {
       ],
       onTap: onTap,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (isDetail) ...[
@@ -158,7 +159,7 @@ class DiscussionCard extends StatelessWidget {
             ),
           ),
           if (isDetail && !withProfile) ...[
-            const SizedBox(height: 8),
+            const Spacer(),
             Align(
               alignment: Alignment.centerRight,
               child: Text(

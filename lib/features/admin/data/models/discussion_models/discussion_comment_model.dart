@@ -46,7 +46,9 @@ class DiscussionCommentModel extends Equatable {
       id: map['id'] as int?,
       text: map['text'] as String?,
       createdAt: DateTime.tryParse((map['createdAt'] as String?) ?? ''),
-      user: UserModel.fromMap(map['user'] as Map<String, dynamic>),
+      user: map['user'] != null
+          ? UserModel.fromMap(map['user'] as Map<String, dynamic>)
+          : null,
     );
   }
 

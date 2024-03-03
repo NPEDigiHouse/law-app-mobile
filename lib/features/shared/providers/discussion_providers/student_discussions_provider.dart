@@ -1,4 +1,5 @@
 // Package imports:
+import 'package:law_app/features/shared/providers/discussion_providers/repositories_provider/discussion_repository_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
@@ -6,12 +7,11 @@ import 'package:law_app/core/errors/failures.dart';
 import 'package:law_app/features/admin/data/models/discussion_models/discussion_model.dart';
 import 'package:law_app/features/admin/data/models/user_models/user_credential_model.dart';
 import 'package:law_app/features/auth/presentation/providers/get_user_credential_provider.dart';
-import 'package:law_app/features/shared/providers/discussion_providers/repositories_provider/discussion_repository_provider.dart';
 
-part 'get_all_discussions_provider.g.dart';
+part 'student_discussions_provider.g.dart';
 
 @riverpod
-class GetAllDiscussions extends _$GetAllDiscussions {
+class StudentDiscussions extends _$StudentDiscussions {
   @override
   Future<
       ({
@@ -34,39 +34,40 @@ class GetAllDiscussions extends _$GetAllDiscussions {
           .watch(discussionRepositoryProvider)
           .getDiscussions(offset: 0, limit: 20, type: 'general');
 
-      result1.fold(
-        (l) => state = AsyncValue.error(l.message, StackTrace.current),
-        (r) {
-          userDiscussions = r;
+      ref.listen(getUserCredentialProvider, (_, state) {
+        state.when(
+          loading: () => this.state = const AsyncValue.loading(),
+          error: (e, _) {
+            this.state = AsyncValue.error(
+              (e as Failure).message,
+              StackTrace.current,
+            );
+          },
+          data: (data) {
+            userCredential = data;
 
-          result2.fold(
-            (l) => state = AsyncValue.error(l.message, StackTrace.current),
-            (r) {
-              publicDiscussions = r;
+            result1.fold(
+              (l) {
+                this.state = AsyncValue.error(l.message, StackTrace.current);
+              },
+              (r) => userDiscussions = r,
+            );
 
-              ref.listen(getUserCredentialProvider, (_, state) {
-                state.whenOrNull(
-                  error: (error, _) {
-                    this.state = AsyncValue.error(
-                      (error as Failure).message,
-                      StackTrace.current,
-                    );
-                  },
-                  data: (data) {
-                    userCredential = data;
+            result2.fold(
+              (l) {
+                this.state = AsyncValue.error(l.message, StackTrace.current);
+              },
+              (r) => publicDiscussions = r,
+            );
 
-                    this.state = AsyncValue.data((
-                      userCredential: data,
-                      userDiscussions: userDiscussions,
-                      publicDiscussions: publicDiscussions,
-                    ));
-                  },
-                );
-              });
-            },
-          );
-        },
-      );
+            this.state = AsyncValue.data((
+              userCredential: userCredential,
+              userDiscussions: userDiscussions,
+              publicDiscussions: publicDiscussions,
+            ));
+          },
+        );
+      });
     } catch (e) {
       state = AsyncValue.error((e as Failure).message, StackTrace.current);
     }

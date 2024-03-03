@@ -15,7 +15,7 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/shared/providers/discussion_providers/get_all_discussions_provider.dart';
+import 'package:law_app/features/shared/providers/discussion_providers/teacher_discussions_provider.dart';
 import 'package:law_app/features/shared/widgets/animated_fab.dart';
 import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
@@ -65,16 +65,20 @@ class _TeacherDiscussionHomePageState
 
   @override
   Widget build(BuildContext context) {
-    final discussions = ref.watch(getAllDiscussionsProvider);
+    var discussions = ref.watch(teacherDiscussionsProvider);
 
-    ref.listen(getAllDiscussionsProvider, (_, state) {
-      state.when(
+    ref.listen(teacherDiscussionsProvider, (previous, next) {
+      if (previous != next) {
+        discussions = next;
+      }
+
+      next.when(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
                 navigatorKey.currentState!.pop();
-                ref.invalidate(getAllDiscussionsProvider);
+                ref.invalidate(teacherDiscussionsProvider);
               },
             );
           } else {
@@ -93,10 +97,12 @@ class _TeacherDiscussionHomePageState
         final userCredential = discussions.userCredential;
         final userDiscussions = discussions.userDiscussions;
         final publicDiscussions = discussions.publicDiscussions;
+        final specificDiscussions = discussions.specificDiscussions;
 
         if (userCredential == null ||
             userDiscussions == null ||
-            publicDiscussions == null) {
+            publicDiscussions == null ||
+            specificDiscussions == null) {
           return const Scaffold();
         }
 
@@ -248,7 +254,7 @@ class _TeacherDiscussionHomePageState
                                     ),
                                     const SizedBox(width: 8),
                                     Text(
-                                      '${userDiscussions.length}',
+                                      '${userDiscussions.length + specificDiscussions.length}',
                                       style: textTheme.titleSmall!.copyWith(
                                         color: primaryColor,
                                       ),
@@ -298,7 +304,7 @@ class _TeacherDiscussionHomePageState
                                 child: Text('Belum Dijawab'),
                               ),
                               Text(
-                                '${userDiscussions.where((e) => e.status == 'open').length}',
+                                '${specificDiscussions.length}',
                                 style: textTheme.titleSmall,
                               ),
                             ],
@@ -379,13 +385,15 @@ class _TeacherDiscussionHomePageState
                     )
                   else
                     SizedBox(
-                      height: 135,
+                      height: 200,
                       child: ListView.separated(
                         padding: const EdgeInsets.fromLTRB(20, 0, 20, 4),
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
                           return DiscussionCard(
                             discussion: publicDiscussions[index],
+                            isDetail: true,
+                            withProfile: true,
                             width: 300,
                           );
                         },
@@ -421,25 +429,25 @@ class _TeacherDiscussionHomePageState
                       ],
                     ),
                   ),
-                  if (userDiscussions.isEmpty)
+                  if (specificDiscussions.isEmpty)
                     const Padding(
-                      padding: EdgeInsets.only(bottom: 24),
+                      padding: EdgeInsets.only(bottom: 40),
                       child: EmptyContentText(
                         'Belum terdapat pertanyaan yang perlu dijawab.',
                       ),
                     )
                   else
                     ...List<Padding>.generate(
-                      userDiscussions.length,
+                      specificDiscussions.length,
                       (index) => Padding(
                         padding: EdgeInsets.fromLTRB(
                           20,
                           0,
                           20,
-                          index == userDiscussions.length - 1 ? 24 : 8,
+                          index == specificDiscussions.length - 1 ? 24 : 8,
                         ),
                         child: DiscussionCard(
-                          discussion: userDiscussions[index],
+                          discussion: specificDiscussions[index],
                           isDetail: true,
                           withProfile: true,
                         ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // Project imports:
 import 'package:law_app/features/admin/data/models/discussion_models/discussion_model.dart';
+import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
 
 class DiscussionListPage extends StatelessWidget {
@@ -23,6 +24,13 @@ class DiscussionListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (discussions.isEmpty) {
+      return const CustomInformation(
+        illustrationName: 'house-searching-cuate.svg',
+        title: 'Belum ada data',
+      );
+    }
+
     return ListView.separated(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 24),
       itemBuilder: (context, index) {

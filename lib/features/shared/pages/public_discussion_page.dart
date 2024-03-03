@@ -61,7 +61,11 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
         for (var e in categories) {
           this.categories[e.name!] = e.id!;
         }
-      }).whenComplete(() => setState(() {}));
+      }).whenComplete(() {
+        if (context.mounted) {
+          setState(() {});
+        }
+      });
     });
   }
 
@@ -75,18 +79,19 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
 
   @override
   Widget build(BuildContext context) {
+    final labels = categories.keys.toList();
     final isSearching = ref.watch(isSearchingProvider);
     final query = ref.watch(queryProvider);
     final categoryId = ref.watch(discussionCategoryIdProvider);
     final offset = ref.watch(offsetProvider);
-
-    final labels = categories.keys.toList();
 
     final discussions = ref.watch(
       GetDiscussionsProvider(
         query: query,
         categoryId: categoryId,
         type: 'general',
+        offset: offset,
+        limit: 20,
       ),
     );
 
@@ -95,6 +100,8 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
         query: query,
         categoryId: categoryId,
         type: 'general',
+        offset: offset,
+        limit: 20,
       ),
       (_, state) {
         state.when(
@@ -126,6 +133,8 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
           provider: GetDiscussionsProvider(
             categoryId: categoryId,
             type: 'general',
+            offset: 0,
+            limit: 20,
           ),
         );
       },
@@ -204,6 +213,15 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
                         illustrationName: 'discussion-cuate.svg',
                         title: 'Diskusi tidak ditemukan',
                         subtitle: 'Judul diskusi tersebut tidak ditemukan.',
+                      ),
+                    );
+                  }
+
+                  if (discussions.isEmpty) {
+                    return const SliverFillRemaining(
+                      child: CustomInformation(
+                        illustrationName: 'house-searching-cuate.svg',
+                        title: 'Belum ada data',
                       ),
                     );
                   }
@@ -307,12 +325,15 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
               query: query,
               categoryId: categoryId,
               type: 'general',
+              offset: offset,
+              limit: 20,
             ).notifier)
             .fetchMoreDiscussions(
               query: query,
               categoryId: categoryId,
-              offset: offset,
               type: 'general',
+              offset: offset,
+              limit: 20,
             );
 
         ref.read(offsetProvider.notifier).state = offset + 20;
@@ -336,6 +357,8 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
             query: query,
             categoryId: categoryId,
             type: 'general',
+            offset: 0,
+            limit: 20,
           ));
 
           ref.invalidate(offsetProvider);

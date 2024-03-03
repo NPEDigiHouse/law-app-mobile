@@ -76,11 +76,15 @@ class UserDetailModel extends Equatable {
       birthDate: DateTime.tryParse((map['birthDate'] as String?) ?? ''),
       phoneNumber: map['phoneNumber'] as String?,
       profilePicture: map['profilePicture'] as String?,
-      expertises: List<DiscussionCategoryModel>.from(
-        (map['teacherDiscussionCategories'] as List).map(
-          (e) => DiscussionCategoryModel.fromMap(e as Map<String, dynamic>),
-        ),
-      ),
+      expertises: map['teacherDiscussionCategories'] != null
+          ? List<DiscussionCategoryModel>.from(
+              (map['teacherDiscussionCategories'] as List).map(
+                (e) => DiscussionCategoryModel.fromMap(
+                  e as Map<String, dynamic>,
+                ),
+              ),
+            )
+          : null,
     );
   }
 

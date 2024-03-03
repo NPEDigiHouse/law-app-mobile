@@ -39,7 +39,6 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
   @override
   Widget build(BuildContext context) {
     final labels = userRoles.keys.toList();
-
     final users = ref.watch(masterDataProvider);
     final query = ref.watch(queryProvider);
     final selectedRole = ref.watch(userRoleProvider);

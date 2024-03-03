@@ -95,11 +95,15 @@ class UserCredentialModel extends Equatable {
           map['totalWeeklyGeneralQuestionsQuota'] as int?,
       totalWeeklySpecificQuestionsQuota:
           map['totalWeeklySpecificQuestionsQuota'] as int?,
-      expertises: List<DiscussionCategoryModel>.from(
-        (map['teacherDiscussionCategories'] as List).map(
-          (e) => DiscussionCategoryModel.fromMap(e as Map<String, dynamic>),
-        ),
-      ),
+      expertises: map['teacherDiscussionCategories'] != null
+          ? List<DiscussionCategoryModel>.from(
+              (map['teacherDiscussionCategories'] as List).map(
+                (e) => DiscussionCategoryModel.fromMap(
+                  e as Map<String, dynamic>,
+                ),
+              ),
+            )
+          : null,
     );
   }
 

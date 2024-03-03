@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:law_app/core/enums/banner_type.dart';
 
 // Project imports:
+import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/button_extension.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/extensions/datetime_extension.dart';
@@ -21,6 +21,9 @@ import 'package:law_app/features/admin/data/models/discussion_models/discussion_
 import 'package:law_app/features/shared/providers/discussion_providers/create_discussion_comment_provider.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/edit_discussion_provider.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/get_discussion_detail_provider.dart';
+import 'package:law_app/features/shared/providers/discussion_providers/get_discussions_provider.dart';
+import 'package:law_app/features/shared/providers/discussion_providers/get_user_discussions_provider.dart';
+import 'package:law_app/features/shared/providers/discussion_providers/teacher_discussions_provider.dart';
 import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
 import 'package:law_app/features/shared/widgets/dialog/answer_discussion_dialog.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_reply_card.dart';
@@ -36,16 +39,20 @@ class TeacherDiscussionDetailPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final discussion = ref.watch(GetDiscussionDetailProvider(id: id));
+    var discussion = ref.watch(GetDiscussionDetailProvider(id: id));
 
-    ref.listen(GetDiscussionDetailProvider(id: id), (_, state) {
-      state.when(
+    ref.listen(GetDiscussionDetailProvider(id: id), (previous, next) {
+      if (previous != next) {
+        discussion = next;
+      }
+
+      next.when(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
                 navigatorKey.currentState!.pop();
-                ref.invalidate(getDiscussionDetailProvider);
+                ref.invalidate(GetDiscussionDetailProvider(id: id));
               },
             );
           } else {
@@ -72,7 +79,7 @@ class TeacherDiscussionDetailPage extends ConsumerWidget {
         loading: () => context.showLoadingDialog(),
         data: (data) {
           if (data != null) {
-            ref.invalidate(getDiscussionDetailProvider);
+            ref.invalidate(GetDiscussionDetailProvider(id: id));
 
             navigatorKey.currentState!.pop();
             navigatorKey.currentState!.pop();
@@ -96,7 +103,10 @@ class TeacherDiscussionDetailPage extends ConsumerWidget {
         loading: () => context.showLoadingDialog(),
         data: (data) {
           if (data != null) {
-            ref.invalidate(getDiscussionDetailProvider);
+            ref.invalidate(GetDiscussionDetailProvider(id: id));
+            ref.invalidate(getUserDiscussionsProvider);
+            ref.invalidate(getDiscussionsProvider);
+            ref.invalidate(teacherDiscussionsProvider);
 
             navigatorKey.currentState!.pop();
             navigatorKey.currentState!.pop();
@@ -222,16 +232,6 @@ class TeacherDiscussionDetailPage extends ConsumerWidget {
                       maxLines: 4,
                       primaryButtonText: 'Submit',
                       onSubmitted: (value) {
-                        if (discussion.handler == null) {
-                          ref
-                              .read(editDiscussionProvider.notifier)
-                              .editDiscussion(
-                                discussionId: discussion.id!,
-                                handlerId: CredentialSaver.user!.id,
-                                status: 'onDiscussion',
-                              );
-                        }
-
                         ref
                             .read(createDiscussionCommentProvider.notifier)
                             .createDiscussionComment(

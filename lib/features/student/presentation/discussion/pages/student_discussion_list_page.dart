@@ -49,19 +49,22 @@ class _StudentQuestionListPageState
 
   @override
   Widget build(BuildContext context) {
+    final labels = discussionStatus.keys.toList();
     final status = ref.watch(discussionStatusProvider);
     final type = ref.watch(discussionTypeProvider);
 
-    final labels = discussionStatus.keys.toList();
-
-    final discussions = ref.watch(
+    var discussions = ref.watch(
       GetUserDiscussionsProvider(status: status, type: type),
     );
 
     ref.listen(
       GetUserDiscussionsProvider(status: status, type: type),
-      (_, state) {
-        state.when(
+      (previous, next) {
+        if (previous != next) {
+          discussions = next;
+        }
+
+        next.when(
           error: (error, _) {
             if ('$error' == kNoInternetConnection) {
               context.showNetworkErrorModalBottomSheet(
@@ -203,8 +206,14 @@ class _StudentQuestionListPageState
                     }
                   },
                   children: [
-                    DiscussionListPage(discussions: discussions),
-                    DiscussionListPage(discussions: discussions),
+                    DiscussionListPage(
+                      discussions: discussions,
+                      isDetail: true,
+                    ),
+                    DiscussionListPage(
+                      discussions: discussions,
+                      isDetail: true,
+                    ),
                   ],
                 ),
               );

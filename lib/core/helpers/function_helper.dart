@@ -107,7 +107,7 @@ class FunctionHelper {
     switch (status) {
       case 'open':
         return infoColor;
-      case 'discuss':
+      case 'onDiscussion':
         return warningColor;
       case 'solved':
         return successColor;

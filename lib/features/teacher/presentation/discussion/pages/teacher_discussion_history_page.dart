@@ -65,7 +65,7 @@ class _TeacherQuestionHistoryPageState
     final query = ref.watch(queryProvider);
     final status = ref.watch(discussionStatusProvider);
 
-    final discussions = ref.watch(
+    var discussions = ref.watch(
       GetUserDiscussionsProvider(
         query: query,
         status: status,
@@ -79,8 +79,12 @@ class _TeacherQuestionHistoryPageState
         status: status,
         type: 'specific',
       ),
-      (_, state) {
-        state.when(
+      (previous, next) {
+        if (previous != next) {
+          discussions = next;
+        }
+
+        next.when(
           error: (error, _) {
             if ('$error' == kNoInternetConnection) {
               context.showNetworkErrorModalBottomSheet(

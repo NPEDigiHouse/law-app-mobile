@@ -1,9 +1,11 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:law_app/core/enums/banner_type.dart';
 
 // Project imports:
+import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/button_extension.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/extensions/datetime_extension.dart';
@@ -19,14 +21,15 @@ import 'package:law_app/features/admin/data/models/discussion_models/discussion_
 import 'package:law_app/features/shared/providers/discussion_providers/create_discussion_comment_provider.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/edit_discussion_provider.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/get_discussion_detail_provider.dart';
+import 'package:law_app/features/shared/providers/discussion_providers/get_discussions_provider.dart';
 import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
 import 'package:law_app/features/shared/widgets/dialog/answer_discussion_dialog.dart';
+import 'package:law_app/features/shared/widgets/dialog/specific_question_info_dialog.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_reply_card.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/label_chip.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
-import 'package:law_app/features/shared/widgets/dialog/specific_question_info_dialog.dart';
 
 class AdminDiscussionDetailPage extends ConsumerWidget {
   final int id;
@@ -35,16 +38,20 @@ class AdminDiscussionDetailPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final discussion = ref.watch(GetDiscussionDetailProvider(id: id));
+    var discussion = ref.watch(GetDiscussionDetailProvider(id: id));
 
-    ref.listen(GetDiscussionDetailProvider(id: id), (_, state) {
-      state.when(
+    ref.listen(GetDiscussionDetailProvider(id: id), (previous, next) {
+      if (previous != next) {
+        discussion = next;
+      }
+
+      next.when(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
                 navigatorKey.currentState!.pop();
-                ref.invalidate(getDiscussionDetailProvider);
+                ref.invalidate(GetDiscussionDetailProvider(id: id));
               },
             );
           } else {
@@ -71,7 +78,7 @@ class AdminDiscussionDetailPage extends ConsumerWidget {
         loading: () => context.showLoadingDialog(),
         data: (data) {
           if (data != null) {
-            ref.invalidate(getDiscussionDetailProvider);
+            ref.invalidate(GetDiscussionDetailProvider(id: id));
 
             navigatorKey.currentState!.pop();
             navigatorKey.currentState!.pop();
@@ -95,7 +102,8 @@ class AdminDiscussionDetailPage extends ConsumerWidget {
         loading: () => context.showLoadingDialog(),
         data: (data) {
           if (data != null) {
-            ref.invalidate(getDiscussionDetailProvider);
+            ref.invalidate(GetDiscussionDetailProvider(id: id));
+            ref.invalidate(getDiscussionsProvider);
 
             navigatorKey.currentState!.pop();
             navigatorKey.currentState!.pop();
@@ -116,23 +124,25 @@ class AdminDiscussionDetailPage extends ConsumerWidget {
             child: HeaderContainer(
               title: 'Detail Pertanyaan',
               withBackButton: true,
-              withTrailingButton: !(discussion.type == 'specific'),
+              withTrailingButton: (discussion.type != 'specific' &&
+                  discussion.status == 'open'),
               trailingButtonIconName: 'two-way-arrows-line.svg',
               trailingButtonTooltip: 'Alihkan',
-              onPressedTrailingButton: () => context.showConfirmDialog(
-                title: 'Alihkan ke Pakar?',
-                message:
-                    'Pertanyaan akan dialihkan menjadi Pertanyaan Khusus yang akan dijawab oleh pakar.',
-                withCheckbox: true,
-                checkboxLabel: 'Saya yakin ingin mengalihkan pertanyaan ini',
-                primaryButtonText: 'Konfirmasi',
-                onPressedPrimaryButton: () {
-                  ref.read(editDiscussionProvider.notifier).editDiscussion(
-                        discussionId: discussion.id!,
-                        type: 'specific',
-                      );
-                },
-              ),
+              onPressedTrailingButton: () {
+                context.showConfirmDialog(
+                  title: 'Alihkan ke Pakar?',
+                  message:
+                      'Pertanyaan akan dialihkan menjadi Pertanyaan Khusus yang akan dijawab oleh pakar.',
+                  withCheckbox: true,
+                  checkboxLabel: 'Saya yakin ingin mengalihkan pertanyaan ini',
+                  onPressedPrimaryButton: () {
+                    ref.read(editDiscussionProvider.notifier).editDiscussion(
+                          discussionId: discussion.id!,
+                          type: 'specific',
+                        );
+                  },
+                );
+              },
             ),
           ),
           body: SingleChildScrollView(
@@ -262,7 +272,7 @@ class AdminDiscussionDetailPage extends ConsumerWidget {
                 ),
                 const SizedBox(height: 12),
                 buildDiscussionSection(discussion, context: context),
-                if (discussion.type == 'specific' &&
+                if (discussion.type == 'general' &&
                     discussion.status == 'onDiscussion') ...[
                   const SizedBox(height: 12),
                   FilledButton(
@@ -274,16 +284,6 @@ class AdminDiscussionDetailPage extends ConsumerWidget {
                       maxLines: 4,
                       primaryButtonText: 'Submit',
                       onSubmitted: (value) {
-                        if (discussion.handler == null) {
-                          ref
-                              .read(editDiscussionProvider.notifier)
-                              .editDiscussion(
-                                discussionId: discussion.id!,
-                                handlerId: CredentialSaver.user!.id,
-                                status: 'onDiscussion',
-                              );
-                        }
-
                         ref
                             .read(createDiscussionCommentProvider.notifier)
                             .createDiscussionComment(

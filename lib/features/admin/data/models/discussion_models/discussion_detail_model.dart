@@ -81,20 +81,26 @@ class DiscussionDetailModel extends Equatable {
       description: map['description'] as String?,
       type: map['type'] as String?,
       createdAt: DateTime.tryParse((map['createdAt'] as String?) ?? ''),
-      category: DiscussionCategoryModel.fromMap(
-        map['category'] as Map<String, dynamic>,
-      ),
-      asker: UserModel.fromMap(
-        map['asker'] as Map<String, dynamic>,
-      ),
-      handler: UserModel.fromMap(
-        map['handler'] as Map<String, dynamic>,
-      ),
-      comments: List<DiscussionCommentModel>.from(
-        (map['comments'] as List).map(
-          (e) => DiscussionCommentModel.fromMap(e as Map<String, dynamic>),
-        ),
-      ),
+      category: map['category'] != null
+          ? DiscussionCategoryModel.fromMap(
+              map['category'] as Map<String, dynamic>,
+            )
+          : null,
+      asker: map['asker'] != null
+          ? UserModel.fromMap(map['asker'] as Map<String, dynamic>)
+          : null,
+      handler: map['handler'] != null
+          ? UserModel.fromMap(map['handler'] as Map<String, dynamic>)
+          : null,
+      comments: map['comments'] != null
+          ? List<DiscussionCommentModel>.from(
+              (map['comments'] as List).map(
+                (e) => DiscussionCommentModel.fromMap(
+                  e as Map<String, dynamic>,
+                ),
+              ),
+            )
+          : null,
     );
   }
 
