@@ -68,7 +68,9 @@ class AdminHomePage extends ConsumerWidget {
       {
         "icon": "book-bold.svg",
         "text": "Manajemen Buku",
-        "onTap": () {},
+        "onTap": () => navigatorKey.currentState!.pushNamed(
+              bookManagementHomeRoute,
+            ),
       },
       {
         "icon": "dictionary-book-solid.svg",

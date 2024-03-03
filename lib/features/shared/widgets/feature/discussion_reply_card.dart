@@ -1,18 +1,18 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:law_app/core/helpers/function_helper.dart';
-import 'package:law_app/features/shared/widgets/label_chip.dart';
 
 // Package imports:
 import 'package:timeago/timeago.dart' as timeago;
 
 // Project imports:
 import 'package:law_app/core/extensions/string_extension.dart';
+import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/features/admin/data/models/discussion_models/discussion_comment_model.dart';
 import 'package:law_app/features/admin/data/models/user_models/user_model.dart';
 import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
+import 'package:law_app/features/shared/widgets/label_chip.dart';
 
 class DiscussionReplyCard extends StatelessWidget {
   final DiscussionCommentModel comment;

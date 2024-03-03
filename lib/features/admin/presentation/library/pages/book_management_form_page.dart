@@ -1,8 +1,8 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
-class BookManagementListPage extends StatelessWidget {
-  const BookManagementListPage({super.key});
+class BookManagementFormPage extends StatelessWidget {
+  const BookManagementFormPage({super.key});
 
   @override
   Widget build(BuildContext context) {

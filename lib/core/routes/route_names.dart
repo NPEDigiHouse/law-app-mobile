@@ -21,13 +21,19 @@ const adDetailRoute = '/ad-detail';
 // Glossary routes
 const glossarySearchRoute = '/glossary-search';
 const glossaryDetailRoute = '/glossary-detail';
+const glossaryManagementRoute = '/glossary-management';
 
-// Library routes
+// Library/book routes
 const libraryBookListRoute = '/library-book-list';
 const libraryFinishedBookRoute = '/library-finished-book';
 const librarySavedBookRoute = '/library-saved-book';
 const librarySearchRoute = '/library-search';
 const libraryBookDetailRoute = '/library-book-detail';
+const bookManagementHomeRoute = '/book-management-home';
+const bookManagementCategoryRoute = '/book-management-category';
+const bookManagementListRoute = '/book-management-list';
+const bookManagementFormRoute = '/book-management-form';
+const bookManagementDetailRoute = '/book-management-detail';
 
 // Discussion routes
 const publicDiscussionRoute = '/public-discussion';
@@ -51,11 +57,9 @@ const studentCourseRateRoute = '/student-course-rate';
 
 // Admin routes
 const adminHomeRoute = '/admin-home';
-
 const adminAdHomeRoute = '/admin-ad-home';
 const adminAddSimpleAdRoute = '/admin-add-simple-ad';
 const adminAddDetailAdRoute = '/admin-add-detail-ad';
-
 const adminCourseHomeRoute = '/admin-course-home';
 const adminAddCourseRoute = '/admin-add-course';
 const adminCourseSearchRoute = '/admin-course-search';
@@ -69,11 +73,11 @@ const adminCourseQuizHomeRoute = '/admin-course-quiz-home';
 const adminCourseQuestionListRoute = '/admin-course-question-list';
 const adminCourseAddQuestionRoute = '/admin-course-add-question';
 
+// Master data
 const masterDataHomeRoute = '/master-data-home';
 const masterDataFormRoute = '/master-data-form';
 const masterDataUserDetailRoute = '/master-data-user-detail';
 
-const glossaryManagementRoute = '/glossary-management';
-
+// Reference
 const referenceRoute = '/reference';
 const discussionCategoryRoute = '/discussion-category';

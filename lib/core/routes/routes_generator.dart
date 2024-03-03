@@ -23,6 +23,11 @@ import 'package:law_app/features/admin/presentation/discussion/pages/admin_discu
 import 'package:law_app/features/admin/presentation/discussion/pages/admin_discussion_home_page.dart';
 import 'package:law_app/features/admin/presentation/glossary/pages/glossary_management_page.dart';
 import 'package:law_app/features/admin/presentation/home/pages/admin_home_page.dart';
+import 'package:law_app/features/admin/presentation/library/pages/book_management_category_page.dart';
+import 'package:law_app/features/admin/presentation/library/pages/book_management_detail_page.dart';
+import 'package:law_app/features/admin/presentation/library/pages/book_management_form_page.dart';
+import 'package:law_app/features/admin/presentation/library/pages/book_management_home_page.dart';
+import 'package:law_app/features/admin/presentation/library/pages/book_management_list_page.dart';
 import 'package:law_app/features/admin/presentation/master_data/pages/master_data_form_page.dart';
 import 'package:law_app/features/admin/presentation/master_data/pages/master_data_home_page.dart';
 import 'package:law_app/features/admin/presentation/master_data/pages/master_data_user_detail_page.dart';
@@ -140,6 +145,7 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       );
     case adDetailRoute:
       final isAdmin = settings.arguments as bool;
+
       return MaterialPageRoute(
         builder: (_) => AdDetailPage(isAdmin: isAdmin),
       );
@@ -296,16 +302,19 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       );
     case adminCourseDetailRoute:
       final course = settings.arguments as Course;
+
       return MaterialPageRoute(
         builder: (_) => AdminCourseDetailPage(course: course),
       );
     case adminCourseCurriculumRoute:
       final courseDetail = settings.arguments as CourseDetail;
+
       return MaterialPageRoute(
         builder: (_) => AdminCourseCurriculumPage(courseDetail: courseDetail),
       );
     case adminCourseLessonRoute:
       final curriculum = settings.arguments as Curriculum;
+
       return MaterialPageRoute(
         builder: (_) => AdminCourseLessonPage(curriculum: curriculum),
       );
@@ -375,6 +384,26 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
     case glossaryManagementRoute:
       return MaterialPageRoute(
         builder: (_) => const GlossaryManagementPage(),
+      );
+    case bookManagementHomeRoute:
+      return MaterialPageRoute(
+        builder: (_) => const BookManagementHomePage(),
+      );
+    case bookManagementCategoryRoute:
+      return MaterialPageRoute(
+        builder: (_) => const BookManagementCategoryPage(),
+      );
+    case bookManagementListRoute:
+      return MaterialPageRoute(
+        builder: (_) => const BookManagementListPage(),
+      );
+    case bookManagementFormRoute:
+      return MaterialPageRoute(
+        builder: (_) => const BookManagementFormPage(),
+      );
+    case bookManagementDetailRoute:
+      return MaterialPageRoute(
+        builder: (_) => const BookManagementDetailPage(),
       );
     default:
       return null;

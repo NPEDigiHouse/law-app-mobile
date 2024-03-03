@@ -1,5 +1,4 @@
 // Package imports:
-import 'package:law_app/features/shared/providers/discussion_providers/repositories_provider/discussion_repository_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
@@ -8,6 +7,7 @@ import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/features/admin/data/models/discussion_models/discussion_model.dart';
 import 'package:law_app/features/admin/data/models/user_models/user_credential_model.dart';
 import 'package:law_app/features/auth/presentation/providers/get_user_credential_provider.dart';
+import 'package:law_app/features/shared/providers/discussion_providers/repositories_provider/discussion_repository_provider.dart';
 
 part 'teacher_discussions_provider.g.dart';
 
