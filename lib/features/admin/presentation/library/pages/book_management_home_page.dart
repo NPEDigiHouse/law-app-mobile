@@ -24,8 +24,8 @@ class BookManagementHomePage extends StatelessWidget {
         },
       },
       {
-        "icon": "book-solid.svg.svg",
-        "text": "Kelola Buku",
+        "icon": "book-solid.svg",
+        "text": "Kelola Daftar Buku",
         "onTap": () {
           navigatorKey.currentState!.pushNamed(bookManagementListRoute);
         },

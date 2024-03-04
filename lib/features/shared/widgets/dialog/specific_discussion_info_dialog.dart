@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/features/shared/widgets/dialog/custom_dialog.dart';
 
-class SpecificQuestionInfoDialog extends StatelessWidget {
-  const SpecificQuestionInfoDialog({super.key});
+class SpecificDiscussionInfoDialog extends StatelessWidget {
+  const SpecificDiscussionInfoDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

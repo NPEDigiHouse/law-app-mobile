@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 // Project imports:
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/dummies_data.dart';
-import 'package:law_app/features/library/presentation/widgets/book_card.dart';
+import 'package:law_app/features/shared/widgets/feature/book_card.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 
 class LibrarySavedBookPage extends StatelessWidget {

@@ -109,10 +109,10 @@ class GlossaryManagementPage extends ConsumerWidget {
       ),
       body: glossaries.whenOrNull(
         loading: () => const LoadingIndicator(),
-        data: (data) {
-          if (data == null) return null;
+        data: (glossaries) {
+          if (glossaries == null) return null;
 
-          if (data.isEmpty) {
+          if (glossaries.isEmpty) {
             return const CustomInformation(
               illustrationName: 'house-searching-cuate.svg',
               title: 'Belum ada data',
@@ -126,11 +126,11 @@ class GlossaryManagementPage extends ConsumerWidget {
             ),
             itemBuilder: (context, index) {
               return GlossaryCard(
-                glossary: data[index],
+                glossary: glossaries[index],
               );
             },
             separatorBuilder: (context, index) => const SizedBox(height: 8),
-            itemCount: data.length,
+            itemCount: glossaries.length,
           );
         },
       ),

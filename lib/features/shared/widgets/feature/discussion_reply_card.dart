@@ -85,7 +85,7 @@ class DiscussionReplyCard extends StatelessWidget {
                           comment.user!.role!,
                         ),
                       ),
-                    ]
+                    ],
                   ],
                 ),
                 const SizedBox(height: 2),

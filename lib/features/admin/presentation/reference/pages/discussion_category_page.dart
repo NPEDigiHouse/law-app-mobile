@@ -55,10 +55,10 @@ class DiscussionCategoryPage extends ConsumerWidget {
       ),
       body: categories.whenOrNull(
         loading: () => const LoadingIndicator(),
-        data: (data) {
-          if (data == null) return null;
+        data: (categories) {
+          if (categories == null) return null;
 
-          if (data.isEmpty) {
+          if (categories.isEmpty) {
             return const CustomInformation(
               illustrationName: 'house-searching-cuate.svg',
               title: 'Belum ada data',
@@ -72,11 +72,11 @@ class DiscussionCategoryPage extends ConsumerWidget {
             ),
             itemBuilder: (context, index) {
               return DiscussionCategoryCard(
-                category: data[index],
+                category: categories[index],
               );
             },
             separatorBuilder: (context, index) => const SizedBox(height: 8),
-            itemCount: data.length,
+            itemCount: categories.length,
           );
         },
       ),

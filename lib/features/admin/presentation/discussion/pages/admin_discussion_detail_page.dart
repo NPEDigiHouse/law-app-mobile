@@ -24,7 +24,7 @@ import 'package:law_app/features/shared/providers/discussion_providers/get_discu
 import 'package:law_app/features/shared/providers/discussion_providers/get_discussions_provider.dart';
 import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
 import 'package:law_app/features/shared/widgets/dialog/answer_discussion_dialog.dart';
-import 'package:law_app/features/shared/widgets/dialog/specific_question_info_dialog.dart';
+import 'package:law_app/features/shared/widgets/dialog/specific_discussion_info_dialog.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_reply_card.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/label_chip.dart';
@@ -221,7 +221,7 @@ class AdminDiscussionDetailPage extends ConsumerWidget {
                           context: context,
                           barrierDismissible: false,
                           builder: (context) {
-                            return const SpecificQuestionInfoDialog();
+                            return const SpecificDiscussionInfoDialog();
                           },
                         ),
                         child: SvgAsset(

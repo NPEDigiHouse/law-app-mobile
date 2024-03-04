@@ -90,7 +90,7 @@ class HomePageHeader extends ConsumerWidget {
   Widget buildHeaderContent(AsyncValue<UserCredentialModel?> userCredential) {
     return userCredential.when(
       loading: () => const SizedBox(),
-      error: (error, stackTrace) => const SizedBox(),
+      error: (_, __) => const SizedBox(),
       data: (user) {
         if (user == null) return const SizedBox();
 

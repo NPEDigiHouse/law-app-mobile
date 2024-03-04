@@ -11,8 +11,8 @@ import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/admin/presentation/reference/providers/discussion_category_provider.dart';
-import 'package:law_app/features/admin/presentation/reference/widgets/discussion_category_card.dart';
+import 'package:law_app/features/admin/presentation/library/widgets/book_category_card.dart';
+import 'package:law_app/features/library/presentation/providers/book_category_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
@@ -23,16 +23,16 @@ class BookManagementCategoryPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final categories = ref.watch(discussionCategoryProvider);
+    final categories = ref.watch(bookCategoryProvider);
 
-    ref.listen(discussionCategoryProvider, (_, state) {
+    ref.listen(bookCategoryProvider, (_, state) {
       state.when(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
                 navigatorKey.currentState!.pop();
-                ref.invalidate(discussionCategoryProvider);
+                ref.invalidate(bookCategoryProvider);
               },
             );
           } else {
@@ -49,16 +49,16 @@ class BookManagementCategoryPage extends ConsumerWidget {
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(96),
         child: HeaderContainer(
-          title: 'Kategori Diskusi',
+          title: 'Kategori Buku',
           withBackButton: true,
         ),
       ),
       body: categories.whenOrNull(
         loading: () => const LoadingIndicator(),
-        data: (data) {
-          if (data == null) return null;
+        data: (categories) {
+          if (categories == null) return null;
 
-          if (data.isEmpty) {
+          if (categories.isEmpty) {
             return const CustomInformation(
               illustrationName: 'house-searching-cuate.svg',
               title: 'Belum ada data',
@@ -71,12 +71,12 @@ class BookManagementCategoryPage extends ConsumerWidget {
               horizontal: 20,
             ),
             itemBuilder: (context, index) {
-              return DiscussionCategoryCard(
-                category: data[index],
+              return BookCategoryCard(
+                category: categories[index],
               );
             },
             separatorBuilder: (context, index) => const SizedBox(height: 8),
-            itemCount: data.length,
+            itemCount: categories.length,
           );
         },
       ),
@@ -91,15 +91,15 @@ class BookManagementCategoryPage extends ConsumerWidget {
         ),
         child: IconButton(
           onPressed: () => context.showSingleFormDialog(
-            title: "Tambah Kategori Diskusi",
+            title: "Tambah Kategori Buku",
             name: "name",
             label: "Kategori",
             hintText: "Masukkan nama kategori",
             primaryButtonText: 'Tambah',
             onSubmitted: (value) {
               ref
-                  .read(discussionCategoryProvider.notifier)
-                  .createDiscussionCategory(name: value['name']);
+                  .read(bookCategoryProvider.notifier)
+                  .createBookCategory(name: value['name']);
 
               navigatorKey.currentState!.pop();
             },

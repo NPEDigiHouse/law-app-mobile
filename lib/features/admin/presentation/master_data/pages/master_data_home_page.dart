@@ -186,10 +186,10 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
               child: LoadingIndicator(),
             ),
             error: (_, __) => const SliverFillRemaining(),
-            data: (data) {
-              if (data == null) return const SliverFillRemaining();
+            data: (users) {
+              if (users == null) return const SliverFillRemaining();
 
-              if (query.isNotEmpty && data.isEmpty) {
+              if (query.isNotEmpty && users.isEmpty) {
                 return const SliverFillRemaining(
                   child: CustomInformation(
                     illustrationName: 'house-searching-cuate.svg',
@@ -198,7 +198,7 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
                 );
               }
 
-              if (data.isEmpty) {
+              if (users.isEmpty) {
                 return const SliverFillRemaining(
                   child: CustomInformation(
                     illustrationName: 'house-searching-cuate.svg',
@@ -214,14 +214,14 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
                     (context, index) {
                       return Padding(
                         padding: EdgeInsets.only(
-                          bottom: index == data.length - 1 ? 0 : 8,
+                          bottom: index == users.length - 1 ? 0 : 8,
                         ),
                         child: UserCard(
-                          user: data[index],
+                          user: users[index],
                         ),
                       );
                     },
-                    childCount: data.length,
+                    childCount: users.length,
                   ),
                 ),
               );

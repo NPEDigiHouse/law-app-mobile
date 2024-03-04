@@ -82,10 +82,10 @@ class GlossaryHomePage extends ConsumerWidget {
       ),
       body: searchHistory.whenOrNull(
         loading: () => const LoadingIndicator(),
-        data: (data) {
-          if (data == null) return null;
+        data: (histories) {
+          if (histories == null) return null;
 
-          if (data.isEmpty) {
+          if (histories.isEmpty) {
             return const CustomInformation(
               illustrationName: 'house-searching-cuate.svg',
               title: 'Riwayat pencarian kosong',
@@ -135,7 +135,7 @@ class GlossaryHomePage extends ConsumerWidget {
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    final glossary = data[index].glosarium;
+                    final glossary = histories[index].glosarium;
 
                     return ListTile(
                       contentPadding: const EdgeInsets.symmetric(
@@ -151,7 +151,9 @@ class GlossaryHomePage extends ConsumerWidget {
                         onTap: () {
                           ref
                               .read(glossarySearchHistoryProvider.notifier)
-                              .deleteGlossarySearchHistory(id: data[index].id!);
+                              .deleteGlossarySearchHistory(
+                                id: histories[index].id!,
+                              );
                         },
                         child: const Icon(
                           Icons.close_rounded,
@@ -167,7 +169,7 @@ class GlossaryHomePage extends ConsumerWidget {
                       ),
                     );
                   },
-                  childCount: data.length,
+                  childCount: histories.length,
                 ),
               ),
             ],
