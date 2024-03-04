@@ -41,15 +41,15 @@ class BookPostModel extends Equatable {
     );
   }
 
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
+  Map<String, String> toMap() {
+    return <String, String>{
       'title': title,
       'synopsis': synopsis,
       'writer': writer,
       'publisher': publisher,
       'releaseDate': releaseDate,
-      'pageAmt': pageAmt,
-      'categoryId': categoryId,
+      'pageAmt': pageAmt.toString(),
+      'categoryId': categoryId.toString(),
     };
   }
 

@@ -18,10 +18,7 @@ abstract class ProfileDataSource {
   Future<UserDetailModel> getProfileDetail({required int id});
 
   /// Edit profile
-  Future<void> editProfile({
-    required UserDetailModel user,
-    String? path,
-  });
+  Future<void> editProfile({required UserDetailModel user, String? path});
 
   /// Change password
   Future<void> changePassword({

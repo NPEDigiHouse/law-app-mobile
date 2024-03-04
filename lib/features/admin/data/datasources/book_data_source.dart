@@ -11,8 +11,39 @@ import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/data_response.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_category_model.dart';
+import 'package:law_app/features/admin/data/models/book_models/book_detail_model.dart';
+import 'package:law_app/features/admin/data/models/book_models/book_model.dart';
+import 'package:law_app/features/admin/data/models/book_models/book_post_model.dart';
 
 abstract class BookDataSource {
+  // Get all books
+  Future<List<BookModel>> getBooks({
+    String query = '',
+    int? offset,
+    int? limit,
+    int? categoryId,
+  });
+
+  /// Get book detail
+  Future<BookDetailModel> getBookDetail({required int id});
+
+  /// Create book
+  Future<void> createBook({
+    required BookPostModel book,
+    required String imagePath,
+    required String filePath,
+  });
+
+  /// Edit book
+  Future<void> editBook({
+    required BookModel book,
+    String? imagePath,
+    String? filePath,
+  });
+
+  /// Delete book
+  Future<void> deleteBook({required int id});
+
   /// Get book categories
   Future<List<BookCategoryModel>> getBookCategories();
 
@@ -30,6 +61,177 @@ class BookDataSourceImpl implements BookDataSource {
   final http.Client client;
 
   BookDataSourceImpl({required this.client});
+
+  @override
+  Future<List<BookModel>> getBooks({
+    String query = '',
+    int? offset,
+    int? limit,
+    int? categoryId,
+  }) async {
+    try {
+      final queryParams =
+          'offset=${offset ?? ''}&limit=${limit ?? ''}&term=$query&categoryId=${categoryId ?? ''}';
+
+      final response = await client.get(
+        Uri.parse('${ApiConfigs.baseUrl}/books?$queryParams'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code == 200) {
+        final data = result.data as List;
+
+        return data.map((e) => BookModel.fromMap(e)).toList();
+      } else {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      if (e is ServerException) {
+        rethrow;
+      } else {
+        throw http.ClientException(e.toString());
+      }
+    }
+  }
+
+  @override
+  Future<BookDetailModel> getBookDetail({required int id}) async {
+    try {
+      final response = await client.get(
+        Uri.parse('${ApiConfigs.baseUrl}/books/$id'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code == 200) {
+        return BookDetailModel.fromMap(result.data);
+      } else {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      if (e is ServerException) {
+        rethrow;
+      } else {
+        throw http.ClientException(e.toString());
+      }
+    }
+  }
+
+  @override
+  Future<void> createBook({
+    required BookPostModel book,
+    required String filePath,
+    required String imagePath,
+  }) async {
+    try {
+      final file = await http.MultipartFile.fromPath('files', filePath);
+      final image = await http.MultipartFile.fromPath('files', imagePath);
+
+      final request = http.MultipartRequest(
+        'POST',
+        Uri.parse('${ApiConfigs.baseUrl}/books'),
+      )
+        ..fields.addAll(book.toMap())
+        ..files.addAll([file, image])
+        ..headers[HttpHeaders.authorizationHeader] =
+            'Bearer ${CredentialSaver.accessToken}';
+
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code != 200) {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      if (e is ServerException) {
+        rethrow;
+      } else {
+        throw http.ClientException(e.toString());
+      }
+    }
+  }
+
+  @override
+  Future<void> editBook({
+    required BookModel book,
+    String? filePath,
+    String? imagePath,
+  }) async {
+    try {
+      final request = http.MultipartRequest(
+        'PUT',
+        Uri.parse('${ApiConfigs.baseUrl}/books'),
+      )
+        // ..fields.addAll(book.toMap())
+        // ..files.addAll([file, image])
+        ..headers[HttpHeaders.authorizationHeader] =
+            'Bearer ${CredentialSaver.accessToken}';
+
+      if (filePath != null) {
+        final file = await http.MultipartFile.fromPath('files', filePath);
+
+        request.files.add(file);
+      }
+
+      if (imagePath != null) {
+        final image = await http.MultipartFile.fromPath('files', imagePath);
+
+        request.files.add(image);
+      }
+
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code != 200) {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      if (e is ServerException) {
+        rethrow;
+      } else {
+        throw http.ClientException(e.toString());
+      }
+    }
+  }
+
+  @override
+  Future<void> deleteBook({required int id}) async {
+    try {
+      final response = await client.delete(
+        Uri.parse('${ApiConfigs.baseUrl}/books/$id'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code != 200) {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      if (e is ServerException) {
+        rethrow;
+      } else {
+        throw http.ClientException(e.toString());
+      }
+    }
+  }
 
   @override
   Future<List<BookCategoryModel>> getBookCategories() async {
