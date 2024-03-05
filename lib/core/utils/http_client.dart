@@ -13,6 +13,6 @@ class HttpClient {
   static http.Client? _clientInstance;
 
   static http.Client get client {
-    return _clientInstance ?? http.Client();
+    return _clientInstance ??= http.Client();
   }
 }

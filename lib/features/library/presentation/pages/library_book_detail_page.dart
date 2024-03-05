@@ -235,8 +235,8 @@ class _LibraryBookDetailRouteState extends State<LibraryBookDetailRoute> {
                           color: secondaryTextColor,
                         ),
                         tabs: const [
-                          Tab(text: 'Sinopsis'),
                           Tab(text: 'Detail'),
+                          Tab(text: 'Sinopsis'),
                         ],
                       ),
                     ),
@@ -244,13 +244,6 @@ class _LibraryBookDetailRouteState extends State<LibraryBookDetailRoute> {
                   Expanded(
                     child: TabBarView(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-                          child: Text(
-                            bookDetail.synopsis,
-                            style: textTheme.bodySmall,
-                          ),
-                        ),
                         ListView(
                           padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
                           children: [
@@ -280,6 +273,13 @@ class _LibraryBookDetailRouteState extends State<LibraryBookDetailRoute> {
                               bottomPadding: 0,
                             ),
                           ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                          child: Text(
+                            bookDetail.synopsis,
+                            style: textTheme.bodySmall,
+                          ),
                         ),
                       ],
                     ),

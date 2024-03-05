@@ -1,10 +1,16 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:open_file_plus/open_file_plus.dart';
+
+// Project imports:
 import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/routes/route_names.dart';
+import 'package:law_app/core/services/file_service.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
@@ -230,7 +236,7 @@ class BookManagementDetailPage extends ConsumerWidget {
                               ],
                             ),
                             child: IconButton(
-                              onPressed: () {},
+                              onPressed: () => openPDF(context, book.bookUrl!),
                               icon: SvgAsset(
                                 assetPath: AssetPath.getIcon('eye-solid.svg'),
                                 color: primaryColor,
@@ -264,8 +270,8 @@ class BookManagementDetailPage extends ConsumerWidget {
                             color: secondaryTextColor,
                           ),
                           tabs: const [
-                            Tab(text: 'Sinopsis'),
                             Tab(text: 'Detail'),
+                            Tab(text: 'Sinopsis'),
                           ],
                         ),
                       ),
@@ -273,13 +279,6 @@ class BookManagementDetailPage extends ConsumerWidget {
                     Expanded(
                       child: TabBarView(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-                            child: Text(
-                              '${book.synopsis}',
-                              style: textTheme.bodySmall,
-                            ),
-                          ),
                           ListView(
                             padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
                             children: [
@@ -309,6 +308,13 @@ class BookManagementDetailPage extends ConsumerWidget {
                                 bottomPadding: 0,
                               ),
                             ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                            child: Text(
+                              '${book.synopsis}',
+                              style: textTheme.bodySmall,
+                            ),
                           ),
                         ],
                       ),
@@ -370,5 +376,19 @@ class BookManagementDetailPage extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  Future<void> openPDF(BuildContext context, String url) async {
+    context.showLoadingDialog();
+
+    final file = await FileService.downloadFile(url: url);
+
+    if (file != null) {
+      final result = await OpenFile.open(file.path);
+
+      debugPrint(result.message);
+    }
+
+    navigatorKey.currentState!.pop();
   }
 }
