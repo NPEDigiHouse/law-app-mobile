@@ -20,8 +20,8 @@ import 'package:law_app/features/admin/data/models/user_models/user_detail_model
 import 'package:law_app/features/admin/data/models/user_models/user_post_model.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/create_user_provider.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/edit_user_provider.dart';
-import 'package:law_app/features/admin/presentation/master_data/providers/user_detail_provider.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/master_data_provider.dart';
+import 'package:law_app/features/admin/presentation/master_data/providers/user_detail_provider.dart';
 import 'package:law_app/features/shared/widgets/form_field/custom_text_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 
@@ -345,15 +345,15 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> {
 
         ref.read(createUserProvider.notifier).createUser(
               user: UserPostModel(
-                role: role,
                 name: data['name'],
                 username: data['username'],
                 email: data['email'],
                 password: data['username'],
                 phoneNumber: data['phoneNumber'],
-                birthDate: date.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
+                birthDate: date,
+                role: role,
                 teacherDiscussionCategoryIds:
-                    '${selectedExpertises.map((e) => e.id!).toList()}',
+                    selectedExpertises.map((e) => e.id!).toList(),
               ),
             );
       }

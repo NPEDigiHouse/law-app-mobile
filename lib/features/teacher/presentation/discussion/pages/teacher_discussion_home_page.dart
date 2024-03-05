@@ -65,14 +65,10 @@ class _TeacherDiscussionHomePageState
 
   @override
   Widget build(BuildContext context) {
-    var discussions = ref.watch(teacherDiscussionsProvider);
+    final discussions = ref.watch(teacherDiscussionsProvider);
 
-    ref.listen(teacherDiscussionsProvider, (previous, next) {
-      if (previous != next) {
-        discussions = next;
-      }
-
-      next.when(
+    ref.listen(teacherDiscussionsProvider, (_, state) {
+      state.when(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(

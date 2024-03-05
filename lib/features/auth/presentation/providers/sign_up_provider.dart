@@ -14,12 +14,10 @@ class SignUp extends _$SignUp {
     return const AsyncValue.data(null);
   }
 
-  Future<void> signUp({required UserPostModel userPostModel}) async {
+  Future<void> signUp({required UserPostModel user}) async {
     state = const AsyncValue.loading();
 
-    final result = await ref
-        .watch(authRepositoryProvider)
-        .signUp(userPostModel: userPostModel);
+    final result = await ref.watch(authRepositoryProvider).signUp(user: user);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

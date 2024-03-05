@@ -2,6 +2,7 @@
 import 'package:equatable/equatable.dart';
 
 // Project imports:
+import 'package:law_app/core/extensions/datetime_extension.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_category_model.dart';
 
 class BookDetailModel extends Equatable {
@@ -10,7 +11,7 @@ class BookDetailModel extends Equatable {
   final String? synopsis;
   final String? writer;
   final String? publisher;
-  final String? releaseDate;
+  final DateTime? releaseDate;
   final int? pageAmt;
   final String? coverImage;
   final String? bookUrl;
@@ -35,7 +36,7 @@ class BookDetailModel extends Equatable {
     String? synopsis,
     String? writer,
     String? publisher,
-    String? releaseDate,
+    DateTime? releaseDate,
     int? pageAmt,
     String? coverImage,
     String? bookUrl,
@@ -62,7 +63,8 @@ class BookDetailModel extends Equatable {
       'synopsis': synopsis,
       'writer': writer,
       'publisher': publisher,
-      'releaseDate': releaseDate,
+      'releaseDate':
+          releaseDate?.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
       'pageAmt': pageAmt,
       'coverImage': coverImage,
       'bookUrl': bookUrl,
@@ -77,7 +79,7 @@ class BookDetailModel extends Equatable {
       synopsis: map['synopsis'] as String?,
       writer: map['writer'] as String?,
       publisher: map['publisher'] as String?,
-      releaseDate: map['releaseDate'] as String?,
+      releaseDate: DateTime.tryParse((map['releaseDate'] as String?) ?? ''),
       pageAmt: map['pageAmt'] as int?,
       coverImage: map['coverImage'] as String?,
       bookUrl: map['bookUrl'] as String?,

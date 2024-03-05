@@ -16,7 +16,7 @@ import 'package:law_app/features/admin/data/models/user_models/user_post_model.d
 
 abstract class AuthDataSource {
   /// Sign up
-  Future<bool> signUp({required UserPostModel userPostModel});
+  Future<bool> signUp({required UserPostModel user});
 
   /// Sign In
   Future<bool> signIn({required String username, required String password});
@@ -51,12 +51,12 @@ class AuthDataSourceImpl implements AuthDataSource {
   });
 
   @override
-  Future<bool> signUp({required UserPostModel userPostModel}) async {
+  Future<bool> signUp({required UserPostModel user}) async {
     try {
       final request = http.MultipartRequest(
         'POST',
         Uri.parse('${ApiConfigs.baseUrl}/auth/signup'),
-      )..fields.addAll(userPostModel.toMap());
+      )..fields.addAll(user.toMap());
 
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);

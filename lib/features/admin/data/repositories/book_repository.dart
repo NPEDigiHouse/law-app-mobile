@@ -4,6 +4,7 @@ import 'package:http/http.dart';
 
 // Project imports:
 import 'package:law_app/core/connections/network_info.dart';
+import 'package:law_app/core/enums/book_file_type.dart';
 import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/errors/failures.dart';
 import 'package:law_app/core/utils/const.dart';
@@ -26,7 +27,18 @@ abstract class BookRepository {
   Future<Either<Failure, BookDetailModel>> getBookDetail({required int id});
 
   /// Create book
-  Future<Either<Failure, void>> createBook({required BookPostModel book});
+  Future<Either<Failure, void>> createBook({
+    required BookPostModel book,
+    required String bookPath,
+    required String imagePath,
+  });
+
+  /// Edit book file
+  Future<Either<Failure, void>> editBookFile({
+    required int id,
+    required String path,
+    required BookFileType type,
+  });
 
   /// Edit book
   Future<Either<Failure, void>> editBook({required BookDetailModel book});
@@ -103,11 +115,43 @@ class BookRepositoryImpl implements BookRepository {
   }
 
   @override
-  Future<Either<Failure, void>> createBook(
-      {required BookPostModel book}) async {
+  Future<Either<Failure, void>> createBook({
+    required BookPostModel book,
+    required String bookPath,
+    required String imagePath,
+  }) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await bookDataSource.createBook(book: book);
+        final result = await bookDataSource.createBook(
+          book: book,
+          bookPath: bookPath,
+          imagePath: imagePath,
+        );
+
+        return Right(result);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message));
+      } on ClientException catch (e) {
+        return Left(ClientFailure(e.message));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> editBookFile({
+    required int id,
+    required String path,
+    required BookFileType type,
+  }) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await bookDataSource.editBookFile(
+          id: id,
+          path: path,
+          type: type,
+        );
 
         return Right(result);
       } on ServerException catch (e) {

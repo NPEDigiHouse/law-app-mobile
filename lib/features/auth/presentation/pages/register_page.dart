@@ -344,18 +344,18 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
     if (formKey.currentState!.saveAndValidate()) {
       final data = formKey.currentState!.value;
 
-      final userPostModel = UserPostModel(
+      final user = UserPostModel(
         name: data['name'],
         username: data['username'],
         email: data['email'],
         password: data['password'],
-        birthDate: date.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
         phoneNumber: data['phoneNumber'],
+        birthDate: date,
         role: 'student',
-        teacherDiscussionCategoryIds: '[]',
+        teacherDiscussionCategoryIds: const [],
       );
 
-      ref.read(signUpProvider.notifier).signUp(userPostModel: userPostModel);
+      ref.read(signUpProvider.notifier).signUp(user: user);
     }
   }
 }

@@ -2,7 +2,9 @@
 import 'package:flutter/material.dart';
 
 class BookManagementDetailPage extends StatelessWidget {
-  const BookManagementDetailPage({super.key});
+  final int id;
+
+  const BookManagementDetailPage({super.key, required this.id});
 
   @override
   Widget build(BuildContext context) {

@@ -76,7 +76,7 @@ class DiscussionDataSourceImpl implements DiscussionDataSource {
   }) async {
     try {
       final queryParams =
-          'offset=${offset ?? ''}&limit=${limit ?? ''}&status=$status&type=$type&term=$query&categoryId=${categoryId ?? ''}';
+          'term=$query&status=$status&type=$type&offset=${offset ?? ''}&limit=${limit ?? ''}&categoryId=${categoryId ?? ''}';
 
       final response = await client.get(
         Uri.parse('${ApiConfigs.baseUrl}/auth/user-discussions?$queryParams'),
@@ -116,7 +116,7 @@ class DiscussionDataSourceImpl implements DiscussionDataSource {
   }) async {
     try {
       final queryParams =
-          'offset=${offset ?? ''}&limit=${limit ?? ''}&status=$status&type=$type&term=$query&categoryId=${categoryId ?? ''}';
+          'term=$query&status=$status&type=$type&offset=${offset ?? ''}&limit=${limit ?? ''}&categoryId=${categoryId ?? ''}';
 
       final response = await client.get(
         Uri.parse('${ApiConfigs.baseUrl}/user-discussions?$queryParams'),

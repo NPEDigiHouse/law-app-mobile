@@ -407,8 +407,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         ),
       );
     case bookManagementDetailRoute:
+      final id = settings.arguments as int;
+
       return MaterialPageRoute(
-        builder: (_) => const BookManagementDetailPage(),
+        builder: (_) => BookManagementDetailPage(id: id),
       );
     default:
       return null;

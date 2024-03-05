@@ -44,7 +44,7 @@ class GlossaryDetailPage extends ConsumerWidget {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
                 navigatorKey.currentState!.pop();
-                ref.invalidate(GlossaryDetailProvider(id: id));
+                ref.invalidate(glossaryDetailProvider);
               },
             );
           } else {

@@ -7,7 +7,9 @@ import 'package:http/http.dart' as http;
 
 // Project imports:
 import 'package:law_app/core/configs/api_configs.dart';
+import 'package:law_app/core/enums/book_file_type.dart';
 import 'package:law_app/core/errors/exceptions.dart';
+import 'package:law_app/core/extensions/datetime_extension.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/data_response.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_category_model.dart';
@@ -28,7 +30,18 @@ abstract class BookDataSource {
   Future<BookDetailModel> getBookDetail({required int id});
 
   /// Create book
-  Future<void> createBook({required BookPostModel book});
+  Future<void> createBook({
+    required BookPostModel book,
+    required String bookPath,
+    required String imagePath,
+  });
+
+  /// Edit book file
+  Future<void> editBookFile({
+    required int id,
+    required String path,
+    required BookFileType type,
+  });
 
   /// Edit book
   Future<void> editBook({required BookDetailModel book});
@@ -63,7 +76,7 @@ class BookDataSourceImpl implements BookDataSource {
   }) async {
     try {
       final queryParams =
-          'offset=${offset ?? ''}&limit=${limit ?? ''}&term=$query&categoryId=${categoryId ?? ''}';
+          'term=$query&offset=${offset ?? ''}&limit=${limit ?? ''}&categoryId=${categoryId ?? ''}';
 
       final response = await client.get(
         Uri.parse('${ApiConfigs.baseUrl}/books?$queryParams'),
@@ -121,18 +134,59 @@ class BookDataSourceImpl implements BookDataSource {
   }
 
   @override
-  Future<void> createBook({required BookPostModel book}) async {
+  Future<void> createBook({
+    required BookPostModel book,
+    required String bookPath,
+    required String imagePath,
+  }) async {
     try {
-      final response = await client.post(
-        Uri.parse('${ApiConfigs.baseUrl}/books'),
-        headers: {
-          HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
-        },
-        body: book.toJson(),
-      );
+      final bookFile = await http.MultipartFile.fromPath('files', bookPath);
+      final imageFile = await http.MultipartFile.fromPath('files', imagePath);
 
+      final request = http.MultipartRequest(
+        'POST',
+        Uri.parse('${ApiConfigs.baseUrl}/books'),
+      )
+        ..fields.addAll(book.toMap())
+        ..files.addAll([bookFile, imageFile])
+        ..headers[HttpHeaders.authorizationHeader] =
+            'Bearer ${CredentialSaver.accessToken}';
+
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code != 200) {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      if (e is ServerException) {
+        rethrow;
+      } else {
+        throw http.ClientException(e.toString());
+      }
+    }
+  }
+
+  @override
+  Future<void> editBookFile({
+    required int id,
+    required String path,
+    required BookFileType type,
+  }) async {
+    try {
+      final file = await http.MultipartFile.fromPath('file', path);
+
+      final request = http.MultipartRequest(
+        'PUT',
+        Uri.parse('${ApiConfigs.baseUrl}/books/${type.name}/$id'),
+      )
+        ..files.add(file)
+        ..headers[HttpHeaders.authorizationHeader] =
+            'Bearer ${CredentialSaver.accessToken}';
+
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
       final result = DataResponse.fromJson(jsonDecode(response.body));
 
       if (result.code != 200) {
@@ -162,9 +216,10 @@ class BookDataSourceImpl implements BookDataSource {
           'synopsis': book.synopsis,
           'writer': book.writer,
           'publisher': book.publisher,
-          'releaseDate': book.releaseDate,
           'pageAmt': book.pageAmt,
           'categoryId': book.category?.id,
+          'releaseDate':
+              '${book.releaseDate?.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'")}',
         }),
       );
 

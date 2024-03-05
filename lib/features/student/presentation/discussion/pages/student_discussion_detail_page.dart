@@ -20,10 +20,10 @@ import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/discussion_models/discussion_detail_model.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/create_discussion_comment_provider.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/delete_discussion_provider.dart';
-import 'package:law_app/features/shared/providers/discussion_providers/edit_discussion_provider.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/discussion_detail_provider.dart';
-import 'package:law_app/features/shared/providers/discussion_providers/user_discussions_provider.dart';
+import 'package:law_app/features/shared/providers/discussion_providers/edit_discussion_provider.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/student_discussions_provider.dart';
+import 'package:law_app/features/shared/providers/discussion_providers/user_discussions_provider.dart';
 import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
 import 'package:law_app/features/shared/widgets/dialog/specific_discussion_info_dialog.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_reply_card.dart';
@@ -52,7 +52,7 @@ class StudentDiscussionDetailPage extends ConsumerWidget {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
                 navigatorKey.currentState!.pop();
-                ref.invalidate(DiscussionDetailProvider(id: id));
+                ref.invalidate(discussionDetailProvider);
               },
             );
           } else {

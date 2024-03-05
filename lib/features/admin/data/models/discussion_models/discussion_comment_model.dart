@@ -36,7 +36,7 @@ class DiscussionCommentModel extends Equatable {
     return <String, dynamic>{
       'id': id,
       'text': text,
-      'createdAt': createdAt?.toStringPattern("d MMMM yyyy"),
+      'createdAt': createdAt?.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
       'user': user?.toMap(),
     };
   }

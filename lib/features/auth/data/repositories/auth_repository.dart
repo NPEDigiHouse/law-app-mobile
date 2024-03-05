@@ -13,7 +13,7 @@ import 'package:law_app/features/auth/data/datasources/auth_data_source.dart';
 
 abstract class AuthRepository {
   /// Sign Up
-  Future<Either<Failure, bool>> signUp({required UserPostModel userPostModel});
+  Future<Either<Failure, bool>> signUp({required UserPostModel user});
 
   /// Sign In
   Future<Either<Failure, bool>> signIn({
@@ -51,13 +51,10 @@ class AuthRepositoryImpl implements AuthRepository {
   });
 
   @override
-  Future<Either<Failure, bool>> signUp(
-      {required UserPostModel userPostModel}) async {
+  Future<Either<Failure, bool>> signUp({required UserPostModel user}) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await authDataSource.signUp(
-          userPostModel: userPostModel,
-        );
+        final result = await authDataSource.signUp(user: user);
 
         return Right(result);
       } on ServerException catch (e) {

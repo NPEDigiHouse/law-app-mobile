@@ -4,15 +4,18 @@ import 'dart:convert';
 // Package imports:
 import 'package:equatable/equatable.dart';
 
+// Project imports:
+import 'package:law_app/core/extensions/datetime_extension.dart';
+
 class UserPostModel extends Equatable {
   final String name;
   final String username;
   final String email;
   final String password;
-  final String birthDate;
+  final DateTime birthDate;
   final String phoneNumber;
   final String role;
-  final String teacherDiscussionCategoryIds;
+  final List<int> teacherDiscussionCategoryIds;
 
   const UserPostModel({
     required this.name,
@@ -30,10 +33,10 @@ class UserPostModel extends Equatable {
     String? username,
     String? email,
     String? password,
-    String? birthDate,
+    DateTime? birthDate,
     String? phoneNumber,
     String? role,
-    String? teacherDiscussionCategoryIds,
+    List<int>? teacherDiscussionCategoryIds,
   }) {
     return UserPostModel(
       name: name ?? this.name,
@@ -54,10 +57,10 @@ class UserPostModel extends Equatable {
       'username': username,
       'email': email,
       'password': password,
-      'birthDate': birthDate,
+      'birthDate': birthDate.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
       'phoneNumber': phoneNumber,
       'role': role,
-      'teacherDiscussionCategoryIds': teacherDiscussionCategoryIds,
+      'teacherDiscussionCategoryIds': '$teacherDiscussionCategoryIds',
     };
   }
 

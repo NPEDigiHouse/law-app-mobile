@@ -1,6 +1,8 @@
 // Package imports:
-import 'package:law_app/features/library/presentation/providers/repositories_provider/book_repository_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+// Project imports:
+import 'package:law_app/features/library/presentation/providers/repositories_provider/book_repository_provider.dart';
 
 part 'delete_book_provider.g.dart';
 

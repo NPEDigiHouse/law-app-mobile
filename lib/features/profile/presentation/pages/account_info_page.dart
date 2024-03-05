@@ -47,7 +47,7 @@ class AccountInfoPage extends ConsumerWidget {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
                 navigatorKey.currentState!.pop();
-                ref.invalidate(ProfileDetailProvider(id: id));
+                ref.invalidate(profileDetailProvider);
               },
             );
           } else {

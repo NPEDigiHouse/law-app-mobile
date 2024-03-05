@@ -1,10 +1,8 @@
-// Dart imports:
-import 'dart:convert';
-
 // Package imports:
 import 'package:equatable/equatable.dart';
 
 // Project imports:
+import 'package:law_app/core/extensions/datetime_extension.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_category_model.dart';
 
 class BookModel extends Equatable {
@@ -13,7 +11,7 @@ class BookModel extends Equatable {
   final String? synopsis;
   final String? writer;
   final String? publisher;
-  final String? releaseDate;
+  final DateTime? releaseDate;
   final int? pageAmt;
   final String? coverImage;
   final BookCategoryModel? category;
@@ -36,7 +34,7 @@ class BookModel extends Equatable {
     String? synopsis,
     String? writer,
     String? publisher,
-    String? releaseDate,
+    DateTime? releaseDate,
     int? pageAmt,
     String? coverImage,
     BookCategoryModel? category,
@@ -61,7 +59,8 @@ class BookModel extends Equatable {
       'synopsis': synopsis,
       'writer': writer,
       'publisher': publisher,
-      'releaseDate': releaseDate,
+      'releaseDate':
+          releaseDate?.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
       'pageAmt': pageAmt,
       'coverImage': coverImage,
       'category': category?.toMap(),
@@ -75,7 +74,7 @@ class BookModel extends Equatable {
       synopsis: map['synopsis'] as String?,
       writer: map['writer'] as String?,
       publisher: map['publisher'] as String?,
-      releaseDate: map['releaseDate'] as String?,
+      releaseDate: DateTime.tryParse((map['releaseDate'] as String?) ?? ''),
       pageAmt: map['pageAmt'] as int?,
       coverImage: map['coverImage'] as String?,
       category: map['category'] != null
@@ -83,11 +82,6 @@ class BookModel extends Equatable {
           : null,
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory BookModel.fromJson(String source) =>
-      BookModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   bool get stringify => true;

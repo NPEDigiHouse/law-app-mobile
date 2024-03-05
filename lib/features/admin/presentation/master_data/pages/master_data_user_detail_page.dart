@@ -41,7 +41,7 @@ class MasterDataUserDetailPage extends ConsumerWidget {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
                 navigatorKey.currentState!.pop();
-                ref.invalidate(UserDetailProvider(id: id));
+                ref.invalidate(userDetailProvider);
               },
             );
           } else {
