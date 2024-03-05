@@ -2,7 +2,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
-import 'package:law_app/core/errors/failures.dart';
+import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/features/admin/data/models/glossary_models/glossary_model.dart';
 import 'package:law_app/features/glossary/presentation/providers/repositories_provider/glossary_repository_provider.dart';
 
@@ -16,49 +16,41 @@ class SearchGlossary extends _$SearchGlossary {
   }
 
   Future<void> searchGlossary({String query = ''}) async {
-    try {
-      state = const AsyncValue.loading();
+    state = const AsyncValue.loading();
 
-      final result = await ref
-          .watch(glossaryRepositoryProvider)
-          .getGlossaries(query: query, offset: 0, limit: 20);
+    final result = await ref
+        .watch(glossaryRepositoryProvider)
+        .getGlossaries(query: query, offset: 0, limit: kPageLimit);
 
-      result.fold(
-        (l) => state = AsyncValue.error(l.message, StackTrace.current),
-        (r) => state = AsyncValue.data((
-          glossaries: r,
-          hasMore: r.length == 20,
-        )),
-      );
-    } catch (e) {
-      state = AsyncValue.error((e as Failure).message, StackTrace.current);
-    }
+    result.fold(
+      (l) => state = AsyncValue.error(l.message, StackTrace.current),
+      (r) => state = AsyncValue.data((
+        glossaries: r,
+        hasMore: r.length == kPageLimit,
+      )),
+    );
   }
 
   Future<void> fetchMoreGlossary({
     required int offset,
     String query = '',
   }) async {
-    try {
-      final result = await ref
-          .watch(glossaryRepositoryProvider)
-          .getGlossaries(query: query, offset: offset, limit: 20);
+    final result = await ref
+        .watch(glossaryRepositoryProvider)
+        .getGlossaries(query: query, offset: offset, limit: kPageLimit);
 
-      result.fold(
-        (l) => state = AsyncValue.error(l.message, StackTrace.current),
-        (r) {
-          final previousState = state.valueOrNull;
+    result.fold(
+      (l) => state = AsyncValue.error(l.message, StackTrace.current),
+      (r) {
+        final previousState = state.valueOrNull;
 
-          if (previousState != null) {
-            state = AsyncValue.data((
-              glossaries: [...previousState.glossaries, ...r],
-              hasMore: r.length == 20,
-            ));
-          }
-        },
-      );
-    } catch (e) {
-      state = AsyncValue.error((e as Failure).message, StackTrace.current);
-    }
+        if (previousState != null) {
+          state = AsyncValue.data((
+            glossaries: [...previousState.glossaries, ...r],
+            hasMore: r.length == kPageLimit,
+          ));
+        }
+      },
+    );
   }
 }

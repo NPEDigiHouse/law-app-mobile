@@ -12,15 +12,11 @@ import 'package:law_app/core/styles/color_scheme.dart';
 class CircleProfileAvatar extends StatelessWidget {
   final String? imageUrl;
   final double radius;
-  final Color? borderColor;
-  final double borderSize;
 
   const CircleProfileAvatar({
     super.key,
-    required this.imageUrl,
+    this.imageUrl,
     this.radius = 24.0,
-    this.borderColor = secondaryColor,
-    this.borderSize = 2.0,
   });
 
   @override
@@ -37,7 +33,10 @@ class CircleProfileAvatar extends StatelessWidget {
           fit: BoxFit.cover,
           imageUrl: url,
           imageBuilder: (context, imageProvider) {
-            return buildProfileImage(imageProvider);
+            return CircleAvatar(
+              radius: radius,
+              foregroundImage: imageProvider,
+            );
           },
           placeholder: (context, url) {
             return CircleAvatar(
@@ -46,9 +45,9 @@ class CircleProfileAvatar extends StatelessWidget {
               child: SizedBox(
                 width: radius - 4,
                 height: radius - 4,
-                child: const CircularProgressIndicator(
+                child: CircularProgressIndicator(
                   color: accentColor,
-                  strokeWidth: 3,
+                  strokeWidth: radius >= 20 ? 3 : 2,
                 ),
               ),
             );
@@ -68,18 +67,10 @@ class CircleProfileAvatar extends StatelessWidget {
       }
     }
 
-    return buildProfileImage(
-      AssetImage(AssetPath.getImage('no-profile-2.jpg')),
-    );
-  }
-
-  CircleAvatar buildProfileImage(ImageProvider<Object> imageProvider) {
     return CircleAvatar(
       radius: radius,
-      backgroundColor: borderColor,
-      child: CircleAvatar(
-        radius: radius - borderSize,
-        foregroundImage: imageProvider,
+      foregroundImage: AssetImage(
+        AssetPath.getImage('no-profile-2.jpg'),
       ),
     );
   }

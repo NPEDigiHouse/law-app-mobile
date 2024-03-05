@@ -15,7 +15,7 @@ import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/glossary_models/glossary_post_model.dart';
 import 'package:law_app/features/admin/presentation/glossary/widgets/glossary_card.dart';
-import 'package:law_app/features/glossary/presentation/providers/glossaries_provider.dart';
+import 'package:law_app/features/glossary/presentation/providers/glossary_provider.dart';
 import 'package:law_app/features/shared/providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/form_field/search_field.dart';
@@ -29,16 +29,16 @@ class GlossaryManagementPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final query = ref.watch(queryProvider);
-    final glossaries = ref.watch(glossariesProvider);
+    final glossaries = ref.watch(glossaryProvider);
 
-    ref.listen(glossariesProvider, (_, state) {
+    ref.listen(glossaryProvider, (_, state) {
       state.when(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
                 navigatorKey.currentState!.pop();
-                ref.invalidate(glossariesProvider);
+                ref.invalidate(glossaryProvider);
               },
             );
           } else {
@@ -160,7 +160,7 @@ class GlossaryManagementPage extends ConsumerWidget {
               );
 
               ref
-                  .read(glossariesProvider.notifier)
+                  .read(glossaryProvider.notifier)
                   .createGlossary(glossary: glossaryPost);
 
               navigatorKey.currentState!.pop();
@@ -184,12 +184,11 @@ class GlossaryManagementPage extends ConsumerWidget {
       EasyDebounce.debounce(
         'search-debouncer',
         const Duration(milliseconds: 800),
-        () => ref
-            .read(glossariesProvider.notifier)
-            .searchGlossaries(query: query),
+        () =>
+            ref.read(glossaryProvider.notifier).searchGlossaries(query: query),
       );
     } else {
-      ref.invalidate(glossariesProvider);
+      ref.invalidate(glossaryProvider);
     }
   }
 }

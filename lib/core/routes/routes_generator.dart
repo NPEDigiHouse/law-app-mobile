@@ -398,8 +398,13 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => const BookManagementListPage(),
       );
     case bookManagementFormRoute:
+      final args = settings.arguments as BookManagementFormPageArgs;
+
       return MaterialPageRoute(
-        builder: (_) => const BookManagementFormPage(),
+        builder: (_) => BookManagementFormPage(
+          title: args.title,
+          book: args.book,
+        ),
       );
     case bookManagementDetailRoute:
       return MaterialPageRoute(

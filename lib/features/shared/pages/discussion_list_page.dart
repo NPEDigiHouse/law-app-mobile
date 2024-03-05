@@ -37,7 +37,7 @@ class DiscussionListPage extends StatelessWidget {
         if (index >= discussions.length) {
           return TextButton(
             onPressed: onFetchMoreItems,
-            child: const Text('Lihat hasil lainnya'),
+            child: const Text('Lihat lebih banyak'),
           );
         }
 

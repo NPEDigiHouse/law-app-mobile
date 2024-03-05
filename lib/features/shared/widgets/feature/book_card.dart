@@ -1,26 +1,22 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
-
-// Package imports:
-import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:law_app/features/admin/data/models/book_models/book_model.dart';
+import 'package:law_app/features/shared/widgets/custom_network_image.dart';
 
 // Project imports:
-import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/dummies_data.dart';
-import 'package:law_app/features/shared/widgets/label_chip.dart';
 
 class BookCard extends StatelessWidget {
-  final Book book;
+  final BookModel book;
   final bool isThreeLine;
 
   const BookCard({
     super.key,
     required this.book,
-    this.isThreeLine = true,
+    this.isThreeLine = false,
   });
 
   @override
@@ -43,15 +39,11 @@ class BookCard extends StatelessWidget {
               children: [
                 Expanded(
                   flex: 1,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(6),
-                    child: AspectRatio(
-                      aspectRatio: 2 / 3,
-                      child: Image.asset(
-                        AssetPath.getImage(book.image),
-                        fit: BoxFit.fill,
-                      ),
-                    ),
+                  child: CustomNetworkImage(
+                    imageUrl: book.coverImage!,
+                    placeHolderSize: 24,
+                    aspectRatio: 2 / 3,
+                    radius: 6,
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -61,14 +53,14 @@ class BookCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        book.title,
+                        '${book.title}',
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: textTheme.titleMedium,
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        book.author,
+                        '${book.writer}',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: textTheme.bodySmall!.copyWith(
@@ -77,26 +69,26 @@ class BookCard extends StatelessWidget {
                       ),
                       if (isThreeLine) ...[
                         const SizedBox(height: 10),
-                        if (book.completePercentage != null)
-                          LinearPercentIndicator(
-                            lineHeight: 8,
-                            barRadius: const Radius.circular(8),
-                            padding: const EdgeInsets.only(right: 8),
-                            animation: true,
-                            curve: Curves.easeIn,
-                            percent: book.completePercentage! / 100,
-                            progressColor: successColor,
-                            backgroundColor: secondaryTextColor,
-                            trailing: Text(
-                              '${book.completePercentage!.toInt()}%',
-                              style: textTheme.bodySmall,
-                            ),
-                          )
-                        else
-                          const LabelChip(
-                            text: 'Belum Dibaca',
-                            color: infoColor,
-                          ),
+                        // if (book.completePercentage != null)
+                        //   LinearPercentIndicator(
+                        //     lineHeight: 8,
+                        //     barRadius: const Radius.circular(8),
+                        //     padding: const EdgeInsets.only(right: 8),
+                        //     animation: true,
+                        //     curve: Curves.easeIn,
+                        //     percent: book.completePercentage! / 100,
+                        //     progressColor: successColor,
+                        //     backgroundColor: secondaryTextColor,
+                        //     trailing: Text(
+                        //       '${book.completePercentage!.toInt()}%',
+                        //       style: textTheme.bodySmall,
+                        //     ),
+                        //   )
+                        // else
+                        //   const LabelChip(
+                        //     text: 'Belum Dibaca',
+                        //     color: infoColor,
+                        //   ),
                       ],
                     ],
                   ),

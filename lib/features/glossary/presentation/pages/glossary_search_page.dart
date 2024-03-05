@@ -157,10 +157,11 @@ class GlossarySearchPage extends ConsumerWidget {
         onPressed: () {
           ref
               .read(searchGlossaryProvider.notifier)
-              .fetchMoreGlossary(query: query, offset: offset + 20);
-          ref.read(offsetProvider.notifier).state = offset + 20;
+              .fetchMoreGlossary(query: query, offset: offset + kPageLimit);
+
+          ref.read(offsetProvider.notifier).state = offset + kPageLimit;
         },
-        child: const Text('Lihat hasil lainnya'),
+        child: const Text('Lihat lebih banyak'),
       ),
     );
   }

@@ -13,8 +13,8 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/glossary/presentation/providers/edit_glossary_provider.dart';
-import 'package:law_app/features/glossary/presentation/providers/get_glossary_detail_provider.dart';
-import 'package:law_app/features/glossary/presentation/providers/glossaries_provider.dart';
+import 'package:law_app/features/glossary/presentation/providers/glossary_detail_provider.dart';
+import 'package:law_app/features/glossary/presentation/providers/glossary_provider.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
@@ -31,9 +31,9 @@ class GlossaryDetailPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var glossary = ref.watch(GetGlossaryDetailProvider(id: id));
+    var glossary = ref.watch(GlossaryDetailProvider(id: id));
 
-    ref.listen(GetGlossaryDetailProvider(id: id), (previous, next) {
+    ref.listen(GlossaryDetailProvider(id: id), (previous, next) {
       if (previous != next) {
         glossary = next;
       }
@@ -44,7 +44,7 @@ class GlossaryDetailPage extends ConsumerWidget {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
                 navigatorKey.currentState!.pop();
-                ref.invalidate(GetGlossaryDetailProvider(id: id));
+                ref.invalidate(GlossaryDetailProvider(id: id));
               },
             );
           } else {
@@ -72,8 +72,8 @@ class GlossaryDetailPage extends ConsumerWidget {
           loading: () => context.showLoadingDialog(),
           data: (data) {
             if (data != null) {
-              ref.invalidate(GetGlossaryDetailProvider(id: id));
-              ref.invalidate(glossariesProvider);
+              ref.invalidate(GlossaryDetailProvider(id: id));
+              ref.invalidate(glossaryProvider);
 
               navigatorKey.currentState!.pop();
               navigatorKey.currentState!.pop();

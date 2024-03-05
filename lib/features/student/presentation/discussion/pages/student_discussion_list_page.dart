@@ -13,7 +13,7 @@ import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/shared/pages/discussion_list_page.dart';
 import 'package:law_app/features/shared/providers/discussion_filter_provider.dart';
-import 'package:law_app/features/shared/providers/discussion_providers/get_user_discussions_provider.dart';
+import 'package:law_app/features/shared/providers/discussion_providers/user_discussions_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
@@ -54,11 +54,11 @@ class _StudentQuestionListPageState
     final type = ref.watch(discussionTypeProvider);
 
     var discussions = ref.watch(
-      GetUserDiscussionsProvider(status: status, type: type),
+      UserDiscussionsProvider(status: status, type: type),
     );
 
     ref.listen(
-      GetUserDiscussionsProvider(status: status, type: type),
+      UserDiscussionsProvider(status: status, type: type),
       (previous, next) {
         if (previous != next) {
           discussions = next;
@@ -70,7 +70,7 @@ class _StudentQuestionListPageState
               context.showNetworkErrorModalBottomSheet(
                 onPressedPrimaryButton: () {
                   navigatorKey.currentState!.pop();
-                  ref.invalidate(getUserDiscussionsProvider);
+                  ref.invalidate(userDiscussionsProvider);
                 },
               );
             } else {

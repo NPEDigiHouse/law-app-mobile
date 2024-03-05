@@ -2,7 +2,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
-import 'package:law_app/core/errors/failures.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_category_model.dart';
 import 'package:law_app/features/library/presentation/providers/repositories_provider/book_repository_provider.dart';
 
@@ -14,73 +13,55 @@ class BookCategory extends _$BookCategory {
   Future<List<BookCategoryModel>?> build() async {
     List<BookCategoryModel>? categories;
 
-    try {
-      state = const AsyncValue.loading();
+    state = const AsyncValue.loading();
 
-      final result =
-          await ref.watch(bookRepositoryProvider).getBookCategories();
+    final result = await ref.watch(bookRepositoryProvider).getBookCategories();
 
-      result.fold(
-        (l) => state = AsyncValue.error(l.message, StackTrace.current),
-        (r) {
-          categories = r;
-          state = AsyncValue.data(r);
-        },
-      );
-    } catch (e) {
-      state = AsyncValue.error((e as Failure).message, StackTrace.current);
-    }
+    result.fold(
+      (l) => state = AsyncValue.error(l.message, StackTrace.current),
+      (r) {
+        categories = r;
+        state = AsyncValue.data(r);
+      },
+    );
 
     return categories;
   }
 
   Future<void> createBookCategory({required String name}) async {
-    try {
-      state = const AsyncValue.loading();
+    state = const AsyncValue.loading();
 
-      final result = await ref
-          .watch(bookRepositoryProvider)
-          .createBookCategory(name: name);
+    final result =
+        await ref.watch(bookRepositoryProvider).createBookCategory(name: name);
 
-      result.fold(
-        (l) => state = AsyncValue.error(l.message, StackTrace.current),
-        (r) => ref.invalidateSelf(),
-      );
-    } catch (e) {
-      state = AsyncValue.error((e as Failure).message, StackTrace.current);
-    }
+    result.fold(
+      (l) => state = AsyncValue.error(l.message, StackTrace.current),
+      (r) => ref.invalidateSelf(),
+    );
   }
 
   Future<void> editBookCategory({required BookCategoryModel category}) async {
-    try {
-      state = const AsyncValue.loading();
+    state = const AsyncValue.loading();
 
-      final result = await ref
-          .watch(bookRepositoryProvider)
-          .editBookCategory(category: category);
+    final result = await ref
+        .watch(bookRepositoryProvider)
+        .editBookCategory(category: category);
 
-      result.fold(
-        (l) => state = AsyncValue.error(l.message, StackTrace.current),
-        (r) => ref.invalidateSelf(),
-      );
-    } catch (e) {
-      state = AsyncValue.error((e as Failure).message, StackTrace.current);
-    }
+    result.fold(
+      (l) => state = AsyncValue.error(l.message, StackTrace.current),
+      (r) => ref.invalidateSelf(),
+    );
   }
 
   Future<void> deleteBookCategory({required int id}) async {
-    try {
-      state = const AsyncValue.loading();
+    state = const AsyncValue.loading();
 
-      final result =
-          await ref.watch(bookRepositoryProvider).deleteBookCategory(id: id);
+    final result =
+        await ref.watch(bookRepositoryProvider).deleteBookCategory(id: id);
 
-      result.fold(
-        (l) => state = AsyncValue.error(l.message, StackTrace.current),
-        (r) => ref.invalidateSelf(),
-      );
-    } catch (e) {
-      state = AsyncValue.error((e as Failure).message, StackTrace.current);
-    }
+    result.fold(
+      (l) => state = AsyncValue.error(l.message, StackTrace.current),
+      (r) => ref.invalidateSelf(),
+    );
   }
 }

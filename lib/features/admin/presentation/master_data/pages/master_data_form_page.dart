@@ -20,7 +20,7 @@ import 'package:law_app/features/admin/data/models/user_models/user_detail_model
 import 'package:law_app/features/admin/data/models/user_models/user_post_model.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/create_user_provider.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/edit_user_provider.dart';
-import 'package:law_app/features/admin/presentation/master_data/providers/get_user_detail_provider.dart';
+import 'package:law_app/features/admin/presentation/master_data/providers/user_detail_provider.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/master_data_provider.dart';
 import 'package:law_app/features/shared/widgets/form_field/custom_text_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
@@ -77,7 +77,7 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> {
         },
         loading: () => context.showLoadingDialog(),
         data: (data) {
-          ref.invalidate(GetUserDetailProvider(id: widget.user!.id!));
+          ref.invalidate(UserDetailProvider(id: widget.user!.id!));
           ref.invalidate(masterDataProvider);
 
           navigatorKey.currentState!.pop();

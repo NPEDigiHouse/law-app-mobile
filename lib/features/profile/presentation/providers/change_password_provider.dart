@@ -2,7 +2,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
-import 'package:law_app/core/errors/failures.dart';
 import 'package:law_app/features/profile/presentation/providers/repositories_provider/profile_repository_provider.dart';
 
 part 'change_password_provider.g.dart';
@@ -19,21 +18,17 @@ class ChangePassword extends _$ChangePassword {
     required String currentPassword,
     required String newPassword,
   }) async {
-    try {
-      state = const AsyncValue.loading();
+    state = const AsyncValue.loading();
 
-      final result = await ref.watch(profileRepositoryProvider).changePassword(
-            email: email,
-            currentPassword: currentPassword,
-            newPassword: newPassword,
-          );
+    final result = await ref.watch(profileRepositoryProvider).changePassword(
+          email: email,
+          currentPassword: currentPassword,
+          newPassword: newPassword,
+        );
 
-      result.fold(
-        (l) => state = AsyncValue.error(l.message, StackTrace.current),
-        (r) => state = const AsyncValue.data(true),
-      );
-    } catch (e) {
-      state = AsyncValue.error((e as Failure).message, StackTrace.current);
-    }
+    result.fold(
+      (l) => state = AsyncValue.error(l.message, StackTrace.current),
+      (r) => state = const AsyncValue.data(true),
+    );
   }
 }

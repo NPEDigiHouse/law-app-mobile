@@ -1,5 +1,7 @@
+// Dart imports:
 import 'dart:convert';
 
+// Package imports:
 import 'package:equatable/equatable.dart';
 
 class BookPostModel extends Equatable {
@@ -41,15 +43,15 @@ class BookPostModel extends Equatable {
     );
   }
 
-  Map<String, String> toMap() {
-    return <String, String>{
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
       'title': title,
       'synopsis': synopsis,
       'writer': writer,
       'publisher': publisher,
       'releaseDate': releaseDate,
-      'pageAmt': pageAmt.toString(),
-      'categoryId': categoryId.toString(),
+      'pageAmt': pageAmt,
+      'categoryId': categoryId,
     };
   }
 

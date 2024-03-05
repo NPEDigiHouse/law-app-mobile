@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 // Project imports:
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/dummies_data.dart';
-import 'package:law_app/features/shared/widgets/feature/book_card.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 
 class LibraryFinishedBookPage extends StatelessWidget {
@@ -30,7 +29,8 @@ class LibraryFinishedBookPage extends StatelessWidget {
           horizontal: 20,
         ),
         itemBuilder: (context, index) {
-          return BookCard(book: completeBooks[index]);
+          return const SizedBox();
+          // return BookCard(book: completeBooks[index]);
         },
         separatorBuilder: (context, index) {
           return const SizedBox(height: 8);

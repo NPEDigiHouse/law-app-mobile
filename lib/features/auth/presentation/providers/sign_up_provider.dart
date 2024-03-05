@@ -2,7 +2,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
-import 'package:law_app/core/errors/failures.dart';
 import 'package:law_app/features/admin/data/models/user_models/user_post_model.dart';
 import 'package:law_app/features/auth/presentation/providers/repositories_provider/auth_repository_provider.dart';
 
@@ -16,19 +15,15 @@ class SignUp extends _$SignUp {
   }
 
   Future<void> signUp({required UserPostModel userPostModel}) async {
-    try {
-      state = const AsyncValue.loading();
+    state = const AsyncValue.loading();
 
-      final result = await ref
-          .watch(authRepositoryProvider)
-          .signUp(userPostModel: userPostModel);
+    final result = await ref
+        .watch(authRepositoryProvider)
+        .signUp(userPostModel: userPostModel);
 
-      result.fold(
-        (l) => state = AsyncValue.error(l.message, StackTrace.current),
-        (r) => state = AsyncValue.data(r),
-      );
-    } catch (e) {
-      state = AsyncValue.error((e as Failure).message, StackTrace.current);
-    }
+    result.fold(
+      (l) => state = AsyncValue.error(l.message, StackTrace.current),
+      (r) => state = AsyncValue.data(r),
+    );
   }
 }

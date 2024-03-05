@@ -14,7 +14,7 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/shared/providers/discussion_providers/get_discussions_provider.dart';
+import 'package:law_app/features/shared/providers/discussion_providers/discussions_provider.dart';
 import 'package:law_app/features/shared/providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
@@ -31,7 +31,7 @@ class TeacherDiscussionListPage extends ConsumerWidget {
     final query = ref.watch(queryProvider);
 
     var discussions = ref.watch(
-      GetDiscussionsProvider(
+      DiscussionsProvider(
         query: query,
         status: 'open',
         type: 'specific',
@@ -39,7 +39,7 @@ class TeacherDiscussionListPage extends ConsumerWidget {
     );
 
     ref.listen(
-      GetDiscussionsProvider(
+      DiscussionsProvider(
         query: query,
         status: 'open',
         type: 'specific',
@@ -55,7 +55,7 @@ class TeacherDiscussionListPage extends ConsumerWidget {
               context.showNetworkErrorModalBottomSheet(
                 onPressedPrimaryButton: () {
                   navigatorKey.currentState!.pop();
-                  ref.invalidate(getDiscussionsProvider);
+                  ref.invalidate(discussionsProvider);
                 },
               );
             } else {
@@ -75,7 +75,7 @@ class TeacherDiscussionListPage extends ConsumerWidget {
           ref,
           didPop,
           isSearching,
-          provider: GetDiscussionsProvider(
+          provider: DiscussionsProvider(
             status: 'open',
             type: 'specific',
           ),
@@ -186,7 +186,7 @@ class TeacherDiscussionListPage extends ConsumerWidget {
         'search-debouncer',
         const Duration(milliseconds: 800),
         () {
-          ref.read(GetDiscussionsProvider(
+          ref.read(DiscussionsProvider(
             query: query,
             status: 'open',
             type: 'specific',
@@ -194,7 +194,7 @@ class TeacherDiscussionListPage extends ConsumerWidget {
         },
       );
     } else {
-      ref.invalidate(getDiscussionsProvider);
+      ref.invalidate(discussionsProvider);
     }
   }
 }

@@ -5,25 +5,27 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:law_app/features/admin/data/models/glossary_models/glossary_model.dart';
 import 'package:law_app/features/glossary/presentation/providers/repositories_provider/glossary_repository_provider.dart';
 
-part 'edit_glossary_provider.g.dart';
+part 'glossary_detail_provider.g.dart';
 
 @riverpod
-class EditGlossary extends _$EditGlossary {
+class GlossaryDetail extends _$GlossaryDetail {
   @override
-  AsyncValue<bool?> build() {
-    return const AsyncValue.data(null);
-  }
+  Future<GlossaryModel?> build({required int id}) async {
+    GlossaryModel? glossary;
 
-  Future<void> editGlossary({required GlossaryModel glossary}) async {
     state = const AsyncValue.loading();
 
-    final result = await ref
-        .watch(glossaryRepositoryProvider)
-        .editGlossary(glossary: glossary);
+    final result =
+        await ref.watch(glossaryRepositoryProvider).getGlossaryDetail(id: id);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
-      (r) => state = const AsyncValue.data(true),
+      (r) {
+        glossary = r;
+        state = AsyncValue.data(r);
+      },
     );
+
+    return glossary;
   }
 }

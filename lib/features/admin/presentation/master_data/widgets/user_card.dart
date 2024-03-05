@@ -50,8 +50,6 @@ class UserCard extends ConsumerWidget {
           CircleProfileAvatar(
             imageUrl: user.profilePicture,
             radius: 28,
-            borderColor: accentColor,
-            borderSize: 1,
           ),
           const SizedBox(width: 12),
           Expanded(

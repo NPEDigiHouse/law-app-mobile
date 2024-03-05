@@ -9,8 +9,31 @@ import 'package:law_app/core/errors/failures.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/features/admin/data/datasources/book_data_source.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_category_model.dart';
+import 'package:law_app/features/admin/data/models/book_models/book_detail_model.dart';
+import 'package:law_app/features/admin/data/models/book_models/book_model.dart';
+import 'package:law_app/features/admin/data/models/book_models/book_post_model.dart';
 
 abstract class BookRepository {
+  // Get all books
+  Future<Either<Failure, List<BookModel>>> getBooks({
+    String query = '',
+    int? offset,
+    int? limit,
+    int? categoryId,
+  });
+
+  /// Get book detail
+  Future<Either<Failure, BookDetailModel>> getBookDetail({required int id});
+
+  /// Create book
+  Future<Either<Failure, void>> createBook({required BookPostModel book});
+
+  /// Edit book
+  Future<Either<Failure, void>> editBook({required BookDetailModel book});
+
+  /// Delete book
+  Future<Either<Failure, void>> deleteBook({required int id});
+
   /// Get book categories
   Future<Either<Failure, List<BookCategoryModel>>> getBookCategories();
 
@@ -33,6 +56,104 @@ class BookRepositoryImpl implements BookRepository {
     required this.bookDataSource,
     required this.networkInfo,
   });
+
+  @override
+  Future<Either<Failure, List<BookModel>>> getBooks({
+    String query = '',
+    int? offset,
+    int? limit,
+    int? categoryId,
+  }) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await bookDataSource.getBooks(
+          query: query,
+          offset: offset,
+          limit: limit,
+          categoryId: categoryId,
+        );
+
+        return Right(result);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message));
+      } on ClientException catch (e) {
+        return Left(ClientFailure(e.message));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, BookDetailModel>> getBookDetail(
+      {required int id}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await bookDataSource.getBookDetail(id: id);
+
+        return Right(result);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message));
+      } on ClientException catch (e) {
+        return Left(ClientFailure(e.message));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> createBook(
+      {required BookPostModel book}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await bookDataSource.createBook(book: book);
+
+        return Right(result);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message));
+      } on ClientException catch (e) {
+        return Left(ClientFailure(e.message));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> editBook(
+      {required BookDetailModel book}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await bookDataSource.editBook(book: book);
+
+        return Right(result);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message));
+      } on ClientException catch (e) {
+        return Left(ClientFailure(e.message));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteBook({required int id}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await bookDataSource.deleteBook(id: id);
+
+        return Right(result);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message));
+      } on ClientException catch (e) {
+        return Left(ClientFailure(e.message));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
 
   @override
   Future<Either<Failure, List<BookCategoryModel>>> getBookCategories() async {

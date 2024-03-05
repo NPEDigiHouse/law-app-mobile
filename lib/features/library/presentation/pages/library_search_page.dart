@@ -9,7 +9,6 @@ import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/dummies_data.dart';
-import 'package:law_app/features/shared/widgets/feature/book_card.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/form_field/search_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
@@ -160,12 +159,12 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
                       });
                     });
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: BookCard(
-                      isThreeLine: false,
-                      book: bookHistoryList[index],
-                    ),
+                  child: const Padding(
+                    padding: EdgeInsets.only(bottom: 8),
+                    // child: BookCard(
+                    //   isThreeLine: false,
+                    //   book: bookHistoryList[index],
+                    // ),
                   ),
                 );
               },
@@ -184,10 +183,11 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
         horizontal: 20,
       ),
       itemBuilder: (context, index) {
-        return BookCard(
-          isThreeLine: false,
-          book: books[index],
-        );
+        return const SizedBox();
+        // return BookCard(
+        //   isThreeLine: false,
+        //   book: books[index],
+        // );
       },
       separatorBuilder: (context, index) {
         return const SizedBox(height: 8);

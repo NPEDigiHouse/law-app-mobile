@@ -14,7 +14,7 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/shared/providers/discussion_filter_provider.dart';
-import 'package:law_app/features/shared/providers/discussion_providers/get_discussions_provider.dart';
+import 'package:law_app/features/shared/providers/discussion_providers/discussions_provider.dart';
 import 'package:law_app/features/shared/providers/offset_provider.dart';
 import 'package:law_app/features/shared/providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/animated_fab.dart';
@@ -86,22 +86,22 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
     final offset = ref.watch(offsetProvider);
 
     final discussions = ref.watch(
-      GetDiscussionsProvider(
+      DiscussionsProvider(
         query: query,
         categoryId: categoryId,
         type: 'general',
         offset: offset,
-        limit: 20,
+        limit: kPageLimit,
       ),
     );
 
     ref.listen(
-      GetDiscussionsProvider(
+      DiscussionsProvider(
         query: query,
         categoryId: categoryId,
         type: 'general',
         offset: offset,
-        limit: 20,
+        limit: kPageLimit,
       ),
       (_, state) {
         state.when(
@@ -110,7 +110,7 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
               context.showNetworkErrorModalBottomSheet(
                 onPressedPrimaryButton: () {
                   navigatorKey.currentState!.pop();
-                  ref.invalidate(getDiscussionsProvider);
+                  ref.invalidate(discussionsProvider);
                 },
               );
             } else {
@@ -130,11 +130,11 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
           ref,
           didPop,
           isSearching,
-          provider: GetDiscussionsProvider(
+          provider: DiscussionsProvider(
             categoryId: categoryId,
             type: 'general',
             offset: 0,
-            limit: 20,
+            limit: kPageLimit,
           ),
         );
       },
@@ -321,24 +321,24 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
     return TextButton(
       onPressed: () {
         ref
-            .read(GetDiscussionsProvider(
+            .read(DiscussionsProvider(
               query: query,
               categoryId: categoryId,
               type: 'general',
               offset: offset,
-              limit: 20,
+              limit: kPageLimit,
             ).notifier)
             .fetchMoreDiscussions(
               query: query,
               categoryId: categoryId,
               type: 'general',
-              offset: offset,
-              limit: 20,
+              offset: offset + kPageLimit,
+              limit: kPageLimit,
             );
 
-        ref.read(offsetProvider.notifier).state = offset + 20;
+        ref.read(offsetProvider.notifier).state = offset + kPageLimit;
       },
-      child: const Text('Lihat hasil lainnya'),
+      child: const Text('Lihat lebih banyak'),
     );
   }
 
@@ -353,19 +353,19 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
         'search-debouncer',
         const Duration(milliseconds: 800),
         () {
-          ref.read(GetDiscussionsProvider(
+          ref.read(DiscussionsProvider(
             query: query,
             categoryId: categoryId,
             type: 'general',
             offset: 0,
-            limit: 20,
+            limit: kPageLimit,
           ));
 
           ref.invalidate(offsetProvider);
         },
       );
     } else {
-      ref.invalidate(getDiscussionsProvider);
+      ref.invalidate(discussionsProvider);
     }
   }
 }

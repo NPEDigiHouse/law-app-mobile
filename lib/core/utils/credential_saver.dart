@@ -1,5 +1,5 @@
 // Project imports:
-import 'package:law_app/core/helpers/auth_preferences_helper.dart';
+import 'package:law_app/features/admin/data/datasources/helpers/auth_preferences_helper.dart';
 import 'package:law_app/features/admin/data/models/user_models/user_credential_model.dart';
 
 class CredentialSaver {

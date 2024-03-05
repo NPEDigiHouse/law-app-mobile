@@ -17,10 +17,10 @@ import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/user_models/user_detail_model.dart';
-import 'package:law_app/features/auth/presentation/providers/get_user_credential_provider.dart';
+import 'package:law_app/features/auth/presentation/providers/user_credential_provider.dart';
 import 'package:law_app/features/profile/presentation/providers/change_password_provider.dart';
 import 'package:law_app/features/profile/presentation/providers/edit_profile_provider.dart';
-import 'package:law_app/features/profile/presentation/providers/get_profile_detail_provider.dart';
+import 'package:law_app/features/profile/presentation/providers/profile_detail_provider.dart';
 import 'package:law_app/features/profile/presentation/widgets/change_password_dialog.dart';
 import 'package:law_app/features/profile/presentation/widgets/edit_profile_dialog.dart';
 import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
@@ -34,9 +34,9 @@ class AccountInfoPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final id = CredentialSaver.user!.id!;
 
-    var user = ref.watch(GetProfileDetailProvider(id: id));
+    var user = ref.watch(ProfileDetailProvider(id: id));
 
-    ref.listen(GetProfileDetailProvider(id: id), (previous, next) {
+    ref.listen(ProfileDetailProvider(id: id), (previous, next) {
       if (previous != next) {
         user = next;
       }
@@ -47,7 +47,7 @@ class AccountInfoPage extends ConsumerWidget {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
                 navigatorKey.currentState!.pop();
-                ref.invalidate(GetProfileDetailProvider(id: id));
+                ref.invalidate(ProfileDetailProvider(id: id));
               },
             );
           } else {
@@ -74,8 +74,8 @@ class AccountInfoPage extends ConsumerWidget {
         loading: () => context.showLoadingDialog(),
         data: (data) {
           if (data != null) {
-            ref.invalidate(GetProfileDetailProvider(id: id));
-            ref.invalidate(getUserCredentialProvider);
+            ref.invalidate(ProfileDetailProvider(id: id));
+            ref.invalidate(userCredentialProvider);
 
             context.showBanner(
               message: 'Berhasil mengedit profile!',
@@ -104,7 +104,7 @@ class AccountInfoPage extends ConsumerWidget {
         loading: () => context.showLoadingDialog(),
         data: (data) {
           if (data != null) {
-            ref.invalidate(GetProfileDetailProvider(id: id));
+            ref.invalidate(ProfileDetailProvider(id: id));
 
             context.showBanner(
               message: 'Password berhasil diubah!',
@@ -166,7 +166,6 @@ class AccountInfoPage extends ConsumerWidget {
                       CircleProfileAvatar(
                         imageUrl: user.profilePicture,
                         radius: 56,
-                        borderColor: accentColor,
                       ),
                       const SizedBox(width: 24),
                       Expanded(

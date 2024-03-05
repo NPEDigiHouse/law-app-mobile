@@ -1,16 +1,24 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// Project imports:
 import 'package:law_app/core/helpers/asset_path.dart';
+import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/features/library/presentation/providers/book_provider.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
-class BookManagementListPage extends StatelessWidget {
+class BookManagementListPage extends ConsumerWidget {
   const BookManagementListPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final books = ref.watch(BookProvider());
+
     return Scaffold(
       backgroundColor: backgroundColor,
       body: NestedScrollView(
@@ -90,7 +98,9 @@ class BookManagementListPage extends StatelessWidget {
           ),
         ),
         child: IconButton(
-          onPressed: () {},
+          onPressed: () => navigatorKey.currentState!.pushNamed(
+            bookManagementFormRoute,
+          ),
           icon: SvgAsset(
             assetPath: AssetPath.getIcon('plus-line.svg'),
             color: scaffoldBackgroundColor,

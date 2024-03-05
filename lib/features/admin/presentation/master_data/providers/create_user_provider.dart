@@ -2,7 +2,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
-import 'package:law_app/core/errors/failures.dart';
 import 'package:law_app/features/admin/data/models/user_models/user_post_model.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/repositories_provider/master_data_repository_provider.dart';
 
@@ -16,18 +15,14 @@ class CreateUser extends _$CreateUser {
   }
 
   Future<void> createUser({required UserPostModel user}) async {
-    try {
-      state = const AsyncValue.loading();
+    state = const AsyncValue.loading();
 
-      final result =
-          await ref.watch(masterDataRepositoryProvider).createUser(user: user);
+    final result =
+        await ref.watch(masterDataRepositoryProvider).createUser(user: user);
 
-      result.fold(
-        (l) => state = AsyncValue.error(l.message, StackTrace.current),
-        (r) => state = const AsyncValue.data(true),
-      );
-    } catch (e) {
-      state = AsyncValue.error((e as Failure).message, StackTrace.current);
-    }
+    result.fold(
+      (l) => state = AsyncValue.error(l.message, StackTrace.current),
+      (r) => state = const AsyncValue.data(true),
+    );
   }
 }

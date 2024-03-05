@@ -5,28 +5,27 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:law_app/features/admin/data/models/user_models/user_detail_model.dart';
 import 'package:law_app/features/profile/presentation/providers/repositories_provider/profile_repository_provider.dart';
 
-part 'edit_profile_provider.g.dart';
+part 'profile_detail_provider.g.dart';
 
 @riverpod
-class EditProfile extends _$EditProfile {
+class ProfileDetail extends _$ProfileDetail {
   @override
-  AsyncValue<bool?> build() {
-    return const AsyncValue.data(null);
-  }
+  Future<UserDetailModel?> build({required int id}) async {
+    UserDetailModel? user;
 
-  Future<void> editProfile({
-    required UserDetailModel user,
-    String? path,
-  }) async {
     state = const AsyncValue.loading();
 
-    final result = await ref
-        .watch(profileRepositoryProvider)
-        .editProfile(user: user, path: path);
+    final result =
+        await ref.watch(profileRepositoryProvider).getProfileDetail(id: id);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
-      (r) => state = const AsyncValue.data(true),
+      (r) {
+        user = r;
+        state = AsyncValue.data(r);
+      },
     );
+
+    return user;
   }
 }

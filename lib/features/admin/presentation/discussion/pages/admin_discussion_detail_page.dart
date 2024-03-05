@@ -20,8 +20,8 @@ import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/discussion_models/discussion_detail_model.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/create_discussion_comment_provider.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/edit_discussion_provider.dart';
-import 'package:law_app/features/shared/providers/discussion_providers/get_discussion_detail_provider.dart';
-import 'package:law_app/features/shared/providers/discussion_providers/get_discussions_provider.dart';
+import 'package:law_app/features/shared/providers/discussion_providers/discussion_detail_provider.dart';
+import 'package:law_app/features/shared/providers/discussion_providers/discussions_provider.dart';
 import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
 import 'package:law_app/features/shared/widgets/dialog/answer_discussion_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/specific_discussion_info_dialog.dart';
@@ -38,9 +38,9 @@ class AdminDiscussionDetailPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var discussion = ref.watch(GetDiscussionDetailProvider(id: id));
+    var discussion = ref.watch(DiscussionDetailProvider(id: id));
 
-    ref.listen(GetDiscussionDetailProvider(id: id), (previous, next) {
+    ref.listen(DiscussionDetailProvider(id: id), (previous, next) {
       if (previous != next) {
         discussion = next;
       }
@@ -51,7 +51,7 @@ class AdminDiscussionDetailPage extends ConsumerWidget {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
                 navigatorKey.currentState!.pop();
-                ref.invalidate(GetDiscussionDetailProvider(id: id));
+                ref.invalidate(DiscussionDetailProvider(id: id));
               },
             );
           } else {
@@ -78,7 +78,7 @@ class AdminDiscussionDetailPage extends ConsumerWidget {
         loading: () => context.showLoadingDialog(),
         data: (data) {
           if (data != null) {
-            ref.invalidate(GetDiscussionDetailProvider(id: id));
+            ref.invalidate(DiscussionDetailProvider(id: id));
 
             navigatorKey.currentState!.pop();
             navigatorKey.currentState!.pop();
@@ -102,8 +102,8 @@ class AdminDiscussionDetailPage extends ConsumerWidget {
         loading: () => context.showLoadingDialog(),
         data: (data) {
           if (data != null) {
-            ref.invalidate(GetDiscussionDetailProvider(id: id));
-            ref.invalidate(getDiscussionsProvider);
+            ref.invalidate(DiscussionDetailProvider(id: id));
+            ref.invalidate(discussionsProvider);
 
             navigatorKey.currentState!.pop();
             navigatorKey.currentState!.pop();

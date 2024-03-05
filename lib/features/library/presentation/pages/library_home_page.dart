@@ -11,7 +11,6 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/dummies_data.dart';
-import 'package:law_app/features/shared/widgets/feature/book_card.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
 import 'package:law_app/features/shared/widgets/feature/book_item.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
@@ -108,9 +107,9 @@ class LibraryHomePage extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(20, 0, 20, 4),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                  return SizedBox(
+                  return const SizedBox(
                     width: 300,
-                    child: BookCard(book: dummyBooks[index]),
+                    //  child: BookCard(book: dummyBooks[index]),
                   );
                 },
                 separatorBuilder: (context, index) {

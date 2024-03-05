@@ -28,18 +28,10 @@ abstract class BookDataSource {
   Future<BookDetailModel> getBookDetail({required int id});
 
   /// Create book
-  Future<void> createBook({
-    required BookPostModel book,
-    required String imagePath,
-    required String filePath,
-  });
+  Future<void> createBook({required BookPostModel book});
 
   /// Edit book
-  Future<void> editBook({
-    required BookModel book,
-    String? imagePath,
-    String? filePath,
-  });
+  Future<void> editBook({required BookDetailModel book});
 
   /// Delete book
   Future<void> deleteBook({required int id});
@@ -129,26 +121,18 @@ class BookDataSourceImpl implements BookDataSource {
   }
 
   @override
-  Future<void> createBook({
-    required BookPostModel book,
-    required String filePath,
-    required String imagePath,
-  }) async {
+  Future<void> createBook({required BookPostModel book}) async {
     try {
-      final file = await http.MultipartFile.fromPath('files', filePath);
-      final image = await http.MultipartFile.fromPath('files', imagePath);
-
-      final request = http.MultipartRequest(
-        'POST',
+      final response = await client.post(
         Uri.parse('${ApiConfigs.baseUrl}/books'),
-      )
-        ..fields.addAll(book.toMap())
-        ..files.addAll([file, image])
-        ..headers[HttpHeaders.authorizationHeader] =
-            'Bearer ${CredentialSaver.accessToken}';
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+        body: book.toJson(),
+      );
 
-      final streamedResponse = await request.send();
-      final response = await http.Response.fromStream(streamedResponse);
       final result = DataResponse.fromJson(jsonDecode(response.body));
 
       if (result.code != 200) {
@@ -164,35 +148,26 @@ class BookDataSourceImpl implements BookDataSource {
   }
 
   @override
-  Future<void> editBook({
-    required BookModel book,
-    String? filePath,
-    String? imagePath,
-  }) async {
+  Future<void> editBook({required BookDetailModel book}) async {
     try {
-      final request = http.MultipartRequest(
-        'PUT',
-        Uri.parse('${ApiConfigs.baseUrl}/books'),
-      )
-        // ..fields.addAll(book.toMap())
-        // ..files.addAll([file, image])
-        ..headers[HttpHeaders.authorizationHeader] =
-            'Bearer ${CredentialSaver.accessToken}';
+      final response = await client.put(
+        Uri.parse('${ApiConfigs.baseUrl}/books/${book.id}'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+        body: jsonEncode({
+          'title': book.title,
+          'synopsis': book.synopsis,
+          'writer': book.writer,
+          'publisher': book.publisher,
+          'releaseDate': book.releaseDate,
+          'pageAmt': book.pageAmt,
+          'categoryId': book.category?.id,
+        }),
+      );
 
-      if (filePath != null) {
-        final file = await http.MultipartFile.fromPath('files', filePath);
-
-        request.files.add(file);
-      }
-
-      if (imagePath != null) {
-        final image = await http.MultipartFile.fromPath('files', imagePath);
-
-        request.files.add(image);
-      }
-
-      final streamedResponse = await request.send();
-      final response = await http.Response.fromStream(streamedResponse);
       final result = DataResponse.fromJson(jsonDecode(response.body));
 
       if (result.code != 200) {

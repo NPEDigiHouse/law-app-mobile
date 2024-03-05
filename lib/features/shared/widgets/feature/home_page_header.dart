@@ -15,7 +15,7 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/user_models/user_credential_model.dart';
-import 'package:law_app/features/auth/presentation/providers/get_user_credential_provider.dart';
+import 'package:law_app/features/auth/presentation/providers/user_credential_provider.dart';
 import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
@@ -34,7 +34,7 @@ class HomePageHeader extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userCredential = ref.watch(getUserCredentialProvider);
+    final userCredential = ref.watch(userCredentialProvider);
 
     return Stack(
       clipBehavior: Clip.none,
@@ -144,8 +144,6 @@ class HomePageHeader extends ConsumerWidget {
                           child: CircleProfileAvatar(
                             imageUrl: user.profilePicture,
                             radius: 20,
-                            borderColor: accentColor,
-                            borderSize: 1,
                           ),
                         ),
                       ],
@@ -198,8 +196,6 @@ class HomePageHeader extends ConsumerWidget {
                         child: CircleProfileAvatar(
                           imageUrl: user.profilePicture,
                           radius: 20,
-                          borderColor: accentColor,
-                          borderSize: 1,
                         ),
                       ),
                     ],

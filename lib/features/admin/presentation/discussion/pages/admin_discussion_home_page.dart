@@ -16,7 +16,7 @@ import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/shared/pages/discussion_list_page.dart';
 import 'package:law_app/features/shared/providers/discussion_filter_provider.dart';
-import 'package:law_app/features/shared/providers/discussion_providers/get_discussions_provider.dart';
+import 'package:law_app/features/shared/providers/discussion_providers/discussions_provider.dart';
 import 'package:law_app/features/shared/providers/offset_provider.dart';
 import 'package:law_app/features/shared/providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
@@ -63,22 +63,22 @@ class _AdminDiscussionHomePageState
     final offset = ref.watch(offsetProvider);
 
     var discussions = ref.watch(
-      GetDiscussionsProvider(
+      DiscussionsProvider(
         query: query,
         type: type,
         status: status,
         offset: offset,
-        limit: 20,
+        limit: kPageLimit,
       ),
     );
 
     ref.listen(
-      GetDiscussionsProvider(
+      DiscussionsProvider(
         query: query,
         type: type,
         status: status,
         offset: offset,
-        limit: 20,
+        limit: kPageLimit,
       ),
       (previous, next) {
         if (previous != next) {
@@ -91,7 +91,7 @@ class _AdminDiscussionHomePageState
               context.showNetworkErrorModalBottomSheet(
                 onPressedPrimaryButton: () {
                   navigatorKey.currentState!.pop();
-                  ref.invalidate(getDiscussionsProvider);
+                  ref.invalidate(discussionsProvider);
                 },
               );
             } else {
@@ -111,11 +111,11 @@ class _AdminDiscussionHomePageState
           ref,
           didPop,
           isSearching,
-          provider: GetDiscussionsProvider(
+          provider: DiscussionsProvider(
             type: type,
             status: status,
             offset: 0,
-            limit: 20,
+            limit: kPageLimit,
           ),
         );
       },
@@ -329,22 +329,22 @@ class _AdminDiscussionHomePageState
     int offset,
   ) {
     ref
-        .read(GetDiscussionsProvider(
+        .read(DiscussionsProvider(
           query: query,
           type: type,
           status: status,
           offset: offset,
-          limit: 20,
+          limit: kPageLimit,
         ).notifier)
         .fetchMoreDiscussions(
           query: query,
           type: type,
           status: status,
-          offset: offset,
-          limit: 20,
+          offset: offset + kPageLimit,
+          limit: kPageLimit,
         );
 
-    ref.read(offsetProvider.notifier).state = offset + 20;
+    ref.read(offsetProvider.notifier).state = offset + kPageLimit;
   }
 
   void searchDiscussion(
@@ -359,19 +359,19 @@ class _AdminDiscussionHomePageState
         'search-debouncer',
         const Duration(milliseconds: 800),
         () {
-          ref.read(GetDiscussionsProvider(
+          ref.read(DiscussionsProvider(
             query: query,
             type: type,
             status: status,
             offset: 0,
-            limit: 20,
+            limit: kPageLimit,
           ));
 
           ref.invalidate(offsetProvider);
         },
       );
     } else {
-      ref.invalidate(getDiscussionsProvider);
+      ref.invalidate(discussionsProvider);
     }
   }
 }

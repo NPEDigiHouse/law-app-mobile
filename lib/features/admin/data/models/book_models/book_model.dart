@@ -1,6 +1,10 @@
+// Dart imports:
 import 'dart:convert';
 
+// Package imports:
 import 'package:equatable/equatable.dart';
+
+// Project imports:
 import 'package:law_app/features/admin/data/models/book_models/book_category_model.dart';
 
 class BookModel extends Equatable {

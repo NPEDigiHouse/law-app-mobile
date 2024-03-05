@@ -17,7 +17,7 @@ import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/shared/pages/discussion_list_page.dart';
 import 'package:law_app/features/shared/providers/discussion_filter_provider.dart';
-import 'package:law_app/features/shared/providers/discussion_providers/get_user_discussions_provider.dart';
+import 'package:law_app/features/shared/providers/discussion_providers/user_discussions_provider.dart';
 import 'package:law_app/features/shared/providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
@@ -66,7 +66,7 @@ class _TeacherQuestionHistoryPageState
     final status = ref.watch(discussionStatusProvider);
 
     var discussions = ref.watch(
-      GetUserDiscussionsProvider(
+      UserDiscussionsProvider(
         query: query,
         status: status,
         type: 'specific',
@@ -74,7 +74,7 @@ class _TeacherQuestionHistoryPageState
     );
 
     ref.listen(
-      GetUserDiscussionsProvider(
+      UserDiscussionsProvider(
         query: query,
         status: status,
         type: 'specific',
@@ -90,7 +90,7 @@ class _TeacherQuestionHistoryPageState
               context.showNetworkErrorModalBottomSheet(
                 onPressedPrimaryButton: () {
                   navigatorKey.currentState!.pop();
-                  ref.invalidate(getUserDiscussionsProvider);
+                  ref.invalidate(userDiscussionsProvider);
                 },
               );
             } else {
@@ -110,7 +110,7 @@ class _TeacherQuestionHistoryPageState
           ref,
           didPop,
           isSearching,
-          provider: GetUserDiscussionsProvider(
+          provider: UserDiscussionsProvider(
             status: status,
             type: 'specific',
           ),
@@ -282,14 +282,14 @@ class _TeacherQuestionHistoryPageState
         'search-debouncer',
         const Duration(milliseconds: 800),
         () {
-          ref.read(GetUserDiscussionsProvider(
+          ref.read(UserDiscussionsProvider(
             query: query,
             type: 'specific',
           ));
         },
       );
     } else {
-      ref.invalidate(getUserDiscussionsProvider);
+      ref.invalidate(userDiscussionsProvider);
     }
   }
 }

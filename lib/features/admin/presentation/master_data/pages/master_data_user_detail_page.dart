@@ -17,7 +17,7 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/presentation/master_data/pages/master_data_form_page.dart';
-import 'package:law_app/features/admin/presentation/master_data/providers/get_user_detail_provider.dart';
+import 'package:law_app/features/admin/presentation/master_data/providers/user_detail_provider.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 
@@ -28,9 +28,9 @@ class MasterDataUserDetailPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var user = ref.watch(GetUserDetailProvider(id: id));
+    var user = ref.watch(UserDetailProvider(id: id));
 
-    ref.listen(GetUserDetailProvider(id: id), (previous, next) {
+    ref.listen(UserDetailProvider(id: id), (previous, next) {
       if (previous != next) {
         user = next;
       }
@@ -41,7 +41,7 @@ class MasterDataUserDetailPage extends ConsumerWidget {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
                 navigatorKey.currentState!.pop();
-                ref.invalidate(GetUserDetailProvider(id: id));
+                ref.invalidate(UserDetailProvider(id: id));
               },
             );
           } else {
