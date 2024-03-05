@@ -53,18 +53,14 @@ class _StudentQuestionListPageState
     final status = ref.watch(discussionStatusProvider);
     final type = ref.watch(discussionTypeProvider);
 
-    var discussions = ref.watch(
+    final discussions = ref.watch(
       UserDiscussionsProvider(status: status, type: type),
     );
 
     ref.listen(
       UserDiscussionsProvider(status: status, type: type),
-      (previous, next) {
-        if (previous != next) {
-          discussions = next;
-        }
-
-        next.when(
+      (_, state) {
+        state.when(
           error: (error, _) {
             if ('$error' == kNoInternetConnection) {
               context.showNetworkErrorModalBottomSheet(

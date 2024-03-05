@@ -62,7 +62,7 @@ class _AdminDiscussionHomePageState
     final status = ref.watch(discussionStatusProvider);
     final offset = ref.watch(offsetProvider);
 
-    var discussions = ref.watch(
+    final discussions = ref.watch(
       DiscussionsProvider(
         query: query,
         type: type,
@@ -80,12 +80,8 @@ class _AdminDiscussionHomePageState
         offset: offset,
         limit: kPageLimit,
       ),
-      (previous, next) {
-        if (previous != next) {
-          discussions = next;
-        }
-
-        next.when(
+      (_, state) {
+        state.when(
           error: (error, _) {
             if ('$error' == kNoInternetConnection) {
               context.showNetworkErrorModalBottomSheet(

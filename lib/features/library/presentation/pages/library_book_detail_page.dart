@@ -275,7 +275,7 @@ class _LibraryBookDetailRouteState extends State<LibraryBookDetailRoute> {
                               value: '${bookDetail.totalPage} Hal.',
                             ),
                             buildBookDetailField(
-                              label: 'Jumlah Halaman',
+                              label: 'Penerbit',
                               value: bookDetail.publisher,
                               bottomPadding: 0,
                             ),
@@ -367,7 +367,7 @@ class _LibraryBookDetailRouteState extends State<LibraryBookDetailRoute> {
           const SizedBox(height: 2),
           Text(
             value,
-            style: textTheme.titleSmall,
+            style: textTheme.titleMedium,
           ),
         ],
       ),

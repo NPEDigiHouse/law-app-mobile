@@ -9,19 +9,17 @@ import 'package:law_app/core/configs/api_configs.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 
 class CustomNetworkImage extends StatelessWidget {
-  final double? width;
-  final double? height;
-  final double? radius;
   final double? aspectRatio;
+  final double? radius;
+  final List<BoxShadow>? boxShadow;
   final String imageUrl;
   final double placeHolderSize;
 
   const CustomNetworkImage({
     super.key,
-    this.width,
-    this.height,
-    this.radius,
     this.aspectRatio,
+    this.radius,
+    this.boxShadow,
     required this.imageUrl,
     required this.placeHolderSize,
   });
@@ -35,47 +33,38 @@ class CustomNetworkImage extends StatelessWidget {
     }
 
     return CachedNetworkImage(
-      width: width,
-      height: height,
-      fit: BoxFit.fill,
       imageUrl: url,
       imageBuilder: (context, imageProvider) {
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(radius ?? 0),
-          child: aspectRatio != null
-              ? AspectRatio(
-                  aspectRatio: aspectRatio!,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(image: imageProvider),
-                    ),
-                  ),
-                )
-              : Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(image: imageProvider),
-                  ),
+        return aspectRatio != null
+            ? AspectRatio(
+                aspectRatio: aspectRatio!,
+                child: buildImageContainer(
+                  decorationImage: DecorationImage(image: imageProvider),
                 ),
-        );
+              )
+            : buildImageContainer(
+                decorationImage: DecorationImage(image: imageProvider),
+              );
       },
       placeholder: (context, url) {
-        return Center(
-          child: SizedBox(
-            width: placeHolderSize,
-            height: placeHolderSize,
-            child: CircularProgressIndicator(
-              color: accentColor,
-              strokeWidth: placeHolderSize >= 20 ? 3 : 2,
+        return AspectRatio(
+          aspectRatio: aspectRatio ?? 1,
+          child: buildImageContainer(
+            child: SizedBox(
+              width: placeHolderSize,
+              height: placeHolderSize,
+              child: CircularProgressIndicator(
+                color: accentColor,
+                strokeWidth: placeHolderSize >= 20 ? 3 : 2,
+              ),
             ),
           ),
         );
       },
       errorWidget: (context, url, error) {
-        return Container(
-          width: width,
-          height: height,
-          color: secondaryColor,
-          child: Center(
+        return AspectRatio(
+          aspectRatio: aspectRatio ?? 1,
+          child: buildImageContainer(
             child: Icon(
               Icons.no_photography_outlined,
               color: primaryColor,
@@ -84,6 +73,23 @@ class CustomNetworkImage extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  Container buildImageContainer({
+    DecorationImage? decorationImage,
+    Widget? child,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        color: secondaryColor,
+        borderRadius: BorderRadius.circular(radius ?? 0),
+        boxShadow: boxShadow,
+        image: decorationImage,
+      ),
+      child: Center(
+        child: child,
+      ),
     );
   }
 }

@@ -30,7 +30,7 @@ class TeacherDiscussionListPage extends ConsumerWidget {
     final isSearching = ref.watch(isSearchingProvider);
     final query = ref.watch(queryProvider);
 
-    var discussions = ref.watch(
+    final discussions = ref.watch(
       DiscussionsProvider(
         query: query,
         status: 'open',
@@ -44,12 +44,8 @@ class TeacherDiscussionListPage extends ConsumerWidget {
         status: 'open',
         type: 'specific',
       ),
-      (previous, next) {
-        if (previous != next) {
-          discussions = next;
-        }
-
-        next.when(
+      (_, state) {
+        state.when(
           error: (error, _) {
             if ('$error' == kNoInternetConnection) {
               context.showNetworkErrorModalBottomSheet(

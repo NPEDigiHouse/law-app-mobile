@@ -13,6 +13,7 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/features/admin/presentation/library/pages/book_management_form_page.dart';
 import 'package:law_app/features/library/presentation/providers/book_provider.dart';
 import 'package:law_app/features/shared/widgets/feature/book_card.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
@@ -24,14 +25,10 @@ class BookManagementListPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var books = ref.watch(BookProvider());
+    final books = ref.watch(BookProvider());
 
-    ref.listen(BookProvider(), (previous, next) {
-      if (previous != next) {
-        books = next;
-      }
-
-      next.when(
+    ref.listen(BookProvider(), (_, state) {
+      state.when(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
@@ -153,6 +150,9 @@ class BookManagementListPage extends ConsumerWidget {
             child: IconButton(
               onPressed: () => navigatorKey.currentState!.pushNamed(
                 bookManagementFormRoute,
+                arguments: const BookManagementFormPageArgs(
+                  title: 'Tambah Buku',
+                ),
               ),
               icon: SvgAsset(
                 assetPath: AssetPath.getIcon('plus-line.svg'),
