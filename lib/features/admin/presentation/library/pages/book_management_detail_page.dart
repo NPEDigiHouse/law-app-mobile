@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:law_app/core/helpers/category_helper.dart';
 import 'package:open_file_plus/open_file_plus.dart';
 
 // Project imports:
@@ -334,13 +335,23 @@ class BookManagementDetailPage extends ConsumerWidget {
               ),
             ),
             child: IconButton(
-              onPressed: () => navigatorKey.currentState!.pushNamed(
-                bookManagementFormRoute,
-                arguments: BookManagementFormPageArgs(
-                  title: 'Edit Buku',
-                  book: book,
-                ),
-              ),
+              onPressed: () async {
+                final categories = await CategoryHelper.getBookCategories(
+                  context,
+                  ref,
+                );
+
+                if (categories.isNotEmpty) {
+                  navigatorKey.currentState!.pushNamed(
+                    bookManagementFormRoute,
+                    arguments: BookManagementFormPageArgs(
+                      title: 'Edit Buku',
+                      categories: categories,
+                      book: book,
+                    ),
+                  );
+                }
+              },
               icon: SvgAsset(
                 assetPath: AssetPath.getIcon('pencil-solid.svg'),
                 color: scaffoldBackgroundColor,

@@ -57,7 +57,7 @@ class _ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
   @override
   Widget build(BuildContext context) {
     ref.listen(resetPasswordProvider, (_, state) {
-      state.whenOrNull(
+      state.when(
         loading: () => context.showLoadingDialog(),
         error: (error, _) {
           navigatorKey.currentState!.pop();

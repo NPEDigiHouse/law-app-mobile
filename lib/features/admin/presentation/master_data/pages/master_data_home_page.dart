@@ -9,7 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
-import 'package:law_app/core/helpers/function_helper.dart';
+import 'package:law_app/core/helpers/category_helper.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
@@ -258,7 +258,7 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
                 'text': 'Pakar',
                 'onTap': () async {
                   final categories =
-                      await FunctionHelper.getDiscussionCategories(
+                      await CategoryHelper.getDiscussionCategories(
                           context, ref);
 
                   navigatorKey.currentState!.pop();

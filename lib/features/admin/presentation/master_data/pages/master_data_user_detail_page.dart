@@ -10,7 +10,7 @@ import 'package:law_app/core/extensions/button_extension.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/extensions/datetime_extension.dart';
 import 'package:law_app/core/extensions/string_extension.dart';
-import 'package:law_app/core/helpers/function_helper.dart';
+import 'package:law_app/core/helpers/category_helper.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
@@ -55,7 +55,7 @@ class MasterDataUserDetailPage extends ConsumerWidget {
 
     return user.when(
       loading: () => const LoadingIndicator(withScaffold: true),
-      error: (error, __) => const Scaffold(),
+      error: (_, __) => const Scaffold(),
       data: (user) {
         if (user == null) return const Scaffold();
 
@@ -186,7 +186,7 @@ class MasterDataUserDetailPage extends ConsumerWidget {
                     onPressed: () async {
                       if (user.role == 'teacher') {
                         final categories =
-                            await FunctionHelper.getDiscussionCategories(
+                            await CategoryHelper.getDiscussionCategories(
                                 context, ref);
 
                         if (categories.isNotEmpty) {

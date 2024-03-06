@@ -40,7 +40,7 @@ class _LoginPageState extends ConsumerState<LoginPage>
   @override
   Widget build(BuildContext context) {
     ref.listen(signInProvider, (_, state) {
-      state.whenOrNull(
+      state.when(
         loading: () => context.showLoadingDialog(),
         error: (error, _) {
           navigatorKey.currentState!.pop();

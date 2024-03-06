@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // Project imports:
 import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
+import 'package:law_app/core/helpers/category_helper.dart';
 import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
@@ -57,14 +58,12 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
       });
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      FunctionHelper.getDiscussionCategories(context, ref).then((categories) {
+      CategoryHelper.getDiscussionCategories(context, ref).then((categories) {
         for (var e in categories) {
           this.categories[e.name!] = e.id!;
         }
       }).whenComplete(() {
-        if (context.mounted) {
-          setState(() {});
-        }
+        if (context.mounted) setState(() {});
       });
     });
   }

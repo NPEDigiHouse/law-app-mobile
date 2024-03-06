@@ -26,7 +26,7 @@ class ProfilePage extends ConsumerWidget {
 
     ref.listen(logOutProvider, (_, state) {
       state.whenOrNull(
-        error: (error, stackTrace) => context.showBanner(
+        error: (error, _) => context.showBanner(
           message: '$error',
           type: BannerType.error,
         ),

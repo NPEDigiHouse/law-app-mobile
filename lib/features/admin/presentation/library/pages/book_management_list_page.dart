@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
+import 'package:law_app/core/helpers/category_helper.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
@@ -15,6 +16,7 @@ import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/presentation/library/pages/book_management_form_page.dart';
 import 'package:law_app/features/library/presentation/providers/book_provider.dart';
+import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/feature/book_card.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
@@ -120,21 +122,28 @@ class BookManagementListPage extends ConsumerWidget {
               ),
               SliverPadding(
                 padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
-                sliver: SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                      return Padding(
-                        padding: EdgeInsets.only(
-                          bottom: index == books.length - 1 ? 0 : 8,
+                sliver: books.isEmpty
+                    ? const SliverFillRemaining(
+                        child: CustomInformation(
+                          illustrationName: 'house-searching-cuate.svg',
+                          title: 'Belum ada data',
                         ),
-                        child: BookCard(
-                          book: books[index],
+                      )
+                    : SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) {
+                            return Padding(
+                              padding: EdgeInsets.only(
+                                bottom: index == books.length - 1 ? 0 : 8,
+                              ),
+                              child: BookCard(
+                                book: books[index],
+                              ),
+                            );
+                          },
+                          childCount: books.length,
                         ),
-                      );
-                    },
-                    childCount: books.length,
-                  ),
-                ),
+                      ),
               ),
             ],
           ),
@@ -148,12 +157,32 @@ class BookManagementListPage extends ConsumerWidget {
               ),
             ),
             child: IconButton(
-              onPressed: () => navigatorKey.currentState!.pushNamed(
-                bookManagementFormRoute,
-                arguments: const BookManagementFormPageArgs(
-                  title: 'Tambah Buku',
-                ),
-              ),
+              onPressed: () async {
+                final categories = await CategoryHelper.getBookCategories(
+                  context,
+                  ref,
+                );
+
+                if (categories.isNotEmpty) {
+                  navigatorKey.currentState!.pushNamed(
+                    bookManagementFormRoute,
+                    arguments: BookManagementFormPageArgs(
+                      title: 'Tambah Buku',
+                      categories: categories,
+                    ),
+                  );
+                } else {
+                  if (!context.mounted) return;
+
+                  context.showCustomAlertDialog(
+                    title: 'Tidak dapat menambah buku!',
+                    message: 'Saat ini, Anda belum bisa menambahkan buku.',
+                    onPressedPrimaryButton: () {
+                      navigatorKey.currentState!.pop();
+                    },
+                  );
+                }
+              },
               icon: SvgAsset(
                 assetPath: AssetPath.getIcon('plus-line.svg'),
                 color: scaffoldBackgroundColor,

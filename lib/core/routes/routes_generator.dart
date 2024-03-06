@@ -403,6 +403,7 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => BookManagementFormPage(
           title: args.title,
+          categories: args.categories,
           book: args.book,
         ),
       );

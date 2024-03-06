@@ -9,6 +9,7 @@ import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/button_extension.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
+import 'package:law_app/core/helpers/category_helper.dart';
 import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
@@ -276,7 +277,7 @@ class _StudentDiscussionHomePageState
                                 const SizedBox(height: 10),
                                 FilledButton.icon(
                                   onPressed: () async {
-                                    final categories = await FunctionHelper
+                                    final categories = await CategoryHelper
                                         .getDiscussionCategories(context, ref);
 
                                     if (categories.isNotEmpty) {

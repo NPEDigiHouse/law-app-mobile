@@ -62,7 +62,7 @@ class _StudentCourseQuizPageState extends ConsumerState<StudentCourseQuizPage> {
 
     final seconds = timer.when<int?>(
       data: (value) => value,
-      error: (error, stackTrace) => null,
+      error: (_, __) => null,
       loading: () => null,
     );
 

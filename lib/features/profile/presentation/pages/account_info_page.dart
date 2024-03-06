@@ -120,7 +120,7 @@ class AccountInfoPage extends ConsumerWidget {
 
     return user.when(
       loading: () => const LoadingIndicator(withScaffold: true),
-      error: (error, __) => const Scaffold(),
+      error: (error, _) => const Scaffold(),
       data: (user) {
         if (user == null) return const Scaffold();
 

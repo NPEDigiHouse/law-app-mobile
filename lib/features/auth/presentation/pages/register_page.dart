@@ -59,7 +59,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
   @override
   Widget build(BuildContext context) {
     ref.listen(signUpProvider, (_, state) {
-      state.whenOrNull(
+      state.when(
         loading: () => context.showLoadingDialog(),
         error: (error, _) {
           navigatorKey.currentState!.pop();

@@ -71,7 +71,7 @@ class _OtpPageState extends ConsumerState<OtpPage>
 
     final value = timer.when<int?>(
       data: (value) => value,
-      error: (error, stackTrace) => null,
+      error: (_, __) => null,
       loading: () => null,
     );
 
