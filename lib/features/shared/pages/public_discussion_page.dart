@@ -63,30 +63,26 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
   }
 
   @override
-  void dispose() {
-    super.dispose();
-
-    fabAnimationController.dispose();
-    scrollController.dispose();
-  }
-
-  @override
   Future<void> afterFirstLayout(BuildContext context) async {
     context.showLoadingDialog();
 
-    final categories = await CategoryHelper.getDiscussionCategories(
-      context,
-      ref,
-    );
+    final categories =
+        await CategoryHelper.getDiscussionCategories(context, ref);
 
     for (var e in categories) {
       this.categories[e.name!] = e.id!;
     }
 
-    if (context.mounted) {
-      navigatorKey.currentState!.pop();
-      setState(() {});
-    }
+    navigatorKey.currentState!.pop();
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    fabAnimationController.dispose();
+    scrollController.dispose();
   }
 
   @override

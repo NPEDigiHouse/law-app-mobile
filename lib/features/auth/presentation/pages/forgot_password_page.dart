@@ -120,6 +120,7 @@ class _ForgotpasswordPageState extends ConsumerState<ForgotpasswordPage>
                         prefixIconName: 'envelope-solid.svg',
                         hasSuffixIcon: false,
                         textInputType: TextInputType.emailAddress,
+                        textCapitalization: TextCapitalization.none,
                         validators: [
                           FormBuilderValidators.required(
                             errorText: 'Bagian ini harus diisi',

@@ -15,8 +15,8 @@ class PasswordTextField extends StatefulWidget {
   final String name;
   final String label;
   final String? hintText;
-  final TextInputType? textInputType;
-  final TextInputAction? textInputAction;
+  final TextInputType textInputType;
+  final TextInputAction textInputAction;
   final TextCapitalization textCapitalization;
   final bool hasPrefixIcon;
   final String? prefixIconName;
@@ -29,8 +29,8 @@ class PasswordTextField extends StatefulWidget {
     required this.name,
     required this.label,
     this.hintText,
-    this.textInputType,
-    this.textInputAction,
+    this.textInputType = TextInputType.visiblePassword,
+    this.textInputAction = TextInputAction.next,
     this.textCapitalization = TextCapitalization.none,
     this.hasPrefixIcon = true,
     this.prefixIconName,

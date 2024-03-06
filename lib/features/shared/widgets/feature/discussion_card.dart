@@ -159,7 +159,7 @@ class DiscussionCard extends StatelessWidget {
             ),
           ),
           if (isDetail && !withProfile) ...[
-            const Spacer(),
+            if (height != null) const Spacer() else const SizedBox(height: 8),
             Align(
               alignment: Alignment.centerRight,
               child: Text(

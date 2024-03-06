@@ -9,7 +9,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
-import 'package:law_app/core/helpers/category_helper.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
@@ -250,6 +249,7 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
                     masterDataFormRoute,
                     arguments: const MasterDataFormPageArgs(
                       title: 'Tambah Student',
+                      role: 'student',
                     ),
                   );
                 },
@@ -257,31 +257,14 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
               {
                 'text': 'Pakar',
                 'onTap': () async {
-                  final categories =
-                      await CategoryHelper.getDiscussionCategories(
-                          context, ref);
-
                   navigatorKey.currentState!.pop();
-
-                  if (categories.isNotEmpty) {
-                    navigatorKey.currentState!.pushNamed(
-                      masterDataFormRoute,
-                      arguments: MasterDataFormPageArgs(
-                        title: 'Tambah Teacher',
-                        discussionCategories: categories,
-                      ),
-                    );
-                  } else {
-                    if (!context.mounted) return;
-
-                    context.showCustomAlertDialog(
-                      title: 'Tidak Dapat Memilih Pakar!',
-                      message: 'Saat ini, user role pakar belum dapat dibuat.',
-                      onPressedPrimaryButton: () {
-                        navigatorKey.currentState!.pop();
-                      },
-                    );
-                  }
+                  navigatorKey.currentState!.pushNamed(
+                    masterDataFormRoute,
+                    arguments: const MasterDataFormPageArgs(
+                      title: 'Tambah Teacher',
+                      role: 'teacher',
+                    ),
+                  );
                 },
               },
               {
@@ -292,6 +275,7 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
                     masterDataFormRoute,
                     arguments: const MasterDataFormPageArgs(
                       title: 'Tambah Admin',
+                      role: 'admin',
                     ),
                   );
                 },

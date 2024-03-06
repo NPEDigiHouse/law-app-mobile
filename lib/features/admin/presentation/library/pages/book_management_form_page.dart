@@ -13,7 +13,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:law_app/features/library/presentation/providers/book_detail_provider.dart';
 import 'package:path/path.dart' as p;
 
 // Project imports:
@@ -22,6 +21,7 @@ import 'package:law_app/core/extensions/button_extension.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/extensions/datetime_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
+import 'package:law_app/core/helpers/category_helper.dart';
 import 'package:law_app/core/services/file_service.dart';
 import 'package:law_app/core/services/image_service.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
@@ -31,6 +31,7 @@ import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_category_model.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_detail_model.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_post_model.dart';
+import 'package:law_app/features/library/presentation/providers/book_detail_provider.dart';
 import 'package:law_app/features/library/presentation/providers/book_provider.dart';
 import 'package:law_app/features/library/presentation/providers/create_book_provider.dart';
 import 'package:law_app/features/library/presentation/providers/edit_book_provider.dart';
@@ -44,15 +45,9 @@ final filePathProvider = StateProvider.autoDispose<String?>((ref) => null);
 
 class BookManagementFormPage extends ConsumerStatefulWidget {
   final String title;
-  final List<BookCategoryModel> categories;
   final BookDetailModel? book;
 
-  const BookManagementFormPage({
-    super.key,
-    required this.title,
-    required this.categories,
-    this.book,
-  });
+  const BookManagementFormPage({super.key, required this.title, this.book});
 
   @override
   ConsumerState<BookManagementFormPage> createState() =>
@@ -61,32 +56,47 @@ class BookManagementFormPage extends ConsumerStatefulWidget {
 
 class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
     with AfterLayoutMixin {
-  final formKey = GlobalKey<FormBuilderState>();
-  DateTime date = DateTime.now();
+  late final GlobalKey<FormBuilderState> formKey;
+  late DateTime date;
+
+  List<BookCategoryModel> categories = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    formKey = GlobalKey<FormBuilderState>();
+    date = DateTime.now();
+  }
 
   @override
   Future<void> afterFirstLayout(BuildContext context) async {
-    if (widget.book != null) {
-      context.showLoadingDialog();
+    context.showLoadingDialog();
 
-      final coverPath = await FileService.downloadFile(
-        url: widget.book!.coverImage!,
-      );
+    final categories = await CategoryHelper.getBookCategories(context, ref);
+
+    for (var e in categories) {
+      this.categories.add(e);
+    }
+
+    if (widget.book != null) {
+      final coverPath =
+          await FileService.downloadFile(url: widget.book!.coverImage!);
 
       if (coverPath != null) {
         ref.read(coverPathProvider.notifier).state = coverPath;
       }
 
-      final filePath = await FileService.downloadFile(
-        url: widget.book!.bookUrl!,
-      );
+      final filePath =
+          await FileService.downloadFile(url: widget.book!.bookUrl!);
 
       if (filePath != null) {
         ref.read(filePathProvider.notifier).state = filePath;
       }
-
-      navigatorKey.currentState!.pop();
     }
+
+    navigatorKey.currentState!.pop();
+    setState(() {});
   }
 
   @override
@@ -244,7 +254,6 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
                 initialValue: widget.book?.title,
                 hasPrefixIcon: false,
                 hasSuffixIcon: false,
-                textInputAction: TextInputAction.next,
                 textCapitalization: TextCapitalization.words,
                 validators: [
                   FormBuilderValidators.required(
@@ -260,7 +269,6 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
                 initialValue: widget.book?.writer,
                 hasPrefixIcon: false,
                 hasSuffixIcon: false,
-                textInputAction: TextInputAction.next,
                 textCapitalization: TextCapitalization.words,
                 validators: [
                   FormBuilderValidators.required(
@@ -276,7 +284,6 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
                 initialValue: widget.book?.publisher,
                 hasPrefixIcon: false,
                 hasSuffixIcon: false,
-                textInputAction: TextInputAction.next,
                 textCapitalization: TextCapitalization.words,
                 validators: [
                   FormBuilderValidators.required(
@@ -293,7 +300,6 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
                 hasPrefixIcon: false,
                 hasSuffixIcon: false,
                 textInputType: TextInputType.number,
-                textInputAction: TextInputAction.next,
                 validators: [
                   FormBuilderValidators.required(
                     errorText: 'Bagian ini harus diisi',
@@ -307,9 +313,9 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
               CustomDropdownField(
                 name: 'categoryId',
                 label: 'Kategori',
+                items: categories.map((e) => e.name!).toList(),
+                values: categories.map((e) => e.id!.toString()).toList(),
                 initialValue: widget.book?.category?.id.toString(),
-                items: widget.categories.map((e) => e.name!).toList(),
-                values: widget.categories.map((e) => e.id!.toString()).toList(),
                 onChanged: (_) {},
               ),
               const SizedBox(height: 20),
@@ -379,7 +385,6 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
                 hasPrefixIcon: false,
                 hasSuffixIcon: false,
                 textInputAction: TextInputAction.newline,
-                textCapitalization: TextCapitalization.sentences,
                 validators: [
                   FormBuilderValidators.required(
                     errorText: "Bagian ini harus diisi",
@@ -463,7 +468,7 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
               synopsis: data['synopsis'],
               pageAmt: int.parse(data['pageAmt']),
               releaseDate: date,
-              category: widget.categories
+              category: categories
                   .where((e) => e.id == int.parse(data['categoryId']))
                   .first,
             ),
@@ -516,12 +521,10 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
 
 class BookManagementFormPageArgs {
   final String title;
-  final List<BookCategoryModel> categories;
   final BookDetailModel? book;
 
   const BookManagementFormPageArgs({
     required this.title,
-    required this.categories,
     this.book,
   });
 }

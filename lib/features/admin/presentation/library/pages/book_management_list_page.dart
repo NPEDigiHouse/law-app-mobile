@@ -8,7 +8,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
-import 'package:law_app/core/helpers/category_helper.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
@@ -157,32 +156,12 @@ class BookManagementListPage extends ConsumerWidget {
               ),
             ),
             child: IconButton(
-              onPressed: () async {
-                final categories = await CategoryHelper.getBookCategories(
-                  context,
-                  ref,
-                );
-
-                if (categories.isNotEmpty) {
-                  navigatorKey.currentState!.pushNamed(
-                    bookManagementFormRoute,
-                    arguments: BookManagementFormPageArgs(
-                      title: 'Tambah Buku',
-                      categories: categories,
-                    ),
-                  );
-                } else {
-                  if (!context.mounted) return;
-
-                  context.showCustomAlertDialog(
-                    title: 'Tidak dapat menambah buku!',
-                    message: 'Saat ini, Anda belum bisa menambahkan buku.',
-                    onPressedPrimaryButton: () {
-                      navigatorKey.currentState!.pop();
-                    },
-                  );
-                }
-              },
+              onPressed: () => navigatorKey.currentState!.pushNamed(
+                bookManagementFormRoute,
+                arguments: const BookManagementFormPageArgs(
+                  title: 'Tambah Buku',
+                ),
+              ),
               icon: SvgAsset(
                 assetPath: AssetPath.getIcon('plus-line.svg'),
                 color: scaffoldBackgroundColor,

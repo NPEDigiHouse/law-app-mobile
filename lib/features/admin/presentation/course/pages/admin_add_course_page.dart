@@ -155,6 +155,7 @@ class _AdminAddCoursePageState extends State<AdminAddCoursePage> {
                       hasPrefixIcon: false,
                       hasSuffixIcon: false,
                       hintText: "Masukkan judul course",
+                      textCapitalization: TextCapitalization.words,
                       validators: [
                         FormBuilderValidators.required(
                           errorText: "Bagian ini harus diisi",
@@ -171,7 +172,7 @@ class _AdminAddCoursePageState extends State<AdminAddCoursePage> {
                       hasSuffixIcon: false,
                       hintText: "Masukkan deskripsi",
                       maxLines: 4,
-                      textCapitalization: TextCapitalization.sentences,
+                      textInputAction: TextInputAction.done,
                       validators: [
                         FormBuilderValidators.required(
                           errorText: "Bagian ini harus diisi",

@@ -56,7 +56,6 @@ class AnswerDiscussionDialog extends ConsumerWidget {
               hasPrefixIcon: false,
               hasSuffixIcon: false,
               textInputAction: TextInputAction.newline,
-              textCapitalization: TextCapitalization.sentences,
               validators: [
                 FormBuilderValidators.required(
                   errorText: "Bagian ini harus diisi",

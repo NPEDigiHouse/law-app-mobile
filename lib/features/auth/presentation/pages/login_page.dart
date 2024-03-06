@@ -100,6 +100,8 @@ class _LoginPageState extends ConsumerState<LoginPage>
                           hintText: 'Masukkan username kamu',
                           prefixIconName: 'user-solid.svg',
                           hasSuffixIcon: false,
+                          textInputType: TextInputType.text,
+                          textCapitalization: TextCapitalization.none,
                           validators: [
                             FormBuilderValidators.required(
                               errorText: 'Bagian ini harus diisi',
@@ -112,7 +114,6 @@ class _LoginPageState extends ConsumerState<LoginPage>
                           label: 'Password',
                           hintText: 'Masukkan password kamu',
                           prefixIconName: 'lock-solid.svg',
-                          textInputType: TextInputType.visiblePassword,
                           validators: [
                             FormBuilderValidators.required(
                               errorText: 'Bagian ini harus diisi',

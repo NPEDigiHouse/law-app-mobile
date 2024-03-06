@@ -9,7 +9,6 @@ import 'package:open_file_plus/open_file_plus.dart';
 import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
-import 'package:law_app/core/helpers/category_helper.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/services/file_service.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
@@ -335,23 +334,13 @@ class BookManagementDetailPage extends ConsumerWidget {
               ),
             ),
             child: IconButton(
-              onPressed: () async {
-                final categories = await CategoryHelper.getBookCategories(
-                  context,
-                  ref,
-                );
-
-                if (categories.isNotEmpty) {
-                  navigatorKey.currentState!.pushNamed(
-                    bookManagementFormRoute,
-                    arguments: BookManagementFormPageArgs(
-                      title: 'Edit Buku',
-                      categories: categories,
-                      book: book,
-                    ),
-                  );
-                }
-              },
+              onPressed: () => navigatorKey.currentState!.pushNamed(
+                bookManagementFormRoute,
+                arguments: BookManagementFormPageArgs(
+                  title: 'Edit Buku',
+                  book: book,
+                ),
+              ),
               icon: SvgAsset(
                 assetPath: AssetPath.getIcon('pencil-solid.svg'),
                 color: scaffoldBackgroundColor,

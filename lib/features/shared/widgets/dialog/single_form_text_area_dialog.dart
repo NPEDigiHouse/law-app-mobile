@@ -60,8 +60,6 @@ class SingleFormTextAreaDialog extends StatelessWidget {
               maxLines: 1,
               hasPrefixIcon: false,
               hasSuffixIcon: false,
-              textInputAction: TextInputAction.next,
-              textCapitalization: TextCapitalization.sentences,
               validators: [
                 FormBuilderValidators.required(
                   errorText: "Bagian ini harus diisi",
@@ -79,7 +77,6 @@ class SingleFormTextAreaDialog extends StatelessWidget {
               hasPrefixIcon: false,
               hasSuffixIcon: false,
               textInputAction: TextInputAction.newline,
-              textCapitalization: TextCapitalization.sentences,
               validators: [
                 FormBuilderValidators.required(
                   errorText: "Bagian ini harus diisi",

@@ -361,6 +361,7 @@ class _StudentDiscussionHomePageState
                             discussion: userDiscussions[index],
                             isDetail: true,
                             width: 300,
+                            height: 175,
                           );
                         },
                         separatorBuilder: (context, index) {

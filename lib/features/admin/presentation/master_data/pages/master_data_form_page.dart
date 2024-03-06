@@ -1,7 +1,11 @@
+// Dart imports:
+import 'dart:async';
+
 // Flutter imports:
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:after_layout/after_layout.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -11,6 +15,7 @@ import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/button_extension.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/extensions/datetime_extension.dart';
+import 'package:law_app/core/helpers/category_helper.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
@@ -27,24 +32,27 @@ import 'package:law_app/features/shared/widgets/header_container.dart';
 
 class MasterDataFormPage extends ConsumerStatefulWidget {
   final String title;
+  final String role;
   final UserDetailModel? user;
-  final List<DiscussionCategoryModel>? discussionCategories;
 
   const MasterDataFormPage({
     super.key,
     required this.title,
+    required this.role,
     this.user,
-    this.discussionCategories,
   });
 
   @override
   ConsumerState<MasterDataFormPage> createState() => _MasterDataFormPageState();
 }
 
-class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> {
-  late GlobalKey<FormBuilderState> formKey;
+class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage>
+    with AfterLayoutMixin {
+  late final GlobalKey<FormBuilderState> formKey;
   late DateTime date;
   late List<DiscussionCategoryModel> selectedExpertises;
+
+  List<DiscussionCategoryModel> categories = [];
 
   @override
   void initState() {
@@ -61,8 +69,25 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> {
   }
 
   @override
+  Future<void> afterFirstLayout(BuildContext context) async {
+    if (widget.role == 'teacher') {
+      context.showLoadingDialog();
+
+      final categories =
+          await CategoryHelper.getDiscussionCategories(context, ref);
+
+      for (var e in categories) {
+        this.categories.add(e);
+      }
+
+      navigatorKey.currentState!.pop();
+      setState(() {});
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final isTeacher = widget.title.split(' ').last.toLowerCase() == 'teacher';
+    final isTeacher = widget.role == 'teacher';
 
     ref.listen(editUserProvider, (_, state) {
       state.when(
@@ -134,8 +159,6 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> {
                 initialValue: widget.user?.name,
                 hasPrefixIcon: false,
                 hasSuffixIcon: false,
-                textInputType: TextInputType.name,
-                textInputAction: TextInputAction.next,
                 textCapitalization: TextCapitalization.words,
                 validators: [
                   FormBuilderValidators.required(
@@ -155,7 +178,8 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> {
                   hintText: 'Masukkan username',
                   hasPrefixIcon: false,
                   hasSuffixIcon: false,
-                  textInputAction: TextInputAction.next,
+                  textInputType: TextInputType.text,
+                  textCapitalization: TextCapitalization.none,
                   validators: [
                     FormBuilderValidators.required(
                       errorText: 'Bagian ini harus diisi',
@@ -176,7 +200,7 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> {
                 hasPrefixIcon: false,
                 hasSuffixIcon: false,
                 textInputType: TextInputType.emailAddress,
-                textInputAction: TextInputAction.next,
+                textCapitalization: TextCapitalization.none,
                 validators: [
                   FormBuilderValidators.required(
                     errorText: 'Bagian ini harus diisi',
@@ -251,9 +275,9 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> {
           spacing: 8,
           runSpacing: 8,
           children: List<Row>.generate(
-            widget.discussionCategories!.length,
+            categories.length,
             (index) {
-              final category = widget.discussionCategories![index];
+              final category = categories[index];
 
               return Row(
                 mainAxisSize: MainAxisSize.min,
@@ -341,7 +365,6 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> {
         );
       } else {
         final data = formKey.currentState!.value;
-        final role = widget.title.split(' ').last.toLowerCase();
 
         ref.read(createUserProvider.notifier).createUser(
               user: UserPostModel(
@@ -351,7 +374,7 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> {
                 password: data['username'],
                 phoneNumber: data['phoneNumber'],
                 birthDate: date,
-                role: role,
+                role: widget.role,
                 teacherDiscussionCategoryIds:
                     selectedExpertises.map((e) => e.id!).toList(),
               ),
@@ -383,12 +406,12 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> {
 
 class MasterDataFormPageArgs {
   final String title;
+  final String role;
   final UserDetailModel? user;
-  final List<DiscussionCategoryModel>? discussionCategories;
 
   const MasterDataFormPageArgs({
     required this.title,
+    required this.role,
     this.user,
-    this.discussionCategories,
   });
 }

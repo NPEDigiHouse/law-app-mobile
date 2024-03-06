@@ -141,8 +141,6 @@ class _ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
                             label: 'Password Baru',
                             hintText: 'Masukkan password baru',
                             hasPrefixIcon: false,
-                            textInputType: TextInputType.visiblePassword,
-                            textInputAction: TextInputAction.next,
                             validators: [
                               FormBuilderValidators.required(
                                 errorText: 'Bagian ini harus diisi',
@@ -165,7 +163,6 @@ class _ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
                                 label: 'Konfirmasi Password Baru',
                                 hintText: 'Ulangi password sebelumnya',
                                 hasPrefixIcon: false,
-                                textInputType: TextInputType.visiblePassword,
                                 textInputAction: TextInputAction.done,
                                 validators: [
                                   FormBuilderValidators.required(

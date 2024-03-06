@@ -10,7 +10,6 @@ import 'package:law_app/core/extensions/button_extension.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/extensions/datetime_extension.dart';
 import 'package:law_app/core/extensions/string_extension.dart';
-import 'package:law_app/core/helpers/category_helper.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
@@ -179,32 +178,14 @@ class MasterDataUserDetailPage extends ConsumerWidget {
                   ),
                   const SizedBox(height: 16),
                   FilledButton(
-                    onPressed: () async {
-                      if (user.role == 'teacher') {
-                        final categories =
-                            await CategoryHelper.getDiscussionCategories(
-                                context, ref);
-
-                        if (categories.isNotEmpty) {
-                          navigatorKey.currentState!.pushNamed(
-                            masterDataFormRoute,
-                            arguments: MasterDataFormPageArgs(
-                              title: 'Edit ${user.role?.toCapitalize()}',
-                              user: user,
-                              discussionCategories: categories,
-                            ),
-                          );
-                        }
-                      } else {
-                        navigatorKey.currentState!.pushNamed(
-                          masterDataFormRoute,
-                          arguments: MasterDataFormPageArgs(
-                            title: 'Edit ${user.role?.toCapitalize()}',
-                            user: user,
-                          ),
-                        );
-                      }
-                    },
+                    onPressed: () => navigatorKey.currentState!.pushNamed(
+                      masterDataFormRoute,
+                      arguments: MasterDataFormPageArgs(
+                        title: 'Edit ${user.role!.toCapitalize()}',
+                        role: user.role!,
+                        user: user,
+                      ),
+                    ),
                     child: const Text("Ubah Data"),
                   ).fullWidth()
                 ],

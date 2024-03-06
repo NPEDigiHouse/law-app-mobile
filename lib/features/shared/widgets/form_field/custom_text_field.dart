@@ -17,8 +17,8 @@ class CustomTextField extends StatefulWidget {
   final String? initialValue;
   final String? hintText;
   final int maxLines;
-  final TextInputType? textInputType;
-  final TextInputAction? textInputAction;
+  final TextInputType textInputType;
+  final TextInputAction textInputAction;
   final TextCapitalization textCapitalization;
   final bool hasPrefixIcon;
   final String? prefixIconName;
@@ -35,9 +35,9 @@ class CustomTextField extends StatefulWidget {
     this.initialValue,
     this.hintText,
     this.maxLines = 1,
-    this.textInputType,
-    this.textInputAction,
-    this.textCapitalization = TextCapitalization.none,
+    this.textInputType = TextInputType.name,
+    this.textInputAction = TextInputAction.next,
+    this.textCapitalization = TextCapitalization.sentences,
     this.hasPrefixIcon = true,
     this.prefixIconName,
     this.hasSuffixIcon = true,

@@ -158,7 +158,7 @@ class _AdminAddDetailAdPageState extends State<AdminAddDetailAdPage> {
                       hintText: "Masukkan judul",
                       hasPrefixIcon: false,
                       hasSuffixIcon: false,
-                      textInputType: TextInputType.text,
+                      textInputAction: TextInputAction.done,
                       validators: [
                         FormBuilderValidators.required(
                           errorText: "Bagian ini harus diisi",

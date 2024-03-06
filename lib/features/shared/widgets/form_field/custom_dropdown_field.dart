@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 
 // Project imports:
 import 'package:law_app/core/styles/color_scheme.dart';
@@ -64,9 +65,10 @@ class _CustomDropdownFieldState extends State<CustomDropdownField> {
         const SizedBox(height: 6),
         Focus(
           onFocusChange: (value) => isFocus.value = value,
-          child: FormBuilderDropdown(
+          child: FormBuilderDropdown<String>(
             name: widget.name,
-            initialValue: widget.initialValue ?? widget.values.first,
+            onChanged: widget.onChanged,
+            initialValue: widget.initialValue,
             items: List<DropdownMenuItem<String>>.generate(
               widget.items.length,
               (index) => DropdownMenuItem(
@@ -74,7 +76,6 @@ class _CustomDropdownFieldState extends State<CustomDropdownField> {
                 child: Text(widget.items[index]),
               ),
             ),
-            onChanged: widget.onChanged,
             icon: ValueListenableBuilder(
               valueListenable: isFocus,
               builder: (context, isFocus, child) {
@@ -86,13 +87,15 @@ class _CustomDropdownFieldState extends State<CustomDropdownField> {
               },
             ),
             elevation: 1,
-            isDense: true,
             dropdownColor: scaffoldBackgroundColor,
             style: widget.isSmall ? textTheme.bodyMedium : textTheme.bodyLarge,
             decoration: InputDecoration(
               contentPadding: widget.isSmall
                   ? const EdgeInsets.fromLTRB(16, 12, 12, 12)
                   : const EdgeInsets.fromLTRB(16, 16, 12, 16),
+            ),
+            validator: FormBuilderValidators.required(
+              errorText: 'Bagian ini harus diisi',
             ),
           ),
         ),

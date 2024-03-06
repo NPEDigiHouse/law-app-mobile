@@ -37,16 +37,16 @@ class RegisterPage extends ConsumerStatefulWidget {
 class _RegisterPageState extends ConsumerState<RegisterPage>
     with AfterLayoutMixin<RegisterPage> {
   late final ValueNotifier<String> password;
-
-  final formKey = GlobalKey<FormBuilderState>();
-
-  DateTime date = DateTime.now();
+  late final GlobalKey<FormBuilderState> formKey;
+  late DateTime date;
 
   @override
   void initState() {
     super.initState();
 
     password = ValueNotifier('');
+    formKey = GlobalKey<FormBuilderState>();
+    date = DateTime.now();
   }
 
   @override
@@ -131,8 +131,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
                             hintText: 'Masukkan nama lengkap kamu',
                             hasPrefixIcon: false,
                             hasSuffixIcon: false,
-                            textInputType: TextInputType.name,
-                            textInputAction: TextInputAction.next,
                             textCapitalization: TextCapitalization.words,
                             validators: [
                               FormBuilderValidators.required(
@@ -151,7 +149,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
                             hintText: 'Masukkan username baru',
                             hasPrefixIcon: false,
                             hasSuffixIcon: false,
-                            textInputAction: TextInputAction.next,
+                            textInputType: TextInputType.text,
+                            textCapitalization: TextCapitalization.none,
                             validators: [
                               FormBuilderValidators.required(
                                 errorText: 'Bagian ini harus diisi',
@@ -170,7 +169,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
                             hasPrefixIcon: false,
                             hasSuffixIcon: false,
                             textInputType: TextInputType.emailAddress,
-                            textInputAction: TextInputAction.next,
+                            textCapitalization: TextCapitalization.none,
                             validators: [
                               FormBuilderValidators.required(
                                 errorText: 'Bagian ini harus diisi',
@@ -186,8 +185,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
                             label: 'Password',
                             hintText: 'Masukkan password baru',
                             hasPrefixIcon: false,
-                            textInputType: TextInputType.visiblePassword,
-                            textInputAction: TextInputAction.next,
                             validators: [
                               FormBuilderValidators.required(
                                 errorText: 'Bagian ini harus diisi',
@@ -220,8 +217,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
                                 label: 'Konfirmasi Password',
                                 hintText: 'Ulangi password sebelumnya',
                                 hasPrefixIcon: false,
-                                textInputType: TextInputType.visiblePassword,
-                                textInputAction: TextInputAction.next,
                                 validators: [
                                   FormBuilderValidators.required(
                                     errorText: 'Bagian ini harus diisi',

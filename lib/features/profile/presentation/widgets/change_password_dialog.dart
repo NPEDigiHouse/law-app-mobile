@@ -55,8 +55,6 @@ class _ChangePasswordDialogState extends ConsumerState<ChangePasswordDialog> {
               label: 'Password Lama',
               hintText: 'Masukkan password lama',
               hasPrefixIcon: false,
-              textInputType: TextInputType.visiblePassword,
-              textInputAction: TextInputAction.next,
               validators: [
                 FormBuilderValidators.required(
                   errorText: 'Bagian ini harus diisi',
@@ -70,8 +68,6 @@ class _ChangePasswordDialogState extends ConsumerState<ChangePasswordDialog> {
               label: 'Password Baru',
               hintText: 'Masukkan password baru',
               hasPrefixIcon: false,
-              textInputType: TextInputType.visiblePassword,
-              textInputAction: TextInputAction.next,
               validators: [
                 FormBuilderValidators.required(
                   errorText: 'Bagian ini harus diisi',
@@ -95,7 +91,6 @@ class _ChangePasswordDialogState extends ConsumerState<ChangePasswordDialog> {
                   label: 'Konfirmasi Password Baru',
                   hintText: 'Ulangi password sebelumnya',
                   hasPrefixIcon: false,
-                  textInputType: TextInputType.visiblePassword,
                   textInputAction: TextInputAction.done,
                   validators: [
                     FormBuilderValidators.required(

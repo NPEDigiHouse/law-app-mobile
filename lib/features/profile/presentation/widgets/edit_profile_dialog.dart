@@ -23,9 +23,16 @@ class EditProfileDialog extends StatefulWidget {
 }
 
 class _EditProfileDialogState extends State<EditProfileDialog> {
-  final formKey = GlobalKey<FormBuilderState>();
+  late final GlobalKey<FormBuilderState> formKey;
+  late DateTime date;
 
-  DateTime date = DateTime.now();
+  @override
+  void initState() {
+    super.initState();
+
+    formKey = GlobalKey<FormBuilderState>();
+    date = DateTime.now();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +53,6 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                   initialValue: widget.user.name,
                   hasPrefixIcon: false,
                   hasSuffixIcon: false,
-                  textInputType: TextInputType.name,
-                  textInputAction: TextInputAction.next,
                   textCapitalization: TextCapitalization.words,
                   validators: [
                     FormBuilderValidators.required(
@@ -69,7 +74,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                   hasPrefixIcon: false,
                   hasSuffixIcon: false,
                   textInputType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.next,
+                  textCapitalization: TextCapitalization.none,
                   validators: [
                     FormBuilderValidators.required(
                       errorText: "Bagian ini harus diisi",

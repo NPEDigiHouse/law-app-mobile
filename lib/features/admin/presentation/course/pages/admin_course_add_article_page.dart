@@ -48,7 +48,6 @@ class _AdminCourseAddArticlePageState extends State<AdminCourseAddArticlePage> {
                       hintText: "Masukkan judul",
                       hasPrefixIcon: false,
                       hasSuffixIcon: false,
-                      textInputType: TextInputType.text,
                       validators: [
                         FormBuilderValidators.required(
                           errorText: "Bagian ini harus diisi",
@@ -65,6 +64,7 @@ class _AdminCourseAddArticlePageState extends State<AdminCourseAddArticlePage> {
                       hasPrefixIcon: false,
                       hasSuffixIcon: false,
                       textInputType: TextInputType.number,
+                      textInputAction: TextInputAction.done,
                       validators: [
                         FormBuilderValidators.required(
                           errorText: "Bagian ini harus diisi",

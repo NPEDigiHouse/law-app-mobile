@@ -61,10 +61,11 @@ class _AdminCourseAddQuestionPageState
               CustomTextField(
                 name: "question_description",
                 label: "Deskripsi Soal",
+                hintText: "Masukkan soal",
+                initialValue: widget.item != null ? widget.item!.question : "",
                 hasPrefixIcon: false,
                 hasSuffixIcon: false,
-                initialValue: widget.item != null ? widget.item!.question : "",
-                hintText: "Masukkan soal",
+                textInputAction: TextInputAction.done,
                 validators: [
                   FormBuilderValidators.required(
                     errorText: "Bagian ini harus diisi",

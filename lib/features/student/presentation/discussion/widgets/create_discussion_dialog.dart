@@ -37,6 +37,7 @@ class CreateDiscussionDialog extends ConsumerWidget {
               label: 'Kategori',
               items: categories.map((e) => e.name!).toList(),
               values: categories.map((e) => e.id!.toString()).toList(),
+              initialValue: categories.first.id.toString(),
               onChanged: (_) {},
             ),
             const SizedBox(height: 10),
@@ -47,8 +48,6 @@ class CreateDiscussionDialog extends ConsumerWidget {
               hintText: 'Masukkan judul pertanyaan',
               hasPrefixIcon: false,
               hasSuffixIcon: false,
-              textInputAction: TextInputAction.next,
-              textCapitalization: TextCapitalization.sentences,
               validators: [
                 FormBuilderValidators.required(
                   errorText: "Bagian ini harus diisi",
@@ -65,7 +64,6 @@ class CreateDiscussionDialog extends ConsumerWidget {
               hasPrefixIcon: false,
               hasSuffixIcon: false,
               textInputAction: TextInputAction.newline,
-              textCapitalization: TextCapitalization.sentences,
               validators: [
                 FormBuilderValidators.required(
                   errorText: "Bagian ini harus diisi",

@@ -38,7 +38,6 @@ class AdminCourseAddQuizPage extends StatelessWidget {
                       hintText: "Masukkan judul",
                       hasPrefixIcon: false,
                       hasSuffixIcon: false,
-                      textInputType: TextInputType.text,
                       validators: [
                         FormBuilderValidators.required(
                           errorText: "Bagian ini harus diisi",
@@ -70,9 +69,8 @@ class AdminCourseAddQuizPage extends StatelessWidget {
                       hintText: "Masukkan waktu (menit)",
                       hasPrefixIcon: false,
                       hasSuffixIcon: false,
-                      textInputType: TextInputType.text,
                       maxLines: 4,
-                      textCapitalization: TextCapitalization.sentences,
+                      textInputAction: TextInputAction.done,
                       validators: [
                         FormBuilderValidators.required(
                           errorText: "Bagian ini harus diisi",

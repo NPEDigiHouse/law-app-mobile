@@ -371,8 +371,8 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => MasterDataFormPage(
           title: args.title,
+          role: args.role,
           user: args.user,
-          discussionCategories: args.discussionCategories,
         ),
       );
     case masterDataUserDetailRoute:
@@ -403,7 +403,6 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => BookManagementFormPage(
           title: args.title,
-          categories: args.categories,
           book: args.book,
         ),
       );

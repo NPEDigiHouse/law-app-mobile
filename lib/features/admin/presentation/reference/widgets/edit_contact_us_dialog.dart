@@ -38,7 +38,6 @@ class EditContactUsDialog extends StatelessWidget {
                   initialValue: "",
                   hasPrefixIcon: false,
                   hasSuffixIcon: false,
-                  textInputAction: TextInputAction.next,
                   validators: [
                     FormBuilderValidators.required(
                       errorText: "Bagian ini harus diisi",
@@ -55,7 +54,6 @@ class EditContactUsDialog extends StatelessWidget {
                   hasPrefixIcon: false,
                   hasSuffixIcon: false,
                   textInputType: TextInputType.url,
-                  textInputAction: TextInputAction.next,
                   validators: [
                     FormBuilderValidators.required(
                       errorText: "Bagian ini harus diisi",

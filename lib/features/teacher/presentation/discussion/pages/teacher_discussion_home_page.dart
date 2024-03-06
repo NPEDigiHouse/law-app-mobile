@@ -391,6 +391,7 @@ class _TeacherDiscussionHomePageState
                             isDetail: true,
                             withProfile: true,
                             width: 300,
+                            height: 200,
                           );
                         },
                         separatorBuilder: (context, index) {
