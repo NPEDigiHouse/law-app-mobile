@@ -4,6 +4,8 @@ import 'dart:io';
 
 // Package imports:
 import 'package:http/http.dart' as http;
+import 'package:path/path.dart' as p;
+import 'package:uuid/uuid.dart';
 
 // Project imports:
 import 'package:law_app/core/configs/api_configs.dart';
@@ -140,8 +142,17 @@ class BookDataSourceImpl implements BookDataSource {
     required String imagePath,
   }) async {
     try {
-      final bookFile = await http.MultipartFile.fromPath('files', bookPath);
-      final imageFile = await http.MultipartFile.fromPath('files', imagePath);
+      final bookFile = await http.MultipartFile.fromPath(
+        'files',
+        bookPath,
+        filename: const Uuid().v4() + p.extension(bookPath),
+      );
+
+      final imageFile = await http.MultipartFile.fromPath(
+        'files',
+        imagePath,
+        filename: const Uuid().v4() + p.extension(imagePath),
+      );
 
       final request = http.MultipartRequest(
         'POST',
@@ -175,7 +186,11 @@ class BookDataSourceImpl implements BookDataSource {
     required BookFileType type,
   }) async {
     try {
-      final file = await http.MultipartFile.fromPath('file', path);
+      final file = await http.MultipartFile.fromPath(
+        'file',
+        path,
+        filename: const Uuid().v4() + p.extension(path),
+      );
 
       final request = http.MultipartRequest(
         'PUT',

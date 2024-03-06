@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 // Project imports:
@@ -363,7 +364,10 @@ class AccountInfoPage extends ConsumerWidget {
     final imagePath = await ImageService.pickImage(source);
 
     if (imagePath != null) {
-      final compressedImagePath = await ImageService.cropImage(imagePath);
+      final compressedImagePath = await ImageService.cropImage(
+        imagePath: imagePath,
+        aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+      );
 
       if (compressedImagePath != null) {
         ref

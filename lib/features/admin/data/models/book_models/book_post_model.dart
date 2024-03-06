@@ -4,23 +4,26 @@ import 'dart:convert';
 // Package imports:
 import 'package:equatable/equatable.dart';
 
+// Project imports:
+import 'package:law_app/core/extensions/datetime_extension.dart';
+
 class BookPostModel extends Equatable {
   final String title;
   final String synopsis;
   final String writer;
   final String publisher;
-  final String releaseDate;
-  final int pageAmt;
-  final int categoryId;
+  final String pageAmt;
+  final String categoryId;
+  final DateTime releaseDate;
 
   const BookPostModel({
     required this.title,
     required this.synopsis,
     required this.writer,
     required this.publisher,
-    required this.releaseDate,
     required this.pageAmt,
     required this.categoryId,
+    required this.releaseDate,
   });
 
   BookPostModel copyWith({
@@ -28,18 +31,18 @@ class BookPostModel extends Equatable {
     String? synopsis,
     String? writer,
     String? publisher,
-    String? releaseDate,
-    int? pageAmt,
-    int? categoryId,
+    String? pageAmt,
+    String? categoryId,
+    DateTime? releaseDate,
   }) {
     return BookPostModel(
       title: title ?? this.title,
       synopsis: synopsis ?? this.synopsis,
       writer: writer ?? this.writer,
       publisher: publisher ?? this.publisher,
-      releaseDate: releaseDate ?? this.releaseDate,
       pageAmt: pageAmt ?? this.pageAmt,
       categoryId: categoryId ?? this.categoryId,
+      releaseDate: releaseDate ?? this.releaseDate,
     );
   }
 
@@ -49,9 +52,10 @@ class BookPostModel extends Equatable {
       'synopsis': synopsis,
       'writer': writer,
       'publisher': publisher,
-      'releaseDate': releaseDate,
-      'pageAmt': pageAmt.toString(),
-      'categoryId': categoryId.toString(),
+      'pageAmt': pageAmt,
+      'categoryId': categoryId,
+      'releaseDate':
+          releaseDate.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
     };
   }
 
@@ -67,9 +71,9 @@ class BookPostModel extends Equatable {
       synopsis,
       writer,
       publisher,
-      releaseDate,
       pageAmt,
       categoryId,
+      releaseDate,
     ];
   }
 }

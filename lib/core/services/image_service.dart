@@ -17,10 +17,13 @@ class ImageService {
     return image?.path;
   }
 
-  static Future<String?> cropImage(String imagePath) async {
+  static Future<String?> cropImage({
+    required String imagePath,
+    CropAspectRatio? aspectRatio,
+  }) async {
     final CroppedFile? croppedFile = await ImageCropper().cropImage(
       sourcePath: imagePath,
-      aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+      aspectRatio: aspectRatio,
       maxWidth: 500,
       maxHeight: 500,
       compressQuality: 50,

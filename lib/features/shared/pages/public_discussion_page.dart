@@ -1,7 +1,11 @@
+// Dart imports:
+import 'dart:async';
+
 // Flutter imports:
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:after_layout/after_layout.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -35,7 +39,7 @@ class PublicDiscussionPage extends ConsumerStatefulWidget {
 }
 
 class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, AfterLayoutMixin {
   late final AnimationController fabAnimationController;
   late final ScrollController scrollController;
 
@@ -56,16 +60,6 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
           fabAnimationController.reverse();
         }
       });
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      CategoryHelper.getDiscussionCategories(context, ref).then((categories) {
-        for (var e in categories) {
-          this.categories[e.name!] = e.id!;
-        }
-      }).whenComplete(() {
-        if (context.mounted) setState(() {});
-      });
-    });
   }
 
   @override
@@ -74,6 +68,25 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
 
     fabAnimationController.dispose();
     scrollController.dispose();
+  }
+
+  @override
+  Future<void> afterFirstLayout(BuildContext context) async {
+    context.showLoadingDialog();
+
+    final categories = await CategoryHelper.getDiscussionCategories(
+      context,
+      ref,
+    );
+
+    for (var e in categories) {
+      this.categories[e.name!] = e.id!;
+    }
+
+    if (context.mounted) {
+      navigatorKey.currentState!.pop();
+      setState(() {});
+    }
   }
 
   @override

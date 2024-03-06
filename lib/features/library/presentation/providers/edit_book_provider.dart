@@ -17,25 +17,25 @@ class EditBook extends _$EditBook {
 
   Future<void> editBook({
     required BookDetailModel book,
-    String? coverPath,
-    String? filePath,
+    String? imagePath,
+    String? bookPath,
   }) async {
     state = const AsyncValue.loading();
 
     final result = await ref.watch(bookRepositoryProvider).editBook(book: book);
 
-    final newCover = coverPath != null
+    final newCover = imagePath != null
         ? await ref.watch(bookRepositoryProvider).editBookFile(
               id: book.id!,
-              path: coverPath,
+              path: imagePath,
               type: BookFileType.cover,
             )
         : null;
 
-    final newFile = filePath != null
+    final newFile = bookPath != null
         ? await ref.watch(bookRepositoryProvider).editBookFile(
               id: book.id!,
-              path: filePath,
+              path: bookPath,
               type: BookFileType.file,
             )
         : null;

@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:law_app/core/helpers/category_helper.dart';
 import 'package:open_file_plus/open_file_plus.dart';
 
 // Project imports:
 import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
+import 'package:law_app/core/helpers/category_helper.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/services/file_service.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
@@ -392,10 +392,10 @@ class BookManagementDetailPage extends ConsumerWidget {
   Future<void> openPDF(BuildContext context, String url) async {
     context.showLoadingDialog();
 
-    final file = await FileService.downloadFile(url: url);
+    final path = await FileService.downloadFile(url: url);
 
-    if (file != null) {
-      final result = await OpenFile.open(file.path);
+    if (path != null) {
+      final result = await OpenFile.open(path);
 
       debugPrint(result.message);
     }

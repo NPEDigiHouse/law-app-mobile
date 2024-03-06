@@ -5,29 +5,47 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:file_picker/file_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
 // Project imports:
 import 'package:law_app/core/utils/http_client.dart';
 
 class FileService {
-  static Future<File?> downloadFile(
-      {required String url, String? fileName}) async {
+  static Future<String?> downloadFile({
+    required String url,
+    String? fileName,
+  }) async {
     try {
+      // Create request
+      final response = await HttpClient.client.get(Uri.parse(url));
+
       // Get application directory
       final directory = await getApplicationDocumentsDirectory();
 
       // Define file name
       final name = fileName ?? url.split('/').last;
 
-      // Create file from path
-      final file = File('${directory.path}/$name');
-
-      // Create request and get response
-      final response = await HttpClient.client.get(Uri.parse(url));
-
       // Writes a list of bytes to a file
-      return file.writeAsBytes(response.bodyBytes);
+      final file = await File('${directory.path}/$name')
+          .writeAsBytes(response.bodyBytes);
+
+      return file.path;
+    } catch (e) {
+      debugPrint(e.toString());
+
+      return null;
+    }
+  }
+
+  static Future<String?> pickFile({required List<String> extensions}) async {
+    try {
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: extensions,
+      );
+
+      return result?.files.first.path;
     } catch (e) {
       debugPrint(e.toString());
 

@@ -4,6 +4,8 @@ import 'dart:io';
 
 // Package imports:
 import 'package:http/http.dart' as http;
+import 'package:path/path.dart' as p;
+import 'package:uuid/uuid.dart';
 
 // Project imports:
 import 'package:law_app/core/configs/api_configs.dart';
@@ -84,7 +86,11 @@ class ProfileDataSourceImpl implements ProfileDataSource {
             'Bearer ${CredentialSaver.accessToken}';
 
       if (path != null) {
-        final file = await http.MultipartFile.fromPath('profilePicture', path);
+        final file = await http.MultipartFile.fromPath(
+          'profilePicture',
+          path,
+          filename: const Uuid().v4() + p.extension(path),
+        );
 
         request.files.add(file);
       }
