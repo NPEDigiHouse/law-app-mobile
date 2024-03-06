@@ -364,7 +364,7 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> {
     final birthDate = await showDatePicker(
       context: context,
       initialDate: date,
-      firstDate: DateTime(date.year - 30),
+      firstDate: DateTime(date.year - 50),
       lastDate: DateTime.now(),
       initialEntryMode: DatePickerEntryMode.calendarOnly,
       helpText: 'Pilih Tanggal Lahir',

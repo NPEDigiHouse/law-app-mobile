@@ -130,6 +130,7 @@ class StudentCourseRatePage extends StatelessWidget {
                       hasSuffixIcon: false,
                       maxLines: 4,
                       textInputAction: TextInputAction.newline,
+                      textCapitalization: TextCapitalization.sentences,
                     ),
                   ),
                 ],

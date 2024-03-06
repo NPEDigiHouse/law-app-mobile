@@ -10,13 +10,13 @@ import 'package:law_app/features/shared/widgets/form_field/custom_dropdown_field
 
 class SortingDialog extends StatelessWidget {
   final List<String> items;
-  final List<String>? values;
+  final List<String> values;
   final void Function(Map<String, dynamic> value)? onSubmitted;
 
   const SortingDialog({
     super.key,
     required this.items,
-    this.values,
+    required this.values,
     this.onSubmitted,
   });
 

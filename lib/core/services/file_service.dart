@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 // Package imports:
-import 'package:open_file_plus/open_file_plus.dart';
 import 'package:path_provider/path_provider.dart';
 
 // Project imports:
@@ -34,9 +33,5 @@ class FileService {
 
       return null;
     }
-  }
-
-  static Future<OpenResult> openFile({required String path}) async {
-    return await OpenFile.open(path);
   }
 }

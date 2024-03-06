@@ -166,6 +166,7 @@ class _AdminAddSimpleAdPageState extends State<AdminAddSimpleAdPage> {
                   hintText: "Masukkan deskripsi",
                   hasPrefixIcon: false,
                   hasSuffixIcon: false,
+                  textCapitalization: TextCapitalization.sentences,
                   validators: [
                     FormBuilderValidators.required(
                         errorText: "Bagian ini harus diisi")

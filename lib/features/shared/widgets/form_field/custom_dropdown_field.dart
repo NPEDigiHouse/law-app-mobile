@@ -12,7 +12,8 @@ class CustomDropdownField extends StatefulWidget {
   final String name;
   final String label;
   final List<String> items;
-  final List<String>? values;
+  final List<String> values;
+  final String? initialValue;
   final ValueChanged<String?>? onChanged;
   final bool isSmall;
 
@@ -21,7 +22,8 @@ class CustomDropdownField extends StatefulWidget {
     required this.name,
     required this.label,
     required this.items,
-    this.values,
+    required this.values,
+    this.initialValue,
     this.onChanged,
     this.isSmall = false,
   });
@@ -64,15 +66,11 @@ class _CustomDropdownFieldState extends State<CustomDropdownField> {
           onFocusChange: (value) => isFocus.value = value,
           child: FormBuilderDropdown(
             name: widget.name,
-            initialValue: widget.values != null
-                ? widget.values!.first
-                : widget.items.first,
+            initialValue: widget.initialValue ?? widget.values.first,
             items: List<DropdownMenuItem<String>>.generate(
               widget.items.length,
               (index) => DropdownMenuItem(
-                value: widget.values != null
-                    ? widget.values![index]
-                    : widget.items[index],
+                value: widget.values[index],
                 child: Text(widget.items[index]),
               ),
             ),

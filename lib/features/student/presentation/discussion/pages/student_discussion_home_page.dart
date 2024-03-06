@@ -25,7 +25,7 @@ import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
-import 'package:law_app/features/student/presentation/discussion/widgets/create_question_dialog.dart';
+import 'package:law_app/features/student/presentation/discussion/widgets/create_discussion_dialog.dart';
 
 class StudentDiscussionHomePage extends ConsumerStatefulWidget {
   const StudentDiscussionHomePage({super.key});
@@ -287,7 +287,7 @@ class _StudentDiscussionHomePageState
                                         context: context,
                                         barrierDismissible: false,
                                         builder: (context) {
-                                          return CreateQuestionDialog(
+                                          return CreateDiscussionDialog(
                                             categories: categories,
                                           );
                                         },

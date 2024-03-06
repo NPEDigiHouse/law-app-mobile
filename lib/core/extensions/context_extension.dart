@@ -157,7 +157,7 @@ extension DialogExtension on BuildContext {
 
   Future<Object?> showSortingDialog({
     required List<String> items,
-    List<String>? values,
+    required List<String> values,
     void Function(Map<String, dynamic> value)? onSubmitted,
   }) {
     return showDialog(

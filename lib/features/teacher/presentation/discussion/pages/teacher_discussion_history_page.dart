@@ -253,7 +253,7 @@ class _TeacherQuestionHistoryPageState
                     selectedStatus.value = newValue;
 
                     pageController.animateToPage(
-                      newSelection.first.index - 1,
+                      newValue.index - 1,
                       duration: const Duration(milliseconds: 300),
                       curve: Curves.easeOut,
                     );

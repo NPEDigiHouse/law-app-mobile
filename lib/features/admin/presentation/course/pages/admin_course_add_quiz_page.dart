@@ -72,6 +72,7 @@ class AdminCourseAddQuizPage extends StatelessWidget {
                       hasSuffixIcon: false,
                       textInputType: TextInputType.text,
                       maxLines: 4,
+                      textCapitalization: TextCapitalization.sentences,
                       validators: [
                         FormBuilderValidators.required(
                           errorText: "Bagian ini harus diisi",

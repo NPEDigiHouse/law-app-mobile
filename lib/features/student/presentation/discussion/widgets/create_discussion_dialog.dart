@@ -14,10 +14,10 @@ import 'package:law_app/features/shared/widgets/dialog/custom_dialog.dart';
 import 'package:law_app/features/shared/widgets/form_field/custom_dropdown_field.dart';
 import 'package:law_app/features/shared/widgets/form_field/custom_text_field.dart';
 
-class CreateQuestionDialog extends ConsumerWidget {
+class CreateDiscussionDialog extends ConsumerWidget {
   final List<DiscussionCategoryModel> categories;
 
-  const CreateQuestionDialog({super.key, required this.categories});
+  const CreateDiscussionDialog({super.key, required this.categories});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -48,6 +48,7 @@ class CreateQuestionDialog extends ConsumerWidget {
               hasPrefixIcon: false,
               hasSuffixIcon: false,
               textInputAction: TextInputAction.next,
+              textCapitalization: TextCapitalization.sentences,
               validators: [
                 FormBuilderValidators.required(
                   errorText: "Bagian ini harus diisi",
@@ -64,6 +65,7 @@ class CreateQuestionDialog extends ConsumerWidget {
               hasPrefixIcon: false,
               hasSuffixIcon: false,
               textInputAction: TextInputAction.newline,
+              textCapitalization: TextCapitalization.sentences,
               validators: [
                 FormBuilderValidators.required(
                   errorText: "Bagian ini harus diisi",
