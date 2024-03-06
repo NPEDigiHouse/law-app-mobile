@@ -35,14 +35,10 @@ class AccountInfoPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final id = CredentialSaver.user!.id!;
 
-    var user = ref.watch(ProfileDetailProvider(id: id));
+    final user = ref.watch(ProfileDetailProvider(id: id));
 
-    ref.listen(ProfileDetailProvider(id: id), (previous, next) {
-      if (previous != next) {
-        user = next;
-      }
-
-      next.when(
+    ref.listen(ProfileDetailProvider(id: id), (_, state) {
+      state.when(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(

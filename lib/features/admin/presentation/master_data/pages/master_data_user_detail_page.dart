@@ -28,14 +28,10 @@ class MasterDataUserDetailPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var user = ref.watch(UserDetailProvider(id: id));
+    final user = ref.watch(UserDetailProvider(id: id));
 
-    ref.listen(UserDetailProvider(id: id), (previous, next) {
-      if (previous != next) {
-        user = next;
-      }
-
-      next.when(
+    ref.listen(UserDetailProvider(id: id), (_, state) {
+      state.when(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(

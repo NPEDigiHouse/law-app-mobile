@@ -39,14 +39,10 @@ class TeacherDiscussionDetailPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var discussion = ref.watch(DiscussionDetailProvider(id: id));
+    final discussion = ref.watch(DiscussionDetailProvider(id: id));
 
-    ref.listen(DiscussionDetailProvider(id: id), (previous, next) {
-      if (previous != next) {
-        discussion = next;
-      }
-
-      next.when(
+    ref.listen(DiscussionDetailProvider(id: id), (_, state) {
+      state.when(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(

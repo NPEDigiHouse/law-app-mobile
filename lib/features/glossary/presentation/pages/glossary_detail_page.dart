@@ -31,14 +31,10 @@ class GlossaryDetailPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var glossary = ref.watch(GlossaryDetailProvider(id: id));
+    final glossary = ref.watch(GlossaryDetailProvider(id: id));
 
-    ref.listen(GlossaryDetailProvider(id: id), (previous, next) {
-      if (previous != next) {
-        glossary = next;
-      }
-
-      next.when(
+    ref.listen(GlossaryDetailProvider(id: id), (_, state) {
+      state.when(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(

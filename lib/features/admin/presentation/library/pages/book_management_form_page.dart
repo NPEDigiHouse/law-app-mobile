@@ -13,6 +13,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:law_app/features/library/presentation/providers/book_detail_provider.dart';
+import 'package:path/path.dart' as p;
 
 // Project imports:
 import 'package:law_app/core/enums/banner_type.dart';
@@ -64,21 +66,27 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
 
   @override
   Future<void> afterFirstLayout(BuildContext context) async {
-    context.showLoadingDialog();
+    if (widget.book != null) {
+      context.showLoadingDialog();
 
-    final cover = await FileService.downloadFile(url: widget.book!.coverImage!);
+      final coverPath = await FileService.downloadFile(
+        url: widget.book!.coverImage!,
+      );
 
-    if (cover != null) {
-      ref.read(coverPathProvider.notifier).state = cover;
+      if (coverPath != null) {
+        ref.read(coverPathProvider.notifier).state = coverPath;
+      }
+
+      final filePath = await FileService.downloadFile(
+        url: widget.book!.bookUrl!,
+      );
+
+      if (filePath != null) {
+        ref.read(filePathProvider.notifier).state = filePath;
+      }
+
+      navigatorKey.currentState!.pop();
     }
-
-    final file = await FileService.downloadFile(url: widget.book!.bookUrl!);
-
-    if (file != null) {
-      ref.read(filePathProvider.notifier).state = file;
-    }
-
-    navigatorKey.currentState!.pop();
   }
 
   @override
@@ -100,6 +108,7 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
         loading: () => context.showLoadingDialog(),
         data: (data) {
           if (data != null) {
+            ref.invalidate(BookDetailProvider(id: widget.book!.id!));
             ref.invalidate(bookProvider);
 
             context.showBanner(
@@ -345,7 +354,7 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
                           const SizedBox(height: 4),
                           Text(
                             bookFile != null
-                                ? bookFile.split('/').last
+                                ? p.basename(bookFile)
                                 : 'Pilih Dokumen (.pdf)',
                             textAlign: TextAlign.center,
                             style: textTheme.bodyMedium!.copyWith(
@@ -380,7 +389,7 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
               const SizedBox(height: 20),
               FilledButton(
                 onPressed: widget.book != null
-                    ? () => editBook(bookCover, bookFile)
+                    ? () => editBook(bookCover ?? '', bookFile ?? '')
                     : () => createBook(bookCover, bookFile),
                 child: Text(widget.title),
               ).fullWidth(),
@@ -434,17 +443,17 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
     }
   }
 
-  void editBook(String? bookCover, String? bookFile) {
+  void editBook(String bookCover, String bookFile) {
     FocusManager.instance.primaryFocus?.unfocus();
 
     if (formKey.currentState!.saveAndValidate()) {
       final data = formKey.currentState!.value;
 
-      final isUpdatedCover = widget.book?.coverImage?.split('/').last !=
-          bookCover?.split('/').last;
+      final isUpdatedCover =
+          p.basename(widget.book!.coverImage!) != p.basename(bookCover);
 
       final isUpdatedFile =
-          widget.book?.bookUrl?.split('/').last != bookFile?.split('/').last;
+          p.basename(widget.book!.bookUrl!) != p.basename(bookFile);
 
       ref.read(editBookProvider.notifier).editBook(
             book: widget.book!.copyWith(
@@ -452,10 +461,10 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
               writer: data['writer'],
               publisher: data['publisher'],
               synopsis: data['synopsis'],
-              pageAmt: data['pageAmt'],
+              pageAmt: int.parse(data['pageAmt']),
               releaseDate: date,
               category: widget.categories
-                  .where((e) => e.id == data['categoryId'])
+                  .where((e) => e.id == int.parse(data['categoryId']))
                   .first,
             ),
             imagePath: isUpdatedCover ? bookCover : null,

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:file_picker/file_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as p;
 
 // Project imports:
 import 'package:law_app/core/utils/http_client.dart';
@@ -24,7 +25,7 @@ class FileService {
       final directory = await getApplicationDocumentsDirectory();
 
       // Define file name
-      final name = fileName ?? url.split('/').last;
+      final name = fileName ?? p.basename(url);
 
       // Writes a list of bytes to a file
       final file = await File('${directory.path}/$name')

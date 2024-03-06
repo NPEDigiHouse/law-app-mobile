@@ -11,7 +11,7 @@ class ImageService {
 
     final XFile? image = await picker.pickImage(
       source: source,
-      imageQuality: 50,
+      imageQuality: 60,
     );
 
     return image?.path;
@@ -26,7 +26,7 @@ class ImageService {
       aspectRatio: aspectRatio,
       maxWidth: 500,
       maxHeight: 500,
-      compressQuality: 50,
+      compressQuality: 60,
       uiSettings: [
         AndroidUiSettings(
           toolbarTitle: 'Crop Gambar',
