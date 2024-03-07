@@ -182,11 +182,13 @@ class TeacherDiscussionListPage extends ConsumerWidget {
         'search-debouncer',
         const Duration(milliseconds: 800),
         () {
-          ref.read(DiscussionsProvider(
-            query: query,
-            status: 'open',
-            type: 'specific',
-          ));
+          ref.read(
+            DiscussionsProvider(
+              query: query,
+              status: 'open',
+              type: 'specific',
+            ),
+          );
         },
       );
     } else {

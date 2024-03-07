@@ -329,13 +329,15 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
     return TextButton(
       onPressed: () {
         ref
-            .read(DiscussionsProvider(
-              query: query,
-              categoryId: categoryId,
-              type: 'general',
-              offset: offset,
-              limit: kPageLimit,
-            ).notifier)
+            .read(
+              DiscussionsProvider(
+                query: query,
+                categoryId: categoryId,
+                type: 'general',
+                offset: offset,
+                limit: kPageLimit,
+              ).notifier,
+            )
             .fetchMoreDiscussions(
               query: query,
               categoryId: categoryId,
@@ -361,13 +363,15 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
         'search-debouncer',
         const Duration(milliseconds: 800),
         () {
-          ref.read(DiscussionsProvider(
-            query: query,
-            categoryId: categoryId,
-            type: 'general',
-            offset: 0,
-            limit: kPageLimit,
-          ));
+          ref.read(
+            DiscussionsProvider(
+              query: query,
+              categoryId: categoryId,
+              type: 'general',
+              offset: 0,
+              limit: kPageLimit,
+            ),
+          );
 
           ref.invalidate(offsetProvider);
         },

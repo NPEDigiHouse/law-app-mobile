@@ -184,8 +184,9 @@ class GlossaryManagementPage extends ConsumerWidget {
       EasyDebounce.debounce(
         'search-debouncer',
         const Duration(milliseconds: 800),
-        () =>
-            ref.read(glossaryProvider.notifier).searchGlossaries(query: query),
+        () {
+          ref.read(glossaryProvider.notifier).searchGlossaries(query: query);
+        },
       );
     } else {
       ref.invalidate(glossaryProvider);

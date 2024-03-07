@@ -35,14 +35,12 @@ class AdminDiscussionHomePage extends ConsumerStatefulWidget {
 class _AdminDiscussionHomePageState
     extends ConsumerState<AdminDiscussionHomePage> {
   late final ValueNotifier<QuestionType> selectedType;
-  late final PageController pageController;
 
   @override
   void initState() {
     super.initState();
 
     selectedType = ValueNotifier(QuestionType.general);
-    pageController = PageController();
   }
 
   @override
@@ -50,7 +48,6 @@ class _AdminDiscussionHomePageState
     super.dispose();
 
     selectedType.dispose();
-    pageController.dispose();
   }
 
   @override
@@ -153,12 +150,6 @@ class _AdminDiscussionHomePageState
                         onSelectionChanged: (newSelection) {
                           selectedType.value = newSelection.first;
 
-                          pageController.animateToPage(
-                            newSelection.first.index,
-                            duration: const Duration(milliseconds: 300),
-                            curve: Curves.easeOut,
-                          );
-
                           ref.read(discussionTypeProvider.notifier).state =
                               newSelection.first.name;
                         },
@@ -223,45 +214,17 @@ class _AdminDiscussionHomePageState
                 }
 
                 return SliverFillRemaining(
-                  child: PageView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    controller: pageController,
-                    onPageChanged: (index) {
-                      switch (index) {
-                        case 0:
-                          selectedType.value = QuestionType.general;
-                          break;
-                        case 1:
-                          selectedType.value = QuestionType.specific;
-                          break;
-                      }
-                    },
-                    children: [
-                      DiscussionListPage(
-                        discussions: discussions,
-                        isDetail: true,
-                        withProfile: true,
-                        hasMore: hasMore,
-                        onFetchMoreItems: () => fetchMoreDiscussions(
-                          query,
-                          type,
-                          status,
-                          offset,
-                        ),
-                      ),
-                      DiscussionListPage(
-                        discussions: discussions,
-                        isDetail: true,
-                        withProfile: true,
-                        hasMore: hasMore,
-                        onFetchMoreItems: () => fetchMoreDiscussions(
-                          query,
-                          type,
-                          status,
-                          offset,
-                        ),
-                      ),
-                    ],
+                  child: DiscussionListPage(
+                    discussions: discussions,
+                    isDetail: true,
+                    withProfile: true,
+                    hasMore: hasMore,
+                    onFetchMoreItems: () => fetchMoreDiscussions(
+                      query,
+                      type,
+                      status,
+                      offset,
+                    ),
                   ),
                 );
               },
@@ -325,13 +288,15 @@ class _AdminDiscussionHomePageState
     int offset,
   ) {
     ref
-        .read(DiscussionsProvider(
-          query: query,
-          type: type,
-          status: status,
-          offset: offset,
-          limit: kPageLimit,
-        ).notifier)
+        .read(
+          DiscussionsProvider(
+            query: query,
+            type: type,
+            status: status,
+            offset: offset,
+            limit: kPageLimit,
+          ).notifier,
+        )
         .fetchMoreDiscussions(
           query: query,
           type: type,
@@ -355,13 +320,15 @@ class _AdminDiscussionHomePageState
         'search-debouncer',
         const Duration(milliseconds: 800),
         () {
-          ref.read(DiscussionsProvider(
-            query: query,
-            type: type,
-            status: status,
-            offset: 0,
-            limit: kPageLimit,
-          ));
+          ref.read(
+            DiscussionsProvider(
+              query: query,
+              type: type,
+              status: status,
+              offset: 0,
+              limit: kPageLimit,
+            ),
+          );
 
           ref.invalidate(offsetProvider);
         },

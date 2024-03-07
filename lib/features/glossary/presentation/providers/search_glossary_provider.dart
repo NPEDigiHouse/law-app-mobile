@@ -32,8 +32,8 @@ class SearchGlossary extends _$SearchGlossary {
   }
 
   Future<void> fetchMoreGlossary({
-    required int offset,
     String query = '',
+    required int offset,
   }) async {
     final result = await ref
         .watch(glossaryRepositoryProvider)

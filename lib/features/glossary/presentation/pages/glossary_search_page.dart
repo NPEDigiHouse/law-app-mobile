@@ -177,6 +177,7 @@ class GlossarySearchPage extends ConsumerWidget {
           ref
               .read(searchGlossaryProvider.notifier)
               .searchGlossary(query: query);
+
           ref.invalidate(offsetProvider);
         },
       );

@@ -29,14 +29,12 @@ class StudentDiscussionListPage extends ConsumerStatefulWidget {
 class _StudentQuestionListPageState
     extends ConsumerState<StudentDiscussionListPage> {
   late final ValueNotifier<QuestionType> selectedType;
-  late final PageController pageController;
 
   @override
   void initState() {
     super.initState();
 
     selectedType = ValueNotifier(QuestionType.general);
-    pageController = PageController();
   }
 
   @override
@@ -44,7 +42,6 @@ class _StudentQuestionListPageState
     super.dispose();
 
     selectedType.dispose();
-    pageController.dispose();
   }
 
   @override
@@ -121,12 +118,6 @@ class _StudentQuestionListPageState
                       onSelectionChanged: (newSelection) {
                         selectedType.value = newSelection.first;
 
-                        pageController.animateToPage(
-                          newSelection.first.index,
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.easeOut,
-                        );
-
                         ref.read(discussionTypeProvider.notifier).state =
                             newSelection.first.name;
                       },
@@ -188,29 +179,9 @@ class _StudentQuestionListPageState
               }
 
               return SliverFillRemaining(
-                child: PageView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  controller: pageController,
-                  onPageChanged: (index) {
-                    switch (index) {
-                      case 0:
-                        selectedType.value = QuestionType.general;
-                        break;
-                      case 1:
-                        selectedType.value = QuestionType.specific;
-                        break;
-                    }
-                  },
-                  children: [
-                    DiscussionListPage(
-                      discussions: discussions,
-                      isDetail: true,
-                    ),
-                    DiscussionListPage(
-                      discussions: discussions,
-                      isDetail: true,
-                    ),
-                  ],
+                child: DiscussionListPage(
+                  discussions: discussions,
+                  isDetail: true,
                 ),
               );
             },

@@ -36,14 +36,12 @@ class TeacherDiscussionHistoryPage extends ConsumerStatefulWidget {
 class _TeacherQuestionHistoryPageState
     extends ConsumerState<TeacherDiscussionHistoryPage> {
   late final ValueNotifier<QuestionStatus> selectedStatus;
-  late final PageController pageController;
 
   @override
   void initState() {
     super.initState();
 
     selectedStatus = ValueNotifier(QuestionStatus.discuss);
-    pageController = PageController();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(discussionStatusProvider.notifier).state =
@@ -56,7 +54,6 @@ class _TeacherQuestionHistoryPageState
     super.dispose();
 
     selectedStatus.dispose();
-    pageController.dispose();
   }
 
   @override
@@ -124,16 +121,16 @@ class _TeacherQuestionHistoryPageState
             if (discussions == null) return null;
 
             if (isSearching && query.isNotEmpty) {
-              if (discussions.isEmpty) {
+              final items =
+                  discussions.where((e) => e.status != 'open').toList();
+
+              if (items.isEmpty) {
                 return const CustomInformation(
                   illustrationName: 'discussion-cuate.svg',
                   title: 'Pertanyaan tidak ditemukan',
                   subtitle: 'Pertanyaan dengan judul tersebut tidak ditemukan.',
                 );
               }
-
-              final items =
-                  discussions.where((e) => e.status != 'open').toList();
 
               return ListView.separated(
                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 24),
@@ -151,31 +148,10 @@ class _TeacherQuestionHistoryPageState
               );
             }
 
-            return PageView(
-              physics: const NeverScrollableScrollPhysics(),
-              controller: pageController,
-              onPageChanged: (index) {
-                switch (index) {
-                  case 0:
-                    selectedStatus.value = QuestionStatus.discuss;
-                    break;
-                  case 1:
-                    selectedStatus.value = QuestionStatus.solved;
-                    break;
-                }
-              },
-              children: [
-                DiscussionListPage(
-                  discussions: discussions,
-                  isDetail: true,
-                  withProfile: true,
-                ),
-                DiscussionListPage(
-                  discussions: discussions,
-                  isDetail: true,
-                  withProfile: true,
-                ),
-              ],
+            return DiscussionListPage(
+              discussions: discussions,
+              isDetail: true,
+              withProfile: true,
             );
           },
         ),
@@ -252,12 +228,6 @@ class _TeacherQuestionHistoryPageState
 
                     selectedStatus.value = newValue;
 
-                    pageController.animateToPage(
-                      newValue.index - 1,
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeOut,
-                    );
-
                     ref.read(discussionStatusProvider.notifier).state =
                         discussionStatus[newValue.name.toCapitalize()]!;
                   },
@@ -277,12 +247,7 @@ class _TeacherQuestionHistoryPageState
       EasyDebounce.debounce(
         'search-debouncer',
         const Duration(milliseconds: 800),
-        () {
-          ref.read(UserDiscussionsProvider(
-            query: query,
-            type: 'specific',
-          ));
-        },
+        () => ref.read(UserDiscussionsProvider(query: query, type: 'specific')),
       );
     } else {
       ref.invalidate(userDiscussionsProvider);
