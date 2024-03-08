@@ -24,38 +24,15 @@ import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 
 enum HistoryStatus { onDiscussion, solved }
 
-final historyStatusProvider = StateProvider.autoDispose<String>(
-  (ref) => HistoryStatus.onDiscussion.name,
+final historyStatusProvider = StateProvider.autoDispose<HistoryStatus>(
+  (ref) => HistoryStatus.onDiscussion,
 );
 
-class TeacherDiscussionHistoryPage extends ConsumerStatefulWidget {
+class TeacherDiscussionHistoryPage extends ConsumerWidget {
   const TeacherDiscussionHistoryPage({super.key});
 
   @override
-  ConsumerState<TeacherDiscussionHistoryPage> createState() =>
-      _TeacherQuestionHistoryPageState();
-}
-
-class _TeacherQuestionHistoryPageState
-    extends ConsumerState<TeacherDiscussionHistoryPage> {
-  late final ValueNotifier<HistoryStatus> selectedStatus;
-
-  @override
-  void initState() {
-    super.initState();
-
-    selectedStatus = ValueNotifier(HistoryStatus.onDiscussion);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-
-    selectedStatus.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final isSearching = ref.watch(isSearchingProvider);
     final query = ref.watch(queryProvider);
     final status = ref.watch(historyStatusProvider);
@@ -63,7 +40,7 @@ class _TeacherQuestionHistoryPageState
     final discussions = ref.watch(
       UserDiscussionsProvider(
         query: query,
-        status: status,
+        status: status.name,
         type: 'specific',
       ),
     );
@@ -71,7 +48,7 @@ class _TeacherQuestionHistoryPageState
     ref.listen(
       UserDiscussionsProvider(
         query: query,
-        status: status,
+        status: status.name,
         type: 'specific',
       ),
       (_, state) {
@@ -103,7 +80,7 @@ class _TeacherQuestionHistoryPageState
           isSearching,
           provider: UserDiscussionsProvider(
             query: query,
-            status: status,
+            status: status.name,
             type: 'specific',
           ),
         );
@@ -112,7 +89,7 @@ class _TeacherQuestionHistoryPageState
         backgroundColor: backgroundColor,
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(isSearching ? 124 : 180),
-          child: buildHeaderContainer(isSearching, query),
+          child: buildHeaderContainer(ref, isSearching, query, status),
         ),
         body: discussions.whenOrNull(
           loading: () => const LoadingIndicator(),
@@ -155,7 +132,12 @@ class _TeacherQuestionHistoryPageState
     );
   }
 
-  Widget buildHeaderContainer(bool isSearching, String query) {
+  Widget buildHeaderContainer(
+    WidgetRef ref,
+    bool isSearching,
+    String query,
+    HistoryStatus status,
+  ) {
     if (isSearching) {
       return HeaderContainer(
         child: Column(
@@ -171,7 +153,7 @@ class _TeacherQuestionHistoryPageState
               text: query,
               hintText: 'Cari judul pertanyaan',
               autoFocus: true,
-              onChanged: searchDiscussion,
+              onChanged: (query) => searchDiscussion(ref, query),
               onFocusChange: (isFocus) {
                 if (!isFocus && query.isEmpty) {
                   ref.read(isSearchingProvider.notifier).state = false;
@@ -203,31 +185,22 @@ class _TeacherQuestionHistoryPageState
             left: 20,
             right: 20,
             bottom: 20,
-            child: ValueListenableBuilder(
-              valueListenable: selectedStatus,
-              builder: (context, type, child) {
-                return SegmentedButton<HistoryStatus>(
-                  segments: const [
-                    ButtonSegment(
-                      value: HistoryStatus.onDiscussion,
-                      label: Text('Dalam Diskusi'),
-                    ),
-                    ButtonSegment(
-                      value: HistoryStatus.solved,
-                      label: Text('Telah Selesai'),
-                    ),
-                  ],
-                  selected: {type},
-                  showSelectedIcon: false,
-                  onSelectionChanged: (newSelection) {
-                    final newValue = newSelection.first;
-
-                    selectedStatus.value = newValue;
-
-                    ref.read(historyStatusProvider.notifier).state =
-                        newValue.name;
-                  },
-                );
+            child: SegmentedButton<HistoryStatus>(
+              segments: const [
+                ButtonSegment(
+                  value: HistoryStatus.onDiscussion,
+                  label: Text('Dalam Diskusi'),
+                ),
+                ButtonSegment(
+                  value: HistoryStatus.solved,
+                  label: Text('Telah Selesai'),
+                ),
+              ],
+              selected: {status},
+              showSelectedIcon: false,
+              onSelectionChanged: (newSelection) {
+                ref.read(historyStatusProvider.notifier).state =
+                    newSelection.first;
               },
             ),
           ),
@@ -236,7 +209,7 @@ class _TeacherQuestionHistoryPageState
     );
   }
 
-  void searchDiscussion(String query) {
+  void searchDiscussion(WidgetRef ref, String query) {
     ref.read(queryProvider.notifier).state = query;
 
     if (query.isNotEmpty) {
