@@ -32,8 +32,8 @@ class GlossaryHomePage extends ConsumerWidget {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
-                navigatorKey.currentState!.pop();
                 ref.invalidate(glossarySearchHistoryProvider);
+                navigatorKey.currentState!.pop();
               },
             );
           } else {

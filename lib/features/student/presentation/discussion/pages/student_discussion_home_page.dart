@@ -76,8 +76,8 @@ class _StudentDiscussionHomePageState
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
-                navigatorKey.currentState!.pop();
                 ref.invalidate(studentDiscussionsProvider);
+                navigatorKey.currentState!.pop();
               },
             );
           } else {

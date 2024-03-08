@@ -29,7 +29,7 @@ class TeacherDiscussions extends _$TeacherDiscussions {
 
     state = const AsyncValue.loading();
 
-    final result1 =
+    final result =
         await ref.watch(discussionRepositoryProvider).getUserDiscussions();
 
     final result2 = await ref
@@ -44,13 +44,15 @@ class TeacherDiscussions extends _$TeacherDiscussions {
       state.when(
         loading: () => this.state = const AsyncValue.loading(),
         error: (e, _) {
-          this.state =
-              AsyncValue.error((e as Failure).message, StackTrace.current);
+          this.state = AsyncValue.error(
+            (e as Failure).message,
+            StackTrace.current,
+          );
         },
         data: (data) {
           userCredential = data;
 
-          result1.fold(
+          result.fold(
             (l) {},
             (r) => userDiscussions = r,
           );

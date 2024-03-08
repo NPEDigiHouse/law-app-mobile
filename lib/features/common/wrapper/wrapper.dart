@@ -25,8 +25,8 @@ class Wrapper extends ConsumerWidget {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
-                navigatorKey.currentState!.pop();
                 ref.invalidate(isSignInProvider);
+                navigatorKey.currentState!.pop();
               },
             );
           } else {

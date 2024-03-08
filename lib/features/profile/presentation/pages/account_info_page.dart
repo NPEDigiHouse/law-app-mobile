@@ -43,8 +43,8 @@ class AccountInfoPage extends ConsumerWidget {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
-                navigatorKey.currentState!.pop();
                 ref.invalidate(profileDetailProvider);
+                navigatorKey.currentState!.pop();
               },
             );
           } else {

@@ -1,5 +1,7 @@
+// Package imports:
 import 'package:equatable/equatable.dart';
 
+// Project imports:
 import 'package:law_app/features/admin/data/models/book_models/book_model.dart';
 
 class BookSavedModel extends Equatable {

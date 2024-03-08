@@ -46,8 +46,8 @@ class AdminDiscussionDetailPage extends ConsumerWidget {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
-                navigatorKey.currentState!.pop();
                 ref.invalidate(discussionDetailProvider);
+                navigatorKey.currentState!.pop();
               },
             );
           } else {

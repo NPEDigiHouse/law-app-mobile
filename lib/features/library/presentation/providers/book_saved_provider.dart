@@ -1,8 +1,8 @@
 // Package imports:
-import 'package:law_app/features/admin/data/models/book_models/book_saved_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
+import 'package:law_app/features/admin/data/models/book_models/book_saved_model.dart';
 import 'package:law_app/features/library/presentation/providers/repositories_provider/book_repository_provider.dart';
 
 part 'book_saved_provider.g.dart';

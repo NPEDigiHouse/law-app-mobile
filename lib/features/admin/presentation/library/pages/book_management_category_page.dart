@@ -31,8 +31,8 @@ class BookManagementCategoryPage extends ConsumerWidget {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
-                navigatorKey.currentState!.pop();
                 ref.invalidate(bookCategoryProvider);
+                navigatorKey.currentState!.pop();
               },
             );
           } else {

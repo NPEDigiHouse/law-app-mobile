@@ -4,25 +4,19 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 // Project imports:
 import 'package:law_app/features/library/presentation/providers/repositories_provider/book_repository_provider.dart';
 
-part 'save_book_provider.g.dart';
+part 'unsave_book_provider.g.dart';
 
 @riverpod
-class SaveBook extends _$SaveBook {
+class UnsaveBook extends _$UnsaveBook {
   @override
   AsyncValue<bool?> build() {
     return const AsyncValue.data(null);
   }
 
-  Future<void> saveBook({
-    required int userId,
-    required int bookId,
-  }) async {
+  Future<void> unsaveBook({required int id}) async {
     state = const AsyncValue.loading();
 
-    final result = await ref.watch(bookRepositoryProvider).saveBook(
-          userId: userId,
-          bookId: bookId,
-        );
+    final result = await ref.watch(bookRepositoryProvider).unsaveBook(id: id);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

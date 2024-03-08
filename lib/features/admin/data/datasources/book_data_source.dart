@@ -4,7 +4,6 @@ import 'dart:io';
 
 // Package imports:
 import 'package:http/http.dart' as http;
-import 'package:law_app/features/admin/data/models/book_models/book_saved_model.dart';
 import 'package:path/path.dart' as p;
 import 'package:uuid/uuid.dart';
 
@@ -19,6 +18,7 @@ import 'package:law_app/features/admin/data/models/book_models/book_category_mod
 import 'package:law_app/features/admin/data/models/book_models/book_detail_model.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_model.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_post_model.dart';
+import 'package:law_app/features/admin/data/models/book_models/book_saved_model.dart';
 
 abstract class BookDataSource {
   /// Get book categories

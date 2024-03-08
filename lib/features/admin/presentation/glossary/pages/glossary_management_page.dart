@@ -37,8 +37,8 @@ class GlossaryManagementPage extends ConsumerWidget {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
-                navigatorKey.currentState!.pop();
                 ref.invalidate(glossaryProvider);
+                navigatorKey.currentState!.pop();
               },
             );
           } else {

@@ -11,6 +11,7 @@ import 'package:law_app/core/utils/widget_utils.dart';
 import 'package:law_app/features/shared/widgets/dialog/confirm_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/custom_alert_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/custom_selector_dialog.dart';
+import 'package:law_app/features/shared/widgets/dialog/delete_confirm_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/single_form_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/single_form_text_area_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/sorting_dialog.dart';
@@ -168,6 +169,27 @@ extension DialogExtension on BuildContext {
         values: values,
         onSubmitted: onSubmitted,
       ),
+    );
+  }
+
+  Future<Object?> showDeleteConfirmDialog({
+    required String title,
+    VoidCallback? onIconPressed,
+  }) {
+    return showGeneralDialog(
+      context: this,
+      barrierLabel: '',
+      barrierDismissible: true,
+      barrierColor: Colors.black54,
+      transitionDuration: const Duration(milliseconds: 300),
+      pageBuilder: (context, start, end) => Container(),
+      transitionBuilder: (context, start, end, widget) {
+        return DeleteConfirmDialog(
+          start: start,
+          title: title,
+          onIconPressed: onIconPressed,
+        );
+      },
     );
   }
 }

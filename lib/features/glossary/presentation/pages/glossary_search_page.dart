@@ -39,11 +39,11 @@ class GlossarySearchPage extends ConsumerWidget {
             if ('$error' == kNoInternetConnection) {
               context.showNetworkErrorModalBottomSheet(
                 onPressedPrimaryButton: () {
-                  navigatorKey.currentState!.pop();
-
                   ref
                       .read(searchGlossaryProvider.notifier)
                       .searchGlossary(query: query);
+
+                  navigatorKey.currentState!.pop();
                 },
               );
             } else {

@@ -41,10 +41,10 @@ class _LibraryBookListPageState extends ConsumerState<LibraryBookListPage>
 
   @override
   Future<void> afterFirstLayout(BuildContext context) async {
-    final categories = await CategoryHelper.getBookCategories(context, ref);
+    final result = await CategoryHelper.getBookCategories(context, ref);
 
-    for (var e in categories) {
-      this.categories[e.name!] = e.id!;
+    for (var e in result) {
+      categories[e.name!] = e.id!;
     }
 
     setState(() {});
@@ -63,8 +63,8 @@ class _LibraryBookListPageState extends ConsumerState<LibraryBookListPage>
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
-                navigatorKey.currentState!.pop();
                 ref.invalidate(BookProvider(categoryId: categoryId));
+                navigatorKey.currentState!.pop();
               },
             );
           } else {

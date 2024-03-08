@@ -57,8 +57,8 @@ class TeacherDiscussionHistoryPage extends ConsumerWidget {
             if ('$error' == kNoInternetConnection) {
               context.showNetworkErrorModalBottomSheet(
                 onPressedPrimaryButton: () {
-                  navigatorKey.currentState!.pop();
                   ref.invalidate(userDiscussionsProvider);
+                  navigatorKey.currentState!.pop();
                 },
               );
             } else {

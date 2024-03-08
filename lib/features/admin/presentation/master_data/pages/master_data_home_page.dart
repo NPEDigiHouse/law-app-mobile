@@ -56,8 +56,8 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
-                navigatorKey.currentState!.pop();
                 ref.invalidate(masterDataProvider);
+                navigatorKey.currentState!.pop();
               },
             );
           } else {

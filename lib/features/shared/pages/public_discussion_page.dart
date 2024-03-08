@@ -64,11 +64,10 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
 
   @override
   Future<void> afterFirstLayout(BuildContext context) async {
-    final categories =
-        await CategoryHelper.getDiscussionCategories(context, ref);
+    final result = await CategoryHelper.getDiscussionCategories(context, ref);
 
-    for (var e in categories) {
-      this.categories[e.name!] = e.id!;
+    for (var e in result) {
+      categories[e.name!] = e.id!;
     }
 
     setState(() {});
@@ -110,8 +109,8 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
             if ('$error' == kNoInternetConnection) {
               context.showNetworkErrorModalBottomSheet(
                 onPressedPrimaryButton: () {
-                  navigatorKey.currentState!.pop();
                   ref.invalidate(discussionProvider);
+                  navigatorKey.currentState!.pop();
                 },
               );
             } else {

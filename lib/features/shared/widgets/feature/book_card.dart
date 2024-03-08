@@ -13,11 +13,13 @@ import 'package:law_app/features/shared/widgets/custom_network_image.dart';
 class BookCard extends StatelessWidget {
   final BookModel book;
   final bool isThreeLine;
+  final VoidCallback? onLongPress;
 
   const BookCard({
     super.key,
     required this.book,
     this.isThreeLine = false,
+    this.onLongPress,
   });
 
   @override
@@ -106,6 +108,7 @@ class BookCard extends StatelessWidget {
               child: InkWell(
                 borderRadius: BorderRadius.circular(10),
                 onTap: onTap,
+                onLongPress: onLongPress,
               ),
             ),
           ),

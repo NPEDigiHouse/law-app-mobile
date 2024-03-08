@@ -11,8 +11,12 @@ import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
+import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/features/admin/data/models/book_models/book_saved_model.dart';
 import 'package:law_app/features/library/presentation/providers/book_detail_provider.dart';
+import 'package:law_app/features/library/presentation/providers/save_book_provider.dart';
+import 'package:law_app/features/library/presentation/providers/unsave_book_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_network_image.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
@@ -33,8 +37,8 @@ class LibraryBookDetailRoute extends ConsumerWidget {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
-                navigatorKey.currentState!.pop();
                 ref.invalidate(bookDetailProvider);
+                navigatorKey.currentState!.pop();
               },
             );
           } else {
@@ -46,10 +50,59 @@ class LibraryBookDetailRoute extends ConsumerWidget {
       );
     });
 
+    ref.listen(saveBookProvider, (_, state) {
+      state.when(
+        error: (error, _) {
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet();
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+        loading: () {},
+        data: (data) {
+          if (data != null) {
+            context.showBanner(
+              message: 'Buku dimasukkan ke daftar buku disimpan!',
+              type: BannerType.success,
+            );
+
+            ref.invalidate(bookDetailProvider);
+          }
+        },
+      );
+    });
+
+    ref.listen(unsaveBookProvider, (_, state) {
+      state.when(
+        error: (error, _) {
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet();
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+        loading: () {},
+        data: (data) {
+          if (data != null) {
+            context.showBanner(
+              message: 'Buku dikeluarkan dari daftar buku disimpan!',
+              type: BannerType.warning,
+            );
+
+            ref.invalidate(bookDetailProvider);
+          }
+        },
+      );
+    });
+
     return book.when(
       loading: () => const LoadingIndicator(withScaffold: true),
       error: (_, __) => const Scaffold(),
-      data: (book) {
+      data: (data) {
+        final book = data.book;
+        final savedBook = data.savedBook;
+
         if (book == null) return const Scaffold();
 
         return Scaffold(
@@ -181,10 +234,17 @@ class LibraryBookDetailRoute extends ConsumerWidget {
                               ],
                             ),
                             child: IconButton(
-                              onPressed: () {},
+                              onPressed: () => saveOrUnsaveBook(
+                                context: context,
+                                ref: ref,
+                                bookId: book.id!,
+                                savedBook: savedBook,
+                              ),
                               icon: SvgAsset(
                                 assetPath: AssetPath.getIcon(
-                                  'bookmark-solid.svg',
+                                  savedBook != null
+                                      ? 'bookmark-solid.svg'
+                                      : 'bookmark-line.svg',
                                 ),
                                 color: primaryColor,
                                 width: 24,
@@ -357,19 +417,21 @@ class LibraryBookDetailRoute extends ConsumerWidget {
     );
   }
 
-  void saveOrUnsaveBook(bool isSaved) {
-    // this.isSaved.value = isSaved;
-
-    // if (isSaved) {
-    //   context.showBanner(
-    //     message: 'Buku dimasukkan ke daftar buku disimpan!',
-    //     type: BannerType.success,
-    //   );
-    // } else {
-    //   context.showBanner(
-    //     message: 'Buku dikeluarkan dari daftar buku disimpan!',
-    //     type: BannerType.warning,
-    //   );
-    // }
+  void saveOrUnsaveBook({
+    required BuildContext context,
+    required WidgetRef ref,
+    required int bookId,
+    BookSavedModel? savedBook,
+  }) {
+    if (savedBook != null) {
+      ref.read(unsaveBookProvider.notifier).unsaveBook(
+            id: savedBook.id!,
+          );
+    } else {
+      ref.read(saveBookProvider.notifier).saveBook(
+            userId: CredentialSaver.user!.id!,
+            bookId: bookId,
+          );
+    }
   }
 }

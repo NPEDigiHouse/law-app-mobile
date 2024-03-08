@@ -35,8 +35,8 @@ class MasterDataUserDetailPage extends ConsumerWidget {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
-                navigatorKey.currentState!.pop();
                 ref.invalidate(userDetailProvider);
+                navigatorKey.currentState!.pop();
               },
             );
           } else {

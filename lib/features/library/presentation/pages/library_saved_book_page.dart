@@ -1,16 +1,76 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
-// Project imports:
-import 'package:law_app/core/styles/color_scheme.dart';
-import 'package:law_app/dummies_data.dart';
-import 'package:law_app/features/shared/widgets/header_container.dart';
+// Package imports:
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LibrarySavedBookPage extends StatelessWidget {
+// Project imports:
+import 'package:law_app/core/enums/banner_type.dart';
+import 'package:law_app/core/extensions/context_extension.dart';
+import 'package:law_app/core/styles/color_scheme.dart';
+import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/const.dart';
+import 'package:law_app/core/utils/credential_saver.dart';
+import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/features/library/presentation/providers/book_saved_provider.dart';
+import 'package:law_app/features/library/presentation/providers/unsave_book_provider.dart';
+import 'package:law_app/features/shared/widgets/custom_information.dart';
+import 'package:law_app/features/shared/widgets/feature/book_card.dart';
+import 'package:law_app/features/shared/widgets/header_container.dart';
+import 'package:law_app/features/shared/widgets/loading_indicator.dart';
+
+class LibrarySavedBookPage extends ConsumerWidget {
   const LibrarySavedBookPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final savedBooks = ref.watch(
+      BookSavedProvider(userId: CredentialSaver.user!.id!),
+    );
+
+    ref.listen(
+      BookSavedProvider(userId: CredentialSaver.user!.id!),
+      (_, state) {
+        state.when(
+          error: (error, _) {
+            if ('$error' == kNoInternetConnection) {
+              context.showNetworkErrorModalBottomSheet(
+                onPressedPrimaryButton: () {
+                  ref.invalidate(bookSavedProvider);
+                  navigatorKey.currentState!.pop();
+                },
+              );
+            } else {
+              context.showBanner(message: '$error', type: BannerType.error);
+            }
+          },
+          loading: () {},
+          data: (_) {},
+        );
+      },
+    );
+
+    ref.listen(unsaveBookProvider, (_, state) {
+      state.when(
+        error: (error, _) {
+          navigatorKey.currentState!.pop();
+
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet();
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+        loading: () {},
+        data: (data) {
+          if (data != null) {
+            ref.invalidate(bookSavedProvider);
+            navigatorKey.currentState!.pop();
+          }
+        },
+      );
+    });
+
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: const PreferredSize(
@@ -20,96 +80,60 @@ class LibrarySavedBookPage extends StatelessWidget {
           withBackButton: true,
         ),
       ),
-      body: ListView.separated(
-        padding: const EdgeInsets.symmetric(
-          vertical: 24,
-          horizontal: 20,
-        ),
-        itemBuilder: (context, index) {
-          return const SizedBox();
-          //return BookCard(book: dummyBooks[index]);
+      body: savedBooks.whenOrNull(
+        loading: () => const LoadingIndicator(withScaffold: true),
+        error: (_, __) => const Scaffold(),
+        data: (savedBooks) {
+          if (savedBooks == null) return const Scaffold();
+
+          if (savedBooks.isEmpty) {
+            return const CustomInformation(
+              illustrationName: 'book-lover-cuate.svg',
+              title: 'Belum ada buku yang disimpan',
+              subtitle: 'Buku yang kamu simpan akan muncul di sini.',
+            );
+          }
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
+                child: Text(
+                  '*Tekan tahan untuk memilih opsi hapus',
+                  style: textTheme.bodySmall!.copyWith(
+                    color: secondaryTextColor,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: ListView.separated(
+                  padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+                  itemBuilder: (context, index) {
+                    return BookCard(
+                      book: savedBooks[index].book!,
+                      onLongPress: () {
+                        context.showDeleteConfirmDialog(
+                          title: savedBooks[index].book!.title!,
+                          onIconPressed: () {
+                            ref
+                                .read(unsaveBookProvider.notifier)
+                                .unsaveBook(id: savedBooks[index].id!);
+                          },
+                        );
+                      },
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(height: 8);
+                  },
+                  itemCount: savedBooks.length,
+                ),
+              ),
+            ],
+          );
         },
-        separatorBuilder: (context, index) {
-          return const SizedBox(height: 8);
-        },
-        itemCount: dummyBooks.length,
       ),
     );
   }
-
-  //  CustomScrollView buildBookHistoryList() {
-  //   return CustomScrollView(
-  //     slivers: [
-  //       SliverPadding(
-  //         padding: const EdgeInsets.fromLTRB(20, 10, 20, 12),
-  //         sliver: SliverToBoxAdapter(
-  //           child: Column(
-  //             crossAxisAlignment: CrossAxisAlignment.start,
-  //             children: [
-  //               Text(
-  //                 '*Swipe ke samping untuk menghapus history buku',
-  //                 style: textTheme.labelSmall!.copyWith(
-  //                   color: secondaryTextColor,
-  //                 ),
-  //               ),
-  //               const SizedBox(height: 8),
-  //               Row(
-  //                 children: [
-  //                   Expanded(
-  //                     child: Text(
-  //                       'Riwayat Pencarian',
-  //                       style: textTheme.titleLarge,
-  //                     ),
-  //                   ),
-  //                   GestureDetector(
-  //                     onTap: () => context.showConfirmDialog(
-  //                       title: 'Konfirmasi',
-  //                       message:
-  //                           'Anda yakin ingin menghapus seluruh riwayat pencarian?',
-  //                       onPressedPrimaryButton: () {},
-  //                     ),
-  //                     child: Text(
-  //                       'Hapus Semua',
-  //                       style: textTheme.bodySmall!.copyWith(
-  //                         fontWeight: FontWeight.w500,
-  //                         color: primaryColor,
-  //                       ),
-  //                     ),
-  //                   ),
-  //                 ],
-  //               ),
-  //             ],
-  //           ),
-  //         ),
-  //       ),
-  //       SliverPadding(
-  //         padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
-  //         sliver: SliverList(
-  //           delegate: SliverChildBuilderDelegate(
-  //             (context, index) {
-  //               return Dismissible(
-  //                 key: ValueKey<String>(bookHistoryList[index].title),
-  //                 onDismissed: (_) {
-  //                   setState(() {
-  //                     bookHistoryList.removeWhere((book) {
-  //                       return book.title == bookHistoryList[index].title;
-  //                     });
-  //                   });
-  //                 },
-  //                 child: const Padding(
-  //                   padding: EdgeInsets.only(bottom: 8),
-  //                   // child: BookCard(
-  //                   //   isThreeLine: false,
-  //                   //   book: bookHistoryList[index],
-  //                   // ),
-  //                 ),
-  //               );
-  //             },
-  //             childCount: bookHistoryList.length,
-  //           ),
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
 }

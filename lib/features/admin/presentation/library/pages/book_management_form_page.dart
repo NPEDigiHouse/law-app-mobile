@@ -71,11 +71,9 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
 
   @override
   Future<void> afterFirstLayout(BuildContext context) async {
-    final categories = await CategoryHelper.getBookCategories(context, ref);
+    final result = await CategoryHelper.getBookCategories(context, ref);
 
-    for (var e in categories) {
-      this.categories.add(e);
-    }
+    categories = result;
 
     if (widget.book != null) {
       final coverPath =

@@ -39,8 +39,8 @@ class BookManagementDetailPage extends ConsumerWidget {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
-                navigatorKey.currentState!.pop();
                 ref.invalidate(bookDetailProvider);
+                navigatorKey.currentState!.pop();
               },
             );
           } else {
@@ -85,7 +85,9 @@ class BookManagementDetailPage extends ConsumerWidget {
     return book.when(
       loading: () => const LoadingIndicator(withScaffold: true),
       error: (_, __) => const Scaffold(),
-      data: (book) {
+      data: (data) {
+        final book = data.book;
+
         if (book == null) return const Scaffold();
 
         return Scaffold(

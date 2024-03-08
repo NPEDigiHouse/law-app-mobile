@@ -52,8 +52,8 @@ class TeacherDiscussionListPage extends ConsumerWidget {
             if ('$error' == kNoInternetConnection) {
               context.showNetworkErrorModalBottomSheet(
                 onPressedPrimaryButton: () {
-                  navigatorKey.currentState!.pop();
                   ref.invalidate(discussionProvider);
+                  navigatorKey.currentState!.pop();
                 },
               );
             } else {

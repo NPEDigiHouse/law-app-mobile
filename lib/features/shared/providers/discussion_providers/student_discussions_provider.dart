@@ -26,7 +26,7 @@ class StudentDiscussions extends _$StudentDiscussions {
 
     state = const AsyncValue.loading();
 
-    final result1 = await ref
+    final result = await ref
         .watch(discussionRepositoryProvider)
         .getUserDiscussions(offset: 0, limit: kPageLimit);
 
@@ -38,13 +38,15 @@ class StudentDiscussions extends _$StudentDiscussions {
       state.when(
         loading: () => this.state = const AsyncValue.loading(),
         error: (e, _) {
-          this.state =
-              AsyncValue.error((e as Failure).message, StackTrace.current);
+          this.state = AsyncValue.error(
+            (e as Failure).message,
+            StackTrace.current,
+          );
         },
         data: (data) {
           userCredential = data;
 
-          result1.fold(
+          result.fold(
             (l) {},
             (r) => userDiscussions = r,
           );
