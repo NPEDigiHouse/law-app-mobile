@@ -1,4 +1,1 @@
-enum BookFileType {
-  cover,
-  file,
-}
+enum BookFileType { cover, file }

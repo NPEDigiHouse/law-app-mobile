@@ -13,8 +13,22 @@ import 'package:law_app/features/admin/data/models/book_models/book_category_mod
 import 'package:law_app/features/admin/data/models/book_models/book_detail_model.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_model.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_post_model.dart';
+import 'package:law_app/features/admin/data/models/book_models/book_saved_model.dart';
 
 abstract class BookRepository {
+  /// Get book categories
+  Future<Either<Failure, List<BookCategoryModel>>> getBookCategories();
+
+  /// Create book categories
+  Future<Either<Failure, void>> createBookCategory({required String name});
+
+  /// Edit book categories
+  Future<Either<Failure, void>> editBookCategory(
+      {required BookCategoryModel category});
+
+  /// Delete book categories
+  Future<Either<Failure, void>> deleteBookCategory({required int id});
+
   // Get all books
   Future<Either<Failure, List<BookModel>>> getBooks({
     String query = '',
@@ -46,18 +60,18 @@ abstract class BookRepository {
   /// Delete book
   Future<Either<Failure, void>> deleteBook({required int id});
 
-  /// Get book categories
-  Future<Either<Failure, List<BookCategoryModel>>> getBookCategories();
+  /// Get all saved books
+  Future<Either<Failure, List<BookSavedModel>>> getSavedBooks(
+      {required int userId});
 
-  /// Create book categories
-  Future<Either<Failure, void>> createBookCategory({required String name});
+  /// Save book
+  Future<Either<Failure, void>> saveBook({
+    required int userId,
+    required int bookId,
+  });
 
-  /// Edit book categories
-  Future<Either<Failure, void>> editBookCategory(
-      {required BookCategoryModel category});
-
-  /// Delete book categories
-  Future<Either<Failure, void>> deleteBookCategory({required int id});
+  /// Unsave book
+  Future<Either<Failure, void>> unsaveBook({required int id});
 }
 
 class BookRepositoryImpl implements BookRepository {
@@ -68,6 +82,91 @@ class BookRepositoryImpl implements BookRepository {
     required this.bookDataSource,
     required this.networkInfo,
   });
+
+  @override
+  Future<Either<Failure, List<BookCategoryModel>>> getBookCategories() async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await bookDataSource.getBookCategories();
+
+        return Right(result);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message));
+      } on ClientException catch (e) {
+        return Left(ClientFailure(e.message));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> createBookCategory(
+      {required String name}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await bookDataSource.createBookCategory(name: name);
+
+        return Right(result);
+      } on ServerException catch (e) {
+        switch (e.message) {
+          case kCategoryAlreadyExist:
+            return const Left(
+              ServerFailure('Telah terdapat kategori dengan nama yang sama'),
+            );
+          default:
+            return Left(ServerFailure(e.message));
+        }
+      } on ClientException catch (e) {
+        return Left(ClientFailure(e.message));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> editBookCategory(
+      {required BookCategoryModel category}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result =
+            await bookDataSource.editBookCategory(category: category);
+
+        return Right(result);
+      } on ServerException catch (e) {
+        switch (e.message) {
+          case kCategoryAlreadyExist:
+            return const Left(
+              ServerFailure('Telah terdapat kategori dengan nama yang sama'),
+            );
+          default:
+            return Left(ServerFailure(e.message));
+        }
+      } on ClientException catch (e) {
+        return Left(ClientFailure(e.message));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteBookCategory({required int id}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await bookDataSource.deleteBookCategory(id: id);
+
+        return Right(result);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message));
+      } on ClientException catch (e) {
+        return Left(ClientFailure(e.message));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
 
   @override
   Future<Either<Failure, List<BookModel>>> getBooks({
@@ -200,10 +299,11 @@ class BookRepositoryImpl implements BookRepository {
   }
 
   @override
-  Future<Either<Failure, List<BookCategoryModel>>> getBookCategories() async {
+  Future<Either<Failure, List<BookSavedModel>>> getSavedBooks(
+      {required int userId}) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await bookDataSource.getBookCategories();
+        final result = await bookDataSource.getSavedBooks(userId: userId);
 
         return Right(result);
       } on ServerException catch (e) {
@@ -217,22 +317,20 @@ class BookRepositoryImpl implements BookRepository {
   }
 
   @override
-  Future<Either<Failure, void>> createBookCategory(
-      {required String name}) async {
+  Future<Either<Failure, void>> saveBook({
+    required int userId,
+    required int bookId,
+  }) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await bookDataSource.createBookCategory(name: name);
+        final result = await bookDataSource.saveBook(
+          userId: userId,
+          bookId: bookId,
+        );
 
         return Right(result);
       } on ServerException catch (e) {
-        switch (e.message) {
-          case kCategoryAlreadyExist:
-            return const Left(
-              ServerFailure('Telah terdapat kategori dengan nama yang sama'),
-            );
-          default:
-            return Left(ServerFailure(e.message));
-        }
+        return Left(ServerFailure(e.message));
       } on ClientException catch (e) {
         return Left(ClientFailure(e.message));
       }
@@ -242,36 +340,10 @@ class BookRepositoryImpl implements BookRepository {
   }
 
   @override
-  Future<Either<Failure, void>> editBookCategory(
-      {required BookCategoryModel category}) async {
+  Future<Either<Failure, void>> unsaveBook({required int id}) async {
     if (await networkInfo.isConnected) {
       try {
-        final result =
-            await bookDataSource.editBookCategory(category: category);
-
-        return Right(result);
-      } on ServerException catch (e) {
-        switch (e.message) {
-          case kCategoryAlreadyExist:
-            return const Left(
-              ServerFailure('Telah terdapat kategori dengan nama yang sama'),
-            );
-          default:
-            return Left(ServerFailure(e.message));
-        }
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
-      }
-    } else {
-      return const Left(ConnectionFailure(kNoInternetConnection));
-    }
-  }
-
-  @override
-  Future<Either<Failure, void>> deleteBookCategory({required int id}) async {
-    if (await networkInfo.isConnected) {
-      try {
-        final result = await bookDataSource.deleteBookCategory(id: id);
+        final result = await bookDataSource.unsaveBook(id: id);
 
         return Right(result);
       } on ServerException catch (e) {

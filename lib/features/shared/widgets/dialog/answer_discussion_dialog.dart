@@ -74,20 +74,18 @@ class AnswerDiscussionDialog extends ConsumerWidget {
     if (formKey.currentState!.saveAndValidate()) {
       final data = formKey.currentState!.value;
 
-      if (discussion.handler == null) {
-        ref.read(editDiscussionProvider.notifier).editDiscussion(
-              discussionId: discussion.id!,
-              handlerId: CredentialSaver.user!.id,
-              status: 'onDiscussion',
-            );
-      }
-
       ref
           .read(createDiscussionCommentProvider.notifier)
           .createDiscussionComment(
             discussionId: discussion.id!,
             userId: CredentialSaver.user!.id!,
             text: data['text'],
+          );
+
+      ref.read(editDiscussionProvider.notifier).editDiscussion(
+            discussionId: discussion.id!,
+            handlerId: CredentialSaver.user!.id,
+            status: 'onDiscussion',
           );
     }
   }

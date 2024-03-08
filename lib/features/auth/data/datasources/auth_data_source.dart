@@ -19,7 +19,10 @@ abstract class AuthDataSource {
   Future<bool> signUp({required UserPostModel user});
 
   /// Sign In
-  Future<bool> signIn({required String username, required String password});
+  Future<bool> signIn({
+    required String username,
+    required String password,
+  });
 
   /// Is sign in
   Future<bool> isSignIn();

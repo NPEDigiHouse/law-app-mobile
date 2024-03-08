@@ -4,6 +4,7 @@ import 'dart:io';
 
 // Package imports:
 import 'package:http/http.dart' as http;
+import 'package:law_app/features/admin/data/models/book_models/book_saved_model.dart';
 import 'package:path/path.dart' as p;
 import 'package:uuid/uuid.dart';
 
@@ -20,6 +21,18 @@ import 'package:law_app/features/admin/data/models/book_models/book_model.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_post_model.dart';
 
 abstract class BookDataSource {
+  /// Get book categories
+  Future<List<BookCategoryModel>> getBookCategories();
+
+  /// Create book categories
+  Future<void> createBookCategory({required String name});
+
+  /// Edit book categories
+  Future<void> editBookCategory({required BookCategoryModel category});
+
+  /// Delete book categories
+  Future<void> deleteBookCategory({required int id});
+
   // Get all books
   Future<List<BookModel>> getBooks({
     String query = '',
@@ -51,23 +64,133 @@ abstract class BookDataSource {
   /// Delete book
   Future<void> deleteBook({required int id});
 
-  /// Get book categories
-  Future<List<BookCategoryModel>> getBookCategories();
+  /// Get all saved books
+  Future<List<BookSavedModel>> getSavedBooks({required int userId});
 
-  /// Create book categories
-  Future<void> createBookCategory({required String name});
+  /// Save book
+  Future<void> saveBook({
+    required int userId,
+    required int bookId,
+  });
 
-  /// Edit book categories
-  Future<void> editBookCategory({required BookCategoryModel category});
-
-  /// Delete book categories
-  Future<void> deleteBookCategory({required int id});
+  /// Unsave book
+  Future<void> unsaveBook({required int id});
 }
 
 class BookDataSourceImpl implements BookDataSource {
   final http.Client client;
 
   BookDataSourceImpl({required this.client});
+
+  @override
+  Future<List<BookCategoryModel>> getBookCategories() async {
+    try {
+      final response = await client.get(
+        Uri.parse('${ApiConfigs.baseUrl}/book-categories'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code == 200) {
+        final data = result.data as List;
+
+        return data.map((e) => BookCategoryModel.fromMap(e)).toList();
+      } else {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      if (e is ServerException) {
+        rethrow;
+      } else {
+        throw http.ClientException(e.toString());
+      }
+    }
+  }
+
+  @override
+  Future<void> createBookCategory({required String name}) async {
+    try {
+      final response = await client.post(
+        Uri.parse('${ApiConfigs.baseUrl}/book-categories'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+        body: jsonEncode({'name': name}),
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code != 200) {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      if (e is ServerException) {
+        rethrow;
+      } else {
+        throw http.ClientException(e.toString());
+      }
+    }
+  }
+
+  @override
+  Future<void> editBookCategory({required BookCategoryModel category}) async {
+    try {
+      final response = await client.put(
+        Uri.parse('${ApiConfigs.baseUrl}/book-categories/${category.id}'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+        body: jsonEncode({'name': category.name}),
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code != 200) {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      if (e is ServerException) {
+        rethrow;
+      } else {
+        throw http.ClientException(e.toString());
+      }
+    }
+  }
+
+  @override
+  Future<void> deleteBookCategory({required int id}) async {
+    try {
+      final response = await client.delete(
+        Uri.parse('${ApiConfigs.baseUrl}/book-categories/$id'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code != 200) {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      if (e is ServerException) {
+        rethrow;
+      } else {
+        throw http.ClientException(e.toString());
+      }
+    }
+  }
 
   @override
   Future<List<BookModel>> getBooks({
@@ -279,10 +402,10 @@ class BookDataSourceImpl implements BookDataSource {
   }
 
   @override
-  Future<List<BookCategoryModel>> getBookCategories() async {
+  Future<List<BookSavedModel>> getSavedBooks({required int userId}) async {
     try {
       final response = await client.get(
-        Uri.parse('${ApiConfigs.baseUrl}/book-categories'),
+        Uri.parse('${ApiConfigs.baseUrl}/saved-books?userId=$userId'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader:
@@ -295,7 +418,7 @@ class BookDataSourceImpl implements BookDataSource {
       if (result.code == 200) {
         final data = result.data as List;
 
-        return data.map((e) => BookCategoryModel.fromMap(e)).toList();
+        return data.map((e) => BookSavedModel.fromMap(e)).toList();
       } else {
         throw ServerException('${result.message}');
       }
@@ -309,16 +432,19 @@ class BookDataSourceImpl implements BookDataSource {
   }
 
   @override
-  Future<void> createBookCategory({required String name}) async {
+  Future<void> saveBook({required int userId, required int bookId}) async {
     try {
       final response = await client.post(
-        Uri.parse('${ApiConfigs.baseUrl}/book-categories'),
+        Uri.parse('${ApiConfigs.baseUrl}/saved-books'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader:
               'Bearer ${CredentialSaver.accessToken}'
         },
-        body: jsonEncode({'name': name}),
+        body: jsonEncode({
+          'userId': userId,
+          'bookId': bookId,
+        }),
       );
 
       final result = DataResponse.fromJson(jsonDecode(response.body));
@@ -336,37 +462,10 @@ class BookDataSourceImpl implements BookDataSource {
   }
 
   @override
-  Future<void> editBookCategory({required BookCategoryModel category}) async {
-    try {
-      final response = await client.put(
-        Uri.parse('${ApiConfigs.baseUrl}/book-categories/${category.id}'),
-        headers: {
-          HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
-        },
-        body: jsonEncode({'name': category.name}),
-      );
-
-      final result = DataResponse.fromJson(jsonDecode(response.body));
-
-      if (result.code != 200) {
-        throw ServerException('${result.message}');
-      }
-    } catch (e) {
-      if (e is ServerException) {
-        rethrow;
-      } else {
-        throw http.ClientException(e.toString());
-      }
-    }
-  }
-
-  @override
-  Future<void> deleteBookCategory({required int id}) async {
+  Future<void> unsaveBook({required int id}) async {
     try {
       final response = await client.delete(
-        Uri.parse('${ApiConfigs.baseUrl}/book-categories/$id'),
+        Uri.parse('${ApiConfigs.baseUrl}/saved-books/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader:

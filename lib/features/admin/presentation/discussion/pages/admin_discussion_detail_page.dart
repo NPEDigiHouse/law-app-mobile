@@ -20,7 +20,7 @@ import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/discussion_models/discussion_detail_model.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/create_discussion_comment_provider.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/discussion_detail_provider.dart';
-import 'package:law_app/features/shared/providers/discussion_providers/discussions_provider.dart';
+import 'package:law_app/features/shared/providers/discussion_providers/discussion_provider.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/edit_discussion_provider.dart';
 import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
 import 'package:law_app/features/shared/widgets/dialog/answer_discussion_dialog.dart';
@@ -63,7 +63,6 @@ class AdminDiscussionDetailPage extends ConsumerWidget {
       state.when(
         error: (error, _) {
           navigatorKey.currentState!.pop();
-          navigatorKey.currentState!.pop();
 
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet();
@@ -76,7 +75,6 @@ class AdminDiscussionDetailPage extends ConsumerWidget {
           if (data != null) {
             ref.invalidate(DiscussionDetailProvider(id: id));
 
-            navigatorKey.currentState!.pop();
             navigatorKey.currentState!.pop();
           }
         },
@@ -99,7 +97,7 @@ class AdminDiscussionDetailPage extends ConsumerWidget {
         data: (data) {
           if (data != null) {
             ref.invalidate(DiscussionDetailProvider(id: id));
-            ref.invalidate(discussionsProvider);
+            ref.invalidate(discussionProvider);
 
             navigatorKey.currentState!.pop();
             navigatorKey.currentState!.pop();
@@ -287,6 +285,8 @@ class AdminDiscussionDetailPage extends ConsumerWidget {
                               discussionId: discussion.id!,
                               text: value['text'],
                             );
+
+                        navigatorKey.currentState!.pop();
                       },
                     ),
                     child: const Text('Beri Tanggapan'),

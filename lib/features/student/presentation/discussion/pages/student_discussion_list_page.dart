@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
 import 'package:law_app/core/enums/banner_type.dart';
-import 'package:law_app/core/enums/question_type.dart';
+import 'package:law_app/core/enums/discussion_type.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/utils/const.dart';
@@ -28,13 +28,13 @@ class StudentDiscussionListPage extends ConsumerStatefulWidget {
 
 class _StudentQuestionListPageState
     extends ConsumerState<StudentDiscussionListPage> {
-  late final ValueNotifier<QuestionType> selectedType;
+  late final ValueNotifier<DiscussionType> selectedType;
 
   @override
   void initState() {
     super.initState();
 
-    selectedType = ValueNotifier(QuestionType.general);
+    selectedType = ValueNotifier(DiscussionType.general);
   }
 
   @override
@@ -102,14 +102,14 @@ class _StudentQuestionListPageState
                 child: ValueListenableBuilder(
                   valueListenable: selectedType,
                   builder: (context, type, child) {
-                    return SegmentedButton<QuestionType>(
+                    return SegmentedButton<DiscussionType>(
                       segments: const [
                         ButtonSegment(
-                          value: QuestionType.general,
+                          value: DiscussionType.general,
                           label: Text('Pertanyaan Umum'),
                         ),
                         ButtonSegment(
-                          value: QuestionType.specific,
+                          value: DiscussionType.specific,
                           label: Text('Pertanyaan Khusus'),
                         ),
                       ],

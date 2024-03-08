@@ -6,10 +6,10 @@ import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/features/admin/data/models/discussion_models/discussion_model.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/repositories_provider/discussion_repository_provider.dart';
 
-part 'discussions_provider.g.dart';
+part 'discussion_provider.g.dart';
 
 @riverpod
-class Discussions extends _$Discussions {
+class Discussion extends _$Discussion {
   @override
   Future<({List<DiscussionModel>? discussions, bool? hasMore})> build({
     String query = '',

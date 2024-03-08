@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
 import 'package:law_app/core/enums/banner_type.dart';
-import 'package:law_app/core/enums/question_type.dart';
+import 'package:law_app/core/enums/discussion_type.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
@@ -16,7 +16,7 @@ import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/shared/pages/discussion_list_page.dart';
 import 'package:law_app/features/shared/providers/discussion_filter_provider.dart';
-import 'package:law_app/features/shared/providers/discussion_providers/discussions_provider.dart';
+import 'package:law_app/features/shared/providers/discussion_providers/discussion_provider.dart';
 import 'package:law_app/features/shared/providers/offset_provider.dart';
 import 'package:law_app/features/shared/providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
@@ -34,13 +34,13 @@ class AdminDiscussionHomePage extends ConsumerStatefulWidget {
 
 class _AdminDiscussionHomePageState
     extends ConsumerState<AdminDiscussionHomePage> {
-  late final ValueNotifier<QuestionType> selectedType;
+  late final ValueNotifier<DiscussionType> selectedType;
 
   @override
   void initState() {
     super.initState();
 
-    selectedType = ValueNotifier(QuestionType.general);
+    selectedType = ValueNotifier(DiscussionType.general);
   }
 
   @override
@@ -60,7 +60,7 @@ class _AdminDiscussionHomePageState
     final offset = ref.watch(offsetProvider);
 
     final discussions = ref.watch(
-      DiscussionsProvider(
+      DiscussionProvider(
         query: query,
         type: type,
         status: status,
@@ -68,7 +68,7 @@ class _AdminDiscussionHomePageState
     );
 
     ref.listen(
-      DiscussionsProvider(
+      DiscussionProvider(
         query: query,
         type: type,
         status: status,
@@ -80,7 +80,7 @@ class _AdminDiscussionHomePageState
               context.showNetworkErrorModalBottomSheet(
                 onPressedPrimaryButton: () {
                   navigatorKey.currentState!.pop();
-                  ref.invalidate(discussionsProvider);
+                  ref.invalidate(discussionProvider);
                 },
               );
             } else {
@@ -100,7 +100,7 @@ class _AdminDiscussionHomePageState
           ref,
           didPop,
           isSearching,
-          provider: DiscussionsProvider(
+          provider: DiscussionProvider(
             query: query,
             type: type,
             status: status,
@@ -129,14 +129,14 @@ class _AdminDiscussionHomePageState
                   child: ValueListenableBuilder(
                     valueListenable: selectedType,
                     builder: (context, type, child) {
-                      return SegmentedButton<QuestionType>(
+                      return SegmentedButton<DiscussionType>(
                         segments: const [
                           ButtonSegment(
-                            value: QuestionType.general,
+                            value: DiscussionType.general,
                             label: Text('Pertanyaan Umum'),
                           ),
                           ButtonSegment(
-                            value: QuestionType.specific,
+                            value: DiscussionType.specific,
                             label: Text('Pertanyaan Khusus'),
                           ),
                         ],
@@ -283,7 +283,7 @@ class _AdminDiscussionHomePageState
     int offset,
   ) {
     ref
-        .read(DiscussionsProvider(
+        .read(DiscussionProvider(
           query: query,
           type: type,
           status: status,
@@ -311,7 +311,7 @@ class _AdminDiscussionHomePageState
         const Duration(milliseconds: 800),
         () {
           ref.read(
-            DiscussionsProvider(
+            DiscussionProvider(
               query: query,
               type: type,
               status: status,
@@ -322,7 +322,7 @@ class _AdminDiscussionHomePageState
         },
       );
     } else {
-      ref.invalidate(discussionsProvider);
+      ref.invalidate(discussionProvider);
     }
   }
 }

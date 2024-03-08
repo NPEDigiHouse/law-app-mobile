@@ -14,7 +14,7 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/shared/providers/discussion_providers/discussions_provider.dart';
+import 'package:law_app/features/shared/providers/discussion_providers/discussion_provider.dart';
 import 'package:law_app/features/shared/providers/offset_provider.dart';
 import 'package:law_app/features/shared/providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
@@ -33,7 +33,7 @@ class TeacherDiscussionListPage extends ConsumerWidget {
     final offset = ref.watch(offsetProvider);
 
     final discussions = ref.watch(
-      DiscussionsProvider(
+      DiscussionProvider(
         query: query,
         status: 'open',
         type: 'specific',
@@ -41,7 +41,7 @@ class TeacherDiscussionListPage extends ConsumerWidget {
     );
 
     ref.listen(
-      DiscussionsProvider(
+      DiscussionProvider(
         query: query,
         status: 'open',
         type: 'specific',
@@ -53,7 +53,7 @@ class TeacherDiscussionListPage extends ConsumerWidget {
               context.showNetworkErrorModalBottomSheet(
                 onPressedPrimaryButton: () {
                   navigatorKey.currentState!.pop();
-                  ref.invalidate(discussionsProvider);
+                  ref.invalidate(discussionProvider);
                 },
               );
             } else {
@@ -73,7 +73,7 @@ class TeacherDiscussionListPage extends ConsumerWidget {
           ref,
           didPop,
           isSearching,
-          provider: DiscussionsProvider(
+          provider: DiscussionProvider(
             query: query,
             status: 'open',
             type: 'specific',
@@ -187,7 +187,7 @@ class TeacherDiscussionListPage extends ConsumerWidget {
     return TextButton(
       onPressed: () {
         ref
-            .read(DiscussionsProvider(
+            .read(DiscussionProvider(
               query: query,
               status: 'open',
               type: 'specific',
@@ -214,7 +214,7 @@ class TeacherDiscussionListPage extends ConsumerWidget {
         const Duration(milliseconds: 800),
         () {
           ref.read(
-            DiscussionsProvider(
+            DiscussionProvider(
               query: query,
               status: 'open',
               type: 'specific',
@@ -223,7 +223,7 @@ class TeacherDiscussionListPage extends ConsumerWidget {
         },
       );
     } else {
-      ref.invalidate(discussionsProvider);
+      ref.invalidate(discussionProvider);
     }
   }
 }
