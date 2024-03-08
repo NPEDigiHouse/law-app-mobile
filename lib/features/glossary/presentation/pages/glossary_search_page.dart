@@ -29,8 +29,8 @@ class GlossarySearchPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final query = ref.watch(queryProvider);
-    final glossaries = ref.watch(searchGlossaryProvider);
     final offset = ref.watch(offsetProvider);
+    final glossaries = ref.watch(searchGlossaryProvider);
 
     if (query.isNotEmpty) {
       ref.listen(searchGlossaryProvider, (_, state) {

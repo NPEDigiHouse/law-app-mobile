@@ -71,9 +71,7 @@ class DiscussionCategoryPage extends ConsumerWidget {
               horizontal: 20,
             ),
             itemBuilder: (context, index) {
-              return DiscussionCategoryCard(
-                category: categories[index],
-              );
+              return DiscussionCategoryCard(category: categories[index]);
             },
             separatorBuilder: (context, index) => const SizedBox(height: 8),
             itemCount: categories.length,

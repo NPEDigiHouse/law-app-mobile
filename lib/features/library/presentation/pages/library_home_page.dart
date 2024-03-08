@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:law_app/core/enums/banner_type.dart';
-import 'package:law_app/core/extensions/context_extension.dart';
 
 // Project imports:
+import 'package:law_app/core/enums/banner_type.dart';
+import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
@@ -14,6 +14,7 @@ import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/library/presentation/providers/book_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
+import 'package:law_app/features/shared/widgets/empty_content_text.dart';
 import 'package:law_app/features/shared/widgets/feature/book_item.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
@@ -180,19 +181,24 @@ class LibraryHomePage extends ConsumerWidget {
                     ],
                   ),
                 ),
-                GridView.count(
-                  primary: false,
-                  shrinkWrap: true,
-                  childAspectRatio: 2 / 3,
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 14,
-                  crossAxisSpacing: 10,
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  children: List<Widget>.generate(
-                    books.length,
-                    (index) => BookItem(book: books[index]),
+                if (books.isEmpty)
+                  const EmptyContentText(
+                    'Daftar buku masih kosong. Nantikan koleksi buku-buku dari kami ya.',
+                  )
+                else
+                  GridView.count(
+                    primary: false,
+                    shrinkWrap: true,
+                    childAspectRatio: 2 / 3,
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 14,
+                    crossAxisSpacing: 10,
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    children: List<Widget>.generate(
+                      books.length,
+                      (index) => BookItem(book: books[index]),
+                    ),
                   ),
-                ),
               ],
             ),
           );

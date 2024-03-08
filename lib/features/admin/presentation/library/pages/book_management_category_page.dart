@@ -71,9 +71,7 @@ class BookManagementCategoryPage extends ConsumerWidget {
               horizontal: 20,
             ),
             itemBuilder: (context, index) {
-              return BookCategoryCard(
-                category: categories[index],
-              );
+              return BookCategoryCard(category: categories[index]);
             },
             separatorBuilder: (context, index) => const SizedBox(height: 8),
             itemCount: categories.length,

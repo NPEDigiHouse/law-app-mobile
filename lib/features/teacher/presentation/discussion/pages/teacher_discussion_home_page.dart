@@ -428,7 +428,7 @@ class _TeacherDiscussionHomePageState
                   ),
                   if (specificDiscussions.isEmpty)
                     const Padding(
-                      padding: EdgeInsets.only(bottom: 40),
+                      padding: EdgeInsets.only(bottom: 24),
                       child: EmptyContentText(
                         'Belum terdapat pertanyaan yang perlu dijawab.',
                       ),

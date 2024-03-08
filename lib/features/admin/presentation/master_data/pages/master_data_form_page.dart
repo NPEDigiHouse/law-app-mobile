@@ -71,8 +71,6 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage>
   @override
   Future<void> afterFirstLayout(BuildContext context) async {
     if (widget.role == 'teacher') {
-      context.showLoadingDialog();
-
       final categories =
           await CategoryHelper.getDiscussionCategories(context, ref);
 
@@ -80,7 +78,6 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage>
         this.categories.add(e);
       }
 
-      navigatorKey.currentState!.pop();
       setState(() {});
     }
   }

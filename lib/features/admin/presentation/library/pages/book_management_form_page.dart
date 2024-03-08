@@ -71,8 +71,6 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
 
   @override
   Future<void> afterFirstLayout(BuildContext context) async {
-    context.showLoadingDialog();
-
     final categories = await CategoryHelper.getBookCategories(context, ref);
 
     for (var e in categories) {
@@ -95,7 +93,6 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
       }
     }
 
-    navigatorKey.currentState!.pop();
     setState(() {});
   }
 

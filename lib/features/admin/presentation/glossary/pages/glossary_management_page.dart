@@ -125,9 +125,7 @@ class GlossaryManagementPage extends ConsumerWidget {
               horizontal: 20,
             ),
             itemBuilder: (context, index) {
-              return GlossaryCard(
-                glossary: glossaries[index],
-              );
+              return GlossaryCard(glossary: glossaries[index]);
             },
             separatorBuilder: (context, index) => const SizedBox(height: 8),
             itemCount: glossaries.length,

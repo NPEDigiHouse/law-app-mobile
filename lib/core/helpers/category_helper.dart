@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
+import 'package:law_app/core/enums/banner_type.dart';
+import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_category_model.dart';
 import 'package:law_app/features/admin/data/models/discussion_models/discussion_category_model.dart';
 import 'package:law_app/features/admin/presentation/reference/providers/discussion_category_provider.dart';
@@ -20,7 +22,9 @@ class CategoryHelper {
     try {
       categories = await ref.watch(discussionCategoryProvider.future);
     } catch (e) {
-      debugPrint('$e');
+      if (context.mounted) {
+        context.showBanner(message: '$e', type: BannerType.error);
+      }
     }
 
     return categories ?? [];
@@ -35,7 +39,9 @@ class CategoryHelper {
     try {
       categories = await ref.watch(bookCategoryProvider.future);
     } catch (e) {
-      debugPrint('$e');
+      if (context.mounted) {
+        context.showBanner(message: '$e', type: BannerType.error);
+      }
     }
 
     return categories ?? [];

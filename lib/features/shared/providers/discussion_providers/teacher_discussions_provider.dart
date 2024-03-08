@@ -44,32 +44,24 @@ class TeacherDiscussions extends _$TeacherDiscussions {
       state.when(
         loading: () => this.state = const AsyncValue.loading(),
         error: (e, _) {
-          this.state = AsyncValue.error(
-            (e as Failure).message,
-            StackTrace.current,
-          );
+          this.state =
+              AsyncValue.error((e as Failure).message, StackTrace.current);
         },
         data: (data) {
           userCredential = data;
 
           result1.fold(
-            (l) {
-              this.state = AsyncValue.error(l.message, StackTrace.current);
-            },
+            (l) {},
             (r) => userDiscussions = r,
           );
 
           result2.fold(
-            (l) {
-              this.state = AsyncValue.error(l.message, StackTrace.current);
-            },
+            (l) {},
             (r) => publicDiscussions = r,
           );
 
           result3.fold(
-            (l) {
-              this.state = AsyncValue.error(l.message, StackTrace.current);
-            },
+            (l) {},
             (r) {
               specificDiscussions = r.where((e) {
                 return CredentialSaver.user!.expertises!.contains(e.category);

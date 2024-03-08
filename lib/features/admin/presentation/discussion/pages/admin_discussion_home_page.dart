@@ -283,13 +283,11 @@ class _AdminDiscussionHomePageState
     int offset,
   ) {
     ref
-        .read(
-          DiscussionsProvider(
-            query: query,
-            type: type,
-            status: status,
-          ).notifier,
-        )
+        .read(DiscussionsProvider(
+          query: query,
+          type: type,
+          status: status,
+        ).notifier)
         .fetchMoreDiscussions(
           query: query,
           type: type,

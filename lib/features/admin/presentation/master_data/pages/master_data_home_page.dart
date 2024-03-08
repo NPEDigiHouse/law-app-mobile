@@ -223,9 +223,7 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
                         padding: EdgeInsets.only(
                           bottom: index == users.length - 1 ? 0 : 8,
                         ),
-                        child: UserCard(
-                          user: users[index],
-                        ),
+                        child: UserCard(user: users[index]),
                       );
                     },
                     childCount: users.length,

@@ -64,8 +64,6 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
 
   @override
   Future<void> afterFirstLayout(BuildContext context) async {
-    context.showLoadingDialog();
-
     final categories =
         await CategoryHelper.getDiscussionCategories(context, ref);
 
@@ -73,7 +71,6 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
       this.categories[e.name!] = e.id!;
     }
 
-    navigatorKey.currentState!.pop();
     setState(() {});
   }
 
@@ -316,21 +313,15 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
     );
   }
 
-  TextButton buildFetchMoreButton(
-    String query,
-    int offset,
-    int? categoryId,
-  ) {
+  TextButton buildFetchMoreButton(String query, int offset, int? categoryId) {
     return TextButton(
       onPressed: () {
         ref
-            .read(
-              DiscussionsProvider(
-                query: query,
-                categoryId: categoryId,
-                type: 'general',
-              ).notifier,
-            )
+            .read(DiscussionsProvider(
+              query: query,
+              categoryId: categoryId,
+              type: 'general',
+            ).notifier)
             .fetchMoreDiscussions(
               query: query,
               categoryId: categoryId,
@@ -344,10 +335,7 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
     );
   }
 
-  void searchDiscussion(
-    String query,
-    int? categoryId,
-  ) {
+  void searchDiscussion(String query, int? categoryId) {
     ref.read(queryProvider.notifier).state = query;
 
     if (query.isNotEmpty) {

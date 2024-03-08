@@ -135,9 +135,7 @@ class BookManagementListPage extends ConsumerWidget {
                               padding: EdgeInsets.only(
                                 bottom: index == books.length - 1 ? 0 : 8,
                               ),
-                              child: BookCard(
-                                book: books[index],
-                              ),
+                              child: BookCard(book: books[index]),
                             );
                           },
                           childCount: books.length,

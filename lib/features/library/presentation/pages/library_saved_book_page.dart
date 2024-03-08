@@ -36,4 +36,80 @@ class LibrarySavedBookPage extends StatelessWidget {
       ),
     );
   }
+
+  //  CustomScrollView buildBookHistoryList() {
+  //   return CustomScrollView(
+  //     slivers: [
+  //       SliverPadding(
+  //         padding: const EdgeInsets.fromLTRB(20, 10, 20, 12),
+  //         sliver: SliverToBoxAdapter(
+  //           child: Column(
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             children: [
+  //               Text(
+  //                 '*Swipe ke samping untuk menghapus history buku',
+  //                 style: textTheme.labelSmall!.copyWith(
+  //                   color: secondaryTextColor,
+  //                 ),
+  //               ),
+  //               const SizedBox(height: 8),
+  //               Row(
+  //                 children: [
+  //                   Expanded(
+  //                     child: Text(
+  //                       'Riwayat Pencarian',
+  //                       style: textTheme.titleLarge,
+  //                     ),
+  //                   ),
+  //                   GestureDetector(
+  //                     onTap: () => context.showConfirmDialog(
+  //                       title: 'Konfirmasi',
+  //                       message:
+  //                           'Anda yakin ingin menghapus seluruh riwayat pencarian?',
+  //                       onPressedPrimaryButton: () {},
+  //                     ),
+  //                     child: Text(
+  //                       'Hapus Semua',
+  //                       style: textTheme.bodySmall!.copyWith(
+  //                         fontWeight: FontWeight.w500,
+  //                         color: primaryColor,
+  //                       ),
+  //                     ),
+  //                   ),
+  //                 ],
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       ),
+  //       SliverPadding(
+  //         padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
+  //         sliver: SliverList(
+  //           delegate: SliverChildBuilderDelegate(
+  //             (context, index) {
+  //               return Dismissible(
+  //                 key: ValueKey<String>(bookHistoryList[index].title),
+  //                 onDismissed: (_) {
+  //                   setState(() {
+  //                     bookHistoryList.removeWhere((book) {
+  //                       return book.title == bookHistoryList[index].title;
+  //                     });
+  //                   });
+  //                 },
+  //                 child: const Padding(
+  //                   padding: EdgeInsets.only(bottom: 8),
+  //                   // child: BookCard(
+  //                   //   isThreeLine: false,
+  //                   //   book: bookHistoryList[index],
+  //                   // ),
+  //                 ),
+  //               );
+  //             },
+  //             childCount: bookHistoryList.length,
+  //           ),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 }

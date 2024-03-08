@@ -14,8 +14,6 @@ class UserDiscussions extends _$UserDiscussions {
     String query = '',
     String status = '',
     String type = '',
-    int? offset,
-    int? limit,
     int? categoryId,
   }) async {
     List<DiscussionModel>? discussions;
@@ -27,8 +25,6 @@ class UserDiscussions extends _$UserDiscussions {
               query: query,
               status: status,
               type: type,
-              offset: offset,
-              limit: limit,
               categoryId: categoryId,
             );
 

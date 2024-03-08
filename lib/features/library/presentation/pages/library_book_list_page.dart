@@ -1,14 +1,16 @@
 // Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:after_layout/after_layout.dart';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// Project imports:
 import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/helpers/category_helper.dart';
-
-// Project imports:
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
@@ -39,15 +41,12 @@ class _LibraryBookListPageState extends ConsumerState<LibraryBookListPage>
 
   @override
   Future<void> afterFirstLayout(BuildContext context) async {
-    context.showLoadingDialog();
-
     final categories = await CategoryHelper.getBookCategories(context, ref);
 
     for (var e in categories) {
       this.categories[e.name!] = e.id!;
     }
 
-    navigatorKey.currentState!.pop();
     setState(() {});
   }
 
@@ -56,7 +55,6 @@ class _LibraryBookListPageState extends ConsumerState<LibraryBookListPage>
     final labels = categories.keys.toList();
     final categoryId = ref.watch(bookCategoryIdProvider);
     final offset = ref.watch(offsetProvider);
-
     final books = ref.watch(BookProvider(categoryId: categoryId));
 
     ref.listen(BookProvider(categoryId: categoryId), (_, state) {
@@ -66,7 +64,7 @@ class _LibraryBookListPageState extends ConsumerState<LibraryBookListPage>
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
                 navigatorKey.currentState!.pop();
-                ref.invalidate(bookProvider);
+                ref.invalidate(BookProvider(categoryId: categoryId));
               },
             );
           } else {
@@ -167,9 +165,7 @@ class _LibraryBookListPageState extends ConsumerState<LibraryBookListPage>
                       return buildFetchMoreContainer(offset, categoryId);
                     }
 
-                    return BookItem(
-                      book: books[index],
-                    );
+                    return BookItem(book: books[index]);
                   },
                   itemCount: hasMore ? books.length + 1 : books.length,
                 ),

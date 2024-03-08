@@ -7,16 +7,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
 import 'package:law_app/core/enums/banner_type.dart';
-import 'package:law_app/core/enums/question_status.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
-import 'package:law_app/core/extensions/string_extension.dart';
 import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/shared/pages/discussion_list_page.dart';
-import 'package:law_app/features/shared/providers/discussion_filter_provider.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/user_discussions_provider.dart';
 import 'package:law_app/features/shared/providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
@@ -24,6 +21,12 @@ import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
 import 'package:law_app/features/shared/widgets/form_field/search_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
+
+enum HistoryStatus { onDiscussion, solved }
+
+final historyStatusProvider = StateProvider.autoDispose<String>(
+  (ref) => HistoryStatus.onDiscussion.name,
+);
 
 class TeacherDiscussionHistoryPage extends ConsumerStatefulWidget {
   const TeacherDiscussionHistoryPage({super.key});
@@ -35,18 +38,13 @@ class TeacherDiscussionHistoryPage extends ConsumerStatefulWidget {
 
 class _TeacherQuestionHistoryPageState
     extends ConsumerState<TeacherDiscussionHistoryPage> {
-  late final ValueNotifier<QuestionStatus> selectedStatus;
+  late final ValueNotifier<HistoryStatus> selectedStatus;
 
   @override
   void initState() {
     super.initState();
 
-    selectedStatus = ValueNotifier(QuestionStatus.discuss);
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(discussionStatusProvider.notifier).state =
-          discussionStatus[selectedStatus.value.name.toCapitalize()]!;
-    });
+    selectedStatus = ValueNotifier(HistoryStatus.onDiscussion);
   }
 
   @override
@@ -60,7 +58,7 @@ class _TeacherQuestionHistoryPageState
   Widget build(BuildContext context) {
     final isSearching = ref.watch(isSearchingProvider);
     final query = ref.watch(queryProvider);
-    final status = ref.watch(discussionStatusProvider);
+    final status = ref.watch(historyStatusProvider);
 
     final discussions = ref.watch(
       UserDiscussionsProvider(
@@ -104,6 +102,7 @@ class _TeacherQuestionHistoryPageState
           didPop,
           isSearching,
           provider: UserDiscussionsProvider(
+            query: query,
             status: status,
             type: 'specific',
           ),
@@ -121,10 +120,7 @@ class _TeacherQuestionHistoryPageState
             if (discussions == null) return null;
 
             if (isSearching && query.isNotEmpty) {
-              final items =
-                  discussions.where((e) => e.status != 'open').toList();
-
-              if (items.isEmpty) {
+              if (discussions.isEmpty) {
                 return const CustomInformation(
                   illustrationName: 'discussion-cuate.svg',
                   title: 'Pertanyaan tidak ditemukan',
@@ -136,7 +132,7 @@ class _TeacherQuestionHistoryPageState
                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 24),
                 itemBuilder: (context, index) {
                   return DiscussionCard(
-                    discussion: items[index],
+                    discussion: discussions[index],
                     isDetail: true,
                     withProfile: true,
                   );
@@ -144,7 +140,7 @@ class _TeacherQuestionHistoryPageState
                 separatorBuilder: (context, index) {
                   return const SizedBox(height: 8);
                 },
-                itemCount: items.length,
+                itemCount: discussions.length,
               );
             }
 
@@ -210,14 +206,14 @@ class _TeacherQuestionHistoryPageState
             child: ValueListenableBuilder(
               valueListenable: selectedStatus,
               builder: (context, type, child) {
-                return SegmentedButton<QuestionStatus>(
+                return SegmentedButton<HistoryStatus>(
                   segments: const [
                     ButtonSegment(
-                      value: QuestionStatus.discuss,
+                      value: HistoryStatus.onDiscussion,
                       label: Text('Dalam Diskusi'),
                     ),
                     ButtonSegment(
-                      value: QuestionStatus.solved,
+                      value: HistoryStatus.solved,
                       label: Text('Telah Selesai'),
                     ),
                   ],
@@ -228,8 +224,8 @@ class _TeacherQuestionHistoryPageState
 
                     selectedStatus.value = newValue;
 
-                    ref.read(discussionStatusProvider.notifier).state =
-                        discussionStatus[newValue.name.toCapitalize()]!;
+                    ref.read(historyStatusProvider.notifier).state =
+                        newValue.name;
                   },
                 );
               },

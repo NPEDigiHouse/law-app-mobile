@@ -20,34 +20,35 @@ class BookItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      alignment: Alignment.bottomCenter,
       children: [
         CustomNetworkImage(
           imageUrl: book.coverImage!,
           placeHolderSize: 24,
           radius: 8,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(.1),
+              offset: const Offset(0, -2),
+              blurRadius: 4,
+            ),
+          ],
         ),
         Column(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.vertical(
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.vertical(
                   bottom: Radius.circular(8),
                 ),
-                gradient: const LinearGradient(
+                gradient: LinearGradient(
                   colors: GradientColors.redPastel,
                   begin: Alignment.bottomRight,
                   end: Alignment.topLeft,
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(.2),
-                    offset: const Offset(0, -2),
-                    blurRadius: 8,
-                  ),
-                ],
               ),
               child: Center(
                 child: Text(
