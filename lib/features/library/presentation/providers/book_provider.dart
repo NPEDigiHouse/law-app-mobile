@@ -1,4 +1,5 @@
 // Package imports:
+import 'package:law_app/core/utils/const.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
@@ -12,8 +13,6 @@ class Book extends _$Book {
   @override
   Future<({List<BookModel>? books, bool? hasMore})> build({
     String query = '',
-    int? offset,
-    int? limit,
     int? categoryId,
   }) async {
     List<BookModel>? books;
@@ -23,16 +22,16 @@ class Book extends _$Book {
 
     final result = await ref.watch(bookRepositoryProvider).getBooks(
           query: query,
-          offset: offset,
-          limit: limit,
           categoryId: categoryId,
+          offset: 0,
+          limit: kPageLimit,
         );
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
       (r) {
         books = r;
-        hasMore = r.length == limit;
+        hasMore = r.length == kPageLimit;
 
         state = AsyncValue.data((books: books, hasMore: hasMore));
       },
@@ -43,15 +42,14 @@ class Book extends _$Book {
 
   Future<void> fetchMoreBooks({
     String query = '',
-    int? offset,
-    int? limit,
     int? categoryId,
+    required int offset,
   }) async {
     final result = await ref.watch(bookRepositoryProvider).getBooks(
           query: query,
-          offset: offset,
-          limit: limit,
           categoryId: categoryId,
+          offset: offset,
+          limit: kPageLimit,
         );
 
     result.fold(
@@ -62,7 +60,7 @@ class Book extends _$Book {
         if (previousState != null) {
           state = AsyncValue.data((
             books: [...previousState.books!, ...r],
-            hasMore: r.length == limit,
+            hasMore: r.length == kPageLimit,
           ));
         }
       },

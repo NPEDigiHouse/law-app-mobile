@@ -98,8 +98,6 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
         query: query,
         categoryId: categoryId,
         type: 'general',
-        offset: offset,
-        limit: kPageLimit,
       ),
     );
 
@@ -108,8 +106,6 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
         query: query,
         categoryId: categoryId,
         type: 'general',
-        offset: offset,
-        limit: kPageLimit,
       ),
       (_, state) {
         state.when(
@@ -139,10 +135,9 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
           didPop,
           isSearching,
           provider: DiscussionsProvider(
+            query: query,
             categoryId: categoryId,
             type: 'general',
-            offset: 0,
-            limit: kPageLimit,
           ),
         );
       },
@@ -334,8 +329,6 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
                 query: query,
                 categoryId: categoryId,
                 type: 'general',
-                offset: offset,
-                limit: kPageLimit,
               ).notifier,
             )
             .fetchMoreDiscussions(
@@ -343,7 +336,6 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
               categoryId: categoryId,
               type: 'general',
               offset: offset + kPageLimit,
-              limit: kPageLimit,
             );
 
         ref.read(offsetProvider.notifier).state = offset + kPageLimit;
@@ -368,8 +360,6 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
               query: query,
               categoryId: categoryId,
               type: 'general',
-              offset: 0,
-              limit: kPageLimit,
             ),
           );
 

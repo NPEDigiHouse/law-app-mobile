@@ -18,13 +18,14 @@ import 'package:law_app/features/admin/presentation/master_data/pages/master_dat
 import 'package:law_app/features/admin/presentation/master_data/providers/master_data_provider.dart';
 import 'package:law_app/features/admin/presentation/master_data/widgets/user_card.dart';
 import 'package:law_app/features/shared/providers/search_provider.dart';
-import 'package:law_app/features/shared/providers/user_role_filter_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/form_field/search_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
+
+final userRoleProvider = StateProvider.autoDispose<String>((ref) => '');
 
 class MasterDataHomePage extends ConsumerStatefulWidget {
   const MasterDataHomePage({super.key});
@@ -37,6 +38,13 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
     with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
+    const userRoles = {
+      'Semua': '',
+      'Student': 'student',
+      'Teacher': 'teacher',
+      'Admin': 'admin',
+    };
+
     final labels = userRoles.keys.toList();
     final users = ref.watch(masterDataProvider);
     final query = ref.watch(queryProvider);

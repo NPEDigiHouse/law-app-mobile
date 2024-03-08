@@ -58,8 +58,7 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
     with AfterLayoutMixin {
   late final GlobalKey<FormBuilderState> formKey;
   late DateTime date;
-
-  List<BookCategoryModel> categories = [];
+  late List<BookCategoryModel> categories;
 
   @override
   void initState() {
@@ -67,6 +66,7 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
 
     formKey = GlobalKey<FormBuilderState>();
     date = DateTime.now();
+    categories = [];
   }
 
   @override

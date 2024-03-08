@@ -2,100 +2,80 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/admin/data/models/book_models/book_model.dart';
+import 'package:law_app/features/shared/widgets/custom_network_image.dart';
 
 class BookItem extends StatelessWidget {
-  final Book book;
-  final int titleMaxLines;
-  final double? width;
-  final double? height;
+  final BookModel book;
 
   const BookItem({
     super.key,
     required this.book,
-    this.titleMaxLines = 1,
-    this.width,
-    this.height,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width,
-      height: height,
-      clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-        color: scaffoldBackgroundColor,
-        borderRadius: BorderRadius.circular(8),
-        image: DecorationImage(
-          image: AssetImage(
-            AssetPath.getImage(book.image),
-          ),
-          fit: BoxFit.fill,
+    return Stack(
+      children: [
+        CustomNetworkImage(
+          imageUrl: book.coverImage!,
+          placeHolderSize: 24,
+          radius: 8,
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(.1),
-            offset: const Offset(2, 2),
-            blurRadius: 2,
-            spreadRadius: -1,
-          ),
-        ],
-      ),
-      child: Stack(
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: GradientColors.redPastel,
-                    begin: Alignment.bottomRight,
-                    end: Alignment.topLeft,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(.2),
-                      offset: const Offset(0, -2),
-                      blurRadius: 8,
-                    ),
-                  ],
+        Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.vertical(
+                  bottom: Radius.circular(8),
                 ),
+                gradient: const LinearGradient(
+                  colors: GradientColors.redPastel,
+                  begin: Alignment.bottomRight,
+                  end: Alignment.topLeft,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(.2),
+                    offset: const Offset(0, -2),
+                    blurRadius: 8,
+                  ),
+                ],
+              ),
+              child: Center(
                 child: Text(
                   '${book.title}\n',
-                  textAlign: TextAlign.center,
-                  maxLines: titleMaxLines,
+                  maxLines: 2,
                   overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
                   style: textTheme.bodySmall!.copyWith(
                     color: scaffoldBackgroundColor,
                   ),
                 ),
               ),
-            ],
-          ),
-          Positioned.fill(
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                borderRadius: BorderRadius.circular(8),
-                onTap: () => navigatorKey.currentState!.pushNamed(
-                  libraryBookDetailRoute,
-                  arguments: book,
-                ),
+            ),
+          ],
+        ),
+        Positioned.fill(
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(8),
+              onTap: () => navigatorKey.currentState!.pushNamed(
+                libraryBookDetailRoute,
+                arguments: book.id,
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

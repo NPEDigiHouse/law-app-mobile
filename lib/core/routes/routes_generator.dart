@@ -181,10 +181,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => const LibrarySearchPage(),
       );
     case libraryBookDetailRoute:
-      final book = settings.arguments as Book;
+      final id = settings.arguments as int;
 
       return MaterialPageRoute(
-        builder: (_) => LibraryBookDetailRoute(book: book),
+        builder: (_) => LibraryBookDetailRoute(id: id),
       );
     case publicDiscussionRoute:
       return MaterialPageRoute(

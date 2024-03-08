@@ -2,25 +2,48 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
-import 'package:dotted_border/dotted_border.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:law_app/core/enums/banner_type.dart';
+import 'package:law_app/core/extensions/context_extension.dart';
 
 // Project imports:
-import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/library/presentation/providers/book_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
 import 'package:law_app/features/shared/widgets/feature/book_item.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
-import 'package:law_app/features/shared/widgets/svg_asset.dart';
+import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 
-class LibraryHomePage extends StatelessWidget {
+class LibraryHomePage extends ConsumerWidget {
   const LibraryHomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final books = ref.watch(BookProvider());
+
+    ref.listen(BookProvider(), (_, state) {
+      state.when(
+        error: (error, _) {
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet(
+              onPressedPrimaryButton: () {
+                navigatorKey.currentState!.pop();
+                ref.invalidate(bookProvider);
+              },
+            );
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+        loading: () {},
+        data: (_) {},
+      );
+    });
+
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: PreferredSize(
@@ -89,123 +112,91 @@ class LibraryHomePage extends StatelessWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(vertical: 24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
-              child: Text(
-                'Lanjutkan Membaca',
-                style: textTheme.titleLarge,
-              ),
-            ),
-            SizedBox(
-              height: 120,
-              child: ListView.separated(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 4),
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return const SizedBox(
-                    width: 300,
-                    //  child: BookCard(book: dummyBooks[index]),
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return const SizedBox(width: 8);
-                },
-                itemCount: 3,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 8,
-                horizontal: 20,
-              ),
-              child: Text(
-                'Buku Populer',
-                style: textTheme.titleLarge,
-              ),
-            ),
-            SizedBox(
-              height: 200,
-              child: ListView.separated(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 4),
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return BookItem(
-                    width: 130,
-                    titleMaxLines: 2,
-                    book: dummyBooks[index],
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return const SizedBox(width: 8);
-                },
-                itemCount: dummyBooks.length,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 8,
-                horizontal: 20,
-              ),
-              child: Text(
-                'Daftar Buku',
-                style: textTheme.titleLarge,
-              ),
-            ),
-            GridView.count(
-              primary: false,
-              shrinkWrap: true,
-              childAspectRatio: 2 / 3,
-              crossAxisCount: 3,
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 8,
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              children: List<Widget>.generate(
-                dummyBooks.length,
-                (index) => BookItem(book: dummyBooks[index]),
-              )..add(
-                  DottedBorder(
-                    borderType: BorderType.RRect,
-                    strokeCap: StrokeCap.round,
-                    radius: const Radius.circular(8),
-                    dashPattern: const [4, 4],
-                    color: primaryColor,
-                    child: GestureDetector(
-                      onTap: () => navigatorKey.currentState!.pushNamed(
-                        libraryBookListRoute,
-                      ),
-                      child: Center(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              'Lihat lebih lengkap',
-                              textAlign: TextAlign.center,
-                              style: textTheme.titleSmall!.copyWith(
-                                color: primaryColor,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            SvgAsset(
-                              assetPath: AssetPath.getIcon(
-                                'caret-line-right.svg',
-                              ),
-                              color: primaryColor,
-                              width: 20,
-                            ),
-                          ],
+      body: books.whenOrNull(
+        loading: () => const LoadingIndicator(),
+        data: (data) {
+          final books = data.books;
+
+          if (books == null) return null;
+
+          return SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(vertical: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Padding(
+                //   padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
+                //   child: Text(
+                //     'Lanjutkan Membaca',
+                //     style: textTheme.titleLarge,
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: 120,
+                //   child: ListView.separated(
+                //     padding: const EdgeInsets.fromLTRB(20, 0, 20, 4),
+                //     scrollDirection: Axis.horizontal,
+                //     itemBuilder: (context, index) {
+                //       return SizedBox(
+                //         width: 300,
+                //         child: BookCard(
+                //           book: books[index],
+                //           isThreeLine: true,
+                //         ),
+                //       );
+                //     },
+                //     separatorBuilder: (context, index) {
+                //       return const SizedBox(width: 8);
+                //     },
+                //     itemCount: 3,
+                //   ),
+                // ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 20,
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Daftar Buku',
+                          style: textTheme.titleLarge!.copyWith(
+                            color: primaryColor,
+                          ),
                         ),
                       ),
-                    ),
+                      GestureDetector(
+                        onTap: () => navigatorKey.currentState!.pushNamed(
+                          libraryBookListRoute,
+                        ),
+                        child: Text(
+                          'Lihat Selengkapnya >',
+                          style: textTheme.bodySmall!.copyWith(
+                            color: primaryColor,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
+                GridView.count(
+                  primary: false,
+                  shrinkWrap: true,
+                  childAspectRatio: 2 / 3,
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 14,
+                  crossAxisSpacing: 10,
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  children: List<Widget>.generate(
+                    books.length,
+                    (index) => BookItem(book: books[index]),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

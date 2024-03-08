@@ -50,9 +50,8 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage>
     with AfterLayoutMixin {
   late final GlobalKey<FormBuilderState> formKey;
   late DateTime date;
+  late List<DiscussionCategoryModel> categories;
   late List<DiscussionCategoryModel> selectedExpertises;
-
-  List<DiscussionCategoryModel> categories = [];
 
   @override
   void initState() {
@@ -60,6 +59,7 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage>
 
     formKey = GlobalKey<FormBuilderState>();
     date = DateTime.now();
+    categories = [];
 
     if (widget.user != null) {
       selectedExpertises = widget.user!.expertises!;

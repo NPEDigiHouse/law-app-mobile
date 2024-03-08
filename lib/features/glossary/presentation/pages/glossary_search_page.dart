@@ -40,6 +40,7 @@ class GlossarySearchPage extends ConsumerWidget {
               context.showNetworkErrorModalBottomSheet(
                 onPressedPrimaryButton: () {
                   navigatorKey.currentState!.pop();
+
                   ref
                       .read(searchGlossaryProvider.notifier)
                       .searchGlossary(query: query);

@@ -9,6 +9,8 @@ import 'package:law_app/core/configs/api_configs.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 
 class CustomNetworkImage extends StatelessWidget {
+  final double? width;
+  final double? height;
   final double? aspectRatio;
   final double? radius;
   final List<BoxShadow>? boxShadow;
@@ -17,6 +19,8 @@ class CustomNetworkImage extends StatelessWidget {
 
   const CustomNetworkImage({
     super.key,
+    this.width,
+    this.height,
     this.aspectRatio,
     this.radius,
     this.boxShadow,
@@ -81,6 +85,8 @@ class CustomNetworkImage extends StatelessWidget {
     Widget? child,
   }) {
     return Container(
+      width: width,
+      height: height,
       decoration: BoxDecoration(
         color: secondaryColor,
         borderRadius: BorderRadius.circular(radius ?? 0),

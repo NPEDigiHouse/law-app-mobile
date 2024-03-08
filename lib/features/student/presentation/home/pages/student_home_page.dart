@@ -8,7 +8,6 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/dashboard.dart';
-import 'package:law_app/features/shared/widgets/feature/book_item.dart';
 import 'package:law_app/features/shared/widgets/feature/course_card.dart';
 import 'package:law_app/features/shared/widgets/feature/home_page_header.dart';
 import 'package:law_app/features/student/presentation/course/pages/student_course_home_page.dart';
@@ -174,10 +173,11 @@ class StudentHomePage extends StatelessWidget {
                   shrinkWrap: true,
                   itemCount: 5,
                   itemBuilder: (context, index) {
-                    return BookItem(
-                      book: dummyBooks[index],
-                      width: 120,
-                    );
+                    return const SizedBox();
+                    // return BookItem(
+                    //   book: dummyBooks[index],
+                    //   width: 120,
+                    // );
                   },
                   separatorBuilder: (context, index) {
                     return const SizedBox(width: 8);

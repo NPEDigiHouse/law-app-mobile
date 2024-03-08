@@ -1,4 +1,5 @@
 // Package imports:
+import 'package:law_app/core/utils/const.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
@@ -14,8 +15,6 @@ class Discussions extends _$Discussions {
     String query = '',
     String status = '',
     String type = '',
-    int? offset,
-    int? limit,
     int? categoryId,
   }) async {
     List<DiscussionModel>? discussions;
@@ -27,16 +26,16 @@ class Discussions extends _$Discussions {
           query: query,
           status: status,
           type: type,
-          offset: offset,
-          limit: limit,
           categoryId: categoryId,
+          offset: 0,
+          limit: kPageLimit,
         );
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
       (r) {
         discussions = r;
-        hasMore = r.length == limit;
+        hasMore = r.length == kPageLimit;
 
         state = AsyncValue.data((discussions: discussions, hasMore: hasMore));
       },
@@ -49,17 +48,16 @@ class Discussions extends _$Discussions {
     String query = '',
     String status = '',
     String type = '',
-    int? offset,
-    int? limit,
     int? categoryId,
+    required int offset,
   }) async {
     final result = await ref.watch(discussionRepositoryProvider).getDiscussions(
           query: query,
           status: status,
           type: type,
-          offset: offset,
-          limit: limit,
           categoryId: categoryId,
+          offset: offset,
+          limit: kPageLimit,
         );
 
     result.fold(
@@ -70,7 +68,7 @@ class Discussions extends _$Discussions {
         if (previousState != null) {
           state = AsyncValue.data((
             discussions: [...previousState.discussions!, ...r],
-            hasMore: r.length == limit,
+            hasMore: r.length == kPageLimit,
           ));
         }
       },

@@ -64,8 +64,6 @@ class _AdminDiscussionHomePageState
         query: query,
         type: type,
         status: status,
-        offset: offset,
-        limit: kPageLimit,
       ),
     );
 
@@ -74,8 +72,6 @@ class _AdminDiscussionHomePageState
         query: query,
         type: type,
         status: status,
-        offset: offset,
-        limit: kPageLimit,
       ),
       (_, state) {
         state.when(
@@ -105,10 +101,9 @@ class _AdminDiscussionHomePageState
           didPop,
           isSearching,
           provider: DiscussionsProvider(
+            query: query,
             type: type,
             status: status,
-            offset: 0,
-            limit: kPageLimit,
           ),
         );
       },
@@ -293,8 +288,6 @@ class _AdminDiscussionHomePageState
             query: query,
             type: type,
             status: status,
-            offset: offset,
-            limit: kPageLimit,
           ).notifier,
         )
         .fetchMoreDiscussions(
@@ -302,7 +295,6 @@ class _AdminDiscussionHomePageState
           type: type,
           status: status,
           offset: offset + kPageLimit,
-          limit: kPageLimit,
         );
 
     ref.read(offsetProvider.notifier).state = offset + kPageLimit;
@@ -325,8 +317,6 @@ class _AdminDiscussionHomePageState
               query: query,
               type: type,
               status: status,
-              offset: 0,
-              limit: kPageLimit,
             ),
           );
 
