@@ -15,7 +15,7 @@ import 'package:law_app/core/utils/http_client.dart';
 class FileService {
   static Future<String?> downloadFile({
     required String url,
-    String? fileName,
+    bool flush = false,
   }) async {
     try {
       // Create request
@@ -25,11 +25,13 @@ class FileService {
       final directory = await getApplicationDocumentsDirectory();
 
       // Define file name
-      final name = fileName ?? p.basename(url);
+      final name = p.basename(url);
 
       // Writes a list of bytes to a file
-      final file = await File('${directory.path}/$name')
-          .writeAsBytes(response.bodyBytes);
+      final file = await File('${directory.path}/$name').writeAsBytes(
+        response.bodyBytes,
+        flush: flush,
+      );
 
       return file.path;
     } catch (e) {

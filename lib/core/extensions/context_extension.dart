@@ -103,6 +103,7 @@ extension DialogExtension on BuildContext {
     required String hintText,
     String? initialValue,
     int maxLines = 1,
+    TextInputType textInputType = TextInputType.name,
     String? primaryButtonText,
     void Function(Map<String, dynamic> value)? onSubmitted,
   }) {
@@ -116,6 +117,7 @@ extension DialogExtension on BuildContext {
         hintText: hintText,
         initialValue: initialValue,
         maxLines: maxLines,
+        textInputType: textInputType,
         primaryButtonText: primaryButtonText,
         onSubmitted: onSubmitted,
       ),

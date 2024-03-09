@@ -3,26 +3,32 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 
 // Project imports:
 import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/button_extension.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
+import 'package:law_app/core/routes/route_names.dart';
+import 'package:law_app/core/services/file_service.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/features/admin/data/models/book_models/book_detail_model.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_saved_model.dart';
+import 'package:law_app/features/library/presentation/pages/library_read_book_page.dart';
 import 'package:law_app/features/library/presentation/providers/book_detail_provider.dart';
+import 'package:law_app/features/library/presentation/providers/library_provider.dart';
 import 'package:law_app/features/library/presentation/providers/save_book_provider.dart';
 import 'package:law_app/features/library/presentation/providers/unsave_book_provider.dart';
+import 'package:law_app/features/library/presentation/providers/update_user_read_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_network_image.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class LibraryBookDetailRoute extends ConsumerWidget {
   final int id;
@@ -93,6 +99,17 @@ class LibraryBookDetailRoute extends ConsumerWidget {
             );
 
             ref.invalidate(bookDetailProvider);
+          }
+        },
+      );
+    });
+
+    ref.listen(updateUserReadProvider, (_, state) {
+      state.whenOrNull(
+        data: (data) {
+          if (data != null) {
+            ref.invalidate(bookDetailProvider);
+            ref.invalidate(libraryProvider);
           }
         },
       );
@@ -335,7 +352,7 @@ class LibraryBookDetailRoute extends ConsumerWidget {
           ),
           bottomSheet: Container(
             width: double.infinity,
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.fromLTRB(20, 16, 20, 12),
             decoration: BoxDecoration(
               color: scaffoldBackgroundColor,
               borderRadius: const BorderRadius.vertical(
@@ -360,7 +377,7 @@ class LibraryBookDetailRoute extends ConsumerWidget {
                       color: secondaryTextColor,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 4),
                   LinearPercentIndicator(
                     lineHeight: 10,
                     barRadius: const Radius.circular(10),
@@ -381,9 +398,9 @@ class LibraryBookDetailRoute extends ConsumerWidget {
                       color: secondaryTextColor,
                     ),
                   ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 8),
                 FilledButton(
-                  onPressed: () {},
+                  onPressed: () => openPDF(context, book),
                   child: Text(
                     readBookButtonText(book.currentPage, book.pageAmt!),
                   ),
@@ -420,14 +437,6 @@ class LibraryBookDetailRoute extends ConsumerWidget {
     );
   }
 
-  String readBookButtonText(int? currentPage, int pageAmt) {
-    if (currentPage == null) return 'Mulai Membaca';
-
-    if (currentPage < pageAmt) return 'Lanjutkan Membaca';
-
-    return 'Baca Lagi';
-  }
-
   void saveOrUnsaveBook({
     required BuildContext context,
     required WidgetRef ref,
@@ -443,6 +452,32 @@ class LibraryBookDetailRoute extends ConsumerWidget {
             userId: CredentialSaver.user!.id!,
             bookId: bookId,
           );
+    }
+  }
+
+  String readBookButtonText(int? currentPage, int pageAmt) {
+    if (currentPage == null) return 'Mulai Membaca';
+
+    if (currentPage < pageAmt) return 'Lanjutkan Membaca';
+
+    return 'Baca Lagi';
+  }
+
+  Future<void> openPDF(BuildContext context, BookDetailModel book) async {
+    context.showLoadingDialog();
+
+    final path = await FileService.downloadFile(
+      url: book.bookUrl!,
+      flush: true,
+    );
+
+    if (path != null) {
+      navigatorKey.currentState!.pop();
+
+      navigatorKey.currentState!.pushNamed(
+        libraryReadBookRoute,
+        arguments: LibraryReadBookPageArgs(path: path, book: book),
+      );
     }
   }
 }

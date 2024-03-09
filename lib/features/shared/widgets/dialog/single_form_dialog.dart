@@ -16,6 +16,7 @@ class SingleFormDialog extends StatelessWidget {
   final String hintText;
   final String? initialValue;
   final int maxLines;
+  final TextInputType textInputType;
   final String? primaryButtonText;
   final void Function(Map<String, dynamic> value)? onSubmitted;
 
@@ -27,6 +28,7 @@ class SingleFormDialog extends StatelessWidget {
     required this.hintText,
     this.initialValue,
     this.maxLines = 1,
+    this.textInputType = TextInputType.name,
     this.primaryButtonText,
     this.onSubmitted,
   });
@@ -50,12 +52,17 @@ class SingleFormDialog extends StatelessWidget {
           hasPrefixIcon: false,
           hasSuffixIcon: false,
           maxLines: maxLines,
+          textInputType: textInputType,
           textInputAction:
               maxLines > 1 ? TextInputAction.newline : TextInputAction.done,
           validators: [
             FormBuilderValidators.required(
               errorText: "Bagian ini harus diisi",
             ),
+            if (textInputType == TextInputType.number)
+              FormBuilderValidators.integer(
+                errorText: 'Inputan tidak valid',
+              ),
           ],
         ),
       ),

@@ -1,87 +1,3 @@
-//! Book
-class Book {
-  final String title;
-  final String author;
-  final String image;
-  final double? completePercentage;
-
-  const Book({
-    required this.title,
-    required this.author,
-    required this.image,
-    this.completePercentage,
-  });
-}
-
-//! BookDetail
-class BookDetail extends Book {
-  final String category;
-  final int totalPage;
-  final String publisher;
-  final int publishedYear;
-  final String synopsis;
-
-  BookDetail({
-    required super.title,
-    required super.author,
-    required super.image,
-    super.completePercentage,
-    required this.category,
-    required this.totalPage,
-    required this.publisher,
-    required this.publishedYear,
-    required this.synopsis,
-  });
-}
-
-const dummyBooks = [
-  Book(
-    title: 'Cyber Bullying: Hak-hak Digital Right on Online Safety',
-    author: 'Sayid Muhammad Rifqi Noval',
-    image: 'sample-book-cover.jpg',
-    completePercentage: 62,
-  ),
-  Book(
-    title: 'Hukum Pidana Internasional',
-    author: 'Diajeng Wulan Christianti',
-    image: 'sample-book-cover.jpg',
-    completePercentage: 80,
-  ),
-  Book(
-    title: 'What Would Your Lawyer Say?',
-    author: 'Michael Sugijanto',
-    image: 'sample-book-cover.jpg',
-    completePercentage: 34,
-  ),
-  Book(
-    title: 'Omnibus Law',
-    author: 'Rio Christiawan',
-    image: 'sample-book-cover.jpg',
-  ),
-  Book(
-    title: 'Filsafat Keadilan: Biological Justice dan Praktiknya',
-    author: 'Amran Suadi',
-    image: 'sample-book-cover.jpg',
-    completePercentage: 100,
-  ),
-  Book(
-    title: 'Teknik Pembuatan Akta Badan Usaha di Era Digital',
-    author: 'H. Salim',
-    image: 'sample-book-cover.jpg',
-  ),
-  Book(
-    title: 'Matinya Kepakaran',
-    author: 'Tom Nichols',
-    image: 'sample-book-cover.jpg',
-    completePercentage: 100,
-  ),
-  Book(
-    title: 'Hukum Adat Indonesia',
-    author: 'Soerjono Soekanto',
-    image: 'sample-book-cover.jpg',
-  ),
-];
-
 //! Course
 class Course {
   final String title;
@@ -277,21 +193,6 @@ const dummyCourses = [
     status: 'passed',
   ),
 ];
-
-BookDetail generateDummyBookDetail(Book book) {
-  return BookDetail(
-    title: book.title,
-    author: book.author,
-    image: book.image,
-    completePercentage: book.completePercentage,
-    category: 'Hukum Perdata',
-    totalPage: 400,
-    publisher: 'Penerbit Erlangga',
-    publishedYear: 2018,
-    synopsis:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum. Mauris ut aliquet justo, et consectetur lorem.\n\nNam semper vehicula ex, ac fermentum orci elementum ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum. Mauris ut aliquet justo, et consectetur.',
-  );
-}
 
 CourseDetail generateDummyCourseDetail(Course course) {
   final scores = [

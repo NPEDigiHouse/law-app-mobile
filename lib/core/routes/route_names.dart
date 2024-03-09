@@ -29,6 +29,7 @@ const libraryFinishedBookRoute = '/library-finished-book';
 const librarySavedBookRoute = '/library-saved-book';
 const librarySearchRoute = '/library-search';
 const libraryBookDetailRoute = '/library-book-detail';
+const libraryReadBookRoute = '/library-read-book';
 const bookManagementHomeRoute = '/book-management-home';
 const bookManagementCategoryRoute = '/book-management-category';
 const bookManagementListRoute = '/book-management-list';

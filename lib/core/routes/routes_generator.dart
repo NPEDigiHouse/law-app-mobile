@@ -38,15 +38,16 @@ import 'package:law_app/features/auth/presentation/pages/login_page.dart';
 import 'package:law_app/features/auth/presentation/pages/otp_page.dart';
 import 'package:law_app/features/auth/presentation/pages/register_page.dart';
 import 'package:law_app/features/auth/presentation/pages/reset_password_page.dart';
-import 'package:law_app/features/common/ad/ad_detail_page.dart';
-import 'package:law_app/features/common/menu/main_menu_page.dart';
-import 'package:law_app/features/common/notification/notification_page.dart';
-import 'package:law_app/features/common/wrapper/wrapper.dart';
+import 'package:law_app/features/common/ad_detail_page.dart';
+import 'package:law_app/features/common/main_menu_page.dart';
+import 'package:law_app/features/common/notification_page.dart';
+import 'package:law_app/features/common/wrapper.dart';
 import 'package:law_app/features/glossary/presentation/pages/glossary_detail_page.dart';
 import 'package:law_app/features/glossary/presentation/pages/glossary_search_page.dart';
 import 'package:law_app/features/library/presentation/pages/library_book_detail_page.dart';
 import 'package:law_app/features/library/presentation/pages/library_book_list_page.dart';
 import 'package:law_app/features/library/presentation/pages/library_finished_book_page.dart';
+import 'package:law_app/features/library/presentation/pages/library_read_book_page.dart';
 import 'package:law_app/features/library/presentation/pages/library_saved_book_page.dart';
 import 'package:law_app/features/library/presentation/pages/library_search_page.dart';
 import 'package:law_app/features/profile/presentation/pages/account_info_page.dart';
@@ -185,6 +186,15 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
 
       return MaterialPageRoute(
         builder: (_) => LibraryBookDetailRoute(id: id),
+      );
+    case libraryReadBookRoute:
+      final args = settings.arguments as LibraryReadBookPageArgs;
+
+      return MaterialPageRoute(
+        builder: (_) => LibraryReadBookPage(
+          path: args.path,
+          book: args.book,
+        ),
       );
     case publicDiscussionRoute:
       return MaterialPageRoute(

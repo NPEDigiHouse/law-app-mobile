@@ -74,7 +74,7 @@ class UserCard extends ConsumerWidget {
                 const SizedBox(height: 4),
                 LabelChip(
                   text: '${user.role?.toCapitalize()}',
-                  color: FunctionHelper.getColorByRole(user.role ?? ''),
+                  color: FunctionHelper.getColorByRole(user.role!),
                 ),
               ],
             ),

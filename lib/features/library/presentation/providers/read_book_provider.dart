@@ -9,11 +9,7 @@ part 'read_book_provider.g.dart';
 @riverpod
 class ReadBook extends _$ReadBook {
   @override
-  AsyncValue<bool?> build() {
-    return const AsyncValue.data(null);
-  }
-
-  Future<void> readBook({
+  Future<bool?> build({
     required int userId,
     required int bookId,
   }) async {
@@ -28,5 +24,7 @@ class ReadBook extends _$ReadBook {
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
       (r) => state = const AsyncValue.data(true),
     );
+
+    return null;
   }
 }

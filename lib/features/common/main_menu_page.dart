@@ -72,7 +72,7 @@ class _MainMenuPageState extends ConsumerState<MainMenuPage> {
         valueListenable: selectedIndex,
         builder: (context, index, child) {
           return CustomNavigationBar(
-            role: CredentialSaver.user!.role ?? '',
+            role: CredentialSaver.user!.role!,
             currentIndex: index,
             onTap: (index) => pageController.jumpToPage(index),
           );

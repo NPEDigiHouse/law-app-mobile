@@ -45,6 +45,7 @@ class CustomInformation extends StatelessWidget {
             ],
             Text(
               title,
+              textAlign: TextAlign.center,
               style: textTheme.headlineSmall!.copyWith(
                 fontSize: 22,
                 color: primaryColor,
@@ -54,6 +55,7 @@ class CustomInformation extends StatelessWidget {
             if (subtitle != null)
               Text(
                 subtitle!,
+                textAlign: TextAlign.center,
                 style: textTheme.bodySmall!.copyWith(
                   color: const Color(0xFF737373),
                 ),
