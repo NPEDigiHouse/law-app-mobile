@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
 import 'package:law_app/core/enums/banner_type.dart';
+import 'package:law_app/core/extensions/button_extension.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
@@ -21,6 +22,7 @@ import 'package:law_app/features/shared/widgets/custom_network_image.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class LibraryBookDetailRoute extends ConsumerWidget {
   final int id;
@@ -331,63 +333,64 @@ class LibraryBookDetailRoute extends ConsumerWidget {
               ),
             ),
           ),
-          // bottomSheet: Container(
-          //   width: double.infinity,
-          //   padding: const EdgeInsets.all(20),
-          //   decoration: BoxDecoration(
-          //     color: scaffoldBackgroundColor,
-          //     borderRadius: const BorderRadius.vertical(
-          //       top: Radius.circular(20),
-          //     ),
-          //     boxShadow: [
-          //       BoxShadow(
-          //         offset: const Offset(0, -2),
-          //         blurRadius: 4,
-          //         spreadRadius: -1,
-          //         color: Colors.black.withOpacity(.1),
-          //       ),
-          //     ],
-          //   ),
-          //   child: Column(
-          //     mainAxisSize: MainAxisSize.min,
-          //     children: [
-          //       if (bookDetail.completePercentage != null) ...[
-          //         Text(
-          //           'Progres Membaca',
-          //           style: textTheme.bodyMedium!.copyWith(
-          //             color: secondaryTextColor,
-          //           ),
-          //         ),
-          //         const SizedBox(height: 8),
-          //         LinearPercentIndicator(
-          //           lineHeight: 10,
-          //           barRadius: const Radius.circular(10),
-          //           padding: const EdgeInsets.only(right: 8),
-          //           animation: true,
-          //           animationDuration: 1000,
-          //           curve: Curves.easeIn,
-          //           percent: bookDetail.completePercentage! / 100,
-          //           progressColor: successColor,
-          //           backgroundColor: secondaryTextColor,
-          //           trailing: Text(
-          //             '${bookDetail.completePercentage!.toInt()}%',
-          //           ),
-          //         ),
-          //       ] else
-          //         Text(
-          //           'Belum pernah dibaca',
-          //           style: textTheme.bodyMedium!.copyWith(
-          //             color: secondaryTextColor,
-          //           ),
-          //         ),
-          //       const SizedBox(height: 12),
-          //       FilledButton(
-          //         onPressed: () {},
-          //         child: const Text('Mulai Membaca'),
-          //       ).fullWidth(),
-          //     ],
-          //   ),
-          // ),
+          bottomSheet: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: scaffoldBackgroundColor,
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(20),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  offset: const Offset(0, -2),
+                  blurRadius: 4,
+                  spreadRadius: -1,
+                  color: Colors.black.withOpacity(.1),
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (book.currentPage != null) ...[
+                  Text(
+                    'Progres Membaca',
+                    style: textTheme.bodyMedium!.copyWith(
+                      color: secondaryTextColor,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  LinearPercentIndicator(
+                    lineHeight: 10,
+                    barRadius: const Radius.circular(10),
+                    padding: const EdgeInsets.only(right: 8),
+                    animation: true,
+                    curve: Curves.easeOut,
+                    progressColor: successColor,
+                    backgroundColor: secondaryTextColor,
+                    percent: book.currentPage! / book.pageAmt!,
+                    trailing: Text(
+                      '${((book.currentPage! / book.pageAmt!) * 100).toInt()}%',
+                    ),
+                  ),
+                ] else
+                  Text(
+                    'Belum pernah dibaca',
+                    style: textTheme.bodyMedium!.copyWith(
+                      color: secondaryTextColor,
+                    ),
+                  ),
+                const SizedBox(height: 12),
+                FilledButton(
+                  onPressed: () {},
+                  child: Text(
+                    readBookButtonText(book.currentPage, book.pageAmt!),
+                  ),
+                ).fullWidth(),
+              ],
+            ),
+          ),
         );
       },
     );
@@ -415,6 +418,14 @@ class LibraryBookDetailRoute extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  String readBookButtonText(int? currentPage, int pageAmt) {
+    if (currentPage == null) return 'Mulai Membaca';
+
+    if (currentPage < pageAmt) return 'Lanjutkan Membaca';
+
+    return 'Baca Lagi';
   }
 
   void saveOrUnsaveBook({

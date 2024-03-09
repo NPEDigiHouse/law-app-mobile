@@ -75,6 +75,21 @@ abstract class BookDataSource {
 
   /// Unsave book
   Future<void> unsaveBook({required int id});
+
+  /// Get all user reads
+  Future<List<BookModel>> getUserReads({required bool isFinished});
+
+  /// Read book
+  Future<void> readBook({
+    required int userId,
+    required int bookId,
+  });
+
+  /// Update user read
+  Future<void> updateUserRead({
+    required int bookId,
+    required int currentPage,
+  });
 }
 
 class BookDataSourceImpl implements BookDataSource {
@@ -471,6 +486,98 @@ class BookDataSourceImpl implements BookDataSource {
           HttpHeaders.authorizationHeader:
               'Bearer ${CredentialSaver.accessToken}'
         },
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code != 200) {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      if (e is ServerException) {
+        rethrow;
+      } else {
+        throw http.ClientException(e.toString());
+      }
+    }
+  }
+
+  @override
+  Future<List<BookModel>> getUserReads({required bool isFinished}) async {
+    try {
+      final response = await client.get(
+        Uri.parse(
+          '${ApiConfigs.baseUrl}/auth/continue-reading?isFinished=$isFinished',
+        ),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code == 200) {
+        final data = result.data as List;
+
+        return data.map((e) => BookModel.fromMap(e)).toList();
+      } else {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      if (e is ServerException) {
+        rethrow;
+      } else {
+        throw http.ClientException(e.toString());
+      }
+    }
+  }
+
+  @override
+  Future<void> readBook({required int userId, required int bookId}) async {
+    try {
+      final response = await client.post(
+        Uri.parse('${ApiConfigs.baseUrl}/user-reads'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+        body: jsonEncode({
+          'userId': userId,
+          'bookId': bookId,
+        }),
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code != 200) {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      if (e is ServerException) {
+        rethrow;
+      } else {
+        throw http.ClientException(e.toString());
+      }
+    }
+  }
+
+  @override
+  Future<void> updateUserRead({
+    required int bookId,
+    required int currentPage,
+  }) async {
+    try {
+      final response = await client.put(
+        Uri.parse('${ApiConfigs.baseUrl}/user-reads?bookId=$bookId'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+        body: jsonEncode({'currentPage': currentPage}),
       );
 
       final result = DataResponse.fromJson(jsonDecode(response.body));

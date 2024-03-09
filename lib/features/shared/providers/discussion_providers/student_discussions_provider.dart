@@ -28,11 +28,11 @@ class StudentDiscussions extends _$StudentDiscussions {
 
     final result = await ref
         .watch(discussionRepositoryProvider)
-        .getUserDiscussions(offset: 0, limit: kPageLimit);
+        .getUserDiscussions(limit: kPageLimit);
 
     final result2 = await ref
         .watch(discussionRepositoryProvider)
-        .getDiscussions(offset: 0, limit: kPageLimit, type: 'general');
+        .getDiscussions(limit: kPageLimit, type: 'general');
 
     ref.listen(userCredentialProvider, (_, state) {
       state.when(

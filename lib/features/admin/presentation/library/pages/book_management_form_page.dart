@@ -71,7 +71,9 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
 
   @override
   Future<void> afterFirstLayout(BuildContext context) async {
-    final result = await CategoryHelper.getBookCategories(context, ref);
+    context.showLoadingDialog();
+
+    final result = await CategoryHelper.getBookCategories(ref);
 
     categories = result;
 
@@ -91,6 +93,7 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
       }
     }
 
+    navigatorKey.currentState!.pop();
     setState(() {});
   }
 
@@ -308,10 +311,14 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
               CustomDropdownField(
                 name: 'categoryId',
                 label: 'Kategori',
+                onChanged: (_) {},
                 items: categories.map((e) => e.name!).toList(),
                 values: categories.map((e) => e.id!.toString()).toList(),
-                initialValue: widget.book?.category?.id.toString(),
-                onChanged: (_) {},
+                initialValue: widget.book != null
+                    ? widget.book!.category!.id.toString()
+                    : categories.isNotEmpty
+                        ? categories.first.id.toString()
+                        : null,
               ),
               const SizedBox(height: 20),
               CustomTextField(

@@ -28,7 +28,6 @@ import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
 import 'package:law_app/features/shared/widgets/form_field/search_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
-import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 
 class PublicDiscussionPage extends ConsumerStatefulWidget {
   const PublicDiscussionPage({super.key});
@@ -64,12 +63,15 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
 
   @override
   Future<void> afterFirstLayout(BuildContext context) async {
-    final result = await CategoryHelper.getDiscussionCategories(context, ref);
+    context.showLoadingDialog();
+
+    final result = await CategoryHelper.getDiscussionCategories(ref);
 
     for (var e in result) {
       categories[e.name!] = e.id!;
     }
 
+    navigatorKey.currentState!.pop();
     setState(() {});
   }
 
@@ -194,9 +196,7 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
                 ),
               ),
               discussions.when(
-                loading: () => const SliverFillRemaining(
-                  child: LoadingIndicator(),
-                ),
+                loading: () => const SliverFillRemaining(),
                 error: (_, __) => const SliverFillRemaining(),
                 data: (data) {
                   final discussions = data.discussions;

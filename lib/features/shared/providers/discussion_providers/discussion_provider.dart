@@ -27,7 +27,6 @@ class Discussion extends _$Discussion {
           status: status,
           type: type,
           categoryId: categoryId,
-          offset: 0,
           limit: kPageLimit,
         );
 

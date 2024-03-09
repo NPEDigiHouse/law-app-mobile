@@ -167,13 +167,13 @@ class AuthDataSourceImpl implements AuthDataSource {
   @override
   Future<bool> logOut() async {
     try {
-      final result1 = await preferencesHelper.removeAccessToken();
+      final result = await preferencesHelper.removeAccessToken();
       final result2 = await preferencesHelper.removeUserCredential();
 
       CredentialSaver.accessToken = null;
       CredentialSaver.user = null;
 
-      return result1 && result2;
+      return result && result2;
     } catch (e) {
       throw PreferenceException(e.toString());
     }

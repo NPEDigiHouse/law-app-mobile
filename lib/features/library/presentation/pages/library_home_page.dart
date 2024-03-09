@@ -13,8 +13,10 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/library/presentation/providers/book_provider.dart';
+import 'package:law_app/features/library/presentation/providers/library_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
 import 'package:law_app/features/shared/widgets/empty_content_text.dart';
+import 'package:law_app/features/shared/widgets/feature/book_card.dart';
 import 'package:law_app/features/shared/widgets/feature/book_item.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
@@ -24,9 +26,9 @@ class LibraryHomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final books = ref.watch(BookProvider());
+    final books = ref.watch(libraryProvider);
 
-    ref.listen(BookProvider(), (_, state) {
+    ref.listen(libraryProvider, (_, state) {
       state.when(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
@@ -116,47 +118,45 @@ class LibraryHomePage extends ConsumerWidget {
       body: books.whenOrNull(
         loading: () => const LoadingIndicator(),
         data: (data) {
+          final userReads = data.userReads;
           final books = data.books;
 
-          if (books == null) return null;
+          if (books == null || userReads == null) return null;
 
           return SingleChildScrollView(
             padding: const EdgeInsets.symmetric(vertical: 24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Padding(
-                //   padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
-                //   child: Text(
-                //     'Lanjutkan Membaca',
-                //     style: textTheme.titleLarge,
-                //   ),
-                // ),
-                // SizedBox(
-                //   height: 120,
-                //   child: ListView.separated(
-                //     padding: const EdgeInsets.fromLTRB(20, 0, 20, 4),
-                //     scrollDirection: Axis.horizontal,
-                //     itemBuilder: (context, index) {
-                //       return SizedBox(
-                //         width: 300,
-                //         child: BookCard(
-                //           book: books[index],
-                //           isThreeLine: true,
-                //         ),
-                //       );
-                //     },
-                //     separatorBuilder: (context, index) {
-                //       return const SizedBox(width: 8);
-                //     },
-                //     itemCount: 3,
-                //   ),
-                // ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 8,
-                    horizontal: 20,
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
+                  child: Text(
+                    'Lanjutkan Membaca',
+                    style: textTheme.titleLarge!.copyWith(
+                      color: primaryColor,
+                    ),
                   ),
+                ),
+                SizedBox(
+                  height: 120,
+                  child: ListView.separated(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return SizedBox(
+                        width: 300,
+                        height: 120,
+                        child: BookCard(book: userReads[index]),
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(width: 8);
+                    },
+                    itemCount: userReads.length,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
                   child: Row(
                     children: [
                       Expanded(

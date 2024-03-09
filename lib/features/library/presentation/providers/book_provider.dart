@@ -23,7 +23,6 @@ class Book extends _$Book {
     final result = await ref.watch(bookRepositoryProvider).getBooks(
           query: query,
           categoryId: categoryId,
-          offset: 0,
           limit: kPageLimit,
         );
 

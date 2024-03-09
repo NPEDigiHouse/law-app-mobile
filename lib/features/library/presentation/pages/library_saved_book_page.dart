@@ -13,6 +13,7 @@ import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/library/presentation/providers/book_saved_provider.dart';
+import 'package:law_app/features/library/presentation/providers/save_book_provider.dart';
 import 'package:law_app/features/library/presentation/providers/unsave_book_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/feature/book_card.dart';
@@ -50,11 +51,9 @@ class LibrarySavedBookPage extends ConsumerWidget {
       },
     );
 
-    ref.listen(unsaveBookProvider, (_, state) {
+    ref.listen(saveBookProvider, (_, state) {
       state.when(
         error: (error, _) {
-          navigatorKey.currentState!.pop();
-
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet();
           } else {
@@ -65,7 +64,24 @@ class LibrarySavedBookPage extends ConsumerWidget {
         data: (data) {
           if (data != null) {
             ref.invalidate(bookSavedProvider);
-            navigatorKey.currentState!.pop();
+          }
+        },
+      );
+    });
+
+    ref.listen(unsaveBookProvider, (_, state) {
+      state.when(
+        error: (error, _) {
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet();
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+        loading: () {},
+        data: (data) {
+          if (data != null) {
+            ref.invalidate(bookSavedProvider);
           }
         },
       );
@@ -119,6 +135,8 @@ class LibrarySavedBookPage extends ConsumerWidget {
                             ref
                                 .read(unsaveBookProvider.notifier)
                                 .unsaveBook(id: savedBooks[index].id!);
+
+                            navigatorKey.currentState!.pop();
                           },
                         );
                       },

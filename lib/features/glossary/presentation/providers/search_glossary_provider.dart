@@ -20,7 +20,7 @@ class SearchGlossary extends _$SearchGlossary {
 
     final result = await ref
         .watch(glossaryRepositoryProvider)
-        .getGlossaries(query: query, offset: 0, limit: kPageLimit);
+        .getGlossaries(query: query, limit: kPageLimit);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

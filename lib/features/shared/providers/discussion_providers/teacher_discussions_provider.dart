@@ -34,7 +34,7 @@ class TeacherDiscussions extends _$TeacherDiscussions {
 
     final result2 = await ref
         .watch(discussionRepositoryProvider)
-        .getDiscussions(offset: 0, limit: kPageLimit, type: 'general');
+        .getDiscussions(limit: kPageLimit, type: 'general');
 
     final result3 = await ref
         .watch(discussionRepositoryProvider)

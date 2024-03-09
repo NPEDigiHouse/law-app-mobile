@@ -43,7 +43,7 @@ class LibrarySearchPage extends ConsumerWidget {
               const SizedBox(height: 10),
               SearchField(
                 text: query,
-                hintText: 'Cari judul buku atau pengarang',
+                hintText: 'Cari judul buku',
                 autoFocus: true,
                 onChanged: (query) => searchBook(ref, query),
               ),

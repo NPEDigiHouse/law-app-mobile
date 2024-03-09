@@ -72,6 +72,22 @@ abstract class BookRepository {
 
   /// Unsave book
   Future<Either<Failure, void>> unsaveBook({required int id});
+
+  /// Get all user reads
+  Future<Either<Failure, List<BookModel>>> getUserReads(
+      {required bool isFinished});
+
+  /// Read book
+  Future<Either<Failure, void>> readBook({
+    required int userId,
+    required int bookId,
+  });
+
+  /// Update user read
+  Future<Either<Failure, void>> updateUserRead({
+    required int bookId,
+    required int currentPage,
+  });
 }
 
 class BookRepositoryImpl implements BookRepository {
@@ -344,6 +360,71 @@ class BookRepositoryImpl implements BookRepository {
     if (await networkInfo.isConnected) {
       try {
         final result = await bookDataSource.unsaveBook(id: id);
+
+        return Right(result);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message));
+      } on ClientException catch (e) {
+        return Left(ClientFailure(e.message));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<BookModel>>> getUserReads(
+      {required bool isFinished}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result =
+            await bookDataSource.getUserReads(isFinished: isFinished);
+
+        return Right(result);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message));
+      } on ClientException catch (e) {
+        return Left(ClientFailure(e.message));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> readBook({
+    required int userId,
+    required int bookId,
+  }) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await bookDataSource.readBook(
+          userId: userId,
+          bookId: bookId,
+        );
+
+        return Right(result);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message));
+      } on ClientException catch (e) {
+        return Left(ClientFailure(e.message));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> updateUserRead({
+    required int bookId,
+    required int currentPage,
+  }) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await bookDataSource.updateUserRead(
+          bookId: bookId,
+          currentPage: currentPage,
+        );
 
         return Right(result);
       } on ServerException catch (e) {

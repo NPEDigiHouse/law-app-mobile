@@ -278,7 +278,7 @@ class _StudentDiscussionHomePageState
                                 FilledButton.icon(
                                   onPressed: () async {
                                     final categories = await CategoryHelper
-                                        .getDiscussionCategories(context, ref);
+                                        .getDiscussionCategories(ref);
 
                                     if (categories.isNotEmpty) {
                                       if (!context.mounted) return;
