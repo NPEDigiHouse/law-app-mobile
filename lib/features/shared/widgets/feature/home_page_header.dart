@@ -9,15 +9,12 @@ import 'package:law_app/core/extensions/string_extension.dart';
 import 'package:law_app/core/helpers/app_size.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/helpers/function_helper.dart';
-import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
-import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/user_models/user_credential_model.dart';
 import 'package:law_app/features/auth/presentation/providers/user_credential_provider.dart';
 import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
-import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class HomePageHeader extends ConsumerWidget {
@@ -127,18 +124,18 @@ class HomePageHeader extends ConsumerWidget {
                     ),
                     Row(
                       children: [
-                        CustomIconButton(
-                          iconName: 'notification-solid.svg',
-                          color: scaffoldBackgroundColor,
-                          size: 36,
-                          tooltip: 'Notifikasi',
-                          onPressed: () {
-                            navigatorKey.currentState!.pushNamed(
-                              notificationRoute,
-                            );
-                          },
-                        ),
-                        const SizedBox(width: 4),
+                        // CustomIconButton(
+                        //   iconName: 'notification-solid.svg',
+                        //   color: scaffoldBackgroundColor,
+                        //   size: 36,
+                        //   tooltip: 'Notifikasi',
+                        //   onPressed: () {
+                        //     navigatorKey.currentState!.pushNamed(
+                        //       notificationRoute,
+                        //     );
+                        //   },
+                        // ),
+                        // const SizedBox(width: 4),
                         GestureDetector(
                           onTap: onPressedProfileIcon,
                           child: CircleProfileAvatar(

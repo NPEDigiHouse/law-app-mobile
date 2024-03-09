@@ -23,22 +23,22 @@ class AdminHomePage extends ConsumerWidget {
     const dashboardItems = [
       {
         "icon": "dictionary-book-solid.svg",
-        "count": 20,
+        "count": 0,
         "text": "Total\nGlosarium",
       },
       {
         "icon": "book-bold.svg",
-        "count": 9,
+        "count": 0,
         "text": "Total\nBuku",
       },
       {
         "icon": "user-solid.svg",
-        "count": 200,
+        "count": 0,
         "text": "Total\nPengguna",
       },
       {
         "icon": "question-circle-line.svg",
-        "count": 20,
+        "count": 0,
         "text": "Total\nPertanyaan",
       },
     ];

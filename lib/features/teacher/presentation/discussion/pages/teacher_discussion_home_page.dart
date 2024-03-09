@@ -18,7 +18,6 @@ import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/teacher_discussions_provider.dart';
 import 'package:law_app/features/shared/widgets/animated_fab.dart';
 import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
-import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
 import 'package:law_app/features/shared/widgets/empty_content_text.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
@@ -135,17 +134,17 @@ class _TeacherDiscussionHomePageState
                                       ),
                                     ),
                                   ),
-                                  CustomIconButton(
-                                    iconName: 'notification-solid.svg',
-                                    color: scaffoldBackgroundColor,
-                                    size: 28,
-                                    tooltip: 'Notifikasi',
-                                    onPressed: () {
-                                      navigatorKey.currentState!.pushNamed(
-                                        notificationRoute,
-                                      );
-                                    },
-                                  ),
+                                  // CustomIconButton(
+                                  //   iconName: 'notification-solid.svg',
+                                  //   color: scaffoldBackgroundColor,
+                                  //   size: 28,
+                                  //   tooltip: 'Notifikasi',
+                                  //   onPressed: () {
+                                  //     navigatorKey.currentState!.pushNamed(
+                                  //       notificationRoute,
+                                  //     );
+                                  //   },
+                                  // ),
                                 ],
                               ),
                               const SizedBox(height: 8),

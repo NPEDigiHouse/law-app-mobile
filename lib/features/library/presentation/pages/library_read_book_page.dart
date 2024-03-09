@@ -1,11 +1,7 @@
-// Dart imports:
-import 'dart:async';
-
 // Flutter imports:
 import 'package:flutter/material.dart';
 
 // Package imports:
-import 'package:after_layout/after_layout.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -19,6 +15,8 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_detail_model.dart';
+import 'package:law_app/features/library/presentation/providers/book_detail_provider.dart';
+import 'package:law_app/features/library/presentation/providers/library_provider.dart';
 import 'package:law_app/features/library/presentation/providers/read_book_provider.dart';
 import 'package:law_app/features/library/presentation/providers/update_user_read_provider.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
@@ -41,8 +39,7 @@ class LibraryReadBookPage extends ConsumerStatefulWidget {
       _LibraryReadBookPageState();
 }
 
-class _LibraryReadBookPageState extends ConsumerState<LibraryReadBookPage>
-    with AfterLayoutMixin {
+class _LibraryReadBookPageState extends ConsumerState<LibraryReadBookPage> {
   late PDFViewController pdfViewController;
   late int currentPage;
 
@@ -54,24 +51,27 @@ class _LibraryReadBookPageState extends ConsumerState<LibraryReadBookPage>
   }
 
   @override
-  Future<void> afterFirstLayout(BuildContext context) async {
-    if (widget.book.currentPage == null) {
-      context.showLoadingDialog();
+  Widget build(BuildContext context) {
+    final totalPages = ref.watch(totalPagesProvider);
 
-      await ref.read(
+    if (widget.book.currentPage == null) {
+      ref.listen(
         ReadBookProvider(
           userId: CredentialSaver.user!.id!,
           bookId: widget.book.id!,
-        ).future,
+        ),
+        (_, state) {
+          state.whenOrNull(
+            data: (data) {
+              if (data != null) {
+                ref.invalidate(bookDetailProvider);
+                ref.invalidate(libraryProvider);
+              }
+            },
+          );
+        },
       );
-
-      navigatorKey.currentState!.pop();
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final totalPages = ref.watch(totalPagesProvider);
 
     return PopScope(
       canPop: false,

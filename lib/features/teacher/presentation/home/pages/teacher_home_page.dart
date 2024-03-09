@@ -17,12 +17,12 @@ class TeacherHomePage extends StatelessWidget {
     final dashboardItems = [
       {
         "icon": "question-circle-line.svg",
-        "count": 20,
+        "count": 0,
         "text": "Pertanyaan\nDijawab",
       },
       {
         "icon": "book-bold.svg",
-        "count": 9,
+        "count": 0,
         "text": "Buku\nDibaca",
       },
     ];

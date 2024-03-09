@@ -21,17 +21,17 @@ class StudentHomePage extends StatelessWidget {
     final dashboardItems = [
       {
         "icon": "chalkboard-teacher-fill.svg",
-        "count": 2,
+        "count": 0,
         "text": "Course\nDiambil",
       },
       {
         "icon": "question-circle-line.svg",
-        "count": 20,
+        "count": 0,
         "text": "Pertanyaan\nDipakai",
       },
       {
         "icon": "book-bold.svg",
-        "count": 9,
+        "count": 0,
         "text": "Buku\nDibaca",
       },
     ];
