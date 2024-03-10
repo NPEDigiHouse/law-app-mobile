@@ -57,21 +57,19 @@ class _StudentQuestionListPageState
     ref.listen(
       UserDiscussionsProvider(status: status, type: type),
       (_, state) {
-        state.when(
+        state.whenOrNull(
           error: (error, _) {
             if ('$error' == kNoInternetConnection) {
               context.showNetworkErrorModalBottomSheet(
                 onPressedPrimaryButton: () {
-                  ref.invalidate(userDiscussionsProvider);
                   navigatorKey.currentState!.pop();
+                  ref.invalidate(userDiscussionsProvider);
                 },
               );
             } else {
               context.showBanner(message: '$error', type: BannerType.error);
             }
           },
-          loading: () {},
-          data: (_) {},
         );
       },
     );

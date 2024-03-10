@@ -41,7 +41,6 @@ class _LoginPageState extends ConsumerState<LoginPage>
   Widget build(BuildContext context) {
     ref.listen(signInProvider, (_, state) {
       state.when(
-        loading: () => context.showLoadingDialog(),
         error: (error, _) {
           navigatorKey.currentState!.pop();
 
@@ -51,6 +50,7 @@ class _LoginPageState extends ConsumerState<LoginPage>
             context.showBanner(message: '$error', type: BannerType.error);
           }
         },
+        loading: () => context.showLoadingDialog(),
         data: (data) {
           if (data.$1 != null && data.$2 != null) {
             navigatorKey.currentState!.pushNamedAndRemoveUntil(

@@ -31,21 +31,19 @@ class StudentHomePage extends ConsumerWidget {
     final dashboard = ref.watch(studentDashboardProvider);
 
     ref.listen(studentDashboardProvider, (_, state) {
-      state.when(
+      state.whenOrNull(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
-                ref.invalidate(studentDashboardProvider);
                 navigatorKey.currentState!.pop();
+                ref.invalidate(studentDashboardProvider);
               },
             );
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
           }
         },
-        loading: () {},
-        data: (_) {},
       );
     });
 
@@ -218,15 +216,15 @@ class StudentHomePage extends ConsumerWidget {
                           'Daftar buku belum ada. Nantikan koleksi buku-buku dari kami ya.',
                         )
                       : SizedBox(
-                          height: 180,
+                          height: 210,
                           child: ListView.separated(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             scrollDirection: Axis.horizontal,
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
                               return BookItem(
-                                height: 180,
-                                width: 120,
+                                height: 210,
+                                width: 140,
                                 titleMaxLines: 1,
                                 book: books[index],
                               );

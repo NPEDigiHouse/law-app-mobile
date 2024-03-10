@@ -21,6 +21,7 @@ import 'package:law_app/features/admin/data/models/discussion_models/discussion_
 import 'package:law_app/features/shared/providers/discussion_providers/create_discussion_comment_provider.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/delete_discussion_provider.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/discussion_detail_provider.dart';
+import 'package:law_app/features/shared/providers/discussion_providers/discussion_provider.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/edit_discussion_provider.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/user_discussions_provider.dart';
 import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
@@ -42,28 +43,25 @@ class StudentDiscussionDetailPage extends ConsumerWidget {
     final discussion = ref.watch(DiscussionDetailProvider(id: id));
 
     ref.listen(DiscussionDetailProvider(id: id), (_, state) {
-      state.when(
+      state.whenOrNull(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
-                ref.invalidate(discussionDetailProvider);
                 navigatorKey.currentState!.pop();
+                ref.invalidate(discussionDetailProvider);
               },
             );
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
           }
         },
-        loading: () {},
-        data: (_) {},
       );
     });
 
     ref.listen(deleteDiscussionProvider, (_, state) {
       state.when(
         error: (error, _) {
-          navigatorKey.currentState!.pop();
           navigatorKey.currentState!.pop();
 
           if ('$error' == kNoInternetConnection) {
@@ -75,6 +73,10 @@ class StudentDiscussionDetailPage extends ConsumerWidget {
         loading: () => context.showLoadingDialog(),
         data: (data) {
           if (data != null) {
+            navigatorKey.currentState!.pop();
+            navigatorKey.currentState!.pop();
+
+            ref.invalidate(discussionProvider);
             ref.invalidate(userDiscussionsProvider);
             ref.invalidate(studentDiscussionsProvider);
 
@@ -82,10 +84,6 @@ class StudentDiscussionDetailPage extends ConsumerWidget {
               message: 'Pertanyaan kamu berhasil dihapus!',
               type: BannerType.success,
             );
-
-            navigatorKey.currentState!.pop();
-            navigatorKey.currentState!.pop();
-            navigatorKey.currentState!.pop();
           }
         },
       );
@@ -95,7 +93,6 @@ class StudentDiscussionDetailPage extends ConsumerWidget {
       state.when(
         error: (error, _) {
           navigatorKey.currentState!.pop();
-          navigatorKey.currentState!.pop();
 
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet();
@@ -106,12 +103,12 @@ class StudentDiscussionDetailPage extends ConsumerWidget {
         loading: () => context.showLoadingDialog(),
         data: (data) {
           if (data != null) {
+            navigatorKey.currentState!.pop();
+
             ref.invalidate(DiscussionDetailProvider(id: id));
+            ref.invalidate(discussionProvider);
             ref.invalidate(userDiscussionsProvider);
             ref.invalidate(studentDiscussionsProvider);
-
-            navigatorKey.currentState!.pop();
-            navigatorKey.currentState!.pop();
           }
         },
       );
@@ -121,7 +118,6 @@ class StudentDiscussionDetailPage extends ConsumerWidget {
       state.when(
         error: (error, _) {
           navigatorKey.currentState!.pop();
-          navigatorKey.currentState!.pop();
 
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet();
@@ -132,10 +128,8 @@ class StudentDiscussionDetailPage extends ConsumerWidget {
         loading: () => context.showLoadingDialog(),
         data: (data) {
           if (data != null) {
+            navigatorKey.currentState!.pop();
             ref.invalidate(DiscussionDetailProvider(id: id));
-
-            navigatorKey.currentState!.pop();
-            navigatorKey.currentState!.pop();
           }
         },
       );
@@ -163,6 +157,8 @@ class StudentDiscussionDetailPage extends ConsumerWidget {
                     'Seluruh diskusi kamu dalam Pertanyaan ini akan dihapus!',
                 primaryButtonText: 'Hapus',
                 onPressedPrimaryButton: () {
+                  navigatorKey.currentState!.pop();
+
                   ref
                       .read(deleteDiscussionProvider.notifier)
                       .deleteDiscussion(id: id);
@@ -309,6 +305,8 @@ class StudentDiscussionDetailPage extends ConsumerWidget {
                       maxLines: 4,
                       primaryButtonText: 'Submit',
                       onSubmitted: (value) {
+                        navigatorKey.currentState!.pop();
+
                         ref
                             .read(createDiscussionCommentProvider.notifier)
                             .createDiscussionComment(
@@ -328,6 +326,8 @@ class StudentDiscussionDetailPage extends ConsumerWidget {
                       withCheckbox: true,
                       checkboxLabel: 'Saya puas dengan jawaban yang diberikan.',
                       onPressedPrimaryButton: () {
+                        navigatorKey.currentState!.pop();
+
                         ref
                             .read(editDiscussionProvider.notifier)
                             .editDiscussion(

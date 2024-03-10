@@ -29,21 +29,19 @@ class BookManagementListPage extends ConsumerWidget {
     final books = ref.watch(BookProvider());
 
     ref.listen(BookProvider(), (_, state) {
-      state.when(
+      state.whenOrNull(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
-                ref.invalidate(bookProvider);
                 navigatorKey.currentState!.pop();
+                ref.invalidate(bookProvider);
               },
             );
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
           }
         },
-        loading: () {},
-        data: (_) {},
       );
     });
 

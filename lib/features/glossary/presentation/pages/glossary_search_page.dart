@@ -34,24 +34,22 @@ class GlossarySearchPage extends ConsumerWidget {
 
     if (query.isNotEmpty) {
       ref.listen(searchGlossaryProvider, (_, state) {
-        state.when(
+        state.whenOrNull(
           error: (error, _) {
             if ('$error' == kNoInternetConnection) {
               context.showNetworkErrorModalBottomSheet(
                 onPressedPrimaryButton: () {
+                  navigatorKey.currentState!.pop();
+
                   ref
                       .read(searchGlossaryProvider.notifier)
                       .searchGlossary(query: query);
-
-                  navigatorKey.currentState!.pop();
                 },
               );
             } else {
               context.showBanner(message: '$error', type: BannerType.error);
             }
           },
-          loading: () {},
-          data: (_) {},
         );
       });
     }

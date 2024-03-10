@@ -32,27 +32,25 @@ class LibrarySavedBookPage extends ConsumerWidget {
     ref.listen(
       BookSavedProvider(userId: CredentialSaver.user!.id!),
       (_, state) {
-        state.when(
+        state.whenOrNull(
           error: (error, _) {
             if ('$error' == kNoInternetConnection) {
               context.showNetworkErrorModalBottomSheet(
                 onPressedPrimaryButton: () {
-                  ref.invalidate(bookSavedProvider);
                   navigatorKey.currentState!.pop();
+                  ref.invalidate(bookSavedProvider);
                 },
               );
             } else {
               context.showBanner(message: '$error', type: BannerType.error);
             }
           },
-          loading: () {},
-          data: (_) {},
         );
       },
     );
 
     ref.listen(saveBookProvider, (_, state) {
-      state.when(
+      state.whenOrNull(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet();
@@ -60,7 +58,6 @@ class LibrarySavedBookPage extends ConsumerWidget {
             context.showBanner(message: '$error', type: BannerType.error);
           }
         },
-        loading: () {},
         data: (data) {
           if (data != null) {
             ref.invalidate(bookSavedProvider);
@@ -70,7 +67,7 @@ class LibrarySavedBookPage extends ConsumerWidget {
     });
 
     ref.listen(unsaveBookProvider, (_, state) {
-      state.when(
+      state.whenOrNull(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet();
@@ -78,7 +75,6 @@ class LibrarySavedBookPage extends ConsumerWidget {
             context.showBanner(message: '$error', type: BannerType.error);
           }
         },
-        loading: () {},
         data: (data) {
           if (data != null) {
             ref.invalidate(bookSavedProvider);
@@ -132,11 +128,11 @@ class LibrarySavedBookPage extends ConsumerWidget {
                         context.showDeleteConfirmDialog(
                           title: savedBooks[index].book!.title!,
                           onIconPressed: () {
+                            navigatorKey.currentState!.pop();
+
                             ref
                                 .read(unsaveBookProvider.notifier)
                                 .unsaveBook(id: savedBooks[index].id!);
-
-                            navigatorKey.currentState!.pop();
                           },
                         );
                       },

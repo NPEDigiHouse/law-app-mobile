@@ -99,11 +99,11 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage>
         },
         loading: () => context.showLoadingDialog(),
         data: (data) {
+          navigatorKey.currentState!.pop();
+          navigatorKey.currentState!.pop();
+
           ref.invalidate(UserDetailProvider(id: widget.user!.id!));
           ref.invalidate(masterDataProvider);
-
-          navigatorKey.currentState!.pop();
-          navigatorKey.currentState!.pop();
         },
       );
     });
@@ -122,10 +122,10 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage>
         loading: () => context.showLoadingDialog(),
         data: (data) {
           if (data != null) {
-            ref.invalidate(masterDataProvider);
+            navigatorKey.currentState!.pop();
+            navigatorKey.currentState!.pop();
 
-            navigatorKey.currentState!.pop();
-            navigatorKey.currentState!.pop();
+            ref.invalidate(masterDataProvider);
           }
         },
       );

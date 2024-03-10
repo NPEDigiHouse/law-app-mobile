@@ -32,21 +32,19 @@ class GlossaryManagementPage extends ConsumerWidget {
     final glossaries = ref.watch(glossaryProvider);
 
     ref.listen(glossaryProvider, (_, state) {
-      state.when(
+      state.whenOrNull(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
-                ref.invalidate(glossaryProvider);
                 navigatorKey.currentState!.pop();
+                ref.invalidate(glossaryProvider);
               },
             );
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
           }
         },
-        loading: () {},
-        data: (_) {},
       );
     });
 
@@ -152,16 +150,14 @@ class GlossaryManagementPage extends ConsumerWidget {
             textAreaHint: 'Masukkan pengertian/deskripsi',
             primaryButtonText: 'Tambah',
             onSubmitted: (value) {
-              final glossaryPost = GlossaryPostModel(
-                title: value['title'],
-                description: value['description'],
-              );
-
-              ref
-                  .read(glossaryProvider.notifier)
-                  .createGlossary(glossary: glossaryPost);
-
               navigatorKey.currentState!.pop();
+
+              ref.read(glossaryProvider.notifier).createGlossary(
+                    glossary: GlossaryPostModel(
+                      title: value['title'],
+                      description: value['description'],
+                    ),
+                  );
             },
           ),
           icon: SvgAsset(

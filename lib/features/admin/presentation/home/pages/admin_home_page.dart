@@ -79,21 +79,19 @@ class AdminHomePage extends ConsumerWidget {
     ];
 
     ref.listen(dashboardDataProvider, (_, state) {
-      state.when(
+      state.whenOrNull(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
-                ref.invalidate(dashboardDataProvider);
                 navigatorKey.currentState!.pop();
+                ref.invalidate(dashboardDataProvider);
               },
             );
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
           }
         },
-        loading: () {},
-        data: (_) {},
       );
     });
 

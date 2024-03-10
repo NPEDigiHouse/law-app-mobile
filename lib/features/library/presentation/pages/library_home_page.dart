@@ -28,21 +28,19 @@ class LibraryHomePage extends ConsumerWidget {
     final books = ref.watch(libraryProvider);
 
     ref.listen(libraryProvider, (_, state) {
-      state.when(
+      state.whenOrNull(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
-                ref.invalidate(libraryProvider);
                 navigatorKey.currentState!.pop();
+                ref.invalidate(libraryProvider);
               },
             );
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
           }
         },
-        loading: () {},
-        data: (_) {},
       );
     });
 

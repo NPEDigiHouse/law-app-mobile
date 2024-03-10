@@ -27,21 +27,19 @@ class GlossaryHomePage extends ConsumerWidget {
     final searchHistory = ref.watch(glossarySearchHistoryProvider);
 
     ref.listen(glossarySearchHistoryProvider, (_, state) {
-      state.when(
+      state.whenOrNull(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
-                ref.invalidate(glossarySearchHistoryProvider);
                 navigatorKey.currentState!.pop();
+                ref.invalidate(glossarySearchHistoryProvider);
               },
             );
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
           }
         },
-        loading: () {},
-        data: (_) {},
       );
     });
 
@@ -113,11 +111,11 @@ class GlossaryHomePage extends ConsumerWidget {
                               'Anda yakin ingin menghapus semua riwayat pencarian?',
                           primaryButtonText: 'Hapus',
                           onPressedPrimaryButton: () {
+                            navigatorKey.currentState!.pop();
+
                             ref
                                 .read(glossarySearchHistoryProvider.notifier)
                                 .deleteAllGlossariesSearchHistory();
-
-                            navigatorKey.currentState!.pop();
                           },
                         ),
                         child: Text(

@@ -70,28 +70,25 @@ class _StudentDiscussionHomePageState
     final discussions = ref.watch(studentDiscussionsProvider);
 
     ref.listen(studentDiscussionsProvider, (_, state) {
-      state.when(
+      state.whenOrNull(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
-                ref.invalidate(studentDiscussionsProvider);
                 navigatorKey.currentState!.pop();
+                ref.invalidate(studentDiscussionsProvider);
               },
             );
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
           }
         },
-        loading: () {},
-        data: (_) {},
       );
     });
 
     ref.listen(createDiscussionProvider, (_, state) {
       state.when(
         error: (error, _) {
-          navigatorKey.currentState!.pop();
           navigatorKey.currentState!.pop();
 
           if ('$error' == kNoInternetConnection) {
@@ -103,7 +100,6 @@ class _StudentDiscussionHomePageState
         loading: () => context.showLoadingDialog(),
         data: (data) {
           if (data != null) {
-            navigatorKey.currentState!.pop();
             navigatorKey.currentState!.pop();
 
             ref.invalidate(studentDiscussionsProvider);

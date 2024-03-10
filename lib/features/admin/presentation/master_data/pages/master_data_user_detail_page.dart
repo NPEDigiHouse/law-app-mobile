@@ -30,21 +30,19 @@ class MasterDataUserDetailPage extends ConsumerWidget {
     final user = ref.watch(UserDetailProvider(id: id));
 
     ref.listen(UserDetailProvider(id: id), (_, state) {
-      state.when(
+      state.whenOrNull(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
-                ref.invalidate(userDetailProvider);
                 navigatorKey.currentState!.pop();
+                ref.invalidate(userDetailProvider);
               },
             );
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
           }
         },
-        loading: () {},
-        data: (_) {},
       );
     });
 

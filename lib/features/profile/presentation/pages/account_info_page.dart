@@ -38,28 +38,25 @@ class AccountInfoPage extends ConsumerWidget {
     final user = ref.watch(ProfileDetailProvider(id: id));
 
     ref.listen(ProfileDetailProvider(id: id), (_, state) {
-      state.when(
+      state.whenOrNull(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
-                ref.invalidate(profileDetailProvider);
                 navigatorKey.currentState!.pop();
+                ref.invalidate(profileDetailProvider);
               },
             );
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
           }
         },
-        loading: () {},
-        data: (_) {},
       );
     });
 
     ref.listen(editProfileProvider, (_, state) {
       state.when(
         error: (error, _) {
-          navigatorKey.currentState!.pop();
           navigatorKey.currentState!.pop();
 
           if ('$error' == kNoInternetConnection) {
@@ -71,6 +68,8 @@ class AccountInfoPage extends ConsumerWidget {
         loading: () => context.showLoadingDialog(),
         data: (data) {
           if (data != null) {
+            navigatorKey.currentState!.pop();
+
             ref.invalidate(ProfileDetailProvider(id: id));
             ref.invalidate(userCredentialProvider);
 
@@ -78,9 +77,6 @@ class AccountInfoPage extends ConsumerWidget {
               message: 'Berhasil mengedit profile!',
               type: BannerType.success,
             );
-
-            navigatorKey.currentState!.pop();
-            navigatorKey.currentState!.pop();
           }
         },
       );
@@ -90,7 +86,6 @@ class AccountInfoPage extends ConsumerWidget {
       state.when(
         error: (error, _) {
           navigatorKey.currentState!.pop();
-          navigatorKey.currentState!.pop();
 
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet();
@@ -101,15 +96,14 @@ class AccountInfoPage extends ConsumerWidget {
         loading: () => context.showLoadingDialog(),
         data: (data) {
           if (data != null) {
+            navigatorKey.currentState!.pop();
+
             ref.invalidate(ProfileDetailProvider(id: id));
 
             context.showBanner(
               message: 'Password berhasil diubah!',
               type: BannerType.success,
             );
-
-            navigatorKey.currentState!.pop();
-            navigatorKey.currentState!.pop();
           }
         },
       );
@@ -366,6 +360,8 @@ class AccountInfoPage extends ConsumerWidget {
       );
 
       if (compressedImagePath != null) {
+        navigatorKey.currentState!.pop();
+
         ref
             .read(editProfileProvider.notifier)
             .editProfile(user: user, path: compressedImagePath);

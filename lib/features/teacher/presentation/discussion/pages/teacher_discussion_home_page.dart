@@ -67,21 +67,19 @@ class _TeacherDiscussionHomePageState
     final discussions = ref.watch(teacherDiscussionsProvider);
 
     ref.listen(teacherDiscussionsProvider, (_, state) {
-      state.when(
+      state.whenOrNull(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
-                ref.invalidate(teacherDiscussionsProvider);
                 navigatorKey.currentState!.pop();
+                ref.invalidate(teacherDiscussionsProvider);
               },
             );
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
           }
         },
-        loading: () {},
-        data: (_) {},
       );
     });
 

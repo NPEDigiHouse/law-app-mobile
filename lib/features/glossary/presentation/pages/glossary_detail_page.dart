@@ -34,21 +34,19 @@ class GlossaryDetailPage extends ConsumerWidget {
     final glossary = ref.watch(GlossaryDetailProvider(id: id));
 
     ref.listen(GlossaryDetailProvider(id: id), (_, state) {
-      state.when(
+      state.whenOrNull(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
-                ref.invalidate(glossaryDetailProvider);
                 navigatorKey.currentState!.pop();
+                ref.invalidate(glossaryDetailProvider);
               },
             );
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
           }
         },
-        loading: () {},
-        data: (_) {},
       );
     });
 
@@ -56,7 +54,6 @@ class GlossaryDetailPage extends ConsumerWidget {
       ref.listen(editGlossaryProvider, (_, state) {
         state.when(
           error: (error, _) {
-            navigatorKey.currentState!.pop();
             navigatorKey.currentState!.pop();
 
             if ('$error' == kNoInternetConnection) {
@@ -68,11 +65,10 @@ class GlossaryDetailPage extends ConsumerWidget {
           loading: () => context.showLoadingDialog(),
           data: (data) {
             if (data != null) {
+              navigatorKey.currentState!.pop();
+
               ref.invalidate(GlossaryDetailProvider(id: id));
               ref.invalidate(glossaryProvider);
-
-              navigatorKey.currentState!.pop();
-              navigatorKey.currentState!.pop();
             }
           },
         );
@@ -135,14 +131,14 @@ class GlossaryDetailPage extends ConsumerWidget {
                       textAreaHint: 'Masukkan pengertian/deskripsi',
                       primaryButtonText: 'Edit',
                       onSubmitted: (value) {
-                        final newGlossary = glossary.copyWith(
-                          title: value['title'],
-                          description: value['description'],
-                        );
+                        navigatorKey.currentState!.pop();
 
-                        ref
-                            .read(editGlossaryProvider.notifier)
-                            .editGlossary(glossary: newGlossary);
+                        ref.read(editGlossaryProvider.notifier).editGlossary(
+                              glossary: glossary.copyWith(
+                                title: value['title'],
+                                description: value['description'],
+                              ),
+                            );
                       },
                     ),
                     icon: SvgAsset(

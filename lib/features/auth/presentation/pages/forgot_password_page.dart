@@ -42,7 +42,6 @@ class _ForgotpasswordPageState extends ConsumerState<ForgotpasswordPage>
   Widget build(BuildContext context) {
     ref.listen(askResetPasswordProvider, (_, state) {
       state.when(
-        loading: () => context.showLoadingDialog(),
         error: (error, _) {
           navigatorKey.currentState!.pop();
 
@@ -52,6 +51,7 @@ class _ForgotpasswordPageState extends ConsumerState<ForgotpasswordPage>
             context.showBanner(message: '$error', type: BannerType.error);
           }
         },
+        loading: () => context.showLoadingDialog(),
         data: (data) {
           if (data != null) {
             navigatorKey.currentState!.pop();

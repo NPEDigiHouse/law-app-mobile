@@ -51,21 +51,19 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
     final selectedRole = ref.watch(userRoleProvider);
 
     ref.listen(masterDataProvider, (_, state) {
-      state.when(
+      state.whenOrNull(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
-                ref.invalidate(masterDataProvider);
                 navigatorKey.currentState!.pop();
+                ref.invalidate(masterDataProvider);
               },
             );
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
           }
         },
-        loading: () {},
-        data: (_) {},
       );
     });
 
@@ -314,13 +312,13 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
   }
 
   void sortUsers(Map<String, dynamic> value) {
+    navigatorKey.currentState!.pop();
+
     ref.read(queryProvider.notifier).state = '';
     ref.read(masterDataProvider.notifier).sortUsers(
           sortBy: value['sortBy'],
           sortOrder: value['sortOrder'],
         );
-
-    navigatorKey.currentState!.pop();
   }
 
   void filterUsers(String role) {

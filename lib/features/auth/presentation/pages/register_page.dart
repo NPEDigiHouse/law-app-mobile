@@ -60,7 +60,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
   Widget build(BuildContext context) {
     ref.listen(signUpProvider, (_, state) {
       state.when(
-        loading: () => context.showLoadingDialog(),
         error: (error, _) {
           navigatorKey.currentState!.pop();
 
@@ -70,6 +69,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
             context.showBanner(message: '$error', type: BannerType.error);
           }
         },
+        loading: () => context.showLoadingDialog(),
         data: (data) {
           if (data != null) {
             navigatorKey.currentState!.pushNamedAndRemoveUntil(

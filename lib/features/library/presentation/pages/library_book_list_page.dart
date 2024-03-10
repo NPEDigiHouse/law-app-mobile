@@ -60,21 +60,19 @@ class _LibraryBookListPageState extends ConsumerState<LibraryBookListPage>
     final books = ref.watch(BookProvider(categoryId: categoryId));
 
     ref.listen(BookProvider(categoryId: categoryId), (_, state) {
-      state.when(
+      state.whenOrNull(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
-                ref.invalidate(BookProvider(categoryId: categoryId));
                 navigatorKey.currentState!.pop();
+                ref.invalidate(BookProvider(categoryId: categoryId));
               },
             );
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
           }
         },
-        loading: () {},
-        data: (_) {},
       );
     });
 

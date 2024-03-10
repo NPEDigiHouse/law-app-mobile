@@ -41,21 +41,19 @@ class AdminDiscussionDetailPage extends ConsumerWidget {
     final discussion = ref.watch(DiscussionDetailProvider(id: id));
 
     ref.listen(DiscussionDetailProvider(id: id), (_, state) {
-      state.when(
+      state.whenOrNull(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
-                ref.invalidate(discussionDetailProvider);
                 navigatorKey.currentState!.pop();
+                ref.invalidate(discussionDetailProvider);
               },
             );
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
           }
         },
-        loading: () {},
-        data: (_) {},
       );
     });
 
@@ -73,9 +71,8 @@ class AdminDiscussionDetailPage extends ConsumerWidget {
         loading: () => context.showLoadingDialog(),
         data: (data) {
           if (data != null) {
-            ref.invalidate(DiscussionDetailProvider(id: id));
-
             navigatorKey.currentState!.pop();
+            ref.invalidate(DiscussionDetailProvider(id: id));
           }
         },
       );
@@ -84,7 +81,6 @@ class AdminDiscussionDetailPage extends ConsumerWidget {
     ref.listen(editDiscussionProvider, (_, state) {
       state.when(
         error: (error, _) {
-          navigatorKey.currentState!.pop();
           navigatorKey.currentState!.pop();
 
           if ('$error' == kNoInternetConnection) {
@@ -96,11 +92,9 @@ class AdminDiscussionDetailPage extends ConsumerWidget {
         loading: () => context.showLoadingDialog(),
         data: (data) {
           if (data != null) {
+            navigatorKey.currentState!.pop();
             ref.invalidate(DiscussionDetailProvider(id: id));
             ref.invalidate(discussionProvider);
-
-            navigatorKey.currentState!.pop();
-            navigatorKey.currentState!.pop();
           }
         },
       );
@@ -130,6 +124,8 @@ class AdminDiscussionDetailPage extends ConsumerWidget {
                   withCheckbox: true,
                   checkboxLabel: 'Saya yakin ingin mengalihkan pertanyaan ini',
                   onPressedPrimaryButton: () {
+                    navigatorKey.currentState!.pop();
+
                     ref.read(editDiscussionProvider.notifier).editDiscussion(
                           discussionId: discussion.id!,
                           type: 'specific',
@@ -278,6 +274,8 @@ class AdminDiscussionDetailPage extends ConsumerWidget {
                       maxLines: 4,
                       primaryButtonText: 'Submit',
                       onSubmitted: (value) {
+                        navigatorKey.currentState!.pop();
+
                         ref
                             .read(createDiscussionCommentProvider.notifier)
                             .createDiscussionComment(
@@ -285,8 +283,6 @@ class AdminDiscussionDetailPage extends ConsumerWidget {
                               discussionId: discussion.id!,
                               text: value['text'],
                             );
-
-                        navigatorKey.currentState!.pop();
                       },
                     ),
                     child: const Text('Beri Tanggapan'),
@@ -302,6 +298,8 @@ class AdminDiscussionDetailPage extends ConsumerWidget {
                       foregroundColor: warningColor,
                       backgroundColor: const Color(0xFFFCF6DF),
                       onPressedPrimaryButton: () {
+                        navigatorKey.currentState!.pop();
+
                         ref
                             .read(editDiscussionProvider.notifier)
                             .editDiscussion(

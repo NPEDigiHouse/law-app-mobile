@@ -34,28 +34,25 @@ class BookManagementDetailPage extends ConsumerWidget {
     final book = ref.watch(BookDetailProvider(id: id));
 
     ref.listen(BookDetailProvider(id: id), (_, state) {
-      state.when(
+      state.whenOrNull(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
-                ref.invalidate(bookDetailProvider);
                 navigatorKey.currentState!.pop();
+                ref.invalidate(bookDetailProvider);
               },
             );
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
           }
         },
-        loading: () {},
-        data: (_) {},
       );
     });
 
     ref.listen(deleteBookProvider, (_, state) {
       state.when(
         error: (error, _) {
-          navigatorKey.currentState!.pop();
           navigatorKey.currentState!.pop();
 
           if ('$error' == kNoInternetConnection) {
@@ -67,16 +64,15 @@ class BookManagementDetailPage extends ConsumerWidget {
         loading: () => context.showLoadingDialog(),
         data: (data) {
           if (data != null) {
+            navigatorKey.currentState!.pop();
+            navigatorKey.currentState!.pop();
+
             ref.invalidate(bookProvider);
 
             context.showBanner(
               message: 'Buku berhasil dihapus!',
               type: BannerType.success,
             );
-
-            navigatorKey.currentState!.pop();
-            navigatorKey.currentState!.pop();
-            navigatorKey.currentState!.pop();
           }
         },
       );
@@ -119,6 +115,8 @@ class BookManagementDetailPage extends ConsumerWidget {
                               message: 'Anda yakin ingin menghapus buku ini!',
                               primaryButtonText: 'Hapus',
                               onPressedPrimaryButton: () {
+                                navigatorKey.currentState!.pop();
+
                                 ref
                                     .read(deleteBookProvider.notifier)
                                     .deleteBook(id: id);
@@ -379,14 +377,21 @@ class BookManagementDetailPage extends ConsumerWidget {
   Future<void> openPDF(BuildContext context, String url) async {
     context.showLoadingDialog();
 
-    final path = await FileService.downloadFile(url: url);
+    final path = await FileService.downloadFile(url: url, flush: true);
+
+    navigatorKey.currentState!.pop();
 
     if (path != null) {
       final result = await OpenFile.open(path);
 
       debugPrint(result.message);
-    }
+    } else {
+      if (!context.mounted) return;
 
-    navigatorKey.currentState!.pop();
+      context.showBanner(
+        message: 'Gagal mengunduh file. Periksa koneksi internet!',
+        type: BannerType.error,
+      );
+    }
   }
 }

@@ -116,6 +116,9 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
         loading: () => context.showLoadingDialog(),
         data: (data) {
           if (data != null) {
+            navigatorKey.currentState!.pop();
+            navigatorKey.currentState!.pop();
+
             ref.invalidate(BookDetailProvider(id: widget.book!.id!));
             ref.invalidate(bookProvider);
 
@@ -123,9 +126,6 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
               message: 'Berhasil mengedit buku!',
               type: BannerType.success,
             );
-
-            navigatorKey.currentState!.pop();
-            navigatorKey.currentState!.pop();
           }
         },
       );
@@ -145,15 +145,15 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
         loading: () => context.showLoadingDialog(),
         data: (data) {
           if (data != null) {
+            navigatorKey.currentState!.pop();
+            navigatorKey.currentState!.pop();
+
             ref.invalidate(bookProvider);
 
             context.showBanner(
               message: 'Berhasil menambahkan buku!',
               type: BannerType.success,
             );
-
-            navigatorKey.currentState!.pop();
-            navigatorKey.currentState!.pop();
           }
         },
       );

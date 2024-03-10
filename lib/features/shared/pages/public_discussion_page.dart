@@ -106,21 +106,19 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
         type: 'general',
       ),
       (_, state) {
-        state.when(
+        state.whenOrNull(
           error: (error, _) {
             if ('$error' == kNoInternetConnection) {
               context.showNetworkErrorModalBottomSheet(
                 onPressedPrimaryButton: () {
-                  ref.invalidate(discussionProvider);
                   navigatorKey.currentState!.pop();
+                  ref.invalidate(discussionProvider);
                 },
               );
             } else {
               context.showBanner(message: '$error', type: BannerType.error);
             }
           },
-          loading: () {},
-          data: (_) {},
         );
       },
     );

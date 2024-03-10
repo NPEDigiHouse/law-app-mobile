@@ -26,21 +26,19 @@ class DiscussionCategoryPage extends ConsumerWidget {
     final categories = ref.watch(discussionCategoryProvider);
 
     ref.listen(discussionCategoryProvider, (_, state) {
-      state.when(
+      state.whenOrNull(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
-                ref.invalidate(discussionCategoryProvider);
                 navigatorKey.currentState!.pop();
+                ref.invalidate(discussionCategoryProvider);
               },
             );
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
           }
         },
-        loading: () {},
-        data: (_) {},
       );
     });
 
@@ -95,11 +93,11 @@ class DiscussionCategoryPage extends ConsumerWidget {
             hintText: "Masukkan nama kategori",
             primaryButtonText: 'Tambah',
             onSubmitted: (value) {
+              navigatorKey.currentState!.pop();
+
               ref
                   .read(discussionCategoryProvider.notifier)
                   .createDiscussionCategory(name: value['name']);
-
-              navigatorKey.currentState!.pop();
             },
           ),
           icon: SvgAsset(

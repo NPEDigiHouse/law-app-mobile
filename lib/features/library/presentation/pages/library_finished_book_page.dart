@@ -24,21 +24,19 @@ class LibraryFinishedBookPage extends ConsumerWidget {
     final userReads = ref.watch(userReadsProvider);
 
     ref.listen(userReadsProvider, (_, state) {
-      state.when(
+      state.whenOrNull(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
-                ref.invalidate(userReadsProvider);
                 navigatorKey.currentState!.pop();
+                ref.invalidate(userReadsProvider);
               },
             );
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
           }
         },
-        loading: () {},
-        data: (_) {},
       );
     });
 
