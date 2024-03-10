@@ -10,6 +10,7 @@ import 'package:law_app/core/configs/api_configs.dart';
 import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/data_response.dart';
+import 'package:law_app/features/admin/data/models/dashboard_models/dashboard_data_model.dart';
 import 'package:law_app/features/admin/data/models/user_models/user_credential_model.dart';
 import 'package:law_app/features/admin/data/models/user_models/user_post_model.dart';
 import 'package:law_app/features/auth/data/datasources/auth_preferences_helper.dart';
@@ -42,6 +43,9 @@ abstract class AuthDataSource {
     required String resetPasswordToken,
     required String newPassword,
   });
+
+  /// Get dashboard data
+  Future<DashboardDataModel> getDashboardData();
 }
 
 class AuthDataSourceImpl implements AuthDataSource {
@@ -229,6 +233,34 @@ class AuthDataSourceImpl implements AuthDataSource {
 
       if (result.code == 200) {
         return true;
+      } else {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      if (e is ServerException) {
+        rethrow;
+      } else {
+        throw http.ClientException(e.toString());
+      }
+    }
+  }
+
+  @override
+  Future<DashboardDataModel> getDashboardData() async {
+    try {
+      final response = await client.get(
+        Uri.parse('${ApiConfigs.baseUrl}/auth/detail'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code == 200) {
+        return DashboardDataModel.fromMap(result.data);
       } else {
         throw ServerException('${result.message}');
       }

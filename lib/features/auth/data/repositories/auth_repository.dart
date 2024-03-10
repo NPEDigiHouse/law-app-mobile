@@ -7,6 +7,7 @@ import 'package:law_app/core/connections/network_info.dart';
 import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/errors/failures.dart';
 import 'package:law_app/core/utils/const.dart';
+import 'package:law_app/features/admin/data/models/dashboard_models/dashboard_data_model.dart';
 import 'package:law_app/features/admin/data/models/user_models/user_credential_model.dart';
 import 'package:law_app/features/admin/data/models/user_models/user_post_model.dart';
 import 'package:law_app/features/auth/data/datasources/auth_data_source.dart';
@@ -39,6 +40,9 @@ abstract class AuthRepository {
     required String resetPasswordToken,
     required String newPassword,
   });
+
+  /// Get dashboard data
+  Future<Either<Failure, DashboardDataModel>> getDashboardData();
 }
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -179,6 +183,23 @@ class AuthRepositoryImpl implements AuthRepository {
           resetPasswordToken: resetPasswordToken,
           newPassword: newPassword,
         );
+
+        return Right(result);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message));
+      } on ClientException catch (e) {
+        return Left(ClientFailure(e.message));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, DashboardDataModel>> getDashboardData() async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await authDataSource.getDashboardData();
 
         return Right(result);
       } on ServerException catch (e) {

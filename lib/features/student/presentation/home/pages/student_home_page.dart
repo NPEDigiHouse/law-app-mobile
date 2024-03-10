@@ -70,33 +70,37 @@ class StudentHomePage extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: backgroundColor,
-      body: SingleChildScrollView(
-        child: dashboard.whenOrNull(
-          loading: () => const LoadingIndicator(),
-          data: (dashboard) {
-            final discussions = dashboard.discussions;
-            final books = dashboard.books;
-            final items = [
-              {
-                "icon": "chalkboard-teacher-fill.svg",
-                "count": 0,
-                "text": "Course\nDiambil",
-              },
-              {
-                "icon": "question-circle-line.svg",
-                "count": 0,
-                "text": "Pertanyaan\nDipakai",
-              },
-              {
-                "icon": "book-bold.svg",
-                "count": 0,
-                "text": "Buku\nDibaca",
-              },
-            ];
+      body: dashboard.whenOrNull(
+        loading: () => const LoadingIndicator(),
+        data: (dashboard) {
+          final discussions = dashboard.discussions;
+          final books = dashboard.books;
+          final dashboardData = dashboard.dashboardData;
 
-            if (discussions == null || books == null) return null;
+          if (discussions == null || books == null || dashboardData == null) {
+            return null;
+          }
 
-            return Column(
+          final items = [
+            {
+              "icon": "chalkboard-teacher-fill.svg",
+              "count": dashboardData.totalCourses,
+              "text": "Course\nDiambil",
+            },
+            {
+              "icon": "question-circle-line.svg",
+              "count": dashboardData.totalDiscussions,
+              "text": "Pertanyaan\nDipakai",
+            },
+            {
+              "icon": "book-bold.svg",
+              "count": dashboardData.totalBooksRead,
+              "text": "Buku\nDibaca",
+            },
+          ];
+
+          return SingleChildScrollView(
+            child: Column(
               children: [
                 HomePageHeader(
                   onPressedProfileIcon: () {
@@ -288,9 +292,9 @@ class StudentHomePage extends ConsumerWidget {
                   ),
                 ),
               ],
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }

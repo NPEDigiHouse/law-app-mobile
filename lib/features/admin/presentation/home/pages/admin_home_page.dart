@@ -5,11 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
+import 'package:law_app/core/enums/banner_type.dart';
+import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/features/auth/presentation/providers/dashboard_data_provider.dart';
 import 'package:law_app/features/shared/widgets/dashboard.dart';
 import 'package:law_app/features/shared/widgets/feature/home_page_header.dart';
 import 'package:law_app/features/shared/widgets/ink_well_container.dart';
@@ -20,28 +24,7 @@ class AdminHomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const dashboardItems = [
-      {
-        "icon": "dictionary-book-solid.svg",
-        "count": 0,
-        "text": "Total\nGlosarium",
-      },
-      {
-        "icon": "book-bold.svg",
-        "count": 0,
-        "text": "Total\nBuku",
-      },
-      {
-        "icon": "user-solid.svg",
-        "count": 0,
-        "text": "Total\nPengguna",
-      },
-      {
-        "icon": "question-circle-line.svg",
-        "count": 0,
-        "text": "Total\nPertanyaan",
-      },
-    ];
+    final dashboardData = ref.watch(dashboardDataProvider);
 
     final menu = [
       {
@@ -95,85 +78,131 @@ class AdminHomePage extends ConsumerWidget {
       },
     ];
 
+    ref.listen(dashboardDataProvider, (_, state) {
+      state.when(
+        error: (error, _) {
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet(
+              onPressedPrimaryButton: () {
+                ref.invalidate(dashboardDataProvider);
+                navigatorKey.currentState!.pop();
+              },
+            );
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+        loading: () {},
+        data: (_) {},
+      );
+    });
+
     return Scaffold(
       backgroundColor: backgroundColor,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            HomePageHeader(
-              onPressedProfileIcon: () => navigatorKey.currentState!.pushNamed(
-                profileRoute,
-              ),
-              child: const Dashboard(
-                items: dashboardItems,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 90, 20, 24),
-              child: GridView.count(
-                physics: const NeverScrollableScrollPhysics(),
-                padding: const EdgeInsets.all(0),
-                shrinkWrap: true,
-                crossAxisCount: 2,
-                crossAxisSpacing: 8,
-                mainAxisSpacing: 8,
-                childAspectRatio: 6 / 5,
-                children: List<InkWellContainer>.generate(
-                  menu.length,
-                  (index) => InkWellContainer(
-                    color: scaffoldBackgroundColor,
-                    radius: 12,
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 16,
-                      horizontal: 12,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(.1),
-                        offset: const Offset(2, 2),
-                        blurRadius: 4,
-                        spreadRadius: -1,
+      body: dashboardData.whenOrNull(
+        data: (dashboardData) {
+          if (dashboardData == null) return null;
+
+          final items = [
+            {
+              "icon": "dictionary-book-solid.svg",
+              "count": dashboardData.totalWords,
+              "text": "Total\nGlosarium",
+            },
+            {
+              "icon": "book-bold.svg",
+              "count": dashboardData.totalBooks,
+              "text": "Total\nBuku",
+            },
+            {
+              "icon": "user-solid.svg",
+              "count": dashboardData.totalUsers,
+              "text": "Total\nPengguna",
+            },
+            {
+              "icon": "question-circle-line.svg",
+              "count": dashboardData.totalDiscussions,
+              "text": "Total\nPertanyaan",
+            },
+          ];
+
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                HomePageHeader(
+                  onPressedProfileIcon: () {
+                    navigatorKey.currentState!.pushNamed(profileRoute);
+                  },
+                  child: Dashboard(items: items),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 90, 20, 24),
+                  child: GridView.count(
+                    physics: const NeverScrollableScrollPhysics(),
+                    padding: const EdgeInsets.all(0),
+                    shrinkWrap: true,
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 8,
+                    mainAxisSpacing: 8,
+                    childAspectRatio: 6 / 5,
+                    children: List<InkWellContainer>.generate(
+                      menu.length,
+                      (index) => InkWellContainer(
+                        color: scaffoldBackgroundColor,
+                        radius: 12,
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 16,
+                          horizontal: 12,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(.1),
+                            offset: const Offset(2, 2),
+                            blurRadius: 4,
+                            spreadRadius: -1,
+                          ),
+                        ],
+                        onTap: menu[index]["onTap"]! as VoidCallback,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              height: 48,
+                              width: 48,
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                color: secondaryColor,
+                              ),
+                              child: SvgAsset(
+                                color: primaryColor,
+                                assetPath: AssetPath.getIcon(
+                                  menu[index]["icon"]! as String,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Expanded(
+                              child: Text(
+                                menu[index]["text"]! as String,
+                                style: textTheme.titleMedium!.copyWith(
+                                  color: primaryColor,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ],
-                    onTap: menu[index]["onTap"]! as VoidCallback,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          height: 48,
-                          width: 48,
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: secondaryColor,
-                          ),
-                          child: SvgAsset(
-                            color: primaryColor,
-                            assetPath: AssetPath.getIcon(
-                              menu[index]["icon"]! as String,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Expanded(
-                          child: Text(
-                            menu[index]["text"]! as String,
-                            style: textTheme.titleMedium!.copyWith(
-                              color: primaryColor,
-                            ),
-                          ),
-                        ),
-                      ],
                     ),
                   ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

@@ -53,20 +53,24 @@ class TeacherHomePage extends ConsumerWidget {
         data: (dashboard) {
           final discussions = dashboard.discussions;
           final books = dashboard.books;
+          final dashboardData = dashboard.dashboardData;
+
+          if (discussions == null || books == null || dashboardData == null) {
+            return null;
+          }
+
           final items = [
             {
               "icon": "question-circle-line.svg",
-              "count": 0,
+              "count": dashboardData.totalDiscussions,
               "text": "Pertanyaan\nDijawab",
             },
             {
               "icon": "book-bold.svg",
-              "count": 0,
+              "count": dashboardData.totalBooksRead,
               "text": "Buku\nDibaca",
             },
           ];
-
-          if (discussions == null || books == null) return null;
 
           return SingleChildScrollView(
             child: Column(

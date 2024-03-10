@@ -41,7 +41,7 @@ class Dashboard extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     GradientBackgroundIcon(
-                      icon: items[index]["icon"],
+                      icon: '${items[index]["icon"]}',
                       size: 56,
                     ),
                     const SizedBox(height: 4),
@@ -56,7 +56,7 @@ class Dashboard extends StatelessWidget {
                     ),
                     Flexible(
                       child: Text(
-                        items[index]["text"],
+                        '${items[index]["text"]}',
                         textAlign: TextAlign.center,
                         style: textTheme.bodySmall!.copyWith(
                           height: 0,
