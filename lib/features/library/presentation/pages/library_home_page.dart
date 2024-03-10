@@ -12,7 +12,6 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/library/presentation/providers/book_provider.dart';
 import 'package:law_app/features/library/presentation/providers/library_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
 import 'package:law_app/features/shared/widgets/empty_content_text.dart';
@@ -34,7 +33,7 @@ class LibraryHomePage extends ConsumerWidget {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
-                ref.invalidate(bookProvider);
+                ref.invalidate(libraryProvider);
                 navigatorKey.currentState!.pop();
               },
             );

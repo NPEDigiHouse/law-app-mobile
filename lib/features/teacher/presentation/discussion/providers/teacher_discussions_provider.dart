@@ -52,17 +52,17 @@ class TeacherDiscussions extends _$TeacherDiscussions {
           userCredential = data;
 
           result.fold(
-            (l) => this.state = AsyncValue.error(l.message, StackTrace.current),
+            (l) {},
             (r) => userDiscussions = r,
           );
 
           result2.fold(
-            (l) => this.state = AsyncValue.error(l.message, StackTrace.current),
+            (l) {},
             (r) => publicDiscussions = r,
           );
 
           result3.fold(
-            (l) => this.state = AsyncValue.error(l.message, StackTrace.current),
+            (l) {},
             (r) {
               specificDiscussions = r.where((e) {
                 return CredentialSaver.user!.expertises!.contains(e.category);

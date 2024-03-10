@@ -5,9 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
+import 'package:law_app/core/enums/banner_type.dart';
+import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/shared/widgets/dashboard.dart';
 import 'package:law_app/features/shared/widgets/empty_content_text.dart';
@@ -24,30 +27,49 @@ class TeacherHomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final dashboard = ref.watch(teacherDashboardProvider);
 
+    ref.listen(teacherDashboardProvider, (_, state) {
+      state.when(
+        error: (error, _) {
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet(
+              onPressedPrimaryButton: () {
+                ref.invalidate(teacherDashboardProvider);
+                navigatorKey.currentState!.pop();
+              },
+            );
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+        loading: () {},
+        data: (_) {},
+      );
+    });
+
     return Scaffold(
       backgroundColor: backgroundColor,
-      body: SingleChildScrollView(
-        child: dashboard.whenOrNull(
-          loading: () => const LoadingIndicator(),
-          data: (dashboard) {
-            final discussions = dashboard.discussions;
-            final books = dashboard.books;
-            final items = [
-              {
-                "icon": "question-circle-line.svg",
-                "count": 0,
-                "text": "Pertanyaan\nDijawab",
-              },
-              {
-                "icon": "book-bold.svg",
-                "count": 0,
-                "text": "Buku\nDibaca",
-              },
-            ];
+      body: dashboard.whenOrNull(
+        loading: () => const LoadingIndicator(),
+        data: (dashboard) {
+          final discussions = dashboard.discussions;
+          final books = dashboard.books;
+          final items = [
+            {
+              "icon": "question-circle-line.svg",
+              "count": 0,
+              "text": "Pertanyaan\nDijawab",
+            },
+            {
+              "icon": "book-bold.svg",
+              "count": 0,
+              "text": "Buku\nDibaca",
+            },
+          ];
 
-            if (discussions == null || books == null) return null;
+          if (discussions == null || books == null) return null;
 
-            return Column(
+          return SingleChildScrollView(
+            child: Column(
               children: [
                 HomePageHeader(
                   onPressedProfileIcon: () {
@@ -177,9 +199,9 @@ class TeacherHomePage extends ConsumerWidget {
                         ),
                 ),
               ],
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }

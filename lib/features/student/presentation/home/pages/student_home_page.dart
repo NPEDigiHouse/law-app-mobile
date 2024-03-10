@@ -5,9 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
+import 'package:law_app/core/enums/banner_type.dart';
+import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/dashboard.dart';
@@ -26,6 +29,25 @@ class StudentHomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final dashboard = ref.watch(studentDashboardProvider);
+
+    ref.listen(studentDashboardProvider, (_, state) {
+      state.when(
+        error: (error, _) {
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet(
+              onPressedPrimaryButton: () {
+                ref.invalidate(studentDashboardProvider);
+                navigatorKey.currentState!.pop();
+              },
+            );
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+        loading: () {},
+        data: (_) {},
+      );
+    });
 
     // final carouselItems = [
     //   {
