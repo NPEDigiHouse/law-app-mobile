@@ -128,35 +128,38 @@ class LibraryHomePage extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
-                  child: Text(
-                    'Lanjutkan Membaca',
-                    style: textTheme.titleLarge!.copyWith(
-                      color: primaryColor,
+                if (userReads.isNotEmpty) ...[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
+                    child: Text(
+                      'Lanjutkan Membaca',
+                      style: textTheme.titleLarge!.copyWith(
+                        color: primaryColor,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 120,
-                  child: ListView.separated(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return SizedBox(
-                        width: 300,
-                        height: 120,
-                        child: BookCard(book: userReads[index]),
-                      );
-                    },
-                    separatorBuilder: (context, index) {
-                      return const SizedBox(width: 8);
-                    },
-                    itemCount: userReads.length,
+                  SizedBox(
+                    height: 120,
+                    child: ListView.separated(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return SizedBox(
+                          width: 300,
+                          height: 120,
+                          child: BookCard(book: userReads[index]),
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(width: 8);
+                      },
+                      itemCount: userReads.length,
+                    ),
                   ),
-                ),
+                  const SizedBox(height: 16),
+                ],
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
                   child: Row(
                     children: [
                       Expanded(
@@ -183,7 +186,7 @@ class LibraryHomePage extends ConsumerWidget {
                 ),
                 if (books.isEmpty)
                   const EmptyContentText(
-                    'Daftar buku masih kosong. Nantikan koleksi buku-buku dari kami ya.',
+                    'Daftar buku belum ada. Nantikan koleksi buku-buku dari kami ya.',
                   )
                 else
                   GridView.count(

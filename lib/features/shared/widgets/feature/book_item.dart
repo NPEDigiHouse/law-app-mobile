@@ -10,10 +10,16 @@ import 'package:law_app/features/admin/data/models/book_models/book_model.dart';
 import 'package:law_app/features/shared/widgets/custom_network_image.dart';
 
 class BookItem extends StatelessWidget {
+  final double? width;
+  final double? height;
+  final int? titleMaxLines;
   final BookModel book;
 
   const BookItem({
     super.key,
+    this.width,
+    this.height,
+    this.titleMaxLines = 2,
     required this.book,
   });
 
@@ -23,6 +29,8 @@ class BookItem extends StatelessWidget {
       alignment: Alignment.bottomCenter,
       children: [
         CustomNetworkImage(
+          width: width,
+          height: height,
           imageUrl: book.coverImage!,
           placeHolderSize: 24,
           radius: 8,
@@ -34,26 +42,26 @@ class BookItem extends StatelessWidget {
             ),
           ],
         ),
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(10),
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(8),
-                ),
-                gradient: LinearGradient(
-                  colors: GradientColors.redPastel,
-                  begin: Alignment.bottomRight,
-                  end: Alignment.topLeft,
-                ),
-              ),
-              child: Center(
+        Container(
+          width: width,
+          padding: const EdgeInsets.all(10),
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(8),
+            ),
+            gradient: LinearGradient(
+              colors: GradientColors.redPastel,
+              begin: Alignment.bottomRight,
+              end: Alignment.topLeft,
+            ),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Center(
                 child: Text(
                   '${book.title}\n',
-                  maxLines: 2,
+                  maxLines: titleMaxLines,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
                   style: textTheme.bodySmall!.copyWith(
@@ -61,8 +69,8 @@ class BookItem extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         Positioned.fill(
           child: Material(

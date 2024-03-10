@@ -22,7 +22,6 @@ import 'package:law_app/features/shared/providers/discussion_providers/create_di
 import 'package:law_app/features/shared/providers/discussion_providers/discussion_detail_provider.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/discussion_provider.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/edit_discussion_provider.dart';
-import 'package:law_app/features/shared/providers/discussion_providers/teacher_discussions_provider.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/user_discussions_provider.dart';
 import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
 import 'package:law_app/features/shared/widgets/dialog/answer_discussion_dialog.dart';
@@ -31,6 +30,7 @@ import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/label_chip.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
+import 'package:law_app/features/teacher/presentation/discussion/providers/teacher_discussions_provider.dart';
 
 class TeacherDiscussionDetailPage extends ConsumerWidget {
   final int id;

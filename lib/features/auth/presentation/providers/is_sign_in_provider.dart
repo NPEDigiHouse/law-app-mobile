@@ -36,7 +36,7 @@ class IsSignIn extends _$IsSignIn {
               },
               data: (data) {
                 userCredential = data;
-                this.state = AsyncValue.data((isSignIn, data));
+                this.state = AsyncValue.data((isSignIn, userCredential));
               },
             );
           });

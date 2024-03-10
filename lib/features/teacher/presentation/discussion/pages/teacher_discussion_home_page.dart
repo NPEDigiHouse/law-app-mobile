@@ -15,13 +15,13 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/shared/providers/discussion_providers/teacher_discussions_provider.dart';
 import 'package:law_app/features/shared/widgets/animated_fab.dart';
 import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
 import 'package:law_app/features/shared/widgets/empty_content_text.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
+import 'package:law_app/features/teacher/presentation/discussion/providers/teacher_discussions_provider.dart';
 
 class TeacherDiscussionHomePage extends ConsumerStatefulWidget {
   const TeacherDiscussionHomePage({super.key});
@@ -376,7 +376,7 @@ class _TeacherDiscussionHomePageState
                   ),
                   if (publicDiscussions.isEmpty)
                     const EmptyContentText(
-                      'Belum terdapat diskusi umum. Pertanyaan umum dari siswa lain akan muncul di sini.',
+                      'Belum terdapat diskusi umum. Pertanyaan umum dari seluruh siswa akan muncul di sini.',
                     )
                   else
                     SizedBox(
@@ -429,7 +429,7 @@ class _TeacherDiscussionHomePageState
                     const Padding(
                       padding: EdgeInsets.only(bottom: 24),
                       child: EmptyContentText(
-                        'Belum terdapat pertanyaan yang perlu dijawab.',
+                        'Pertanyaan khusus yang dialihkan dan belum dijawab akan muncul di sini.',
                       ),
                     )
                   else

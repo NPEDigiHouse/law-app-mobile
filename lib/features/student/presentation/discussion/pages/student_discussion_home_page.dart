@@ -17,13 +17,13 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/create_discussion_provider.dart';
-import 'package:law_app/features/shared/providers/discussion_providers/student_discussions_provider.dart';
 import 'package:law_app/features/shared/widgets/animated_fab.dart';
 import 'package:law_app/features/shared/widgets/empty_content_text.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
+import 'package:law_app/features/student/presentation/discussion/providers/student_discussions_provider.dart';
 import 'package:law_app/features/student/presentation/discussion/widgets/create_discussion_dialog.dart';
 
 class StudentDiscussionHomePage extends ConsumerStatefulWidget {
@@ -397,7 +397,7 @@ class _StudentDiscussionHomePageState
                   ),
                   if (publicDiscussions.isEmpty)
                     const EmptyContentText(
-                      'Belum terdapat diskusi umum. Pertanyaan umum dari siswa lain akan muncul di sini.',
+                      'Belum terdapat diskusi umum. Pertanyaan umum dari seluruh siswa akan muncul di sini.',
                     )
                   else
                     ...List<Padding>.generate(

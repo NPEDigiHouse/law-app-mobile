@@ -35,11 +35,10 @@ class StudentDiscussions extends _$StudentDiscussions {
         .getDiscussions(limit: kPageLimit, type: 'general');
 
     ref.listen(userCredentialProvider, (_, state) {
-      state.when(
-        loading: () => this.state = const AsyncValue.loading(),
-        error: (e, _) {
+      state.whenOrNull(
+        error: (error, _) {
           this.state = AsyncValue.error(
-            (e as Failure).message,
+            (error as Failure).message,
             StackTrace.current,
           );
         },
@@ -47,12 +46,12 @@ class StudentDiscussions extends _$StudentDiscussions {
           userCredential = data;
 
           result.fold(
-            (l) {},
+            (l) => this.state = AsyncValue.error(l.message, StackTrace.current),
             (r) => userDiscussions = r,
           );
 
           result2.fold(
-            (l) {},
+            (l) => this.state = AsyncValue.error(l.message, StackTrace.current),
             (r) => publicDiscussions = r,
           );
 
