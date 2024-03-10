@@ -108,7 +108,7 @@ class LibraryBookDetailRoute extends ConsumerWidget {
       state.whenOrNull(
         data: (data) {
           if (data != null) {
-            ref.invalidate(bookDetailProvider);
+            ref.invalidate(BookDetailProvider(id: id));
             ref.invalidate(libraryProvider);
           }
         },

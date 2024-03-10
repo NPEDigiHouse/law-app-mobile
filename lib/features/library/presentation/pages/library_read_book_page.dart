@@ -1,9 +1,14 @@
+// Dart imports:
+import 'dart:io' show Platform;
+
 // Flutter imports:
 import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
+import 'package:screen_protector/screen_protector.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // Project imports:
@@ -48,6 +53,15 @@ class _LibraryReadBookPageState extends ConsumerState<LibraryReadBookPage> {
     super.initState();
 
     currentPage = widget.book.currentPage ?? 1;
+
+    disableScreenshot();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    enableScreenshot();
   }
 
   @override
@@ -64,7 +78,7 @@ class _LibraryReadBookPageState extends ConsumerState<LibraryReadBookPage> {
           state.whenOrNull(
             data: (data) {
               if (data != null) {
-                ref.invalidate(bookDetailProvider);
+                ref.invalidate(BookDetailProvider(id: widget.book.id!));
                 ref.invalidate(libraryProvider);
               }
             },
@@ -235,6 +249,28 @@ class _LibraryReadBookPageState extends ConsumerState<LibraryReadBookPage> {
         ),
       ),
     );
+  }
+
+  Future<void> disableScreenshot() async {
+    await ScreenProtector.preventScreenshotOn();
+
+    if (Platform.isAndroid) {
+      await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+      await ScreenProtector.protectDataLeakageOn();
+    } else if (Platform.isIOS) {
+      await ScreenProtector.protectDataLeakageWithColor(secondaryColor);
+    }
+  }
+
+  Future<void> enableScreenshot() async {
+    await ScreenProtector.preventScreenshotOff();
+
+    if (Platform.isAndroid) {
+      await FlutterWindowManager.clearFlags(FlutterWindowManager.FLAG_SECURE);
+      await ScreenProtector.protectDataLeakageOff();
+    } else if (Platform.isIOS) {
+      await ScreenProtector.protectDataLeakageWithColorOff();
+    }
   }
 }
 
