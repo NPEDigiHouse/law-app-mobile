@@ -66,8 +66,10 @@ class AdminCourseHomePage extends StatelessWidget {
               ),
               SearchField(
                 text: '',
+                hintText: 'Cari course',
                 readOnly: true,
-                hintText: "Cari Course",
+                canRequestFocus: false,
+                textInputAction: TextInputAction.none,
                 onTap: () => navigatorKey.currentState!.pushNamed(
                   adminCourseSearchRoute,
                 ),

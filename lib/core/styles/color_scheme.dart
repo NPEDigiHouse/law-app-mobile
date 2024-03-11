@@ -17,10 +17,10 @@ const backgroundColor = Color(0xFFFCFAFB);
 const scaffoldBackgroundColor = Color(0xFFFFFFFF);
 
 // System colors
-const errorColor = Color(0xFFF23D16);
-const successColor = Color(0xFF00AF54);
-const infoColor = Color(0xFF21C7EC);
-const warningColor = Color(0xFFF5C61D);
+const errorColor = Color(0xFFDC2626);
+const successColor = Color(0xFF16A34A);
+const infoColor = Color(0xFF1D4ED8);
+const warningColor = Color(0xFFEAB308);
 
 // Gradient colors
 class GradientColors {

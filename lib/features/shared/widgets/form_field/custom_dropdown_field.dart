@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
 
 // Project imports:
 import 'package:law_app/core/styles/color_scheme.dart';
@@ -93,9 +92,6 @@ class _CustomDropdownFieldState extends State<CustomDropdownField> {
               contentPadding: widget.isSmall
                   ? const EdgeInsets.fromLTRB(16, 12, 12, 12)
                   : const EdgeInsets.fromLTRB(16, 16, 12, 16),
-            ),
-            validator: FormBuilderValidators.required(
-              errorText: 'Bagian ini harus diisi',
             ),
           ),
         ),

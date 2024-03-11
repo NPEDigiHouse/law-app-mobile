@@ -307,19 +307,19 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
-              CustomDropdownField(
-                name: 'categoryId',
-                label: 'Kategori',
-                onChanged: (_) {},
-                items: categories.map((e) => e.name!).toList(),
-                values: categories.map((e) => e.id!.toString()).toList(),
-                initialValue: widget.book != null
-                    ? widget.book!.category!.id.toString()
-                    : categories.isNotEmpty
-                        ? categories.first.id.toString()
-                        : null,
-              ),
+              if (categories.isNotEmpty) ...[
+                const SizedBox(height: 20),
+                CustomDropdownField(
+                  name: 'categoryId',
+                  label: 'Kategori',
+                  onChanged: (_) {},
+                  items: categories.map((e) => e.name!).toList(),
+                  values: categories.map((e) => e.id!.toString()).toList(),
+                  initialValue: widget.book != null
+                      ? widget.book!.category!.id.toString()
+                      : categories.first.id.toString(),
+                ),
+              ],
               const SizedBox(height: 20),
               CustomTextField(
                 name: 'releaseDate',
@@ -470,9 +470,11 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
               synopsis: data['synopsis'],
               pageAmt: int.parse(data['pageAmt']),
               releaseDate: date,
-              category: categories
-                  .where((e) => e.id == int.parse(data['categoryId']))
-                  .first,
+              category: categories.isNotEmpty
+                  ? categories
+                      .where((e) => e.id == int.parse(data['categoryId']))
+                      .first
+                  : null,
             ),
             imagePath: isUpdatedCover ? bookCover : null,
             bookPath: isUpdatedFile ? bookFile : null,
@@ -511,7 +513,7 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
               publisher: data['publisher'],
               synopsis: data['synopsis'],
               pageAmt: data['pageAmt'],
-              categoryId: data['categoryId'],
+              categoryId: data['categoryId'] ?? '',
               releaseDate: date,
             ),
             imagePath: bookCover,

@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
-import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
@@ -166,22 +165,13 @@ class GlossarySearchPage extends ConsumerWidget {
   }
 
   void searchGlossaries(WidgetRef ref, String query) {
-    ref.read(queryProvider.notifier).state = query;
-
     if (query.isNotEmpty) {
-      EasyDebounce.debounce(
-        'search-debouncer',
-        const Duration(milliseconds: 800),
-        () {
-          ref
-              .read(searchGlossaryProvider.notifier)
-              .searchGlossary(query: query);
-
-          ref.invalidate(offsetProvider);
-        },
-      );
+      ref.read(searchGlossaryProvider.notifier).searchGlossary(query: query);
+      ref.invalidate(offsetProvider);
     } else {
       ref.invalidate(searchGlossaryProvider);
     }
+
+    ref.read(queryProvider.notifier).state = query;
   }
 }

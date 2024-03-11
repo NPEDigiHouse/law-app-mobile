@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
-import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
@@ -172,18 +171,12 @@ class GlossaryManagementPage extends ConsumerWidget {
   }
 
   void searchGlossaries(WidgetRef ref, String query) {
-    ref.read(queryProvider.notifier).state = query;
-
     if (query.isNotEmpty) {
-      EasyDebounce.debounce(
-        'search-debouncer',
-        const Duration(milliseconds: 800),
-        () {
-          ref.read(glossaryProvider.notifier).searchGlossaries(query: query);
-        },
-      );
+      ref.read(glossaryProvider.notifier).searchGlossaries(query: query);
     } else {
       ref.invalidate(glossaryProvider);
     }
+
+    ref.read(queryProvider.notifier).state = query;
   }
 }

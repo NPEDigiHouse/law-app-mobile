@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
-import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
@@ -298,17 +297,13 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
   }
 
   void searchUsers(String query) {
-    ref.read(queryProvider.notifier).state = query;
-
     if (query.isNotEmpty) {
-      EasyDebounce.debounce(
-        'search-debouncer',
-        const Duration(milliseconds: 800),
-        () => ref.read(masterDataProvider.notifier).searchUsers(query: query),
-      );
+      ref.read(masterDataProvider.notifier).searchUsers(query: query);
     } else {
       ref.invalidate(masterDataProvider);
     }
+
+    ref.read(queryProvider.notifier).state = query;
   }
 
   void sortUsers(Map<String, dynamic> value) {

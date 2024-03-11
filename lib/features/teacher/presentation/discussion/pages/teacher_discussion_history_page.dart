@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
-import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
@@ -208,16 +207,12 @@ class TeacherDiscussionHistoryPage extends ConsumerWidget {
   }
 
   void searchDiscussion(WidgetRef ref, String query) {
-    ref.read(queryProvider.notifier).state = query;
-
     if (query.isNotEmpty) {
-      EasyDebounce.debounce(
-        'search-debouncer',
-        const Duration(milliseconds: 800),
-        () => ref.read(UserDiscussionsProvider(query: query, type: 'specific')),
-      );
+      ref.read(UserDiscussionsProvider(query: query, type: 'specific'));
     } else {
       ref.invalidate(userDiscussionsProvider);
     }
+
+    ref.read(queryProvider.notifier).state = query;
   }
 }
