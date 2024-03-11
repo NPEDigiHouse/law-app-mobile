@@ -77,7 +77,7 @@ class GlossaryDetailPage extends ConsumerWidget {
 
     return glossary.when(
       loading: () => const LoadingIndicator(withScaffold: true),
-      error: (error, _) => const Scaffold(),
+      error: (_, __) => const Scaffold(),
       data: (glossary) {
         if (glossary == null) return const Scaffold();
 

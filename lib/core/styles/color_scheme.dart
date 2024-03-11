@@ -2,20 +2,19 @@
 import 'package:flutter/material.dart';
 
 // Main colors
-const primaryColor = Color(0xFFE44C42);
-const secondaryColor = Color(0xFFFBECEB);
-const tertiaryColor = Color(0xFFF59993);
-const accentColor = Color(0xFFE2CA51);
+const primaryColor = Color(0xFF730034);
+const secondaryColor = Color(0xFFF4EBEF);
+const tertiaryColor = Color(0xFFC799AE);
+const accentColor = Color(0xFFF1D443);
 
 // Text colors
 const primaryTextColor = Color(0xFF160706);
 const secondaryTextColor = Color(0xFFC8C4C4);
-const accentTextColor = Color(0xFFF4E69E);
+const accentTextColor = Color(0xFFF9E47A);
 
 // Background colors
-const backgroundColor = Color(0xFFFAF6F6);
+const backgroundColor = Color(0xFFFCFAFB);
 const scaffoldBackgroundColor = Color(0xFFFFFFFF);
-const secondaryBackgroundColor = Color(0xFFE06961);
 
 // System colors
 const errorColor = Color(0xFFF23D16);
@@ -26,8 +25,8 @@ const warningColor = Color(0xFFF5C61D);
 // Gradient colors
 class GradientColors {
   static const List<Color> redPastel = [
-    Color(0xFFF4847D),
-    Color(0xFFE44C42),
+    Color(0xFFA2355A),
+    Color(0xFF730034),
   ];
 }
 

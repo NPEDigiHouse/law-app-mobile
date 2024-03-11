@@ -48,8 +48,8 @@ class AdminCourseDetailPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   gradient: LinearGradient(
                     colors: [
-                      const Color(0xFFF4847D).withOpacity(.1),
-                      const Color(0xFFE44C42).withOpacity(.5),
+                      const Color(0xFFA2355A).withOpacity(.1),
+                      const Color(0xFF730034).withOpacity(.5),
                     ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,

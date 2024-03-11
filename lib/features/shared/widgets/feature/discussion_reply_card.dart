@@ -57,7 +57,7 @@ class DiscussionReplyCard extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               border: Border.all(
-                color: isLeft ? secondaryTextColor : tertiaryColor,
+                color: isLeft ? accentColor : tertiaryColor,
               ),
               borderRadius: BorderRadius.only(
                 bottomLeft: const Radius.circular(12),

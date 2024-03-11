@@ -17,6 +17,7 @@ import 'package:law_app/features/auth/presentation/providers/dashboard_data_prov
 import 'package:law_app/features/shared/widgets/dashboard.dart';
 import 'package:law_app/features/shared/widgets/feature/home_page_header.dart';
 import 'package:law_app/features/shared/widgets/ink_well_container.dart';
+import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class AdminHomePage extends ConsumerWidget {
@@ -98,6 +99,7 @@ class AdminHomePage extends ConsumerWidget {
     return Scaffold(
       backgroundColor: backgroundColor,
       body: dashboardData.whenOrNull(
+        loading: () => const LoadingIndicator(),
         data: (dashboardData) {
           if (dashboardData == null) return null;
 

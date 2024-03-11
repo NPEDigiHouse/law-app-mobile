@@ -119,7 +119,7 @@ class FunctionHelper {
       case 'student':
         return infoColor;
       case 'teacher':
-        return warningColor;
+        return successColor;
       case 'admin':
         return primaryColor;
       default:
