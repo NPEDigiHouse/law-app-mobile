@@ -24,13 +24,13 @@ abstract class BookDataSource {
   /// Get book categories
   Future<List<BookCategoryModel>> getBookCategories();
 
-  /// Create book categories
+  /// Create book category
   Future<void> createBookCategory({required String name});
 
-  /// Edit book categories
+  /// Edit book category
   Future<void> editBookCategory({required BookCategoryModel category});
 
-  /// Delete book categories
+  /// Delete book category
   Future<void> deleteBookCategory({required int id});
 
   // Get all books
@@ -447,7 +447,10 @@ class BookDataSourceImpl implements BookDataSource {
   }
 
   @override
-  Future<void> saveBook({required int userId, required int bookId}) async {
+  Future<void> saveBook({
+    required int userId,
+    required int bookId,
+  }) async {
     try {
       final response = await client.post(
         Uri.parse('${ApiConfigs.baseUrl}/saved-books'),
@@ -535,7 +538,10 @@ class BookDataSourceImpl implements BookDataSource {
   }
 
   @override
-  Future<void> readBook({required int userId, required int bookId}) async {
+  Future<void> readBook({
+    required int userId,
+    required int bookId,
+  }) async {
     try {
       final response = await client.post(
         Uri.parse('${ApiConfigs.baseUrl}/user-reads'),

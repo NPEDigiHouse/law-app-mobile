@@ -33,7 +33,7 @@ abstract class GlossaryRepository {
   /// Delete glossary
   Future<Either<Failure, void>> deleteGlossary({required int id});
 
-  /// Create glossaries search history
+  /// Create glossary search history
   Future<Either<Failure, void>> createGlossarySearchHistory({required int id});
 
   /// Get glossaries search history

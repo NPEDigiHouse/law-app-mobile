@@ -19,14 +19,14 @@ abstract class BookRepository {
   /// Get book categories
   Future<Either<Failure, List<BookCategoryModel>>> getBookCategories();
 
-  /// Create book categories
+  /// Create book category
   Future<Either<Failure, void>> createBookCategory({required String name});
 
-  /// Edit book categories
+  /// Edit book category
   Future<Either<Failure, void>> editBookCategory(
       {required BookCategoryModel category});
 
-  /// Delete book categories
+  /// Delete book category
   Future<Either<Failure, void>> deleteBookCategory({required int id});
 
   // Get all books
