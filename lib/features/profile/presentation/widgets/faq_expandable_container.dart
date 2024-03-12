@@ -1,16 +1,20 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/features/admin/data/models/faq_models/faq_model.dart';
+import 'package:law_app/features/admin/presentation/reference/providers/faq_provider.dart';
 import 'package:law_app/features/shared/widgets/ink_well_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
-class FAQExpandableContainer extends StatefulWidget {
-  final Map<String, String> item;
+class FAQExpandableContainer extends ConsumerStatefulWidget {
+  final FaqModel item;
   final bool isAdmin;
 
   const FAQExpandableContainer({
@@ -20,10 +24,12 @@ class FAQExpandableContainer extends StatefulWidget {
   });
 
   @override
-  State<FAQExpandableContainer> createState() => _FAQExpandableContainerState();
+  ConsumerState<FAQExpandableContainer> createState() =>
+      _FAQExpandableContainerState();
 }
 
-class _FAQExpandableContainerState extends State<FAQExpandableContainer> {
+class _FAQExpandableContainerState
+    extends ConsumerState<FAQExpandableContainer> {
   late final ValueNotifier<bool> isCollapse;
 
   @override
@@ -56,7 +62,7 @@ class _FAQExpandableContainerState extends State<FAQExpandableContainer> {
                   children: [
                     Expanded(
                       child: Text(
-                        '${widget.item["question"]}',
+                        '${widget.item.question}',
                         style: textTheme.titleLarge!.copyWith(
                           color: primaryTextColor,
                         ),
@@ -75,10 +81,14 @@ class _FAQExpandableContainerState extends State<FAQExpandableContainer> {
               ),
               if (isCollapse)
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(top: 8),
-                      child: Text('${widget.item["answer"]}'),
+                      child: Text(
+                        '${widget.item.answer}',
+                        textAlign: TextAlign.left,
+                      ),
                     ),
                     if (widget.isAdmin) ...[
                       const SizedBox(height: 12),
@@ -103,11 +113,19 @@ class _FAQExpandableContainerState extends State<FAQExpandableContainer> {
                                   textAreaLabel: "Jawaban",
                                   textAreaHint:
                                       "Masukkan jawaban dari pertanyaan",
-                                  textFieldInitialValue:
-                                      widget.item["question"],
-                                  textAreaInitialValue: widget.item["answer"],
+                                  textFieldInitialValue: widget.item.question,
+                                  textAreaInitialValue: widget.item.answer,
                                   primaryButtonText: 'Edit',
-                                  onSubmitted: (value) {},
+                                  onSubmitted: (value) {
+                                    final newFaq = widget.item.copyWith(
+                                        question: value['question'],
+                                        answer: value['answer']);
+                                    ref
+                                        .read(faqProvider.notifier)
+                                        .editFaq(faq: newFaq);
+
+                                    navigatorKey.currentState!.pop();
+                                  },
                                 );
                               },
                               icon: SvgAsset(
@@ -134,7 +152,12 @@ class _FAQExpandableContainerState extends State<FAQExpandableContainer> {
                                 message:
                                     "Apakah Anda yakin ingin menghapus pertanyaan ini?",
                                 primaryButtonText: 'Hapus',
-                                onPressedPrimaryButton: () {},
+                                onPressedPrimaryButton: () {
+                                  navigatorKey.currentState!.pop();
+                                  ref
+                                      .read(faqProvider.notifier)
+                                      .deleteFaq(id: widget.item.id!);
+                                },
                               ),
                               icon: SvgAsset(
                                 assetPath: AssetPath.getIcon('trash-solid.svg'),

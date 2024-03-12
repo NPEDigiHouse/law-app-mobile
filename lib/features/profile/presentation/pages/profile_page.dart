@@ -135,7 +135,10 @@ class ProfilePage extends ConsumerWidget {
         "text": "Frequently Asked Question",
         "color": primaryTextColor,
         "onTap": () {
-          navigatorKey.currentState!.pushNamed(faqRoute);
+          navigatorKey.currentState!.pushNamed(
+            faqRoute,
+            arguments: false,
+          );
         },
       },
       {

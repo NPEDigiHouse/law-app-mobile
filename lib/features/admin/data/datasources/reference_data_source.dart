@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 // Package imports:
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 // Project imports:
@@ -11,6 +12,7 @@ import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/data_response.dart';
 import 'package:law_app/features/admin/data/models/discussion_models/discussion_category_model.dart';
+import 'package:law_app/features/admin/data/models/faq_models/faq_model.dart';
 
 abstract class ReferenceDataSource {
   /// Get discussion categories
@@ -25,6 +27,18 @@ abstract class ReferenceDataSource {
 
   /// Delete discussion categories
   Future<void> deleteDiscussionCategory({required int id});
+
+  /// Get faq
+  Future<List<FaqModel>> getFaq();
+
+  /// Create faq
+  Future<void> createFaq({required String question, required String answer});
+
+  /// Edit faq
+  Future<void> editFaq({required FaqModel faq});
+
+  /// Delete faq
+  Future<void> deleteFaq({required int id});
 }
 
 class ReferenceDataSourceImpl implements ReferenceDataSource {
@@ -127,6 +141,121 @@ class ReferenceDataSourceImpl implements ReferenceDataSource {
           HttpHeaders.authorizationHeader:
               'Bearer ${CredentialSaver.accessToken}'
         },
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code != 200) {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      if (e is ServerException) {
+        rethrow;
+      } else {
+        throw http.ClientException(e.toString());
+      }
+    }
+  }
+
+  @override
+  Future<List<FaqModel>> getFaq() async {
+    try {
+      final response = await client.get(
+        Uri.parse('${ApiConfigs.baseUrl}/faqs'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code == 200) {
+        final data = result.data as List;
+
+        return data.map((e) => FaqModel.fromMap(e)).toList();
+      } else {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      if (e is ServerException) {
+        rethrow;
+      } else {
+        throw http.ClientException(e.toString());
+      }
+    }
+  }
+
+  @override
+  Future<void> createFaq(
+      {required String question, required String answer}) async {
+    try {
+      final response = await client.post(
+        Uri.parse('${ApiConfigs.baseUrl}/faqs'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+        body: jsonEncode({
+          'question': question,
+          'answer': answer,
+        }),
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code != 200) {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      if (e is ServerException) {
+        rethrow;
+      } else {
+        throw http.ClientException(e.toString());
+      }
+    }
+  }
+
+  @override
+  Future<void> deleteFaq({required int id}) async {
+    try {
+      final response = await client.delete(
+        Uri.parse('${ApiConfigs.baseUrl}/faqs/$id'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code != 200) {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      if (e is ServerException) {
+        rethrow;
+      } else {
+        throw http.ClientException(e.toString());
+      }
+    }
+  }
+
+  @override
+  Future<void> editFaq({required FaqModel faq}) async {
+    try {
+      debugPrint('EDITED FAQ ID: ${faq.id}');
+      final response = await client.put(
+        Uri.parse('${ApiConfigs.baseUrl}/faqs/${faq.id}'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+        body: jsonEncode({'question': faq.question, 'answer': faq.answer}),
       );
 
       final result = DataResponse.fromJson(jsonDecode(response.body));
