@@ -15,7 +15,6 @@ import 'package:law_app/core/services/file_service.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
-import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_detail_model.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_saved_model.dart';
@@ -456,14 +455,9 @@ class LibraryBookDetailRoute extends ConsumerWidget {
     BookSavedModel? savedBook,
   }) {
     if (savedBook != null) {
-      ref.read(unsaveBookProvider.notifier).unsaveBook(
-            id: savedBook.id!,
-          );
+      ref.read(unsaveBookProvider.notifier).unsaveBook(id: savedBook.id!);
     } else {
-      ref.read(saveBookProvider.notifier).saveBook(
-            userId: CredentialSaver.user!.id!,
-            bookId: bookId,
-          );
+      ref.read(saveBookProvider.notifier).saveBook(bookId: bookId);
     }
   }
 

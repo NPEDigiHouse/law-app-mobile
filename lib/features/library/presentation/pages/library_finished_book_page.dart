@@ -10,6 +10,7 @@ import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/features/library/presentation/providers/delete_user_read_provider.dart';
 import 'package:law_app/features/library/presentation/providers/user_reads_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/feature/book_card.dart';
@@ -35,6 +36,23 @@ class LibraryFinishedBookPage extends ConsumerWidget {
             );
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+      );
+    });
+
+    ref.listen(deleteUserReadProvider, (_, state) {
+      state.whenOrNull(
+        error: (error, _) {
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet();
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+        data: (data) {
+          if (data != null) {
+            ref.invalidate(userReadsProvider);
           }
         },
       );
@@ -69,7 +87,21 @@ class LibraryFinishedBookPage extends ConsumerWidget {
               horizontal: 20,
             ),
             itemBuilder: (context, index) {
-              return BookCard(book: userReads[index]);
+              return BookCard(
+                book: userReads[index],
+                onLongPress: () {
+                  context.showDeleteConfirmDialog(
+                    title: userReads[index].title!,
+                    onIconPressed: () {
+                      navigatorKey.currentState!.pop();
+
+                      ref
+                          .read(deleteUserReadProvider.notifier)
+                          .deleteUserRead(bookId: userReads[index].id!);
+                    },
+                  );
+                },
+              );
             },
             separatorBuilder: (context, index) {
               return const SizedBox(height: 8);

@@ -17,12 +17,11 @@ import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
-import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_detail_model.dart';
 import 'package:law_app/features/library/presentation/providers/book_detail_provider.dart';
+import 'package:law_app/features/library/presentation/providers/create_user_read_provider.dart';
 import 'package:law_app/features/library/presentation/providers/library_provider.dart';
-import 'package:law_app/features/library/presentation/providers/read_book_provider.dart';
 import 'package:law_app/features/library/presentation/providers/update_user_read_provider.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
@@ -70,10 +69,7 @@ class _LibraryReadBookPageState extends ConsumerState<LibraryReadBookPage> {
 
     if (widget.book.currentPage == null) {
       ref.listen(
-        ReadBookProvider(
-          userId: CredentialSaver.user!.id!,
-          bookId: widget.book.id!,
-        ),
+        CreateUserReadProvider(bookId: widget.book.id!),
         (_, state) {
           state.whenOrNull(
             data: (data) {
