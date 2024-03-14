@@ -6,14 +6,13 @@ import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/features/profile/presentation/widgets/faq_expandable_container.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class FAQPage extends StatelessWidget {
-  final bool isAdmin;
-
-  const FAQPage({super.key, this.isAdmin = false});
+  const FAQPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +38,7 @@ class FAQPage extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(96),
         child: HeaderContainer(
-          title: isAdmin ? 'Kelola FAQ' : 'FAQ',
+          title: CredentialSaver.user!.role! == 'admin' ? 'Kelola FAQ' : 'FAQ',
           withBackButton: true,
         ),
       ),
@@ -66,10 +65,7 @@ class FAQPage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 4),
-                    child: FAQExpandableContainer(
-                      item: items[index],
-                      isAdmin: isAdmin,
-                    ),
+                    child: FAQExpandableContainer(item: items[index]),
                   );
                 },
                 separatorBuilder: (context, index) {
@@ -80,7 +76,7 @@ class FAQPage extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton: isAdmin
+      floatingActionButton: CredentialSaver.user!.role! == 'admin'
           ? Container(
               width: 48,
               height: 48,

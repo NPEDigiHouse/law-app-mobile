@@ -12,7 +12,7 @@ import 'package:law_app/app.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'firebase_options.dart';
 
-// TODO: Fix unused arguments, remove all isAdmin property, setup fcm
+// TODO: setup fcm
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 

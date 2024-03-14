@@ -6,18 +6,14 @@ import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/features/shared/widgets/ink_well_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class FAQExpandableContainer extends StatefulWidget {
   final Map<String, String> item;
-  final bool isAdmin;
 
-  const FAQExpandableContainer({
-    super.key,
-    required this.item,
-    this.isAdmin = false,
-  });
+  const FAQExpandableContainer({super.key, required this.item});
 
   @override
   State<FAQExpandableContainer> createState() => _FAQExpandableContainerState();
@@ -80,7 +76,7 @@ class _FAQExpandableContainerState extends State<FAQExpandableContainer> {
                       padding: const EdgeInsets.only(top: 8),
                       child: Text('${widget.item["answer"]}'),
                     ),
-                    if (widget.isAdmin) ...[
+                    if (CredentialSaver.user!.role! == 'admin') ...[
                       const SizedBox(height: 12),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,

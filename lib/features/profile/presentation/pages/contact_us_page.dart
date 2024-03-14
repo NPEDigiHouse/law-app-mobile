@@ -5,15 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/features/admin/presentation/reference/widgets/edit_contact_us_dialog.dart';
 import 'package:law_app/features/shared/widgets/gradient_background_icon.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class ContactUsPage extends StatelessWidget {
-  final bool isAdmin;
-
-  const ContactUsPage({super.key, this.isAdmin = false});
+  const ContactUsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +36,9 @@ class ContactUsPage extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(96),
         child: HeaderContainer(
-          title: isAdmin ? "Kelola Kontak Kami" : "Hubungi Kami",
+          title: CredentialSaver.user!.role! == 'admin'
+              ? "Kelola Kontak Kami"
+              : "Hubungi Kami",
           withBackButton: true,
         ),
       ),
@@ -130,7 +131,7 @@ class ContactUsPage extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton: isAdmin
+      floatingActionButton: CredentialSaver.user!.role! == 'admin'
           ? Container(
               width: 48,
               height: 48,

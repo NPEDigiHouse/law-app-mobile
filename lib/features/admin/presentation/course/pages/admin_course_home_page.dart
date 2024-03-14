@@ -109,7 +109,6 @@ class AdminCourseHomePage extends StatelessWidget {
                 child: CourseCard(
                   course: dummyCourses[index],
                   withLabelChip: false,
-                  isAdmin: true,
                 ),
               ),
             ),

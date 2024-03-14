@@ -11,6 +11,7 @@ import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
+import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/glossary/presentation/providers/edit_glossary_provider.dart';
 import 'package:law_app/features/glossary/presentation/providers/glossary_detail_provider.dart';
@@ -21,13 +22,8 @@ import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class GlossaryDetailPage extends ConsumerWidget {
   final int id;
-  final bool isAdmin;
 
-  const GlossaryDetailPage({
-    super.key,
-    required this.id,
-    this.isAdmin = false,
-  });
+  const GlossaryDetailPage({super.key, required this.id});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -50,7 +46,7 @@ class GlossaryDetailPage extends ConsumerWidget {
       );
     });
 
-    if (isAdmin) {
+    if (CredentialSaver.user!.role! == 'admin') {
       ref.listen(editGlossaryProvider, (_, state) {
         state.when(
           error: (error, _) {
@@ -108,7 +104,7 @@ class GlossaryDetailPage extends ConsumerWidget {
               ],
             ),
           ),
-          floatingActionButton: isAdmin
+          floatingActionButton: CredentialSaver.user!.role! == 'admin'
               ? Container(
                   width: 48,
                   height: 48,
@@ -154,14 +150,4 @@ class GlossaryDetailPage extends ConsumerWidget {
       },
     );
   }
-}
-
-class GlossaryDetailPageArgs {
-  final int id;
-  final bool isAdmin;
-
-  const GlossaryDetailPageArgs({
-    required this.id,
-    this.isAdmin = false,
-  });
 }

@@ -11,6 +11,7 @@ import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/ink_well_container.dart';
@@ -19,14 +20,12 @@ import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class CourseCard extends StatelessWidget {
   final Course course;
-  final bool isAdmin;
   final bool withLabelChip;
 
   const CourseCard({
     super.key,
     required this.course,
     this.withLabelChip = true,
-    this.isAdmin = false,
   });
 
   @override
@@ -43,7 +42,9 @@ class CourseCard extends StatelessWidget {
         ),
       ],
       onTap: () => navigatorKey.currentState!.pushNamed(
-        isAdmin ? adminCourseDetailRoute : studentCourseDetailRoute,
+        CredentialSaver.user!.role! == 'admin'
+            ? adminCourseDetailRoute
+            : studentCourseDetailRoute,
         arguments: course,
       ),
       child: Row(

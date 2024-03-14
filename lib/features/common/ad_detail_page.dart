@@ -10,8 +10,7 @@ import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 
 class AdDetailPage extends StatelessWidget {
-  final bool isAdmin;
-  const AdDetailPage({super.key, required this.isAdmin});
+  const AdDetailPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +24,8 @@ class AdDetailPage extends StatelessWidget {
           withTrailingButton: true,
           trailingButtonIconName: "pencil-solid.svg",
           trailingButtonTooltip: "edit",
-          onPressedTrailingButton: () =>
-              navigatorKey.currentState!.pushNamed(adminAddDetailAdRoute), // TODO: edit ad detail
+          onPressedTrailingButton: () => navigatorKey.currentState!
+              .pushNamed(adminAddDetailAdRoute), // TODO: edit ad detail
         ),
       ),
       body: SingleChildScrollView(
