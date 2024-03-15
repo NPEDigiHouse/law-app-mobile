@@ -2,11 +2,15 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
+import 'package:law_app/core/routes/route_names.dart';
+import 'package:law_app/core/services/notification_service.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
+import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/glossary/presentation/pages/glossary_home_page.dart';
 import 'package:law_app/features/library/presentation/pages/library_home_page.dart';
 import 'package:law_app/features/shared/widgets/custom_navigation_bar.dart';
@@ -31,6 +35,8 @@ class _MainMenuPageState extends ConsumerState<MainMenuPage> {
   @override
   void initState() {
     super.initState();
+
+    setupInteractedMessage();
 
     selectedIndex = ValueNotifier(0);
     pageController = PageController();
@@ -79,5 +85,17 @@ class _MainMenuPageState extends ConsumerState<MainMenuPage> {
         },
       ),
     );
+  }
+
+  void setupInteractedMessage() {
+    NotificationService.messaging.getInitialMessage().then((message) {
+      if (message != null) {
+        navigatorKey.currentState!.pushNamed(profileRoute);
+      }
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      navigatorKey.currentState!.pushNamed(profileRoute);
+    });
   }
 }

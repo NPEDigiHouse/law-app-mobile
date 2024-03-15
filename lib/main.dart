@@ -9,10 +9,10 @@ import 'package:timeago/timeago.dart' as timeago;
 
 // Project imports:
 import 'package:law_app/app.dart';
+import 'package:law_app/core/services/notification_service.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'firebase_options.dart';
 
-// TODO: setup fcm
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -21,11 +21,14 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  // Init firebase messaging
+  await NotificationService().init();
+
   // Init credential saver
-  CredentialSaver.init();
+  await CredentialSaver.init();
 
   // Prevent landscape orientation
-  SystemChrome.setPreferredOrientations(<DeviceOrientation>[
+  SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
