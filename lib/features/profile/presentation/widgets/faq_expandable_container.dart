@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 // Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,6 +8,7 @@ import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/faq_models/faq_model.dart';
 import 'package:law_app/features/admin/presentation/reference/providers/faq_provider.dart';
@@ -20,7 +22,7 @@ class FAQExpandableContainer extends ConsumerStatefulWidget {
   const FAQExpandableContainer({
     super.key,
     required this.item,
-    this.isAdmin = false,
+    required this.isAdmin,
   });
 
   @override
@@ -90,7 +92,7 @@ class _FAQExpandableContainerState
                         textAlign: TextAlign.left,
                       ),
                     ),
-                    if (widget.isAdmin) ...[
+                    if (CredentialSaver.user!.role! == 'admin') ...[
                       const SizedBox(height: 12),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,

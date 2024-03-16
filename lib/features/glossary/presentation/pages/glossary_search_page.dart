@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
-import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
@@ -13,7 +12,6 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/glossary/presentation/pages/glossary_detail_page.dart';
 import 'package:law_app/features/glossary/presentation/providers/glossary_search_history_provider.dart';
 import 'package:law_app/features/glossary/presentation/providers/search_glossary_provider.dart';
 import 'package:law_app/features/glossary/presentation/widgets/search_empty_text.dart';
@@ -132,9 +130,7 @@ class GlossarySearchPage extends ConsumerWidget {
 
                   navigatorKey.currentState!.pushNamed(
                     glossaryDetailRoute,
-                    arguments: GlossaryDetailPageArgs(
-                      id: glossaries[index].id!,
-                    ),
+                    arguments: glossaries[index].id!,
                   );
                 },
                 visualDensity: const VisualDensity(
@@ -166,22 +162,13 @@ class GlossarySearchPage extends ConsumerWidget {
   }
 
   void searchGlossaries(WidgetRef ref, String query) {
-    ref.read(queryProvider.notifier).state = query;
-
     if (query.isNotEmpty) {
-      EasyDebounce.debounce(
-        'search-debouncer',
-        const Duration(milliseconds: 800),
-        () {
-          ref
-              .read(searchGlossaryProvider.notifier)
-              .searchGlossary(query: query);
-
-          ref.invalidate(offsetProvider);
-        },
-      );
+      ref.read(searchGlossaryProvider.notifier).searchGlossary(query: query);
+      ref.invalidate(offsetProvider);
     } else {
       ref.invalidate(searchGlossaryProvider);
     }
+
+    ref.read(queryProvider.notifier).state = query;
   }
 }

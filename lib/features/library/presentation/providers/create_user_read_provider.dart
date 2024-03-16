@@ -4,21 +4,16 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 // Project imports:
 import 'package:law_app/features/library/presentation/providers/repositories_provider/book_repository_provider.dart';
 
-part 'read_book_provider.g.dart';
+part 'create_user_read_provider.g.dart';
 
 @riverpod
-class ReadBook extends _$ReadBook {
+class CreateUserRead extends _$CreateUserRead {
   @override
-  Future<bool?> build({
-    required int userId,
-    required int bookId,
-  }) async {
+  Future<bool?> build({required int bookId}) async {
     state = const AsyncValue.loading();
 
-    final result = await ref.watch(bookRepositoryProvider).readBook(
-          userId: userId,
-          bookId: bookId,
-        );
+    final result =
+        await ref.watch(bookRepositoryProvider).createUserRead(bookId: bookId);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

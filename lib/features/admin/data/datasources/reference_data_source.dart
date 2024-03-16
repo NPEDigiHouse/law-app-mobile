@@ -18,14 +18,14 @@ abstract class ReferenceDataSource {
   /// Get discussion categories
   Future<List<DiscussionCategoryModel>> getDiscussionCategories();
 
-  /// Create discussion categories
+  /// Create discussion category
   Future<void> createDiscussionCategory({required String name});
 
-  /// Edit discussion categories
+  /// Edit discussion category
   Future<void> editDiscussionCategory(
       {required DiscussionCategoryModel category});
 
-  /// Delete discussion categories
+  /// Delete discussion category
   Future<void> deleteDiscussionCategory({required int id});
 
   /// Get faqs

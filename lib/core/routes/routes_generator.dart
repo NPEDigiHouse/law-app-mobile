@@ -124,16 +124,12 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => const AccountInfoPage(),
       );
     case faqRoute:
-      final isAdmin = settings.arguments as bool;
-
       return MaterialPageRoute(
-        builder: (_) => FAQPage(isAdmin: isAdmin),
+        builder: (_) => const FAQPage(),
       );
     case contactUsRoute:
-      final isAdmin = settings.arguments as bool;
-
       return MaterialPageRoute(
-        builder: (_) => ContactUsPage(isAdmin: isAdmin),
+        builder: (_) => const ContactUsPage(),
       );
     case certificateRoute:
       return MaterialPageRoute(
@@ -156,13 +152,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         reverseTransitionDuration: Duration.zero,
       );
     case glossaryDetailRoute:
-      final args = settings.arguments as GlossaryDetailPageArgs;
+      final id = settings.arguments as int;
 
       return MaterialPageRoute(
-        builder: (_) => GlossaryDetailPage(
-          id: args.id,
-          isAdmin: args.isAdmin,
-        ),
+        builder: (_) => GlossaryDetailPage(id: id),
       );
     case libraryBookListRoute:
       return MaterialPageRoute(

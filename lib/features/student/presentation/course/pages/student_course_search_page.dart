@@ -1,9 +1,6 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
-// Package imports:
-import 'package:easy_debounce/easy_debounce.dart';
-
 // Project imports:
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
@@ -199,23 +196,13 @@ class _StudentCourseSearchPageState extends State<StudentCourseSearchPage> {
   void searchCourse(String query) {
     this.query.value = query;
 
-    EasyDebounce.debounce(
-      'search-debouncer',
-      const Duration(milliseconds: 800),
-      () {
-        final result = dummyCourses.where((course) {
-          final queryLower = query.toLowerCase();
-          final titleLower = course.title.toLowerCase();
+    final result = dummyCourses.where((course) {
+      final queryLower = query.toLowerCase();
+      final titleLower = course.title.toLowerCase();
 
-          return titleLower.contains(queryLower);
-        }).toList();
+      return titleLower.contains(queryLower);
+    }).toList();
 
-        setState(() => courses = result);
-      },
-    );
-
-    if (query.isEmpty) {
-      EasyDebounce.fire('search-debouncer');
-    }
+    setState(() => courses = result);
   }
 }

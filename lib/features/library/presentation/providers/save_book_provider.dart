@@ -13,16 +13,11 @@ class SaveBook extends _$SaveBook {
     return const AsyncValue.data(null);
   }
 
-  Future<void> saveBook({
-    required int userId,
-    required int bookId,
-  }) async {
+  Future<void> saveBook({required int bookId}) async {
     state = const AsyncValue.loading();
 
-    final result = await ref.watch(bookRepositoryProvider).saveBook(
-          userId: userId,
-          bookId: bookId,
-        );
+    final result =
+        await ref.watch(bookRepositoryProvider).saveBook(bookId: bookId);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

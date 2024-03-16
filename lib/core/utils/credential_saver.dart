@@ -6,7 +6,7 @@ class CredentialSaver {
   static String? accessToken;
   static UserCredentialModel? user;
 
-  static init() async {
+  static Future<void> init() async {
     if (accessToken == null || user == null) {
       AuthPreferencesHelper preferencesHelper = AuthPreferencesHelper();
 

@@ -13,16 +13,16 @@ import 'package:law_app/features/admin/data/models/user_models/user_post_model.d
 import 'package:law_app/features/auth/data/datasources/auth_data_source.dart';
 
 abstract class AuthRepository {
-  /// Sign Up
+  /// Sign up
   Future<Either<Failure, bool>> signUp({required UserPostModel user});
 
-  /// Sign In
+  /// Sign in
   Future<Either<Failure, bool>> signIn({
     required String username,
     required String password,
   });
 
-  // Is Sign in
+  /// Is sign in
   Future<Either<Failure, bool>> isSignIn();
 
   /// Get user credential

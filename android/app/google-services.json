@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "372848511753",
+    "project_id": "sobat-hukum-app",
+    "storage_bucket": "sobat-hukum-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:372848511753:android:6829319b1eceba6367a1d8",
+        "android_client_info": {
+          "package_name": "com.example.law_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_BOFgaAB8XTuDtl85sdgZ3ApbnCGCirE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

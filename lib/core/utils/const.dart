@@ -13,3 +13,4 @@ const kNoSpecificQuestionLeft = 'NO_WEEKLY_SPECIFIC_QUESTION_QUOTA_LEFT';
 
 const accessTokenKey = 'ACCESS_TOKEN';
 const userCredentialKey = 'USER_CREDENTIAL';
+const fcmTokenKey = 'FCM_TOKEN';

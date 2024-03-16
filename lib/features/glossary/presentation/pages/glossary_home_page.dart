@@ -12,7 +12,6 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/glossary/presentation/pages/glossary_detail_page.dart';
 import 'package:law_app/features/glossary/presentation/providers/glossary_search_history_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/form_field/search_field.dart';
@@ -160,7 +159,7 @@ class GlossaryHomePage extends ConsumerWidget {
                       ),
                       onTap: () => navigatorKey.currentState!.pushNamed(
                         glossaryDetailRoute,
-                        arguments: GlossaryDetailPageArgs(id: glossary!.id!),
+                        arguments: glossary!.id!,
                       ),
                       visualDensity: const VisualDensity(
                         vertical: VisualDensity.minimumDensity,

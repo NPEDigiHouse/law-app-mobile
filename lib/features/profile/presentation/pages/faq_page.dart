@@ -9,6 +9,7 @@ import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
+import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/presentation/reference/providers/faq_provider.dart';
 import 'package:law_app/features/profile/presentation/widgets/faq_expandable_container.dart';
@@ -47,7 +48,7 @@ class FAQPage extends ConsumerWidget {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(96),
         child: HeaderContainer(
-          title: isAdmin ? 'Kelola FAQ' : 'FAQ',
+          title: CredentialSaver.user!.role! == 'admin' ? 'Kelola FAQ' : 'FAQ',
           withBackButton: true,
         ),
       ),
@@ -103,7 +104,7 @@ class FAQPage extends ConsumerWidget {
           ),
         ),
       ),
-      floatingActionButton: isAdmin
+      floatingActionButton: CredentialSaver.user!.role! == 'admin'
           ? Container(
               width: 48,
               height: 48,

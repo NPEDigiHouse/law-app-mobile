@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
-import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
@@ -301,26 +300,20 @@ class _AdminDiscussionHomePageState
     String type,
     String status,
   ) {
-    ref.read(queryProvider.notifier).state = query;
-
     if (query.isNotEmpty) {
-      EasyDebounce.debounce(
-        'search-debouncer',
-        const Duration(milliseconds: 800),
-        () {
-          ref.read(
-            DiscussionProvider(
-              query: query,
-              type: type,
-              status: status,
-            ),
-          );
-
-          ref.invalidate(offsetProvider);
-        },
+      ref.read(
+        DiscussionProvider(
+          query: query,
+          type: type,
+          status: status,
+        ),
       );
+
+      ref.invalidate(offsetProvider);
     } else {
       ref.invalidate(discussionProvider);
     }
+
+    ref.read(queryProvider.notifier).state = query;
   }
 }

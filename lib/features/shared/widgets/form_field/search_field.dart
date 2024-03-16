@@ -1,3 +1,6 @@
+// Dart imports:
+import 'dart:async';
+
 // Flutter imports:
 import 'package:flutter/material.dart';
 
@@ -16,6 +19,8 @@ class SearchField extends StatefulWidget {
   final ValueChanged<String>? onChanged;
   final ValueChanged<bool>? onFocusChange;
   final TextInputAction textInputAction;
+  final bool delayOnChanged;
+  final Duration delay;
 
   const SearchField({
     super.key,
@@ -28,6 +33,8 @@ class SearchField extends StatefulWidget {
     this.onChanged,
     this.onFocusChange,
     this.textInputAction = TextInputAction.search,
+    this.delayOnChanged = true,
+    this.delay = const Duration(milliseconds: 750),
   });
 
   @override
@@ -36,6 +43,7 @@ class SearchField extends StatefulWidget {
 
 class _SearchFieldState extends State<SearchField> {
   late final TextEditingController controller;
+  Timer? timer;
 
   @override
   void initState() {
@@ -49,6 +57,7 @@ class _SearchFieldState extends State<SearchField> {
     super.dispose();
 
     controller.dispose();
+    timer?.cancel();
   }
 
   @override
@@ -74,7 +83,9 @@ class _SearchFieldState extends State<SearchField> {
             suffixIcon: buildSuffixIcon(),
           ),
           onTap: widget.onTap,
-          onChanged: widget.onChanged,
+          onChanged: widget.delayOnChanged
+              ? (text) => debounce(() => widget.onChanged!(text))
+              : widget.onChanged,
         ),
       ),
     );
@@ -104,11 +115,13 @@ class _SearchFieldState extends State<SearchField> {
     );
   }
 
+  void debounce(VoidCallback callback) {
+    timer?.cancel();
+    timer = Timer(widget.delay, callback);
+  }
+
   void resetQuery() {
     controller.clear();
-
-    if (widget.onChanged != null) {
-      widget.onChanged!('');
-    }
+    widget.onChanged!('');
   }
 }

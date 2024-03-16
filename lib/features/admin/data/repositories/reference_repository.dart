@@ -17,15 +17,15 @@ abstract class ReferenceRepository {
   Future<Either<Failure, List<DiscussionCategoryModel>>>
       getDiscussionCategories();
 
-  /// Create discussion categories
+  /// Create discussion category
   Future<Either<Failure, void>> createDiscussionCategory(
       {required String name});
 
-  /// Edit discussion categories
+  /// Edit discussion category
   Future<Either<Failure, void>> editDiscussionCategory(
       {required DiscussionCategoryModel category});
 
-  /// Delete discussion categories
+  /// Delete discussion category
   Future<Either<Failure, void>> deleteDiscussionCategory({required int id});
 
   /// Get faq

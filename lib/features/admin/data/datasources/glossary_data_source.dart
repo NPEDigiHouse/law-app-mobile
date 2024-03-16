@@ -34,7 +34,7 @@ abstract class GlossaryDataSource {
   /// Delete glossary
   Future<void> deleteGlossary({required int id});
 
-  /// Create glossaries search history
+  /// Create glossary search history
   Future<void> createGlossarySearchHistory({required int id});
 
   /// Get glossaries search history

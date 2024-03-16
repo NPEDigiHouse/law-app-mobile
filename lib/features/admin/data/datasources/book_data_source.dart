@@ -24,13 +24,13 @@ abstract class BookDataSource {
   /// Get book categories
   Future<List<BookCategoryModel>> getBookCategories();
 
-  /// Create book categories
+  /// Create book category
   Future<void> createBookCategory({required String name});
 
-  /// Edit book categories
+  /// Edit book category
   Future<void> editBookCategory({required BookCategoryModel category});
 
-  /// Delete book categories
+  /// Delete book category
   Future<void> deleteBookCategory({required int id});
 
   // Get all books
@@ -68,10 +68,7 @@ abstract class BookDataSource {
   Future<List<BookSavedModel>> getSavedBooks({required int userId});
 
   /// Save book
-  Future<void> saveBook({
-    required int userId,
-    required int bookId,
-  });
+  Future<void> saveBook({required int bookId});
 
   /// Unsave book
   Future<void> unsaveBook({required int id});
@@ -79,17 +76,17 @@ abstract class BookDataSource {
   /// Get all user reads
   Future<List<BookModel>> getUserReads({required bool isFinished});
 
-  /// Read book
-  Future<void> readBook({
-    required int userId,
-    required int bookId,
-  });
+  /// Create user read
+  Future<void> createUserRead({required int bookId});
 
   /// Update user read
   Future<void> updateUserRead({
     required int bookId,
     required int currentPage,
   });
+
+  /// Delete user read
+  Future<void> deleteUserRead({required int bookId});
 }
 
 class BookDataSourceImpl implements BookDataSource {
@@ -447,7 +444,7 @@ class BookDataSourceImpl implements BookDataSource {
   }
 
   @override
-  Future<void> saveBook({required int userId, required int bookId}) async {
+  Future<void> saveBook({required int bookId}) async {
     try {
       final response = await client.post(
         Uri.parse('${ApiConfigs.baseUrl}/saved-books'),
@@ -456,10 +453,7 @@ class BookDataSourceImpl implements BookDataSource {
           HttpHeaders.authorizationHeader:
               'Bearer ${CredentialSaver.accessToken}'
         },
-        body: jsonEncode({
-          'userId': userId,
-          'bookId': bookId,
-        }),
+        body: jsonEncode({'bookId': bookId}),
       );
 
       final result = DataResponse.fromJson(jsonDecode(response.body));
@@ -535,7 +529,7 @@ class BookDataSourceImpl implements BookDataSource {
   }
 
   @override
-  Future<void> readBook({required int userId, required int bookId}) async {
+  Future<void> createUserRead({required int bookId}) async {
     try {
       final response = await client.post(
         Uri.parse('${ApiConfigs.baseUrl}/user-reads'),
@@ -544,10 +538,7 @@ class BookDataSourceImpl implements BookDataSource {
           HttpHeaders.authorizationHeader:
               'Bearer ${CredentialSaver.accessToken}'
         },
-        body: jsonEncode({
-          'userId': userId,
-          'bookId': bookId,
-        }),
+        body: jsonEncode({'bookId': bookId}),
       );
 
       final result = DataResponse.fromJson(jsonDecode(response.body));
@@ -578,6 +569,32 @@ class BookDataSourceImpl implements BookDataSource {
               'Bearer ${CredentialSaver.accessToken}'
         },
         body: jsonEncode({'currentPage': currentPage}),
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code != 200) {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      if (e is ServerException) {
+        rethrow;
+      } else {
+        throw http.ClientException(e.toString());
+      }
+    }
+  }
+
+  @override
+  Future<void> deleteUserRead({required int bookId}) async {
+    try {
+      final response = await client.delete(
+        Uri.parse('${ApiConfigs.baseUrl}/user-reads?bookId=$bookId'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
       );
 
       final result = DataResponse.fromJson(jsonDecode(response.body));

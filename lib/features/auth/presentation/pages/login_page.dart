@@ -56,7 +56,6 @@ class _LoginPageState extends ConsumerState<LoginPage>
             navigatorKey.currentState!.pushNamedAndRemoveUntil(
               data.$2!.role == 'admin' ? adminHomeRoute : mainMenuRoute,
               (route) => false,
-              arguments: data.$2,
             );
           }
         },

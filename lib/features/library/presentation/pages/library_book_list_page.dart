@@ -22,6 +22,7 @@ import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/feature/book_item.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
+import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 final bookCategoryIdProvider = StateProvider.autoDispose<int?>((ref) => null);
@@ -130,7 +131,9 @@ class _LibraryBookListPageState extends ConsumerState<LibraryBookListPage>
             ),
           ),
           books.when(
-            loading: () => const SliverFillRemaining(),
+            loading: () => const SliverFillRemaining(
+              child: LoadingIndicator(),
+            ),
             error: (_, __) => const SliverFillRemaining(),
             data: (data) {
               final books = data.books;

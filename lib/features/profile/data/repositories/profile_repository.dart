@@ -1,6 +1,3 @@
-// Dart imports:
-import 'dart:io';
-
 // Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart';
@@ -80,8 +77,6 @@ class ProfileRepositoryImpl implements ProfileRepository {
         }
       } on ClientException catch (e) {
         return Left(ClientFailure(e.message));
-      } on FileSystemException catch (e) {
-        return Left(FileSystemFailure(e.message));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));

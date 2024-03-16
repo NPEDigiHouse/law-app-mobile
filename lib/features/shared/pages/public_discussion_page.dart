@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:after_layout/after_layout.dart';
-import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
@@ -28,6 +27,7 @@ import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
 import 'package:law_app/features/shared/widgets/form_field/search_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
+import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 
 class PublicDiscussionPage extends ConsumerStatefulWidget {
   const PublicDiscussionPage({super.key});
@@ -194,7 +194,9 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
                 ),
               ),
               discussions.when(
-                loading: () => const SliverFillRemaining(),
+                loading: () => const SliverFillRemaining(
+                  child: LoadingIndicator(),
+                ),
                 error: (_, __) => const SliverFillRemaining(),
                 data: (data) {
                   final discussions = data.discussions;
@@ -333,26 +335,20 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
   }
 
   void searchDiscussion(String query, int? categoryId) {
-    ref.read(queryProvider.notifier).state = query;
-
     if (query.isNotEmpty) {
-      EasyDebounce.debounce(
-        'search-debouncer',
-        const Duration(milliseconds: 800),
-        () {
-          ref.read(
-            DiscussionProvider(
-              query: query,
-              categoryId: categoryId,
-              type: 'general',
-            ),
-          );
-
-          ref.invalidate(offsetProvider);
-        },
+      ref.read(
+        DiscussionProvider(
+          query: query,
+          categoryId: categoryId,
+          type: 'general',
+        ),
       );
+
+      ref.invalidate(offsetProvider);
     } else {
       ref.invalidate(discussionProvider);
     }
+
+    ref.read(queryProvider.notifier).state = query;
   }
 }

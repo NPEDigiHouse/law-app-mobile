@@ -56,6 +56,27 @@ extension DialogExtension on BuildContext {
     );
   }
 
+  Future<Object?> showDeleteConfirmDialog({
+    required String title,
+    VoidCallback? onIconPressed,
+  }) {
+    return showGeneralDialog(
+      context: this,
+      barrierLabel: '',
+      barrierDismissible: true,
+      barrierColor: Colors.black54,
+      transitionDuration: const Duration(milliseconds: 300),
+      pageBuilder: (context, start, end) => Container(),
+      transitionBuilder: (context, start, end, widget) {
+        return DeleteConfirmDialog(
+          start: start,
+          title: title,
+          onIconPressed: onIconPressed,
+        );
+      },
+    );
+  }
+
   Future<Object?> showCustomAlertDialog({
     required String title,
     required String message,
@@ -171,27 +192,6 @@ extension DialogExtension on BuildContext {
         values: values,
         onSubmitted: onSubmitted,
       ),
-    );
-  }
-
-  Future<Object?> showDeleteConfirmDialog({
-    required String title,
-    VoidCallback? onIconPressed,
-  }) {
-    return showGeneralDialog(
-      context: this,
-      barrierLabel: '',
-      barrierDismissible: true,
-      barrierColor: Colors.black54,
-      transitionDuration: const Duration(milliseconds: 300),
-      pageBuilder: (context, start, end) => Container(),
-      transitionBuilder: (context, start, end, widget) {
-        return DeleteConfirmDialog(
-          start: start,
-          title: title,
-          onIconPressed: onIconPressed,
-        );
-      },
     );
   }
 }

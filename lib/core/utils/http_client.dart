@@ -10,9 +10,9 @@ class HttpClient {
 
   factory HttpClient() => _instance ?? HttpClient._internal();
 
-  static http.Client? _clientInstance;
+  static http.Client? _client;
 
   static http.Client get client {
-    return _clientInstance ??= http.Client();
+    return _client ??= http.Client();
   }
 }

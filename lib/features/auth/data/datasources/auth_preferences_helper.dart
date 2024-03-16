@@ -7,7 +7,6 @@ import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/features/admin/data/models/user_models/user_credential_model.dart';
 
 class AuthPreferencesHelper {
-  /// Singleton class
   static AuthPreferencesHelper? _instance;
 
   AuthPreferencesHelper._internal() {
@@ -17,8 +16,7 @@ class AuthPreferencesHelper {
   factory AuthPreferencesHelper() =>
       _instance ?? AuthPreferencesHelper._internal();
 
-  /// Singleton shared preferences
-  static SharedPreferences? _preferences;
+  SharedPreferences? _preferences;
 
   Future<SharedPreferences> _initPreferences() async {
     return await SharedPreferences.getInstance();
@@ -28,12 +26,14 @@ class AuthPreferencesHelper {
     return _preferences ??= await _initPreferences();
   }
 
-  Future<bool> setAccessToken(String token) async {
+  /// Set [accessToken] to persistent storage
+  Future<bool> setAccessToken(String accessToken) async {
     final pr = await preferences;
 
-    return await pr!.setString(accessTokenKey, token);
+    return await pr!.setString(accessTokenKey, accessToken);
   }
 
+  /// Get access token from persistent storage
   Future<String?> getAccessToken() async {
     final pr = await preferences;
 
@@ -48,6 +48,7 @@ class AuthPreferencesHelper {
     return null;
   }
 
+  /// Remove access token from persistent storage
   Future<bool> removeAccessToken() async {
     CredentialSaver.accessToken = null;
 
@@ -56,19 +57,21 @@ class AuthPreferencesHelper {
     return await pr!.remove(accessTokenKey);
   }
 
+  /// Set [userCredential] to persistent storage
   Future<bool> setUserCredential(UserCredentialModel userCredential) async {
     final pr = await preferences;
 
     return await pr!.setString(userCredentialKey, userCredential.toJson());
   }
 
+  /// Get user credential from persistent storage
   Future<UserCredentialModel?> getUserCredential() async {
     final pr = await preferences;
 
     if (pr!.containsKey(userCredentialKey)) {
       final data = pr.getString(userCredentialKey);
 
-      final userCredential = UserCredentialModel.fromJson(data ?? '');
+      final userCredential = UserCredentialModel.fromJson(data!);
 
       CredentialSaver.user ??= userCredential;
 
@@ -78,11 +81,33 @@ class AuthPreferencesHelper {
     return null;
   }
 
+  /// Remove user credential from persistent storage
   Future<bool> removeUserCredential() async {
     CredentialSaver.user = null;
 
     final pr = await preferences;
 
     return await pr!.remove(userCredentialKey);
+  }
+
+  /// Set [fcmToken] to persistent storage
+  Future<bool> setFcmToken(String fcmToken) async {
+    final pr = await preferences;
+
+    return await pr!.setString(fcmTokenKey, fcmToken);
+  }
+
+  /// Get fcm token from persistent storage
+  Future<String?> getFcmToken() async {
+    final pr = await preferences;
+
+    return pr!.getString(fcmTokenKey);
+  }
+
+  /// Remove fcm token from persistent storage
+  Future<bool> removeFcmToken() async {
+    final pr = await preferences;
+
+    return await pr!.remove(fcmTokenKey);
   }
 }
