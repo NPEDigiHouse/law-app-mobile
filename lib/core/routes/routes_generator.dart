@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/admin/presentation/ad/pages/admin_ad_home_page.dart';
-import 'package:law_app/features/admin/presentation/ad/pages/admin_add_detail_ad_page.dart';
-import 'package:law_app/features/admin/presentation/ad/pages/admin_add_simple_ad_page.dart';
+import 'package:law_app/features/admin/presentation/ad/pages/admin_ad_form_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_add_course_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_add_article_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_add_question_page.dart';
@@ -145,10 +144,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => const NotificationPage(),
       );
     case adDetailRoute:
-      final isAdmin = settings.arguments as bool;
+      final args = settings.arguments as AdDetailPageArgs;
 
       return MaterialPageRoute(
-        builder: (_) => AdDetailPage(isAdmin: isAdmin),
+        builder: (_) => AdDetailPage(id: args.id, isAdmin: args.isAdmin),
       );
     case glossarySearchRoute:
       return PageRouteBuilder(
@@ -290,13 +289,14 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => const AdminAdHomePage(),
       );
-    case adminAddSimpleAdRoute:
+    case adminAdFromRoute:
+      final args = settings.arguments as AdminAdFormPageArgs;
+
       return MaterialPageRoute(
-        builder: (_) => const AdminAddSimpleAdPage(),
-      );
-    case adminAddDetailAdRoute:
-      return MaterialPageRoute(
-        builder: (_) => const AdminAddDetailAdPage(),
+        builder: (_) => AdminAdFormPage(
+          title: args.title,
+          ad: args.ad,
+        ),
       );
     case adminCourseHomeRoute:
       return MaterialPageRoute(

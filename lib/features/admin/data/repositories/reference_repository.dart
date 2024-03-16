@@ -8,6 +8,7 @@ import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/errors/failures.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/features/admin/data/datasources/reference_data_source.dart';
+import 'package:law_app/features/admin/data/models/contact_us_models/contact_us_model.dart';
 import 'package:law_app/features/admin/data/models/discussion_models/discussion_category_model.dart';
 import 'package:law_app/features/admin/data/models/faq_models/faq_model.dart';
 
@@ -39,6 +40,11 @@ abstract class ReferenceRepository {
 
   /// Delete faq
   Future<Either<Failure, void>> deleteFaq({required int id});
+
+  Future<Either<Failure, ContactUsModel>> getContactUs();
+
+  Future<Either<Failure, void>> editContactUs(
+      {required ContactUsModel contact});
 }
 
 class ReferenceRepositoryImpl implements ReferenceRepository {
@@ -161,15 +167,16 @@ class ReferenceRepositoryImpl implements ReferenceRepository {
       {required String question, required String answer}) async {
     if (await networkInfo.isConnected) {
       try {
-        final result =
-            await referenceDataSource.createFaq(question: question, answer: answer);
+        final result = await referenceDataSource.createFaq(
+            question: question, answer: answer);
 
         return Right(result);
       } on ServerException catch (e) {
         switch (e.message) {
           case kCategoryAlreadyExist:
             return const Left(
-              ServerFailure('Telah terdapat pertanyaan dengan jawaban yang sama'),
+              ServerFailure(
+                  'Telah terdapat pertanyaan dengan jawaban yang sama'),
             );
           default:
             return Left(ServerFailure(e.message));
@@ -186,15 +193,15 @@ class ReferenceRepositoryImpl implements ReferenceRepository {
   Future<Either<Failure, void>> editFaq({required FaqModel faq}) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await referenceDataSource.editFaq(
-            faq: faq);
+        final result = await referenceDataSource.editFaq(faq: faq);
 
         return Right(result);
       } on ServerException catch (e) {
         switch (e.message) {
           case kCategoryAlreadyExist:
             return const Left(
-              ServerFailure('Telah terdapat pertanyaan dengan jawaban yang sama'),
+              ServerFailure(
+                  'Telah terdapat pertanyaan dengan jawaban yang sama'),
             );
           default:
             return Left(ServerFailure(e.message));
@@ -208,11 +215,46 @@ class ReferenceRepositoryImpl implements ReferenceRepository {
   }
 
   @override
-  Future<Either<Failure, void>> deleteFaq({required int id}) async{
+  Future<Either<Failure, void>> deleteFaq({required int id}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await referenceDataSource.deleteFaq(id: id);
+
+        return Right(result);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message));
+      } on ClientException catch (e) {
+        return Left(ClientFailure(e.message));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ContactUsModel>> getContactUs() async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await referenceDataSource.getContactUs();
+
+        return Right(result);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message));
+      } on ClientException catch (e) {
+        return Left(ClientFailure(e.message));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> editContactUs(
+      {required ContactUsModel contact}) async {
     if (await networkInfo.isConnected) {
       try {
         final result =
-            await referenceDataSource.deleteFaq(id: id);
+            await referenceDataSource.editContactUs(contact: contact);
 
         return Right(result);
       } on ServerException catch (e) {

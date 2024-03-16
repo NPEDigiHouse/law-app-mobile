@@ -1,9 +1,9 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:law_app/core/enums/banner_type.dart';
 
 // Project imports:
+import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
@@ -37,6 +37,7 @@ class FAQPage extends ConsumerWidget {
             });
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
+            ref.invalidate(faqProvider);
           }
         },
       );
@@ -96,9 +97,7 @@ class FAQPage extends ConsumerWidget {
                     },
                   );
                 },
-                orElse: () {
-                  return Container();
-                },
+                orElse: () => Container(),
               ),
             ],
           ),
