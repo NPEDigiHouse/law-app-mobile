@@ -2,15 +2,11 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
-import 'package:law_app/core/routes/route_names.dart';
-import 'package:law_app/core/services/notification_service.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
-import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/glossary/presentation/pages/glossary_home_page.dart';
 import 'package:law_app/features/library/presentation/pages/library_home_page.dart';
 import 'package:law_app/features/shared/widgets/custom_navigation_bar.dart';
@@ -35,10 +31,6 @@ class _MainMenuPageState extends ConsumerState<MainMenuPage> {
   @override
   void initState() {
     super.initState();
-
-    // Run code required to handle interacted messages in an async function
-    // as initState() must not be async
-    setupInteractedMessage();
 
     selectedIndex = ValueNotifier(0);
     pageController = PageController();
@@ -87,22 +79,5 @@ class _MainMenuPageState extends ConsumerState<MainMenuPage> {
         },
       ),
     );
-  }
-
-  /// Handle when user tap the notification in background or terminated
-  void setupInteractedMessage() {
-    // Get any messages which caused the application to open from
-    // a terminated state.
-    NotificationService.messaging.getInitialMessage().then((message) {
-      if (message != null) {
-        navigatorKey.currentState!.pushNamed(profileRoute);
-      }
-    });
-
-    // Also handle any interaction when the app is in the background via a
-    // Stream listener
-    FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      navigatorKey.currentState!.pushNamed(profileRoute);
-    });
   }
 }

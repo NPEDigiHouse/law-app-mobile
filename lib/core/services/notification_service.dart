@@ -45,13 +45,13 @@ class NotificationService {
     );
 
     // For Android Notification in foreground
-    FirebaseMessaging.onMessage.listen(handleMessage);
+    FirebaseMessaging.onMessage.listen(handleForegroundMessage);
 
     debugPrint('notification status: ${settings.authorizationStatus.name}');
     debugPrint('token: $fcmToken');
   }
 
-  void handleMessage(RemoteMessage message) async {
+  void handleForegroundMessage(RemoteMessage message) async {
     final notification = message.notification;
 
     if (notification == null) return;
@@ -71,8 +71,7 @@ class NotificationService {
         iOS: DarwinInitializationSettings(),
       ),
       onDidReceiveNotificationResponse: (details) {
-        if (CredentialSaver.accessToken != null &&
-            CredentialSaver.user != null) {
+        if (CredentialSaver.user != null) {
           navigatorKey.currentState!.pushNamed(profileRoute);
         }
       },

@@ -16,6 +16,9 @@ import 'firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Init credential saver
+  await CredentialSaver.init();
+
   // Init firebase app
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -23,9 +26,6 @@ void main() async {
 
   // Init firebase messaging
   await NotificationService().init();
-
-  // Init credential saver
-  await CredentialSaver.init();
 
   // Prevent landscape orientation
   SystemChrome.setPreferredOrientations([

@@ -6,13 +6,16 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:after_layout/after_layout.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 // Project imports:
 import 'package:law_app/core/configs/app_configs.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/routes/route_names.dart';
+import 'package:law_app/core/services/notification_service.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
@@ -84,8 +87,30 @@ class _SplashPageState extends State<SplashPage>
 
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) {
-    Timer(const Duration(seconds: 3), () {
-      navigatorKey.currentState!.pushReplacementNamed(wrapperRoute);
+    Timer(const Duration(seconds: 3), () async {
+      await navigatorKey.currentState!.pushReplacementNamed(wrapperRoute);
+
+      // Run code required to handle interacted messages
+      setupInteractedMessage();
     });
+  }
+
+  /// Handle when user tap the notification in background or terminated
+  void setupInteractedMessage() {
+    if (CredentialSaver.user != null) {
+      // Get any messages which caused the application to open from
+      // a terminated state.
+      NotificationService.messaging.getInitialMessage().then((message) {
+        if (message != null) {
+          navigatorKey.currentState!.pushNamed(profileRoute);
+        }
+      });
+
+      // Also handle any interaction when the app is in the background via a
+      // Stream listener
+      FirebaseMessaging.onMessageOpenedApp.listen((message) {
+        navigatorKey.currentState!.pushNamed(profileRoute);
+      });
+    }
   }
 }
