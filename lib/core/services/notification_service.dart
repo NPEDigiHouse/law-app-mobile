@@ -7,13 +7,12 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:law_app/core/routes/route_names.dart';
-import 'package:law_app/core/utils/keys.dart';
 
 // Project imports:
+import 'package:law_app/core/routes/route_names.dart';
+import 'package:law_app/core/utils/credential_saver.dart';
+import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/auth/data/datasources/auth_preferences_helper.dart';
-
-Future<void> handleBackgroundMessage(RemoteMessage message) async {}
 
 class NotificationService {
   static NotificationService? _instance;
@@ -48,9 +47,6 @@ class NotificationService {
     // For Android Notification in foreground
     FirebaseMessaging.onMessage.listen(handleMessage);
 
-    // For Android and iOS Notification in background or terminated
-    FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
-
     debugPrint('notification status: ${settings.authorizationStatus.name}');
     debugPrint('token: $fcmToken');
   }
@@ -75,7 +71,10 @@ class NotificationService {
         iOS: DarwinInitializationSettings(),
       ),
       onDidReceiveNotificationResponse: (details) {
-        navigatorKey.currentState!.pushNamed(profileRoute);
+        if (CredentialSaver.accessToken != null &&
+            CredentialSaver.user != null) {
+          navigatorKey.currentState!.pushNamed(profileRoute);
+        }
       },
     );
 

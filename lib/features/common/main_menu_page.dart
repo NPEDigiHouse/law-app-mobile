@@ -36,6 +36,8 @@ class _MainMenuPageState extends ConsumerState<MainMenuPage> {
   void initState() {
     super.initState();
 
+    // Run code required to handle interacted messages in an async function
+    // as initState() must not be async
     setupInteractedMessage();
 
     selectedIndex = ValueNotifier(0);
@@ -87,13 +89,18 @@ class _MainMenuPageState extends ConsumerState<MainMenuPage> {
     );
   }
 
+  /// Handle when user tap the notification in background or terminated
   void setupInteractedMessage() {
+    // Get any messages which caused the application to open from
+    // a terminated state.
     NotificationService.messaging.getInitialMessage().then((message) {
       if (message != null) {
         navigatorKey.currentState!.pushNamed(profileRoute);
       }
     });
 
+    // Also handle any interaction when the app is in the background via a
+    // Stream listener
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
       navigatorKey.currentState!.pushNamed(profileRoute);
     });
