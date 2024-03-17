@@ -9,6 +9,7 @@ class CourseDetailModel extends Equatable {
   final String? title;
   final String? description;
   final String? coverImg;
+  final int? courseDuration;
   final List<CurriculumModel>? curriculums;
 
   const CourseDetailModel({
@@ -16,6 +17,7 @@ class CourseDetailModel extends Equatable {
     this.title,
     this.description,
     this.coverImg,
+    this.courseDuration,
     this.curriculums,
   });
 
@@ -24,7 +26,7 @@ class CourseDetailModel extends Equatable {
     String? title,
     String? description,
     String? coverImg,
-    DateTime? createdAt,
+    int? courseDuration,
     List<CurriculumModel>? curriculums,
   }) {
     return CourseDetailModel(
@@ -32,6 +34,7 @@ class CourseDetailModel extends Equatable {
       title: title ?? this.title,
       description: description ?? this.description,
       coverImg: coverImg ?? this.coverImg,
+      courseDuration: courseDuration ?? this.courseDuration,
       curriculums: curriculums ?? this.curriculums,
     );
   }
@@ -42,6 +45,7 @@ class CourseDetailModel extends Equatable {
       'title': title,
       'description': description,
       'coverImg': coverImg,
+      'courseDuration': courseDuration,
       'curriculums': curriculums?.map((e) => e.toMap()).toList(),
     };
   }
@@ -52,6 +56,7 @@ class CourseDetailModel extends Equatable {
       title: map['title'] as String?,
       description: map['description'] as String?,
       coverImg: map['coverImg'] as String?,
+      courseDuration: map['courseDuration'] as int?,
       curriculums: map['curriculums'] != null
           ? List<CurriculumModel>.from(
               (map['curriculums'] as List).map(
@@ -66,5 +71,12 @@ class CourseDetailModel extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object?> get props => [id, title, description, coverImg, curriculums];
+  List<Object?> get props => [
+        id,
+        title,
+        description,
+        coverImg,
+        courseDuration,
+        curriculums,
+      ];
 }

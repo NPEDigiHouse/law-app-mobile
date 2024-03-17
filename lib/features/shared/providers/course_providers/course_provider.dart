@@ -3,49 +3,44 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
 import 'package:law_app/core/utils/const.dart';
-import 'package:law_app/features/admin/data/models/book_models/book_model.dart';
-import 'package:law_app/features/library/presentation/providers/repositories_provider/book_repository_provider.dart';
+import 'package:law_app/features/admin/data/models/course_models/course_model.dart';
+import 'package:law_app/features/shared/providers/course_providers/repositories_provider/course_repository_provider.dart';
 
-part 'book_provider.g.dart';
+part 'course_provider.g.dart';
 
 @riverpod
-class Book extends _$Book {
+class Course extends _$Course {
   @override
-  Future<({List<BookModel>? books, bool? hasMore})> build({
-    String query = '',
-    int? categoryId,
-  }) async {
-    List<BookModel>? books;
+  Future<({List<CourseModel>? courses, bool? hasMore})> build(
+      {String query = ''}) async {
+    List<CourseModel>? courses;
     bool? hasMore;
 
     state = const AsyncValue.loading();
 
-    final result = await ref.watch(bookRepositoryProvider).getBooks(
+    final result = await ref.watch(courseRepositoryProvider).getCourses(
           query: query,
-          categoryId: categoryId,
           limit: kPageLimit,
         );
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
       (r) {
-        books = r;
+        courses = r;
         hasMore = r.length == kPageLimit;
-        state = AsyncValue.data((books: books, hasMore: hasMore));
+        state = AsyncValue.data((courses: courses, hasMore: hasMore));
       },
     );
 
-    return (books: books, hasMore: hasMore);
+    return (courses: courses, hasMore: hasMore);
   }
 
-  Future<void> fetchMoreBooks({
+  Future<void> fetchMoreCourses({
     String query = '',
-    int? categoryId,
     required int offset,
   }) async {
-    final result = await ref.watch(bookRepositoryProvider).getBooks(
+    final result = await ref.watch(courseRepositoryProvider).getCourses(
           query: query,
-          categoryId: categoryId,
           offset: offset,
           limit: kPageLimit,
         );
@@ -57,7 +52,7 @@ class Book extends _$Book {
 
         if (previousState != null) {
           state = AsyncValue.data((
-            books: [...previousState.books!, ...r],
+            courses: [...previousState.courses!, ...r],
             hasMore: r.length == kPageLimit,
           ));
         }

@@ -19,7 +19,6 @@ import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/shared/providers/discussion_filter_provider.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/discussion_provider.dart';
-import 'package:law_app/features/shared/providers/offset_provider.dart';
 import 'package:law_app/features/shared/providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/animated_fab.dart';
 import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
@@ -89,7 +88,6 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
     final isSearching = ref.watch(isSearchingProvider);
     final query = ref.watch(queryProvider);
     final categoryId = ref.watch(discussionCategoryIdProvider);
-    final offset = ref.watch(offsetProvider);
 
     final discussions = ref.watch(
       DiscussionProvider(
@@ -233,8 +231,8 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
                           if (index >= discussions.length) {
                             return buildFetchMoreButton(
                               query,
-                              offset,
                               categoryId,
+                              discussions.length,
                             );
                           }
 
@@ -312,7 +310,11 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
     );
   }
 
-  TextButton buildFetchMoreButton(String query, int offset, int? categoryId) {
+  TextButton buildFetchMoreButton(
+    String query,
+    int? categoryId,
+    int currentLength,
+  ) {
     return TextButton(
       onPressed: () {
         ref
@@ -325,10 +327,8 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
               query: query,
               categoryId: categoryId,
               type: 'general',
-              offset: offset + kPageLimit,
+              offset: currentLength,
             );
-
-        ref.read(offsetProvider.notifier).state = offset + kPageLimit;
       },
       child: const Text('Lihat lebih banyak'),
     );
@@ -343,8 +343,6 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
           type: 'general',
         ),
       );
-
-      ref.invalidate(offsetProvider);
     } else {
       ref.invalidate(discussionProvider);
     }

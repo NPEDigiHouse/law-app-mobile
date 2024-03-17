@@ -57,7 +57,7 @@ class TeacherDashboard extends _$TeacherDashboard {
               if (discussions!.isNotEmpty) {
                 discussions = discussions!.sublist(
                   0,
-                  discussions!.length > 10 ? 10 : discussions!.length,
+                  discussions!.length > kPageLimit ? kPageLimit : discussions!.length,
                 );
               }
             },

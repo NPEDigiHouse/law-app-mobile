@@ -7,9 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // Project imports:
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
-import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/features/library/presentation/providers/book_provider.dart';
-import 'package:law_app/features/shared/providers/offset_provider.dart';
 import 'package:law_app/features/shared/providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/feature/book_card.dart';
@@ -23,7 +21,6 @@ class LibrarySearchPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final query = ref.watch(queryProvider);
-    final offset = ref.watch(offsetProvider);
     final books = ref.watch(BookProvider(query: query));
 
     return Scaffold(
@@ -80,7 +77,7 @@ class LibrarySearchPage extends ConsumerWidget {
             ),
             itemBuilder: (context, index) {
               if (index >= books.length) {
-                return buildFetchMoreButton(ref, query, offset);
+                return buildFetchMoreButton(ref, query, books.length);
               }
 
               return BookCard(book: books[index]);
@@ -95,7 +92,11 @@ class LibrarySearchPage extends ConsumerWidget {
     );
   }
 
-  TextButton buildFetchMoreButton(WidgetRef ref, String query, int offset) {
+  TextButton buildFetchMoreButton(
+    WidgetRef ref,
+    String query,
+    int currentLength,
+  ) {
     return TextButton(
       onPressed: () {
         ref
@@ -104,10 +105,8 @@ class LibrarySearchPage extends ConsumerWidget {
             ).notifier)
             .fetchMoreBooks(
               query: query,
-              offset: offset + kPageLimit,
+              offset: currentLength,
             );
-
-        ref.read(offsetProvider.notifier).state = offset + kPageLimit;
       },
       child: const Text('Lihat lebih banyak'),
     );
@@ -116,7 +115,6 @@ class LibrarySearchPage extends ConsumerWidget {
   void searchBook(WidgetRef ref, String query) {
     if (query.isNotEmpty) {
       ref.read(BookProvider(query: query));
-      ref.invalidate(offsetProvider);
     }
 
     ref.read(queryProvider.notifier).state = query;

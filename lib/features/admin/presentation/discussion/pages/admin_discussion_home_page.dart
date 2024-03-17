@@ -16,7 +16,6 @@ import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/shared/pages/discussion_list_page.dart';
 import 'package:law_app/features/shared/providers/discussion_filter_provider.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/discussion_provider.dart';
-import 'package:law_app/features/shared/providers/offset_provider.dart';
 import 'package:law_app/features/shared/providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
 import 'package:law_app/features/shared/widgets/form_field/search_field.dart';
@@ -56,7 +55,6 @@ class _AdminDiscussionHomePageState
     final query = ref.watch(queryProvider);
     final type = ref.watch(discussionTypeProvider);
     final status = ref.watch(discussionStatusProvider);
-    final offset = ref.watch(offsetProvider);
 
     final discussions = ref.watch(
       DiscussionProvider(
@@ -215,7 +213,7 @@ class _AdminDiscussionHomePageState
                       query,
                       type,
                       status,
-                      offset,
+                      discussions.length,
                     ),
                   ),
                 );
@@ -277,7 +275,7 @@ class _AdminDiscussionHomePageState
     String query,
     String type,
     String status,
-    int offset,
+    int currentLength,
   ) {
     ref
         .read(DiscussionProvider(
@@ -289,10 +287,8 @@ class _AdminDiscussionHomePageState
           query: query,
           type: type,
           status: status,
-          offset: offset + kPageLimit,
+          offset: currentLength,
         );
-
-    ref.read(offsetProvider.notifier).state = offset + kPageLimit;
   }
 
   void searchDiscussion(
@@ -308,8 +304,6 @@ class _AdminDiscussionHomePageState
           status: status,
         ),
       );
-
-      ref.invalidate(offsetProvider);
     } else {
       ref.invalidate(discussionProvider);
     }

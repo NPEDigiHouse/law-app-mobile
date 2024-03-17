@@ -15,7 +15,6 @@ import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/glossary/presentation/providers/glossary_search_history_provider.dart';
 import 'package:law_app/features/glossary/presentation/providers/search_glossary_provider.dart';
 import 'package:law_app/features/glossary/presentation/widgets/search_empty_text.dart';
-import 'package:law_app/features/shared/providers/offset_provider.dart';
 import 'package:law_app/features/shared/providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/form_field/search_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
@@ -27,7 +26,6 @@ class GlossarySearchPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final query = ref.watch(queryProvider);
-    final offset = ref.watch(offsetProvider);
     final glossaries = ref.watch(searchGlossaryProvider);
 
     if (query.isNotEmpty) {
@@ -104,7 +102,7 @@ class GlossarySearchPage extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(vertical: 8),
             itemBuilder: (context, index) {
               if (index >= glossaries.length) {
-                return buildFetchMoreButton(ref, query, offset);
+                return buildFetchMoreButton(ref, query, glossaries.length);
               }
 
               return ListTile(
@@ -145,16 +143,14 @@ class GlossarySearchPage extends ConsumerWidget {
     );
   }
 
-  Padding buildFetchMoreButton(WidgetRef ref, String query, int offset) {
+  Padding buildFetchMoreButton(WidgetRef ref, String query, int currentLength) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: TextButton(
         onPressed: () {
           ref
               .read(searchGlossaryProvider.notifier)
-              .fetchMoreGlossary(query: query, offset: offset + kPageLimit);
-
-          ref.read(offsetProvider.notifier).state = offset + kPageLimit;
+              .fetchMoreGlossary(query: query, offset: currentLength);
         },
         child: const Text('Lihat lebih banyak'),
       ),
@@ -164,7 +160,6 @@ class GlossarySearchPage extends ConsumerWidget {
   void searchGlossaries(WidgetRef ref, String query) {
     if (query.isNotEmpty) {
       ref.read(searchGlossaryProvider.notifier).searchGlossary(query: query);
-      ref.invalidate(offsetProvider);
     } else {
       ref.invalidate(searchGlossaryProvider);
     }
