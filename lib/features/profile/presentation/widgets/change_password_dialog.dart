@@ -8,7 +8,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 
 // Project imports:
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/profile/presentation/providers/change_password_provider.dart';
+import 'package:law_app/features/profile/presentation/providers/profile_actions_provider.dart';
 import 'package:law_app/features/shared/widgets/dialog/custom_dialog.dart';
 import 'package:law_app/features/shared/widgets/form_field/password_text_field.dart';
 
@@ -119,7 +119,7 @@ class _ChangePasswordDialogState extends ConsumerState<ChangePasswordDialog> {
 
       navigatorKey.currentState!.pop();
 
-      ref.read(changePasswordProvider.notifier).changePassword(
+      ref.read(profileActionsProvider.notifier).changePassword(
             email: widget.email,
             currentPassword: data['currentPassword'],
             newPassword: data['newPassword'],

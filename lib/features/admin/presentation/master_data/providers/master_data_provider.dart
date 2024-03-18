@@ -65,16 +65,4 @@ class MasterData extends _$MasterData {
       (r) => state = AsyncValue.data(r),
     );
   }
-
-  Future<void> deleteUser({required int id}) async {
-    state = const AsyncValue.loading();
-
-    final result =
-        await ref.watch(masterDataRepositoryProvider).deleteUser(id: id);
-
-    result.fold(
-      (l) => state = AsyncValue.error(l.message, StackTrace.current),
-      (r) => ref.invalidateSelf(),
-    );
-  }
 }

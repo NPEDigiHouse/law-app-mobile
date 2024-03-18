@@ -54,6 +54,8 @@ class NotificationService {
   void handleForegroundMessage(RemoteMessage message) async {
     final notification = message.notification;
 
+    print(message.toMap());
+
     if (notification == null) return;
 
     const channel = AndroidNotificationChannel(

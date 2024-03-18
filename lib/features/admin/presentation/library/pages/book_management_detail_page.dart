@@ -16,9 +16,9 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/presentation/library/pages/book_management_form_page.dart';
+import 'package:law_app/features/library/presentation/providers/book_actions_provider.dart';
 import 'package:law_app/features/library/presentation/providers/book_detail_provider.dart';
 import 'package:law_app/features/library/presentation/providers/book_provider.dart';
-import 'package:law_app/features/library/presentation/providers/delete_book_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_network_image.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
@@ -50,7 +50,7 @@ class BookManagementDetailPage extends ConsumerWidget {
       );
     });
 
-    ref.listen(deleteBookProvider, (_, state) {
+    ref.listen(bookActionsProvider, (_, state) {
       state.when(
         error: (error, _) {
           navigatorKey.currentState!.pop();
@@ -69,10 +69,7 @@ class BookManagementDetailPage extends ConsumerWidget {
 
             ref.invalidate(bookProvider);
 
-            context.showBanner(
-              message: 'Buku berhasil dihapus!',
-              type: BannerType.success,
-            );
+            context.showBanner(message: data, type: BannerType.success);
           }
         },
       );
@@ -118,7 +115,7 @@ class BookManagementDetailPage extends ConsumerWidget {
                                 navigatorKey.currentState!.pop();
 
                                 ref
-                                    .read(deleteBookProvider.notifier)
+                                    .read(bookActionsProvider.notifier)
                                     .deleteBook(id: id);
                               },
                             );

@@ -19,8 +19,7 @@ import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/user_models/user_detail_model.dart';
 import 'package:law_app/features/auth/presentation/providers/user_credential_provider.dart';
-import 'package:law_app/features/profile/presentation/providers/change_password_provider.dart';
-import 'package:law_app/features/profile/presentation/providers/edit_profile_provider.dart';
+import 'package:law_app/features/profile/presentation/providers/profile_actions_provider.dart';
 import 'package:law_app/features/profile/presentation/providers/profile_detail_provider.dart';
 import 'package:law_app/features/profile/presentation/widgets/change_password_dialog.dart';
 import 'package:law_app/features/profile/presentation/widgets/edit_profile_dialog.dart';
@@ -54,7 +53,7 @@ class AccountInfoPage extends ConsumerWidget {
       );
     });
 
-    ref.listen(editProfileProvider, (_, state) {
+    ref.listen(profileActionsProvider, (_, state) {
       state.when(
         error: (error, _) {
           navigatorKey.currentState!.pop();
@@ -73,37 +72,7 @@ class AccountInfoPage extends ConsumerWidget {
             ref.invalidate(ProfileDetailProvider(id: id));
             ref.invalidate(userCredentialProvider);
 
-            context.showBanner(
-              message: 'Berhasil mengedit profile!',
-              type: BannerType.success,
-            );
-          }
-        },
-      );
-    });
-
-    ref.listen(changePasswordProvider, (_, state) {
-      state.when(
-        error: (error, _) {
-          navigatorKey.currentState!.pop();
-
-          if ('$error' == kNoInternetConnection) {
-            context.showNetworkErrorModalBottomSheet();
-          } else {
-            context.showBanner(message: '$error', type: BannerType.error);
-          }
-        },
-        loading: () => context.showLoadingDialog(),
-        data: (data) {
-          if (data != null) {
-            navigatorKey.currentState!.pop();
-
-            ref.invalidate(ProfileDetailProvider(id: id));
-
-            context.showBanner(
-              message: 'Password berhasil diubah!',
-              type: BannerType.success,
-            );
+            context.showBanner(message: data, type: BannerType.success);
           }
         },
       );
@@ -363,7 +332,7 @@ class AccountInfoPage extends ConsumerWidget {
         navigatorKey.currentState!.pop();
 
         ref
-            .read(editProfileProvider.notifier)
+            .read(profileActionsProvider.notifier)
             .editProfile(user: user, path: compressedImagePath);
       }
     }

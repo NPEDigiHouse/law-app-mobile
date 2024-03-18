@@ -59,11 +59,11 @@ class GlossaryCard extends ConsumerWidget {
               message: 'Anda yakin ingin menghapus istilah kata ini?',
               primaryButtonText: 'Hapus',
               onPressedPrimaryButton: () {
+                navigatorKey.currentState!.pop();
+
                 ref
                     .read(glossaryProvider.notifier)
                     .deleteGlossary(id: glossary.id!);
-
-                navigatorKey.currentState!.pop();
               },
             ),
             tooltip: 'Hapus',

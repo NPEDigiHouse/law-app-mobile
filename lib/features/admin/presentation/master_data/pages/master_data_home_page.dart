@@ -15,6 +15,7 @@ import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/presentation/master_data/pages/master_data_form_page.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/master_data_provider.dart';
+import 'package:law_app/features/admin/presentation/master_data/providers/user_actions_provider.dart';
 import 'package:law_app/features/admin/presentation/master_data/widgets/user_card.dart';
 import 'package:law_app/features/shared/providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
@@ -61,6 +62,29 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
             );
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+      );
+    });
+
+    ref.listen(userActionsProvider, (_, state) {
+      state.whenOrNull(
+        error: (error, _) {
+          navigatorKey.currentState!.pop();
+
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet();
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+        loading: () => context.showLoadingDialog(),
+        data: (data) {
+          if (data != null) {
+            navigatorKey.currentState!.pop();
+            ref.invalidate(masterDataProvider);
+
+            context.showBanner(message: data, type: BannerType.success);
           }
         },
       );

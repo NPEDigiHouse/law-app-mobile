@@ -10,8 +10,8 @@ import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/library/presentation/providers/delete_user_read_provider.dart';
-import 'package:law_app/features/library/presentation/providers/user_reads_provider.dart';
+import 'package:law_app/features/library/presentation/providers/user_read_actions_provider.dart';
+import 'package:law_app/features/library/presentation/providers/user_read_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/feature/book_card.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
@@ -22,16 +22,16 @@ class LibraryFinishedBookPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userReads = ref.watch(userReadsProvider);
+    final userReads = ref.watch(userReadProvider);
 
-    ref.listen(userReadsProvider, (_, state) {
+    ref.listen(userReadProvider, (_, state) {
       state.whenOrNull(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
                 navigatorKey.currentState!.pop();
-                ref.invalidate(userReadsProvider);
+                ref.invalidate(userReadProvider);
               },
             );
           } else {
@@ -41,7 +41,7 @@ class LibraryFinishedBookPage extends ConsumerWidget {
       );
     });
 
-    ref.listen(deleteUserReadProvider, (_, state) {
+    ref.listen(userReadActionsProvider, (_, state) {
       state.whenOrNull(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
@@ -52,7 +52,7 @@ class LibraryFinishedBookPage extends ConsumerWidget {
         },
         data: (data) {
           if (data != null) {
-            ref.invalidate(userReadsProvider);
+            ref.invalidate(userReadProvider);
           }
         },
       );
@@ -96,7 +96,7 @@ class LibraryFinishedBookPage extends ConsumerWidget {
                       navigatorKey.currentState!.pop();
 
                       ref
-                          .read(deleteUserReadProvider.notifier)
+                          .read(userReadActionsProvider.notifier)
                           .deleteUserRead(bookId: userReads[index].id!);
                     },
                   );

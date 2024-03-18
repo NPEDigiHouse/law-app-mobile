@@ -13,7 +13,7 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/user_models/user_model.dart';
-import 'package:law_app/features/admin/presentation/master_data/providers/master_data_provider.dart';
+import 'package:law_app/features/admin/presentation/master_data/providers/user_actions_provider.dart';
 import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
 import 'package:law_app/features/shared/widgets/ink_well_container.dart';
@@ -89,9 +89,9 @@ class UserCard extends ConsumerWidget {
               message: 'Anda yakin ingin menghapus seluruh data user ini?',
               primaryButtonText: 'Hapus',
               onPressedPrimaryButton: () {
-                ref.read(masterDataProvider.notifier).deleteUser(id: user.id!);
-
                 navigatorKey.currentState!.pop();
+
+                ref.read(userActionsProvider.notifier).deleteUser(id: user.id!);
               },
             ),
             tooltip: 'Hapus',

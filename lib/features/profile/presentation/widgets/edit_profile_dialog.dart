@@ -10,7 +10,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:law_app/core/extensions/datetime_extension.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/user_models/user_detail_model.dart';
-import 'package:law_app/features/profile/presentation/providers/edit_profile_provider.dart';
+import 'package:law_app/features/profile/presentation/providers/profile_actions_provider.dart';
 import 'package:law_app/features/shared/widgets/dialog/custom_dialog.dart';
 import 'package:law_app/features/shared/widgets/form_field/custom_text_field.dart';
 
@@ -159,7 +159,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
 
       navigatorKey.currentState!.pop();
 
-      ref.read(editProfileProvider.notifier).editProfile(
+      ref.read(profileActionsProvider.notifier).editProfile(
             user: widget.user.copyWith(
               name: data['name'],
               email: data['email'],

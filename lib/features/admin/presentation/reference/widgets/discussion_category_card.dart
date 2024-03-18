@@ -80,11 +80,11 @@ class DiscussionCategoryCard extends ConsumerWidget {
                   message: "Anda yakin ingin menghapus kategori ini?",
                   primaryButtonText: 'Hapus',
                   onPressedPrimaryButton: () {
+                    navigatorKey.currentState!.pop();
+
                     ref
                         .read(discussionCategoryProvider.notifier)
                         .deleteDiscussionCategory(id: category.id!);
-
-                    navigatorKey.currentState!.pop();
                   },
                 ),
                 tooltip: 'Hapus',

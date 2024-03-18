@@ -18,14 +18,11 @@ import 'package:law_app/core/extensions/datetime_extension.dart';
 import 'package:law_app/core/helpers/category_helper.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
-import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/discussion_models/discussion_category_model.dart';
 import 'package:law_app/features/admin/data/models/user_models/user_detail_model.dart';
 import 'package:law_app/features/admin/data/models/user_models/user_post_model.dart';
-import 'package:law_app/features/admin/presentation/master_data/providers/create_user_provider.dart';
-import 'package:law_app/features/admin/presentation/master_data/providers/edit_user_provider.dart';
-import 'package:law_app/features/admin/presentation/master_data/providers/master_data_provider.dart';
+import 'package:law_app/features/admin/presentation/master_data/providers/user_actions_provider.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/user_detail_provider.dart';
 import 'package:law_app/features/shared/widgets/form_field/custom_text_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
@@ -86,46 +83,15 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage>
   Widget build(BuildContext context) {
     final isTeacher = widget.role == 'teacher';
 
-    ref.listen(editUserProvider, (_, state) {
-      state.when(
-        error: (error, _) {
-          navigatorKey.currentState!.pop();
-
-          if ('$error' == kNoInternetConnection) {
-            context.showNetworkErrorModalBottomSheet();
-          } else {
-            context.showBanner(message: '$error', type: BannerType.error);
-          }
-        },
-        loading: () => context.showLoadingDialog(),
-        data: (data) {
-          navigatorKey.currentState!.pop();
-          navigatorKey.currentState!.pop();
-
-          ref.invalidate(UserDetailProvider(id: widget.user!.id!));
-          ref.invalidate(masterDataProvider);
-        },
-      );
-    });
-
-    ref.listen(createUserProvider, (_, state) {
-      state.when(
-        error: (error, _) {
-          navigatorKey.currentState!.pop();
-
-          if ('$error' == kNoInternetConnection) {
-            context.showNetworkErrorModalBottomSheet();
-          } else {
-            context.showBanner(message: '$error', type: BannerType.error);
-          }
-        },
-        loading: () => context.showLoadingDialog(),
+    ref.listen(userActionsProvider, (_, state) {
+      state.whenOrNull(
         data: (data) {
           if (data != null) {
             navigatorKey.currentState!.pop();
-            navigatorKey.currentState!.pop();
 
-            ref.invalidate(masterDataProvider);
+            if (widget.user != null) {
+              ref.invalidate(UserDetailProvider(id: widget.user!.id!));
+            }
           }
         },
       );
@@ -338,7 +304,7 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage>
       } else {
         final data = formKey.currentState!.value;
 
-        ref.read(editUserProvider.notifier).editUser(
+        ref.read(userActionsProvider.notifier).editUser(
               user: widget.user!.copyWith(
                 name: data['name'],
                 email: data['email'],
@@ -363,7 +329,7 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage>
       } else {
         final data = formKey.currentState!.value;
 
-        ref.read(createUserProvider.notifier).createUser(
+        ref.read(userActionsProvider.notifier).createUser(
               user: UserPostModel(
                 name: data['name'],
                 username: data['username'],

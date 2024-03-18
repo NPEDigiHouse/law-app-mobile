@@ -4,15 +4,35 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 // Project imports:
 import 'package:law_app/core/enums/book_file_type.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_detail_model.dart';
+import 'package:law_app/features/admin/data/models/book_models/book_post_model.dart';
 import 'package:law_app/features/library/presentation/providers/repositories_provider/book_repository_provider.dart';
 
-part 'edit_book_provider.g.dart';
+part 'book_actions_provider.g.dart';
 
 @riverpod
-class EditBook extends _$EditBook {
+class BookActions extends _$BookActions {
   @override
-  AsyncValue<bool?> build() {
+  AsyncValue<String?> build() {
     return const AsyncValue.data(null);
+  }
+
+  Future<void> createBook({
+    required BookPostModel book,
+    required String bookPath,
+    required String imagePath,
+  }) async {
+    state = const AsyncValue.loading();
+
+    final result = await ref.watch(bookRepositoryProvider).createBook(
+          book: book,
+          bookPath: bookPath,
+          imagePath: imagePath,
+        );
+
+    result.fold(
+      (l) => state = AsyncValue.error(l.message, StackTrace.current),
+      (r) => state = const AsyncValue.data('Berhasil menambahkan buku!'),
+    );
   }
 
   Future<void> editBook({
@@ -46,12 +66,12 @@ class EditBook extends _$EditBook {
         if (newCover != null && newFile == null) {
           newCover.fold(
             (l) => state = AsyncValue.error(l.message, StackTrace.current),
-            (r) => state = const AsyncValue.data(true),
+            (r) => state = const AsyncValue.data('Berhasil mengedit buku!'),
           );
         } else if (newFile != null && newCover == null) {
           newFile.fold(
             (l) => state = AsyncValue.error(l.message, StackTrace.current),
-            (r) => state = const AsyncValue.data(true),
+            (r) => state = const AsyncValue.data('Berhasil mengedit buku!'),
           );
         } else if (newCover != null && newFile != null) {
           newCover.fold(
@@ -59,14 +79,25 @@ class EditBook extends _$EditBook {
             (r) {
               newFile.fold(
                 (l) => state = AsyncValue.error(l.message, StackTrace.current),
-                (r) => state = const AsyncValue.data(true),
+                (r) => state = const AsyncValue.data('Berhasil mengedit buku!'),
               );
             },
           );
         } else {
-          state = const AsyncValue.data(true);
+          state = const AsyncValue.data('Berhasil mengedit buku!');
         }
       },
+    );
+  }
+
+  Future<void> deleteBook({required int id}) async {
+    state = const AsyncValue.loading();
+
+    final result = await ref.watch(bookRepositoryProvider).deleteBook(id: id);
+
+    result.fold(
+      (l) => state = AsyncValue.error(l.message, StackTrace.current),
+      (r) => state = const AsyncValue.data('Berhasil menghapus buku!'),
     );
   }
 }
