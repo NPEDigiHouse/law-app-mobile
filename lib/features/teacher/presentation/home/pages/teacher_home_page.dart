@@ -74,13 +74,13 @@ class TeacherHomePage extends ConsumerWidget {
             child: Column(
               children: [
                 HomePageHeader(
-                  onPressedProfileIcon: () {
-                    navigatorKey.currentState!.pushNamed(profileRoute);
-                  },
                   child: Dashboard(items: items),
                 ),
                 Container(
-                  padding: const EdgeInsets.fromLTRB(20, 86, 20, 24),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 24,
+                    horizontal: 20,
+                  ),
                   child: Column(
                     children: [
                       Row(

@@ -52,7 +52,10 @@ class LibrarySavedBookPage extends ConsumerWidget {
       state.whenOrNull(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
-            context.showNetworkErrorModalBottomSheet();
+            context.showBanner(
+              message: 'Gagal melakukan aksi. Periksa koneksi internet!',
+              type: BannerType.error,
+            );
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
           }

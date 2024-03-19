@@ -34,59 +34,57 @@ class _AdminCourseAddArticlePageState extends State<AdminCourseAddArticlePage> {
         ),
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              FormBuilder(
-                child: Column(
-                  children: [
-                    CustomTextField(
-                      name: "article_title",
-                      label: "Judul Materi",
-                      hintText: "Masukkan judul",
-                      hasPrefixIcon: false,
-                      hasSuffixIcon: false,
-                      validators: [
-                        FormBuilderValidators.required(
-                          errorText: "Bagian ini harus diisi",
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    CustomTextField(
-                      name: "completion_time",
-                      label: "Perkiraan Durasi Belajar",
-                      hintText: "Masukkan waktu (menit)",
-                      hasPrefixIcon: false,
-                      hasSuffixIcon: false,
-                      textInputType: TextInputType.number,
-                      textInputAction: TextInputAction.done,
-                      validators: [
-                        FormBuilderValidators.required(
-                          errorText: "Bagian ini harus diisi",
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            FormBuilder(
+              child: Column(
+                children: [
+                  CustomTextField(
+                    name: "article_title",
+                    label: "Judul Materi",
+                    hintText: "Masukkan judul",
+                    hasPrefixIcon: false,
+                    hasSuffixIcon: false,
+                    validators: [
+                      FormBuilderValidators.required(
+                        errorText: "Bagian ini harus diisi",
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  CustomTextField(
+                    name: "completion_time",
+                    label: "Perkiraan Durasi Belajar",
+                    hintText: "Masukkan waktu (menit)",
+                    hasPrefixIcon: false,
+                    hasSuffixIcon: false,
+                    textInputType: TextInputType.number,
+                    textInputAction: TextInputAction.done,
+                    validators: [
+                      FormBuilderValidators.required(
+                        errorText: "Bagian ini harus diisi",
+                      ),
+                    ],
+                  ),
+                ],
               ),
-              const SizedBox(
-                height: 24,
-              ),
-              Text(
-                "Konten",
-                textAlign: TextAlign.left,
-                style: textTheme.titleSmall!,
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-            ],
-          ),
+            ),
+            const SizedBox(
+              height: 24,
+            ),
+            Text(
+              "Konten",
+              textAlign: TextAlign.left,
+              style: textTheme.titleSmall!,
+            ),
+            const SizedBox(
+              height: 24,
+            ),
+          ],
         ),
       ),
     );

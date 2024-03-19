@@ -43,11 +43,11 @@ class StudentCourseProgressPage extends StatelessWidget {
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          const Color(0xFFA2355A).withOpacity(.2),
+                          const Color(0xFFA2355A).withOpacity(.1),
                           const Color(0xFF730034).withOpacity(.6),
                         ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
                       ),
                     ),
                     child: Image.asset(

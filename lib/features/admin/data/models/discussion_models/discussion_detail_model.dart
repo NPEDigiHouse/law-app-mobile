@@ -3,8 +3,8 @@ import 'package:equatable/equatable.dart';
 
 // Project imports:
 import 'package:law_app/core/extensions/datetime_extension.dart';
-import 'package:law_app/features/admin/data/models/discussion_models/discussion_category_model.dart';
 import 'package:law_app/features/admin/data/models/discussion_models/discussion_comment_model.dart';
+import 'package:law_app/features/admin/data/models/reference_models/discussion_category_model.dart';
 import 'package:law_app/features/admin/data/models/user_models/user_model.dart';
 
 class DiscussionDetailModel extends Equatable {

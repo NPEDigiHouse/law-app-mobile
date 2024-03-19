@@ -14,6 +14,7 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/presentation/library/pages/book_management_form_page.dart';
+import 'package:law_app/features/library/presentation/providers/book_actions_provider.dart';
 import 'package:law_app/features/library/presentation/providers/book_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/feature/book_card.dart';
@@ -40,6 +41,29 @@ class BookManagementListPage extends ConsumerWidget {
             );
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+      );
+    });
+
+    ref.listen(bookActionsProvider, (_, state) {
+      state.when(
+        error: (error, _) {
+          navigatorKey.currentState!.pop();
+
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet();
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+        loading: () => context.showLoadingDialog(),
+        data: (data) {
+          if (data != null) {
+            navigatorKey.currentState!.pop();
+            ref.invalidate(bookProvider);
+
+            context.showBanner(message: data, type: BannerType.success);
           }
         },
       );

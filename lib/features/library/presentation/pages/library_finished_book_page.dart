@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
+import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/library/presentation/providers/user_read_actions_provider.dart';
@@ -81,32 +82,45 @@ class LibraryFinishedBookPage extends ConsumerWidget {
             );
           }
 
-          return ListView.separated(
-            padding: const EdgeInsets.symmetric(
-              vertical: 24,
-              horizontal: 20,
-            ),
-            itemBuilder: (context, index) {
-              return BookCard(
-                book: userReads[index],
-                onLongPress: () {
-                  context.showDeleteConfirmDialog(
-                    title: userReads[index].title!,
-                    onIconPressed: () {
-                      navigatorKey.currentState!.pop();
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
+                child: Text(
+                  '*Tekan tahan untuk memilih opsi hapus',
+                  style: textTheme.bodySmall!.copyWith(
+                    color: secondaryTextColor,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: ListView.separated(
+                  padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+                  itemBuilder: (context, index) {
+                    return BookCard(
+                      book: userReads[index],
+                      onLongPress: () {
+                        context.showDeleteConfirmDialog(
+                          title: userReads[index].title!,
+                          onIconPressed: () {
+                            navigatorKey.currentState!.pop();
 
-                      ref
-                          .read(userReadActionsProvider.notifier)
-                          .deleteUserRead(bookId: userReads[index].id!);
-                    },
-                  );
-                },
-              );
-            },
-            separatorBuilder: (context, index) {
-              return const SizedBox(height: 8);
-            },
-            itemCount: userReads.length,
+                            ref
+                                .read(userReadActionsProvider.notifier)
+                                .deleteUserRead(bookId: userReads[index].id!);
+                          },
+                        );
+                      },
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(height: 8);
+                  },
+                  itemCount: userReads.length,
+                ),
+              ),
+            ],
           );
         },
       ),

@@ -2,7 +2,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
-import 'package:law_app/features/admin/data/models/discussion_models/discussion_category_model.dart';
+import 'package:law_app/features/admin/data/models/reference_models/discussion_category_model.dart';
 import 'package:law_app/features/admin/presentation/reference/providers/repositories_provider/reference_repository_provider.dart';
 
 part 'discussion_category_provider.g.dart';

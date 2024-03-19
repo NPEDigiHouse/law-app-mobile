@@ -1,82 +1,105 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
+// Package imports:
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 // Project imports:
+import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
+import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/features/admin/presentation/reference/providers/faq_provider.dart';
 import 'package:law_app/features/profile/presentation/widgets/faq_expandable_container.dart';
+import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
+import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
-class FAQPage extends StatelessWidget {
+class FAQPage extends ConsumerWidget {
   const FAQPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    const items = [
-      {
-        "question": "Question 1",
-        "answer":
-            "Morbi lacinia maximus erat vel fermentum. Mauris ut aliquet justo, et consectetur lorem. Nam semper vehicula ex, ac fermentum orci elementum ac.",
-      },
-      {
-        "question": "Question 2",
-        "answer":
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum. ",
-      },
-      {
-        "question": "Question 3",
-        "answer":
-            "Morbi lacinia maximus erat vel fermentum. Mauris ut aliquet justo, et consectetur, ac fermentum orci elementum ac. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia maximus erat vel fermentum. Mauris ut aliquet justo, et consectetur lorem. Nam semper vehicula ex.",
-      },
-    ];
+  Widget build(BuildContext context, WidgetRef ref) {
+    final faqs = ref.watch(faqProvider);
+
+    ref.listen(faqProvider, (_, state) {
+      state.whenOrNull(
+        error: (error, _) {
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet(
+              onPressedPrimaryButton: () {
+                navigatorKey.currentState!.pop();
+                ref.invalidate(faqProvider);
+              },
+            );
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+      );
+    });
 
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(96),
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(96),
         child: HeaderContainer(
-          title: CredentialSaver.user!.role! == 'admin' ? 'Kelola FAQ' : 'FAQ',
+          title: 'FAQ',
           withBackButton: true,
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 24,
-            horizontal: 20,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Frequently Asked Question",
-                style: textTheme.headlineMedium!.copyWith(
-                  color: primaryColor,
+      body: faqs.whenOrNull(
+        loading: () => const LoadingIndicator(),
+        data: (faqs) {
+          if (faqs == null) return null;
+
+          if (faqs.isEmpty) {
+            return const CustomInformation(
+              illustrationName: 'house-searching-cuate.svg',
+              title: 'Belum ada data',
+            );
+          }
+
+          return SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(
+              vertical: 24,
+              horizontal: 20,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Frequently Asked Questions',
+                  style: textTheme.headlineMedium!.copyWith(
+                    color: primaryColor,
+                    height: 0,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 16),
-              ListView.separated(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: items.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4),
-                    child: FAQExpandableContainer(item: items[index]),
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return const Divider(color: secondaryTextColor);
-                },
-              ),
-            ],
-          ),
-        ),
+                const SizedBox(height: 16),
+                ListView.separated(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: faqs.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      child: FAQExpandableContainer(faq: faqs[index]),
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return const Divider(color: secondaryTextColor);
+                  },
+                ),
+              ],
+            ),
+          );
+        },
       ),
-      floatingActionButton: CredentialSaver.user!.role! == 'admin'
+      floatingActionButton: CredentialSaver.user!.role == 'admin'
           ? Container(
               width: 48,
               height: 48,
@@ -96,7 +119,14 @@ class FAQPage extends StatelessWidget {
                   textAreaLabel: "Jawaban",
                   textAreaHint: "Masukkan jawaban dari pertanyaan",
                   primaryButtonText: 'Tambah',
-                  onSubmitted: (value) {},
+                  onSubmitted: (value) {
+                    navigatorKey.currentState!.pop();
+
+                    ref.read(faqProvider.notifier).createFAQ(
+                          question: value['question'],
+                          answer: value['answer'],
+                        );
+                  },
                 ),
                 icon: SvgAsset(
                   assetPath: AssetPath.getIcon('plus-line.svg'),

@@ -107,7 +107,7 @@ class _ItemViewState extends State<ItemView>
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Visibility(
-              visible: !(widget.currentPage == 0),
+              visible: widget.currentPage != 0,
               replacement: const SizedBox(
                 width: 36,
                 height: 36,
@@ -161,7 +161,7 @@ class _ItemViewState extends State<ItemView>
               ),
             ),
             Visibility(
-              visible: !(widget.currentPage == widget.results.length - 1),
+              visible: widget.currentPage != widget.results.length - 1,
               replacement: const SizedBox(
                 width: 36,
                 height: 36,

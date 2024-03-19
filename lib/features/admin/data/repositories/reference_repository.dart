@@ -8,7 +8,9 @@ import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/errors/failures.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/features/admin/data/datasources/reference_data_source.dart';
-import 'package:law_app/features/admin/data/models/discussion_models/discussion_category_model.dart';
+import 'package:law_app/features/admin/data/models/reference_models/contact_us_model.dart';
+import 'package:law_app/features/admin/data/models/reference_models/discussion_category_model.dart';
+import 'package:law_app/features/admin/data/models/reference_models/faq_model.dart';
 
 abstract class ReferenceRepository {
   /// Get discussion categories
@@ -25,6 +27,28 @@ abstract class ReferenceRepository {
 
   /// Delete discussion category
   Future<Either<Failure, void>> deleteDiscussionCategory({required int id});
+
+  /// Get FAQs
+  Future<Either<Failure, List<FAQModel>>> getFAQs();
+
+  /// Create FAQ
+  Future<Either<Failure, void>> createFAQ({
+    required String question,
+    required String answer,
+  });
+
+  /// Edit FAQ
+  Future<Either<Failure, void>> editFAQ({required FAQModel faq});
+
+  /// Delete FAQ
+  Future<Either<Failure, void>> deleteFAQ({required int id});
+
+  /// Get contact us
+  Future<Either<Failure, ContactUsModel>> getContactUs();
+
+  /// Edit contact us
+  Future<Either<Failure, void>> editContactUs(
+      {required ContactUsModel contact});
 }
 
 class ReferenceRepositoryImpl implements ReferenceRepository {
@@ -113,6 +137,121 @@ class ReferenceRepositoryImpl implements ReferenceRepository {
       try {
         final result =
             await referenceDataSource.deleteDiscussionCategory(id: id);
+
+        return Right(result);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message));
+      } on ClientException catch (e) {
+        return Left(ClientFailure(e.message));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<FAQModel>>> getFAQs() async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await referenceDataSource.getFAQs();
+
+        return Right(result);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message));
+      } on ClientException catch (e) {
+        return Left(ClientFailure(e.message));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> createFAQ({
+    required String question,
+    required String answer,
+  }) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await referenceDataSource.createFAQ(
+          question: question,
+          answer: answer,
+        );
+
+        return Right(result);
+      } on ServerException catch (e) {
+        switch (e.message) {
+          case kCategoryAlreadyExist:
+            return const Left(ServerFailure('Telah terdapat FAQ yang sama'));
+          default:
+            return Left(ServerFailure(e.message));
+        }
+      } on ClientException catch (e) {
+        return Left(ClientFailure(e.message));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> editFAQ({required FAQModel faq}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await referenceDataSource.editFAQ(faq: faq);
+
+        return Right(result);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message));
+      } on ClientException catch (e) {
+        return Left(ClientFailure(e.message));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteFAQ({required int id}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await referenceDataSource.deleteFAQ(id: id);
+
+        return Right(result);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message));
+      } on ClientException catch (e) {
+        return Left(ClientFailure(e.message));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ContactUsModel>> getContactUs() async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await referenceDataSource.getContactUs();
+
+        return Right(result);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.message));
+      } on ClientException catch (e) {
+        return Left(ClientFailure(e.message));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> editContactUs(
+      {required ContactUsModel contact}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result =
+            await referenceDataSource.editContactUs(contact: contact);
 
         return Right(result);
       } on ServerException catch (e) {

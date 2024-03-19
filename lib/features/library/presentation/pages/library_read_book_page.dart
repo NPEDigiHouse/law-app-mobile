@@ -209,9 +209,9 @@ class _LibraryReadBookPageState extends ConsumerState<LibraryReadBookPage> {
             setState(() => currentPage = page! + 1);
           },
           onLinkHandler: (uri) async {
-            if (await canLaunchUrl(Uri.parse(uri!))) {
-              await launchUrl(Uri.parse(uri));
-            }
+            final url = Uri.parse(uri!);
+
+            if (await canLaunchUrl(url)) await launchUrl(url);
           },
         ),
         floatingActionButton: Row(

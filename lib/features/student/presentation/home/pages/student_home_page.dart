@@ -22,6 +22,7 @@ import 'package:law_app/features/shared/widgets/feature/home_page_header.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 import 'package:law_app/features/student/presentation/course/pages/student_course_home_page.dart';
 import 'package:law_app/features/student/presentation/home/providers/student_dashboard_provider.dart';
+import 'package:law_app/features/student/presentation/home/widgets/ads_carousel.dart';
 
 class StudentHomePage extends ConsumerWidget {
   const StudentHomePage({super.key});
@@ -46,25 +47,6 @@ class StudentHomePage extends ConsumerWidget {
         },
       );
     });
-
-    // final carouselItems = [
-    //   {
-    //     "img": "sample_carousel_image1.jpg",
-    //     "text": "Promo Mingguan 1",
-    //   },
-    //   {
-    //     "img": "sample_carousel_image2.jpg",
-    //     "text": "Promo Mingguan 2",
-    //   },
-    //   {
-    //     "img": "sample_carousel_image3.jpg",
-    //     "text": "Promo Mingguan 3",
-    //   },
-    //   {
-    //     "img": "sample_carousel_image4.jpg",
-    //     "text": "Promo Mingguan 4",
-    //   },
-    // ];
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -101,22 +83,14 @@ class StudentHomePage extends ConsumerWidget {
             child: Column(
               children: [
                 HomePageHeader(
-                  onPressedProfileIcon: () {
-                    navigatorKey.currentState!.pushNamed(profileRoute);
-                  },
                   child: Dashboard(items: items),
                 ),
-                // Padding(
-                //   padding: const EdgeInsets.only(
-                //     top: 86,
-                //     bottom: 24,
-                //   ),
-                //   child: CustomCarousel(
-                //     items: carouselItems,
-                //   ),
-                // ),
+                const AdsCarousel(),
                 Container(
-                  padding: const EdgeInsets.fromLTRB(20, 86, 20, 24),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 24,
+                    horizontal: 20,
+                  ),
                   child: Column(
                     children: [
                       Row(

@@ -31,51 +31,51 @@ class AdminHomePage extends ConsumerWidget {
       {
         "icon": "user-solid.svg",
         "text": "Master Data",
-        "onTap": () => navigatorKey.currentState!.pushNamed(
-              masterDataHomeRoute,
-            ),
+        "onTap": () {
+          navigatorKey.currentState!.pushNamed(masterDataHomeRoute);
+        },
       },
       {
         "icon": "question-circle-fill.svg",
         "text": "Kelola Pertanyaan",
-        "onTap": () => navigatorKey.currentState!.pushNamed(
-              adminDiscussionHomeRoute,
-            ),
+        "onTap": () {
+          navigatorKey.currentState!.pushNamed(adminDiscussionHomeRoute);
+        },
       },
       {
         "icon": "chalkboard-teacher-fill.svg",
         "text": "Kelola Course",
-        "onTap": () => navigatorKey.currentState!.pushNamed(
-              adminCourseHomeRoute,
-            ),
+        "onTap": () {
+          navigatorKey.currentState!.pushNamed(adminCourseHomeRoute);
+        },
       },
       {
         "icon": "book-bold.svg",
-        "text": "Manajemen Buku",
-        "onTap": () => navigatorKey.currentState!.pushNamed(
-              bookManagementHomeRoute,
-            ),
+        "text": "Kelola Buku",
+        "onTap": () {
+          navigatorKey.currentState!.pushNamed(bookManagementHomeRoute);
+        },
       },
       {
         "icon": "dictionary-book-solid.svg",
         "text": "Kelola Glosarium",
-        "onTap": () => navigatorKey.currentState!.pushNamed(
-              glossaryManagementRoute,
-            ),
+        "onTap": () {
+          navigatorKey.currentState!.pushNamed(glossaryManagementRoute);
+        },
       },
       {
         "icon": "link-line.svg",
         "text": "Referensi",
-        "onTap": () => navigatorKey.currentState!.pushNamed(
-              referenceRoute,
-            ),
+        "onTap": () {
+          navigatorKey.currentState!.pushNamed(referenceRoute);
+        },
       },
       {
         "icon": "ads-icon.svg",
         "text": "Kelola Ads",
-        "onTap": () => navigatorKey.currentState!.pushNamed(
-              adminAdHomeRoute,
-            ),
+        "onTap": () {
+          navigatorKey.currentState!.pushNamed(adManagementHomeRoute);
+        },
       },
     ];
 
@@ -130,13 +130,13 @@ class AdminHomePage extends ConsumerWidget {
             child: Column(
               children: [
                 HomePageHeader(
-                  onPressedProfileIcon: () {
-                    navigatorKey.currentState!.pushNamed(profileRoute);
-                  },
                   child: Dashboard(items: items),
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 90, 20, 24),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 24,
+                    horizontal: 20,
+                  ),
                   child: GridView.count(
                     physics: const NeverScrollableScrollPhysics(),
                     padding: const EdgeInsets.all(0),

@@ -55,8 +55,10 @@ class LibraryBookDetailRoute extends ConsumerWidget {
     });
 
     ref.listen(bookSavedActionsProvider, (_, state) {
-      state.whenOrNull(
+      state.when(
         error: (error, _) {
+          navigatorKey.currentState!.pop();
+
           if ('$error' == kNoInternetConnection) {
             context.showBanner(
               message: 'Gagal melakukan aksi. Periksa koneksi internet!',
@@ -66,8 +68,10 @@ class LibraryBookDetailRoute extends ConsumerWidget {
             context.showBanner(message: '$error', type: BannerType.error);
           }
         },
+        loading: () => context.showLoadingDialog(),
         data: (data) {
           if (data != null) {
+            navigatorKey.currentState!.pop();
             ref.invalidate(bookDetailProvider);
 
             context.showBanner(message: data, type: BannerType.success);
@@ -77,8 +81,10 @@ class LibraryBookDetailRoute extends ConsumerWidget {
     });
 
     ref.listen(userReadActionsProvider, (_, state) {
-      state.whenOrNull(
+      state.when(
         error: (error, _) {
+          navigatorKey.currentState!.pop();
+
           if ('$error' == kNoInternetConnection) {
             context.showBanner(
               message: 'Progress gagal diupdate. Tidak ada koneksi internet!',
@@ -88,8 +94,11 @@ class LibraryBookDetailRoute extends ConsumerWidget {
             context.showBanner(message: '$error', type: BannerType.error);
           }
         },
+        loading: () => context.showLoadingDialog(),
         data: (data) {
           if (data != null) {
+            navigatorKey.currentState!.pop();
+
             ref.invalidate(BookDetailProvider(id: id));
             ref.invalidate(libraryProvider);
           }

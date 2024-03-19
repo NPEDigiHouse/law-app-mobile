@@ -50,62 +50,61 @@ class AdminCourseQuestionListPage extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: List.generate(
-              items.length,
-              (index) => InkWellContainer(
-                onTap: () => navigatorKey.currentState!.pushNamed(adminCourseAddQuestionRoute, arguments: items[index]),
-                margin: EdgeInsets.only(bottom: index == items.length ? 0 : 8),
-                color: scaffoldBackgroundColor,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(.2),
-                    offset: const Offset(2, 2),
-                    blurRadius: 4,
-                  ),
-                ],
-                radius: 12,
-                padding:
-                    const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Flexible(
-                      child: Text(
-                        items[index].question,
-                        maxLines: 2,
-                        style: textTheme.titleSmall!.copyWith(
-                          color: primaryColor,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 12,
-                    ),
-                    Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: errorColor,
-                      ),
-                      child: IconButton(
-                        onPressed: () => context.showConfirmDialog(
-                          title: "Hapus Soal",
-                          message: "Apakah Anda yakin ingin menghapus Soal ini?",
-                        ),
-                        icon: SvgAsset(
-                          assetPath: AssetPath.getIcon('trash-solid.svg'),
-                          color: secondaryColor,
-                          width: 32,
-                        ),
-                        tooltip: 'Hapus',
-                      ),
-                    )
-                  ],
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: List.generate(
+            items.length,
+            (index) => InkWellContainer(
+              onTap: () => navigatorKey.currentState!.pushNamed(
+                  adminCourseAddQuestionRoute,
+                  arguments: items[index]),
+              margin: EdgeInsets.only(bottom: index == items.length ? 0 : 8),
+              color: scaffoldBackgroundColor,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(.2),
+                  offset: const Offset(2, 2),
+                  blurRadius: 4,
                 ),
+              ],
+              radius: 12,
+              padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    child: Text(
+                      items[index].question,
+                      maxLines: 2,
+                      style: textTheme.titleSmall!.copyWith(
+                        color: primaryColor,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 12,
+                  ),
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: errorColor,
+                    ),
+                    child: IconButton(
+                      onPressed: () => context.showConfirmDialog(
+                        title: "Hapus Soal",
+                        message: "Apakah Anda yakin ingin menghapus Soal ini?",
+                      ),
+                      icon: SvgAsset(
+                        assetPath: AssetPath.getIcon('trash-solid.svg'),
+                        color: secondaryColor,
+                        width: 32,
+                      ),
+                      tooltip: 'Hapus',
+                    ),
+                  )
+                ],
               ),
             ),
           ),

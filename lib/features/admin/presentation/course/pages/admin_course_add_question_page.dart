@@ -53,126 +53,124 @@ class _AdminCourseAddQuestionPageState
         ),
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomTextField(
-                name: "question_description",
-                label: "Deskripsi Soal",
-                hintText: "Masukkan soal",
-                initialValue: widget.item != null ? widget.item!.question : "",
-                hasPrefixIcon: false,
-                hasSuffixIcon: false,
-                textInputAction: TextInputAction.done,
-                validators: [
-                  FormBuilderValidators.required(
-                    errorText: "Bagian ini harus diisi",
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CustomTextField(
+              name: "question_description",
+              label: "Deskripsi Soal",
+              hintText: "Masukkan soal",
+              initialValue: widget.item != null ? widget.item!.question : "",
+              hasPrefixIcon: false,
+              hasSuffixIcon: false,
+              textInputAction: TextInputAction.done,
+              validators: [
+                FormBuilderValidators.required(
+                  errorText: "Bagian ini harus diisi",
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 24,
+            ),
+            Text(
+              "Pilihan Jawaban",
+              style: textTheme.titleSmall!,
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            if (widget.item != null)
+              ...List.generate(
+                widget.item!.answers.length,
+                (index) => InkWellContainer(
+                  width: double.infinity,
+                  margin: const EdgeInsets.only(bottom: 8),
+                  color: scaffoldBackgroundColor,
+                  radius: 12,
+                  onTap: () => context.showSingleFormDialog(
+                    title: "Edit Jawaban",
+                    name: "answer",
+                    label: "Jawaban",
+                    hintText: "Masukkan jawaban",
+                    initialValue: widget.item!.answers.values.toList()[index],
                   ),
-                ],
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              Text(
-                "Pilihan Jawaban",
-                style: textTheme.titleSmall!,
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              if (widget.item != null)
-                ...List.generate(
-                  widget.item!.answers.length,
-                  (index) => InkWellContainer(
-                    width: double.infinity,
-                    margin: const EdgeInsets.only(bottom: 8),
-                    color: scaffoldBackgroundColor,
-                    radius: 12,
-                    onTap: () => context.showSingleFormDialog(
-                      title: "Edit Jawaban",
-                      name: "answer",
-                      label: "Jawaban",
-                      hintText: "Masukkan jawaban",
-                      initialValue: widget.item!.answers.values.toList()[index],
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 20,
-                      horizontal: 16,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(.2),
-                        offset: const Offset(2, 2),
-                        blurRadius: 4,
-                      ),
-                    ],
-                    child: Text(
-                      "${widget.item!.answers.keys.toList()[index]}. ${widget.item!.answers.values.toList()[index]}",
-                      style: textTheme.bodyLarge!,
-                    ),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 20,
+                    horizontal: 16,
                   ),
-                )
-              else
-                Text(
-                  "Belum Ada Jawaban",
-                  style:
-                      textTheme.bodyMedium!.copyWith(color: secondaryTextColor),
-                ),
-              const SizedBox(
-                height: 8,
-              ),
-              FilledButton(
-                onPressed: () => context.showSingleFormDialog(
-                  title: "Tambah Jawaban",
-                  name: "answer",
-                  label: "Jawaban",
-                  hintText: "Masukkan jawaban",
-                ),
-                child: const Text('Tambah Jawaban'),
-              ).fullWidth(),
-              const Divider(
-                color: secondaryTextColor,
-                height: 20,
-              ),
-              if (widget.item != null) ...[
-                Text(
-                  "Pilih Jawaban Benar",
-                  style: textTheme.titleSmall!,
-                ),
-                Row(
-                  children: [
-                    ...List.generate(
-                      widget.item!.answers.length,
-                      (index) => ValueListenableBuilder(
-                        valueListenable: rightAnswer,
-                        builder: (context, value, child) {
-                          return Expanded(
-                            child: Row(
-                              children: [
-                                Radio(
-                                  value:
-                                      widget.item!.answers.keys.toList()[index],
-                                  groupValue: value,
-                                  onChanged: (val) {
-                                    rightAnswer.value = val!;
-                                  },
-                                ),
-                                Text(
-                                  widget.item!.answers.keys.toList()[index],
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(.2),
+                      offset: const Offset(2, 2),
+                      blurRadius: 4,
                     ),
                   ],
-                )
-              ],
+                  child: Text(
+                    "${widget.item!.answers.keys.toList()[index]}. ${widget.item!.answers.values.toList()[index]}",
+                    style: textTheme.bodyLarge!,
+                  ),
+                ),
+              )
+            else
+              Text(
+                "Belum Ada Jawaban",
+                style:
+                    textTheme.bodyMedium!.copyWith(color: secondaryTextColor),
+              ),
+            const SizedBox(
+              height: 8,
+            ),
+            FilledButton(
+              onPressed: () => context.showSingleFormDialog(
+                title: "Tambah Jawaban",
+                name: "answer",
+                label: "Jawaban",
+                hintText: "Masukkan jawaban",
+              ),
+              child: const Text('Tambah Jawaban'),
+            ).fullWidth(),
+            const Divider(
+              color: secondaryTextColor,
+              height: 20,
+            ),
+            if (widget.item != null) ...[
+              Text(
+                "Pilih Jawaban Benar",
+                style: textTheme.titleSmall!,
+              ),
+              Row(
+                children: [
+                  ...List.generate(
+                    widget.item!.answers.length,
+                    (index) => ValueListenableBuilder(
+                      valueListenable: rightAnswer,
+                      builder: (context, value, child) {
+                        return Expanded(
+                          child: Row(
+                            children: [
+                              Radio(
+                                value:
+                                    widget.item!.answers.keys.toList()[index],
+                                groupValue: value,
+                                onChanged: (val) {
+                                  rightAnswer.value = val!;
+                                },
+                              ),
+                              Text(
+                                widget.item!.answers.keys.toList()[index],
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              )
             ],
-          ),
+          ],
         ),
       ),
     );

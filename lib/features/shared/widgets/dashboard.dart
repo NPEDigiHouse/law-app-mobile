@@ -58,9 +58,7 @@ class Dashboard extends StatelessWidget {
                       child: Text(
                         '${items[index]["text"]}',
                         textAlign: TextAlign.center,
-                        style: textTheme.bodySmall!.copyWith(
-                          height: 0,
-                        ),
+                        style: textTheme.bodySmall!.copyWith(height: 0),
                       ),
                     ),
                   ],

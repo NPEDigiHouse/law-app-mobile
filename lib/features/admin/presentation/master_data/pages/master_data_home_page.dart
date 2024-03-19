@@ -68,7 +68,7 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
     });
 
     ref.listen(userActionsProvider, (_, state) {
-      state.whenOrNull(
+      state.when(
         error: (error, _) {
           navigatorKey.currentState!.pop();
 

@@ -4,9 +4,8 @@ import 'package:flutter/material.dart';
 // Project imports:
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/dummies_data.dart';
-import 'package:law_app/features/admin/presentation/ad/pages/admin_ad_home_page.dart';
-import 'package:law_app/features/admin/presentation/ad/pages/admin_add_detail_ad_page.dart';
-import 'package:law_app/features/admin/presentation/ad/pages/admin_add_simple_ad_page.dart';
+import 'package:law_app/features/admin/presentation/ad/pages/ad_management_form_page.dart';
+import 'package:law_app/features/admin/presentation/ad/pages/ad_management_home_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_add_course_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_add_article_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_add_question_page.dart';
@@ -40,7 +39,6 @@ import 'package:law_app/features/auth/presentation/pages/register_page.dart';
 import 'package:law_app/features/auth/presentation/pages/reset_password_page.dart';
 import 'package:law_app/features/common/ad_detail_page.dart';
 import 'package:law_app/features/common/main_menu_page.dart';
-import 'package:law_app/features/common/notification_page.dart';
 import 'package:law_app/features/common/wrapper.dart';
 import 'package:law_app/features/glossary/presentation/pages/glossary_detail_page.dart';
 import 'package:law_app/features/glossary/presentation/pages/glossary_search_page.dart';
@@ -136,14 +134,7 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => const CertificatePage(),
       );
-    case notificationRoute:
-      return MaterialPageRoute(
-        builder: (_) => const NotificationPage(),
-      );
-    case adDetailRoute:
-      return MaterialPageRoute(
-        builder: (_) => const AdDetailPage(),
-      );
+
     case glossarySearchRoute:
       return PageRouteBuilder(
         pageBuilder: (_, __, ___) => const GlossarySearchPage(),
@@ -277,17 +268,24 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => const DiscussionCategoryPage(),
       );
-    case adminAdHomeRoute:
+    case adManagementHomeRoute:
       return MaterialPageRoute(
-        builder: (_) => const AdminAdHomePage(),
+        builder: (_) => const AdHomePage(),
       );
-    case adminAddSimpleAdRoute:
+    case adManagementFormRoute:
+      final args = settings.arguments as AdManagementFormPageArgs;
+
       return MaterialPageRoute(
-        builder: (_) => const AdminAddSimpleAdPage(),
+        builder: (_) => AdManagementFormPage(
+          title: args.title,
+          ad: args.ad,
+        ),
       );
-    case adminAddDetailAdRoute:
+    case adDetailRoute:
+      final id = settings.arguments as int;
+
       return MaterialPageRoute(
-        builder: (_) => const AdminAddDetailAdPage(),
+        builder: (_) => AdDetailPage(id: id),
       );
     case adminCourseHomeRoute:
       return MaterialPageRoute(
