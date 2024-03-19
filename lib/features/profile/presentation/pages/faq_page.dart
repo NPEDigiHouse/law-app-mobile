@@ -1,5 +1,7 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
@@ -19,9 +21,7 @@ import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class FAQPage extends ConsumerWidget {
-  final bool isAdmin;
-
-  const FAQPage({super.key, this.isAdmin = false});
+  const FAQPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -32,13 +32,13 @@ class FAQPage extends ConsumerWidget {
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
-                onPressedPrimaryButton: () {
-              navigatorKey.currentState!.pop();
-              ref.invalidate(faqProvider);
-            });
+              onPressedPrimaryButton: () {
+                navigatorKey.currentState!.pop();
+                ref.invalidate(faqProvider);
+              },
+            );
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
-            ref.invalidate(faqProvider);
           }
         },
       );
@@ -48,63 +48,59 @@ class FAQPage extends ConsumerWidget {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(96),
         child: HeaderContainer(
-          title: CredentialSaver.user!.role! == 'admin' ? 'Kelola FAQ' : 'FAQ',
+          title: CredentialSaver.user!.role == 'admin' ? 'Kelola FAQ' : 'FAQ',
           withBackButton: true,
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 24,
-            horizontal: 20,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Frequently Asked Question",
-                style: textTheme.headlineMedium!.copyWith(
-                  color: primaryColor,
-                ),
+      body: faqs.whenOrNull(
+        loading: () => const LoadingIndicator(),
+        data: (faqs) {
+          if (faqs == null) return null;
+
+          if (faqs.isEmpty) {
+            return const CustomInformation(
+              illustrationName: 'house-searching-cuate.svg',
+              title: 'Belum ada data',
+            );
+          }
+
+          return SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 24,
+                horizontal: 20,
               ),
-              const SizedBox(height: 16),
-              faqs.maybeWhen(
-                loading: () => const LoadingIndicator(),
-                data: (faqs) {
-                  if (faqs == null) return Container();
-
-                  if (faqs.isEmpty) {
-                    return const CustomInformation(
-                      illustrationName: 'house-searching-cuate.svg',
-                      title: 'Belum ada data',
-                    );
-                  }
-
-                  return ListView.separated(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Frequently Asked Question',
+                    style: textTheme.headlineMedium!.copyWith(
+                      color: primaryColor,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  ListView.separated(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: faqs.length,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 4),
-                        child: FAQExpandableContainer(
-                          item: faqs[index],
-                          isAdmin: isAdmin,
-                        ),
+                        child: FAQExpandableContainer(faq: faqs[index]),
                       );
                     },
                     separatorBuilder: (context, index) {
                       return const Divider(color: secondaryTextColor);
                     },
-                  );
-                },
-                orElse: () => Container(),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
-      floatingActionButton: CredentialSaver.user!.role! == 'admin'
+      floatingActionButton: CredentialSaver.user!.role == 'admin'
           ? Container(
               width: 48,
               height: 48,
@@ -127,7 +123,7 @@ class FAQPage extends ConsumerWidget {
                   onSubmitted: (value) {
                     navigatorKey.currentState!.pop();
 
-                    ref.read(faqProvider.notifier).createFaq(
+                    ref.read(faqProvider.notifier).createFAQ(
                           question: value['question'],
                           answer: value['answer'],
                         );

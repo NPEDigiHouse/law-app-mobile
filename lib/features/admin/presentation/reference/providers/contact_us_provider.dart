@@ -2,7 +2,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
-import 'package:law_app/features/admin/data/models/contact_us_models/contact_us_model.dart';
+import 'package:law_app/features/admin/data/models/reference_models/contact_us_model.dart';
 import 'package:law_app/features/admin/presentation/reference/providers/repositories_provider/reference_repository_provider.dart';
 
 part 'contact_us_provider.g.dart';

@@ -13,6 +13,7 @@ class CustomNetworkImage extends StatelessWidget {
   final double? height;
   final double? aspectRatio;
   final double? radius;
+  final BoxFit? fit;
   final List<BoxShadow>? boxShadow;
   final String imageUrl;
   final double placeHolderSize;
@@ -23,6 +24,7 @@ class CustomNetworkImage extends StatelessWidget {
     this.height,
     this.aspectRatio,
     this.radius,
+    this.fit,
     this.boxShadow,
     required this.imageUrl,
     required this.placeHolderSize,
@@ -37,6 +39,7 @@ class CustomNetworkImage extends StatelessWidget {
     }
 
     return CachedNetworkImage(
+      fit: fit,
       imageUrl: url,
       imageBuilder: (context, imageProvider) {
         return aspectRatio != null
@@ -51,31 +54,20 @@ class CustomNetworkImage extends StatelessWidget {
               );
       },
       placeholder: (context, url) {
-        return AspectRatio(
-          aspectRatio: aspectRatio ?? 1,
-          child: buildImageContainer(
-            child: SizedBox(
-              width: placeHolderSize,
-              height: placeHolderSize,
-              child: CircularProgressIndicator(
-                color: accentColor,
-                strokeWidth: placeHolderSize >= 20 ? 3 : 2,
-              ),
-            ),
-          ),
-        );
+        return aspectRatio != null
+            ? AspectRatio(
+                aspectRatio: aspectRatio!,
+                child: buildPlaceholder(),
+              )
+            : buildPlaceholder();
       },
       errorWidget: (context, url, error) {
-        return AspectRatio(
-          aspectRatio: aspectRatio ?? 1,
-          child: buildImageContainer(
-            child: Icon(
-              Icons.no_photography_outlined,
-              color: primaryColor,
-              size: placeHolderSize - 8,
-            ),
-          ),
-        );
+        return aspectRatio != null
+            ? AspectRatio(
+                aspectRatio: aspectRatio!,
+                child: buildErrorWidget(),
+              )
+            : buildErrorWidget();
       },
     );
   }
@@ -95,6 +87,29 @@ class CustomNetworkImage extends StatelessWidget {
       ),
       child: Center(
         child: child,
+      ),
+    );
+  }
+
+  Container buildPlaceholder() {
+    return buildImageContainer(
+      child: SizedBox(
+        width: placeHolderSize,
+        height: placeHolderSize,
+        child: CircularProgressIndicator(
+          color: accentColor,
+          strokeWidth: placeHolderSize >= 20 ? 3 : 2,
+        ),
+      ),
+    );
+  }
+
+  Container buildErrorWidget() {
+    return buildImageContainer(
+      child: Icon(
+        Icons.no_photography_outlined,
+        color: primaryColor,
+        size: placeHolderSize - 8,
       ),
     );
   }

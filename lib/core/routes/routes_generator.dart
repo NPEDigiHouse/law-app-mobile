@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 // Project imports:
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/dummies_data.dart';
-import 'package:law_app/features/admin/presentation/ad/pages/admin_ad_home_page.dart';
-import 'package:law_app/features/admin/presentation/ad/pages/admin_ad_form_page.dart';
+import 'package:law_app/features/admin/presentation/ad/pages/ad_management_form_page.dart';
+import 'package:law_app/features/admin/presentation/ad/pages/ad_management_home_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_add_course_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_add_article_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_add_question_page.dart';
@@ -138,12 +138,6 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
     case notificationRoute:
       return MaterialPageRoute(
         builder: (_) => const NotificationPage(),
-      );
-    case adDetailRoute:
-      final args = settings.arguments as AdDetailPageArgs;
-
-      return MaterialPageRoute(
-        builder: (_) => AdDetailPage(id: args.id, isAdmin: args.isAdmin),
       );
     case glossarySearchRoute:
       return PageRouteBuilder(
@@ -278,18 +272,24 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => const DiscussionCategoryPage(),
       );
-    case adminAdHomeRoute:
+    case adManagementHomeRoute:
       return MaterialPageRoute(
-        builder: (_) => const AdminAdHomePage(),
+        builder: (_) => const AdHomePage(),
       );
-    case adminAdFromRoute:
-      final args = settings.arguments as AdminAdFormPageArgs;
+    case adManagementFormRoute:
+      final args = settings.arguments as AdManagementFormPageArgs;
 
       return MaterialPageRoute(
-        builder: (_) => AdminAdFormPage(
+        builder: (_) => AdManagementFormPage(
           title: args.title,
           ad: args.ad,
         ),
+      );
+    case adDetailRoute:
+      final id = settings.arguments as int;
+
+      return MaterialPageRoute(
+        builder: (_) => AdDetailPage(id: id),
       );
     case adminCourseHomeRoute:
       return MaterialPageRoute(

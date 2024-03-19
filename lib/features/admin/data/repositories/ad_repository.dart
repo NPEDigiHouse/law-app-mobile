@@ -8,26 +8,24 @@ import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/errors/failures.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/features/admin/data/datasources/ad_data_source.dart';
+import 'package:law_app/features/admin/data/models/ad_models/ad_detail_model.dart';
 import 'package:law_app/features/admin/data/models/ad_models/ad_model.dart';
+import 'package:law_app/features/admin/data/models/ad_models/ad_post_model.dart';
 
 abstract class AdRepository {
   /// Get ads
   Future<Either<Failure, List<AdModel>>> getAds();
 
   /// Get ad detail
-  Future<Either<Failure, AdModel>> getAdDetail({required int id});
+  Future<Either<Failure, AdDetailModel>> getAdDetail({required int id});
 
-  /// Create ads
-  Future<Either<Failure, void>> createAd({
-    required String title,
-    required String content,
-    required String imageName,
-  });
+  /// Create ad
+  Future<Either<Failure, void>> createAd({required AdPostModel ad});
 
-  /// Edit ads
-  Future<Either<Failure, void>> editAd({required AdModel ad});
+  /// Edit ad
+  Future<Either<Failure, void>> editAd({required AdDetailModel ad});
 
-  /// Delete ads
+  /// Delete ad
   Future<Either<Failure, void>> deleteAd({required int id});
 }
 
@@ -58,7 +56,7 @@ class AdRepositoryImpl implements AdRepository {
   }
 
   @override
-  Future<Either<Failure, AdModel>> getAdDetail({required int id}) async {
+  Future<Either<Failure, AdDetailModel>> getAdDetail({required int id}) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await adDataSource.getAdDetail(id: id);
@@ -75,26 +73,16 @@ class AdRepositoryImpl implements AdRepository {
   }
 
   @override
-  Future<Either<Failure, void>> createAd({
-    required String title,
-    required String content,
-    required String imageName,
-  }) async {
+  Future<Either<Failure, void>> createAd({required AdPostModel ad}) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await adDataSource.createAd(
-          title: title,
-          content: content,
-          imageName: imageName,
-        );
+        final result = await adDataSource.createAd(ad: ad);
 
         return Right(result);
       } on ServerException catch (e) {
         switch (e.message) {
-          case kAdsTitleAlreadyExist:
-            return const Left(
-              ServerFailure('Telah ada Ad dengan judul yang sama'),
-            );
+          case kAdTitleAlreadyExist:
+            return const Left(ServerFailure('Telah terdapat iklan yang sama'));
           default:
             return Left(ServerFailure(e.message));
         }
@@ -107,10 +95,10 @@ class AdRepositoryImpl implements AdRepository {
   }
 
   @override
-  Future<Either<Failure, void>> deleteAd({required int id}) async {
+  Future<Either<Failure, void>> editAd({required AdDetailModel ad}) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await adDataSource.deleteAd(id: id);
+        final result = await adDataSource.editAd(ad: ad);
 
         return Right(result);
       } on ServerException catch (e) {
@@ -124,10 +112,10 @@ class AdRepositoryImpl implements AdRepository {
   }
 
   @override
-  Future<Either<Failure, void>> editAd({required AdModel ad}) async {
+  Future<Either<Failure, void>> deleteAd({required int id}) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await adDataSource.editAd(ad: ad);
+        final result = await adDataSource.deleteAd(id: id);
 
         return Right(result);
       } on ServerException catch (e) {

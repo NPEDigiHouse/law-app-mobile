@@ -7,23 +7,23 @@ const registerRoute = '/register';
 const forgotPasswordRoute = '/forgot-password';
 const otpRoute = '/otp';
 const resetPasswordRoute = '/reset-password';
+
+// Home routes
+const adminHomeRoute = '/admin-home';
 const mainMenuRoute = '/main-menu';
 
-// Profile and sub menu profile routes
+// Profile routes
 const profileRoute = '/profile';
 const accountInfoRoute = '/account-info';
-const faqRoute = '/faq';
-const contactUsRoute = '/contact-us';
 const certificateRoute = '/certificate';
 const notificationRoute = '/notification';
-const adDetailRoute = '/ad-detail';
 
 // Glossary routes
 const glossarySearchRoute = '/glossary-search';
 const glossaryDetailRoute = '/glossary-detail';
 const glossaryManagementRoute = '/glossary-management';
 
-// Library/book routes
+// Library/book management routes
 const libraryBookListRoute = '/library-book-list';
 const libraryFinishedBookRoute = '/library-finished-book';
 const librarySavedBookRoute = '/library-saved-book';
@@ -55,11 +55,6 @@ const studentCourseArticleRoute = '/student-course-article';
 const studentCourseQuizHomeRoute = '/student-course-quiz-home';
 const studentCourseQuizRoute = '/student-course-quiz';
 const studentCourseRateRoute = '/student-course-rate';
-
-// Admin routes
-const adminHomeRoute = '/admin-home';
-const adminAdHomeRoute = '/admin-ad-home';
-const adminAdFromRoute = '/admin-ad-form';
 const adminCourseHomeRoute = '/admin-course-home';
 const adminAddCourseRoute = '/admin-add-course';
 const adminCourseSearchRoute = '/admin-course-search';
@@ -73,11 +68,18 @@ const adminCourseQuizHomeRoute = '/admin-course-quiz-home';
 const adminCourseQuestionListRoute = '/admin-course-question-list';
 const adminCourseAddQuestionRoute = '/admin-course-add-question';
 
-// Master data
+// Master data routes
 const masterDataHomeRoute = '/master-data-home';
 const masterDataFormRoute = '/master-data-form';
 const masterDataUserDetailRoute = '/master-data-user-detail';
 
-// Reference
+// Reference routes
 const referenceRoute = '/reference';
 const discussionCategoryRoute = '/discussion-category';
+const faqRoute = '/faq';
+const contactUsRoute = '/contact-us';
+
+// Ad routes
+const adManagementHomeRoute = '/ad-management-home';
+const adManagementFormRoute = '/ad-management-form';
+const adDetailRoute = '/ad-detail';

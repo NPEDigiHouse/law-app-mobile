@@ -36,7 +36,7 @@ class BookManagementHomePage extends StatelessWidget {
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(96),
         child: HeaderContainer(
-          title: 'Manajemen Buku',
+          title: 'Kelola Buku',
           withBackButton: true,
         ),
       ),

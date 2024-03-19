@@ -46,7 +46,7 @@ class GlossaryDetailPage extends ConsumerWidget {
       );
     });
 
-    if (CredentialSaver.user!.role! == 'admin') {
+    if (CredentialSaver.user!.role == 'admin') {
       ref.listen(editGlossaryProvider, (_, state) {
         state.when(
           error: (error, _) {
@@ -104,7 +104,7 @@ class GlossaryDetailPage extends ConsumerWidget {
               ],
             ),
           ),
-          floatingActionButton: CredentialSaver.user!.role! == 'admin'
+          floatingActionButton: CredentialSaver.user!.role == 'admin'
               ? Container(
                   width: 48,
                   height: 48,

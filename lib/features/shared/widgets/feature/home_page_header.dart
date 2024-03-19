@@ -41,7 +41,7 @@ class HomePageHeader extends ConsumerWidget {
             height: AppSize.getAppHeight(context),
           ),
         Container(
-          height: !(CredentialSaver.user!.role == 'admin') ? 224 : 248,
+          height: CredentialSaver.user!.role != 'admin' ? 224 : 248,
           width: double.infinity,
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.vertical(
@@ -66,7 +66,7 @@ class HomePageHeader extends ConsumerWidget {
                 ),
               ),
               Positioned(
-                top: !(CredentialSaver.user!.role == 'admin') ? 20 : 40,
+                top: CredentialSaver.user!.role != 'admin' ? 20 : 40,
                 left: 20,
                 right: 20,
                 child: buildHeaderContent(userCredential),
@@ -75,7 +75,7 @@ class HomePageHeader extends ConsumerWidget {
           ),
         ),
         Positioned(
-          top: !(CredentialSaver.user!.role == 'admin') ? 140 : 170,
+          top: CredentialSaver.user!.role != 'admin' ? 140 : 170,
           left: 20,
           right: 20,
           child: child,
@@ -92,7 +92,7 @@ class HomePageHeader extends ConsumerWidget {
         if (user == null) return const SizedBox();
 
         return SafeArea(
-          child: !(user.role == 'admin')
+          child: user.role != 'admin'
               ? Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

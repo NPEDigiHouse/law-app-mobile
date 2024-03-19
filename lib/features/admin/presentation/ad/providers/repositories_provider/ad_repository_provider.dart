@@ -2,8 +2,8 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
-import 'package:law_app/features/admin/presentation/ad/providers/datasources_provider/ad_data_source_provider.dart';
 import 'package:law_app/features/admin/data/repositories/ad_repository.dart';
+import 'package:law_app/features/admin/presentation/ad/providers/datasources_provider/ad_data_source_provider.dart';
 import 'package:law_app/features/shared/providers/network_info_provider.dart';
 
 part 'ad_repository_provider.g.dart';

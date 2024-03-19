@@ -12,35 +12,31 @@ import 'package:law_app/core/configs/api_configs.dart';
 import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/data_response.dart';
+import 'package:law_app/features/admin/data/models/ad_models/ad_detail_model.dart';
 import 'package:law_app/features/admin/data/models/ad_models/ad_model.dart';
+import 'package:law_app/features/admin/data/models/ad_models/ad_post_model.dart';
 
 abstract class AdDataSource {
   /// Get ads
   Future<List<AdModel>> getAds();
 
   /// Get ad detail
-  Future<AdModel> getAdDetail({required int id});
+  Future<AdDetailModel> getAdDetail({required int id});
 
-  /// Create ads
-  Future<void> createAd({
-    required String title,
-    required String content,
-    required String imageName,
-  });
+  /// Create ad
+  Future<void> createAd({required AdPostModel ad});
 
-  /// Edit ads
-  Future<void> editAd({required AdModel ad});
+  /// Edit ad
+  Future<void> editAd({required AdDetailModel ad});
 
-  /// Edit ads
+  /// Delete ad
   Future<void> deleteAd({required int id});
 }
 
 class AdDataSourceImpl implements AdDataSource {
   final http.Client client;
 
-  AdDataSourceImpl({
-    required this.client,
-  });
+  AdDataSourceImpl({required this.client});
 
   @override
   Future<List<AdModel>> getAds() async {
@@ -73,7 +69,7 @@ class AdDataSourceImpl implements AdDataSource {
   }
 
   @override
-  Future<AdModel> getAdDetail({required int id}) async {
+  Future<AdDetailModel> getAdDetail({required int id}) async {
     try {
       final response = await client.get(
         Uri.parse('${ApiConfigs.baseUrl}/ads/$id'),
@@ -87,9 +83,7 @@ class AdDataSourceImpl implements AdDataSource {
       final result = DataResponse.fromJson(jsonDecode(response.body));
 
       if (result.code == 200) {
-        final data = result.data as Map<String, dynamic>;
-
-        return AdModel.fromMap(data);
+        return AdDetailModel.fromMap(result.data);
       } else {
         throw ServerException('${result.message}');
       }
@@ -103,33 +97,68 @@ class AdDataSourceImpl implements AdDataSource {
   }
 
   @override
-  Future<void> createAd({
-    required String title,
-    required String content,
-    required String imageName,
-  }) async {
+  Future<void> createAd({required AdPostModel ad}) async {
     try {
+      final file = await http.MultipartFile.fromPath(
+        'file',
+        ad.file,
+        filename: const Uuid().v4() + p.extension(ad.file),
+      );
+
       final request = http.MultipartRequest(
         "POST",
         Uri.parse('${ApiConfigs.baseUrl}/ads'),
       )
         ..fields.addAll({
-          'title': title,
-          'content': content,
+          'title': ad.title,
+          'content': ad.content,
+        })
+        ..files.add(file)
+        ..headers[HttpHeaders.authorizationHeader] =
+            'Bearer ${CredentialSaver.accessToken}';
+
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code != 200) {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      if (e is ServerException) {
+        rethrow;
+      } else {
+        throw http.ClientException(e.toString());
+      }
+    }
+  }
+
+  @override
+  Future<void> editAd({required AdDetailModel ad}) async {
+    try {
+      final request = http.MultipartRequest(
+        'PUT',
+        Uri.parse('${ApiConfigs.baseUrl}/ads/${ad.id}'),
+      )
+        ..fields.addAll({
+          'title': '${ad.title}',
+          'content': '${ad.content}',
         })
         ..headers[HttpHeaders.authorizationHeader] =
             'Bearer ${CredentialSaver.accessToken}';
 
-      final file = await http.MultipartFile.fromPath(
-        'file',
-        imageName,
-        filename: const Uuid().v4() + p.extension(imageName),
-      );
+      if (ad.imageName != null) {
+        final file = await http.MultipartFile.fromPath(
+          'file',
+          ad.imageName!,
+          filename: const Uuid().v4() + p.extension(ad.imageName!),
+        );
 
-      request.files.add(file);
+        request.files.add(file);
+      }
 
-      final stremedResponse = await request.send();
-      final response = await http.Response.fromStream(stremedResponse);
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
       final result = DataResponse.fromJson(jsonDecode(response.body));
 
       if (result.code != 200) {
@@ -154,36 +183,6 @@ class AdDataSourceImpl implements AdDataSource {
           HttpHeaders.authorizationHeader:
               'Bearer ${CredentialSaver.accessToken}'
         },
-      );
-
-      final result = DataResponse.fromJson(jsonDecode(response.body));
-
-      if (result.code != 200) {
-        throw ServerException('${result.message}');
-      }
-    } catch (e) {
-      if (e is ServerException) {
-        rethrow;
-      } else {
-        throw http.ClientException(e.toString());
-      }
-    }
-  }
-
-  @override
-  Future<void> editAd({required AdModel ad}) async {
-    try {
-      final response = await client.put(
-        Uri.parse('${ApiConfigs.baseUrl}/ads/${ad.id}'),
-        headers: {
-          HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}',
-        },
-        body: jsonEncode({
-          'title': ad.title,
-          'content': ad.content,
-        }),
       );
 
       final result = DataResponse.fromJson(jsonDecode(response.body));

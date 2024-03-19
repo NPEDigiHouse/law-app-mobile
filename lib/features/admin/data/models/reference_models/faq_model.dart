@@ -1,23 +1,23 @@
 // Package imports:
 import 'package:equatable/equatable.dart';
 
-class FaqModel extends Equatable {
+class FAQModel extends Equatable {
   final int? id;
   final String? question;
   final String? answer;
 
-  const FaqModel({
+  const FAQModel({
     this.id,
     this.question,
     this.answer,
   });
 
-  FaqModel copyWith({
+  FAQModel copyWith({
     int? id,
     String? question,
     String? answer,
   }) {
-    return FaqModel(
+    return FAQModel(
       id: id ?? this.id,
       question: question ?? this.question,
       answer: answer ?? this.answer,
@@ -32,8 +32,8 @@ class FaqModel extends Equatable {
     };
   }
 
-  factory FaqModel.fromMap(Map<String, dynamic> map) {
-    return FaqModel(
+  factory FAQModel.fromMap(Map<String, dynamic> map) {
+    return FAQModel(
       id: map['id'] as int?,
       question: map['question'] as String?,
       answer: map['answer'] as String?,

@@ -3,10 +3,10 @@ import 'dart:async';
 import 'dart:io';
 
 // Flutter imports:
-import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:after_layout/after_layout.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -23,31 +23,26 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/admin/data/models/ad_models/ad_model.dart';
+import 'package:law_app/features/admin/data/models/ad_models/ad_detail_model.dart';
 import 'package:law_app/features/admin/presentation/ad/providers/ad_detail_provider.dart';
 import 'package:law_app/features/admin/presentation/ad/providers/ad_provider.dart';
-import 'package:law_app/features/admin/presentation/ad/providers/create_ad_provider.dart';
-import 'package:law_app/features/admin/presentation/ad/providers/edit_ad_provider.dart';
 import 'package:law_app/features/shared/widgets/form_field/custom_text_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 final selectedImageProvider = StateProvider.autoDispose<String?>((ref) => null);
 
-class AdminAdFormPage extends ConsumerStatefulWidget {
+class AdManagementFormPage extends ConsumerStatefulWidget {
   final String title;
-  final AdModel? ad;
-  const AdminAdFormPage({
-    super.key,
-    required this.title,
-    this.ad,
-  });
+  final AdDetailModel? ad;
+
+  const AdManagementFormPage({super.key, required this.title, this.ad});
 
   @override
-  ConsumerState<AdminAdFormPage> createState() => _AdmiAdFormPageState();
+  ConsumerState<AdManagementFormPage> createState() => _AdmiAdFormPageState();
 }
 
-class _AdmiAdFormPageState extends ConsumerState<AdminAdFormPage>
+class _AdmiAdFormPageState extends ConsumerState<AdManagementFormPage>
     with AfterLayoutMixin {
   late final GlobalKey<FormBuilderState> formKey;
 
@@ -369,10 +364,11 @@ class _AdmiAdFormPageState extends ConsumerState<AdminAdFormPage>
   }
 }
 
-class AdminAdFormPageArgs {
-  String title;
-  AdModel? ad;
-  AdminAdFormPageArgs({
+class AdManagementFormPageArgs {
+  final String title;
+  final AdDetailModel? ad;
+
+  const AdManagementFormPageArgs({
     required this.title,
     this.ad,
   });

@@ -2,30 +2,29 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
 import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
+import 'package:law_app/core/extensions/datetime_extension.dart';
+import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
+import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/admin/presentation/ad/pages/admin_ad_form_page.dart';
+import 'package:law_app/features/admin/presentation/ad/pages/ad_management_form_page.dart';
 import 'package:law_app/features/admin/presentation/ad/providers/ad_detail_provider.dart';
-import 'package:law_app/features/shared/widgets/header_container.dart';
+import 'package:law_app/features/shared/widgets/custom_network_image.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
+import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class AdDetailPage extends ConsumerWidget {
-  final bool isAdmin;
   final int id;
-  const AdDetailPage({
-    super.key,
-    required this.id,
-    this.isAdmin = false,
-  });
+
+  const AdDetailPage({super.key, required this.id});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -50,23 +49,6 @@ class AdDetailPage extends ConsumerWidget {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(96),
-        child: HeaderContainer(
-          title: 'Ad Detail',
-          withBackButton: true,
-          withTrailingButton: true,
-          trailingButtonIconName: "pencil-solid.svg",
-          trailingButtonTooltip: "edit",
-          onPressedTrailingButton: () => navigatorKey.currentState!.pushNamed(
-            adminAdFromRoute,
-            arguments: AdminAdFormPageArgs(
-              title: "Edit Ad",
-              ad: ad.value,
-            ),
-          ),
-        ),
-      ),
       body: ad.whenOrNull(
         loading: () => const LoadingIndicator(),
         data: (ad) {
@@ -74,52 +56,96 @@ class AdDetailPage extends ConsumerWidget {
 
           return SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 130),
-                SizedBox(
-                  height: 240,
-                  width: double.infinity,
-                  child: Stack(
-                    children: [
-                      Positioned.fill(
-                        child: CachedNetworkImage(
-                          fit: BoxFit.cover,
-                          imageUrl: ad.imageName!,
+                Stack(
+                  children: [
+                    DecoratedBox(
+                      position: DecorationPosition.foreground,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            const Color(0xFFA2355A).withOpacity(.2),
+                            const Color(0xFF730034).withOpacity(.6),
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
                         ),
                       ),
-                      Positioned.fill(
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Color.fromARGB(0, 228, 77, 66),
-                                Color.fromARGB(150, 244, 133, 125),
-                              ],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomCenter,
+                      child: CustomNetworkImage(
+                        imageUrl: ad.imageName!,
+                        placeHolderSize: 48,
+                        aspectRatio: 16 / 9,
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                    AppBar(
+                      automaticallyImplyLeading: false,
+                      foregroundColor: scaffoldBackgroundColor,
+                      backgroundColor: Colors.transparent,
+                      surfaceTintColor: Colors.transparent,
+                      centerTitle: true,
+                      title: Text(
+                        'Detail Ads',
+                        style: textTheme.titleLarge!.copyWith(
+                          color: scaffoldBackgroundColor,
+                        ),
+                      ),
+                      leading: IconButton(
+                        onPressed: () => navigatorKey.currentState!.pop(),
+                        icon: SvgAsset(
+                          assetPath: AssetPath.getIcon('caret-line-left.svg'),
+                          color: scaffoldBackgroundColor,
+                          width: 24,
+                        ),
+                        tooltip: 'Kembali',
+                      ),
+                      actions: [
+                        if (CredentialSaver.user!.role == 'admin')
+                          IconButton(
+                            onPressed: () {
+                              navigatorKey.currentState!.pushNamed(
+                                adManagementFormRoute,
+                                arguments: AdManagementFormPageArgs(
+                                  title: 'Edit Ads',
+                                  ad: ad,
+                                ),
+                              );
+                            },
+                            icon: SvgAsset(
+                              assetPath: AssetPath.getIcon('pencil-solid.svg'),
+                              color: scaffoldBackgroundColor,
+                              width: 24,
                             ),
+                            tooltip: 'Edit',
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 24),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 24,
+                    horizontal: 20,
+                  ),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        ad.title!,
+                        '${ad.title}',
                         style: textTheme.titleLarge!.copyWith(
                           color: primaryColor,
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 4),
                       Text(
-                        ad.content!,
-                      )
+                        'Dibuat pada ${ad.createdAt?.toStringPattern('d MMMM yyyy')}',
+                        style: textTheme.labelSmall!.copyWith(
+                          color: secondaryTextColor,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Text('${ad.content}')
                     ],
                   ),
                 ),
@@ -130,14 +156,4 @@ class AdDetailPage extends ConsumerWidget {
       ),
     );
   }
-}
-
-class AdDetailPageArgs {
-  final int id;
-  final bool isAdmin;
-
-  const AdDetailPageArgs({
-    required this.id,
-    this.isAdmin = false,
-  });
 }

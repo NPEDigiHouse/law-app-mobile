@@ -42,7 +42,7 @@ class CourseCard extends StatelessWidget {
         ),
       ],
       onTap: () => navigatorKey.currentState!.pushNamed(
-        CredentialSaver.user!.role! == 'admin'
+        CredentialSaver.user!.role == 'admin'
             ? adminCourseDetailRoute
             : studentCourseDetailRoute,
         arguments: course,

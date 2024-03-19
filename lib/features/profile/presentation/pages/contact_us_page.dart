@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
-import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // Project imports:
 import 'package:law_app/core/enums/banner_type.dart';
@@ -12,6 +12,7 @@ import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
+import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/presentation/reference/providers/contact_us_provider.dart';
 import 'package:law_app/features/admin/presentation/reference/widgets/edit_contact_us_dialog.dart';
@@ -21,14 +22,10 @@ import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class ContactUsPage extends ConsumerWidget {
-  final bool isAdmin;
-
-  const ContactUsPage({super.key, this.isAdmin = false});
+  const ContactUsPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    List<Map<String, dynamic>> items = [];
-
     final contact = ref.watch(contactUsProvider);
 
     ref.listen(contactUsProvider, (_, state) {
@@ -49,43 +46,19 @@ class ContactUsPage extends ConsumerWidget {
     });
 
     return contact.when(
-      loading: () => const LoadingIndicator(
-        withScaffold: true,
-      ),
+      loading: () => const LoadingIndicator(withScaffold: true),
       error: (_, __) => const Scaffold(),
       data: (contact) {
-        if (contact == null) return Container();
-
-        items = [
-          {
-            "icon": "whatsapp-fill.svg",
-            "formLabel": "whatsapp",
-            "contact": "WhatsApp",
-            "contactName": contact.whatsappName,
-            "link": contact.whatsappLink,
-          },
-          {
-            "icon": "envelope-solid.svg",
-            "formLabel": "email",
-            "contact": "Email",
-            "contactName": contact.emailName,
-            "link": contact.emailLink,
-          },
-          {
-            "icon": "map-marker-solid.svg",
-            "formLabel": "address",
-            "contact": "Alamat",
-            "contactName": contact.addressName,
-            "link": contact.addressLink,
-          },
-        ];
+        if (contact == null) return const Scaffold();
 
         return Scaffold(
           backgroundColor: backgroundColor,
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(96),
             child: HeaderContainer(
-              title: isAdmin ? "Kelola Kontak Kami" : "Hubungi Kami",
+              title: CredentialSaver.user!.role == 'Admin'
+                  ? 'Kelola Kontak Kami'
+                  : 'Hubungi Kami',
               withBackButton: true,
             ),
           ),
@@ -98,103 +71,53 @@ class ContactUsPage extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Hubungi Kami",
-                    style: textTheme.headlineMedium!.copyWith(
-                      color: primaryColor,
+                  if (CredentialSaver.user!.role != 'admin') ...[
+                    Text(
+                      'Hubungi Kami',
+                      style: textTheme.headlineMedium!.copyWith(
+                        color: primaryColor,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  ListView.separated(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: items.length,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: scaffoldBackgroundColor,
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(.1),
-                              offset: const Offset(2, 2),
-                              blurRadius: 4,
-                              spreadRadius: -1,
-                            ),
-                          ],
-                        ),
-                        child: Row(
-                          children: [
-                            GradientBackgroundIcon(
-                              icon: '${items[index]["icon"]}',
-                              size: 64,
-                              padding: 12,
-                            ),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '${items[index]["contact"]}',
-                                    style: textTheme.titleMedium,
-                                  ),
-                                  Text(
-                                    '${items[index]["contactName"]}',
-                                    style: textTheme.bodyMedium!.copyWith(
-                                      color: primaryColor,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            Container(
-                              width: 36,
-                              height: 36,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: secondaryColor,
-                              ),
-                              child: IconButton(
-                                onPressed: () async {
-                                  if (items[index]['contact'] == "Email") {
-                                    final uri = Uri.parse(
-                                      'mailto:${items[index]['link']}',
-                                    );
-                                    if (!await launchUrl(uri)) {
-                                      throw Exception('Could not launch $uri');
-                                    }
-                                  } else {
-                                    final uri = Uri.parse(
-                                      items[index]['link'],
-                                    );
-                                    if (!await launchUrl(uri)) {
-                                      throw Exception('Could not launch $uri');
-                                    }
-                                  }
-                                },
-                                icon: SvgAsset(
-                                  assetPath: AssetPath.getIcon(
-                                    "caret-line-right.svg",
-                                  ),
-                                  color: primaryColor,
-                                  width: 20,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
+                    const SizedBox(height: 16),
+                  ],
+                  buildContactCard(
+                    icon: 'whatsapp-fill.svg',
+                    contact: 'WhatsApp',
+                    name: '${contact.whatsappLink}',
+                    onPressed: () async {
+                      final url =
+                          Uri.parse('https://wa.me/${contact.whatsappLink}');
+
+                      if (await canLaunchUrl(url)) await launchUrl(url);
                     },
-                    separatorBuilder: (_, __) => const SizedBox(height: 8),
-                  )
+                  ),
+                  const SizedBox(height: 8),
+                  buildContactCard(
+                    icon: 'envelope-solid.svg',
+                    contact: 'Email',
+                    name: '${contact.emailLink}',
+                    onPressed: () async {
+                      final url = Uri.parse('mailto:${contact.emailLink}');
+
+                      if (await canLaunchUrl(url)) await launchUrl(url);
+                    },
+                  ),
+                  const SizedBox(height: 8),
+                  buildContactCard(
+                    icon: 'map-marker-solid.svg',
+                    contact: 'Alamat',
+                    name: '${contact.addressName}',
+                    onPressed: () async {
+                      final url = Uri.parse('${contact.addressLink}');
+
+                      if (await canLaunchUrl(url)) await launchUrl(url);
+                    },
+                  ),
                 ],
               ),
             ),
           ),
-          floatingActionButton: isAdmin
+          floatingActionButton: CredentialSaver.user!.role == 'Admin'
               ? Container(
                   width: 48,
                   height: 48,
@@ -208,7 +131,7 @@ class ContactUsPage extends ConsumerWidget {
                     onPressed: () => showDialog(
                       context: context,
                       barrierDismissible: false,
-                      builder: (_) => EditContactUsDialog(items: items),
+                      builder: (_) => EditContactUsDialog(contact: contact),
                     ),
                     icon: SvgAsset(
                       assetPath: AssetPath.getIcon('pencil-solid.svg'),
@@ -221,6 +144,73 @@ class ContactUsPage extends ConsumerWidget {
               : null,
         );
       },
+    );
+  }
+
+  Container buildContactCard({
+    required String icon,
+    required String contact,
+    required String name,
+    required VoidCallback onPressed,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: scaffoldBackgroundColor,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(.1),
+            offset: const Offset(2, 2),
+            blurRadius: 4,
+            spreadRadius: -1,
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          GradientBackgroundIcon(
+            icon: icon,
+            size: 64,
+            padding: 12,
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  contact,
+                  style: textTheme.titleMedium,
+                ),
+                Text(
+                  name,
+                  style: textTheme.bodyMedium!.copyWith(
+                    color: primaryColor,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 8),
+          Container(
+            width: 36,
+            height: 36,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: secondaryColor,
+            ),
+            child: IconButton(
+              onPressed: onPressed,
+              icon: SvgAsset(
+                assetPath: AssetPath.getIcon("caret-line-right.svg"),
+                color: primaryColor,
+                width: 20,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

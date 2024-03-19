@@ -10,9 +10,9 @@ import 'package:law_app/core/configs/api_configs.dart';
 import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/data_response.dart';
-import 'package:law_app/features/admin/data/models/contact_us_models/contact_us_model.dart';
-import 'package:law_app/features/admin/data/models/discussion_models/discussion_category_model.dart';
-import 'package:law_app/features/admin/data/models/faq_models/faq_model.dart';
+import 'package:law_app/features/admin/data/models/reference_models/contact_us_model.dart';
+import 'package:law_app/features/admin/data/models/reference_models/discussion_category_model.dart';
+import 'package:law_app/features/admin/data/models/reference_models/faq_model.dart';
 
 abstract class ReferenceDataSource {
   /// Get discussion categories
@@ -28,17 +28,20 @@ abstract class ReferenceDataSource {
   /// Delete discussion category
   Future<void> deleteDiscussionCategory({required int id});
 
-  /// Get faqs
-  Future<List<FaqModel>> getFaq();
+  /// Get FAQs
+  Future<List<FAQModel>> getFAQs();
 
-  /// Create faqs
-  Future<void> createFaq({required String question, required String answer});
+  /// Create FAQ
+  Future<void> createFAQ({
+    required String question,
+    required String answer,
+  });
 
-  /// Edit faqs
-  Future<void> editFaq({required FaqModel faq});
+  /// Edit FAQ
+  Future<void> editFAQ({required FAQModel faq});
 
-  /// Delete faqs
-  Future<void> deleteFaq({required int id});
+  /// Delete FAQ
+  Future<void> deleteFAQ({required int id});
 
   /// Get contact us
   Future<ContactUsModel> getContactUs();
@@ -164,7 +167,7 @@ class ReferenceDataSourceImpl implements ReferenceDataSource {
   }
 
   @override
-  Future<List<FaqModel>> getFaq() async {
+  Future<List<FAQModel>> getFAQs() async {
     try {
       final response = await client.get(
         Uri.parse('${ApiConfigs.baseUrl}/faqs'),
@@ -180,7 +183,7 @@ class ReferenceDataSourceImpl implements ReferenceDataSource {
       if (result.code == 200) {
         final data = result.data as List;
 
-        return data.map((e) => FaqModel.fromMap(e)).toList();
+        return data.map((e) => FAQModel.fromMap(e)).toList();
       } else {
         throw ServerException('${result.message}');
       }
@@ -194,8 +197,10 @@ class ReferenceDataSourceImpl implements ReferenceDataSource {
   }
 
   @override
-  Future<void> createFaq(
-      {required String question, required String answer}) async {
+  Future<void> createFAQ({
+    required String question,
+    required String answer,
+  }) async {
     try {
       final response = await client.post(
         Uri.parse('${ApiConfigs.baseUrl}/faqs'),
@@ -225,15 +230,19 @@ class ReferenceDataSourceImpl implements ReferenceDataSource {
   }
 
   @override
-  Future<void> deleteFaq({required int id}) async {
+  Future<void> editFAQ({required FAQModel faq}) async {
     try {
-      final response = await client.delete(
-        Uri.parse('${ApiConfigs.baseUrl}/faqs/$id'),
+      final response = await client.put(
+        Uri.parse('${ApiConfigs.baseUrl}/faqs/${faq.id}'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader:
               'Bearer ${CredentialSaver.accessToken}'
         },
+        body: jsonEncode({
+          'question': faq.question,
+          'answer': faq.answer,
+        }),
       );
 
       final result = DataResponse.fromJson(jsonDecode(response.body));
@@ -251,16 +260,15 @@ class ReferenceDataSourceImpl implements ReferenceDataSource {
   }
 
   @override
-  Future<void> editFaq({required FaqModel faq}) async {
+  Future<void> deleteFAQ({required int id}) async {
     try {
-      final response = await client.put(
-        Uri.parse('${ApiConfigs.baseUrl}/faqs/${faq.id}'),
+      final response = await client.delete(
+        Uri.parse('${ApiConfigs.baseUrl}/faqs/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader:
               'Bearer ${CredentialSaver.accessToken}'
         },
-        body: jsonEncode({'question': faq.question, 'answer': faq.answer}),
       );
 
       final result = DataResponse.fromJson(jsonDecode(response.body));
@@ -292,9 +300,7 @@ class ReferenceDataSourceImpl implements ReferenceDataSource {
       final result = DataResponse.fromJson(jsonDecode(response.body));
 
       if (result.code == 200) {
-        final data = result.data as Map<String, dynamic>;
-
-        return ContactUsModel.fromMap(data);
+        return ContactUsModel.fromMap(result.data);
       } else {
         throw ServerException('${result.message}');
       }
@@ -317,14 +323,7 @@ class ReferenceDataSourceImpl implements ReferenceDataSource {
           HttpHeaders.authorizationHeader:
               'Bearer ${CredentialSaver.accessToken}'
         },
-        body: jsonEncode({
-          'addressName': contact.addressName,
-          'addressLink': contact.addressLink,
-          'whatsappName': contact.whatsappName,
-          'whatsappLink': contact.whatsappLink,
-          'emailName': contact.emailName,
-          'emailLink': contact.emailLink,
-        }),
+        body: contact.toJson(),
       );
 
       final result = DataResponse.fromJson(jsonDecode(response.body));

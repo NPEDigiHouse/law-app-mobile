@@ -9,7 +9,7 @@ import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/admin/data/models/discussion_models/discussion_category_model.dart';
+import 'package:law_app/features/admin/data/models/reference_models/discussion_category_model.dart';
 import 'package:law_app/features/admin/presentation/reference/providers/discussion_category_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
 import 'package:law_app/features/shared/widgets/ink_well_container.dart';
