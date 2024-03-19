@@ -30,7 +30,6 @@ class CircleProfileAvatar extends StatelessWidget {
         }
 
         return CachedNetworkImage(
-          fit: BoxFit.cover,
           imageUrl: url,
           imageBuilder: (context, imageProvider) {
             return CircleAvatar(

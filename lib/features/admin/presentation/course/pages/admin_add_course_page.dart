@@ -61,136 +61,134 @@ class _AdminAddCoursePageState extends State<AdminAddCoursePage> {
         ),
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Text(
-                "Sampul Course",
-                textAlign: TextAlign.center,
-                style: textTheme.titleLarge!.copyWith(
-                  color: primaryColor,
-                ),
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            Text(
+              "Sampul Course",
+              textAlign: TextAlign.center,
+              style: textTheme.titleLarge!.copyWith(
+                color: primaryColor,
               ),
-              const SizedBox(
-                height: 12,
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            Container(
+              clipBehavior: Clip.antiAlias,
+              width: double.infinity,
+              height: 200,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
               ),
-              Container(
-                clipBehavior: Clip.antiAlias,
-                width: double.infinity,
-                height: 200,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Stack(
-                  children: [
-                    ValueListenableBuilder(
-                      valueListenable: selectedImage,
-                      builder: (context, value, child) {
-                        return SizedBox(
-                          width: double.infinity,
-                          child: value != null
-                              ? Image.file(
-                                  value,
-                                  fit: BoxFit.cover,
-                                )
-                              : Image.asset(
-                                  AssetPath.getImage(
-                                    "no-image.jpg",
-                                  ),
-                                  fit: BoxFit.cover,
+              child: Stack(
+                children: [
+                  ValueListenableBuilder(
+                    valueListenable: selectedImage,
+                    builder: (context, value, child) {
+                      return SizedBox(
+                        width: double.infinity,
+                        child: value != null
+                            ? Image.file(
+                                value,
+                                fit: BoxFit.cover,
+                              )
+                            : Image.asset(
+                                AssetPath.getImage(
+                                  "no-image.jpg",
                                 ),
-                        );
-                      },
-                    ),
-                    Container(
-                      width: double.infinity,
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Color.fromARGB(37, 244, 133, 125),
-                            Color.fromARGB(75, 228, 77, 66),
-                          ],
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                        ),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          FilledButton.icon(
-                            onPressed: () {
-                              _selectPhotoFromGallery();
-                            },
-                            style: FilledButton.styleFrom(
-                                foregroundColor: primaryColor,
-                                backgroundColor: secondaryColor),
-                            icon: SvgAsset(
-                              color: primaryColor,
-                              assetPath: AssetPath.getIcon(
-                                "camera-solid.svg",
+                                fit: BoxFit.cover,
                               ),
-                            ),
-                            label: const Text("Unggah Sampul"),
-                          ),
-                          const SizedBox(
-                            height: 4,
-                          ),
+                      );
+                    },
+                  ),
+                  Container(
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Color.fromARGB(37, 244, 133, 125),
+                          Color.fromARGB(75, 228, 77, 66),
                         ],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
                       ),
-                    )
-                  ],
-                ),
-              ),
-              const Divider(
-                color: secondaryTextColor,
-                height: 40,
-              ),
-              FormBuilder(
-                child: Column(
-                  children: [
-                    CustomTextField(
-                      name: "course_title",
-                      label: "Judul Course",
-                      hasPrefixIcon: false,
-                      hasSuffixIcon: false,
-                      hintText: "Masukkan judul course",
-                      textCapitalization: TextCapitalization.words,
-                      validators: [
-                        FormBuilderValidators.required(
-                          errorText: "Bagian ini harus diisi",
-                        )
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        FilledButton.icon(
+                          onPressed: () {
+                            _selectPhotoFromGallery();
+                          },
+                          style: FilledButton.styleFrom(
+                              foregroundColor: primaryColor,
+                              backgroundColor: secondaryColor),
+                          icon: SvgAsset(
+                            color: primaryColor,
+                            assetPath: AssetPath.getIcon(
+                              "camera-solid.svg",
+                            ),
+                          ),
+                          label: const Text("Unggah Sampul"),
+                        ),
+                        const SizedBox(
+                          height: 4,
+                        ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    CustomTextField(
-                      name: "course_description",
-                      label: "Descripsi",
-                      hasPrefixIcon: false,
-                      hasSuffixIcon: false,
-                      hintText: "Masukkan deskripsi",
-                      maxLines: 4,
-                      textInputAction: TextInputAction.done,
-                      validators: [
-                        FormBuilderValidators.required(
-                          errorText: "Bagian ini harus diisi",
-                        )
-                      ],
-                    ),
-                  ],
-                ),
+                  )
+                ],
               ),
-              const SizedBox(
-                height: 24,
+            ),
+            const Divider(
+              color: secondaryTextColor,
+              height: 40,
+            ),
+            FormBuilder(
+              child: Column(
+                children: [
+                  CustomTextField(
+                    name: "course_title",
+                    label: "Judul Course",
+                    hasPrefixIcon: false,
+                    hasSuffixIcon: false,
+                    hintText: "Masukkan judul course",
+                    textCapitalization: TextCapitalization.words,
+                    validators: [
+                      FormBuilderValidators.required(
+                        errorText: "Bagian ini harus diisi",
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  CustomTextField(
+                    name: "course_description",
+                    label: "Descripsi",
+                    hasPrefixIcon: false,
+                    hasSuffixIcon: false,
+                    hintText: "Masukkan deskripsi",
+                    maxLines: 4,
+                    textInputAction: TextInputAction.done,
+                    validators: [
+                      FormBuilderValidators.required(
+                        errorText: "Bagian ini harus diisi",
+                      )
+                    ],
+                  ),
+                ],
               ),
-              FilledButton(
-                onPressed: () {},
-                child: const Text("Tambah Course"),
-              ).fullWidth(),
-            ],
-          ),
+            ),
+            const SizedBox(
+              height: 24,
+            ),
+            FilledButton(
+              onPressed: () {},
+              child: const Text("Tambah Course"),
+            ).fullWidth(),
+          ],
         ),
       ),
     );

@@ -27,14 +27,14 @@ class ReferencePage extends StatelessWidget {
         "icon": "question-circle-fill.svg",
         "text": "Kelola Frequently Asked Questions (FAQ)",
         "onTap": () {
-          navigatorKey.currentState!.pushNamed(faqRoute, arguments: true);
+          navigatorKey.currentState!.pushNamed(faqRoute);
         },
       },
       {
         "icon": "phone-handset-solid.svg",
         "text": "Kelola Kontak Kami",
         "onTap": () {
-          navigatorKey.currentState!.pushNamed(contactUsRoute, arguments: true);
+          navigatorKey.currentState!.pushNamed(contactUsRoute);
         },
       },
     ];

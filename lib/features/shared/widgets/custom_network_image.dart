@@ -39,18 +39,23 @@ class CustomNetworkImage extends StatelessWidget {
     }
 
     return CachedNetworkImage(
-      fit: fit,
       imageUrl: url,
       imageBuilder: (context, imageProvider) {
         return aspectRatio != null
             ? AspectRatio(
                 aspectRatio: aspectRatio!,
                 child: buildImageContainer(
-                  decorationImage: DecorationImage(image: imageProvider),
+                  decorationImage: DecorationImage(
+                    image: imageProvider,
+                    fit: fit,
+                  ),
                 ),
               )
             : buildImageContainer(
-                decorationImage: DecorationImage(image: imageProvider),
+                decorationImage: DecorationImage(
+                  image: imageProvider,
+                  fit: fit,
+                ),
               );
       },
       placeholder: (context, url) {

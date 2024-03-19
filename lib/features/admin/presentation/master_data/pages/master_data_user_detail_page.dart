@@ -74,120 +74,117 @@ class MasterDataUserDetailPage extends ConsumerWidget {
             ),
           ),
           body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 24,
-                horizontal: 20,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Data Diri",
-                    style: textTheme.headlineSmall!.copyWith(
-                      color: primaryColor,
-                    ),
+            padding: const EdgeInsets.symmetric(
+              vertical: 24,
+              horizontal: 20,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Data Diri",
+                  style: textTheme.headlineSmall!.copyWith(
+                    color: primaryColor,
                   ),
-                  ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    padding: EdgeInsets.zero,
-                    shrinkWrap: true,
-                    itemCount: userData.length,
-                    itemBuilder: (context, index) {
-                      return Row(
-                        children: [
-                          SizedBox(
-                            height: 64,
-                            child: Stack(
-                              children: [
-                                Positioned(
-                                  top: 0,
-                                  left: 0,
-                                  right: 0,
-                                  bottom: 0,
-                                  child: Center(
-                                    child: Column(
-                                      children: [
-                                        Expanded(
-                                          child: Container(
-                                            width: 2,
-                                            decoration: BoxDecoration(
-                                              color: index != 0
-                                                  ? secondaryTextColor
-                                                  : Colors.transparent,
-                                            ),
+                ),
+                ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: EdgeInsets.zero,
+                  shrinkWrap: true,
+                  itemCount: userData.length,
+                  itemBuilder: (context, index) {
+                    return Row(
+                      children: [
+                        SizedBox(
+                          height: 64,
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                child: Center(
+                                  child: Column(
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                          width: 2,
+                                          decoration: BoxDecoration(
+                                            color: index != 0
+                                                ? secondaryTextColor
+                                                : Colors.transparent,
                                           ),
                                         ),
-                                        Expanded(
-                                          child: Container(
-                                            width: 2,
-                                            decoration: BoxDecoration(
-                                              color:
-                                                  index != userData.length - 1
-                                                      ? secondaryTextColor
-                                                      : Colors.transparent,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  child: Center(
-                                    child: Container(
-                                      width: 12,
-                                      height: 12,
-                                      decoration: const BoxDecoration(
-                                        color: secondaryTextColor,
-                                        shape: BoxShape.circle,
                                       ),
+                                      Expanded(
+                                        child: Container(
+                                          width: 2,
+                                          decoration: BoxDecoration(
+                                            color: index != userData.length - 1
+                                                ? secondaryTextColor
+                                                : Colors.transparent,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                child: Center(
+                                  child: Container(
+                                    width: 12,
+                                    height: 12,
+                                    decoration: const BoxDecoration(
+                                      color: secondaryTextColor,
+                                      shape: BoxShape.circle,
                                     ),
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  userData.keys.toList()[index],
-                                  style: textTheme.bodySmall!.copyWith(
-                                    color: primaryColor,
-                                  ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                userData.keys.toList()[index],
+                                style: textTheme.bodySmall!.copyWith(
+                                  color: primaryColor,
                                 ),
-                                Text(
-                                  '${userData.values.toList()[index]}',
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: textTheme.titleMedium!.copyWith(
-                                    color: primaryTextColor,
-                                  ),
+                              ),
+                              Text(
+                                '${userData.values.toList()[index]}',
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: textTheme.titleMedium!.copyWith(
+                                  color: primaryTextColor,
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ],
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 16),
-                  FilledButton(
-                    onPressed: () => navigatorKey.currentState!.pushNamed(
-                      masterDataFormRoute,
-                      arguments: MasterDataFormPageArgs(
-                        title: 'Edit ${user.role!.toCapitalize()}',
-                        role: user.role!,
-                        user: user,
-                      ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+                const SizedBox(height: 16),
+                FilledButton(
+                  onPressed: () => navigatorKey.currentState!.pushNamed(
+                    masterDataFormRoute,
+                    arguments: MasterDataFormPageArgs(
+                      title: 'Edit ${user.role!.toCapitalize()}',
+                      role: user.role!,
+                      user: user,
                     ),
-                    child: const Text("Ubah Data"),
-                  ).fullWidth()
-                ],
-              ),
+                  ),
+                  child: const Text("Ubah Data"),
+                ).fullWidth()
+              ],
             ),
           ),
         );

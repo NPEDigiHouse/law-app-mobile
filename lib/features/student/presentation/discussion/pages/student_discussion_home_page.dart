@@ -150,32 +150,15 @@ class _StudentDiscussionHomePageState
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      'Tanya Masalahmu',
-                                      style: textTheme.headlineMedium!.copyWith(
-                                        color: accentTextColor,
-                                      ),
-                                    ),
-                                  ),
-                                  // CustomIconButton(
-                                  //   iconName: 'notification-solid.svg',
-                                  //   color: scaffoldBackgroundColor,
-                                  //   size: 28,
-                                  //   tooltip: 'Notifikasi',
-                                  //   onPressed: () {
-                                  //     navigatorKey.currentState!.pushNamed(
-                                  //       notificationRoute,
-                                  //     );
-                                  //   },
-                                  // ),
-                                ],
+                              Text(
+                                'Tanya Masalahmu',
+                                style: textTheme.headlineMedium!.copyWith(
+                                  color: accentTextColor,
+                                ),
                               ),
                               const SizedBox(height: 8),
                               Text(
-                                'Buat pertanyaan dan dapatkan jawaban dari para ahli secara langsung!',
+                                'Buat pertanyaan dan dapatkan jawabannya dari para ahli secara langsung!',
                                 style: textTheme.bodySmall!.copyWith(
                                   color: scaffoldBackgroundColor,
                                 ),

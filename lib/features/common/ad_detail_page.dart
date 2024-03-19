@@ -47,14 +47,15 @@ class AdDetailPage extends ConsumerWidget {
       );
     });
 
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      body: ad.whenOrNull(
-        loading: () => const LoadingIndicator(),
-        data: (ad) {
-          if (ad == null) return null;
+    return ad.when(
+      loading: () => const LoadingIndicator(withScaffold: true),
+      error: (_, __) => const Scaffold(),
+      data: (ad) {
+        if (ad == null) return const Scaffold();
 
-          return SingleChildScrollView(
+        return Scaffold(
+          extendBodyBehindAppBar: true,
+          body: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -65,18 +66,17 @@ class AdDetailPage extends ConsumerWidget {
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            const Color(0xFFA2355A).withOpacity(.2),
+                            const Color(0xFFA2355A).withOpacity(.1),
                             const Color(0xFF730034).withOpacity(.6),
                           ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
                         ),
                       ),
                       child: CustomNetworkImage(
                         imageUrl: ad.imageName!,
                         placeHolderSize: 48,
                         aspectRatio: 16 / 9,
-                        fit: BoxFit.fill,
                       ),
                     ),
                     AppBar(
@@ -85,12 +85,6 @@ class AdDetailPage extends ConsumerWidget {
                       backgroundColor: Colors.transparent,
                       surfaceTintColor: Colors.transparent,
                       centerTitle: true,
-                      title: Text(
-                        'Detail Ads',
-                        style: textTheme.titleLarge!.copyWith(
-                          color: scaffoldBackgroundColor,
-                        ),
-                      ),
                       leading: IconButton(
                         onPressed: () => navigatorKey.currentState!.pop(),
                         icon: SvgAsset(
@@ -100,26 +94,6 @@ class AdDetailPage extends ConsumerWidget {
                         ),
                         tooltip: 'Kembali',
                       ),
-                      actions: [
-                        if (CredentialSaver.user!.role == 'admin')
-                          IconButton(
-                            onPressed: () {
-                              navigatorKey.currentState!.pushNamed(
-                                adManagementFormRoute,
-                                arguments: AdManagementFormPageArgs(
-                                  title: 'Edit Ads',
-                                  ad: ad,
-                                ),
-                              );
-                            },
-                            icon: SvgAsset(
-                              assetPath: AssetPath.getIcon('pencil-solid.svg'),
-                              color: scaffoldBackgroundColor,
-                              width: 24,
-                            ),
-                            tooltip: 'Edit',
-                          ),
-                      ],
                     ),
                   ],
                 ),
@@ -151,9 +125,36 @@ class AdDetailPage extends ConsumerWidget {
                 ),
               ],
             ),
-          );
-        },
-      ),
+          ),
+          floatingActionButton: CredentialSaver.user!.role == 'admin'
+              ? Container(
+                  width: 48,
+                  height: 48,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    gradient: const LinearGradient(
+                      colors: GradientColors.redPastel,
+                    ),
+                  ),
+                  child: IconButton(
+                    onPressed: () => navigatorKey.currentState!.pushNamed(
+                      adManagementFormRoute,
+                      arguments: AdManagementFormPageArgs(
+                        title: 'Edit Ads',
+                        ad: ad,
+                      ),
+                    ),
+                    icon: SvgAsset(
+                      assetPath: AssetPath.getIcon('pencil-solid.svg'),
+                      color: scaffoldBackgroundColor,
+                      width: 24,
+                    ),
+                    tooltip: 'Edit',
+                  ),
+                )
+              : null,
+        );
+      },
     );
   }
 }

@@ -1,8 +1,12 @@
+// Dart imports:
+import 'dart:io' show Platform;
+
 // Flutter imports:
 import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // Project imports:
 import 'package:law_app/core/enums/banner_type.dart';
@@ -80,7 +84,7 @@ class ProfilePage extends ConsumerWidget {
               ),
               ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
-                padding: const EdgeInsets.all(0),
+                padding: EdgeInsets.zero,
                 shrinkWrap: true,
                 itemCount: menuItems.length,
                 itemBuilder: (context, index) {
@@ -135,10 +139,7 @@ class ProfilePage extends ConsumerWidget {
         "text": "Frequently Asked Question",
         "color": primaryTextColor,
         "onTap": () {
-          navigatorKey.currentState!.pushNamed(
-            faqRoute,
-            arguments: false,
-          );
+          navigatorKey.currentState!.pushNamed(faqRoute);
         },
       },
       {
@@ -146,17 +147,24 @@ class ProfilePage extends ConsumerWidget {
         "text": "Hubungi Kami",
         "color": primaryTextColor,
         "onTap": () {
-          navigatorKey.currentState!.pushNamed(
-            contactUsRoute,
-            arguments: false,
-          );
+          navigatorKey.currentState!.pushNamed(contactUsRoute);
         },
       },
       {
         "icon": "star-solid.svg",
         "text": "Beri Rating",
         "color": primaryTextColor,
-        "onTap": () {},
+        "onTap": () async {
+          if (Platform.isAndroid) {
+            final url = Uri.parse('https://play.google.com/store/apps');
+
+            if (await canLaunchUrl(url)) await launchUrl(url);
+          } else if (Platform.isIOS) {
+            final url = Uri.parse('https://www.apple.com/app-store');
+
+            if (await canLaunchUrl(url)) await launchUrl(url);
+          }
+        },
       },
       {
         "icon": "certificate-solid.svg",

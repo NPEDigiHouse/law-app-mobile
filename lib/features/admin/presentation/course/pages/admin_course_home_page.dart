@@ -97,19 +97,17 @@ class AdminCourseHomePage extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: List.generate(
-              dummyCourses.length,
-              (index) => Padding(
-                padding: EdgeInsets.only(
-                  bottom: index == dummyCourses.length ? 0 : 8,
-                ),
-                child: CourseCard(
-                  course: dummyCourses[index],
-                  withLabelChip: false,
-                ),
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: List.generate(
+            dummyCourses.length,
+            (index) => Padding(
+              padding: EdgeInsets.only(
+                bottom: index == dummyCourses.length ? 0 : 8,
+              ),
+              child: CourseCard(
+                course: dummyCourses[index],
+                withLabelChip: false,
               ),
             ),
           ),

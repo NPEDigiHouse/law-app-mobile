@@ -45,10 +45,10 @@ class FAQPage extends ConsumerWidget {
     });
 
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(96),
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(96),
         child: HeaderContainer(
-          title: CredentialSaver.user!.role == 'admin' ? 'Kelola FAQ' : 'FAQ',
+          title: 'FAQ',
           withBackButton: true,
         ),
       ),
@@ -65,37 +65,36 @@ class FAQPage extends ConsumerWidget {
           }
 
           return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 24,
-                horizontal: 20,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Frequently Asked Question',
-                    style: textTheme.headlineMedium!.copyWith(
-                      color: primaryColor,
-                    ),
+            padding: const EdgeInsets.symmetric(
+              vertical: 24,
+              horizontal: 20,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Frequently Asked Questions',
+                  style: textTheme.headlineMedium!.copyWith(
+                    color: primaryColor,
+                    height: 0,
                   ),
-                  const SizedBox(height: 16),
-                  ListView.separated(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: faqs.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4),
-                        child: FAQExpandableContainer(faq: faqs[index]),
-                      );
-                    },
-                    separatorBuilder: (context, index) {
-                      return const Divider(color: secondaryTextColor);
-                    },
-                  ),
-                ],
-              ),
+                ),
+                const SizedBox(height: 16),
+                ListView.separated(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: faqs.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      child: FAQExpandableContainer(faq: faqs[index]),
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return const Divider(color: secondaryTextColor);
+                  },
+                ),
+              ],
             ),
           );
         },

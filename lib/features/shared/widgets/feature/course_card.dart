@@ -62,7 +62,7 @@ class CourseCard extends StatelessWidget {
                   gradient: LinearGradient(
                     colors: [
                       const Color(0xFFA2355A).withOpacity(.1),
-                      const Color(0xFF730034).withOpacity(.5),
+                      const Color(0xFF730034).withOpacity(.6),
                     ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,

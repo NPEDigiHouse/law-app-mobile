@@ -110,6 +110,7 @@ class EditContactUsDialog extends ConsumerWidget {
               initialValue: contact.addressLink,
               hasPrefixIcon: false,
               hasSuffixIcon: false,
+              textInputAction: TextInputAction.done,
               validators: [
                 FormBuilderValidators.required(
                   errorText: 'Bagian ini harus diisi',

@@ -26,14 +26,12 @@ import 'package:law_app/core/services/file_service.dart';
 import 'package:law_app/core/services/image_service.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
-import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_category_model.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_detail_model.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_post_model.dart';
 import 'package:law_app/features/library/presentation/providers/book_actions_provider.dart';
 import 'package:law_app/features/library/presentation/providers/book_detail_provider.dart';
-import 'package:law_app/features/library/presentation/providers/book_provider.dart';
 import 'package:law_app/features/shared/widgets/form_field/custom_dropdown_field.dart';
 import 'package:law_app/features/shared/widgets/form_field/custom_text_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
@@ -102,29 +100,14 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
     final bookFile = ref.watch(filePathProvider);
 
     ref.listen(bookActionsProvider, (_, state) {
-      state.when(
-        error: (error, _) {
-          navigatorKey.currentState!.pop();
-
-          if ('$error' == kNoInternetConnection) {
-            context.showNetworkErrorModalBottomSheet();
-          } else {
-            context.showBanner(message: '$error', type: BannerType.error);
-          }
-        },
-        loading: () => context.showLoadingDialog(),
+      state.whenOrNull(
         data: (data) {
           if (data != null) {
-            navigatorKey.currentState!.pop();
             navigatorKey.currentState!.pop();
 
             if (widget.book != null) {
               ref.invalidate(BookDetailProvider(id: widget.book!.id!));
             }
-
-            ref.invalidate(bookProvider);
-
-            context.showBanner(message: data, type: BannerType.success);
           }
         },
       );

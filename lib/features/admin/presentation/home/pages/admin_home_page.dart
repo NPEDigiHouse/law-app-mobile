@@ -130,13 +130,13 @@ class AdminHomePage extends ConsumerWidget {
             child: Column(
               children: [
                 HomePageHeader(
-                  onPressedProfileIcon: () {
-                    navigatorKey.currentState!.pushNamed(profileRoute);
-                  },
                   child: Dashboard(items: items),
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 90, 20, 24),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 24,
+                    horizontal: 20,
+                  ),
                   child: GridView.count(
                     physics: const NeverScrollableScrollPhysics(),
                     padding: const EdgeInsets.all(0),

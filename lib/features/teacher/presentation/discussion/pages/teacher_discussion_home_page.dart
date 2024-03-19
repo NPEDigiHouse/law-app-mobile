@@ -122,32 +122,15 @@ class _TeacherDiscussionHomePageState
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      'Jawab Masalah',
-                                      style: textTheme.headlineMedium!.copyWith(
-                                        color: accentTextColor,
-                                      ),
-                                    ),
-                                  ),
-                                  // CustomIconButton(
-                                  //   iconName: 'notification-solid.svg',
-                                  //   color: scaffoldBackgroundColor,
-                                  //   size: 28,
-                                  //   tooltip: 'Notifikasi',
-                                  //   onPressed: () {
-                                  //     navigatorKey.currentState!.pushNamed(
-                                  //       notificationRoute,
-                                  //     );
-                                  //   },
-                                  // ),
-                                ],
+                              Text(
+                                'Jawab Masalah',
+                                style: textTheme.headlineMedium!.copyWith(
+                                  color: accentTextColor,
+                                ),
                               ),
                               const SizedBox(height: 8),
                               Text(
-                                'Jawab pertanyaan-pertanyaan khusus dari siswa.',
+                                'Jawab pertanyaan-pertanyaan khusus dari siswa!',
                                 style: textTheme.bodySmall!.copyWith(
                                   color: scaffoldBackgroundColor,
                                 ),

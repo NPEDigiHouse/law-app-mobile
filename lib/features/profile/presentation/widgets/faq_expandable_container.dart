@@ -63,6 +63,7 @@ class _FAQExpandableContainerState
                       child: Text(
                         '${widget.faq.question}',
                         style: textTheme.titleLarge!.copyWith(
+                          fontSize: 18,
                           color: primaryTextColor,
                         ),
                       ),

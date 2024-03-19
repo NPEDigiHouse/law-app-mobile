@@ -53,71 +53,66 @@ class ContactUsPage extends ConsumerWidget {
 
         return Scaffold(
           backgroundColor: backgroundColor,
-          appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(96),
+          appBar: const PreferredSize(
+            preferredSize: Size.fromHeight(96),
             child: HeaderContainer(
-              title: CredentialSaver.user!.role == 'Admin'
-                  ? 'Kelola Kontak Kami'
-                  : 'Hubungi Kami',
+              title: 'Hubungi Kami',
               withBackButton: true,
             ),
           ),
           body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 24,
-                horizontal: 20,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (CredentialSaver.user!.role != 'admin') ...[
-                    Text(
-                      'Hubungi Kami',
-                      style: textTheme.headlineMedium!.copyWith(
-                        color: primaryColor,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                  ],
-                  buildContactCard(
-                    icon: 'whatsapp-fill.svg',
-                    contact: 'WhatsApp',
-                    name: '${contact.whatsappLink}',
-                    onPressed: () async {
-                      final url =
-                          Uri.parse('https://wa.me/${contact.whatsappLink}');
-
-                      if (await canLaunchUrl(url)) await launchUrl(url);
-                    },
+            padding: const EdgeInsets.symmetric(
+              vertical: 24,
+              horizontal: 20,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Hubungi Kami',
+                  style: textTheme.headlineMedium!.copyWith(
+                    color: primaryColor,
+                    height: 0,
                   ),
-                  const SizedBox(height: 8),
-                  buildContactCard(
-                    icon: 'envelope-solid.svg',
-                    contact: 'Email',
-                    name: '${contact.emailLink}',
-                    onPressed: () async {
-                      final url = Uri.parse('mailto:${contact.emailLink}');
+                ),
+                const SizedBox(height: 16),
+                buildContactCard(
+                  icon: 'whatsapp-fill.svg',
+                  contact: 'WhatsApp',
+                  name: '${contact.whatsappLink}',
+                  onPressed: () async {
+                    final url =
+                        Uri.parse('https://wa.me/${contact.whatsappLink}');
 
-                      if (await canLaunchUrl(url)) await launchUrl(url);
-                    },
-                  ),
-                  const SizedBox(height: 8),
-                  buildContactCard(
-                    icon: 'map-marker-solid.svg',
-                    contact: 'Alamat',
-                    name: '${contact.addressName}',
-                    onPressed: () async {
-                      final url = Uri.parse('${contact.addressLink}');
+                    if (await canLaunchUrl(url)) await launchUrl(url);
+                  },
+                ),
+                const SizedBox(height: 8),
+                buildContactCard(
+                  icon: 'envelope-solid.svg',
+                  contact: 'Email',
+                  name: '${contact.emailLink}',
+                  onPressed: () async {
+                    final url = Uri.parse('mailto:${contact.emailLink}');
 
-                      if (await canLaunchUrl(url)) await launchUrl(url);
-                    },
-                  ),
-                ],
-              ),
+                    if (await canLaunchUrl(url)) await launchUrl(url);
+                  },
+                ),
+                const SizedBox(height: 8),
+                buildContactCard(
+                  icon: 'map-marker-solid.svg',
+                  contact: 'Alamat',
+                  name: '${contact.addressName}',
+                  onPressed: () async {
+                    final url = Uri.parse('${contact.addressLink}');
+
+                    if (await canLaunchUrl(url)) await launchUrl(url);
+                  },
+                ),
+              ],
             ),
           ),
-          floatingActionButton: CredentialSaver.user!.role == 'Admin'
+          floatingActionButton: CredentialSaver.user!.role == 'admin'
               ? Container(
                   width: 48,
                   height: 48,

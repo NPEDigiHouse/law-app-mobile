@@ -30,7 +30,7 @@ class StudentDashboard extends _$StudentDashboard {
 
     final result = await ref
         .watch(discussionRepositoryProvider)
-        .getDiscussions(type: 'general', limit: kPageLimit);
+        .getDiscussions(type: 'general', limit: 5);
 
     final result2 =
         await ref.watch(bookRepositoryProvider).getBooks(limit: kPageLimit);

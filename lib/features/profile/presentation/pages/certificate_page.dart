@@ -44,65 +44,63 @@ class CertificatePage extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Sertifikat",
-                style: textTheme.headlineMedium!.copyWith(
-                  color: primaryColor,
-                ),
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Sertifikat",
+              style: textTheme.headlineMedium!.copyWith(
+                color: primaryColor,
               ),
-              const SizedBox(height: 16),
-              ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: certificateItems.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(
-                      top: 4,
-                      bottom: 4,
+            ),
+            const SizedBox(height: 16),
+            ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: certificateItems.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(
+                    top: 4,
+                    bottom: 4,
+                  ),
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: scaffoldBackgroundColor,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(.2),
+                          offset: const Offset(2, 2),
+                          blurRadius: 4,
+                        ),
+                      ],
                     ),
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: scaffoldBackgroundColor,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(.2),
-                            offset: const Offset(2, 2),
-                            blurRadius: 4,
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        children: [
-                          const GradientBackgroundIcon(
-                            icon: "certificate-solid.svg",
-                            size: 72,
-                          ),
-                          const SizedBox(width: 20),
-                          Expanded(
-                            child: Text(
-                              certificateItems[index]["text"]!,
-                              maxLines: 3,
-                              style: textTheme.bodyLarge!.copyWith(
-                                color: primaryTextColor,
-                              ),
+                    child: Row(
+                      children: [
+                        const GradientBackgroundIcon(
+                          icon: "certificate-solid.svg",
+                          size: 72,
+                        ),
+                        const SizedBox(width: 20),
+                        Expanded(
+                          child: Text(
+                            certificateItems[index]["text"]!,
+                            maxLines: 3,
+                            style: textTheme.bodyLarge!.copyWith(
+                              color: primaryTextColor,
                             ),
-                          )
-                        ],
-                      ),
+                          ),
+                        )
+                      ],
                     ),
-                  );
-                },
-              ),
-            ],
-          ),
+                  ),
+                );
+              },
+            ),
+          ],
         ),
       ),
     );
