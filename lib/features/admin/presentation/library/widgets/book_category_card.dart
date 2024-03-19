@@ -80,11 +80,11 @@ class BookCategoryCard extends ConsumerWidget {
                   message: "Anda yakin ingin menghapus kategori ini?",
                   primaryButtonText: 'Hapus',
                   onPressedPrimaryButton: () {
+                    navigatorKey.currentState!.pop();
+
                     ref
                         .read(bookCategoryProvider.notifier)
                         .deleteBookCategory(id: category.id!);
-
-                    navigatorKey.currentState!.pop();
                   },
                 ),
                 tooltip: 'Hapus',

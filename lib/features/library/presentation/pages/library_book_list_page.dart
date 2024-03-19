@@ -17,7 +17,6 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/library/presentation/providers/book_provider.dart';
-import 'package:law_app/features/shared/providers/offset_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/feature/book_item.dart';
@@ -57,7 +56,6 @@ class _LibraryBookListPageState extends ConsumerState<LibraryBookListPage>
   Widget build(BuildContext context) {
     final labels = categories.keys.toList();
     final categoryId = ref.watch(bookCategoryIdProvider);
-    final offset = ref.watch(offsetProvider);
     final books = ref.watch(BookProvider(categoryId: categoryId));
 
     ref.listen(BookProvider(categoryId: categoryId), (_, state) {
@@ -163,7 +161,7 @@ class _LibraryBookListPageState extends ConsumerState<LibraryBookListPage>
                   ),
                   itemBuilder: (context, index) {
                     if (index >= books.length) {
-                      return buildFetchMoreContainer(offset, categoryId);
+                      return buildFetchMoreContainer(categoryId, books.length);
                     }
 
                     return BookItem(book: books[index]);
@@ -178,7 +176,7 @@ class _LibraryBookListPageState extends ConsumerState<LibraryBookListPage>
     );
   }
 
-  GestureDetector buildFetchMoreContainer(int offset, int? categoryId) {
+  GestureDetector buildFetchMoreContainer(int? categoryId, int currentLength) {
     return GestureDetector(
       onTap: () {
         ref
@@ -187,10 +185,8 @@ class _LibraryBookListPageState extends ConsumerState<LibraryBookListPage>
             ).notifier)
             .fetchMoreBooks(
               categoryId: categoryId,
-              offset: offset + kPageLimit,
+              offset: currentLength,
             );
-
-        ref.read(offsetProvider.notifier).state = offset + kPageLimit;
       },
       child: DottedBorder(
         borderType: BorderType.RRect,

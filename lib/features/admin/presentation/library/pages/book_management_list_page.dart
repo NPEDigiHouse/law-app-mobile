@@ -50,8 +50,9 @@ class BookManagementListPage extends ConsumerWidget {
       error: (_, __) => const Scaffold(),
       data: (data) {
         final books = data.books;
+        final hasMore = data.hasMore;
 
-        if (books == null) return const Scaffold();
+        if (books == null || hasMore == null) return const Scaffold();
 
         return Scaffold(
           backgroundColor: backgroundColor,
@@ -129,6 +130,10 @@ class BookManagementListPage extends ConsumerWidget {
                     : SliverList(
                         delegate: SliverChildBuilderDelegate(
                           (context, index) {
+                            if (index >= books.length) {
+                              return buildFetchMoreButton(ref, books.length);
+                            }
+
                             return Padding(
                               padding: EdgeInsets.only(
                                 bottom: index == books.length - 1 ? 0 : 8,
@@ -136,7 +141,7 @@ class BookManagementListPage extends ConsumerWidget {
                               child: BookCard(book: books[index]),
                             );
                           },
-                          childCount: books.length,
+                          childCount: hasMore ? books.length + 1 : books.length,
                         ),
                       ),
               ),
@@ -168,6 +173,15 @@ class BookManagementListPage extends ConsumerWidget {
           ),
         );
       },
+    );
+  }
+
+  TextButton buildFetchMoreButton(WidgetRef ref, int currentLength) {
+    return TextButton(
+      onPressed: () {
+        ref.read(BookProvider().notifier).fetchMoreBooks(offset: currentLength);
+      },
+      child: const Text('Lihat lebih banyak'),
     );
   }
 }

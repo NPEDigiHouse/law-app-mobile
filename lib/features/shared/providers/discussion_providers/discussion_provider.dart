@@ -35,7 +35,6 @@ class Discussion extends _$Discussion {
       (r) {
         discussions = r;
         hasMore = r.length == kPageLimit;
-
         state = AsyncValue.data((discussions: discussions, hasMore: hasMore));
       },
     );

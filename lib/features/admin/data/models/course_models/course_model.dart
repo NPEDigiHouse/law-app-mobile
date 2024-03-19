@@ -6,12 +6,14 @@ class CourseModel extends Equatable {
   final String? title;
   final String? description;
   final String? coverImg;
+  final int? courseDuration;
 
   const CourseModel({
     this.id,
     this.title,
     this.description,
     this.coverImg,
+    this.courseDuration,
   });
 
   CourseModel copyWith({
@@ -19,13 +21,14 @@ class CourseModel extends Equatable {
     String? title,
     String? description,
     String? coverImg,
-    DateTime? createdAt,
+    int? courseDuration,
   }) {
     return CourseModel(
       id: id ?? this.id,
       title: title ?? this.title,
       description: description ?? this.description,
       coverImg: coverImg ?? this.coverImg,
+      courseDuration: courseDuration ?? this.courseDuration,
     );
   }
 
@@ -35,6 +38,7 @@ class CourseModel extends Equatable {
       'title': title,
       'description': description,
       'coverImg': coverImg,
+      'courseDuration': courseDuration,
     };
   }
 
@@ -44,6 +48,7 @@ class CourseModel extends Equatable {
       title: map['title'] as String?,
       description: map['description'] as String?,
       coverImg: map['coverImg'] as String?,
+      courseDuration: map['courseDuration'] as int?,
     );
   }
 
@@ -51,5 +56,11 @@ class CourseModel extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object?> get props => [id, title, description, coverImg];
+  List<Object?> get props => [
+        id,
+        title,
+        description,
+        coverImg,
+        courseDuration,
+      ];
 }

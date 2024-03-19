@@ -20,10 +20,9 @@ import 'package:law_app/features/admin/data/models/book_models/book_detail_model
 import 'package:law_app/features/admin/data/models/book_models/book_saved_model.dart';
 import 'package:law_app/features/library/presentation/pages/library_read_book_page.dart';
 import 'package:law_app/features/library/presentation/providers/book_detail_provider.dart';
+import 'package:law_app/features/library/presentation/providers/book_saved_actions_provider.dart';
 import 'package:law_app/features/library/presentation/providers/library_provider.dart';
-import 'package:law_app/features/library/presentation/providers/save_book_provider.dart';
-import 'package:law_app/features/library/presentation/providers/unsave_book_provider.dart';
-import 'package:law_app/features/library/presentation/providers/update_user_read_provider.dart';
+import 'package:law_app/features/library/presentation/providers/user_read_actions_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_network_image.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
@@ -55,12 +54,12 @@ class LibraryBookDetailRoute extends ConsumerWidget {
       );
     });
 
-    ref.listen(saveBookProvider, (_, state) {
+    ref.listen(bookSavedActionsProvider, (_, state) {
       state.whenOrNull(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showBanner(
-              message: 'Gagal menyimpan buku. Periksa koneksi internet!',
+              message: 'Gagal melakukan aksi. Periksa koneksi internet!',
               type: BannerType.error,
             );
           } else {
@@ -71,41 +70,13 @@ class LibraryBookDetailRoute extends ConsumerWidget {
           if (data != null) {
             ref.invalidate(bookDetailProvider);
 
-            context.showBanner(
-              message: 'Buku dimasukkan ke daftar buku disimpan!',
-              type: BannerType.success,
-            );
+            context.showBanner(message: data, type: BannerType.success);
           }
         },
       );
     });
 
-    ref.listen(unsaveBookProvider, (_, state) {
-      state.whenOrNull(
-        error: (error, _) {
-          if ('$error' == kNoInternetConnection) {
-            context.showBanner(
-              message: 'Gagal menghapus buku. Periksa koneksi internet!',
-              type: BannerType.error,
-            );
-          } else {
-            context.showBanner(message: '$error', type: BannerType.error);
-          }
-        },
-        data: (data) {
-          if (data != null) {
-            ref.invalidate(bookDetailProvider);
-
-            context.showBanner(
-              message: 'Buku dikeluarkan dari daftar buku disimpan!',
-              type: BannerType.success,
-            );
-          }
-        },
-      );
-    });
-
-    ref.listen(updateUserReadProvider, (_, state) {
+    ref.listen(userReadActionsProvider, (_, state) {
       state.whenOrNull(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
@@ -455,9 +426,9 @@ class LibraryBookDetailRoute extends ConsumerWidget {
     BookSavedModel? savedBook,
   }) {
     if (savedBook != null) {
-      ref.read(unsaveBookProvider.notifier).unsaveBook(id: savedBook.id!);
+      ref.read(bookSavedActionsProvider.notifier).unsaveBook(id: savedBook.id!);
     } else {
-      ref.read(saveBookProvider.notifier).saveBook(bookId: bookId);
+      ref.read(bookSavedActionsProvider.notifier).saveBook(bookId: bookId);
     }
   }
 

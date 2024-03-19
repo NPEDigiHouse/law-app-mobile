@@ -22,7 +22,7 @@ import 'package:law_app/features/admin/data/models/book_models/book_detail_model
 import 'package:law_app/features/library/presentation/providers/book_detail_provider.dart';
 import 'package:law_app/features/library/presentation/providers/create_user_read_provider.dart';
 import 'package:law_app/features/library/presentation/providers/library_provider.dart';
-import 'package:law_app/features/library/presentation/providers/update_user_read_provider.dart';
+import 'package:law_app/features/library/presentation/providers/user_read_actions_provider.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
@@ -89,7 +89,7 @@ class _LibraryReadBookPageState extends ConsumerState<LibraryReadBookPage> {
         if (didPop) return;
 
         if (currentPage > (widget.book.currentPage ?? 1)) {
-          ref.read(updateUserReadProvider.notifier).updateUserRead(
+          ref.read(userReadActionsProvider.notifier).updateUserRead(
                 bookId: widget.book.id!,
                 currentPage: currentPage,
               );
@@ -114,7 +114,7 @@ class _LibraryReadBookPageState extends ConsumerState<LibraryReadBookPage> {
                     onPressed: () {
                       if (currentPage > (widget.book.currentPage ?? 1)) {
                         ref
-                            .read(updateUserReadProvider.notifier)
+                            .read(userReadActionsProvider.notifier)
                             .updateUserRead(
                               bookId: widget.book.id!,
                               currentPage: currentPage,

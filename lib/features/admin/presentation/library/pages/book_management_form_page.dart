@@ -31,10 +31,9 @@ import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_category_model.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_detail_model.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_post_model.dart';
+import 'package:law_app/features/library/presentation/providers/book_actions_provider.dart';
 import 'package:law_app/features/library/presentation/providers/book_detail_provider.dart';
 import 'package:law_app/features/library/presentation/providers/book_provider.dart';
-import 'package:law_app/features/library/presentation/providers/create_book_provider.dart';
-import 'package:law_app/features/library/presentation/providers/edit_book_provider.dart';
 import 'package:law_app/features/shared/widgets/form_field/custom_dropdown_field.dart';
 import 'package:law_app/features/shared/widgets/form_field/custom_text_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
@@ -102,7 +101,7 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
     final bookCover = ref.watch(coverPathProvider);
     final bookFile = ref.watch(filePathProvider);
 
-    ref.listen(editBookProvider, (_, state) {
+    ref.listen(bookActionsProvider, (_, state) {
       state.when(
         error: (error, _) {
           navigatorKey.currentState!.pop();
@@ -119,41 +118,13 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
             navigatorKey.currentState!.pop();
             navigatorKey.currentState!.pop();
 
-            ref.invalidate(BookDetailProvider(id: widget.book!.id!));
-            ref.invalidate(bookProvider);
-
-            context.showBanner(
-              message: 'Berhasil mengedit buku!',
-              type: BannerType.success,
-            );
-          }
-        },
-      );
-    });
-
-    ref.listen(createBookProvider, (_, state) {
-      state.when(
-        error: (error, _) {
-          navigatorKey.currentState!.pop();
-
-          if ('$error' == kNoInternetConnection) {
-            context.showNetworkErrorModalBottomSheet();
-          } else {
-            context.showBanner(message: '$error', type: BannerType.error);
-          }
-        },
-        loading: () => context.showLoadingDialog(),
-        data: (data) {
-          if (data != null) {
-            navigatorKey.currentState!.pop();
-            navigatorKey.currentState!.pop();
+            if (widget.book != null) {
+              ref.invalidate(BookDetailProvider(id: widget.book!.id!));
+            }
 
             ref.invalidate(bookProvider);
 
-            context.showBanner(
-              message: 'Berhasil menambahkan buku!',
-              type: BannerType.success,
-            );
+            context.showBanner(message: data, type: BannerType.success);
           }
         },
       );
@@ -462,7 +433,7 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
       final isUpdatedFile =
           p.basename(widget.book!.bookUrl!) != p.basename(bookFile);
 
-      ref.read(editBookProvider.notifier).editBook(
+      ref.read(bookActionsProvider.notifier).editBook(
             book: widget.book!.copyWith(
               title: data['title'],
               writer: data['writer'],
@@ -506,7 +477,7 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
 
       final data = formKey.currentState!.value;
 
-      ref.read(createBookProvider.notifier).createBook(
+      ref.read(bookActionsProvider.notifier).createBook(
             book: BookPostModel(
               title: data['title'],
               writer: data['writer'],

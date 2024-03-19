@@ -14,7 +14,6 @@ import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/discussion_provider.dart';
-import 'package:law_app/features/shared/providers/offset_provider.dart';
 import 'package:law_app/features/shared/providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
@@ -29,7 +28,6 @@ class TeacherDiscussionListPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isSearching = ref.watch(isSearchingProvider);
     final query = ref.watch(queryProvider);
-    final offset = ref.watch(offsetProvider);
 
     final discussions = ref.watch(
       DiscussionProvider(
@@ -116,7 +114,7 @@ class TeacherDiscussionListPage extends ConsumerWidget {
               ),
               itemBuilder: (context, index) {
                 if (index >= discussions.length) {
-                  return buildFetchMoreButton(ref, query, offset);
+                  return buildFetchMoreButton(ref, query, discussions.length);
                 }
 
                 return DiscussionCard(
@@ -180,7 +178,11 @@ class TeacherDiscussionListPage extends ConsumerWidget {
     );
   }
 
-  TextButton buildFetchMoreButton(WidgetRef ref, String query, int offset) {
+  TextButton buildFetchMoreButton(
+    WidgetRef ref,
+    String query,
+    int currentLength,
+  ) {
     return TextButton(
       onPressed: () {
         ref
@@ -193,10 +195,8 @@ class TeacherDiscussionListPage extends ConsumerWidget {
               query: query,
               status: 'open',
               type: 'specific',
-              offset: offset + kPageLimit,
+              offset: currentLength,
             );
-
-        ref.read(offsetProvider.notifier).state = offset + kPageLimit;
       },
       child: const Text('Lihat lebih banyak'),
     );
