@@ -43,9 +43,7 @@ class AdminCourseArticlePage extends StatelessWidget {
                 color: primaryColor,
               ),
             ),
-            const SizedBox(
-              height: 8,
-            ),
+            const SizedBox(height: 8),
             Row(
               children: [
                 SvgAsset(
@@ -64,13 +62,9 @@ class AdminCourseArticlePage extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(
-              height: 8,
-            ),
+            const SizedBox(height: 8),
             // TODO: show the content
-            const SizedBox(
-              height: 24,
-            ),
+            const SizedBox(height: 24),
             Row(
               children: [
                 Expanded(

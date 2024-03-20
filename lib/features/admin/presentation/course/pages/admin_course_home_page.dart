@@ -61,9 +61,7 @@ class AdminCourseHomePage extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(
-                height: 24,
-              ),
+              const SizedBox(height: 24),
               SearchField(
                 text: '',
                 hintText: 'Cari course',

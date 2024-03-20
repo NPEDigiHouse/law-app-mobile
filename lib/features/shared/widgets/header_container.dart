@@ -41,6 +41,7 @@ class HeaderContainer extends StatelessWidget {
     }
 
     return Container(
+      width: double.infinity,
       height: height,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.vertical(
@@ -60,7 +61,7 @@ class HeaderContainer extends StatelessWidget {
             right: 20,
             child: SvgAsset(
               assetPath: AssetPath.getVector('app_logo_white.svg'),
-              color: tertiaryColor,
+              color: tertiaryColor.withOpacity(.5),
               width: 160,
             ),
           ),

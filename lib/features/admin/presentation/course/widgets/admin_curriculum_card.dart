@@ -64,9 +64,7 @@ class AdminCurriculumCard extends StatelessWidget {
                           color: primaryColor,
                         ),
                       ),
-                      const SizedBox(
-                        height: 4,
-                      ),
+                      const SizedBox(height: 4),
                       if (showDetail) ...[
                         Row(
                           children: [

@@ -21,7 +21,7 @@ import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
 import 'package:law_app/features/shared/widgets/feature/home_page_header.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 import 'package:law_app/features/student/presentation/course/pages/student_course_home_page.dart';
-import 'package:law_app/features/student/presentation/home/providers/student_dashboard_provider.dart';
+import 'package:law_app/features/student/presentation/home/providers/student_home_provider.dart';
 import 'package:law_app/features/student/presentation/home/widgets/ads_carousel.dart';
 
 class StudentHomePage extends ConsumerWidget {
@@ -29,16 +29,16 @@ class StudentHomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final dashboard = ref.watch(studentDashboardProvider);
+    final homeData = ref.watch(studentHomeProvider);
 
-    ref.listen(studentDashboardProvider, (_, state) {
+    ref.listen(studentHomeProvider, (_, state) {
       state.whenOrNull(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
                 navigatorKey.currentState!.pop();
-                ref.invalidate(studentDashboardProvider);
+                ref.invalidate(studentHomeProvider);
               },
             );
           } else {
@@ -50,41 +50,20 @@ class StudentHomePage extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: backgroundColor,
-      body: dashboard.whenOrNull(
+      body: homeData.whenOrNull(
         loading: () => const LoadingIndicator(),
-        data: (dashboard) {
-          final discussions = dashboard.discussions;
-          final books = dashboard.books;
-          final dashboardData = dashboard.dashboardData;
+        data: (data) {
+          final discussions = data.discussions;
+          final books = data.books;
 
-          if (discussions == null || books == null || dashboardData == null) {
-            return null;
-          }
-
-          final items = [
-            {
-              "icon": "chalkboard-teacher-fill.svg",
-              "count": dashboardData.totalCourses,
-              "text": "Course\nDiambil",
-            },
-            {
-              "icon": "question-circle-line.svg",
-              "count": dashboardData.totalDiscussions,
-              "text": "Pertanyaan\nDipakai",
-            },
-            {
-              "icon": "book-bold.svg",
-              "count": dashboardData.totalBooksRead,
-              "text": "Buku\nDibaca",
-            },
-          ];
+          if (discussions == null || books == null) return null;
 
           return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                HomePageHeader(
-                  child: Dashboard(items: items),
+                const HomePageHeader(
+                  child: Dashboard(),
                 ),
                 const AdsCarousel(),
                 Container(

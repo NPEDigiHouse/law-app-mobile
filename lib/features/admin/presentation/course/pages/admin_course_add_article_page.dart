@@ -53,9 +53,7 @@ class _AdminCourseAddArticlePageState extends State<AdminCourseAddArticlePage> {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 24,
-                  ),
+                  const SizedBox(height: 24),
                   CustomTextField(
                     name: "completion_time",
                     label: "Perkiraan Durasi Belajar",
@@ -73,17 +71,13 @@ class _AdminCourseAddArticlePageState extends State<AdminCourseAddArticlePage> {
                 ],
               ),
             ),
-            const SizedBox(
-              height: 24,
-            ),
+            const SizedBox(height: 24),
             Text(
               "Konten",
               textAlign: TextAlign.left,
               style: textTheme.titleSmall!,
             ),
-            const SizedBox(
-              height: 24,
-            ),
+            const SizedBox(height: 24),
           ],
         ),
       ),

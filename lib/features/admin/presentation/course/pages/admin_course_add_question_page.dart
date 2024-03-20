@@ -71,16 +71,12 @@ class _AdminCourseAddQuestionPageState
                 ),
               ],
             ),
-            const SizedBox(
-              height: 24,
-            ),
+            const SizedBox(height: 24),
             Text(
               "Pilihan Jawaban",
               style: textTheme.titleSmall!,
             ),
-            const SizedBox(
-              height: 8,
-            ),
+            const SizedBox(height: 8),
             if (widget.item != null)
               ...List<InkWellContainer>.generate(
                 widget.item!.answers.length,
@@ -119,9 +115,7 @@ class _AdminCourseAddQuestionPageState
                 style:
                     textTheme.bodyMedium!.copyWith(color: secondaryTextColor),
               ),
-            const SizedBox(
-              height: 8,
-            ),
+            const SizedBox(height: 8),
             FilledButton(
               onPressed: () => context.showSingleFormDialog(
                 title: "Tambah Jawaban",

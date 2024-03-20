@@ -18,23 +18,23 @@ import 'package:law_app/features/shared/widgets/feature/book_item.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
 import 'package:law_app/features/shared/widgets/feature/home_page_header.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
-import 'package:law_app/features/teacher/presentation/home/providers/teacher_dashboard_provider.dart';
+import 'package:law_app/features/teacher/presentation/home/providers/teacher_home_provider.dart';
 
 class TeacherHomePage extends ConsumerWidget {
   const TeacherHomePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final dashboard = ref.watch(teacherDashboardProvider);
+    final homeData = ref.watch(teacherHomeProvider);
 
-    ref.listen(teacherDashboardProvider, (_, state) {
+    ref.listen(teacherHomeProvider, (_, state) {
       state.whenOrNull(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
                 navigatorKey.currentState!.pop();
-                ref.invalidate(teacherDashboardProvider);
+                ref.invalidate(teacherHomeProvider);
               },
             );
           } else {
@@ -46,36 +46,20 @@ class TeacherHomePage extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: backgroundColor,
-      body: dashboard.whenOrNull(
+      body: homeData.whenOrNull(
         loading: () => const LoadingIndicator(),
-        data: (dashboard) {
-          final discussions = dashboard.discussions;
-          final books = dashboard.books;
-          final dashboardData = dashboard.dashboardData;
+        data: (data) {
+          final discussions = data.discussions;
+          final books = data.books;
 
-          if (discussions == null || books == null || dashboardData == null) {
-            return null;
-          }
-
-          final items = [
-            {
-              "icon": "question-circle-line.svg",
-              "count": dashboardData.totalDiscussions,
-              "text": "Pertanyaan\nDijawab",
-            },
-            {
-              "icon": "book-bold.svg",
-              "count": dashboardData.totalBooksRead,
-              "text": "Buku\nDibaca",
-            },
-          ];
+          if (discussions == null || books == null) return null;
 
           return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                HomePageHeader(
-                  child: Dashboard(items: items),
+                const HomePageHeader(
+                  child: Dashboard(),
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(

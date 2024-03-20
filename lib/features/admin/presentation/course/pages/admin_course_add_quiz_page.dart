@@ -43,9 +43,7 @@ class AdminCourseAddQuizPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 24,
-                  ),
+                  const SizedBox(height: 24),
                   CustomTextField(
                     name: "completion_time",
                     label: "Waktu Pengerjaan",
@@ -59,9 +57,7 @@ class AdminCourseAddQuizPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 24,
-                  ),
+                  const SizedBox(height: 24),
                   CustomTextField(
                     name: "quiz_description",
                     label: "Deskripsi Quiz",
@@ -79,9 +75,7 @@ class AdminCourseAddQuizPage extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(
-              height: 24,
-            ),
+            const SizedBox(height: 24),
             FilledButton(
               onPressed: () {},
               child: const Text('Tambah Quiz'),

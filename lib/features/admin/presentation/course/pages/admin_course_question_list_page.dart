@@ -81,9 +81,7 @@ class AdminCourseQuestionListPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    width: 12,
-                  ),
+                  const SizedBox(width: 12),
                   Container(
                     width: 40,
                     height: 40,

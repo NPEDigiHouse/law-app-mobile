@@ -71,9 +71,7 @@ class _AdminAddCoursePageState extends State<AdminAddCoursePage> {
                 color: primaryColor,
               ),
             ),
-            const SizedBox(
-              height: 12,
-            ),
+            const SizedBox(height: 12),
             Container(
               clipBehavior: Clip.antiAlias,
               width: double.infinity,
@@ -132,9 +130,7 @@ class _AdminAddCoursePageState extends State<AdminAddCoursePage> {
                           ),
                           label: const Text("Unggah Sampul"),
                         ),
-                        const SizedBox(
-                          height: 4,
-                        ),
+                        const SizedBox(height: 4),
                       ],
                     ),
                   )
@@ -161,9 +157,7 @@ class _AdminAddCoursePageState extends State<AdminAddCoursePage> {
                       )
                     ],
                   ),
-                  const SizedBox(
-                    height: 12,
-                  ),
+                  const SizedBox(height: 12),
                   CustomTextField(
                     name: "course_description",
                     label: "Descripsi",
@@ -181,9 +175,7 @@ class _AdminAddCoursePageState extends State<AdminAddCoursePage> {
                 ],
               ),
             ),
-            const SizedBox(
-              height: 24,
-            ),
+            const SizedBox(height: 24),
             FilledButton(
               onPressed: () {},
               child: const Text("Tambah Course"),
