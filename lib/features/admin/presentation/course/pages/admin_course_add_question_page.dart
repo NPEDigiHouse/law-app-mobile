@@ -82,7 +82,7 @@ class _AdminCourseAddQuestionPageState
               height: 8,
             ),
             if (widget.item != null)
-              ...List.generate(
+              ...List<InkWellContainer>.generate(
                 widget.item!.answers.length,
                 (index) => InkWellContainer(
                   width: double.infinity,
@@ -142,7 +142,7 @@ class _AdminCourseAddQuestionPageState
               ),
               Row(
                 children: [
-                  ...List.generate(
+                  ...List<ValueListenableBuilder<String?>>.generate(
                     widget.item!.answers.length,
                     (index) => ValueListenableBuilder(
                       valueListenable: rightAnswer,

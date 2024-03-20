@@ -52,7 +52,7 @@ class AdminCourseQuestionListPage extends StatelessWidget {
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
-          children: List.generate(
+          children: List<InkWellContainer>.generate(
             items.length,
             (index) => InkWellContainer(
               onTap: () => navigatorKey.currentState!.pushNamed(

@@ -1,6 +1,5 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -93,104 +92,106 @@ class HomePageHeader extends ConsumerWidget {
       data: (user) {
         if (user == null) return const SizedBox();
 
-        return user.role != 'admin'
-            ? Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Selamat Datang,',
-                          style: textTheme.bodyLarge!.copyWith(
-                            color: scaffoldBackgroundColor,
-                          ),
-                        ),
-                        Text(
-                          FunctionHelper.getUserNickname(user.name!),
-                          style: textTheme.headlineMedium!.copyWith(
-                            color: accentTextColor,
-                          ),
-                        ),
-                        Text(
-                          user.role!.toCapitalize(),
-                          style: textTheme.bodyMedium!.copyWith(
-                            color: accentTextColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  GestureDetector(
-                    onTap: () {
-                      if (!isProfile) {
-                        navigatorKey.currentState!.pushNamed(profileRoute);
-                      }
-                    },
-                    child: CircleProfileAvatar(
-                      imageUrl: user.profilePicture,
-                      radius: 20,
-                    ),
-                  ),
-                ],
-              )
-            : Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: scaffoldBackgroundColor,
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(.1),
-                      offset: const Offset(2, 2),
-                      blurRadius: 4,
-                      spreadRadius: -1,
-                    ),
-                  ],
-                ),
-                child: Row(
+        if (user.role != 'admin') {
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SvgAsset(
-                      width: 40,
-                      height: 40,
-                      assetPath: AssetPath.getVector("app_logo.svg"),
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Sobat Hukum App',
-                            style: textTheme.bodyLarge,
-                          ),
-                          Text(
-                            FunctionHelper.getUserNickname(user.name!),
-                            style: textTheme.titleSmall!.copyWith(
-                              color: primaryColor,
-                            ),
-                          ),
-                        ],
+                    Text(
+                      'Selamat Datang,',
+                      style: textTheme.bodyLarge!.copyWith(
+                        color: scaffoldBackgroundColor,
                       ),
                     ),
-                    const SizedBox(width: 12),
-                    GestureDetector(
-                      onTap: () {
-                        if (!isProfile) {
-                          navigatorKey.currentState!.pushNamed(profileRoute);
-                        }
-                      },
-                      child: CircleProfileAvatar(
-                        imageUrl: user.profilePicture,
-                        radius: 20,
+                    Text(
+                      FunctionHelper.getUserNickname(user.name!),
+                      style: textTheme.headlineMedium!.copyWith(
+                        color: accentTextColor,
+                      ),
+                    ),
+                    Text(
+                      user.role!.toCapitalize(),
+                      style: textTheme.bodyMedium!.copyWith(
+                        color: accentTextColor,
                       ),
                     ),
                   ],
                 ),
-              );
+              ),
+              const SizedBox(width: 8),
+              GestureDetector(
+                onTap: () {
+                  if (!isProfile) {
+                    navigatorKey.currentState!.pushNamed(profileRoute);
+                  }
+                },
+                child: CircleProfileAvatar(
+                  imageUrl: user.profilePicture,
+                  radius: 20,
+                ),
+              ),
+            ],
+          );
+        } else {
+          return Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: scaffoldBackgroundColor,
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(.1),
+                  offset: const Offset(2, 2),
+                  blurRadius: 4,
+                  spreadRadius: -1,
+                ),
+              ],
+            ),
+            child: Row(
+              children: [
+                SvgAsset(
+                  width: 40,
+                  height: 40,
+                  assetPath: AssetPath.getVector("app_logo.svg"),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Sobat Hukum App',
+                        style: textTheme.bodyLarge,
+                      ),
+                      Text(
+                        FunctionHelper.getUserNickname(user.name!),
+                        style: textTheme.titleSmall!.copyWith(
+                          color: primaryColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 12),
+                GestureDetector(
+                  onTap: () {
+                    if (!isProfile) {
+                      navigatorKey.currentState!.pushNamed(profileRoute);
+                    }
+                  },
+                  child: CircleProfileAvatar(
+                    imageUrl: user.profilePicture,
+                    radius: 20,
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
       },
     );
   }

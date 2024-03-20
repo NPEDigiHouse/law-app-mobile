@@ -69,10 +69,9 @@ class LibraryFinishedBookPage extends ConsumerWidget {
         ),
       ),
       body: userReads.whenOrNull(
-        loading: () => const LoadingIndicator(withScaffold: true),
-        error: (_, __) => const Scaffold(),
+        loading: () => const LoadingIndicator(),
         data: (userReads) {
-          if (userReads == null) return const Scaffold();
+          if (userReads == null) return null;
 
           if (userReads.isEmpty) {
             return const CustomInformation(

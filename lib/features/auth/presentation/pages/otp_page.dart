@@ -171,7 +171,7 @@ class _OtpPageState extends ConsumerState<OtpPage>
                         child: SizedBox(
                           height: fieldSize,
                           child: ListView.separated(
-                            padding: const EdgeInsets.all(0),
+                            padding: EdgeInsets.zero,
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) {

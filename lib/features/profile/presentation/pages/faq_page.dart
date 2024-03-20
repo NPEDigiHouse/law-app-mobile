@@ -64,26 +64,22 @@ class FAQPage extends ConsumerWidget {
             );
           }
 
-          return SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(
-              vertical: 24,
-              horizontal: 20,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 24, 20, 0),
+                child: Text(
                   'Frequently Asked Questions',
                   style: textTheme.headlineMedium!.copyWith(
                     color: primaryColor,
                     height: 0,
                   ),
                 ),
-                const SizedBox(height: 16),
-                ListView.separated(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: faqs.length,
+              ),
+              Expanded(
+                child: ListView.separated(
+                  padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 4),
@@ -93,9 +89,10 @@ class FAQPage extends ConsumerWidget {
                   separatorBuilder: (context, index) {
                     return const Divider(color: secondaryTextColor);
                   },
+                  itemCount: faqs.length,
                 ),
-              ],
-            ),
+              ),
+            ],
           );
         },
       ),

@@ -194,7 +194,7 @@ class LibraryHomePage extends ConsumerWidget {
                     mainAxisSpacing: 14,
                     crossAxisSpacing: 10,
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    children: List<Widget>.generate(
+                    children: List<BookItem>.generate(
                       books.length,
                       (index) => BookItem(book: books[index]),
                     ),

@@ -78,10 +78,9 @@ class LibrarySavedBookPage extends ConsumerWidget {
         ),
       ),
       body: savedBooks.whenOrNull(
-        loading: () => const LoadingIndicator(withScaffold: true),
-        error: (_, __) => const Scaffold(),
+        loading: () => const LoadingIndicator(),
         data: (savedBooks) {
-          if (savedBooks == null) return const Scaffold();
+          if (savedBooks == null) return null;
 
           if (savedBooks.isEmpty) {
             return const CustomInformation(

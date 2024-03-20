@@ -54,7 +54,7 @@ class NetworkErrorBottomSheet extends StatelessWidget {
                     type: AppSettingsType.device,
                   ),
                   style: FilledButton.styleFrom(
-                    padding: const EdgeInsets.all(0),
+                    padding: EdgeInsets.zero,
                     backgroundColor: secondaryColor,
                     foregroundColor: primaryColor,
                   ),
@@ -67,7 +67,7 @@ class NetworkErrorBottomSheet extends StatelessWidget {
                   onPressed: onPressedPrimaryButton ??
                       () => navigatorKey.currentState!.pop(),
                   style: FilledButton.styleFrom(
-                    padding: const EdgeInsets.all(0),
+                    padding: EdgeInsets.zero,
                   ),
                   child: const Text('Coba Lagi'),
                 ),

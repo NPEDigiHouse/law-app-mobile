@@ -81,7 +81,7 @@ class CustomDialog extends StatelessWidget {
                     child: FilledButton(
                       onPressed: () => navigatorKey.currentState!.pop(),
                       style: FilledButton.styleFrom(
-                        padding: const EdgeInsets.all(0),
+                        padding: EdgeInsets.zero,
                         backgroundColor: secondaryColor,
                         foregroundColor: primaryColor,
                       ),
@@ -94,7 +94,7 @@ class CustomDialog extends StatelessWidget {
                       child: FilledButton(
                         onPressed: onPressedPrimaryButton,
                         style: FilledButton.styleFrom(
-                          padding: const EdgeInsets.all(0),
+                          padding: EdgeInsets.zero,
                         ),
                         child: Text(primaryButtonText ?? 'Konfirmasi'),
                       ),

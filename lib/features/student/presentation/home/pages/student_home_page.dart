@@ -81,6 +81,7 @@ class StudentHomePage extends ConsumerWidget {
 
           return SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 HomePageHeader(
                   child: Dashboard(items: items),
@@ -124,7 +125,7 @@ class StudentHomePage extends ConsumerWidget {
                       else
                         ListView.separated(
                           physics: const NeverScrollableScrollPhysics(),
-                          padding: const EdgeInsets.all(0),
+                          padding: EdgeInsets.zero,
                           shrinkWrap: true,
                           itemBuilder: (context, index) {
                             return DiscussionCard(
@@ -250,7 +251,6 @@ class StudentHomePage extends ConsumerWidget {
                         physics: const NeverScrollableScrollPhysics(),
                         padding: const EdgeInsets.fromLTRB(0, 12, 0, 24),
                         shrinkWrap: true,
-                        itemCount: 3,
                         itemBuilder: (context, index) {
                           return CourseCard(
                             course: dummyCourses[index],
@@ -259,6 +259,7 @@ class StudentHomePage extends ConsumerWidget {
                         separatorBuilder: (context, index) {
                           return const SizedBox(height: 8);
                         },
+                        itemCount: 3,
                       ),
                     ],
                   ),

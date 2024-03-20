@@ -157,7 +157,7 @@ class CustomAlertDialog extends ConsumerWidget {
                   child: FilledButton(
                     onPressed: () => navigatorKey.currentState!.pop(),
                     style: FilledButton.styleFrom(
-                      padding: const EdgeInsets.all(0),
+                      padding: EdgeInsets.zero,
                       backgroundColor: secondaryColor,
                       foregroundColor: primaryColor,
                     ),
@@ -171,7 +171,7 @@ class CustomAlertDialog extends ConsumerWidget {
                         ? (isChecked ? onPressedPrimaryButton : null)
                         : onPressedPrimaryButton,
                     style: FilledButton.styleFrom(
-                      padding: const EdgeInsets.all(0),
+                      padding: EdgeInsets.zero,
                     ),
                     child: Text(primaryButtonText ?? 'Konfirmasi'),
                   ),

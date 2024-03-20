@@ -72,6 +72,7 @@ class TeacherHomePage extends ConsumerWidget {
 
           return SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 HomePageHeader(
                   child: Dashboard(items: items),
@@ -114,7 +115,7 @@ class TeacherHomePage extends ConsumerWidget {
                       else
                         ListView.separated(
                           physics: const NeverScrollableScrollPhysics(),
-                          padding: const EdgeInsets.all(0),
+                          padding: EdgeInsets.zero,
                           shrinkWrap: true,
                           itemBuilder: (context, index) {
                             return DiscussionCard(
