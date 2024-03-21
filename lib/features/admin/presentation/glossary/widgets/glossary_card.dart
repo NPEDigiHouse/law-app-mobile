@@ -11,7 +11,7 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/glossary_models/glossary_model.dart';
-import 'package:law_app/features/glossary/presentation/providers/glossary_provider.dart';
+import 'package:law_app/features/glossary/presentation/providers/glossary_actions_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
 import 'package:law_app/features/shared/widgets/ink_well_container.dart';
 
@@ -62,7 +62,7 @@ class GlossaryCard extends ConsumerWidget {
                 navigatorKey.currentState!.pop();
 
                 ref
-                    .read(glossaryProvider.notifier)
+                    .read(glossaryActionsProvider.notifier)
                     .deleteGlossary(id: glossary.id!);
               },
             ),

@@ -13,9 +13,8 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/glossary/presentation/providers/edit_glossary_provider.dart';
+import 'package:law_app/features/glossary/presentation/providers/glossary_actions_provider.dart';
 import 'package:law_app/features/glossary/presentation/providers/glossary_detail_provider.dart';
-import 'package:law_app/features/glossary/presentation/providers/glossary_provider.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
@@ -47,24 +46,11 @@ class GlossaryDetailPage extends ConsumerWidget {
     });
 
     if (CredentialSaver.user!.role == 'admin') {
-      ref.listen(editGlossaryProvider, (_, state) {
-        state.when(
-          error: (error, _) {
-            navigatorKey.currentState!.pop();
-
-            if ('$error' == kNoInternetConnection) {
-              context.showNetworkErrorModalBottomSheet();
-            } else {
-              context.showBanner(message: '$error', type: BannerType.error);
-            }
-          },
-          loading: () => context.showLoadingDialog(),
+      ref.listen(glossaryActionsProvider, (_, state) {
+        state.whenOrNull(
           data: (data) {
             if (data != null) {
-              navigatorKey.currentState!.pop();
-
               ref.invalidate(GlossaryDetailProvider(id: id));
-              ref.invalidate(glossaryProvider);
             }
           },
         );
@@ -129,7 +115,7 @@ class GlossaryDetailPage extends ConsumerWidget {
                       onSubmitted: (value) {
                         navigatorKey.currentState!.pop();
 
-                        ref.read(editGlossaryProvider.notifier).editGlossary(
+                        ref.read(glossaryActionsProvider.notifier).editGlossary(
                               glossary: glossary.copyWith(
                                 title: value['title'],
                                 description: value['description'],

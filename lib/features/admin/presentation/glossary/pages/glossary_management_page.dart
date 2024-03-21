@@ -14,6 +14,7 @@ import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/glossary_models/glossary_post_model.dart';
 import 'package:law_app/features/admin/presentation/glossary/widgets/glossary_card.dart';
+import 'package:law_app/features/glossary/presentation/providers/glossary_actions_provider.dart';
 import 'package:law_app/features/glossary/presentation/providers/glossary_provider.dart';
 import 'package:law_app/features/shared/providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
@@ -42,6 +43,29 @@ class GlossaryManagementPage extends ConsumerWidget {
             );
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+      );
+    });
+
+    ref.listen(glossaryActionsProvider, (_, state) {
+      state.when(
+        error: (error, _) {
+          navigatorKey.currentState!.pop();
+
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet();
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+        loading: () => context.showLoadingDialog(),
+        data: (data) {
+          if (data != null) {
+            navigatorKey.currentState!.pop();
+            ref.invalidate(glossaryProvider);
+
+            context.showBanner(message: data, type: BannerType.success);
           }
         },
       );
@@ -151,7 +175,7 @@ class GlossaryManagementPage extends ConsumerWidget {
             onSubmitted: (value) {
               navigatorKey.currentState!.pop();
 
-              ref.read(glossaryProvider.notifier).createGlossary(
+              ref.read(glossaryActionsProvider.notifier).createGlossary(
                     glossary: GlossaryPostModel(
                       title: value['title'],
                       description: value['description'],
