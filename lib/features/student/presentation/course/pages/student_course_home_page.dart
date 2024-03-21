@@ -11,7 +11,6 @@ import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/animated_fab.dart';
 import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
-import 'package:law_app/features/shared/widgets/feature/course_card.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/student/presentation/course/widgets/course_list_bottom_sheet.dart';
 
@@ -269,9 +268,9 @@ class _StudentCourseHomePageState extends State<StudentCourseHomePage>
                         padding: EdgeInsets.only(
                           bottom: index == dummyCourses.length - 1 ? 0 : 8,
                         ),
-                        child: CourseCard(
-                          course: dummyCourses[index],
-                        ),
+                        // child: CourseCard(
+                        //   course: dummyCourses[index],
+                        // ),
                       );
                     },
                     childCount: dummyCourses.length,

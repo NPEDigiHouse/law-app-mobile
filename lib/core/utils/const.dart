@@ -1,4 +1,4 @@
-const kPageLimit = 25;
+const kPageLimit = 20;
 const kNoInternetConnection = 'NO_INTERNET_CONNECTION';
 const kUserNotFound = 'USER_NOT_FOUND';
 const kWrongPassword = 'WRONG_PASSWORD';

@@ -185,7 +185,7 @@ class _AdmiAdFormPageState extends ConsumerState<AdManagementFormPage>
                 label: 'Deskripsi',
                 hintText: 'Masukkan deskripsi iklan',
                 initialValue: widget.ad?.content,
-                maxLines: 6,
+                maxLines: 5,
                 hasPrefixIcon: false,
                 hasSuffixIcon: false,
                 textInputAction: TextInputAction.newline,

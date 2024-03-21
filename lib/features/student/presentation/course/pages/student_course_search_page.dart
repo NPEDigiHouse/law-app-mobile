@@ -7,7 +7,6 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
-import 'package:law_app/features/shared/widgets/feature/course_card.dart';
 import 'package:law_app/features/shared/widgets/form_field/search_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 
@@ -159,11 +158,11 @@ class _StudentCourseSearchPageState extends State<StudentCourseSearchPage> {
                       });
                     });
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: CourseCard(
-                      course: courseHistoryList[index],
-                    ),
+                  child: const Padding(
+                    padding: EdgeInsets.only(bottom: 8),
+                    // child: CourseCard(
+                    //   course: courseHistoryList[index],
+                    // ),
                   ),
                 );
               },
@@ -182,9 +181,10 @@ class _StudentCourseSearchPageState extends State<StudentCourseSearchPage> {
         horizontal: 20,
       ),
       itemBuilder: (context, index) {
-        return CourseCard(
-          course: courses[index],
-        );
+        return const SizedBox();
+        // return CourseCard(
+        //   course: courses[index],
+        // );
       },
       separatorBuilder: (context, index) {
         return const SizedBox(height: 8);

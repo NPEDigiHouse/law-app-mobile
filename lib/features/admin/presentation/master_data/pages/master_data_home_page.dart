@@ -167,7 +167,7 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
                 SearchField(
                   text: query,
                   hintText: 'Cari pengguna',
-                  onChanged: searchUsers,
+                  onChanged: searchUser,
                 ),
               ],
             ),
@@ -320,7 +320,7 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
     );
   }
 
-  void searchUsers(String query) {
+  void searchUser(String query) {
     if (query.isNotEmpty) {
       ref.read(masterDataProvider.notifier).searchUsers(query: query);
     } else {

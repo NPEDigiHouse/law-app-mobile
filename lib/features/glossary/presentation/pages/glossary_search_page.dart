@@ -67,7 +67,7 @@ class GlossarySearchPage extends ConsumerWidget {
                 text: query,
                 hintText: 'Cari kosa kata',
                 autoFocus: true,
-                onChanged: (query) => searchGlossaries(ref, query),
+                onChanged: (query) => searchGlossary(ref, query),
                 onFocusChange: (isFocus) {
                   if (!isFocus && query.isEmpty) {
                     navigatorKey.currentState!.pop();
@@ -157,7 +157,7 @@ class GlossarySearchPage extends ConsumerWidget {
     );
   }
 
-  void searchGlossaries(WidgetRef ref, String query) {
+  void searchGlossary(WidgetRef ref, String query) {
     if (query.isNotEmpty) {
       ref.read(searchGlossaryProvider.notifier).searchGlossary(query: query);
     } else {

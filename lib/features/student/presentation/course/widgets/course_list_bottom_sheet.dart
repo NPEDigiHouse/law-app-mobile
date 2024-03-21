@@ -8,7 +8,6 @@ import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
-import 'package:law_app/features/shared/widgets/feature/course_card.dart';
 
 class CourseListBottomSheet extends StatelessWidget {
   final String title;
@@ -111,9 +110,9 @@ class CourseListBottomSheet extends StatelessWidget {
               padding: EdgeInsets.only(
                 bottom: index == courses.length - 1 ? 0 : 12,
               ),
-              child: CourseCard(
-                course: courses[index],
-              ),
+              // child: CourseCard(
+              //   course: courses[index],
+              // ),
             );
           },
           childCount: courses.length,

@@ -12,11 +12,9 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/shared/widgets/dashboard.dart';
 import 'package:law_app/features/shared/widgets/empty_content_text.dart';
 import 'package:law_app/features/shared/widgets/feature/book_item.dart';
-import 'package:law_app/features/shared/widgets/feature/course_card.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
 import 'package:law_app/features/shared/widgets/feature/home_page_header.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
@@ -198,7 +196,7 @@ class StudentHomePage extends ConsumerWidget {
                         children: [
                           Expanded(
                             child: Text(
-                              'Popular Course',
+                              'Course Terbaru',
                               style: textTheme.titleLarge!.copyWith(
                                 color: primaryColor,
                               ),
@@ -226,20 +224,20 @@ class StudentHomePage extends ConsumerWidget {
                           color: secondaryTextColor,
                         ),
                       ),
-                      ListView.separated(
-                        physics: const NeverScrollableScrollPhysics(),
-                        padding: const EdgeInsets.fromLTRB(0, 12, 0, 24),
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          return CourseCard(
-                            course: dummyCourses[index],
-                          );
-                        },
-                        separatorBuilder: (context, index) {
-                          return const SizedBox(height: 8);
-                        },
-                        itemCount: 3,
-                      ),
+                      // ListView.separated(
+                      //   physics: const NeverScrollableScrollPhysics(),
+                      //   padding: const EdgeInsets.fromLTRB(0, 12, 0, 24),
+                      //   shrinkWrap: true,
+                      //   itemBuilder: (context, index) {
+                      //     return CourseCard(
+                      //       course: dummyCourses[index],
+                      //     );
+                      //   },
+                      //   separatorBuilder: (context, index) {
+                      //     return const SizedBox(height: 8);
+                      //   },
+                      //   itemCount: 3,
+                      // ),
                     ],
                   ),
                 ),

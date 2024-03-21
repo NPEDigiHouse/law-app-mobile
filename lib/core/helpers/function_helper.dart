@@ -16,7 +16,6 @@ import 'package:law_app/features/shared/providers/search_provider.dart';
 
 /// A collection of helper functions that are reusable for this app
 class FunctionHelper {
-  /// Generate a random text
   static String generateRandomText({
     int maxLength = 8,
     bool isLetter = true,
@@ -45,6 +44,12 @@ class FunctionHelper {
     final min = '${seconds ~/ 60}'.padLeft(2, '0');
 
     return '$min:$sec';
+  }
+
+  static String minutesToHours(int minutes) {
+    final hours = minutes / 60;
+
+    return hours.toStringAsFixed(1);
   }
 
   static bool handleFabVisibilityOnScroll(

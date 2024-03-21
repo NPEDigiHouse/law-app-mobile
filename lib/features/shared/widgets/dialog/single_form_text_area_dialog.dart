@@ -57,7 +57,6 @@ class SingleFormTextAreaDialog extends StatelessWidget {
               name: textFieldName,
               label: textFieldLabel,
               hintText: textFieldHint,
-              maxLines: 1,
               hasPrefixIcon: false,
               hasSuffixIcon: false,
               validators: [

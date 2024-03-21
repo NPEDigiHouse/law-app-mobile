@@ -9,14 +9,14 @@ class CurriculumDetailModel extends Equatable {
   final String? title;
   final int? curriculumDuration;
   final List<MaterialModel>? articles;
-  final List<MaterialModel>? quizes;
+  final List<MaterialModel>? quizzes;
 
   const CurriculumDetailModel({
     this.id,
     this.title,
     this.curriculumDuration,
     this.articles,
-    this.quizes,
+    this.quizzes,
   });
 
   CurriculumDetailModel copyWith({
@@ -24,14 +24,14 @@ class CurriculumDetailModel extends Equatable {
     String? title,
     int? curriculumDuration,
     List<MaterialModel>? articles,
-    List<MaterialModel>? quizes,
+    List<MaterialModel>? quizzes,
   }) {
     return CurriculumDetailModel(
       id: id ?? this.id,
       title: title ?? this.title,
       curriculumDuration: curriculumDuration ?? this.curriculumDuration,
       articles: articles ?? this.articles,
-      quizes: quizes ?? this.quizes,
+      quizzes: quizzes ?? this.quizzes,
     );
   }
 
@@ -41,7 +41,7 @@ class CurriculumDetailModel extends Equatable {
       'title': title,
       'curriculumDuration': curriculumDuration,
       'articles': articles?.map((e) => e.toMap()).toList(),
-      'quizes': quizes?.map((e) => e.toMap()).toList(),
+      'quizzes': quizzes?.map((e) => e.toMap()).toList(),
     };
   }
 
@@ -57,9 +57,9 @@ class CurriculumDetailModel extends Equatable {
               ),
             )
           : null,
-      quizes: map['quizes'] != null
+      quizzes: map['quizzes'] != null
           ? List<MaterialModel>.from(
-              (map['quizes'] as List).map(
+              (map['quizzes'] as List).map(
                 (e) => MaterialModel.fromMap(e as Map<String, dynamic>),
               ),
             )
@@ -76,6 +76,6 @@ class CurriculumDetailModel extends Equatable {
         title,
         curriculumDuration,
         articles,
-        quizes,
+        quizzes,
       ];
 }

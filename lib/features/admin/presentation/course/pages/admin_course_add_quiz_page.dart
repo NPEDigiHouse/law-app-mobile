@@ -64,7 +64,7 @@ class AdminCourseAddQuizPage extends StatelessWidget {
                     hintText: "Masukkan waktu (menit)",
                     hasPrefixIcon: false,
                     hasSuffixIcon: false,
-                    maxLines: 4,
+                    maxLines: 5,
                     textInputAction: TextInputAction.done,
                     validators: [
                       FormBuilderValidators.required(

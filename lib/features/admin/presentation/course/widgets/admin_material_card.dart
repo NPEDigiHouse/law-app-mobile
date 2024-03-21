@@ -2,18 +2,24 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
+import 'package:law_app/core/enums/course_material_type.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/admin/data/models/course_models/material_model.dart';
 import 'package:law_app/features/shared/widgets/ink_well_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
-class AdminLessonCard extends StatelessWidget {
-  final Lesson lesson;
+class AdminMaterialCard extends StatelessWidget {
+  final MaterialModel material;
+  final CourseMaterialType type;
 
-  const AdminLessonCard({super.key, required this.lesson});
+  const AdminMaterialCard({
+    super.key,
+    required this.material,
+    required this.type,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +36,10 @@ class AdminLessonCard extends StatelessWidget {
         ),
       ],
       onTap: () => navigatorKey.currentState!.pushNamed(
-        lesson is Article ? adminCourseArticleRoute : adminCourseQuizHomeRoute,
-        arguments: lesson is Article ? lesson as Article : lesson as Quiz,
+        type == CourseMaterialType.article
+            ? adminCourseArticleRoute
+            : adminCourseQuizHomeRoute,
+        arguments: material.id,
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(
@@ -42,14 +50,16 @@ class AdminLessonCard extends StatelessWidget {
           children: [
             SvgAsset(
               assetPath: AssetPath.getIcon(
-                lesson is Article ? 'read-outlined.svg' : 'note-edit-line.svg',
+                type == CourseMaterialType.article
+                    ? 'read-outlined.svg'
+                    : 'note-edit-line.svg',
               ),
               color: primaryTextColor,
               width: 20,
             ),
             const SizedBox(width: 10),
             Expanded(
-              child: Text(lesson.title),
+              child: Text('${material.title}'),
             ),
           ],
         ),

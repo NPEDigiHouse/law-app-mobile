@@ -65,7 +65,7 @@ class _LibraryBookListPageState extends ConsumerState<LibraryBookListPage>
             context.showNetworkErrorModalBottomSheet(
               onPressedPrimaryButton: () {
                 navigatorKey.currentState!.pop();
-                ref.invalidate(BookProvider(categoryId: categoryId));
+                ref.invalidate(bookProvider);
               },
             );
           } else {

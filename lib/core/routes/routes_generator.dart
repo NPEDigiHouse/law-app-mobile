@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // Project imports:
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/admin/data/models/course_models/course_detail_model.dart';
 import 'package:law_app/features/admin/presentation/ad/pages/ad_management_form_page.dart';
 import 'package:law_app/features/admin/presentation/ad/pages/ad_management_home_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_add_course_page.dart';
@@ -14,10 +15,9 @@ import 'package:law_app/features/admin/presentation/course/pages/admin_course_ar
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_curriculum_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_detail_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_home_page.dart';
-import 'package:law_app/features/admin/presentation/course/pages/admin_course_lesson_page.dart';
+import 'package:law_app/features/admin/presentation/course/pages/admin_course_material_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_question_list_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_quiz_home_page.dart';
-import 'package:law_app/features/admin/presentation/course/pages/admin_course_search_page.dart';
 import 'package:law_app/features/admin/presentation/discussion/pages/admin_discussion_detail_page.dart';
 import 'package:law_app/features/admin/presentation/discussion/pages/admin_discussion_home_page.dart';
 import 'package:law_app/features/admin/presentation/glossary/pages/glossary_management_page.dart';
@@ -295,27 +295,23 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => const AdminAddCoursePage(),
       );
-    case adminCourseSearchRoute:
-      return MaterialPageRoute(
-        builder: (_) => const AdminCourseSearchPage(),
-      );
     case adminCourseDetailRoute:
-      final course = settings.arguments as Course;
+      final id = settings.arguments as int;
 
       return MaterialPageRoute(
-        builder: (_) => AdminCourseDetailPage(course: course),
+        builder: (_) => AdminCourseDetailPage(id: id),
       );
     case adminCourseCurriculumRoute:
-      final courseDetail = settings.arguments as CourseDetail;
+      final course = settings.arguments as CourseDetailModel;
 
       return MaterialPageRoute(
-        builder: (_) => AdminCourseCurriculumPage(courseDetail: courseDetail),
+        builder: (_) => AdminCourseCurriculumPage(course: course),
       );
     case adminCourseLessonRoute:
-      final curriculum = settings.arguments as Curriculum;
+      final curriculumId = settings.arguments as int;
 
       return MaterialPageRoute(
-        builder: (_) => AdminCourseLessonPage(curriculum: curriculum),
+        builder: (_) => AdminCourseMaterialPage(curriculumId: curriculumId),
       );
     case adminCourseAddArticleRoute:
       return MaterialPageRoute(

@@ -121,7 +121,7 @@ class GlossaryManagementPage extends ConsumerWidget {
                 SearchField(
                   text: query,
                   hintText: 'Cari kosa kata',
-                  onChanged: (query) => searchGlossaries(ref, query),
+                  onChanged: (query) => searchGlossary(ref, query),
                 ),
               ],
             ),
@@ -194,7 +194,7 @@ class GlossaryManagementPage extends ConsumerWidget {
     );
   }
 
-  void searchGlossaries(WidgetRef ref, String query) {
+  void searchGlossary(WidgetRef ref, String query) {
     if (query.isNotEmpty) {
       ref.read(glossaryProvider.notifier).searchGlossaries(query: query);
     } else {

@@ -164,7 +164,7 @@ class _AdminAddCoursePageState extends State<AdminAddCoursePage> {
                     hasPrefixIcon: false,
                     hasSuffixIcon: false,
                     hintText: "Masukkan deskripsi",
-                    maxLines: 4,
+                    maxLines: 5,
                     textInputAction: TextInputAction.done,
                     validators: [
                       FormBuilderValidators.required(

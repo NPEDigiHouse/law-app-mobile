@@ -128,7 +128,7 @@ class StudentCourseRatePage extends StatelessWidget {
                       hintText: 'Coursenya bagus...',
                       hasPrefixIcon: false,
                       hasSuffixIcon: false,
-                      maxLines: 4,
+                      maxLines: 5,
                       textInputAction: TextInputAction.newline,
                     ),
                   ),

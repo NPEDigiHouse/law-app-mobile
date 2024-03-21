@@ -337,7 +337,7 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
                 label: 'Sinopsis',
                 hintText: 'Masukkan sinopsis buku',
                 initialValue: widget.book?.synopsis,
-                maxLines: 4,
+                maxLines: 5,
                 hasPrefixIcon: false,
                 hasSuffixIcon: false,
                 textInputAction: TextInputAction.newline,

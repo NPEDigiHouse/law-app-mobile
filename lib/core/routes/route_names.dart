@@ -16,7 +16,6 @@ const mainMenuRoute = '/main-menu';
 const profileRoute = '/profile';
 const accountInfoRoute = '/account-info';
 const certificateRoute = '/certificate';
-const notificationRoute = '/notification';
 
 // Glossary routes
 const glossarySearchRoute = '/glossary-search';
@@ -57,7 +56,6 @@ const studentCourseQuizRoute = '/student-course-quiz';
 const studentCourseRateRoute = '/student-course-rate';
 const adminCourseHomeRoute = '/admin-course-home';
 const adminAddCourseRoute = '/admin-add-course';
-const adminCourseSearchRoute = '/admin-course-search';
 const adminCourseDetailRoute = '/admin-course-detail';
 const adminCourseCurriculumRoute = '/admin-course-curriculum';
 const adminCourseLessonRoute = '/admin-course-lesson';

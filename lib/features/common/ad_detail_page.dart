@@ -75,7 +75,7 @@ class AdDetailPage extends ConsumerWidget {
                       ),
                       child: CustomNetworkImage(
                         imageUrl: ad.imageName!,
-                        placeHolderSize: 48,
+                        placeHolderSize: 64,
                         aspectRatio: 16 / 9,
                       ),
                     ),
