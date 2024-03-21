@@ -11,7 +11,7 @@ part 'course_actions_provider.g.dart';
 @riverpod
 class CourseActions extends _$CourseActions {
   @override
-  AsyncValue<bool?> build() {
+  AsyncValue<String?> build() {
     return const AsyncValue.data(null);
   }
 
@@ -23,7 +23,7 @@ class CourseActions extends _$CourseActions {
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
-      (r) => state = const AsyncValue.data(true),
+      (r) => state = const AsyncValue.data('Course berhasil dibuat!'),
     );
   }
 
@@ -35,7 +35,7 @@ class CourseActions extends _$CourseActions {
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
-      (r) => state = const AsyncValue.data(true),
+      (r) => state = const AsyncValue.data('Berhasil mengedit course!'),
     );
   }
 
@@ -47,7 +47,7 @@ class CourseActions extends _$CourseActions {
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
-      (r) => state = const AsyncValue.data(true),
+      (r) => state = const AsyncValue.data('Course berhasil dihapus!'),
     );
   }
 }

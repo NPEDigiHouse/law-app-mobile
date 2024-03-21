@@ -44,7 +44,11 @@ class BookManagementFormPage extends ConsumerStatefulWidget {
   final String title;
   final BookDetailModel? book;
 
-  const BookManagementFormPage({super.key, required this.title, this.book});
+  const BookManagementFormPage({
+    super.key,
+    required this.title,
+    this.book,
+  });
 
   @override
   ConsumerState<BookManagementFormPage> createState() =>

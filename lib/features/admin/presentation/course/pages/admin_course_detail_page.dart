@@ -15,6 +15,8 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/features/admin/presentation/course/pages/admin_course_form_page.dart';
+import 'package:law_app/features/shared/providers/course_providers/course_actions_provider.dart';
 import 'package:law_app/features/shared/providers/course_providers/course_detail_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_network_image.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
@@ -53,11 +55,30 @@ class AdminCourseDetailPage extends ConsumerWidget {
         if (course == null) return const Scaffold();
 
         return Scaffold(
-          appBar: const PreferredSize(
-            preferredSize: Size.fromHeight(96),
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(96),
             child: HeaderContainer(
               title: 'Detail Course',
               withBackButton: true,
+              withTrailingButton: true,
+              trailingButtonIconName: 'trash-line.svg',
+              trailingButtonTooltip: 'Hapus',
+              onPressedTrailingButton: () {
+                context.showCustomAlertDialog(
+                  title: 'Konfirmasi Hapus Course?',
+                  message:
+                      'Semua kurikulum dan materi pada course ini juga akan terhapus! (Aksi ini tidak dapat dibatalkan)',
+                  primaryButtonText: 'Hapus',
+                  onPressedPrimaryButton: () {
+                    navigatorKey.currentState!.pop();
+                    navigatorKey.currentState!.pop();
+
+                    ref
+                        .read(courseActionsProvider.notifier)
+                        .deleteCourse(id: id);
+                  },
+                );
+              },
             ),
           ),
           body: SingleChildScrollView(
@@ -188,7 +209,7 @@ class AdminCourseDetailPage extends ConsumerWidget {
                   child: FilledButton.icon(
                     onPressed: () => navigatorKey.currentState!.pushNamed(
                       adminCourseCurriculumRoute,
-                      arguments: course,
+                      arguments: course.id,
                     ),
                     icon: SvgAsset(
                       assetPath: AssetPath.getIcon('book-bold.svg'),
@@ -223,14 +244,13 @@ class AdminCourseDetailPage extends ConsumerWidget {
               ),
             ),
             child: IconButton(
-              onPressed: () {},
-              // onPressed: () => navigatorKey.currentState!.pushNamed(
-              //   bookManagementFormRoute,
-              //   arguments: BookManagementFormPageArgs(
-              //     title: 'Edit Buku',
-              //     book: book,
-              //   ),
-              // ),
+              onPressed: () => navigatorKey.currentState!.pushNamed(
+                adminCourseFormRoute,
+                arguments: AdminCourseFormPageArgs(
+                  title: 'Edit Buku',
+                  course: course,
+                ),
+              ),
               icon: SvgAsset(
                 assetPath: AssetPath.getIcon('pencil-solid.svg'),
                 color: scaffoldBackgroundColor,

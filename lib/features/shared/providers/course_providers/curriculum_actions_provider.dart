@@ -11,7 +11,7 @@ part 'curriculum_actions_provider.g.dart';
 @riverpod
 class CurriculumActions extends _$CurriculumActions {
   @override
-  AsyncValue<bool?> build() {
+  AsyncValue<String?> build() {
     return const AsyncValue.data(null);
   }
 
@@ -25,7 +25,7 @@ class CurriculumActions extends _$CurriculumActions {
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
-      (r) => state = const AsyncValue.data(true),
+      (r) => state = const AsyncValue.data('Berhasil menambahkan kurikulum!'),
     );
   }
 
@@ -38,7 +38,7 @@ class CurriculumActions extends _$CurriculumActions {
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
-      (r) => state = const AsyncValue.data(true),
+      (r) => state = const AsyncValue.data('Nama kurikulum berhasil diubah!'),
     );
   }
 
@@ -50,7 +50,7 @@ class CurriculumActions extends _$CurriculumActions {
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
-      (r) => state = const AsyncValue.data(true),
+      (r) => state = const AsyncValue.data('Kurikulum telah dihapus!'),
     );
   }
 }

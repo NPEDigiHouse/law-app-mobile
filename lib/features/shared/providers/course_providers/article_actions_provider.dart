@@ -11,7 +11,7 @@ part 'article_actions_provider.g.dart';
 @riverpod
 class ArticleActions extends _$ArticleActions {
   @override
-  AsyncValue<bool?> build() {
+  AsyncValue<String?> build() {
     return const AsyncValue.data(null);
   }
 
@@ -24,7 +24,7 @@ class ArticleActions extends _$ArticleActions {
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
-      (r) => state = const AsyncValue.data(true),
+      (r) => state = const AsyncValue.data('Berhasil menambahkan Artikel!'),
     );
   }
 
@@ -36,7 +36,7 @@ class ArticleActions extends _$ArticleActions {
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
-      (r) => state = const AsyncValue.data(true),
+      (r) => state = const AsyncValue.data('Artikel berhasil diedit!'),
     );
   }
 
@@ -48,7 +48,7 @@ class ArticleActions extends _$ArticleActions {
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
-      (r) => state = const AsyncValue.data(true),
+      (r) => state = const AsyncValue.data('Artikel telah dihapus!'),
     );
   }
 }

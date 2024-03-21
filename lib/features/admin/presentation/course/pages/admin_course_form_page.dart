@@ -1,5 +1,4 @@
 // Dart imports:
-import 'dart:async';
 import 'dart:io';
 
 // Flutter imports:
@@ -24,29 +23,30 @@ import 'package:law_app/core/services/image_service.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/admin/data/models/ad_models/ad_detail_model.dart';
-import 'package:law_app/features/admin/data/models/ad_models/ad_post_model.dart';
-import 'package:law_app/features/admin/presentation/ad/providers/ad_actions_provider.dart';
-import 'package:law_app/features/admin/presentation/ad/providers/ad_detail_provider.dart';
+import 'package:law_app/features/admin/data/models/course_models/course_detail_model.dart';
+import 'package:law_app/features/admin/data/models/course_models/course_post_model.dart';
+import 'package:law_app/features/shared/providers/course_providers/course_actions_provider.dart';
+import 'package:law_app/features/shared/providers/course_providers/course_detail_provider.dart';
 import 'package:law_app/features/shared/providers/image_path_provider.dart';
 import 'package:law_app/features/shared/widgets/form_field/custom_text_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 
-class AdManagementFormPage extends ConsumerStatefulWidget {
+class AdminCourseFormPage extends ConsumerStatefulWidget {
   final String title;
-  final AdDetailModel? ad;
+  final CourseDetailModel? course;
 
-  const AdManagementFormPage({
+  const AdminCourseFormPage({
     super.key,
     required this.title,
-    this.ad,
+    this.course,
   });
 
   @override
-  ConsumerState<AdManagementFormPage> createState() => _AdmiAdFormPageState();
+  ConsumerState<AdminCourseFormPage> createState() =>
+      _AdminCourseFormPageState();
 }
 
-class _AdmiAdFormPageState extends ConsumerState<AdManagementFormPage>
+class _AdminCourseFormPageState extends ConsumerState<AdminCourseFormPage>
     with AfterLayoutMixin {
   final GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
@@ -54,9 +54,9 @@ class _AdmiAdFormPageState extends ConsumerState<AdManagementFormPage>
   Future<void> afterFirstLayout(BuildContext context) async {
     context.showLoadingDialog();
 
-    if (widget.ad != null) {
+    if (widget.course != null) {
       final imagePath =
-          await FileService.downloadFile(url: widget.ad!.imageName!);
+          await FileService.downloadFile(url: widget.course!.coverImg!);
 
       if (imagePath != null) {
         ref.read(imagePathProvider.notifier).state = imagePath;
@@ -70,14 +70,14 @@ class _AdmiAdFormPageState extends ConsumerState<AdManagementFormPage>
   Widget build(BuildContext context) {
     final imagePath = ref.watch(imagePathProvider);
 
-    ref.listen(adActionsProvider, (_, state) {
+    ref.listen(courseActionsProvider, (_, state) {
       state.whenOrNull(
         data: (data) {
           if (data != null) {
             navigatorKey.currentState!.pop();
 
-            if (widget.ad != null) {
-              ref.invalidate(AdDetailProvider(id: widget.ad!.id!));
+            if (widget.course != null) {
+              ref.invalidate(CourseDetailProvider(id: widget.course!.id!));
             }
           }
         },
@@ -107,7 +107,7 @@ class _AdmiAdFormPageState extends ConsumerState<AdManagementFormPage>
                 children: [
                   if (imagePath != null)
                     AspectRatio(
-                      aspectRatio: 16 / 9,
+                      aspectRatio: 3 / 2,
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
@@ -125,7 +125,7 @@ class _AdmiAdFormPageState extends ConsumerState<AdManagementFormPage>
                       dashPattern: const [4, 4],
                       color: secondaryTextColor,
                       child: AspectRatio(
-                        aspectRatio: 16 / 9,
+                        aspectRatio: 3 / 2,
                         child: Padding(
                           padding: const EdgeInsets.all(16),
                           child: Center(
@@ -166,9 +166,9 @@ class _AdmiAdFormPageState extends ConsumerState<AdManagementFormPage>
               const SizedBox(height: 20),
               CustomTextField(
                 name: 'title',
-                label: 'Judul Iklan',
-                hintText: 'Masukkan judul iklan',
-                initialValue: widget.ad?.title,
+                label: 'Nama Course',
+                hintText: 'Masukkan nama course',
+                initialValue: widget.course?.title,
                 hasPrefixIcon: false,
                 hasSuffixIcon: false,
                 textCapitalization: TextCapitalization.words,
@@ -180,10 +180,10 @@ class _AdmiAdFormPageState extends ConsumerState<AdManagementFormPage>
               ),
               const SizedBox(height: 20),
               CustomTextField(
-                name: 'content',
-                label: 'Deskripsi Iklan',
-                hintText: 'Masukkan deskripsi iklan',
-                initialValue: widget.ad?.content,
+                name: 'description',
+                label: 'Deskripsi Course',
+                hintText: 'Masukkan deskripsi course',
+                initialValue: widget.course?.description,
                 maxLines: 5,
                 hasPrefixIcon: false,
                 hasSuffixIcon: false,
@@ -196,9 +196,9 @@ class _AdmiAdFormPageState extends ConsumerState<AdManagementFormPage>
               ),
               const SizedBox(height: 20),
               FilledButton(
-                onPressed: widget.ad != null
-                    ? () => editAd(imagePath ?? '')
-                    : () => createAd(imagePath),
+                onPressed: widget.course != null
+                    ? () => editCourse(imagePath ?? '')
+                    : () => createCourse(imagePath),
                 child: Text(widget.title),
               ).fullWidth(),
             ],
@@ -214,7 +214,7 @@ class _AdmiAdFormPageState extends ConsumerState<AdManagementFormPage>
     if (path != null) {
       final compressedImagePath = await ImageService.cropImage(
         imagePath: path,
-        aspectRatio: const CropAspectRatio(ratioX: 16, ratioY: 9),
+        aspectRatio: const CropAspectRatio(ratioX: 3, ratioY: 2),
       );
 
       if (compressedImagePath != null) {
@@ -223,33 +223,33 @@ class _AdmiAdFormPageState extends ConsumerState<AdManagementFormPage>
     }
   }
 
-  void editAd(String imagePath) {
+  void editCourse(String imagePath) {
     FocusManager.instance.primaryFocus?.unfocus();
 
     if (formKey.currentState!.saveAndValidate()) {
       final data = formKey.currentState!.value;
 
       final isUpdatedImage =
-          p.basename(widget.ad!.imageName!) != p.basename(imagePath);
+          p.basename(widget.course!.coverImg!) != p.basename(imagePath);
 
-      ref.read(adActionsProvider.notifier).editAd(
-            ad: AdDetailModel(
-              id: widget.ad!.id,
+      ref.read(courseActionsProvider.notifier).editCourse(
+            course: CourseDetailModel(
+              id: widget.course!.id,
               title: data['title'],
-              content: data['content'],
-              imageName: isUpdatedImage ? imagePath : null,
+              description: data['description'],
+              coverImg: isUpdatedImage ? imagePath : null,
             ),
           );
     }
   }
 
-  void createAd(String? imagePath) {
+  void createCourse(String? imagePath) {
     FocusManager.instance.primaryFocus?.unfocus();
 
     if (formKey.currentState!.saveAndValidate()) {
       if (imagePath == null) {
         context.showBanner(
-          message: 'Anda belum memilih gambar iklan!',
+          message: 'Anda belum memilih gambar course!',
           type: BannerType.error,
         );
 
@@ -258,23 +258,23 @@ class _AdmiAdFormPageState extends ConsumerState<AdManagementFormPage>
 
       final data = formKey.currentState!.value;
 
-      ref.read(adActionsProvider.notifier).createAd(
-            ad: AdPostModel(
+      ref.read(courseActionsProvider.notifier).createCourse(
+            course: CoursePostModel(
               title: data['title'],
-              content: data['content'],
-              file: imagePath,
+              description: data['description'],
+              cover: imagePath,
             ),
           );
     }
   }
 }
 
-class AdManagementFormPageArgs {
+class AdminCourseFormPageArgs {
   final String title;
-  final AdDetailModel? ad;
+  final CourseDetailModel? course;
 
-  const AdManagementFormPageArgs({
+  const AdminCourseFormPageArgs({
     required this.title,
-    this.ad,
+    this.course,
   });
 }

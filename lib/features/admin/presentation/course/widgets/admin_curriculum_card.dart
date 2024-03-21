@@ -12,6 +12,7 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/course_models/curriculum_model.dart';
 import 'package:law_app/features/shared/providers/course_providers/curriculum_actions_provider.dart';
+import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
 import 'package:law_app/features/shared/widgets/ink_well_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
@@ -47,13 +48,11 @@ class AdminCurriculumCard extends ConsumerWidget {
             right: 16,
             child: SvgAsset(
               assetPath: AssetPath.getIcon('balance-scale.svg'),
+              color: secondaryColor,
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 16,
-              horizontal: 20,
-            ),
+            padding: const EdgeInsets.all(16),
             child: Row(
               children: [
                 Expanded(
@@ -89,68 +88,48 @@ class AdminCurriculumCard extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(width: 8),
-                Container(
-                  width: 36,
-                  height: 36,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: infoColor,
-                  ),
-                  child: IconButton(
-                    onPressed: () => context.showSingleFormDialog(
-                      title: 'Edit Nama Kurikulum',
-                      name: 'title',
-                      label: 'Nama Kurikulum',
-                      hintText: 'Masukkan nama kurikulum',
-                      primaryButtonText: 'Edit',
-                      onSubmitted: (value) {
-                        navigatorKey.currentState!.pop();
+                CustomIconButton(
+                  iconName: 'pencil-line.svg',
+                  color: infoColor,
+                  size: 20,
+                  onPressed: () => context.showSingleFormDialog(
+                    title: 'Edit Nama Kurikulum',
+                    name: 'title',
+                    label: 'Nama Kurikulum',
+                    hintText: 'Masukkan nama kurikulum',
+                    initialValue: curriculum.title,
+                    primaryButtonText: 'Edit',
+                    onSubmitted: (value) {
+                      navigatorKey.currentState!.pop();
 
-                        ref
-                            .read(curriculumActionsProvider.notifier)
-                            .editCurriculum(
-                              curriculum: curriculum.copyWith(
-                                title: value['title'],
-                              ),
-                            );
-                      },
-                    ),
-                    icon: SvgAsset(
-                      assetPath: AssetPath.getIcon('pencil-solid.svg'),
-                      color: scaffoldBackgroundColor,
-                      width: 24,
-                    ),
-                    tooltip: 'Edit',
+                      ref
+                          .read(curriculumActionsProvider.notifier)
+                          .editCurriculum(
+                            curriculum: curriculum.copyWith(
+                              title: value['title'],
+                            ),
+                          );
+                    },
                   ),
+                  tooltip: 'Edit',
                 ),
-                const SizedBox(width: 8),
-                Container(
-                  width: 36,
-                  height: 36,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: errorColor,
-                  ),
-                  child: IconButton(
-                    onPressed: () => context.showConfirmDialog(
-                      title: 'Hapus Kurikulum',
-                      message: 'Anda yakin ingin menghapus Kurikulum ini?',
-                      primaryButtonText: 'Hapus',
-                      onPressedPrimaryButton: () {
-                        navigatorKey.currentState!.pop();
+                CustomIconButton(
+                  iconName: 'trash-line.svg',
+                  color: errorColor,
+                  size: 20,
+                  onPressed: () => context.showConfirmDialog(
+                    title: 'Hapus Kurikulum?',
+                    message: 'Anda yakin ingin menghapus Kurikulum ini?',
+                    primaryButtonText: 'Hapus',
+                    onPressedPrimaryButton: () {
+                      navigatorKey.currentState!.pop();
 
-                        ref
-                            .read(curriculumActionsProvider.notifier)
-                            .deleteCurriculum(id: curriculum.id!);
-                      },
-                    ),
-                    icon: SvgAsset(
-                      assetPath: AssetPath.getIcon('trash-solid.svg'),
-                      color: scaffoldBackgroundColor,
-                      width: 24,
-                    ),
-                    tooltip: 'Hapus',
+                      ref
+                          .read(curriculumActionsProvider.notifier)
+                          .deleteCurriculum(id: curriculum.id!);
+                    },
                   ),
+                  tooltip: 'Hapus',
                 ),
               ],
             ),

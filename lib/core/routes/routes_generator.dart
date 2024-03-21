@@ -4,16 +4,15 @@ import 'package:flutter/material.dart';
 // Project imports:
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/dummies_data.dart';
-import 'package:law_app/features/admin/data/models/course_models/course_detail_model.dart';
 import 'package:law_app/features/admin/presentation/ad/pages/ad_management_form_page.dart';
 import 'package:law_app/features/admin/presentation/ad/pages/ad_management_home_page.dart';
-import 'package:law_app/features/admin/presentation/course/pages/admin_add_course_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_add_article_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_add_question_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_add_quiz_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_article_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_curriculum_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_detail_page.dart';
+import 'package:law_app/features/admin/presentation/course/pages/admin_course_form_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_home_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_material_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_question_list_page.dart';
@@ -291,9 +290,14 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => const AdminCourseHomePage(),
       );
-    case adminAddCourseRoute:
+    case adminCourseFormRoute:
+      final args = settings.arguments as AdminCourseFormPageArgs;
+
       return MaterialPageRoute(
-        builder: (_) => const AdminAddCoursePage(),
+        builder: (_) => AdminCourseFormPage(
+          title: args.title,
+          course: args.course,
+        ),
       );
     case adminCourseDetailRoute:
       final id = settings.arguments as int;
@@ -302,12 +306,12 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => AdminCourseDetailPage(id: id),
       );
     case adminCourseCurriculumRoute:
-      final course = settings.arguments as CourseDetailModel;
+      final id = settings.arguments as int;
 
       return MaterialPageRoute(
-        builder: (_) => AdminCourseCurriculumPage(course: course),
+        builder: (_) => AdminCourseCurriculumPage(id: id),
       );
-    case adminCourseLessonRoute:
+    case adminCourseMaterialRoute:
       final curriculumId = settings.arguments as int;
 
       return MaterialPageRoute(

@@ -16,7 +16,10 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/presentation/course/widgets/admin_material_card.dart';
+import 'package:law_app/features/shared/providers/course_providers/article_actions_provider.dart';
+import 'package:law_app/features/shared/providers/course_providers/course_detail_provider.dart';
 import 'package:law_app/features/shared/providers/course_providers/curriculum_detail_provider.dart';
+import 'package:law_app/features/shared/providers/course_providers/quiz_actions_provider.dart';
 import 'package:law_app/features/shared/widgets/empty_content_text.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
@@ -48,6 +51,56 @@ class AdminCourseMaterialPage extends ConsumerWidget {
       );
     });
 
+    ref.listen(articleActionsProvider, (_, state) {
+      state.when(
+        error: (error, _) {
+          navigatorKey.currentState!.pop();
+
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet();
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+        loading: () => context.showLoadingDialog(),
+        data: (data) {
+          if (data != null) {
+            navigatorKey.currentState!.pop();
+
+            ref.invalidate(curriculumDetailProvider);
+            ref.invalidate(courseDetailProvider);
+
+            context.showBanner(message: data, type: BannerType.success);
+          }
+        },
+      );
+    });
+
+    ref.listen(quizActionsProvider, (_, state) {
+      state.when(
+        error: (error, _) {
+          navigatorKey.currentState!.pop();
+
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet();
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+        loading: () => context.showLoadingDialog(),
+        data: (data) {
+          if (data != null) {
+            navigatorKey.currentState!.pop();
+
+            ref.invalidate(curriculumDetailProvider);
+            ref.invalidate(courseDetailProvider);
+
+            context.showBanner(message: data, type: BannerType.success);
+          }
+        },
+      );
+    });
+
     return curriculum.when(
       loading: () => const LoadingIndicator(withScaffold: true),
       error: (_, __) => const Scaffold(),
@@ -58,7 +111,7 @@ class AdminCourseMaterialPage extends ConsumerWidget {
           appBar: const PreferredSize(
             preferredSize: Size.fromHeight(96),
             child: HeaderContainer(
-              title: 'Materi Kurikulum',
+              title: 'Materi',
               withBackButton: true,
             ),
           ),

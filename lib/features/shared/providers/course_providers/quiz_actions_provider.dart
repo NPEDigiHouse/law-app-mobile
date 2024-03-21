@@ -11,7 +11,7 @@ part 'quiz_actions_provider.g.dart';
 @riverpod
 class QuizActions extends _$QuizActions {
   @override
-  AsyncValue<bool?> build() {
+  AsyncValue<String?> build() {
     return const AsyncValue.data(null);
   }
 
@@ -23,7 +23,7 @@ class QuizActions extends _$QuizActions {
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
-      (r) => state = const AsyncValue.data(true),
+      (r) => state = const AsyncValue.data('Berhasil menambahkan Quiz!'),
     );
   }
 
@@ -35,7 +35,7 @@ class QuizActions extends _$QuizActions {
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
-      (r) => state = const AsyncValue.data(true),
+      (r) => state = const AsyncValue.data('Berhasil mengedit Quiz!'),
     );
   }
 
@@ -46,7 +46,7 @@ class QuizActions extends _$QuizActions {
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
-      (r) => state = const AsyncValue.data(true),
+      (r) => state = const AsyncValue.data('Quiz telah dihapus!'),
     );
   }
 }

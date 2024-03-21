@@ -8,10 +8,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
+import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/features/admin/presentation/course/pages/admin_course_form_page.dart';
+import 'package:law_app/features/shared/providers/course_providers/course_actions_provider.dart';
 import 'package:law_app/features/shared/providers/course_providers/course_provider.dart';
 import 'package:law_app/features/shared/providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
@@ -41,6 +44,29 @@ class AdminCourseHomePage extends ConsumerWidget {
             );
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+      );
+    });
+
+    ref.listen(courseActionsProvider, (_, state) {
+      state.when(
+        error: (error, _) {
+          navigatorKey.currentState!.pop();
+
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet();
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+        loading: () => context.showLoadingDialog(),
+        data: (data) {
+          if (data != null) {
+            navigatorKey.currentState!.pop();
+            ref.invalidate(courseProvider);
+
+            context.showBanner(message: data, type: BannerType.success);
           }
         },
       );
@@ -156,13 +182,10 @@ class AdminCourseHomePage extends ConsumerWidget {
           ),
         ),
         child: IconButton(
-          onPressed: () {},
-          // onPressed: () => navigatorKey.currentState!.pushNamed(
-          //   bookManagementFormRoute,
-          //   arguments: const BookManagementFormPageArgs(
-          //     title: 'Tambah Buku',
-          //   ),
-          // ),
+          onPressed: () => navigatorKey.currentState!.pushNamed(
+            adminCourseFormRoute,
+            arguments: const AdminCourseFormPageArgs(title: 'Tambah Course'),
+          ),
           icon: SvgAsset(
             assetPath: AssetPath.getIcon('plus-line.svg'),
             color: scaffoldBackgroundColor,
