@@ -44,7 +44,7 @@ abstract class ReferenceDataSource {
   Future<void> deleteFAQ({required int id});
 
   /// Get contact us
-  Future<ContactUsModel> getContactUs();
+  Future<ContactUsModel?> getContactUs();
 
   /// Edit contact us
   Future<void> editContactUs({required ContactUsModel contact});
@@ -286,7 +286,7 @@ class ReferenceDataSourceImpl implements ReferenceDataSource {
   }
 
   @override
-  Future<ContactUsModel> getContactUs() async {
+  Future<ContactUsModel?> getContactUs() async {
     try {
       final response = await client.get(
         Uri.parse('${ApiConfigs.baseUrl}/contact-us'),
@@ -300,7 +300,7 @@ class ReferenceDataSourceImpl implements ReferenceDataSource {
       final result = DataResponse.fromJson(jsonDecode(response.body));
 
       if (result.code == 200) {
-        return ContactUsModel.fromMap(result.data);
+        return result.data != null ? ContactUsModel.fromMap(result.data) : null;
       } else {
         throw ServerException('${result.message}');
       }

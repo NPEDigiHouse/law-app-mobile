@@ -85,7 +85,8 @@ class AdHomePage extends ConsumerWidget {
           if (ads.isEmpty) {
             return const CustomInformation(
               illustrationName: 'house-searching-cuate.svg',
-              title: 'Belum ada data',
+              title: 'Iklan masih kosong',
+              subtitle: 'Tambahkan iklan dengan menekan tombol di bawah.',
             );
           }
 

@@ -230,7 +230,8 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
                 return const SliverFillRemaining(
                   child: CustomInformation(
                     illustrationName: 'house-searching-cuate.svg',
-                    title: 'Belum ada data',
+                    title: 'Data pengguna masih kosong',
+                    subtitle: 'Tambahkan data dengan menekan tombol di bawah.',
                   ),
                 );
               }

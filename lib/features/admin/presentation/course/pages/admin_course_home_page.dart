@@ -142,14 +142,15 @@ class AdminCourseHomePage extends ConsumerWidget {
               illustrationName: 'lawyer-cuate.svg',
               title: 'Course Tidak Ditemukan',
               subtitle: 'Nama course tersebut tidak tersedia.',
-              size: 230,
+              size: 225,
             );
           }
 
           if (courses.isEmpty) {
             return const CustomInformation(
               illustrationName: 'house-searching-cuate.svg',
-              title: 'Belum ada data',
+              title: 'Daftar course masih kosong',
+              subtitle: 'Tambahkan course dengan menekan tombol di bawah.',
             );
           }
 

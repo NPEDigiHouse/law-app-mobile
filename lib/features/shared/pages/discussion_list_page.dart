@@ -27,7 +27,7 @@ class DiscussionListPage extends StatelessWidget {
     if (discussions.isEmpty) {
       return const CustomInformation(
         illustrationName: 'house-searching-cuate.svg',
-        title: 'Belum ada data',
+        title: 'Belum ada diskusi',
       );
     }
 

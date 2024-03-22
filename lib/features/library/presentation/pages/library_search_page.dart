@@ -66,7 +66,7 @@ class LibrarySearchPage extends ConsumerWidget {
           if (books.isEmpty) {
             return const CustomInformation(
               illustrationName: 'house-searching-cuate.svg',
-              title: 'Belum ada data',
+              title: 'Belum ada buku',
             );
           }
 

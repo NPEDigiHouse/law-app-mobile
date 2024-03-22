@@ -145,7 +145,7 @@ class _LibraryBookListPageState extends ConsumerState<LibraryBookListPage>
                 return const SliverFillRemaining(
                   child: CustomInformation(
                     illustrationName: 'house-searching-cuate.svg',
-                    title: 'Belum ada data',
+                    title: 'Belum ada buku',
                   ),
                 );
               }

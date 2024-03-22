@@ -16,6 +16,7 @@ import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/presentation/reference/providers/contact_us_provider.dart';
 import 'package:law_app/features/admin/presentation/reference/widgets/edit_contact_us_dialog.dart';
+import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/gradient_background_icon.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
@@ -45,22 +46,26 @@ class ContactUsPage extends ConsumerWidget {
       );
     });
 
-    return contact.when(
-      loading: () => const LoadingIndicator(withScaffold: true),
-      error: (_, __) => const Scaffold(),
-      data: (contact) {
-        if (contact == null) return const Scaffold();
+    return Scaffold(
+      backgroundColor: backgroundColor,
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(96),
+        child: HeaderContainer(
+          title: 'Hubungi Kami',
+          withBackButton: true,
+        ),
+      ),
+      body: contact.whenOrNull(
+        loading: () => const LoadingIndicator(),
+        data: (contact) {
+          if (contact == null) {
+            return const CustomInformation(
+              illustrationName: 'house-searching-cuate.svg',
+              title: 'Belum ada kontak',
+            );
+          }
 
-        return Scaffold(
-          backgroundColor: backgroundColor,
-          appBar: const PreferredSize(
-            preferredSize: Size.fromHeight(96),
-            child: HeaderContainer(
-              title: 'Hubungi Kami',
-              withBackButton: true,
-            ),
-          ),
-          body: SingleChildScrollView(
+          return SingleChildScrollView(
             padding: const EdgeInsets.symmetric(
               vertical: 24,
               horizontal: 20,
@@ -111,34 +116,36 @@ class ContactUsPage extends ConsumerWidget {
                 ),
               ],
             ),
-          ),
-          floatingActionButton: CredentialSaver.user!.role == 'admin'
-              ? Container(
-                  width: 48,
-                  height: 48,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    gradient: const LinearGradient(
-                      colors: GradientColors.redPastel,
-                    ),
+          );
+        },
+      ),
+      floatingActionButton: CredentialSaver.user!.role == 'admin'
+          ? Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                gradient: const LinearGradient(
+                  colors: GradientColors.redPastel,
+                ),
+              ),
+              child: IconButton(
+                onPressed: () => showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (_) => EditContactUsDialog(
+                    contact: contact.valueOrNull,
                   ),
-                  child: IconButton(
-                    onPressed: () => showDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (_) => EditContactUsDialog(contact: contact),
-                    ),
-                    icon: SvgAsset(
-                      assetPath: AssetPath.getIcon('pencil-solid.svg'),
-                      color: scaffoldBackgroundColor,
-                      width: 24,
-                    ),
-                    tooltip: 'Edit',
-                  ),
-                )
-              : null,
-        );
-      },
+                ),
+                icon: SvgAsset(
+                  assetPath: AssetPath.getIcon('pencil-solid.svg'),
+                  color: scaffoldBackgroundColor,
+                  width: 24,
+                ),
+                tooltip: 'Edit',
+              ),
+            )
+          : null,
     );
   }
 

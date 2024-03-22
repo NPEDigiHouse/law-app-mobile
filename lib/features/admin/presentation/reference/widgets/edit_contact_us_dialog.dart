@@ -14,7 +14,7 @@ import 'package:law_app/features/shared/widgets/dialog/custom_dialog.dart';
 import 'package:law_app/features/shared/widgets/form_field/custom_text_field.dart';
 
 class EditContactUsDialog extends ConsumerWidget {
-  final ContactUsModel contact;
+  final ContactUsModel? contact;
 
   const EditContactUsDialog({super.key, required this.contact});
 
@@ -34,12 +34,21 @@ class EditContactUsDialog extends ConsumerWidget {
           navigatorKey.currentState!.pop();
 
           ref.read(contactUsProvider.notifier).editContactUs(
-                contact: contact.copyWith(
-                  whatsappLink: value['whatsappLink'],
-                  emailLink: value['emailLink'],
-                  addressName: value['addressName'],
-                  addressLink: value['addressLink'],
-                ),
+                contact: contact != null
+                    ? contact!.copyWith(
+                        whatsappLink: value['whatsappLink'],
+                        emailLink: value['emailLink'],
+                        addressName: value['addressName'],
+                        addressLink: value['addressLink'],
+                      )
+                    : ContactUsModel(
+                        whatsappName: value['whatsappLink'],
+                        whatsappLink: value['whatsappLink'],
+                        emailName: value['emailLink'],
+                        emailLink: value['emailLink'],
+                        addressName: value['addressName'],
+                        addressLink: value['addressLink'],
+                      ),
               );
         }
       },
@@ -54,7 +63,7 @@ class EditContactUsDialog extends ConsumerWidget {
               name: 'whatsappLink',
               label: 'No. WhatsApp',
               hintText: '62xxx (tanpa diawali tanda "+")',
-              initialValue: contact.whatsappLink,
+              initialValue: contact?.whatsappLink,
               hasPrefixIcon: false,
               hasSuffixIcon: false,
               textInputType: TextInputType.number,
@@ -73,7 +82,7 @@ class EditContactUsDialog extends ConsumerWidget {
               name: 'emailLink',
               label: 'Email',
               hintText: 'Masukkan email',
-              initialValue: contact.emailLink,
+              initialValue: contact?.emailLink,
               hasPrefixIcon: false,
               hasSuffixIcon: false,
               textInputType: TextInputType.emailAddress,
@@ -92,7 +101,7 @@ class EditContactUsDialog extends ConsumerWidget {
               name: 'addressName',
               label: 'Alamat',
               hintText: 'Masukkan alamat',
-              initialValue: contact.addressName,
+              initialValue: contact?.addressName,
               hasPrefixIcon: false,
               hasSuffixIcon: false,
               validators: [
@@ -107,7 +116,7 @@ class EditContactUsDialog extends ConsumerWidget {
               name: 'addressLink',
               label: 'Link Alamat',
               hintText: 'Masukkan link alamat',
-              initialValue: contact.addressLink,
+              initialValue: contact?.addressLink,
               hasPrefixIcon: false,
               hasSuffixIcon: false,
               textInputAction: TextInputAction.done,

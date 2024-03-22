@@ -60,7 +60,7 @@ class FAQPage extends ConsumerWidget {
           if (faqs.isEmpty) {
             return const CustomInformation(
               illustrationName: 'house-searching-cuate.svg',
-              title: 'Belum ada data',
+              title: 'FAQ masih kosong',
             );
           }
 

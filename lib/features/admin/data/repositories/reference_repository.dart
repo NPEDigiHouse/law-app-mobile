@@ -44,7 +44,7 @@ abstract class ReferenceRepository {
   Future<Either<Failure, void>> deleteFAQ({required int id});
 
   /// Get contact us
-  Future<Either<Failure, ContactUsModel>> getContactUs();
+  Future<Either<Failure, ContactUsModel?>> getContactUs();
 
   /// Edit contact us
   Future<Either<Failure, void>> editContactUs(
@@ -229,7 +229,7 @@ class ReferenceRepositoryImpl implements ReferenceRepository {
   }
 
   @override
-  Future<Either<Failure, ContactUsModel>> getContactUs() async {
+  Future<Either<Failure, ContactUsModel?>> getContactUs() async {
     if (await networkInfo.isConnected) {
       try {
         final result = await referenceDataSource.getContactUs();

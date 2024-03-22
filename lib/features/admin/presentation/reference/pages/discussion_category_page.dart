@@ -59,7 +59,8 @@ class DiscussionCategoryPage extends ConsumerWidget {
           if (categories.isEmpty) {
             return const CustomInformation(
               illustrationName: 'house-searching-cuate.svg',
-              title: 'Belum ada data',
+              title: 'Kategori diskusi masih kosong',
+              subtitle: 'Tambahkan kategori dengan menekan tombol di bawah.',
             );
           }
 

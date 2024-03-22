@@ -218,7 +218,7 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
                     return const SliverFillRemaining(
                       child: CustomInformation(
                         illustrationName: 'house-searching-cuate.svg',
-                        title: 'Belum ada data',
+                        title: 'Belum ada diskusi',
                       ),
                     );
                   }

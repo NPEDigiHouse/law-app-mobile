@@ -148,7 +148,9 @@ class BookManagementListPage extends ConsumerWidget {
                     ? const SliverFillRemaining(
                         child: CustomInformation(
                           illustrationName: 'house-searching-cuate.svg',
-                          title: 'Belum ada data',
+                          title: 'Daftar buku belum ada',
+                          subtitle:
+                              'Tambahkan buku dengan menekan tombol di bawah.',
                         ),
                       )
                     : SliverList(

@@ -156,11 +156,15 @@ class ProfilePage extends ConsumerWidget {
         "color": primaryTextColor,
         "onTap": () async {
           if (Platform.isAndroid) {
-            final url = Uri.parse('https://play.google.com/store/apps');
+            final url = Uri.parse(
+              'https://play.google.com/store/apps/details?id=com.npedigital.lawapp',
+            );
 
             if (await canLaunchUrl(url)) await launchUrl(url);
           } else if (Platform.isIOS) {
-            final url = Uri.parse('https://www.apple.com/app-store');
+            final url = Uri.parse(
+              'https://www.apple.com/app-store',
+            );
 
             if (await canLaunchUrl(url)) await launchUrl(url);
           }

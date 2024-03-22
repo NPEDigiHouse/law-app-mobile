@@ -136,7 +136,8 @@ class GlossaryManagementPage extends ConsumerWidget {
           if (glossaries.isEmpty) {
             return const CustomInformation(
               illustrationName: 'house-searching-cuate.svg',
-              title: 'Belum ada data',
+              title: 'Data glosarium belum ada',
+              subtitle: 'Tambahkan data dengan menekan tombol di bawah.',
             );
           }
 
