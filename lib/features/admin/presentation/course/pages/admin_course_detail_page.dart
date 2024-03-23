@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
@@ -109,7 +110,6 @@ class AdminCourseDetailPage extends ConsumerWidget {
                     radius: 12,
                   ),
                 ),
-
                 const SizedBox(height: 16),
                 Text(
                   '${course.title}',
@@ -117,48 +117,38 @@ class AdminCourseDetailPage extends ConsumerWidget {
                     color: primaryColor,
                   ),
                 ),
-                // if (course.rating != null) ...[
-                //   const SizedBox(height: 8),
-                //   Row(
-                //     crossAxisAlignment: CrossAxisAlignment.end,
-                //     children: [
-                //       RatingBar(
-                //         initialRating: course.rating!,
-                //         onRatingUpdate: (_) {},
-                //         ignoreGestures: true,
-                //         itemSize: 18,
-                //         ratingWidget: RatingWidget(
-                //           full: SvgAsset(
-                //             assetPath: AssetPath.getIcon('star-solid.svg'),
-                //             color: primaryColor,
-                //           ),
-                //           half: SvgAsset(
-                //             assetPath: AssetPath.getIcon('star-solid.svg'),
-                //           ),
-                //           empty: SvgAsset(
-                //             assetPath: AssetPath.getIcon('star-solid.svg'),
-                //             color: secondaryColor,
-                //           ),
-                //         ),
-                //       ),
-                //       const SizedBox(width: 8),
-                //       Text(
-                //         '(${course.rating}/5)',
-                //         style: textTheme.bodyMedium!.copyWith(
-                //           color: primaryColor,
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ] else ...[
-                //   const SizedBox(height: 4),
-                //   Text(
-                //     'Belum ada rating',
-                //     style: textTheme.bodyMedium!.copyWith(
-                //       color: secondaryTextColor,
-                //     ),
-                //   ),
-                // ],
+                const SizedBox(height: 8),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    RatingBar(
+                      initialRating: course.rating!.toDouble(),
+                      onRatingUpdate: (_) {},
+                      ignoreGestures: true,
+                      itemSize: 18,
+                      ratingWidget: RatingWidget(
+                        full: SvgAsset(
+                          assetPath: AssetPath.getIcon('star-solid.svg'),
+                          color: primaryColor,
+                        ),
+                        half: SvgAsset(
+                          assetPath: AssetPath.getIcon('star-solid.svg'),
+                        ),
+                        empty: SvgAsset(
+                          assetPath: AssetPath.getIcon('star-solid.svg'),
+                          color: secondaryColor,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      '(${course.rating?.toDouble()}/5)',
+                      style: textTheme.bodyMedium!.copyWith(
+                        color: primaryColor,
+                      ),
+                    ),
+                  ],
+                ),
                 const SizedBox(height: 12),
                 Wrap(
                   spacing: 16,
@@ -194,7 +184,7 @@ class AdminCourseDetailPage extends ConsumerWidget {
                         const SizedBox(width: 6),
                         Flexible(
                           child: Text(
-                            'Belum ada peserta',
+                            '${course.enrolledMembers} peserta',
                             style: textTheme.bodyMedium!.copyWith(
                               color: secondaryTextColor,
                             ),
@@ -225,7 +215,7 @@ class AdminCourseDetailPage extends ConsumerWidget {
                 ),
                 Divider(
                   color: Theme.of(context).dividerColor,
-                  height: 10,
+                  height: 16,
                 ),
                 Text(
                   '${course.description}',
@@ -247,7 +237,7 @@ class AdminCourseDetailPage extends ConsumerWidget {
               onPressed: () => navigatorKey.currentState!.pushNamed(
                 adminCourseFormRoute,
                 arguments: AdminCourseFormPageArgs(
-                  title: 'Edit Buku',
+                  title: 'Edit Course',
                   course: course,
                 ),
               ),

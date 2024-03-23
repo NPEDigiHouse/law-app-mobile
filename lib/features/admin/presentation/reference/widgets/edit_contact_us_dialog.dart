@@ -24,7 +24,6 @@ class EditContactUsDialog extends ConsumerWidget {
 
     return CustomDialog(
       title: 'Edit Kontak Kami',
-      primaryButtonText: 'Edit',
       onPressedPrimaryButton: () {
         FocusManager.instance.primaryFocus?.unfocus();
 
@@ -52,7 +51,6 @@ class EditContactUsDialog extends ConsumerWidget {
               );
         }
       },
-      childPadding: const EdgeInsets.fromLTRB(20, 12, 20, 8),
       child: FormBuilder(
         key: formKey,
         child: Column(

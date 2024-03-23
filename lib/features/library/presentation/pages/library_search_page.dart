@@ -8,7 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/features/library/presentation/providers/book_provider.dart';
-import 'package:law_app/features/shared/providers/search_provider.dart';
+import 'package:law_app/features/shared/providers/manual_providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/feature/book_card.dart';
 import 'package:law_app/features/shared/widgets/form_field/search_field.dart';

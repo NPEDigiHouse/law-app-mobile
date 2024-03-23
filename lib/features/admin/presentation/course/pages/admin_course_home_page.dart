@@ -16,7 +16,7 @@ import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_form_page.dart';
 import 'package:law_app/features/shared/providers/course_providers/course_actions_provider.dart';
 import 'package:law_app/features/shared/providers/course_providers/course_provider.dart';
-import 'package:law_app/features/shared/providers/search_provider.dart';
+import 'package:law_app/features/shared/providers/manual_providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/feature/course_card.dart';
 import 'package:law_app/features/shared/widgets/form_field/search_field.dart';

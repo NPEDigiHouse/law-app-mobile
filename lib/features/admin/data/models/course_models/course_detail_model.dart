@@ -10,6 +10,8 @@ class CourseDetailModel extends Equatable {
   final String? description;
   final String? coverImg;
   final int? courseDuration;
+  final int? rating;
+  final int? enrolledMembers;
   final List<CurriculumModel>? curriculums;
 
   const CourseDetailModel({
@@ -18,6 +20,8 @@ class CourseDetailModel extends Equatable {
     this.description,
     this.coverImg,
     this.courseDuration,
+    this.rating,
+    this.enrolledMembers,
     this.curriculums,
   });
 
@@ -27,6 +31,8 @@ class CourseDetailModel extends Equatable {
     String? description,
     String? coverImg,
     int? courseDuration,
+    int? rating,
+    int? enrolledMembers,
     List<CurriculumModel>? curriculums,
   }) {
     return CourseDetailModel(
@@ -35,6 +41,8 @@ class CourseDetailModel extends Equatable {
       description: description ?? this.description,
       coverImg: coverImg ?? this.coverImg,
       courseDuration: courseDuration ?? this.courseDuration,
+      rating: rating ?? this.rating,
+      enrolledMembers: enrolledMembers ?? this.enrolledMembers,
       curriculums: curriculums ?? this.curriculums,
     );
   }
@@ -47,6 +55,8 @@ class CourseDetailModel extends Equatable {
       'coverImg': coverImg,
       'courseDuration': courseDuration,
       'curriculums': curriculums?.map((e) => e.toMap()).toList(),
+      'rating': rating,
+      'enrolledMembers': enrolledMembers,
     };
   }
 
@@ -57,6 +67,8 @@ class CourseDetailModel extends Equatable {
       description: map['description'] as String?,
       coverImg: map['coverImg'] as String?,
       courseDuration: map['courseDuration'] as int?,
+      rating: map['rating'] as int?,
+      enrolledMembers: map['enrolledMembers'] as int?,
       curriculums: map['curriculums'] != null
           ? List<CurriculumModel>.from(
               (map['curriculums'] as List).map(
@@ -77,6 +89,8 @@ class CourseDetailModel extends Equatable {
         description,
         coverImg,
         courseDuration,
+        rating,
+        enrolledMembers,
         curriculums,
       ];
 }

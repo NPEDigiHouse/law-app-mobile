@@ -115,6 +115,7 @@ class AdminCourseCurriculumPage extends ConsumerWidget {
                       right: 20,
                       bottom: 20,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
                             children: [

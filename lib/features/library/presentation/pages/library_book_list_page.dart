@@ -17,14 +17,13 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/library/presentation/providers/book_provider.dart';
+import 'package:law_app/features/shared/providers/manual_providers/category_id_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/feature/book_item.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
-
-final bookCategoryIdProvider = StateProvider.autoDispose<int?>((ref) => null);
 
 class LibraryBookListPage extends ConsumerStatefulWidget {
   const LibraryBookListPage({super.key});
@@ -55,7 +54,7 @@ class _LibraryBookListPageState extends ConsumerState<LibraryBookListPage>
   @override
   Widget build(BuildContext context) {
     final labels = categories.keys.toList();
-    final categoryId = ref.watch(bookCategoryIdProvider);
+    final categoryId = ref.watch(categoryIdProvider);
     final books = ref.watch(BookProvider(categoryId: categoryId));
 
     ref.listen(BookProvider(categoryId: categoryId), (_, state) {
@@ -116,7 +115,7 @@ class _LibraryBookListPageState extends ConsumerState<LibraryBookListPage>
                     label: labels[index],
                     selected: categoryId == categories[labels[index]],
                     onSelected: (_) {
-                      ref.read(bookCategoryIdProvider.notifier).state =
+                      ref.read(categoryIdProvider.notifier).state =
                           categories[labels[index]];
                     },
                   );

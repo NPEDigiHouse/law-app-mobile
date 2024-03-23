@@ -11,6 +11,7 @@ import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class AdminCourseArticlePage extends StatelessWidget {
   final Article article;
+
   const AdminCourseArticlePage({
     super.key,
     required this.article,

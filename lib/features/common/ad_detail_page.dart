@@ -2,7 +2,9 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // Project imports:
 import 'package:law_app/core/enums/banner_type.dart';
@@ -119,7 +121,17 @@ class AdDetailPage extends ConsumerWidget {
                         ),
                       ),
                       const SizedBox(height: 12),
-                      Text('${ad.content}')
+                      MarkdownBody(
+                        data: ad.content!,
+                        selectable: true,
+                        onTapLink: (text, href, title) async {
+                          if (href != null) {
+                            final url = Uri.parse(href);
+
+                            if (await canLaunchUrl(url)) await launchUrl(url);
+                          }
+                        },
+                      ),
                     ],
                   ),
                 ),

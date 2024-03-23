@@ -17,7 +17,7 @@ import 'package:law_app/features/admin/presentation/master_data/pages/master_dat
 import 'package:law_app/features/admin/presentation/master_data/providers/master_data_provider.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/user_actions_provider.dart';
 import 'package:law_app/features/admin/presentation/master_data/widgets/user_card.dart';
-import 'package:law_app/features/shared/providers/search_provider.dart';
+import 'package:law_app/features/shared/providers/manual_providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/form_field/search_field.dart';

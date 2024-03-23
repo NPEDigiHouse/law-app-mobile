@@ -10,15 +10,16 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/features/shared/widgets/form_field/custom_text_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 
-class AdminCourseAddArticlePage extends StatefulWidget {
-  const AdminCourseAddArticlePage({super.key});
+class AdminCourseArticleFormPage extends StatefulWidget {
+  const AdminCourseArticleFormPage({super.key});
 
   @override
-  State<AdminCourseAddArticlePage> createState() =>
-      _AdminCourseAddArticlePageState();
+  State<AdminCourseArticleFormPage> createState() =>
+      _AdminCourseArticleFormPageState();
 }
 
-class _AdminCourseAddArticlePageState extends State<AdminCourseAddArticlePage> {
+class _AdminCourseArticleFormPageState
+    extends State<AdminCourseArticleFormPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

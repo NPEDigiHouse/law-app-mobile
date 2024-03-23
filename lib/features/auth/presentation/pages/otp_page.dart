@@ -24,7 +24,7 @@ import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/auth/presentation/providers/ask_reset_password_provider.dart';
 import 'package:law_app/features/auth/presentation/widgets/secondary_header.dart';
-import 'package:law_app/features/shared/providers/count_down_timer_provider.dart';
+import 'package:law_app/features/shared/providers/generated_providers/count_down_timer_provider.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class OtpPage extends ConsumerStatefulWidget {

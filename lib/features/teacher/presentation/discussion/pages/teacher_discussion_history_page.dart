@@ -14,7 +14,7 @@ import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/shared/pages/discussion_list_page.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/user_discussions_provider.dart';
-import 'package:law_app/features/shared/providers/search_provider.dart';
+import 'package:law_app/features/shared/providers/manual_providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
 import 'package:law_app/features/shared/widgets/form_field/search_field.dart';

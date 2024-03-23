@@ -16,7 +16,7 @@ import 'package:law_app/features/admin/data/models/glossary_models/glossary_post
 import 'package:law_app/features/admin/presentation/glossary/widgets/glossary_card.dart';
 import 'package:law_app/features/glossary/presentation/providers/glossary_actions_provider.dart';
 import 'package:law_app/features/glossary/presentation/providers/glossary_provider.dart';
-import 'package:law_app/features/shared/providers/search_provider.dart';
+import 'package:law_app/features/shared/providers/manual_providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
 import 'package:law_app/features/shared/widgets/form_field/search_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';

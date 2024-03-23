@@ -6,9 +6,9 @@ import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/admin/presentation/ad/pages/ad_management_form_page.dart';
 import 'package:law_app/features/admin/presentation/ad/pages/ad_management_home_page.dart';
-import 'package:law_app/features/admin/presentation/course/pages/admin_course_add_article_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_add_question_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_add_quiz_page.dart';
+import 'package:law_app/features/admin/presentation/course/pages/admin_course_article_form_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_article_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_curriculum_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_detail_page.dart';
@@ -319,7 +319,7 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       );
     case adminCourseAddArticleRoute:
       return MaterialPageRoute(
-        builder: (_) => const AdminCourseAddArticlePage(),
+        builder: (_) => const AdminCourseArticleFormPage(),
       );
     case adminCourseAddQuizRoute:
       return MaterialPageRoute(

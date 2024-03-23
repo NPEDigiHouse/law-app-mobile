@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
 import 'package:law_app/core/styles/color_scheme.dart';
-import 'package:law_app/features/shared/providers/checkbox_provider.dart';
+import 'package:law_app/features/shared/providers/manual_providers/checkbox_provider.dart';
 import 'package:law_app/features/shared/widgets/dialog/custom_dialog.dart';
 
 class ConfirmDialog extends ConsumerWidget {

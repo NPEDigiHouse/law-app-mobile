@@ -27,7 +27,7 @@ import 'package:law_app/features/admin/data/models/course_models/course_detail_m
 import 'package:law_app/features/admin/data/models/course_models/course_post_model.dart';
 import 'package:law_app/features/shared/providers/course_providers/course_actions_provider.dart';
 import 'package:law_app/features/shared/providers/course_providers/course_detail_provider.dart';
-import 'package:law_app/features/shared/providers/image_path_provider.dart';
+import 'package:law_app/features/shared/providers/manual_providers/image_path_provider.dart';
 import 'package:law_app/features/shared/widgets/form_field/custom_text_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 

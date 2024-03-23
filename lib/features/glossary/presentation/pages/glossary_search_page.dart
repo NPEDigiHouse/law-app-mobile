@@ -15,7 +15,7 @@ import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/glossary/presentation/providers/glossary_search_history_provider.dart';
 import 'package:law_app/features/glossary/presentation/providers/search_glossary_provider.dart';
 import 'package:law_app/features/glossary/presentation/widgets/search_empty_text.dart';
-import 'package:law_app/features/shared/providers/search_provider.dart';
+import 'package:law_app/features/shared/providers/manual_providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/form_field/search_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';

@@ -17,9 +17,9 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/shared/providers/discussion_filter_provider.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/discussion_provider.dart';
-import 'package:law_app/features/shared/providers/search_provider.dart';
+import 'package:law_app/features/shared/providers/manual_providers/category_id_provider.dart';
+import 'package:law_app/features/shared/providers/manual_providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/animated_fab.dart';
 import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
@@ -87,7 +87,7 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
     final labels = categories.keys.toList();
     final isSearching = ref.watch(isSearchingProvider);
     final query = ref.watch(queryProvider);
-    final categoryId = ref.watch(discussionCategoryIdProvider);
+    final categoryId = ref.watch(categoryIdProvider);
 
     final discussions = ref.watch(
       DiscussionProvider(
@@ -178,9 +178,8 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
                         label: labels[index],
                         selected: categoryId == categories[labels[index]],
                         onSelected: (_) {
-                          ref
-                              .read(discussionCategoryIdProvider.notifier)
-                              .state = categories[labels[index]];
+                          ref.read(categoryIdProvider.notifier).state =
+                              categories[labels[index]];
                         },
                       );
                     },

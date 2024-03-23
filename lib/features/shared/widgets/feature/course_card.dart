@@ -1,6 +1,9 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
+// Package imports:
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+
 // Project imports:
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/helpers/function_helper.dart';
@@ -112,7 +115,7 @@ class CourseCard extends StatelessWidget {
                     const SizedBox(width: 6),
                     Flexible(
                       child: Text(
-                        'Belum ada peserta',
+                        '${course.enrolledMembers} peserta',
                         style: textTheme.bodySmall!.copyWith(
                           color: secondaryTextColor,
                         ),
@@ -120,64 +123,54 @@ class CourseCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                // const SizedBox(height: 4),
-                // Row(
-                //   children: [
-                //     if (course.rating != null)
-                //       Expanded(
-                //         child: RatingBar(
-                //           initialRating: course.rating!,
-                //           onRatingUpdate: (_) {},
-                //           ignoreGestures: true,
-                //           itemSize: 15,
-                //           ratingWidget: RatingWidget(
-                //             full: SvgAsset(
-                //               assetPath: AssetPath.getIcon('star-solid.svg'),
-                //               color: primaryColor,
-                //             ),
-                //             half: SvgAsset(
-                //               assetPath: AssetPath.getIcon('star-solid.svg'),
-                //             ),
-                //             empty: SvgAsset(
-                //               assetPath: AssetPath.getIcon('star-solid.svg'),
-                //               color: secondaryColor,
-                //             ),
-                //           ),
-                //         ),
-                //       )
-                //     else
-                //       Expanded(
-                //         child: Text(
-                //           'Belum ada rating',
-                //           style: textTheme.bodySmall!.copyWith(
-                //             color: secondaryTextColor,
-                //           ),
-                //         ),
-                //       ),
-                //     if (withLabelChip && course.status != null) ...[
-                //       const SizedBox(width: 4),
-                //       Builder(
-                //         builder: (context) {
-                //           Color getColor() {
-                //             switch (course.status!) {
-                //               case 'active':
-                //                 return infoColor;
-                //               case 'passed':
-                //                 return successColor;
-                //               default:
-                //                 return secondaryTextColor;
-                //             }
-                //           }
+                const SizedBox(height: 4),
+                Row(
+                  children: [
+                    Expanded(
+                      child: RatingBar(
+                        initialRating: course.rating!.toDouble(),
+                        onRatingUpdate: (_) {},
+                        ignoreGestures: true,
+                        itemSize: 15,
+                        ratingWidget: RatingWidget(
+                          full: SvgAsset(
+                            assetPath: AssetPath.getIcon('star-solid.svg'),
+                            color: primaryColor,
+                          ),
+                          half: SvgAsset(
+                            assetPath: AssetPath.getIcon('star-solid.svg'),
+                          ),
+                          empty: SvgAsset(
+                            assetPath: AssetPath.getIcon('star-solid.svg'),
+                            color: secondaryColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                    // if (withLabelChip && course.status != null) ...[
+                    //   const SizedBox(width: 4),
+                    //   Builder(
+                    //     builder: (context) {
+                    //       Color getColor() {
+                    //         switch (course.status!) {
+                    //           case 'active':
+                    //             return infoColor;
+                    //           case 'passed':
+                    //             return successColor;
+                    //           default:
+                    //             return secondaryTextColor;
+                    //         }
+                    //       }
 
-                //           return LabelChip(
-                //             text: course.status!.toCapitalize(),
-                //             color: getColor(),
-                //           );
-                //         },
-                //       ),
-                //     ],
-                //   ],
-                // ),
+                    //       return LabelChip(
+                    //         text: course.status!.toCapitalize(),
+                    //         color: getColor(),
+                    //       );
+                    //     },
+                    //   ),
+                    // ],
+                  ],
+                ),
               ],
             ),
           ),

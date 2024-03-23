@@ -13,6 +13,3 @@ final discussionStatusProvider =
 
 final discussionTypeProvider =
     StateProvider.autoDispose<String>((ref) => 'general');
-
-final discussionCategoryIdProvider =
-    StateProvider.autoDispose<int?>((ref) => null);

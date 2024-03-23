@@ -171,7 +171,7 @@ class StudentCourseDetailPage extends StatelessWidget {
             ),
             Divider(
               color: Theme.of(context).dividerColor,
-              height: 10,
+              height: 16,
             ),
             Text(
               courseDetail.description,
@@ -184,7 +184,7 @@ class StudentCourseDetailPage extends StatelessWidget {
             ),
             Divider(
               color: Theme.of(context).dividerColor,
-              height: 10,
+              height: 16,
             ),
             const SizedBox(height: 8),
             ...List<Padding>.generate(
