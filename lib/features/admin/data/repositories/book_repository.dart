@@ -1,11 +1,9 @@
 // Package imports:
 import 'package:dartz/dartz.dart';
-import 'package:http/http.dart';
 
 // Project imports:
 import 'package:law_app/core/connections/network_info.dart';
 import 'package:law_app/core/enums/book_file_type.dart';
-import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/errors/failures.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/features/admin/data/datasources/book_data_source.dart';
@@ -103,10 +101,8 @@ class BookRepositoryImpl implements BookRepository {
         final result = await bookDataSource.getBookCategories();
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -121,17 +117,8 @@ class BookRepositoryImpl implements BookRepository {
         final result = await bookDataSource.createBookCategory(name: name);
 
         return Right(result);
-      } on ServerException catch (e) {
-        switch (e.message) {
-          case kCategoryAlreadyExist:
-            return const Left(
-              ServerFailure('Telah terdapat kategori dengan nama yang sama'),
-            );
-          default:
-            return Left(ServerFailure(e.message));
-        }
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -147,17 +134,8 @@ class BookRepositoryImpl implements BookRepository {
             await bookDataSource.editBookCategory(category: category);
 
         return Right(result);
-      } on ServerException catch (e) {
-        switch (e.message) {
-          case kCategoryAlreadyExist:
-            return const Left(
-              ServerFailure('Telah terdapat kategori dengan nama yang sama'),
-            );
-          default:
-            return Left(ServerFailure(e.message));
-        }
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -171,10 +149,8 @@ class BookRepositoryImpl implements BookRepository {
         final result = await bookDataSource.deleteBookCategory(id: id);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -198,10 +174,8 @@ class BookRepositoryImpl implements BookRepository {
         );
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -216,10 +190,8 @@ class BookRepositoryImpl implements BookRepository {
         final result = await bookDataSource.getBookDetail(id: id);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -241,10 +213,8 @@ class BookRepositoryImpl implements BookRepository {
         );
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -266,10 +236,8 @@ class BookRepositoryImpl implements BookRepository {
         );
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -284,10 +252,8 @@ class BookRepositoryImpl implements BookRepository {
         final result = await bookDataSource.editBook(book: book);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -301,10 +267,8 @@ class BookRepositoryImpl implements BookRepository {
         final result = await bookDataSource.deleteBook(id: id);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -319,10 +283,8 @@ class BookRepositoryImpl implements BookRepository {
         final result = await bookDataSource.getSavedBooks(userId: userId);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -336,10 +298,8 @@ class BookRepositoryImpl implements BookRepository {
         final result = await bookDataSource.saveBook(bookId: bookId);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -353,10 +313,8 @@ class BookRepositoryImpl implements BookRepository {
         final result = await bookDataSource.unsaveBook(id: id);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -372,10 +330,8 @@ class BookRepositoryImpl implements BookRepository {
             await bookDataSource.getUserReads(isFinished: isFinished);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -389,10 +345,8 @@ class BookRepositoryImpl implements BookRepository {
         final result = await bookDataSource.createUserRead(bookId: bookId);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -412,10 +366,8 @@ class BookRepositoryImpl implements BookRepository {
         );
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -429,10 +381,8 @@ class BookRepositoryImpl implements BookRepository {
         final result = await bookDataSource.deleteUserRead(bookId: bookId);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));

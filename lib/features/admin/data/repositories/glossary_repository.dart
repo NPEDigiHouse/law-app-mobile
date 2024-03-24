@@ -1,10 +1,8 @@
 // Package imports:
 import 'package:dartz/dartz.dart';
-import 'package:http/http.dart';
 
 // Project imports:
 import 'package:law_app/core/connections/network_info.dart';
-import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/errors/failures.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/features/admin/data/datasources/glossary_data_source.dart';
@@ -71,10 +69,8 @@ class GlossaryRepositoryImpl implements GlossaryRepository {
         );
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -89,10 +85,8 @@ class GlossaryRepositoryImpl implements GlossaryRepository {
         final result = await glossaryDataSource.getGlossaryDetail(id: id);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -109,17 +103,8 @@ class GlossaryRepositoryImpl implements GlossaryRepository {
         );
 
         return Right(result);
-      } on ServerException catch (e) {
-        switch (e.message) {
-          case kGlossaryAlreadyExist:
-            return const Left(
-              ServerFailure('Telah terdapat kosa kata yang sama'),
-            );
-          default:
-            return Left(ServerFailure(e.message));
-        }
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -136,17 +121,8 @@ class GlossaryRepositoryImpl implements GlossaryRepository {
         );
 
         return Right(result);
-      } on ServerException catch (e) {
-        switch (e.message) {
-          case kGlossaryAlreadyExist:
-            return const Left(
-              ServerFailure('Telah terdapat kosa kata yang sama'),
-            );
-          default:
-            return Left(ServerFailure(e.message));
-        }
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -160,10 +136,8 @@ class GlossaryRepositoryImpl implements GlossaryRepository {
         final result = await glossaryDataSource.deleteGlossary(id: id);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -179,10 +153,8 @@ class GlossaryRepositoryImpl implements GlossaryRepository {
             await glossaryDataSource.createGlossarySearchHistory(id: id);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -197,10 +169,8 @@ class GlossaryRepositoryImpl implements GlossaryRepository {
         final result = await glossaryDataSource.getGlossariesSearchHistory();
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -216,10 +186,8 @@ class GlossaryRepositoryImpl implements GlossaryRepository {
             await glossaryDataSource.deleteGlossarySearchHistory(id: id);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -234,10 +202,8 @@ class GlossaryRepositoryImpl implements GlossaryRepository {
             await glossaryDataSource.deleteAllGlossariesSearchHistory();
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));

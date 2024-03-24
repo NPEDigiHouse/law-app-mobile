@@ -1,10 +1,8 @@
 // Package imports:
 import 'package:dartz/dartz.dart';
-import 'package:http/http.dart';
 
 // Project imports:
 import 'package:law_app/core/connections/network_info.dart';
-import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/errors/failures.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/features/admin/data/datasources/reference_data_source.dart';
@@ -68,10 +66,8 @@ class ReferenceRepositoryImpl implements ReferenceRepository {
         final result = await referenceDataSource.getDiscussionCategories();
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -87,17 +83,8 @@ class ReferenceRepositoryImpl implements ReferenceRepository {
             await referenceDataSource.createDiscussionCategory(name: name);
 
         return Right(result);
-      } on ServerException catch (e) {
-        switch (e.message) {
-          case kCategoryAlreadyExist:
-            return const Left(
-              ServerFailure('Telah terdapat kategori dengan nama yang sama'),
-            );
-          default:
-            return Left(ServerFailure(e.message));
-        }
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -113,17 +100,8 @@ class ReferenceRepositoryImpl implements ReferenceRepository {
             category: category);
 
         return Right(result);
-      } on ServerException catch (e) {
-        switch (e.message) {
-          case kCategoryAlreadyExist:
-            return const Left(
-              ServerFailure('Telah terdapat kategori dengan nama yang sama'),
-            );
-          default:
-            return Left(ServerFailure(e.message));
-        }
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -139,10 +117,8 @@ class ReferenceRepositoryImpl implements ReferenceRepository {
             await referenceDataSource.deleteDiscussionCategory(id: id);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -156,10 +132,8 @@ class ReferenceRepositoryImpl implements ReferenceRepository {
         final result = await referenceDataSource.getFAQs();
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -179,15 +153,8 @@ class ReferenceRepositoryImpl implements ReferenceRepository {
         );
 
         return Right(result);
-      } on ServerException catch (e) {
-        switch (e.message) {
-          case kCategoryAlreadyExist:
-            return const Left(ServerFailure('Telah terdapat FAQ yang sama'));
-          default:
-            return Left(ServerFailure(e.message));
-        }
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -201,10 +168,8 @@ class ReferenceRepositoryImpl implements ReferenceRepository {
         final result = await referenceDataSource.editFAQ(faq: faq);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -218,10 +183,8 @@ class ReferenceRepositoryImpl implements ReferenceRepository {
         final result = await referenceDataSource.deleteFAQ(id: id);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -235,10 +198,8 @@ class ReferenceRepositoryImpl implements ReferenceRepository {
         final result = await referenceDataSource.getContactUs();
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -254,10 +215,8 @@ class ReferenceRepositoryImpl implements ReferenceRepository {
             await referenceDataSource.editContactUs(contact: contact);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));

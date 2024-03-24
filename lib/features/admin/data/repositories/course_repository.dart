@@ -1,10 +1,8 @@
 // Package imports:
 import 'package:dartz/dartz.dart';
-import 'package:http/http.dart';
 
 // Project imports:
 import 'package:law_app/core/connections/network_info.dart';
-import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/errors/failures.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/features/admin/data/datasources/course_data_source.dart';
@@ -106,10 +104,8 @@ class CourseRepositoryImpl implements CourseRepository {
         );
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -124,10 +120,8 @@ class CourseRepositoryImpl implements CourseRepository {
         final result = await courseDataSource.getCourseDetail(id: id);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -142,10 +136,8 @@ class CourseRepositoryImpl implements CourseRepository {
         final result = await courseDataSource.createCourse(course: course);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -160,10 +152,8 @@ class CourseRepositoryImpl implements CourseRepository {
         final result = await courseDataSource.editCourse(course: course);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -177,10 +167,8 @@ class CourseRepositoryImpl implements CourseRepository {
         final result = await courseDataSource.deleteCourse(id: id);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -195,10 +183,8 @@ class CourseRepositoryImpl implements CourseRepository {
         final result = await courseDataSource.getCurriculumDetail(id: id);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -214,10 +200,8 @@ class CourseRepositoryImpl implements CourseRepository {
             await courseDataSource.createCurriculum(curriculum: curriculum);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -233,10 +217,8 @@ class CourseRepositoryImpl implements CourseRepository {
             await courseDataSource.editCurriculum(curriculum: curriculum);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -250,10 +232,8 @@ class CourseRepositoryImpl implements CourseRepository {
         final result = await courseDataSource.deleteCurriculum(id: id);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -268,10 +248,8 @@ class CourseRepositoryImpl implements CourseRepository {
         final result = await courseDataSource.getArticleDetail(id: id);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -286,10 +264,8 @@ class CourseRepositoryImpl implements CourseRepository {
         final result = await courseDataSource.createArticle(article: article);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -304,10 +280,8 @@ class CourseRepositoryImpl implements CourseRepository {
         final result = await courseDataSource.editArticle(article: article);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -321,10 +295,8 @@ class CourseRepositoryImpl implements CourseRepository {
         final result = await courseDataSource.deleteArticle(id: id);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -339,10 +311,8 @@ class CourseRepositoryImpl implements CourseRepository {
         final result = await courseDataSource.getQuizDetail(id: id);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -357,10 +327,8 @@ class CourseRepositoryImpl implements CourseRepository {
         final result = await courseDataSource.createQuiz(quiz: quiz);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -375,10 +343,8 @@ class CourseRepositoryImpl implements CourseRepository {
         final result = await courseDataSource.editQuiz(quiz: quiz);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -392,10 +358,8 @@ class CourseRepositoryImpl implements CourseRepository {
         final result = await courseDataSource.deleteQuiz(id: id);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));

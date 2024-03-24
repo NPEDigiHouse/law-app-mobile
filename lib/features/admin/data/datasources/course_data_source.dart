@@ -114,11 +114,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         throw ServerException('${result.message}');
       }
     } catch (e) {
-      if (e is ServerException) {
-        rethrow;
-      } else {
-        throw http.ClientException(e.toString());
-      }
+      exception(e);
     }
   }
 
@@ -142,11 +138,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         throw ServerException('${result.message}');
       }
     } catch (e) {
-      if (e is ServerException) {
-        rethrow;
-      } else {
-        throw http.ClientException(e.toString());
-      }
+      exception(e);
     }
   }
 
@@ -179,11 +171,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         throw ServerException('${result.message}');
       }
     } catch (e) {
-      if (e is ServerException) {
-        rethrow;
-      } else {
-        throw http.ClientException(e.toString());
-      }
+      exception(e);
     }
   }
 
@@ -219,11 +207,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         throw ServerException('${result.message}');
       }
     } catch (e) {
-      if (e is ServerException) {
-        rethrow;
-      } else {
-        throw http.ClientException(e.toString());
-      }
+      exception(e);
     }
   }
 
@@ -245,11 +229,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         throw ServerException('${result.message}');
       }
     } catch (e) {
-      if (e is ServerException) {
-        rethrow;
-      } else {
-        throw http.ClientException(e.toString());
-      }
+      exception(e);
     }
   }
 
@@ -273,11 +253,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         throw ServerException('${result.message}');
       }
     } catch (e) {
-      if (e is ServerException) {
-        rethrow;
-      } else {
-        throw http.ClientException(e.toString());
-      }
+      exception(e);
     }
   }
 
@@ -301,11 +277,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         throw ServerException('${result.message}');
       }
     } catch (e) {
-      if (e is ServerException) {
-        rethrow;
-      } else {
-        throw http.ClientException(e.toString());
-      }
+      exception(e);
     }
   }
 
@@ -328,11 +300,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         throw ServerException('${result.message}');
       }
     } catch (e) {
-      if (e is ServerException) {
-        rethrow;
-      } else {
-        throw http.ClientException(e.toString());
-      }
+      exception(e);
     }
   }
 
@@ -354,11 +322,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         throw ServerException('${result.message}');
       }
     } catch (e) {
-      if (e is ServerException) {
-        rethrow;
-      } else {
-        throw http.ClientException(e.toString());
-      }
+      exception(e);
     }
   }
 
@@ -382,11 +346,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         throw ServerException('${result.message}');
       }
     } catch (e) {
-      if (e is ServerException) {
-        rethrow;
-      } else {
-        throw http.ClientException(e.toString());
-      }
+      exception(e);
     }
   }
 
@@ -409,11 +369,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         throw ServerException('${result.message}');
       }
     } catch (e) {
-      if (e is ServerException) {
-        rethrow;
-      } else {
-        throw http.ClientException(e.toString());
-      }
+      exception(e);
     }
   }
 
@@ -440,11 +396,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         throw ServerException('${result.message}');
       }
     } catch (e) {
-      if (e is ServerException) {
-        rethrow;
-      } else {
-        throw http.ClientException(e.toString());
-      }
+      exception(e);
     }
   }
 
@@ -466,11 +418,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         throw ServerException('${result.message}');
       }
     } catch (e) {
-      if (e is ServerException) {
-        rethrow;
-      } else {
-        throw http.ClientException(e.toString());
-      }
+      exception(e);
     }
   }
 
@@ -494,11 +442,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         throw ServerException('${result.message}');
       }
     } catch (e) {
-      if (e is ServerException) {
-        rethrow;
-      } else {
-        throw http.ClientException(e.toString());
-      }
+      exception(e);
     }
   }
 
@@ -521,11 +465,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         throw ServerException('${result.message}');
       }
     } catch (e) {
-      if (e is ServerException) {
-        rethrow;
-      } else {
-        throw http.ClientException(e.toString());
-      }
+      exception(e);
     }
   }
 
@@ -552,11 +492,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         throw ServerException('${result.message}');
       }
     } catch (e) {
-      if (e is ServerException) {
-        rethrow;
-      } else {
-        throw http.ClientException(e.toString());
-      }
+      exception(e);
     }
   }
 
@@ -578,11 +514,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         throw ServerException('${result.message}');
       }
     } catch (e) {
-      if (e is ServerException) {
-        rethrow;
-      } else {
-        throw http.ClientException(e.toString());
-      }
+      exception(e);
     }
   }
 }

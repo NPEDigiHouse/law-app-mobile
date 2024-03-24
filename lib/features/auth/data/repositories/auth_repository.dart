@@ -1,6 +1,5 @@
 // Package imports:
 import 'package:dartz/dartz.dart';
-import 'package:http/http.dart';
 
 // Project imports:
 import 'package:law_app/core/connections/network_info.dart';
@@ -61,17 +60,8 @@ class AuthRepositoryImpl implements AuthRepository {
         final result = await authDataSource.signUp(user: user);
 
         return Right(result);
-      } on ServerException catch (e) {
-        switch (e.message) {
-          case kUsernameAlreadyExist:
-            return const Left(ServerFailure('Username telah digunakan'));
-          case kEmailAlreadyExist:
-            return const Left(ServerFailure('Email telah digunakan'));
-          default:
-            return Left(ServerFailure(e.message));
-        }
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -91,17 +81,8 @@ class AuthRepositoryImpl implements AuthRepository {
         );
 
         return Right(result);
-      } on ServerException catch (e) {
-        switch (e.message) {
-          case kUserNotFound:
-            return const Left(ServerFailure('Akun belum terdaftar'));
-          case kWrongPassword:
-            return const Left(ServerFailure('Password salah'));
-          default:
-            return Left(ServerFailure(e.message));
-        }
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -126,10 +107,8 @@ class AuthRepositoryImpl implements AuthRepository {
         final result = await authDataSource.getUserCredential();
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -155,15 +134,8 @@ class AuthRepositoryImpl implements AuthRepository {
         final result = await authDataSource.askResetPassword(email: email);
 
         return Right(result);
-      } on ServerException catch (e) {
-        switch (e.message) {
-          case kUserNotFound:
-            return const Left(ServerFailure('Email tidak terdaftar'));
-          default:
-            return Left(ServerFailure(e.message));
-        }
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -185,10 +157,8 @@ class AuthRepositoryImpl implements AuthRepository {
         );
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -202,10 +172,8 @@ class AuthRepositoryImpl implements AuthRepository {
         final result = await authDataSource.getDashboardData();
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));

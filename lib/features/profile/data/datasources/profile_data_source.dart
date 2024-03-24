@@ -58,11 +58,7 @@ class ProfileDataSourceImpl implements ProfileDataSource {
         throw ServerException('${result.message}');
       }
     } catch (e) {
-      if (e is ServerException) {
-        rethrow;
-      } else {
-        throw http.ClientException(e.toString());
-      }
+      exception(e);
     }
   }
 
@@ -106,11 +102,7 @@ class ProfileDataSourceImpl implements ProfileDataSource {
         throw ServerException('${result.message}');
       }
     } catch (e) {
-      if (e is ServerException) {
-        rethrow;
-      } else {
-        throw http.ClientException(e.toString());
-      }
+      exception(e);
     }
   }
 
@@ -141,11 +133,7 @@ class ProfileDataSourceImpl implements ProfileDataSource {
         throw ServerException('${result.message}');
       }
     } catch (e) {
-      if (e is ServerException) {
-        rethrow;
-      } else {
-        throw http.ClientException(e.toString());
-      }
+      exception(e);
     }
   }
 }

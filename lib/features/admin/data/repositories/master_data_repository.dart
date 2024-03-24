@@ -1,10 +1,8 @@
 // Package imports:
 import 'package:dartz/dartz.dart';
-import 'package:http/http.dart';
 
 // Project imports:
 import 'package:law_app/core/connections/network_info.dart';
-import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/errors/failures.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/features/admin/data/datasources/master_data_source.dart';
@@ -60,10 +58,8 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
         );
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -78,10 +74,8 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
         final result = await masterDataSource.getUserDetail(id: id);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -96,17 +90,8 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
         final result = await masterDataSource.createUser(user: user);
 
         return Right(result);
-      } on ServerException catch (e) {
-        switch (e.message) {
-          case kUsernameAlreadyExist:
-            return const Left(ServerFailure('Username telah digunakan'));
-          case kEmailAlreadyExist:
-            return const Left(ServerFailure('Email telah digunakan'));
-          default:
-            return Left(ServerFailure(e.message));
-        }
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -121,15 +106,8 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
         final result = await masterDataSource.editUser(user: user);
 
         return Right(result);
-      } on ServerException catch (e) {
-        switch (e.message) {
-          case kEmailAlreadyExist:
-            return const Left(ServerFailure('Email telah digunakan'));
-          default:
-            return Left(ServerFailure(e.message));
-        }
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -143,10 +121,8 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
         final result = await masterDataSource.deleteUser(id: id);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));

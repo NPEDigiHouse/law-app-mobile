@@ -1,10 +1,8 @@
 // Package imports:
 import 'package:dartz/dartz.dart';
-import 'package:http/http.dart';
 
 // Project imports:
 import 'package:law_app/core/connections/network_info.dart';
-import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/errors/failures.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/features/admin/data/datasources/discussion_data_source.dart';
@@ -90,10 +88,8 @@ class DiscussionRepositoryImpl implements DiscussionRepository {
         );
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -121,10 +117,8 @@ class DiscussionRepositoryImpl implements DiscussionRepository {
         );
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -139,10 +133,8 @@ class DiscussionRepositoryImpl implements DiscussionRepository {
         final result = await discussionDataSource.getDiscussionDetail(id: id);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -158,17 +150,8 @@ class DiscussionRepositoryImpl implements DiscussionRepository {
             await discussionDataSource.createDiscussion(discussion: discussion);
 
         return Right(result);
-      } on ServerException catch (e) {
-        switch (e.message) {
-          case kNoGeneralQuestionLeft:
-            return const Left(
-              ServerFailure('Kuota pertanyaan umum telah habis'),
-            );
-          default:
-            return Left(ServerFailure(e.message));
-        }
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -192,19 +175,8 @@ class DiscussionRepositoryImpl implements DiscussionRepository {
         );
 
         return Right(result);
-      } on ServerException catch (e) {
-        switch (e.message) {
-          case kNoSpecificQuestionLeft:
-            return const Left(
-              ServerFailure(
-                'Kuota pertanyaan khusus oleh siswa ini telah habis',
-              ),
-            );
-          default:
-            return Left(ServerFailure(e.message));
-        }
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -218,10 +190,8 @@ class DiscussionRepositoryImpl implements DiscussionRepository {
         final result = await discussionDataSource.deleteDiscussion(id: id);
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));
@@ -243,10 +213,8 @@ class DiscussionRepositoryImpl implements DiscussionRepository {
         );
 
         return Right(result);
-      } on ServerException catch (e) {
-        return Left(ServerFailure(e.message));
-      } on ClientException catch (e) {
-        return Left(ClientFailure(e.message));
+      } catch (e) {
+        return Left(failure(e));
       }
     } else {
       return const Left(ConnectionFailure(kNoInternetConnection));

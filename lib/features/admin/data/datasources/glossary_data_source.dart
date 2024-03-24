@@ -81,11 +81,7 @@ class GlossaryDataSourceImpl implements GlossaryDataSource {
         throw ServerException('${result.message}');
       }
     } catch (e) {
-      if (e is ServerException) {
-        rethrow;
-      } else {
-        throw http.ClientException(e.toString());
-      }
+      exception(e);
     }
   }
 
@@ -109,11 +105,7 @@ class GlossaryDataSourceImpl implements GlossaryDataSource {
         throw ServerException('${result.message}');
       }
     } catch (e) {
-      if (e is ServerException) {
-        rethrow;
-      } else {
-        throw http.ClientException(e.toString());
-      }
+      exception(e);
     }
   }
 
@@ -136,11 +128,7 @@ class GlossaryDataSourceImpl implements GlossaryDataSource {
         throw ServerException('${result.message}');
       }
     } catch (e) {
-      if (e is ServerException) {
-        rethrow;
-      } else {
-        throw http.ClientException(e.toString());
-      }
+      exception(e);
     }
   }
 
@@ -166,11 +154,7 @@ class GlossaryDataSourceImpl implements GlossaryDataSource {
         throw ServerException('${result.message}');
       }
     } catch (e) {
-      if (e is ServerException) {
-        rethrow;
-      } else {
-        throw http.ClientException(e.toString());
-      }
+      exception(e);
     }
   }
 
@@ -192,11 +176,7 @@ class GlossaryDataSourceImpl implements GlossaryDataSource {
         throw ServerException('${result.message}');
       }
     } catch (e) {
-      if (e is ServerException) {
-        rethrow;
-      } else {
-        throw http.ClientException(e.toString());
-      }
+      exception(e);
     }
   }
 
@@ -219,11 +199,7 @@ class GlossaryDataSourceImpl implements GlossaryDataSource {
         throw ServerException('${result.message}');
       }
     } catch (e) {
-      if (e is ServerException) {
-        rethrow;
-      } else {
-        throw http.ClientException(e.toString());
-      }
+      exception(e);
     }
   }
 
@@ -249,11 +225,7 @@ class GlossaryDataSourceImpl implements GlossaryDataSource {
         throw ServerException('${result.message}');
       }
     } catch (e) {
-      if (e is ServerException) {
-        rethrow;
-      } else {
-        throw http.ClientException(e.toString());
-      }
+      exception(e);
     }
   }
 
@@ -275,11 +247,7 @@ class GlossaryDataSourceImpl implements GlossaryDataSource {
         throw ServerException('${result.message}');
       }
     } catch (e) {
-      if (e is ServerException) {
-        rethrow;
-      } else {
-        throw http.ClientException(e.toString());
-      }
+      exception(e);
     }
   }
 
@@ -301,11 +269,7 @@ class GlossaryDataSourceImpl implements GlossaryDataSource {
         throw ServerException('${result.message}');
       }
     } catch (e) {
-      if (e is ServerException) {
-        rethrow;
-      } else {
-        throw http.ClientException(e.toString());
-      }
+      exception(e);
     }
   }
 }
