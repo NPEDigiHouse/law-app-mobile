@@ -15,6 +15,7 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/features/admin/presentation/course/pages/admin_course_article_form_page.dart';
 import 'package:law_app/features/admin/presentation/course/widgets/admin_material_card.dart';
 import 'package:law_app/features/shared/providers/course_providers/article_actions_provider.dart';
 import 'package:law_app/features/shared/providers/course_providers/course_detail_provider.dart';
@@ -186,7 +187,11 @@ class AdminCourseMaterialPage extends ConsumerWidget {
                         "onTap": () {
                           navigatorKey.currentState!.pop();
                           navigatorKey.currentState!.pushNamed(
-                            adminCourseAddArticleRoute,
+                            adminCourseArticleFormRoute,
+                            arguments: AdminCourseArticleFormPageArgs(
+                              title: 'Tambah Artikel',
+                              curriculumId: curriculumId,
+                            ),
                           );
                         },
                       },

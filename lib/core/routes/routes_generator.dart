@@ -48,7 +48,6 @@ import 'package:law_app/features/library/presentation/pages/library_read_book_pa
 import 'package:law_app/features/library/presentation/pages/library_saved_book_page.dart';
 import 'package:law_app/features/library/presentation/pages/library_search_page.dart';
 import 'package:law_app/features/profile/presentation/pages/account_info_page.dart';
-import 'package:law_app/features/profile/presentation/pages/certificate_page.dart';
 import 'package:law_app/features/profile/presentation/pages/contact_us_page.dart';
 import 'package:law_app/features/profile/presentation/pages/faq_page.dart';
 import 'package:law_app/features/profile/presentation/pages/profile_page.dart';
@@ -129,11 +128,6 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => const ContactUsPage(),
       );
-    case certificateRoute:
-      return MaterialPageRoute(
-        builder: (_) => const CertificatePage(),
-      );
-
     case glossarySearchRoute:
       return PageRouteBuilder(
         pageBuilder: (_, __, ___) => const GlossarySearchPage(),
@@ -317,19 +311,25 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => AdminCourseMaterialPage(curriculumId: curriculumId),
       );
-    case adminCourseAddArticleRoute:
+    case adminCourseArticleRoute:
+      final id = settings.arguments as int;
+
       return MaterialPageRoute(
-        builder: (_) => const AdminCourseArticleFormPage(),
+        builder: (_) => AdminCourseArticlePage(id: id),
+      );
+    case adminCourseArticleFormRoute:
+      final args = settings.arguments as AdminCourseArticleFormPageArgs;
+
+      return MaterialPageRoute(
+        builder: (_) => AdminCourseArticleFormPage(
+          title: args.title,
+          curriculumId: args.curriculumId,
+          article: args.article,
+        ),
       );
     case adminCourseAddQuizRoute:
       return MaterialPageRoute(
         builder: (_) => const AdminCourseAddQuizPage(),
-      );
-    case adminCourseArticleRoute:
-      final article = settings.arguments as Article;
-
-      return MaterialPageRoute(
-        builder: (_) => AdminCourseArticlePage(article: article),
       );
     case adminCourseQuizHomeRoute:
       final quiz = settings.arguments as Quiz;

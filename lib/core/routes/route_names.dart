@@ -15,7 +15,6 @@ const mainMenuRoute = '/main-menu';
 // Profile routes
 const profileRoute = '/profile';
 const accountInfoRoute = '/account-info';
-const certificateRoute = '/certificate';
 
 // Glossary routes
 const glossarySearchRoute = '/glossary-search';
@@ -54,15 +53,16 @@ const studentCourseArticleRoute = '/student-course-article';
 const studentCourseQuizHomeRoute = '/student-course-quiz-home';
 const studentCourseQuizRoute = '/student-course-quiz';
 const studentCourseRateRoute = '/student-course-rate';
+
 const adminCourseHomeRoute = '/admin-course-home';
 const adminCourseFormRoute = '/admin-course-form';
 const adminCourseDetailRoute = '/admin-course-detail';
 const adminCourseCurriculumRoute = '/admin-course-curriculum';
 const adminCourseMaterialRoute = '/admin-course-material';
-const adminCourseAddArticleRoute = '/admin-course-add-article';
-const adminCourseAddQuizRoute = '/admin-course-add-quiz';
 const adminCourseArticleRoute = '/admin-course-article';
+const adminCourseArticleFormRoute = '/admin-course-article-form';
 const adminCourseQuizHomeRoute = '/admin-course-quiz-home';
+const adminCourseAddQuizRoute = '/admin-course-add-quiz';
 const adminCourseQuestionListRoute = '/admin-course-question-list';
 const adminCourseAddQuestionRoute = '/admin-course-add-question';
 

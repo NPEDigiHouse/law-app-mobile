@@ -171,14 +171,6 @@ class ProfilePage extends ConsumerWidget {
         },
       },
       {
-        "icon": "certificate-solid.svg",
-        "text": "Sertifikat",
-        "color": primaryTextColor,
-        "onTap": () {
-          navigatorKey.currentState!.pushNamed(certificateRoute);
-        },
-      },
-      {
         "icon": "logout-solid.svg",
         "text": "Log Out",
         "color": errorColor,
@@ -195,11 +187,7 @@ class ProfilePage extends ConsumerWidget {
     ];
 
     if (CredentialSaver.user!.role == 'admin') {
-      return [menuItems.first, menuItems.last];
-    }
-
-    if (CredentialSaver.user!.role == 'teacher') {
-      return [...menuItems.sublist(0, 4), menuItems.last];
+      return [menuItems.first, ...menuItems.sublist(3)];
     }
 
     return menuItems;

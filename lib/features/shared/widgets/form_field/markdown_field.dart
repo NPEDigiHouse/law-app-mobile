@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:markdown_editable_textinput/format_markdown.dart';
 
 // Project imports:
@@ -98,6 +99,7 @@ class _MarkdownFieldState extends State<MarkdownField> {
                       maxLines: widget.maxLines,
                       textInputAction: TextInputAction.newline,
                       textCapitalization: TextCapitalization.sentences,
+                      validator: FormBuilderValidators.required(errorText: ''),
                       decoration: InputDecoration(
                         hintText: widget.hintText,
                         errorBorder: InputBorder.none,

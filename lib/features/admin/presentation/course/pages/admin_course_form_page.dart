@@ -52,18 +52,18 @@ class _AdminCourseFormPageState extends ConsumerState<AdminCourseFormPage>
 
   @override
   Future<void> afterFirstLayout(BuildContext context) async {
-    context.showLoadingDialog();
-
     if (widget.course != null) {
+      context.showLoadingDialog();
+
       final imagePath =
           await FileService.downloadFile(url: widget.course!.coverImg!);
 
       if (imagePath != null) {
         ref.read(imagePathProvider.notifier).state = imagePath;
       }
-    }
 
-    navigatorKey.currentState!.pop();
+      navigatorKey.currentState!.pop();
+    }
   }
 
   @override

@@ -37,8 +37,8 @@ import 'package:law_app/features/shared/widgets/form_field/custom_text_field.dar
 import 'package:law_app/features/shared/widgets/form_field/markdown_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 
-final adTitleProvider = StateProvider.autoDispose<String>((ref) => '');
-final adContentProvider = StateProvider.autoDispose<String>((ref) => '');
+final adTitleProvider = StateProvider.autoDispose<String?>((ref) => null);
+final adContentProvider = StateProvider.autoDispose<String?>((ref) => null);
 
 class AdManagementFormPage extends ConsumerStatefulWidget {
   final String title;
@@ -60,9 +60,9 @@ class _AdmiAdFormPageState extends ConsumerState<AdManagementFormPage>
 
   @override
   Future<void> afterFirstLayout(BuildContext context) async {
-    context.showLoadingDialog();
-
     if (widget.ad != null) {
+      context.showLoadingDialog();
+
       ref.read(adTitleProvider.notifier).state = widget.ad!.title!;
       ref.read(adContentProvider.notifier).state = widget.ad!.content!;
 
@@ -72,9 +72,9 @@ class _AdmiAdFormPageState extends ConsumerState<AdManagementFormPage>
       if (imagePath != null) {
         ref.read(imagePathProvider.notifier).state = imagePath;
       }
-    }
 
-    navigatorKey.currentState!.pop();
+      navigatorKey.currentState!.pop();
+    }
   }
 
   @override
@@ -149,15 +149,15 @@ class _AdmiAdFormPageState extends ConsumerState<AdManagementFormPage>
                   Icons.code_outlined,
                   color: scaffoldBackgroundColor,
                 ),
-          tooltip: 'Preview',
+          tooltip: showPreview ? 'Preview' : 'Editor',
         ),
       ),
     );
   }
 
   SingleChildScrollView buildAdPreview(
-    String title,
-    String content,
+    String? title,
+    String? content,
     String? imagePath,
   ) {
     return SingleChildScrollView(
@@ -192,7 +192,7 @@ class _AdmiAdFormPageState extends ConsumerState<AdManagementFormPage>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  title,
+                  title ?? '',
                   style: textTheme.titleLarge!.copyWith(
                     color: primaryColor,
                   ),
@@ -206,7 +206,7 @@ class _AdmiAdFormPageState extends ConsumerState<AdManagementFormPage>
                 ),
                 const SizedBox(height: 12),
                 MarkdownBody(
-                  data: content,
+                  data: content ?? '',
                   selectable: true,
                   onTapLink: (text, href, title) async {
                     if (href != null) {
@@ -225,8 +225,8 @@ class _AdmiAdFormPageState extends ConsumerState<AdManagementFormPage>
   }
 
   SingleChildScrollView buildAdForm(
-    String title,
-    String content,
+    String? title,
+    String? content,
     String? imagePath,
   ) {
     return SingleChildScrollView(
@@ -305,7 +305,7 @@ class _AdmiAdFormPageState extends ConsumerState<AdManagementFormPage>
               name: 'title',
               label: 'Judul Iklan',
               hintText: 'Masukkan judul iklan',
-              initialValue: title.isEmpty ? widget.ad?.title : title,
+              initialValue: title ?? widget.ad?.title,
               hasPrefixIcon: false,
               hasSuffixIcon: false,
               textCapitalization: TextCapitalization.words,
@@ -320,10 +320,10 @@ class _AdmiAdFormPageState extends ConsumerState<AdManagementFormPage>
               name: 'content',
               label: 'Konten Iklan',
               hintText: 'Masukkan konten iklan',
-              initialValue: content.isEmpty ? widget.ad?.content : content,
+              initialValue: content ?? widget.ad?.content,
               onChanged: (_) {},
             ),
-            const SizedBox(height: 60),
+            const SizedBox(height: 64),
           ],
         ),
       ),
@@ -362,6 +362,11 @@ class _AdmiAdFormPageState extends ConsumerState<AdManagementFormPage>
               imageName: isUpdatedImage ? imagePath : null,
             ),
           );
+    } else {
+      context.showBanner(
+        message: 'Masih terdapat form yang kosong!',
+        type: BannerType.error,
+      );
     }
   }
 
@@ -387,6 +392,11 @@ class _AdmiAdFormPageState extends ConsumerState<AdManagementFormPage>
               file: imagePath,
             ),
           );
+    } else {
+      context.showBanner(
+        message: 'Masih terdapat form yang kosong!',
+        type: BannerType.error,
+      );
     }
   }
 }
