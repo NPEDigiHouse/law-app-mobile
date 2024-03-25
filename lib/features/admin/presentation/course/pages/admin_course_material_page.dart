@@ -21,6 +21,7 @@ import 'package:law_app/features/shared/providers/course_providers/article_actio
 import 'package:law_app/features/shared/providers/course_providers/course_detail_provider.dart';
 import 'package:law_app/features/shared/providers/course_providers/curriculum_detail_provider.dart';
 import 'package:law_app/features/shared/providers/course_providers/quiz_actions_provider.dart';
+import 'package:law_app/features/shared/providers/manual_providers/material_provider.dart';
 import 'package:law_app/features/shared/widgets/empty_content_text.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
@@ -35,6 +36,7 @@ class AdminCourseMaterialPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final curriculum = ref.watch(CurriculumDetailProvider(id: curriculumId));
 
+    ref.watch(articlesProvider);
     ref.listen(CurriculumDetailProvider(id: curriculumId), (_, state) {
       state.whenOrNull(
         error: (error, _) {
@@ -47,6 +49,11 @@ class AdminCourseMaterialPage extends ConsumerWidget {
             );
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+        data: (curriculum) {
+          if (curriculum != null) {
+            ref.read(articlesProvider.notifier).state = curriculum.articles!;
           }
         },
       );
@@ -149,14 +156,17 @@ class AdminCourseMaterialPage extends ConsumerWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 10),
                 if (curriculum.articles!.isEmpty && curriculum.quizzes!.isEmpty)
                   const EmptyContentText('Belum ada materi pada kurikulum ini!')
                 else ...[
                   ...List<Padding>.generate(
                     curriculum.articles!.length,
                     (index) => Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
+                      padding: EdgeInsets.only(
+                        bottom:
+                            index == curriculum.articles!.length - 1 ? 0 : 10,
+                      ),
                       child: AdminMaterialCard(
                         material: curriculum.articles![index],
                         type: CourseMaterialType.article,
@@ -177,7 +187,7 @@ class AdminCourseMaterialPage extends ConsumerWidget {
                     ),
                   ),
                 ],
-                const SizedBox(height: 16),
+                const SizedBox(height: 10),
                 FilledButton.icon(
                   onPressed: () => context.showCustomSelectorDialog(
                     title: "Pilih Jenis Materi",

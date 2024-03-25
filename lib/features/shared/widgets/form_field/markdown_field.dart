@@ -111,8 +111,8 @@ class _MarkdownFieldState extends State<MarkdownField> {
                     ),
                   ),
                   Divider(
-                    height: 1,
                     color: isFocus ? accentColor : secondaryTextColor,
+                    height: 1,
                   ),
                   SizedBox(
                     height: 44,

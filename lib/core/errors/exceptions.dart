@@ -9,6 +9,8 @@ class ServerException implements Exception {
   const ServerException(this.message);
 }
 
+/// Exception class that will be thrown when there is a problem
+/// related to shared preferences.
 class PreferenceException implements Exception {
   final String message;
 

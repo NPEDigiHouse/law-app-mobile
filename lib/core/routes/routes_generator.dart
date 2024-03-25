@@ -132,7 +132,6 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return PageRouteBuilder(
         pageBuilder: (_, __, ___) => const GlossarySearchPage(),
         transitionDuration: Duration.zero,
-        reverseTransitionDuration: Duration.zero,
       );
     case glossaryDetailRoute:
       final id = settings.arguments as int;

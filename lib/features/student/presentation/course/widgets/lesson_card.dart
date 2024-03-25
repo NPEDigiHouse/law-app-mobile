@@ -20,7 +20,7 @@ class LessonCard extends StatelessWidget {
     return InkWellContainer(
       width: double.infinity,
       color: scaffoldBackgroundColor,
-      radius: 6,
+      radius: 8,
       boxShadow: [
         BoxShadow(
           color: Colors.black.withOpacity(.08),

@@ -4,13 +4,17 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // Project imports:
 import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
+import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
+import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/course_models/article_detail_model.dart';
 import 'package:law_app/features/admin/data/models/course_models/article_post_model.dart';
@@ -21,6 +25,7 @@ import 'package:law_app/features/shared/providers/manual_providers/material_prov
 import 'package:law_app/features/shared/widgets/form_field/custom_text_field.dart';
 import 'package:law_app/features/shared/widgets/form_field/markdown_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
+import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class AdminCourseArticleFormPage extends ConsumerStatefulWidget {
   final String title;
@@ -49,7 +54,8 @@ class _AdminCourseArticleFormPageState
       context.showLoadingDialog();
 
       ref.read(titleProvider.notifier).state = widget.article!.title!;
-      ref.read(durationProvider.notifier).state = widget.article!.duration!;
+      ref.read(durationProvider.notifier).state =
+          widget.article!.duration!.toString();
       ref.read(materialProvider.notifier).state = widget.article!.material!;
 
       navigatorKey.currentState!.pop();
@@ -81,8 +87,8 @@ class _AdminCourseArticleFormPageState
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(96),
         child: HeaderContainer(
-          title: widget.title,
-          withBackButton: true,
+          title: showPreview ? 'Preview Artikel' : widget.title,
+          withBackButton: !showPreview,
           withTrailingButton: !showPreview,
           trailingButtonIconName: 'check-line.svg',
           trailingButtonTooltip: 'Submit',
@@ -96,7 +102,9 @@ class _AdminCourseArticleFormPageState
           vertical: 24,
           horizontal: 20,
         ),
-        child: showPreview ? null : buildArticleForm(title, duration, material),
+        child: showPreview
+            ? buildArticlePreview(title, duration, material)
+            : buildArticleForm(title, duration, material),
       ),
       floatingActionButton: Container(
         width: 48,
@@ -135,9 +143,65 @@ class _AdminCourseArticleFormPageState
     );
   }
 
+  Column buildArticlePreview(
+    String? title,
+    String? duration,
+    String? material,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SvgAsset(
+          assetPath: AssetPath.getIcon('read-outlined.svg'),
+          color: primaryColor,
+          width: 48,
+        ),
+        const SizedBox(height: 8),
+        Text(
+          title ?? '',
+          style: textTheme.headlineSmall!.copyWith(
+            color: primaryColor,
+            height: 0,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Row(
+          children: [
+            SvgAsset(
+              assetPath: AssetPath.getIcon('clock-solid.svg'),
+              color: secondaryTextColor,
+              width: 18,
+            ),
+            const SizedBox(width: 6),
+            Expanded(
+              child: Text(
+                '${duration ?? ''} menit',
+                style: textTheme.bodyMedium!.copyWith(
+                  color: secondaryTextColor,
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        MarkdownBody(
+          data: material ?? '',
+          selectable: true,
+          onTapLink: (text, href, title) async {
+            if (href != null) {
+              final url = Uri.parse(href);
+
+              if (await canLaunchUrl(url)) await launchUrl(url);
+            }
+          },
+        ),
+      ],
+    );
+  }
+
   FormBuilder buildArticleForm(
     String? title,
-    int? duration,
+    String? duration,
     String? material,
   ) {
     return FormBuilder(
@@ -164,9 +228,7 @@ class _AdminCourseArticleFormPageState
             name: 'duration',
             label: 'Durasi Belajar (Menit)',
             hintText: 'Masukkan durasi belajar',
-            initialValue: duration != null
-                ? duration.toString()
-                : widget.article?.duration.toString(),
+            initialValue: duration ?? widget.article?.duration.toString(),
             hasPrefixIcon: false,
             hasSuffixIcon: false,
             textInputType: TextInputType.number,
@@ -175,7 +237,7 @@ class _AdminCourseArticleFormPageState
                 errorText: "Bagian ini harus diisi",
               ),
               FormBuilderValidators.integer(
-                errorText: "Inputan harus berupa angka",
+                errorText: "Inputan harus berupa bilangan bulat",
               ),
               FormBuilderValidators.min(
                 1,
@@ -206,7 +268,7 @@ class _AdminCourseArticleFormPageState
       ref.read(articleActionsProvider.notifier).editArticle(
             article: widget.article!.copyWith(
               title: data['title'],
-              duration: data['duration'],
+              duration: int.tryParse(data['duration']),
               material: data['material'],
             ),
           );
@@ -227,7 +289,7 @@ class _AdminCourseArticleFormPageState
       ref.read(articleActionsProvider.notifier).createArticle(
             article: ArticlePostModel(
               title: data['title'],
-              duration: data['duration'],
+              duration: int.tryParse(data['duration']) ?? 0,
               material: data['material'],
               curriculumId: widget.curriculumId!,
             ),
