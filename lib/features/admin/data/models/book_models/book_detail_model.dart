@@ -17,7 +17,6 @@ class BookDetailModel extends Equatable {
   final String? bookUrl;
   final BookCategoryModel? category;
   final int? currentPage;
-  final DateTime? lastOpened;
 
   const BookDetailModel({
     this.id,
@@ -31,7 +30,6 @@ class BookDetailModel extends Equatable {
     this.bookUrl,
     this.category,
     this.currentPage,
-    this.lastOpened,
   });
 
   BookDetailModel copyWith({
@@ -46,7 +44,6 @@ class BookDetailModel extends Equatable {
     String? bookUrl,
     BookCategoryModel? category,
     int? currentPage,
-    DateTime? lastOpened,
   }) {
     return BookDetailModel(
       id: id ?? this.id,
@@ -60,7 +57,6 @@ class BookDetailModel extends Equatable {
       bookUrl: bookUrl ?? this.bookUrl,
       category: category ?? this.category,
       currentPage: currentPage ?? this.currentPage,
-      lastOpened: lastOpened ?? this.lastOpened,
     );
   }
 
@@ -78,7 +74,6 @@ class BookDetailModel extends Equatable {
       'bookUrl': bookUrl,
       'category': category?.toMap(),
       'currentPage': currentPage,
-      'lastOpened': lastOpened?.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
     };
   }
 
@@ -97,7 +92,6 @@ class BookDetailModel extends Equatable {
           ? BookCategoryModel.fromMap(map['category'] as Map<String, dynamic>)
           : null,
       currentPage: map['currentPage'] as int?,
-      lastOpened: DateTime.tryParse((map['lastOpened'] as String?) ?? ''),
     );
   }
 
@@ -118,7 +112,6 @@ class BookDetailModel extends Equatable {
       bookUrl,
       category,
       currentPage,
-      lastOpened,
     ];
   }
 }

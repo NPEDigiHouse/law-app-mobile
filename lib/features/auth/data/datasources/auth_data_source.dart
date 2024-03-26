@@ -65,7 +65,7 @@ class AuthDataSourceImpl implements AuthDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/auth/signup'),
       )..fields.addAll(user.toMap());
 
-      final streamedResponse = await request.send();
+      final streamedResponse = await client.send(request);
       final response = await http.Response.fromStream(streamedResponse);
       final result = DataResponse.fromJson(jsonDecode(response.body));
 

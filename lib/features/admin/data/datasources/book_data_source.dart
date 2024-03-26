@@ -274,7 +274,7 @@ class BookDataSourceImpl implements BookDataSource {
         ..headers[HttpHeaders.authorizationHeader] =
             'Bearer ${CredentialSaver.accessToken}';
 
-      final streamedResponse = await request.send();
+      final streamedResponse = await client.send(request);
       final response = await http.Response.fromStream(streamedResponse);
       final result = DataResponse.fromJson(jsonDecode(response.body));
 
@@ -307,7 +307,7 @@ class BookDataSourceImpl implements BookDataSource {
         ..headers[HttpHeaders.authorizationHeader] =
             'Bearer ${CredentialSaver.accessToken}';
 
-      final streamedResponse = await request.send();
+      final streamedResponse = await client.send(request);
       final response = await http.Response.fromStream(streamedResponse);
       final result = DataResponse.fromJson(jsonDecode(response.body));
 
