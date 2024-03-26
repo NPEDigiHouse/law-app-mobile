@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // Project imports:
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
+import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
@@ -18,13 +19,8 @@ import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class AdminCurriculumCard extends ConsumerWidget {
   final CurriculumModel curriculum;
-  final VoidCallback? onTap;
 
-  const AdminCurriculumCard({
-    super.key,
-    required this.curriculum,
-    this.onTap,
-  });
+  const AdminCurriculumCard({super.key, required this.curriculum});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -40,7 +36,10 @@ class AdminCurriculumCard extends ConsumerWidget {
           spreadRadius: 1,
         ),
       ],
-      onTap: onTap,
+      onTap: () => navigatorKey.currentState!.pushNamed(
+        adminCourseMaterialRoute,
+        arguments: curriculum.id,
+      ),
       child: Stack(
         children: [
           Positioned(

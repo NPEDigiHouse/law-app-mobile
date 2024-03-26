@@ -45,7 +45,7 @@ class AdminMaterialCard extends ConsumerWidget {
       onTap: () => navigatorKey.currentState!.pushNamed(
         type == CourseMaterialType.article
             ? adminCourseArticleRoute
-            : adminCourseQuizHomeRoute,
+            : adminCourseQuizRoute,
         arguments: material.id,
       ),
       child: Padding(

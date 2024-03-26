@@ -16,6 +16,7 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_article_form_page.dart';
+import 'package:law_app/features/admin/presentation/course/pages/admin_course_quiz_form_page.dart';
 import 'package:law_app/features/admin/presentation/course/widgets/admin_material_card.dart';
 import 'package:law_app/features/shared/providers/course_providers/article_actions_provider.dart';
 import 'package:law_app/features/shared/providers/course_providers/course_detail_provider.dart';
@@ -37,6 +38,8 @@ class AdminCourseMaterialPage extends ConsumerWidget {
     final curriculum = ref.watch(CurriculumDetailProvider(id: curriculumId));
 
     ref.watch(articlesProvider);
+    ref.watch(quizesProvider);
+
     ref.listen(CurriculumDetailProvider(id: curriculumId), (_, state) {
       state.whenOrNull(
         error: (error, _) {
@@ -54,6 +57,7 @@ class AdminCourseMaterialPage extends ConsumerWidget {
         data: (curriculum) {
           if (curriculum != null) {
             ref.read(articlesProvider.notifier).state = curriculum.articles!;
+            ref.read(quizesProvider.notifier).state = curriculum.quizzes!;
           }
         },
       );
@@ -173,6 +177,8 @@ class AdminCourseMaterialPage extends ConsumerWidget {
                       ),
                     ),
                   ),
+                  if (curriculum.articles!.isNotEmpty)
+                    const SizedBox(height: 10),
                   ...List<Padding>.generate(
                     curriculum.quizzes!.length,
                     (index) => Padding(
@@ -210,7 +216,11 @@ class AdminCourseMaterialPage extends ConsumerWidget {
                         "onTap": () {
                           navigatorKey.currentState!.pop();
                           navigatorKey.currentState!.pushNamed(
-                            adminCourseAddQuizRoute,
+                            adminCourseQuizFormRoute,
+                            arguments: AdminCourseQuizFormPageArgs(
+                              title: 'Tambah Quiz',
+                              curriculumId: curriculumId,
+                            ),
                           );
                         },
                       }

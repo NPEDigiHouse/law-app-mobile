@@ -61,7 +61,7 @@ class CreateDiscussionDialog extends ConsumerWidget {
               name: 'description',
               label: 'Deskripsi',
               hintText: 'Masukkan deskripsi pertanyaan',
-              maxLines: 4,
+              maxLines: 5,
               hasPrefixIcon: false,
               hasSuffixIcon: false,
               textInputAction: TextInputAction.newline,

@@ -271,7 +271,7 @@ class AdminDiscussionDetailPage extends ConsumerWidget {
                       name: 'text',
                       label: 'Tanggapan',
                       hintText: 'Masukkan tanggapan kamu',
-                      maxLines: 4,
+                      maxLines: 5,
                       primaryButtonText: 'Submit',
                       onSubmitted: (value) {
                         navigatorKey.currentState!.pop();

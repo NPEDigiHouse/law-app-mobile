@@ -16,10 +16,10 @@ import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/admin/data/models/course_models/article_detail_model.dart';
-import 'package:law_app/features/admin/data/models/course_models/article_post_model.dart';
-import 'package:law_app/features/shared/providers/course_providers/article_actions_provider.dart';
-import 'package:law_app/features/shared/providers/course_providers/article_detail_provider.dart';
+import 'package:law_app/features/admin/data/models/course_models/quiz_detail_model.dart';
+import 'package:law_app/features/admin/data/models/course_models/quiz_post_model.dart';
+import 'package:law_app/features/shared/providers/course_providers/quiz_actions_provider.dart';
+import 'package:law_app/features/shared/providers/course_providers/quiz_detail_provider.dart';
 import 'package:law_app/features/shared/providers/manual_providers/checkbox_provider.dart';
 import 'package:law_app/features/shared/providers/manual_providers/material_provider.dart';
 import 'package:law_app/features/shared/widgets/form_field/custom_text_field.dart';
@@ -27,36 +27,36 @@ import 'package:law_app/features/shared/widgets/form_field/markdown_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
-class AdminCourseArticleFormPage extends ConsumerStatefulWidget {
+class AdminCourseQuizFormPage extends ConsumerStatefulWidget {
   final String title;
   final int? curriculumId;
-  final ArticleDetailModel? article;
+  final QuizDetailModel? quiz;
 
-  const AdminCourseArticleFormPage({
+  const AdminCourseQuizFormPage({
     super.key,
     required this.title,
     this.curriculumId,
-    this.article,
+    this.quiz,
   });
 
   @override
-  ConsumerState<AdminCourseArticleFormPage> createState() =>
-      _AdminCourseArticleFormPageState();
+  ConsumerState<AdminCourseQuizFormPage> createState() =>
+      _AdminCourseQuizFormPageState();
 }
 
-class _AdminCourseArticleFormPageState
-    extends ConsumerState<AdminCourseArticleFormPage> with AfterLayoutMixin {
+class _AdminCourseQuizFormPageState
+    extends ConsumerState<AdminCourseQuizFormPage> with AfterLayoutMixin {
   final GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
   @override
   Future<void> afterFirstLayout(BuildContext context) async {
-    if (widget.article != null) {
+    if (widget.quiz != null) {
       context.showLoadingDialog();
 
-      ref.read(titleProvider.notifier).state = widget.article!.title!;
+      ref.read(titleProvider.notifier).state = widget.quiz!.title!;
       ref.read(durationProvider.notifier).state =
-          widget.article!.duration!.toString();
-      ref.read(materialProvider.notifier).state = widget.article!.material!;
+          widget.quiz!.duration!.toString();
+      ref.read(materialProvider.notifier).state = widget.quiz!.description!;
 
       navigatorKey.currentState!.pop();
     }
@@ -67,16 +67,16 @@ class _AdminCourseArticleFormPageState
     final showPreview = ref.watch(isCheckedProvider);
     final title = ref.watch(titleProvider);
     final duration = ref.watch(durationProvider);
-    final material = ref.watch(materialProvider);
+    final description = ref.watch(materialProvider);
 
-    ref.listen(articleActionsProvider, (_, state) {
+    ref.listen(quizActionsProvider, (_, state) {
       state.whenOrNull(
         data: (data) {
           if (data != null) {
             navigatorKey.currentState!.pop();
 
-            if (widget.article != null) {
-              ref.invalidate(ArticleDetailProvider(id: widget.article!.id!));
+            if (widget.quiz != null) {
+              ref.invalidate(QuizDetailProvider(id: widget.quiz!.id!));
             }
           }
         },
@@ -87,13 +87,13 @@ class _AdminCourseArticleFormPageState
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(96),
         child: HeaderContainer(
-          title: showPreview ? 'Preview Artikel' : widget.title,
+          title: showPreview ? 'Preview Quiz' : widget.title,
           withBackButton: !showPreview,
           withTrailingButton: !showPreview,
           trailingButtonIconName: 'check-line.svg',
           trailingButtonTooltip: 'Submit',
           onPressedTrailingButton: () {
-            widget.article != null ? editArticle() : createArticle();
+            widget.quiz != null ? editQuiz() : createQuiz();
           },
         ),
       ),
@@ -103,8 +103,8 @@ class _AdminCourseArticleFormPageState
           horizontal: 20,
         ),
         child: showPreview
-            ? buildArticlePreview(title, duration, material)
-            : buildArticleForm(title, duration, material),
+            ? buildQuizPreview(title, duration, description)
+            : buildQuizForm(title, duration, description),
       ),
       floatingActionButton: Container(
         width: 48,
@@ -123,7 +123,7 @@ class _AdminCourseArticleFormPageState
               ref.read(durationProvider.notifier).state =
                   formKey.currentState!.fields['duration']!.value;
               ref.read(materialProvider.notifier).state =
-                  formKey.currentState!.fields['material']!.value;
+                  formKey.currentState!.fields['description']!.value;
             }
 
             ref.read(isCheckedProvider.notifier).state = !showPreview;
@@ -143,16 +143,16 @@ class _AdminCourseArticleFormPageState
     );
   }
 
-  Column buildArticlePreview(
+  Column buildQuizPreview(
     String? title,
     String? duration,
-    String? material,
+    String? description,
   ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SvgAsset(
-          assetPath: AssetPath.getIcon('read-outlined.svg'),
+          assetPath: AssetPath.getIcon('note-edit-line.svg'),
           color: primaryColor,
           width: 50,
         ),
@@ -164,28 +164,9 @@ class _AdminCourseArticleFormPageState
             height: 0,
           ),
         ),
-        const SizedBox(height: 4),
-        Row(
-          children: [
-            SvgAsset(
-              assetPath: AssetPath.getIcon('clock-solid.svg'),
-              color: secondaryTextColor,
-              width: 18,
-            ),
-            const SizedBox(width: 6),
-            Expanded(
-              child: Text(
-                '${duration ?? ''} menit',
-                style: textTheme.bodyMedium!.copyWith(
-                  color: secondaryTextColor,
-                ),
-              ),
-            ),
-          ],
-        ),
         const SizedBox(height: 12),
         MarkdownBody(
-          data: material ?? '',
+          data: description ?? '',
           selectable: true,
           onTapLink: (text, href, title) async {
             if (href != null) {
@@ -195,14 +176,51 @@ class _AdminCourseArticleFormPageState
             }
           },
         ),
+        const SizedBox(height: 16),
+        buildQuizInfoText(
+          title: 'Total Soal',
+          value: '0 soal',
+        ),
+        buildQuizInfoText(
+          title: 'Waktu Pengerjaan',
+          value: '${duration ?? ''} menit',
+        ),
       ],
     );
   }
 
-  FormBuilder buildArticleForm(
+  Padding buildQuizInfoText({
+    required String title,
+    required String value,
+    Color? valueColor,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 6),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 2,
+            child: Text(title),
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            flex: 3,
+            child: Text(
+              value,
+              style: textTheme.titleSmall!.copyWith(
+                color: valueColor ?? primaryTextColor,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  FormBuilder buildQuizForm(
     String? title,
     String? duration,
-    String? material,
+    String? description,
   ) {
     return FormBuilder(
       key: formKey,
@@ -212,8 +230,8 @@ class _AdminCourseArticleFormPageState
           CustomTextField(
             name: 'title',
             label: 'Judul',
-            hintText: 'Masukkan judul materi',
-            initialValue: title ?? widget.article?.title,
+            hintText: 'Masukkan judul quiz',
+            initialValue: title ?? widget.quiz?.title,
             hasPrefixIcon: false,
             hasSuffixIcon: false,
             textCapitalization: TextCapitalization.words,
@@ -227,8 +245,8 @@ class _AdminCourseArticleFormPageState
           CustomTextField(
             name: 'duration',
             label: 'Durasi (Menit)',
-            hintText: 'Masukkan durasi belajar',
-            initialValue: duration ?? widget.article?.duration.toString(),
+            hintText: 'Masukkan durasi pengerjaan',
+            initialValue: duration ?? widget.quiz?.duration.toString(),
             hasPrefixIcon: false,
             hasSuffixIcon: false,
             textInputType: TextInputType.number,
@@ -247,10 +265,10 @@ class _AdminCourseArticleFormPageState
           ),
           const SizedBox(height: 20),
           MarkdownField(
-            name: 'material',
-            label: 'Materi',
-            hintText: 'Masukkan materi course',
-            initialValue: material ?? widget.article?.material,
+            name: 'description',
+            label: 'Deskripsi',
+            hintText: 'Masukkan deskripsi quiz',
+            initialValue: description ?? widget.quiz?.description,
             onChanged: (_) {},
           ),
           const SizedBox(height: 64),
@@ -259,17 +277,17 @@ class _AdminCourseArticleFormPageState
     );
   }
 
-  void editArticle() {
+  void editQuiz() {
     FocusManager.instance.primaryFocus?.unfocus();
 
     if (formKey.currentState!.saveAndValidate()) {
       final data = formKey.currentState!.value;
 
-      ref.read(articleActionsProvider.notifier).editArticle(
-            article: widget.article!.copyWith(
+      ref.read(quizActionsProvider.notifier).editQuiz(
+            quiz: widget.quiz!.copyWith(
               title: data['title'],
               duration: int.tryParse(data['duration']),
-              material: data['material'],
+              description: data['description'],
             ),
           );
     } else {
@@ -280,17 +298,17 @@ class _AdminCourseArticleFormPageState
     }
   }
 
-  void createArticle() {
+  void createQuiz() {
     FocusManager.instance.primaryFocus?.unfocus();
 
     if (formKey.currentState!.saveAndValidate()) {
       final data = formKey.currentState!.value;
 
-      ref.read(articleActionsProvider.notifier).createArticle(
-            article: ArticlePostModel(
+      ref.read(quizActionsProvider.notifier).createQuiz(
+            quiz: QuizPostModel(
               title: data['title'],
               duration: int.tryParse(data['duration']) ?? 0,
-              material: data['material'],
+              description: data['description'],
               curriculumId: widget.curriculumId!,
             ),
           );
@@ -303,14 +321,14 @@ class _AdminCourseArticleFormPageState
   }
 }
 
-class AdminCourseArticleFormPageArgs {
+class AdminCourseQuizFormPageArgs {
   final String title;
   final int? curriculumId;
-  final ArticleDetailModel? article;
+  final QuizDetailModel? quiz;
 
-  const AdminCourseArticleFormPageArgs({
+  const AdminCourseQuizFormPageArgs({
     required this.title,
     this.curriculumId,
-    this.article,
+    this.quiz,
   });
 }

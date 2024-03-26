@@ -10,7 +10,6 @@ import 'package:law_app/core/extensions/button_extension.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/helpers/function_helper.dart';
-import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
@@ -175,10 +174,6 @@ class AdminCourseCurriculumPage extends ConsumerWidget {
                             ),
                             child: AdminCurriculumCard(
                               curriculum: course.curriculums![index],
-                              onTap: () => navigatorKey.currentState!.pushNamed(
-                                adminCourseMaterialRoute,
-                                arguments: course.curriculums![index].id,
-                              ),
                             ),
                           ),
                         ),

@@ -155,7 +155,7 @@ extension DialogExtension on BuildContext {
     required String textAreaName,
     required String textAreaLabel,
     required String textAreaHint,
-    int textAreaMaxLines = 4,
+    int textAreaMaxLines = 5,
     String? primaryButtonText,
     void Function(Map<String, dynamic> value)? onSubmitted,
   }) {

@@ -303,7 +303,7 @@ class _AdmiAdFormPageState extends ConsumerState<AdManagementFormPage>
             const SizedBox(height: 20),
             CustomTextField(
               name: 'title',
-              label: 'Judul Iklan',
+              label: 'Judul',
               hintText: 'Masukkan judul iklan',
               initialValue: title ?? widget.ad?.title,
               hasPrefixIcon: false,
@@ -318,7 +318,7 @@ class _AdmiAdFormPageState extends ConsumerState<AdManagementFormPage>
             const SizedBox(height: 20),
             MarkdownField(
               name: 'content',
-              label: 'Konten Iklan',
+              label: 'Konten',
               hintText: 'Masukkan konten iklan',
               initialValue: content ?? widget.ad?.content,
               onChanged: (_) {},

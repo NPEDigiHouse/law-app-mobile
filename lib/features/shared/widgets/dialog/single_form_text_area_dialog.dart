@@ -34,7 +34,7 @@ class SingleFormTextAreaDialog extends StatelessWidget {
     required this.textAreaName,
     required this.textAreaLabel,
     required this.textAreaHint,
-    this.textAreaMaxLines = 4,
+    this.textAreaMaxLines = 5,
     this.primaryButtonText,
     this.onSubmitted,
   });

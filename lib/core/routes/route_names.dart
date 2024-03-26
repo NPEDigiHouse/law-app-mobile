@@ -59,10 +59,11 @@ const adminCourseFormRoute = '/admin-course-form';
 const adminCourseDetailRoute = '/admin-course-detail';
 const adminCourseCurriculumRoute = '/admin-course-curriculum';
 const adminCourseMaterialRoute = '/admin-course-material';
-const adminCourseArticleRoute = '/admin-course-article';
 const adminCourseArticleFormRoute = '/admin-course-article-form';
-const adminCourseQuizHomeRoute = '/admin-course-quiz-home';
-const adminCourseAddQuizRoute = '/admin-course-add-quiz';
+const adminCourseArticleRoute = '/admin-course-article';
+const adminCourseQuizFormRoute = '/admin-course-quiz-form';
+const adminCourseQuizRoute = '/admin-course-quiz';
+
 const adminCourseQuestionListRoute = '/admin-course-question-list';
 const adminCourseAddQuestionRoute = '/admin-course-add-question';
 

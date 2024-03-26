@@ -53,7 +53,7 @@ class AnswerDiscussionDialog extends ConsumerWidget {
               name: 'text',
               label: 'Jawaban Anda',
               hintText: 'Masukkan jawaban Anda',
-              maxLines: 4,
+              maxLines: 5,
               hasPrefixIcon: false,
               hasSuffixIcon: false,
               textInputAction: TextInputAction.newline,
