@@ -14,6 +14,7 @@ class BookModel extends Equatable {
   final DateTime? releaseDate;
   final int? pageAmt;
   final String? coverImage;
+  final String? bookUrl;
   final BookCategoryModel? category;
   final int? currentPage;
 
@@ -26,6 +27,7 @@ class BookModel extends Equatable {
     this.releaseDate,
     this.pageAmt,
     this.coverImage,
+    this.bookUrl,
     this.category,
     this.currentPage,
   });
@@ -39,6 +41,7 @@ class BookModel extends Equatable {
     DateTime? releaseDate,
     int? pageAmt,
     String? coverImage,
+    String? bookUrl,
     BookCategoryModel? category,
     int? currentPage,
   }) {
@@ -51,6 +54,7 @@ class BookModel extends Equatable {
       releaseDate: releaseDate ?? this.releaseDate,
       pageAmt: pageAmt ?? this.pageAmt,
       coverImage: coverImage ?? this.coverImage,
+      bookUrl: bookUrl ?? this.bookUrl,
       category: category ?? this.category,
       currentPage: currentPage ?? this.currentPage,
     );
@@ -67,6 +71,7 @@ class BookModel extends Equatable {
           releaseDate?.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
       'pageAmt': pageAmt,
       'coverImage': coverImage,
+      'bookUrl': bookUrl,
       'category': category?.toMap(),
       'currentPage': currentPage,
     };
@@ -82,6 +87,7 @@ class BookModel extends Equatable {
       releaseDate: DateTime.tryParse((map['releaseDate'] as String?) ?? ''),
       pageAmt: map['pageAmt'] as int?,
       coverImage: map['coverImage'] as String?,
+      bookUrl: map['bookUrl'] as String?,
       category: map['category'] != null
           ? BookCategoryModel.fromMap(map['category'] as Map<String, dynamic>)
           : null,
@@ -103,6 +109,7 @@ class BookModel extends Equatable {
       releaseDate,
       pageAmt,
       coverImage,
+      bookUrl,
       category,
       currentPage,
     ];

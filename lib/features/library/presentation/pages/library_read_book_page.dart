@@ -18,7 +18,7 @@ import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/admin/data/models/book_models/book_detail_model.dart';
+import 'package:law_app/features/admin/data/models/book_models/book_model.dart';
 import 'package:law_app/features/library/presentation/providers/book_detail_provider.dart';
 import 'package:law_app/features/library/presentation/providers/create_user_read_provider.dart';
 import 'package:law_app/features/library/presentation/providers/library_provider.dart';
@@ -30,7 +30,7 @@ final totalPagesProvider = StateProvider.autoDispose<int>((ref) => 1);
 
 class LibraryReadBookPage extends ConsumerStatefulWidget {
   final String path;
-  final BookDetailModel book;
+  final BookModel book;
 
   const LibraryReadBookPage({
     super.key,
@@ -272,7 +272,7 @@ class _LibraryReadBookPageState extends ConsumerState<LibraryReadBookPage> {
 
 class LibraryReadBookPageArgs {
   final String path;
-  final BookDetailModel book;
+  final BookModel book;
 
   const LibraryReadBookPageArgs({
     required this.path,

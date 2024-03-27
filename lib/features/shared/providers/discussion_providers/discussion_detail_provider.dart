@@ -2,7 +2,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
-import 'package:law_app/features/admin/data/models/discussion_models/discussion_detail_model.dart';
+import 'package:law_app/features/admin/data/models/discussion_models/discussion_model.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/repositories_provider/discussion_repository_provider.dart';
 
 part 'discussion_detail_provider.g.dart';
@@ -10,8 +10,8 @@ part 'discussion_detail_provider.g.dart';
 @riverpod
 class DiscussionDetail extends _$DiscussionDetail {
   @override
-  Future<DiscussionDetailModel?> build({required int id}) async {
-    DiscussionDetailModel? discussionDetail;
+  Future<DiscussionModel?> build({required int id}) async {
+    DiscussionModel? discussionDetail;
 
     state = const AsyncValue.loading();
 

@@ -2,7 +2,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
-import 'package:law_app/features/admin/data/models/course_models/course_detail_model.dart';
+import 'package:law_app/features/admin/data/models/course_models/course_model.dart';
 import 'package:law_app/features/admin/data/models/course_models/course_post_model.dart';
 import 'package:law_app/features/shared/providers/course_providers/repositories_provider/course_repository_provider.dart';
 
@@ -27,7 +27,7 @@ class CourseActions extends _$CourseActions {
     );
   }
 
-  Future<void> editCourse({required CourseDetailModel course}) async {
+  Future<void> editCourse({required CourseModel course}) async {
     state = const AsyncValue.loading();
 
     final result =

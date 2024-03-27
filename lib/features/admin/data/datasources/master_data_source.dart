@@ -11,7 +11,6 @@ import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/extensions/datetime_extension.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/data_response.dart';
-import 'package:law_app/features/admin/data/models/user_models/user_detail_model.dart';
 import 'package:law_app/features/admin/data/models/user_models/user_model.dart';
 import 'package:law_app/features/admin/data/models/user_models/user_post_model.dart';
 
@@ -25,13 +24,13 @@ abstract class MasterDataSource {
   });
 
   /// Get user detail
-  Future<UserDetailModel> getUserDetail({required int id});
+  Future<UserModel> getUserDetail({required int id});
 
   /// Create user
   Future<void> createUser({required UserPostModel user});
 
   /// Edit user
-  Future<void> editUser({required UserDetailModel user});
+  Future<void> editUser({required UserModel user});
 
   /// Delete user
   Future<void> deleteUser({required int id});
@@ -78,7 +77,7 @@ class MasterDataSourceImpl implements MasterDataSource {
   }
 
   @override
-  Future<UserDetailModel> getUserDetail({required int id}) async {
+  Future<UserModel> getUserDetail({required int id}) async {
     try {
       final response = await client.get(
         Uri.parse('${ApiConfigs.baseUrl}/users/$id'),
@@ -92,7 +91,7 @@ class MasterDataSourceImpl implements MasterDataSource {
       final result = DataResponse.fromJson(jsonDecode(response.body));
 
       if (result.code == 200) {
-        return UserDetailModel.fromMap(result.data);
+        return UserModel.fromMap(result.data);
       } else {
         throw ServerException('${result.message}');
       }
@@ -125,7 +124,7 @@ class MasterDataSourceImpl implements MasterDataSource {
   }
 
   @override
-  Future<void> editUser({required UserDetailModel user}) async {
+  Future<void> editUser({required UserModel user}) async {
     try {
       final request = http.MultipartRequest(
         'PUT',

@@ -6,7 +6,6 @@ import 'package:law_app/core/connections/network_info.dart';
 import 'package:law_app/core/errors/failures.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/features/admin/data/datasources/ad_data_source.dart';
-import 'package:law_app/features/admin/data/models/ad_models/ad_detail_model.dart';
 import 'package:law_app/features/admin/data/models/ad_models/ad_model.dart';
 import 'package:law_app/features/admin/data/models/ad_models/ad_post_model.dart';
 
@@ -15,13 +14,13 @@ abstract class AdRepository {
   Future<Either<Failure, List<AdModel>>> getAds();
 
   /// Get ad detail
-  Future<Either<Failure, AdDetailModel>> getAdDetail({required int id});
+  Future<Either<Failure, AdModel>> getAdDetail({required int id});
 
   /// Create ad
   Future<Either<Failure, void>> createAd({required AdPostModel ad});
 
   /// Edit ad
-  Future<Either<Failure, void>> editAd({required AdDetailModel ad});
+  Future<Either<Failure, void>> editAd({required AdModel ad});
 
   /// Delete ad
   Future<Either<Failure, void>> deleteAd({required int id});
@@ -52,7 +51,7 @@ class AdRepositoryImpl implements AdRepository {
   }
 
   @override
-  Future<Either<Failure, AdDetailModel>> getAdDetail({required int id}) async {
+  Future<Either<Failure, AdModel>> getAdDetail({required int id}) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await adDataSource.getAdDetail(id: id);
@@ -82,7 +81,7 @@ class AdRepositoryImpl implements AdRepository {
   }
 
   @override
-  Future<Either<Failure, void>> editAd({required AdDetailModel ad}) async {
+  Future<Either<Failure, void>> editAd({required AdModel ad}) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await adDataSource.editAd(ad: ad);

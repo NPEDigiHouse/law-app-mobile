@@ -12,7 +12,6 @@ import 'package:law_app/core/configs/api_configs.dart';
 import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/data_response.dart';
-import 'package:law_app/features/admin/data/models/ad_models/ad_detail_model.dart';
 import 'package:law_app/features/admin/data/models/ad_models/ad_model.dart';
 import 'package:law_app/features/admin/data/models/ad_models/ad_post_model.dart';
 
@@ -21,13 +20,13 @@ abstract class AdDataSource {
   Future<List<AdModel>> getAds();
 
   /// Get ad detail
-  Future<AdDetailModel> getAdDetail({required int id});
+  Future<AdModel> getAdDetail({required int id});
 
   /// Create ad
   Future<void> createAd({required AdPostModel ad});
 
   /// Edit ad
-  Future<void> editAd({required AdDetailModel ad});
+  Future<void> editAd({required AdModel ad});
 
   /// Delete ad
   Future<void> deleteAd({required int id});
@@ -65,7 +64,7 @@ class AdDataSourceImpl implements AdDataSource {
   }
 
   @override
-  Future<AdDetailModel> getAdDetail({required int id}) async {
+  Future<AdModel> getAdDetail({required int id}) async {
     try {
       final response = await client.get(
         Uri.parse('${ApiConfigs.baseUrl}/ads/$id'),
@@ -79,7 +78,7 @@ class AdDataSourceImpl implements AdDataSource {
       final result = DataResponse.fromJson(jsonDecode(response.body));
 
       if (result.code == 200) {
-        return AdDetailModel.fromMap(result.data);
+        return AdModel.fromMap(result.data);
       } else {
         throw ServerException('${result.message}');
       }
@@ -122,7 +121,7 @@ class AdDataSourceImpl implements AdDataSource {
   }
 
   @override
-  Future<void> editAd({required AdDetailModel ad}) async {
+  Future<void> editAd({required AdModel ad}) async {
     try {
       final request = http.MultipartRequest(
         'PUT',

@@ -1,29 +1,29 @@
 // Package imports:
 import 'package:equatable/equatable.dart';
 
-class ArticleDetailModel extends Equatable {
+class QuizModel extends Equatable {
   final int? id;
   final String? title;
-  final String? material;
+  final String? description;
   final int? duration;
 
-  const ArticleDetailModel({
+  const QuizModel({
     this.id,
     this.title,
-    this.material,
+    this.description,
     this.duration,
   });
 
-  ArticleDetailModel copyWith({
+  QuizModel copyWith({
     int? id,
     String? title,
-    String? material,
+    String? description,
     int? duration,
   }) {
-    return ArticleDetailModel(
+    return QuizModel(
       id: id ?? this.id,
       title: title ?? this.title,
-      material: material ?? this.material,
+      description: description ?? this.description,
       duration: duration ?? this.duration,
     );
   }
@@ -32,16 +32,16 @@ class ArticleDetailModel extends Equatable {
     return <String, dynamic>{
       'id': id,
       'title': title,
-      'material': material,
+      'description': description,
       'duration': duration,
     };
   }
 
-  factory ArticleDetailModel.fromMap(Map<String, dynamic> map) {
-    return ArticleDetailModel(
+  factory QuizModel.fromMap(Map<String, dynamic> map) {
+    return QuizModel(
       id: map['id'] as int?,
       title: map['title'] as String?,
-      material: map['material'] as String?,
+      description: map['description'] as String?,
       duration: map['duration'] as int?,
     );
   }
@@ -50,5 +50,5 @@ class ArticleDetailModel extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object?> get props => [id, title, material, duration];
+  List<Object?> get props => [id, title, description, duration];
 }

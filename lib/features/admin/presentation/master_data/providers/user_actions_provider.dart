@@ -2,7 +2,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
-import 'package:law_app/features/admin/data/models/user_models/user_detail_model.dart';
+import 'package:law_app/features/admin/data/models/user_models/user_model.dart';
 import 'package:law_app/features/admin/data/models/user_models/user_post_model.dart';
 import 'package:law_app/features/admin/presentation/master_data/providers/repositories_provider/master_data_repository_provider.dart';
 
@@ -27,7 +27,7 @@ class UserActions extends _$UserActions {
     );
   }
 
-  Future<void> editUser({required UserDetailModel user}) async {
+  Future<void> editUser({required UserModel user}) async {
     state = const AsyncValue.loading();
 
     final result =

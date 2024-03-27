@@ -10,7 +10,6 @@ import 'package:law_app/core/configs/api_configs.dart';
 import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/data_response.dart';
-import 'package:law_app/features/admin/data/models/discussion_models/discussion_detail_model.dart';
 import 'package:law_app/features/admin/data/models/discussion_models/discussion_model.dart';
 import 'package:law_app/features/admin/data/models/discussion_models/discussion_post_model.dart';
 
@@ -36,7 +35,7 @@ abstract class DiscussionDataSource {
   });
 
   /// Get discussion detail
-  Future<DiscussionDetailModel> getDiscussionDetail({required int id});
+  Future<DiscussionModel> getDiscussionDetail({required int id});
 
   /// Create discussion
   Future<void> createDiscussion({required DiscussionPostModel discussion});
@@ -138,7 +137,7 @@ class DiscussionDataSourceImpl implements DiscussionDataSource {
   }
 
   @override
-  Future<DiscussionDetailModel> getDiscussionDetail({required int id}) async {
+  Future<DiscussionModel> getDiscussionDetail({required int id}) async {
     try {
       final response = await client.get(
         Uri.parse('${ApiConfigs.baseUrl}/user-discussions/$id'),
@@ -152,7 +151,7 @@ class DiscussionDataSourceImpl implements DiscussionDataSource {
       final result = DataResponse.fromJson(jsonDecode(response.body));
 
       if (result.code == 200) {
-        return DiscussionDetailModel.fromMap(result.data);
+        return DiscussionModel.fromMap(result.data);
       } else {
         throw ServerException('${result.message}');
       }

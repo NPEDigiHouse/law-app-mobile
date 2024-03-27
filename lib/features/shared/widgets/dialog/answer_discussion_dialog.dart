@@ -11,14 +11,14 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/admin/data/models/discussion_models/discussion_detail_model.dart';
+import 'package:law_app/features/admin/data/models/discussion_models/discussion_model.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/create_discussion_comment_provider.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/edit_discussion_provider.dart';
 import 'package:law_app/features/shared/widgets/dialog/custom_dialog.dart';
 import 'package:law_app/features/shared/widgets/form_field/custom_text_field.dart';
 
 class AnswerDiscussionDialog extends ConsumerWidget {
-  final DiscussionDetailModel discussion;
+  final DiscussionModel discussion;
 
   const AnswerDiscussionDialog({super.key, required this.discussion});
 

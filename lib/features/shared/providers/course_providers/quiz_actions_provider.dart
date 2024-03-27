@@ -2,7 +2,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
-import 'package:law_app/features/admin/data/models/course_models/quiz_detail_model.dart';
+import 'package:law_app/features/admin/data/models/course_models/quiz_model.dart';
 import 'package:law_app/features/admin/data/models/course_models/quiz_post_model.dart';
 import 'package:law_app/features/shared/providers/course_providers/repositories_provider/course_repository_provider.dart';
 
@@ -27,7 +27,7 @@ class QuizActions extends _$QuizActions {
     );
   }
 
-  Future<void> editQuiz({required QuizDetailModel quiz}) async {
+  Future<void> editQuiz({required QuizModel quiz}) async {
     state = const AsyncValue.loading();
 
     final result =

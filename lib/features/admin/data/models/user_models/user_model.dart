@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 
 // Project imports:
 import 'package:law_app/core/extensions/datetime_extension.dart';
+import 'package:law_app/features/admin/data/models/reference_models/discussion_category_model.dart';
 
 class UserModel extends Equatable {
   final int? id;
@@ -13,6 +14,7 @@ class UserModel extends Equatable {
   final DateTime? birthDate;
   final String? phoneNumber;
   final String? profilePicture;
+  final List<DiscussionCategoryModel>? expertises;
 
   const UserModel({
     this.id,
@@ -23,6 +25,7 @@ class UserModel extends Equatable {
     this.birthDate,
     this.phoneNumber,
     this.profilePicture,
+    this.expertises,
   });
 
   UserModel copyWith({
@@ -34,6 +37,7 @@ class UserModel extends Equatable {
     DateTime? birthDate,
     String? phoneNumber,
     String? profilePicture,
+    List<DiscussionCategoryModel>? expertises,
   }) {
     return UserModel(
       id: id ?? this.id,
@@ -44,6 +48,7 @@ class UserModel extends Equatable {
       birthDate: birthDate ?? this.birthDate,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       profilePicture: profilePicture ?? this.profilePicture,
+      expertises: expertises ?? this.expertises,
     );
   }
 
@@ -57,6 +62,7 @@ class UserModel extends Equatable {
       'birthDate': birthDate?.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
       'phoneNumber': phoneNumber,
       'profilePicture': profilePicture,
+      'teacherDiscussionCategories': expertises?.map((e) => e.toMap()).toList(),
     };
   }
 
@@ -70,6 +76,15 @@ class UserModel extends Equatable {
       birthDate: DateTime.tryParse((map['birthDate'] as String?) ?? ''),
       phoneNumber: map['phoneNumber'] as String?,
       profilePicture: map['profilePicture'] as String?,
+      expertises: map['teacherDiscussionCategories'] != null
+          ? List<DiscussionCategoryModel>.from(
+              (map['teacherDiscussionCategories'] as List).map(
+                (e) => DiscussionCategoryModel.fromMap(
+                  e as Map<String, dynamic>,
+                ),
+              ),
+            )
+          : null,
     );
   }
 
@@ -87,6 +102,7 @@ class UserModel extends Equatable {
       birthDate,
       phoneNumber,
       profilePicture,
+      expertises,
     ];
   }
 }

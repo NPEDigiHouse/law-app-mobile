@@ -12,15 +12,17 @@ import 'package:law_app/core/configs/api_configs.dart';
 import 'package:law_app/core/errors/exceptions.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/data_response.dart';
-import 'package:law_app/features/admin/data/models/course_models/article_detail_model.dart';
+import 'package:law_app/features/admin/data/models/course_models/article_model.dart';
 import 'package:law_app/features/admin/data/models/course_models/article_post_model.dart';
-import 'package:law_app/features/admin/data/models/course_models/course_detail_model.dart';
 import 'package:law_app/features/admin/data/models/course_models/course_model.dart';
 import 'package:law_app/features/admin/data/models/course_models/course_post_model.dart';
-import 'package:law_app/features/admin/data/models/course_models/curriculum_detail_model.dart';
 import 'package:law_app/features/admin/data/models/course_models/curriculum_model.dart';
 import 'package:law_app/features/admin/data/models/course_models/curriculum_post_model.dart';
-import 'package:law_app/features/admin/data/models/course_models/quiz_detail_model.dart';
+import 'package:law_app/features/admin/data/models/course_models/option_model.dart';
+import 'package:law_app/features/admin/data/models/course_models/option_post_model.dart';
+import 'package:law_app/features/admin/data/models/course_models/question_model.dart';
+import 'package:law_app/features/admin/data/models/course_models/question_post_model.dart';
+import 'package:law_app/features/admin/data/models/course_models/quiz_model.dart';
 import 'package:law_app/features/admin/data/models/course_models/quiz_post_model.dart';
 
 abstract class CourseDataSource {
@@ -32,19 +34,19 @@ abstract class CourseDataSource {
   });
 
   /// Get course detail
-  Future<CourseDetailModel> getCourseDetail({required int id});
+  Future<CourseModel> getCourseDetail({required int id});
 
   /// Create course
   Future<void> createCourse({required CoursePostModel course});
 
   /// Edit course
-  Future<void> editCourse({required CourseDetailModel course});
+  Future<void> editCourse({required CourseModel course});
 
   /// Delete course
   Future<void> deleteCourse({required int id});
 
   /// Get curriculum detail
-  Future<CurriculumDetailModel> getCurriculumDetail({required int id});
+  Future<CurriculumModel> getCurriculumDetail({required int id});
 
   /// Create curriculum
   Future<void> createCurriculum({required CurriculumPostModel curriculum});
@@ -56,28 +58,55 @@ abstract class CourseDataSource {
   Future<void> deleteCurriculum({required int id});
 
   /// Get article detail
-  Future<ArticleDetailModel> getArticleDetail({required int id});
+  Future<ArticleModel> getArticleDetail({required int id});
 
   /// Create article
   Future<void> createArticle({required ArticlePostModel article});
 
   /// Edit article
-  Future<void> editArticle({required ArticleDetailModel article});
+  Future<void> editArticle({required ArticleModel article});
 
   /// Delete article
   Future<void> deleteArticle({required int id});
 
   /// Get quiz detail
-  Future<QuizDetailModel> getQuizDetail({required int id});
+  Future<QuizModel> getQuizDetail({required int id});
 
   /// Create quiz
   Future<void> createQuiz({required QuizPostModel quiz});
 
   /// Edit quiz
-  Future<void> editQuiz({required QuizDetailModel quiz});
+  Future<void> editQuiz({required QuizModel quiz});
 
   /// Delete quiz
   Future<void> deleteQuiz({required int id});
+
+  /// Get all questions by quizId
+  Future<List<QuestionModel>> getQuestions({required int quizId});
+
+  /// Get question detail
+  Future<QuestionModel> getQuestionDetail({required int id});
+
+  /// Create question
+  Future<void> createQuestion({required QuestionPostModel question});
+
+  /// Edit question
+  Future<void> editQuestion({required QuestionModel question});
+
+  /// Delete question
+  Future<void> deleteQuestion({required int id});
+
+  /// Get all options by questionId
+  Future<List<OptionModel>> getOptions({required int questionId});
+
+  /// Create option
+  Future<void> createOption({required OptionPostModel option});
+
+  /// Edit option
+  Future<void> editOption({required OptionModel option});
+
+  /// Delete option
+  Future<void> deleteOption({required int id});
 }
 
 class CourseDataSourceImpl implements CourseDataSource {
@@ -119,7 +148,7 @@ class CourseDataSourceImpl implements CourseDataSource {
   }
 
   @override
-  Future<CourseDetailModel> getCourseDetail({required int id}) async {
+  Future<CourseModel> getCourseDetail({required int id}) async {
     try {
       final response = await client.get(
         Uri.parse('${ApiConfigs.baseUrl}/courses/$id'),
@@ -133,7 +162,7 @@ class CourseDataSourceImpl implements CourseDataSource {
       final result = DataResponse.fromJson(jsonDecode(response.body));
 
       if (result.code == 200) {
-        return CourseDetailModel.fromMap(result.data);
+        return CourseModel.fromMap(result.data);
       } else {
         throw ServerException('${result.message}');
       }
@@ -176,7 +205,7 @@ class CourseDataSourceImpl implements CourseDataSource {
   }
 
   @override
-  Future<void> editCourse({required CourseDetailModel course}) async {
+  Future<void> editCourse({required CourseModel course}) async {
     try {
       final request = http.MultipartRequest(
         'PUT',
@@ -234,7 +263,7 @@ class CourseDataSourceImpl implements CourseDataSource {
   }
 
   @override
-  Future<CurriculumDetailModel> getCurriculumDetail({required int id}) async {
+  Future<CurriculumModel> getCurriculumDetail({required int id}) async {
     try {
       final response = await client.get(
         Uri.parse('${ApiConfigs.baseUrl}/curriculums/$id'),
@@ -248,7 +277,7 @@ class CourseDataSourceImpl implements CourseDataSource {
       final result = DataResponse.fromJson(jsonDecode(response.body));
 
       if (result.code == 200) {
-        return CurriculumDetailModel.fromMap(result.data);
+        return CurriculumModel.fromMap(result.data);
       } else {
         throw ServerException('${result.message}');
       }
@@ -327,7 +356,7 @@ class CourseDataSourceImpl implements CourseDataSource {
   }
 
   @override
-  Future<ArticleDetailModel> getArticleDetail({required int id}) async {
+  Future<ArticleModel> getArticleDetail({required int id}) async {
     try {
       final response = await client.get(
         Uri.parse('${ApiConfigs.baseUrl}/articles/$id'),
@@ -341,7 +370,7 @@ class CourseDataSourceImpl implements CourseDataSource {
       final result = DataResponse.fromJson(jsonDecode(response.body));
 
       if (result.code == 200) {
-        return ArticleDetailModel.fromMap(result.data);
+        return ArticleModel.fromMap(result.data);
       } else {
         throw ServerException('${result.message}');
       }
@@ -374,7 +403,7 @@ class CourseDataSourceImpl implements CourseDataSource {
   }
 
   @override
-  Future<void> editArticle({required ArticleDetailModel article}) async {
+  Future<void> editArticle({required ArticleModel article}) async {
     try {
       final response = await client.put(
         Uri.parse('${ApiConfigs.baseUrl}/articles/${article.id}'),
@@ -423,7 +452,7 @@ class CourseDataSourceImpl implements CourseDataSource {
   }
 
   @override
-  Future<QuizDetailModel> getQuizDetail({required int id}) async {
+  Future<QuizModel> getQuizDetail({required int id}) async {
     try {
       final response = await client.get(
         Uri.parse('${ApiConfigs.baseUrl}/quizes/$id'),
@@ -437,7 +466,7 @@ class CourseDataSourceImpl implements CourseDataSource {
       final result = DataResponse.fromJson(jsonDecode(response.body));
 
       if (result.code == 200) {
-        return QuizDetailModel.fromMap(result.data);
+        return QuizModel.fromMap(result.data);
       } else {
         throw ServerException('${result.message}');
       }
@@ -470,7 +499,7 @@ class CourseDataSourceImpl implements CourseDataSource {
   }
 
   @override
-  Future<void> editQuiz({required QuizDetailModel quiz}) async {
+  Future<void> editQuiz({required QuizModel quiz}) async {
     try {
       final response = await client.put(
         Uri.parse('${ApiConfigs.baseUrl}/quizes/${quiz.id}'),
@@ -501,6 +530,223 @@ class CourseDataSourceImpl implements CourseDataSource {
     try {
       final response = await client.delete(
         Uri.parse('${ApiConfigs.baseUrl}/quizes/$id'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code != 200) {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      exception(e);
+    }
+  }
+
+  @override
+  Future<List<QuestionModel>> getQuestions({required int quizId}) async {
+    try {
+      final response = await client.get(
+        Uri.parse('${ApiConfigs.baseUrl}/quiz-questions?quizId=$quizId'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code == 200) {
+        final data = result.data as List;
+
+        return data.map((e) => QuestionModel.fromMap(e)).toList();
+      } else {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      exception(e);
+    }
+  }
+
+  @override
+  Future<QuestionModel> getQuestionDetail({required int id}) async {
+    try {
+      final response = await client.get(
+        Uri.parse('${ApiConfigs.baseUrl}/quiz-questions/$id'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code == 200) {
+        return QuestionModel.fromMap(result.data);
+      } else {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      exception(e);
+    }
+  }
+
+  @override
+  Future<void> createQuestion({required QuestionPostModel question}) async {
+    try {
+      final response = await client.post(
+        Uri.parse('${ApiConfigs.baseUrl}/quiz-questions'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+        body: question.toJson(),
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code != 200) {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      exception(e);
+    }
+  }
+
+  @override
+  Future<void> editQuestion({required QuestionModel question}) async {
+    try {
+      final response = await client.put(
+        Uri.parse('${ApiConfigs.baseUrl}/quiz-questions/${question.id}'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+        body: jsonEncode({
+          'title': question.title,
+          'correctOptionId': question.correctOptionId,
+        }),
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code != 200) {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      exception(e);
+    }
+  }
+
+  @override
+  Future<void> deleteQuestion({required int id}) async {
+    try {
+      final response = await client.delete(
+        Uri.parse('${ApiConfigs.baseUrl}/quiz-questions/$id'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code != 200) {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      exception(e);
+    }
+  }
+
+  @override
+  Future<List<OptionModel>> getOptions({required int questionId}) async {
+    try {
+      final response = await client.get(
+        Uri.parse(
+          '${ApiConfigs.baseUrl}/quiz-question-options?questionId=$questionId',
+        ),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code == 200) {
+        final data = result.data as List;
+
+        return data.map((e) => OptionModel.fromMap(e)).toList();
+      } else {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      exception(e);
+    }
+  }
+
+  @override
+  Future<void> createOption({required OptionPostModel option}) async {
+    try {
+      final response = await client.post(
+        Uri.parse('${ApiConfigs.baseUrl}/quiz-question-options'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+        body: option.toJson(),
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code != 200) {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      exception(e);
+    }
+  }
+
+  @override
+  Future<void> editOption({required OptionModel option}) async {
+    try {
+      final response = await client.put(
+        Uri.parse('${ApiConfigs.baseUrl}/quiz-question-options/${option.id}'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+        body: jsonEncode({'title': option.title}),
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code != 200) {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      exception(e);
+    }
+  }
+
+  @override
+  Future<void> deleteOption({required int id}) async {
+    try {
+      final response = await client.delete(
+        Uri.parse('${ApiConfigs.baseUrl}/quiz-question-options/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader:

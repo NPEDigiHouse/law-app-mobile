@@ -17,7 +17,7 @@ import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/admin/data/models/user_models/user_detail_model.dart';
+import 'package:law_app/features/admin/data/models/user_models/user_model.dart';
 import 'package:law_app/features/auth/presentation/providers/user_credential_provider.dart';
 import 'package:law_app/features/profile/presentation/providers/profile_actions_provider.dart';
 import 'package:law_app/features/profile/presentation/providers/profile_detail_provider.dart';
@@ -265,7 +265,7 @@ class AccountInfoPage extends ConsumerWidget {
   Future<void> showActionsModalBottomSheet(
     BuildContext context,
     WidgetRef ref,
-    UserDetailModel user,
+    UserModel user,
   ) async {
     return showModalBottomSheet(
       context: context,
@@ -314,7 +314,7 @@ class AccountInfoPage extends ConsumerWidget {
 
   Future<void> getAndSetProfilePicture(
     WidgetRef ref,
-    UserDetailModel user,
+    UserModel user,
     ImageSource source,
   ) async {
     final imagePath = await ImageService.pickImage(source);

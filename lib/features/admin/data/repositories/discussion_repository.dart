@@ -6,7 +6,6 @@ import 'package:law_app/core/connections/network_info.dart';
 import 'package:law_app/core/errors/failures.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/features/admin/data/datasources/discussion_data_source.dart';
-import 'package:law_app/features/admin/data/models/discussion_models/discussion_detail_model.dart';
 import 'package:law_app/features/admin/data/models/discussion_models/discussion_model.dart';
 import 'package:law_app/features/admin/data/models/discussion_models/discussion_post_model.dart';
 
@@ -32,7 +31,7 @@ abstract class DiscussionRepository {
   });
 
   /// Get discussion detail
-  Future<Either<Failure, DiscussionDetailModel>> getDiscussionDetail(
+  Future<Either<Failure, DiscussionModel>> getDiscussionDetail(
       {required int id});
 
   /// Create discussion
@@ -126,7 +125,7 @@ class DiscussionRepositoryImpl implements DiscussionRepository {
   }
 
   @override
-  Future<Either<Failure, DiscussionDetailModel>> getDiscussionDetail(
+  Future<Either<Failure, DiscussionModel>> getDiscussionDetail(
       {required int id}) async {
     if (await networkInfo.isConnected) {
       try {

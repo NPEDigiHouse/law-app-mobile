@@ -16,7 +16,7 @@ import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/admin/data/models/course_models/quiz_detail_model.dart';
+import 'package:law_app/features/admin/data/models/course_models/quiz_model.dart';
 import 'package:law_app/features/admin/data/models/course_models/quiz_post_model.dart';
 import 'package:law_app/features/shared/providers/course_providers/quiz_actions_provider.dart';
 import 'package:law_app/features/shared/providers/course_providers/quiz_detail_provider.dart';
@@ -30,7 +30,7 @@ import 'package:law_app/features/shared/widgets/svg_asset.dart';
 class AdminCourseQuizFormPage extends ConsumerStatefulWidget {
   final String title;
   final int? curriculumId;
-  final QuizDetailModel? quiz;
+  final QuizModel? quiz;
 
   const AdminCourseQuizFormPage({
     super.key,
@@ -324,7 +324,7 @@ class _AdminCourseQuizFormPageState
 class AdminCourseQuizFormPageArgs {
   final String title;
   final int? curriculumId;
-  final QuizDetailModel? quiz;
+  final QuizModel? quiz;
 
   const AdminCourseQuizFormPageArgs({
     required this.title,

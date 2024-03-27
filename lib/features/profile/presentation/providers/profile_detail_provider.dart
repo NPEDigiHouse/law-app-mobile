@@ -2,7 +2,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
-import 'package:law_app/features/admin/data/models/user_models/user_detail_model.dart';
+import 'package:law_app/features/admin/data/models/user_models/user_model.dart';
 import 'package:law_app/features/profile/presentation/providers/repositories_provider/profile_repository_provider.dart';
 
 part 'profile_detail_provider.g.dart';
@@ -10,8 +10,8 @@ part 'profile_detail_provider.g.dart';
 @riverpod
 class ProfileDetail extends _$ProfileDetail {
   @override
-  Future<UserDetailModel?> build({required int id}) async {
-    UserDetailModel? user;
+  Future<UserModel?> build({required int id}) async {
+    UserModel? user;
 
     state = const AsyncValue.loading();
 

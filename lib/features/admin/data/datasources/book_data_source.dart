@@ -15,7 +15,6 @@ import 'package:law_app/core/extensions/datetime_extension.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/data_response.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_category_model.dart';
-import 'package:law_app/features/admin/data/models/book_models/book_detail_model.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_model.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_post_model.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_saved_model.dart';
@@ -42,7 +41,7 @@ abstract class BookDataSource {
   });
 
   /// Get book detail
-  Future<BookDetailModel> getBookDetail({required int id});
+  Future<BookModel> getBookDetail({required int id});
 
   /// Create book
   Future<void> createBook({
@@ -59,7 +58,7 @@ abstract class BookDataSource {
   });
 
   /// Edit book
-  Future<void> editBook({required BookDetailModel book});
+  Future<void> editBook({required BookModel book});
 
   /// Delete book
   Future<void> deleteBook({required int id});
@@ -223,7 +222,7 @@ class BookDataSourceImpl implements BookDataSource {
   }
 
   @override
-  Future<BookDetailModel> getBookDetail({required int id}) async {
+  Future<BookModel> getBookDetail({required int id}) async {
     try {
       final response = await client.get(
         Uri.parse('${ApiConfigs.baseUrl}/books/$id'),
@@ -237,7 +236,7 @@ class BookDataSourceImpl implements BookDataSource {
       final result = DataResponse.fromJson(jsonDecode(response.body));
 
       if (result.code == 200) {
-        return BookDetailModel.fromMap(result.data);
+        return BookModel.fromMap(result.data);
       } else {
         throw ServerException('${result.message}');
       }
@@ -320,7 +319,7 @@ class BookDataSourceImpl implements BookDataSource {
   }
 
   @override
-  Future<void> editBook({required BookDetailModel book}) async {
+  Future<void> editBook({required BookModel book}) async {
     try {
       final response = await client.put(
         Uri.parse('${ApiConfigs.baseUrl}/books/${book.id}'),

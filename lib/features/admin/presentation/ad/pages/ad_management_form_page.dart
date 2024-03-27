@@ -26,7 +26,7 @@ import 'package:law_app/core/services/image_service.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/admin/data/models/ad_models/ad_detail_model.dart';
+import 'package:law_app/features/admin/data/models/ad_models/ad_model.dart';
 import 'package:law_app/features/admin/data/models/ad_models/ad_post_model.dart';
 import 'package:law_app/features/admin/presentation/ad/providers/ad_actions_provider.dart';
 import 'package:law_app/features/admin/presentation/ad/providers/ad_detail_provider.dart';
@@ -42,7 +42,7 @@ final adContentProvider = StateProvider.autoDispose<String?>((ref) => null);
 
 class AdManagementFormPage extends ConsumerStatefulWidget {
   final String title;
-  final AdDetailModel? ad;
+  final AdModel? ad;
 
   const AdManagementFormPage({
     super.key,
@@ -355,7 +355,7 @@ class _AdmiAdFormPageState extends ConsumerState<AdManagementFormPage>
           p.basename(widget.ad!.imageName!) != p.basename(imagePath);
 
       ref.read(adActionsProvider.notifier).editAd(
-            ad: AdDetailModel(
+            ad: AdModel(
               id: widget.ad!.id,
               title: data['title'],
               content: data['content'],
@@ -403,7 +403,7 @@ class _AdmiAdFormPageState extends ConsumerState<AdManagementFormPage>
 
 class AdManagementFormPageArgs {
   final String title;
-  final AdDetailModel? ad;
+  final AdModel? ad;
 
   const AdManagementFormPageArgs({
     required this.title,

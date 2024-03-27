@@ -8,7 +8,6 @@ import 'package:law_app/core/errors/failures.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/features/admin/data/datasources/book_data_source.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_category_model.dart';
-import 'package:law_app/features/admin/data/models/book_models/book_detail_model.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_model.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_post_model.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_saved_model.dart';
@@ -36,7 +35,7 @@ abstract class BookRepository {
   });
 
   /// Get book detail
-  Future<Either<Failure, BookDetailModel>> getBookDetail({required int id});
+  Future<Either<Failure, BookModel>> getBookDetail({required int id});
 
   /// Create book
   Future<Either<Failure, void>> createBook({
@@ -53,7 +52,7 @@ abstract class BookRepository {
   });
 
   /// Edit book
-  Future<Either<Failure, void>> editBook({required BookDetailModel book});
+  Future<Either<Failure, void>> editBook({required BookModel book});
 
   /// Delete book
   Future<Either<Failure, void>> deleteBook({required int id});
@@ -183,8 +182,7 @@ class BookRepositoryImpl implements BookRepository {
   }
 
   @override
-  Future<Either<Failure, BookDetailModel>> getBookDetail(
-      {required int id}) async {
+  Future<Either<Failure, BookModel>> getBookDetail({required int id}) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await bookDataSource.getBookDetail(id: id);
@@ -245,8 +243,7 @@ class BookRepositoryImpl implements BookRepository {
   }
 
   @override
-  Future<Either<Failure, void>> editBook(
-      {required BookDetailModel book}) async {
+  Future<Either<Failure, void>> editBook({required BookModel book}) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await bookDataSource.editBook(book: book);

@@ -18,7 +18,7 @@ import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/discussion_models/discussion_comment_model.dart';
-import 'package:law_app/features/admin/data/models/discussion_models/discussion_detail_model.dart';
+import 'package:law_app/features/admin/data/models/discussion_models/discussion_model.dart';
 import 'package:law_app/features/admin/data/models/user_models/user_model.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/create_discussion_comment_provider.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/delete_discussion_provider.dart';
@@ -353,7 +353,7 @@ class StudentDiscussionDetailPage extends ConsumerWidget {
     );
   }
 
-  Widget buildDiscussionSection(DiscussionDetailModel discussion) {
+  Widget buildDiscussionSection(DiscussionModel discussion) {
     if (discussion.status == 'open') {
       if (discussion.asker!.id == CredentialSaver.user!.id) {
         return DiscussionReplyCard(

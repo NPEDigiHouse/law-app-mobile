@@ -3,7 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
 import 'package:law_app/core/enums/book_file_type.dart';
-import 'package:law_app/features/admin/data/models/book_models/book_detail_model.dart';
+import 'package:law_app/features/admin/data/models/book_models/book_model.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_post_model.dart';
 import 'package:law_app/features/library/presentation/providers/repositories_provider/book_repository_provider.dart';
 
@@ -36,7 +36,7 @@ class BookActions extends _$BookActions {
   }
 
   Future<void> editBook({
-    required BookDetailModel book,
+    required BookModel book,
     String? imagePath,
     String? bookPath,
   }) async {

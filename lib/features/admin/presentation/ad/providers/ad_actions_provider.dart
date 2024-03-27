@@ -2,7 +2,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
-import 'package:law_app/features/admin/data/models/ad_models/ad_detail_model.dart';
+import 'package:law_app/features/admin/data/models/ad_models/ad_model.dart';
 import 'package:law_app/features/admin/data/models/ad_models/ad_post_model.dart';
 import 'package:law_app/features/admin/presentation/ad/providers/repositories_provider/ad_repository_provider.dart';
 
@@ -26,7 +26,7 @@ class AdActions extends _$AdActions {
     );
   }
 
-  Future<void> editAd({required AdDetailModel ad}) async {
+  Future<void> editAd({required AdModel ad}) async {
     state = const AsyncValue.loading();
 
     final result = await ref.watch(adRepositoryProvider).editAd(ad: ad);

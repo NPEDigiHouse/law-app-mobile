@@ -125,6 +125,7 @@ class AdminCourseQuizPage extends ConsumerWidget {
                 FilledButton(
                   onPressed: () => navigatorKey.currentState!.pushNamed(
                     adminCourseQuestionListRoute,
+                    arguments: quiz.id,
                   ),
                   child: const Text('Lihat Daftar Soal'),
                 ).fullWidth(),

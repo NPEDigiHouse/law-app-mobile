@@ -23,7 +23,7 @@ import 'package:law_app/core/services/image_service.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/admin/data/models/course_models/course_detail_model.dart';
+import 'package:law_app/features/admin/data/models/course_models/course_model.dart';
 import 'package:law_app/features/admin/data/models/course_models/course_post_model.dart';
 import 'package:law_app/features/shared/providers/course_providers/course_actions_provider.dart';
 import 'package:law_app/features/shared/providers/course_providers/course_detail_provider.dart';
@@ -33,7 +33,7 @@ import 'package:law_app/features/shared/widgets/header_container.dart';
 
 class AdminCourseFormPage extends ConsumerStatefulWidget {
   final String title;
-  final CourseDetailModel? course;
+  final CourseModel? course;
 
   const AdminCourseFormPage({
     super.key,
@@ -233,7 +233,7 @@ class _AdminCourseFormPageState extends ConsumerState<AdminCourseFormPage>
           p.basename(widget.course!.coverImg!) != p.basename(imagePath);
 
       ref.read(courseActionsProvider.notifier).editCourse(
-            course: CourseDetailModel(
+            course: CourseModel(
               id: widget.course!.id,
               title: data['title'],
               description: data['description'],
@@ -271,7 +271,7 @@ class _AdminCourseFormPageState extends ConsumerState<AdminCourseFormPage>
 
 class AdminCourseFormPageArgs {
   final String title;
-  final CourseDetailModel? course;
+  final CourseModel? course;
 
   const AdminCourseFormPageArgs({
     required this.title,

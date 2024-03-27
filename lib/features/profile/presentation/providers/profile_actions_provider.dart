@@ -2,7 +2,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
-import 'package:law_app/features/admin/data/models/user_models/user_detail_model.dart';
+import 'package:law_app/features/admin/data/models/user_models/user_model.dart';
 import 'package:law_app/features/profile/presentation/providers/repositories_provider/profile_repository_provider.dart';
 
 part 'profile_actions_provider.g.dart';
@@ -15,7 +15,7 @@ class ProfileActions extends _$ProfileActions {
   }
 
   Future<void> editProfile({
-    required UserDetailModel user,
+    required UserModel user,
     String? path,
   }) async {
     state = const AsyncValue.loading();

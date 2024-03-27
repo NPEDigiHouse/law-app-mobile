@@ -16,7 +16,7 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/admin/data/models/book_models/book_detail_model.dart';
+import 'package:law_app/features/admin/data/models/book_models/book_model.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_saved_model.dart';
 import 'package:law_app/features/library/presentation/pages/library_read_book_page.dart';
 import 'package:law_app/features/library/presentation/providers/book_detail_provider.dart';
@@ -449,7 +449,7 @@ class LibraryBookDetailRoute extends ConsumerWidget {
     return 'Baca Lagi';
   }
 
-  Future<void> openPDF(BuildContext context, BookDetailModel book) async {
+  Future<void> openPDF(BuildContext context, BookModel book) async {
     context.showLoadingDialog();
 
     final path = await FileService.downloadFile(

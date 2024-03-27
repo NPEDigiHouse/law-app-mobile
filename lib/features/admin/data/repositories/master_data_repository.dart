@@ -6,7 +6,6 @@ import 'package:law_app/core/connections/network_info.dart';
 import 'package:law_app/core/errors/failures.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/features/admin/data/datasources/master_data_source.dart';
-import 'package:law_app/features/admin/data/models/user_models/user_detail_model.dart';
 import 'package:law_app/features/admin/data/models/user_models/user_model.dart';
 import 'package:law_app/features/admin/data/models/user_models/user_post_model.dart';
 
@@ -20,13 +19,13 @@ abstract class MasterDataRepository {
   });
 
   /// Get user detail
-  Future<Either<Failure, UserDetailModel>> getUserDetail({required int id});
+  Future<Either<Failure, UserModel>> getUserDetail({required int id});
 
   /// Create user
   Future<Either<Failure, void>> createUser({required UserPostModel user});
 
   /// Edit user
-  Future<Either<Failure, void>> editUser({required UserDetailModel user});
+  Future<Either<Failure, void>> editUser({required UserModel user});
 
   /// Delete user
   Future<Either<Failure, void>> deleteUser({required int id});
@@ -67,8 +66,7 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
   }
 
   @override
-  Future<Either<Failure, UserDetailModel>> getUserDetail(
-      {required int id}) async {
+  Future<Either<Failure, UserModel>> getUserDetail({required int id}) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await masterDataSource.getUserDetail(id: id);
@@ -99,8 +97,7 @@ class MasterDataRepositoryImpl implements MasterDataRepository {
   }
 
   @override
-  Future<Either<Failure, void>> editUser(
-      {required UserDetailModel user}) async {
+  Future<Either<Failure, void>> editUser({required UserModel user}) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await masterDataSource.editUser(user: user);

@@ -2,7 +2,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
-import 'package:law_app/features/admin/data/models/course_models/article_detail_model.dart';
+import 'package:law_app/features/admin/data/models/course_models/article_model.dart';
 import 'package:law_app/features/shared/providers/course_providers/repositories_provider/course_repository_provider.dart';
 
 part 'article_detail_provider.g.dart';
@@ -10,8 +10,8 @@ part 'article_detail_provider.g.dart';
 @riverpod
 class ArticleDetail extends _$ArticleDetail {
   @override
-  Future<ArticleDetailModel?> build({required int id}) async {
-    ArticleDetailModel? article;
+  Future<ArticleModel?> build({required int id}) async {
+    ArticleModel? article;
 
     state = const AsyncValue.loading();
 

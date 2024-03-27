@@ -6,7 +6,6 @@ import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/dummies_data.dart';
 import 'package:law_app/features/admin/presentation/ad/pages/ad_management_form_page.dart';
 import 'package:law_app/features/admin/presentation/ad/pages/ad_management_home_page.dart';
-import 'package:law_app/features/admin/presentation/course/pages/admin_course_add_question_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_article_form_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_article_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_curriculum_page.dart';
@@ -14,6 +13,8 @@ import 'package:law_app/features/admin/presentation/course/pages/admin_course_de
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_form_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_home_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_material_page.dart';
+import 'package:law_app/features/admin/presentation/course/pages/admin_course_question_detail_page.dart';
+import 'package:law_app/features/admin/presentation/course/pages/admin_course_question_form_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_question_list_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_quiz_form_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_quiz_page.dart';
@@ -343,17 +344,23 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         ),
       );
     case adminCourseQuestionListRoute:
-      final items = settings.arguments as List<Item>;
+      final quizId = settings.arguments as int;
 
       return MaterialPageRoute(
-        builder: (_) => AdminCourseQuestionListPage(items: items),
+        builder: (_) => AdminCourseQuestionListPage(quizId: quizId),
       );
-    case adminCourseAddQuestionRoute:
-      final item = settings.arguments as Item?;
+    case adminCourseQuestionDetailRoute:
+      return MaterialPageRoute(
+        builder: (_) => const AdminCourseQuestionDetailPage(),
+      );
+    case adminCourseQuestionFormRoute:
+      final args = settings.arguments as AdminCourseQuestionFormPageArgs;
 
       return MaterialPageRoute(
-        builder: (_) =>
-            AdminCourseAddQuestionPage(item: item, isEdit: item != null),
+        builder: (_) => AdminCourseQuestionFormPage(
+          title: args.title,
+          question: args.question,
+        ),
       );
     case adminDiscussionHomeRoute:
       return MaterialPageRoute(

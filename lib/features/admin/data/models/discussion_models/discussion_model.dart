@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 
 // Project imports:
 import 'package:law_app/core/extensions/datetime_extension.dart';
+import 'package:law_app/features/admin/data/models/discussion_models/discussion_comment_model.dart';
 import 'package:law_app/features/admin/data/models/reference_models/discussion_category_model.dart';
 import 'package:law_app/features/admin/data/models/user_models/user_model.dart';
 
@@ -12,10 +13,11 @@ class DiscussionModel extends Equatable {
   final String? title;
   final String? description;
   final String? type;
+  final DateTime? createdAt;
   final DiscussionCategoryModel? category;
   final UserModel? asker;
   final UserModel? handler;
-  final DateTime? createdAt;
+  final List<DiscussionCommentModel>? comments;
 
   const DiscussionModel({
     this.id,
@@ -23,10 +25,11 @@ class DiscussionModel extends Equatable {
     this.title,
     this.description,
     this.type,
+    this.createdAt,
     this.category,
     this.asker,
     this.handler,
-    this.createdAt,
+    this.comments,
   });
 
   DiscussionModel copyWith({
@@ -35,10 +38,11 @@ class DiscussionModel extends Equatable {
     String? title,
     String? description,
     String? type,
+    DateTime? createdAt,
     DiscussionCategoryModel? category,
     UserModel? asker,
     UserModel? handler,
-    DateTime? createdAt,
+    List<DiscussionCommentModel>? comments,
   }) {
     return DiscussionModel(
       id: id ?? this.id,
@@ -46,10 +50,11 @@ class DiscussionModel extends Equatable {
       title: title ?? this.title,
       description: description ?? this.description,
       type: type ?? this.type,
+      createdAt: createdAt ?? this.createdAt,
       category: category ?? this.category,
       asker: asker ?? this.asker,
       handler: handler ?? this.handler,
-      createdAt: createdAt ?? this.createdAt,
+      comments: comments ?? this.comments,
     );
   }
 
@@ -60,10 +65,11 @@ class DiscussionModel extends Equatable {
       'title': title,
       'description': description,
       'type': type,
+      'createdAt': createdAt?.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
       'category': category?.toMap(),
       'asker': asker?.toMap(),
       'handler': handler?.toMap(),
-      'createdAt': createdAt?.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
+      'comments': comments?.map((e) => e.toMap()).toList(),
     };
   }
 
@@ -74,6 +80,7 @@ class DiscussionModel extends Equatable {
       title: map['title'] as String?,
       description: map['description'] as String?,
       type: map['type'] as String?,
+      createdAt: DateTime.tryParse((map['createdAt'] as String?) ?? ''),
       category: map['category'] != null
           ? DiscussionCategoryModel.fromMap(
               map['category'] as Map<String, dynamic>,
@@ -85,7 +92,15 @@ class DiscussionModel extends Equatable {
       handler: map['handler'] != null
           ? UserModel.fromMap(map['handler'] as Map<String, dynamic>)
           : null,
-      createdAt: DateTime.tryParse((map['createdAt'] as String?) ?? ''),
+      comments: map['comments'] != null
+          ? List<DiscussionCommentModel>.from(
+              (map['comments'] as List).map(
+                (e) => DiscussionCommentModel.fromMap(
+                  e as Map<String, dynamic>,
+                ),
+              ),
+            )
+          : null,
     );
   }
 
@@ -100,10 +115,11 @@ class DiscussionModel extends Equatable {
       title,
       description,
       type,
+      createdAt,
       category,
       asker,
       handler,
-      createdAt,
+      comments,
     ];
   }
 }
