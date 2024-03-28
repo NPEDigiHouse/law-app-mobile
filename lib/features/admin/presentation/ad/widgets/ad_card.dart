@@ -26,7 +26,7 @@ class AdCard extends ConsumerWidget {
     return InkWellContainer(
       color: scaffoldBackgroundColor,
       radius: 10,
-      padding: const EdgeInsets.fromLTRB(10, 10, 12, 10),
+      padding: const EdgeInsets.all(10),
       boxShadow: [
         BoxShadow(
           color: Colors.black.withOpacity(.1),

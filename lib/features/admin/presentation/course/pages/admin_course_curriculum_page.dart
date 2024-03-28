@@ -62,6 +62,7 @@ class AdminCourseCurriculumPage extends ConsumerWidget {
         if (course == null) return const Scaffold();
 
         return Scaffold(
+          backgroundColor: backgroundColor,
           extendBodyBehindAppBar: true,
           body: SingleChildScrollView(
             child: Column(
@@ -170,7 +171,7 @@ class AdminCourseCurriculumPage extends ConsumerWidget {
                             padding: EdgeInsets.only(
                               bottom: index == course.curriculums!.length - 1
                                   ? 0
-                                  : 10,
+                                  : 8,
                             ),
                             child: AdminCurriculumCard(
                               curriculum: course.curriculums![index],

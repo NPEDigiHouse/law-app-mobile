@@ -25,15 +25,14 @@ class AdminCurriculumCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return InkWellContainer(
-      width: double.infinity,
       color: scaffoldBackgroundColor,
-      radius: 8,
+      radius: 10,
       boxShadow: [
         BoxShadow(
-          color: Colors.black.withOpacity(.08),
+          color: Colors.black.withOpacity(.1),
           offset: const Offset(0, 1),
-          blurRadius: 1,
-          spreadRadius: 1,
+          blurRadius: 4,
+          spreadRadius: -1,
         ),
       ],
       onTap: () => navigatorKey.currentState!.pushNamed(

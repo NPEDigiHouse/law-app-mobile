@@ -5,13 +5,71 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
+import 'package:law_app/core/extensions/context_extension.dart';
+import 'package:law_app/core/routes/route_names.dart';
+import 'package:law_app/core/styles/color_scheme.dart';
+import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/features/admin/data/models/course_models/question_model.dart';
+import 'package:law_app/features/shared/providers/course_providers/question_actions_provider.dart';
+import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
 import 'package:law_app/features/shared/widgets/ink_well_container.dart';
 
 class AdminQuestionCard extends ConsumerWidget {
-  const AdminQuestionCard({super.key});
+  final QuestionModel question;
+
+  const AdminQuestionCard({super.key, required this.question});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const InkWellContainer();
+    return InkWellContainer(
+      color: scaffoldBackgroundColor,
+      radius: 8,
+      padding: const EdgeInsets.symmetric(
+        vertical: 12,
+        horizontal: 16,
+      ),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(.1),
+          offset: const Offset(0, 1),
+          blurRadius: 4,
+          spreadRadius: -1,
+        ),
+      ],
+      onTap: () => navigatorKey.currentState!.pushNamed(
+        adminCourseQuestionDetailRoute,
+        arguments: question.id!,
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              '${question.title}',
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          const SizedBox(width: 8),
+          CustomIconButton(
+            iconName: 'trash-line.svg',
+            color: errorColor,
+            size: 20,
+            onPressed: () => context.showConfirmDialog(
+              title: 'Hapus Pertanyaan?',
+              message: 'Anda yakin ingin menghapus pertanyaan ini?',
+              primaryButtonText: 'Hapus',
+              onPressedPrimaryButton: () {
+                navigatorKey.currentState!.pop();
+
+                ref
+                    .read(questionActionsProvider.notifier)
+                    .deleteQuestion(id: question.id!);
+              },
+            ),
+            tooltip: 'Hapus',
+          ),
+        ],
+      ),
+    );
   }
 }

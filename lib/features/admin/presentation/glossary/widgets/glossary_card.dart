@@ -24,7 +24,7 @@ class GlossaryCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return InkWellContainer(
       color: scaffoldBackgroundColor,
-      radius: 10,
+      radius: 8,
       padding: const EdgeInsets.symmetric(
         vertical: 12,
         horizontal: 16,

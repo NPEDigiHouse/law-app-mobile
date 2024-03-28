@@ -31,15 +31,18 @@ class AdminMaterialCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return InkWellContainer(
-      width: double.infinity,
       color: scaffoldBackgroundColor,
       radius: 8,
+      padding: const EdgeInsets.symmetric(
+        vertical: 12,
+        horizontal: 16,
+      ),
       boxShadow: [
         BoxShadow(
-          color: Colors.black.withOpacity(.08),
+          color: Colors.black.withOpacity(.1),
           offset: const Offset(0, 1),
-          blurRadius: 1,
-          spreadRadius: 1,
+          blurRadius: 4,
+          spreadRadius: -1,
         ),
       ],
       onTap: () => navigatorKey.currentState!.pushNamed(
@@ -48,57 +51,51 @@ class AdminMaterialCard extends ConsumerWidget {
             : adminCourseQuizRoute,
         arguments: material.id,
       ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 16,
-          horizontal: 12,
-        ),
-        child: Row(
-          children: [
-            SvgAsset(
-              assetPath: AssetPath.getIcon(
-                type == CourseMaterialType.article
-                    ? 'read-outlined.svg'
-                    : 'note-edit-line.svg',
-              ),
-              color: primaryTextColor,
-              width: 20,
+      child: Row(
+        children: [
+          SvgAsset(
+            assetPath: AssetPath.getIcon(
+              type == CourseMaterialType.article
+                  ? 'read-outlined.svg'
+                  : 'note-edit-line.svg',
             ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Text(
-                '${material.title}',
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
+            color: primaryTextColor,
+            width: 20,
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              '${material.title}',
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
-            const SizedBox(width: 4),
-            CustomIconButton(
-              iconName: 'trash-line.svg',
-              color: errorColor,
-              size: 20,
-              onPressed: () => context.showConfirmDialog(
-                title: 'Hapus Materi?',
-                message: 'Anda yakin ingin menghapus materi ini?',
-                primaryButtonText: 'Hapus',
-                onPressedPrimaryButton: () {
-                  navigatorKey.currentState!.pop();
+          ),
+          const SizedBox(width: 4),
+          CustomIconButton(
+            iconName: 'trash-line.svg',
+            color: errorColor,
+            size: 20,
+            onPressed: () => context.showConfirmDialog(
+              title: 'Hapus Materi?',
+              message: 'Anda yakin ingin menghapus materi ini?',
+              primaryButtonText: 'Hapus',
+              onPressedPrimaryButton: () {
+                navigatorKey.currentState!.pop();
 
-                  if (type == CourseMaterialType.article) {
-                    ref
-                        .read(articleActionsProvider.notifier)
-                        .deleteArticle(id: material.id!);
-                  } else {
-                    ref
-                        .read(quizActionsProvider.notifier)
-                        .deleteQuiz(id: material.id!);
-                  }
-                },
-              ),
-              tooltip: 'Hapus',
+                if (type == CourseMaterialType.article) {
+                  ref
+                      .read(articleActionsProvider.notifier)
+                      .deleteArticle(id: material.id!);
+                } else {
+                  ref
+                      .read(quizActionsProvider.notifier)
+                      .deleteQuiz(id: material.id!);
+                }
+              },
             ),
-          ],
-        ),
+            tooltip: 'Hapus',
+          ),
+        ],
       ),
     );
   }

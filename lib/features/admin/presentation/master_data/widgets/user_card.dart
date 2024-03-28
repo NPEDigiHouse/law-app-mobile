@@ -29,10 +29,7 @@ class UserCard extends ConsumerWidget {
     return InkWellContainer(
       color: scaffoldBackgroundColor,
       radius: 10,
-      padding: const EdgeInsets.symmetric(
-        vertical: 12,
-        horizontal: 16,
-      ),
+      padding: const EdgeInsets.all(12),
       boxShadow: [
         BoxShadow(
           color: Colors.black.withOpacity(.1),

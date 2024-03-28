@@ -22,8 +22,8 @@ class DiscussionCategoryCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return InkWellContainer(
-      radius: 12,
       color: scaffoldBackgroundColor,
+      radius: 10,
       padding: const EdgeInsets.symmetric(
         vertical: 20,
         horizontal: 16,

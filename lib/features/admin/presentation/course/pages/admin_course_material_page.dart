@@ -120,6 +120,7 @@ class AdminCourseMaterialPage extends ConsumerWidget {
         if (curriculum == null) return const Scaffold();
 
         return Scaffold(
+          backgroundColor: backgroundColor,
           appBar: const PreferredSize(
             preferredSize: Size.fromHeight(96),
             child: HeaderContainer(
@@ -141,7 +142,7 @@ class AdminCourseMaterialPage extends ConsumerWidget {
                     color: primaryColor,
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 4),
                 Row(
                   children: [
                     SvgAsset(
@@ -169,7 +170,7 @@ class AdminCourseMaterialPage extends ConsumerWidget {
                     (index) => Padding(
                       padding: EdgeInsets.only(
                         bottom:
-                            index == curriculum.articles!.length - 1 ? 0 : 10,
+                            index == curriculum.articles!.length - 1 ? 0 : 8,
                       ),
                       child: AdminMaterialCard(
                         material: curriculum.articles![index],
@@ -178,13 +179,12 @@ class AdminCourseMaterialPage extends ConsumerWidget {
                     ),
                   ),
                   if (curriculum.articles!.isNotEmpty)
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 8),
                   ...List<Padding>.generate(
                     curriculum.quizzes!.length,
                     (index) => Padding(
                       padding: EdgeInsets.only(
-                        bottom:
-                            index == curriculum.quizzes!.length - 1 ? 0 : 10,
+                        bottom: index == curriculum.quizzes!.length - 1 ? 0 : 8,
                       ),
                       child: AdminMaterialCard(
                         material: curriculum.quizzes![index],
