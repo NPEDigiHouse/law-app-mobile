@@ -67,7 +67,7 @@ class HeaderContainer extends StatelessWidget {
           ),
           if (withBackButton)
             Positioned(
-              top: 30,
+              top: 26,
               left: 20,
               child: SafeArea(
                 child: Container(
@@ -91,7 +91,7 @@ class HeaderContainer extends StatelessWidget {
             ),
           if (withTrailingButton)
             Positioned(
-              top: 30,
+              top: 26,
               right: 20,
               child: SafeArea(
                 child: Container(
@@ -115,7 +115,7 @@ class HeaderContainer extends StatelessWidget {
             ),
           if (title != null)
             Positioned(
-              top: 38,
+              top: 34,
               left: 0,
               right: 0,
               child: SafeArea(
@@ -132,7 +132,7 @@ class HeaderContainer extends StatelessWidget {
           if (child != null)
             SafeArea(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
                 child: child,
               ),
             ),

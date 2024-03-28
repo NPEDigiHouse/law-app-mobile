@@ -8,7 +8,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/enums/discussion_type.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
+import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
+import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/shared/pages/discussion_list_page.dart';
@@ -17,6 +19,7 @@ import 'package:law_app/features/shared/providers/manual_providers/discussion_fi
 import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
+import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class StudentDiscussionListPage extends ConsumerStatefulWidget {
   const StudentDiscussionListPage({super.key});
@@ -78,53 +81,85 @@ class _StudentQuestionListPageState
       backgroundColor: backgroundColor,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(180),
-        child: SizedBox(
-          height: 180,
-          child: Stack(
-            clipBehavior: Clip.none,
-            children: [
-              Positioned.fill(
-                child: Container(
-                  color: scaffoldBackgroundColor,
-                ),
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Positioned.fill(
+              child: Container(
+                color: scaffoldBackgroundColor,
               ),
-              const HeaderContainer(
-                title: 'Pertanyaan Saya',
-                withBackButton: true,
-                height: 180,
-              ),
-              Positioned(
-                left: 20,
-                right: 20,
-                bottom: 20,
-                child: ValueListenableBuilder(
-                  valueListenable: selectedType,
-                  builder: (context, type, child) {
-                    return SegmentedButton<DiscussionType>(
-                      segments: const [
-                        ButtonSegment(
-                          value: DiscussionType.general,
-                          label: Text('Pertanyaan Umum'),
+            ),
+            HeaderContainer(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: secondaryColor,
                         ),
-                        ButtonSegment(
-                          value: DiscussionType.specific,
-                          label: Text('Pertanyaan Khusus'),
+                        child: IconButton(
+                          onPressed: () => navigatorKey.currentState!.pop(),
+                          icon: SvgAsset(
+                            assetPath: AssetPath.getIcon('caret-line-left.svg'),
+                            color: primaryColor,
+                            width: 24,
+                          ),
+                          tooltip: 'Kembali',
                         ),
-                      ],
-                      selected: {type},
-                      showSelectedIcon: false,
-                      onSelectionChanged: (newSelection) {
-                        selectedType.value = newSelection.first;
+                      ),
+                      Expanded(
+                        child: Center(
+                          child: Text(
+                            'Pertanyaan Saya',
+                            style: textTheme.titleLarge!.copyWith(
+                              color: scaffoldBackgroundColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 40,
+                        height: 40,
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  ValueListenableBuilder(
+                    valueListenable: selectedType,
+                    builder: (context, type, child) {
+                      return SegmentedButton<DiscussionType>(
+                        segments: const [
+                          ButtonSegment(
+                            value: DiscussionType.general,
+                            label: Text('Pertanyaan Umum'),
+                          ),
+                          ButtonSegment(
+                            value: DiscussionType.specific,
+                            label: Text('Pertanyaan Khusus'),
+                          ),
+                        ],
+                        selected: {type},
+                        showSelectedIcon: false,
+                        onSelectionChanged: (newSelection) {
+                          selectedType.value = newSelection.first;
 
-                        ref.read(discussionTypeProvider.notifier).state =
-                            newSelection.first.name;
-                      },
-                    );
-                  },
-                ),
+                          ref.read(discussionTypeProvider.notifier).state =
+                              newSelection.first.name;
+                        },
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
       body: CustomScrollView(

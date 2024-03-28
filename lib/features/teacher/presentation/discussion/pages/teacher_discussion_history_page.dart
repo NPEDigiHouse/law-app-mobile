@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // Project imports:
 import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
+import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
@@ -20,6 +21,7 @@ import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
 import 'package:law_app/features/shared/widgets/form_field/search_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
+import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 enum HistoryStatus { onDiscussion, solved }
 
@@ -129,7 +131,7 @@ class TeacherDiscussionHistoryPage extends ConsumerWidget {
     );
   }
 
-  Widget buildHeaderContainer(
+  HeaderContainer buildHeaderContainer(
     WidgetRef ref,
     bool isSearching,
     String query,
@@ -162,45 +164,81 @@ class TeacherDiscussionHistoryPage extends ConsumerWidget {
       );
     }
 
-    return SizedBox(
-      height: 180,
-      child: Stack(
-        clipBehavior: Clip.none,
+    return HeaderContainer(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          HeaderContainer(
-            height: 180,
-            title: 'Riwayat Pertanyaan',
-            withBackButton: true,
-            withTrailingButton: true,
-            trailingButtonIconName: 'search-line.svg',
-            trailingButtonTooltip: 'Cari',
-            onPressedTrailingButton: () {
-              ref.read(isSearchingProvider.notifier).state = true;
+          Row(
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: secondaryColor,
+                ),
+                child: IconButton(
+                  onPressed: () => navigatorKey.currentState!.pop(),
+                  icon: SvgAsset(
+                    assetPath: AssetPath.getIcon('caret-line-left.svg'),
+                    color: primaryColor,
+                    width: 24,
+                  ),
+                  tooltip: 'Kembali',
+                ),
+              ),
+              Expanded(
+                child: Center(
+                  child: Text(
+                    'Riwayat Pertanyaan',
+                    style: textTheme.titleLarge!.copyWith(
+                      color: scaffoldBackgroundColor,
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: secondaryColor,
+                ),
+                child: IconButton(
+                  onPressed: () {
+                    ref.read(isSearchingProvider.notifier).state = true;
+                  },
+                  icon: SvgAsset(
+                    assetPath: AssetPath.getIcon('search-line.svg'),
+                    color: primaryColor,
+                    width: 24,
+                  ),
+                  tooltip: 'Cari',
+                ),
+              )
+            ],
+          ),
+          const SizedBox(height: 16),
+          SegmentedButton<HistoryStatus>(
+            segments: const [
+              ButtonSegment(
+                value: HistoryStatus.onDiscussion,
+                label: Text('Dalam Diskusi'),
+              ),
+              ButtonSegment(
+                value: HistoryStatus.solved,
+                label: Text('Telah Selesai'),
+              ),
+            ],
+            selected: {status},
+            showSelectedIcon: false,
+            onSelectionChanged: (newSelection) {
+              ref.read(historyStatusProvider.notifier).state =
+                  newSelection.first;
             },
           ),
-          Positioned(
-            left: 20,
-            right: 20,
-            bottom: 20,
-            child: SegmentedButton<HistoryStatus>(
-              segments: const [
-                ButtonSegment(
-                  value: HistoryStatus.onDiscussion,
-                  label: Text('Dalam Diskusi'),
-                ),
-                ButtonSegment(
-                  value: HistoryStatus.solved,
-                  label: Text('Telah Selesai'),
-                ),
-              ],
-              selected: {status},
-              showSelectedIcon: false,
-              onSelectionChanged: (newSelection) {
-                ref.read(historyStatusProvider.notifier).state =
-                    newSelection.first;
-              },
-            ),
-          ),
+          const SizedBox(height: 20),
         ],
       ),
     );

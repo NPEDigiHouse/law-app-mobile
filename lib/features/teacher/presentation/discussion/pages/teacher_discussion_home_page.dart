@@ -9,6 +9,7 @@ import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/button_extension.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/extensions/string_extension.dart';
+import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
@@ -19,8 +20,8 @@ import 'package:law_app/features/shared/widgets/animated_fab.dart';
 import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
 import 'package:law_app/features/shared/widgets/empty_content_text.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
-import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
+import 'package:law_app/features/shared/widgets/svg_asset.dart';
 import 'package:law_app/features/teacher/presentation/discussion/providers/teacher_discussions_provider.dart';
 
 class TeacherDiscussionHomePage extends ConsumerStatefulWidget {
@@ -112,14 +113,37 @@ class _TeacherDiscussionHomePageState
               controller: scrollController,
               child: Column(
                 children: [
-                  SizedBox(
-                    height: 240,
-                    child: Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        HeaderContainer(
-                          height: 170,
+                  Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      Container(
+                        height: 190,
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.vertical(
+                            bottom: Radius.circular(20),
+                          ),
+                          gradient: LinearGradient(
+                            colors: GradientColors.redPastel,
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: -20,
+                        right: 20,
+                        child: SvgAsset(
+                          assetPath: AssetPath.getVector('app_logo_white.svg'),
+                          color: tertiaryColor.withOpacity(.5),
+                          width: 160,
+                        ),
+                      ),
+                      SafeArea(
+                        bottom: false,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
                           child: Column(
+                            mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
@@ -135,15 +159,7 @@ class _TeacherDiscussionHomePageState
                                   color: scaffoldBackgroundColor,
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-                        Positioned(
-                          left: 20,
-                          right: 20,
-                          bottom: 0,
-                          child: Column(
-                            children: [
+                              const SizedBox(height: 16),
                               Container(
                                 width: double.infinity,
                                 padding: const EdgeInsets.symmetric(
@@ -241,8 +257,8 @@ class _TeacherDiscussionHomePageState
                             ],
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
@@ -361,7 +377,7 @@ class _TeacherDiscussionHomePageState
                     )
                   else
                     SizedBox(
-                      height: 200,
+                      height: 206,
                       child: ListView.separated(
                         padding: const EdgeInsets.fromLTRB(20, 0, 20, 4),
                         scrollDirection: Axis.horizontal,
@@ -370,8 +386,8 @@ class _TeacherDiscussionHomePageState
                             discussion: publicDiscussions[index],
                             isDetail: true,
                             withProfile: true,
-                            width: 300,
-                            height: 200,
+                            width: 309,
+                            height: 206,
                           );
                         },
                         separatorBuilder: (context, index) {

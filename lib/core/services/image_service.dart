@@ -40,6 +40,8 @@ class ImageService {
           title: 'Crop Gambar',
           doneButtonTitle: 'Selesai',
           cancelButtonTitle: 'Batal',
+          resetAspectRatioEnabled: false,
+          aspectRatioLockEnabled: true,
         ),
       ],
     );

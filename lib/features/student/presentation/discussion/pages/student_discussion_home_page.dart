@@ -20,7 +20,6 @@ import 'package:law_app/features/shared/providers/discussion_providers/create_di
 import 'package:law_app/features/shared/widgets/animated_fab.dart';
 import 'package:law_app/features/shared/widgets/empty_content_text.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
-import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 import 'package:law_app/features/student/presentation/discussion/providers/student_discussions_provider.dart';
@@ -140,14 +139,37 @@ class _StudentDiscussionHomePageState
               controller: scrollController,
               child: Column(
                 children: [
-                  SizedBox(
-                    height: 310,
-                    child: Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        HeaderContainer(
-                          height: 230,
+                  Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      Container(
+                        height: 224,
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.vertical(
+                            bottom: Radius.circular(20),
+                          ),
+                          gradient: LinearGradient(
+                            colors: GradientColors.redPastel,
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: -20,
+                        right: 20,
+                        child: SvgAsset(
+                          assetPath: AssetPath.getVector('app_logo_white.svg'),
+                          color: tertiaryColor.withOpacity(.5),
+                          width: 160,
+                        ),
+                      ),
+                      SafeArea(
+                        bottom: false,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
                           child: Column(
+                            mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
@@ -163,140 +185,141 @@ class _StudentDiscussionHomePageState
                                   color: scaffoldBackgroundColor,
                                 ),
                               ),
+                              const SizedBox(height: 16),
+                              Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 16,
+                                  horizontal: 20,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: scaffoldBackgroundColor,
+                                  borderRadius: BorderRadius.circular(12),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(.1),
+                                      offset: const Offset(2, 2),
+                                      blurRadius: 4,
+                                      spreadRadius: -1,
+                                    ),
+                                  ],
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Flexible(
+                                          child: Text(
+                                            'Kesempatan Pertanyaan Mingguan',
+                                            style:
+                                                textTheme.titleMedium!.copyWith(
+                                              color: primaryColor,
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Tooltip(
+                                          message:
+                                              'Kesempatan bertanya akan di-reset setiap minggu.',
+                                          textStyle:
+                                              textTheme.bodySmall!.copyWith(
+                                            color: scaffoldBackgroundColor,
+                                          ),
+                                          margin: const EdgeInsets.symmetric(
+                                            horizontal: 40,
+                                          ),
+                                          padding: const EdgeInsets.symmetric(
+                                            vertical: 8,
+                                            horizontal: 16,
+                                          ),
+                                          verticalOffset: 12,
+                                          triggerMode: TooltipTriggerMode.tap,
+                                          showDuration: const Duration(
+                                            seconds: 4,
+                                          ),
+                                          child: SvgAsset(
+                                            assetPath: AssetPath.getIcon(
+                                              'info-circle-line.svg',
+                                            ),
+                                            color: primaryColor,
+                                            width: 14,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Row(
+                                      children: [
+                                        const Expanded(
+                                          child: Text('Pertanyaan Umum'),
+                                        ),
+                                        Text(
+                                          '${userCredential.totalWeeklyGeneralQuestionsQuota}/3',
+                                          style: textTheme.titleSmall,
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Row(
+                                      children: [
+                                        const Expanded(
+                                          child: Text('Pertanyaan Khusus'),
+                                        ),
+                                        Text(
+                                          '${userCredential.totalWeeklySpecificQuestionsQuota}/1',
+                                          style: textTheme.titleSmall,
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 10),
+                                    FilledButton.icon(
+                                      onPressed: () async {
+                                        final categories = await CategoryHelper
+                                            .getDiscussionCategories(ref);
+
+                                        if (categories.isNotEmpty) {
+                                          if (!context.mounted) return;
+
+                                          showDialog(
+                                            context: context,
+                                            barrierDismissible: false,
+                                            builder: (context) {
+                                              return CreateDiscussionDialog(
+                                                categories: categories,
+                                              );
+                                            },
+                                          );
+                                        } else {
+                                          if (!context.mounted) return;
+
+                                          context.showCustomAlertDialog(
+                                            title: 'Anda belum dapat bertanya!',
+                                            message:
+                                                'Saat ini kamu belum bisa bertanya, Silahkan mencoba lain kali.',
+                                            onPressedPrimaryButton: () {
+                                              navigatorKey.currentState!.pop();
+                                            },
+                                          );
+                                        }
+                                      },
+                                      icon: const Icon(Icons.add_rounded),
+                                      label: const Text('Buat Pertanyaan'),
+                                      style: FilledButton.styleFrom(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                      ),
+                                    ).fullWidth(),
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                         ),
-                        Positioned(
-                          left: 20,
-                          right: 20,
-                          bottom: 0,
-                          child: Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 16,
-                              horizontal: 20,
-                            ),
-                            decoration: BoxDecoration(
-                              color: scaffoldBackgroundColor,
-                              borderRadius: BorderRadius.circular(12),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(.1),
-                                  offset: const Offset(2, 2),
-                                  blurRadius: 4,
-                                  spreadRadius: -1,
-                                ),
-                              ],
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Flexible(
-                                      child: Text(
-                                        'Kesempatan Pertanyaan Mingguan',
-                                        style: textTheme.titleMedium!.copyWith(
-                                          color: primaryColor,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(width: 4),
-                                    Tooltip(
-                                      message:
-                                          'Kesempatan bertanya akan di-reset setiap minggu.',
-                                      textStyle: textTheme.bodySmall!.copyWith(
-                                        color: scaffoldBackgroundColor,
-                                      ),
-                                      margin: const EdgeInsets.symmetric(
-                                        horizontal: 40,
-                                      ),
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 8,
-                                        horizontal: 16,
-                                      ),
-                                      verticalOffset: 12,
-                                      triggerMode: TooltipTriggerMode.tap,
-                                      showDuration: const Duration(seconds: 4),
-                                      child: SvgAsset(
-                                        assetPath: AssetPath.getIcon(
-                                          'info-circle-line.svg',
-                                        ),
-                                        color: primaryColor,
-                                        width: 14,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 8),
-                                Row(
-                                  children: [
-                                    const Expanded(
-                                      child: Text('Pertanyaan Umum'),
-                                    ),
-                                    Text(
-                                      '${userCredential.totalWeeklyGeneralQuestionsQuota}/3',
-                                      style: textTheme.titleSmall,
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 8),
-                                Row(
-                                  children: [
-                                    const Expanded(
-                                      child: Text('Pertanyaan Khusus'),
-                                    ),
-                                    Text(
-                                      '${userCredential.totalWeeklySpecificQuestionsQuota}/1',
-                                      style: textTheme.titleSmall,
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 10),
-                                FilledButton.icon(
-                                  onPressed: () async {
-                                    final categories = await CategoryHelper
-                                        .getDiscussionCategories(ref);
-
-                                    if (categories.isNotEmpty) {
-                                      if (!context.mounted) return;
-
-                                      showDialog(
-                                        context: context,
-                                        barrierDismissible: false,
-                                        builder: (context) {
-                                          return CreateDiscussionDialog(
-                                            categories: categories,
-                                          );
-                                        },
-                                      );
-                                    } else {
-                                      if (!context.mounted) return;
-
-                                      context.showCustomAlertDialog(
-                                        title: 'Anda belum dapat bertanya!',
-                                        message:
-                                            'Saat ini kamu belum bisa bertanya, Silahkan mencoba lain kali.',
-                                        onPressedPrimaryButton: () {
-                                          navigatorKey.currentState!.pop();
-                                        },
-                                      );
-                                    }
-                                  },
-                                  icon: const Icon(Icons.add_rounded),
-                                  label: const Text('Buat Pertanyaan'),
-                                  style: FilledButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                  ),
-                                ).fullWidth(),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
@@ -330,7 +353,7 @@ class _StudentDiscussionHomePageState
                     )
                   else
                     SizedBox(
-                      height: 175,
+                      height: 180,
                       child: ListView.separated(
                         padding: const EdgeInsets.fromLTRB(20, 0, 20, 4),
                         scrollDirection: Axis.horizontal,
@@ -339,7 +362,7 @@ class _StudentDiscussionHomePageState
                             discussion: userDiscussions[index],
                             isDetail: true,
                             width: 300,
-                            height: 175,
+                            height: 180,
                           );
                         },
                         separatorBuilder: (context, index) {

@@ -78,7 +78,6 @@ class GlossaryManagementPage extends ConsumerWidget {
         child: Container(
           color: scaffoldBackgroundColor,
           child: HeaderContainer(
-            height: 180,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -123,6 +122,7 @@ class GlossaryManagementPage extends ConsumerWidget {
                   hintText: 'Cari kosa kata',
                   onChanged: (query) => searchGlossary(ref, query),
                 ),
+                const SizedBox(height: 20),
               ],
             ),
           ),

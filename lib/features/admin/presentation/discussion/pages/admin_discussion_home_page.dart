@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/enums/discussion_type.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
+import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
@@ -21,6 +22,7 @@ import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
 import 'package:law_app/features/shared/widgets/form_field/search_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
+import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class AdminDiscussionHomePage extends ConsumerStatefulWidget {
   const AdminDiscussionHomePage({super.key});
@@ -105,50 +107,17 @@ class _AdminDiscussionHomePageState
       child: Scaffold(
         backgroundColor: backgroundColor,
         appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(180),
-          child: SizedBox(
-            height: isSearching ? 220 : 180,
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Positioned.fill(
-                  child: Container(
-                    color: scaffoldBackgroundColor,
-                  ),
+          preferredSize: Size.fromHeight(isSearching ? 220 : 180),
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Positioned.fill(
+                child: Container(
+                  color: scaffoldBackgroundColor,
                 ),
-                buildHeaderContainer(isSearching, query, type, status),
-                Positioned(
-                  left: 20,
-                  right: 20,
-                  bottom: 20,
-                  child: ValueListenableBuilder(
-                    valueListenable: selectedType,
-                    builder: (context, type, child) {
-                      return SegmentedButton<DiscussionType>(
-                        segments: const [
-                          ButtonSegment(
-                            value: DiscussionType.general,
-                            label: Text('Pertanyaan Umum'),
-                          ),
-                          ButtonSegment(
-                            value: DiscussionType.specific,
-                            label: Text('Pertanyaan Khusus'),
-                          ),
-                        ],
-                        selected: {type},
-                        showSelectedIcon: false,
-                        onSelectionChanged: (newSelection) {
-                          selectedType.value = newSelection.first;
-
-                          ref.read(discussionTypeProvider.notifier).state =
-                              newSelection.first.name;
-                        },
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
+              ),
+              buildHeaderContainer(isSearching, query, type, status),
+            ],
           ),
         ),
         body: CustomScrollView(
@@ -234,11 +203,15 @@ class _AdminDiscussionHomePageState
     if (isSearching) {
       return HeaderContainer(
         child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              'Cari Diskusi',
-              style: textTheme.titleMedium!.copyWith(
-                color: scaffoldBackgroundColor,
+            Center(
+              child: Text(
+                'Cari Diskusi',
+                style: textTheme.titleMedium!.copyWith(
+                  color: scaffoldBackgroundColor,
+                ),
               ),
             ),
             const SizedBox(height: 10),
@@ -253,20 +226,101 @@ class _AdminDiscussionHomePageState
                 }
               },
             ),
+            const SizedBox(height: 16),
+            buildSegmentedButton(),
+            const SizedBox(height: 20),
           ],
         ),
       );
     }
 
     return HeaderContainer(
-      height: 180,
-      title: 'Kelola Pertanyaan',
-      withBackButton: true,
-      withTrailingButton: true,
-      trailingButtonIconName: "search-line.svg",
-      trailingButtonTooltip: "Cari",
-      onPressedTrailingButton: () {
-        ref.read(isSearchingProvider.notifier).state = true;
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: secondaryColor,
+                ),
+                child: IconButton(
+                  onPressed: () => navigatorKey.currentState!.pop(),
+                  icon: SvgAsset(
+                    assetPath: AssetPath.getIcon('caret-line-left.svg'),
+                    color: primaryColor,
+                    width: 24,
+                  ),
+                  tooltip: 'Kembali',
+                ),
+              ),
+              Expanded(
+                child: Center(
+                  child: Text(
+                    'Kelola Pertanyaan',
+                    style: textTheme.titleLarge!.copyWith(
+                      color: scaffoldBackgroundColor,
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: secondaryColor,
+                ),
+                child: IconButton(
+                  onPressed: () {
+                    ref.read(isSearchingProvider.notifier).state = true;
+                  },
+                  icon: SvgAsset(
+                    assetPath: AssetPath.getIcon('search-line.svg'),
+                    color: primaryColor,
+                    width: 24,
+                  ),
+                  tooltip: 'Cari',
+                ),
+              )
+            ],
+          ),
+          const SizedBox(height: 16),
+          buildSegmentedButton(),
+          const SizedBox(height: 20),
+        ],
+      ),
+    );
+  }
+
+  ValueListenableBuilder<DiscussionType> buildSegmentedButton() {
+    return ValueListenableBuilder(
+      valueListenable: selectedType,
+      builder: (context, type, child) {
+        return SegmentedButton<DiscussionType>(
+          segments: const [
+            ButtonSegment(
+              value: DiscussionType.general,
+              label: Text('Pertanyaan Umum'),
+            ),
+            ButtonSegment(
+              value: DiscussionType.specific,
+              label: Text('Pertanyaan Khusus'),
+            ),
+          ],
+          selected: {type},
+          showSelectedIcon: false,
+          onSelectionChanged: (newSelection) {
+            selectedType.value = newSelection.first;
+
+            ref.read(discussionTypeProvider.notifier).state =
+                newSelection.first.name;
+          },
+        );
       },
     );
   }

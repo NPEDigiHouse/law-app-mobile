@@ -79,7 +79,6 @@ class AdminCourseHomePage extends ConsumerWidget {
         child: Container(
           color: scaffoldBackgroundColor,
           child: HeaderContainer(
-            height: 180,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -124,6 +123,7 @@ class AdminCourseHomePage extends ConsumerWidget {
                   hintText: 'Cari course',
                   onChanged: (query) => searchCourse(ref, query),
                 ),
+                const SizedBox(height: 20),
               ],
             ),
           ),

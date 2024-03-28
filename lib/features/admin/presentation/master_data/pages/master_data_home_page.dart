@@ -97,7 +97,6 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
         child: Container(
           color: scaffoldBackgroundColor,
           child: HeaderContainer(
-            height: 180,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -169,6 +168,7 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
                   hintText: 'Cari pengguna',
                   onChanged: searchUser,
                 ),
+                const SizedBox(height: 20),
               ],
             ),
           ),
