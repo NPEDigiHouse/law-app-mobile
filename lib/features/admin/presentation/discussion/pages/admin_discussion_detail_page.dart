@@ -24,7 +24,6 @@ import 'package:law_app/features/shared/providers/discussion_providers/discussio
 import 'package:law_app/features/shared/providers/discussion_providers/edit_discussion_provider.dart';
 import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
 import 'package:law_app/features/shared/widgets/dialog/answer_discussion_dialog.dart';
-import 'package:law_app/features/shared/widgets/dialog/specific_discussion_info_dialog.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_reply_card.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/label_chip.dart';
@@ -207,12 +206,23 @@ class AdminDiscussionDetailPage extends ConsumerWidget {
                       ),
                       const SizedBox(width: 2),
                       GestureDetector(
-                        onTap: () => showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (context) {
-                            return const SpecificDiscussionInfoDialog();
-                          },
+                        onTap: () => context.showCustomInformationDialog(
+                          title: 'Pertanyaan Khusus',
+                          child: RichText(
+                            text: TextSpan(
+                              style: textTheme.bodyMedium,
+                              children: [
+                                const TextSpan(
+                                  text:
+                                      'Pertanyaan ini adalah pertanyaan khusus yang hanya bisa dijawab oleh\t',
+                                ),
+                                TextSpan(
+                                  text: 'Pakar.',
+                                  style: textTheme.titleSmall,
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                         child: SvgAsset(
                           assetPath: AssetPath.getIcon('info-circle-line.svg'),

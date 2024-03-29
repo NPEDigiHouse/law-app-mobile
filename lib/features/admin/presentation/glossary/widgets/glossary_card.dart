@@ -55,7 +55,7 @@ class GlossaryCard extends ConsumerWidget {
             color: errorColor,
             size: 20,
             onPressed: () => context.showConfirmDialog(
-              title: 'Hapus Kosa Kata',
+              title: 'Hapus Kosa Kata?',
               message: 'Anda yakin ingin menghapus istilah kata ini?',
               primaryButtonText: 'Hapus',
               onPressedPrimaryButton: () {

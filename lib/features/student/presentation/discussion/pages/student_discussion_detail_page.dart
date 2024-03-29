@@ -27,7 +27,6 @@ import 'package:law_app/features/shared/providers/discussion_providers/discussio
 import 'package:law_app/features/shared/providers/discussion_providers/edit_discussion_provider.dart';
 import 'package:law_app/features/shared/providers/discussion_providers/user_discussions_provider.dart';
 import 'package:law_app/features/shared/widgets/circle_profile_avatar.dart';
-import 'package:law_app/features/shared/widgets/dialog/specific_discussion_info_dialog.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_reply_card.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/label_chip.dart';
@@ -156,7 +155,7 @@ class StudentDiscussionDetailPage extends ConsumerWidget {
               onPressedTrailingButton: () => context.showCustomAlertDialog(
                 title: 'Hapus Pertanyaan?',
                 message:
-                    'Seluruh diskusi kamu dalam Pertanyaan ini akan dihapus!',
+                    'Seluruh diskusi kamu dalam Pertanyaan ini akan ikut terhapus!',
                 primaryButtonText: 'Hapus',
                 onPressedPrimaryButton: () {
                   navigatorKey.currentState!.pop();
@@ -240,12 +239,23 @@ class StudentDiscussionDetailPage extends ConsumerWidget {
                       ),
                       const SizedBox(width: 2),
                       GestureDetector(
-                        onTap: () => showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (context) {
-                            return const SpecificDiscussionInfoDialog();
-                          },
+                        onTap: () => context.showCustomInformationDialog(
+                          title: 'Pertanyaan Khusus',
+                          child: RichText(
+                            text: TextSpan(
+                              style: textTheme.bodyMedium,
+                              children: [
+                                const TextSpan(
+                                  text:
+                                      'Jika dirasa perlu, Admin akan melemparkan pertanyaan kamu ke Pakar dan menjadi\t',
+                                ),
+                                TextSpan(
+                                  text: 'Pertanyaan Khusus.',
+                                  style: textTheme.titleSmall,
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                         child: SvgAsset(
                           assetPath: AssetPath.getIcon('info-circle-line.svg'),

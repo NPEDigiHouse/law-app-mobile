@@ -117,7 +117,7 @@ class AdminCurriculumCard extends ConsumerWidget {
                   size: 20,
                   onPressed: () => context.showConfirmDialog(
                     title: 'Hapus Kurikulum?',
-                    message: 'Anda yakin ingin menghapus Kurikulum ini?',
+                    message: 'Anda yakin ingin menghapus kurikulum ini?',
                     primaryButtonText: 'Hapus',
                     onPressedPrimaryButton: () {
                       navigatorKey.currentState!.pop();

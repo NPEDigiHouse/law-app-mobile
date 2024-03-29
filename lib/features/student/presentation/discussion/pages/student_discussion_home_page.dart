@@ -293,13 +293,11 @@ class _StudentDiscussionHomePageState
                                         } else {
                                           if (!context.mounted) return;
 
-                                          context.showCustomAlertDialog(
-                                            title: 'Anda belum dapat bertanya!',
-                                            message:
-                                                'Saat ini kamu belum bisa bertanya, Silahkan mencoba lain kali.',
-                                            onPressedPrimaryButton: () {
-                                              navigatorKey.currentState!.pop();
-                                            },
+                                          context.showCustomInformationDialog(
+                                            title: 'Tidak dapat bertanya!',
+                                            child: const Text(
+                                              'Saat ini kamu belum bisa bertanya, Silahkan mencoba lain kali.',
+                                            ),
                                           );
                                         }
                                       },

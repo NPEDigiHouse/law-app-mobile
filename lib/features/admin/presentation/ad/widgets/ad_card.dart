@@ -72,7 +72,7 @@ class AdCard extends ConsumerWidget {
                   size: 20,
                   onPressed: () => context.showConfirmDialog(
                     title: "Hapus Iklan?",
-                    message: "Apakah Anda yakin ingin menghapus iklan ini?",
+                    message: "Anda yakin ingin menghapus iklan ini?",
                     onPressedPrimaryButton: () {
                       navigatorKey.currentState!.pop();
 

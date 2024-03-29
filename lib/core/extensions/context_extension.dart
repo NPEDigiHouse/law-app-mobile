@@ -10,11 +10,11 @@ import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/core/utils/widget_utils.dart';
 import 'package:law_app/features/shared/widgets/dialog/confirm_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/custom_alert_dialog.dart';
+import 'package:law_app/features/shared/widgets/dialog/custom_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/custom_selector_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/delete_confirm_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/single_form_dialog.dart';
 import 'package:law_app/features/shared/widgets/dialog/single_form_text_area_dialog.dart';
-import 'package:law_app/features/shared/widgets/dialog/sorting_dialog.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 import 'package:law_app/features/shared/widgets/network_error_bottom_sheet.dart';
 
@@ -26,11 +26,25 @@ extension NavigationExtension on BuildContext {
 }
 
 extension DialogExtension on BuildContext {
-  Future<void> showLoadingDialog() {
+  Future<Object?> showLoadingDialog() {
     return showDialog(
       context: this,
       barrierDismissible: false,
       builder: (_) => const LoadingIndicator(),
+    );
+  }
+
+  Future<Object?> showCustomInformationDialog({
+    required String title,
+    required Widget child,
+  }) {
+    return showDialog(
+      context: this,
+      builder: (_) => CustomDialog(
+        showPrimaryButton: false,
+        title: title,
+        child: child,
+      ),
     );
   }
 
@@ -42,7 +56,7 @@ extension DialogExtension on BuildContext {
     String? primaryButtonText,
     VoidCallback? onPressedPrimaryButton,
   }) {
-    return showDialog<Object?>(
+    return showDialog(
       context: this,
       barrierDismissible: false,
       builder: (_) => ConfirmDialog(
@@ -174,22 +188,6 @@ extension DialogExtension on BuildContext {
         textAreaHint: textAreaHint,
         textAreaMaxLines: textAreaMaxLines,
         primaryButtonText: primaryButtonText,
-        onSubmitted: onSubmitted,
-      ),
-    );
-  }
-
-  Future<Object?> showSortingDialog({
-    required List<String> items,
-    required List<String> values,
-    void Function(Map<String, dynamic> value)? onSubmitted,
-  }) {
-    return showDialog(
-      context: this,
-      barrierDismissible: false,
-      builder: (_) => SortingDialog(
-        items: items,
-        values: values,
         onSubmitted: onSubmitted,
       ),
     );

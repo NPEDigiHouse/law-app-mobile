@@ -20,6 +20,7 @@ import 'package:law_app/features/admin/presentation/master_data/widgets/user_car
 import 'package:law_app/features/shared/providers/manual_providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
+import 'package:law_app/features/shared/widgets/dialog/sorting_dialog.dart';
 import 'package:law_app/features/shared/widgets/form_field/search_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
@@ -137,18 +138,22 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
                         color: secondaryColor,
                       ),
                       child: IconButton(
-                        onPressed: () => context.showSortingDialog(
-                          items: [
-                            'Nama',
-                            'Username',
-                            'Email',
-                          ],
-                          values: [
-                            'name',
-                            'username',
-                            'email',
-                          ],
-                          onSubmitted: sortUsers,
+                        onPressed: () => showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (_) => SortingDialog(
+                            items: const [
+                              'Nama',
+                              'Username',
+                              'Email',
+                            ],
+                            values: const [
+                              'name',
+                              'username',
+                              'email',
+                            ],
+                            onSubmitted: sortUsers,
+                          ),
                         ),
                         icon: SvgAsset(
                           assetPath: AssetPath.getIcon(

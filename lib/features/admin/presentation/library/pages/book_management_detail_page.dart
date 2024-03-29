@@ -83,7 +83,7 @@ class BookManagementDetailPage extends ConsumerWidget {
                           onPressedTrailingButton: () {
                             context.showConfirmDialog(
                               title: 'Hapus Buku?',
-                              message: 'Anda yakin ingin menghapus buku ini!',
+                              message: 'Anda yakin ingin menghapus buku ini?',
                               primaryButtonText: 'Hapus',
                               onPressedPrimaryButton: () {
                                 navigatorKey.currentState!.pop();
