@@ -102,14 +102,22 @@ class _SplashPageState extends State<SplashPage>
       // a terminated state.
       NotificationService.messaging.getInitialMessage().then((message) {
         if (message != null) {
-          navigatorKey.currentState!.pushNamed(profileRoute);
+          navigatorKey.currentState!.pushNamed(
+            CredentialSaver.user!.role == 'admin'
+                ? adminHomeRoute
+                : mainMenuRoute,
+          );
         }
       });
 
       // Also handle any interaction when the app is in the background via a
       // Stream listener
       FirebaseMessaging.onMessageOpenedApp.listen((message) {
-        navigatorKey.currentState!.pushNamed(profileRoute);
+        navigatorKey.currentState!.pushNamed(
+          CredentialSaver.user!.role == 'admin'
+              ? adminHomeRoute
+              : mainMenuRoute,
+        );
       });
     }
   }

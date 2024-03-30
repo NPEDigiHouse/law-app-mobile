@@ -14,6 +14,8 @@ import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/auth/data/datasources/auth_preferences_helper.dart';
 
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {}
+
 class NotificationService {
   static NotificationService? _instance;
 
@@ -47,6 +49,9 @@ class NotificationService {
     // For Android Notification in foreground
     FirebaseMessaging.onMessage.listen(handleForegroundMessage);
 
+    // For background message
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
     debugPrint('notification status: ${settings.authorizationStatus.name}');
     debugPrint('token: $fcmToken');
   }
@@ -72,7 +77,11 @@ class NotificationService {
       ),
       onDidReceiveNotificationResponse: (details) {
         if (CredentialSaver.user != null) {
-          navigatorKey.currentState!.pushNamed(profileRoute);
+          navigatorKey.currentState!.pushNamed(
+            CredentialSaver.user!.role == 'admin'
+                ? adminHomeRoute
+                : mainMenuRoute,
+          );
         }
       },
     );
