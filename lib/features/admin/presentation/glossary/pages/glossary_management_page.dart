@@ -133,6 +133,14 @@ class GlossaryManagementPage extends ConsumerWidget {
         data: (glossaries) {
           if (glossaries == null) return null;
 
+          if (glossaries.isEmpty && query.trim().isNotEmpty) {
+            return const CustomInformation(
+              illustrationName: 'house-searching-cuate.svg',
+              title: 'Istilah/kata tidak ditemukan',
+              subtitle: 'Tidak ada istilah yang cocok untuk kata tersebut.',
+            );
+          }
+
           if (glossaries.isEmpty) {
             return const CustomInformation(
               illustrationName: 'house-searching-cuate.svg',
@@ -196,7 +204,7 @@ class GlossaryManagementPage extends ConsumerWidget {
   }
 
   void searchGlossary(WidgetRef ref, String query) {
-    if (query.isNotEmpty) {
+    if (query.trim().isNotEmpty) {
       ref.read(glossaryProvider.notifier).searchGlossaries(query: query);
     } else {
       ref.invalidate(glossaryProvider);

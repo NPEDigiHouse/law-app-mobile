@@ -92,11 +92,11 @@ class TeacherDiscussionListPage extends ConsumerWidget {
 
             final hasMore = data.hasMore;
 
-            if (isSearching && query.isNotEmpty && discussions.isEmpty) {
+            if (discussions.isEmpty && isSearching && query.trim().isNotEmpty) {
               return const CustomInformation(
                 illustrationName: 'discussion-cuate.svg',
                 title: 'Pertanyaan tidak ditemukan',
-                subtitle: 'Judul pertanyaan tersebut tidak ditemukan.',
+                subtitle: 'Pertanyaan dengan judul tersebut tidak ditemukan.',
               );
             }
 
@@ -156,7 +156,7 @@ class TeacherDiscussionListPage extends ConsumerWidget {
               autoFocus: true,
               onChanged: (query) => searchDiscussion(ref, query),
               onFocusChange: (isFocus) {
-                if (!isFocus && query.isEmpty) {
+                if (!isFocus && query.trim().isEmpty) {
                   ref.read(isSearchingProvider.notifier).state = false;
                 }
               },
@@ -203,7 +203,7 @@ class TeacherDiscussionListPage extends ConsumerWidget {
   }
 
   void searchDiscussion(WidgetRef ref, String query) {
-    if (query.isNotEmpty) {
+    if (query.trim().isNotEmpty) {
       ref.read(
         DiscussionProvider(
           query: query,

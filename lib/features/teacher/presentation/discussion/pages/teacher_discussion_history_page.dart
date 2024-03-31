@@ -95,7 +95,7 @@ class TeacherDiscussionHistoryPage extends ConsumerWidget {
           data: (discussions) {
             if (discussions == null) return null;
 
-            if (isSearching && query.isNotEmpty) {
+            if (isSearching && query.trim().isNotEmpty) {
               if (discussions.isEmpty) {
                 return const CustomInformation(
                   illustrationName: 'discussion-cuate.svg',
@@ -154,7 +154,7 @@ class TeacherDiscussionHistoryPage extends ConsumerWidget {
               autoFocus: true,
               onChanged: (query) => searchDiscussion(ref, query),
               onFocusChange: (isFocus) {
-                if (!isFocus && query.isEmpty) {
+                if (!isFocus && query.trim().isEmpty) {
                   ref.read(isSearchingProvider.notifier).state = false;
                 }
               },
@@ -245,7 +245,7 @@ class TeacherDiscussionHistoryPage extends ConsumerWidget {
   }
 
   void searchDiscussion(WidgetRef ref, String query) {
-    if (query.isNotEmpty) {
+    if (query.trim().isNotEmpty) {
       ref.read(UserDiscussionsProvider(query: query, type: 'specific'));
     } else {
       ref.invalidate(userDiscussionsProvider);

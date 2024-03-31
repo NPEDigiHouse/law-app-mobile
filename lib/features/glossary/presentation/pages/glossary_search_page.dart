@@ -28,7 +28,7 @@ class GlossarySearchPage extends ConsumerWidget {
     final query = ref.watch(queryProvider);
     final glossaries = ref.watch(searchGlossaryProvider);
 
-    if (query.isNotEmpty) {
+    if (query.trim().isNotEmpty) {
       ref.listen(searchGlossaryProvider, (_, state) {
         state.whenOrNull(
           error: (error, _) {
@@ -69,7 +69,7 @@ class GlossarySearchPage extends ConsumerWidget {
                 autoFocus: true,
                 onChanged: (query) => searchGlossary(ref, query),
                 onFocusChange: (isFocus) {
-                  if (!isFocus && query.isEmpty) {
+                  if (!isFocus && query.trim().isEmpty) {
                     navigatorKey.currentState!.pop();
                   }
                 },
@@ -81,7 +81,7 @@ class GlossarySearchPage extends ConsumerWidget {
       body: glossaries.whenOrNull(
         loading: () => const LoadingIndicator(),
         data: (data) {
-          if (data == null || query.isEmpty) {
+          if (data == null || query.trim().isEmpty) {
             return const SearchEmptyText(
               title: 'Hasil Pencarian',
               subtitle: 'Hasil pencarian kamu akan muncul di sini.',
@@ -158,7 +158,7 @@ class GlossarySearchPage extends ConsumerWidget {
   }
 
   void searchGlossary(WidgetRef ref, String query) {
-    if (query.isNotEmpty) {
+    if (query.trim().isNotEmpty) {
       ref.read(searchGlossaryProvider.notifier).searchGlossary(query: query);
     } else {
       ref.invalidate(searchGlossaryProvider);

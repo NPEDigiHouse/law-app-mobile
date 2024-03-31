@@ -137,10 +137,10 @@ class AdminCourseHomePage extends ConsumerWidget {
 
           if (courses == null || hasMore == null) return null;
 
-          if (query.isNotEmpty && courses.isEmpty) {
+          if (courses.isEmpty && query.trim().isNotEmpty) {
             return const CustomInformation(
               illustrationName: 'lawyer-cuate.svg',
-              title: 'Course Tidak Ditemukan',
+              title: 'Course tidak ditemukan',
               subtitle: 'Nama course tersebut tidak tersedia.',
               size: 225,
             );
@@ -219,7 +219,7 @@ class AdminCourseHomePage extends ConsumerWidget {
   }
 
   void searchCourse(WidgetRef ref, String query) {
-    if (query.isNotEmpty) {
+    if (query.trim().isNotEmpty) {
       ref.read(CourseProvider(query: query));
     }
 

@@ -222,11 +222,12 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
             data: (users) {
               if (users == null) return const SliverFillRemaining();
 
-              if (query.isNotEmpty && users.isEmpty) {
+              if (users.isEmpty && query.trim().isNotEmpty) {
                 return const SliverFillRemaining(
                   child: CustomInformation(
                     illustrationName: 'house-searching-cuate.svg',
                     title: 'User tidak ditemukan',
+                    subtitle: 'Data pengguna tersebut tidak ditemukan',
                   ),
                 );
               }
@@ -327,7 +328,7 @@ class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
   }
 
   void searchUser(String query) {
-    if (query.isNotEmpty) {
+    if (query.trim().isNotEmpty) {
       ref.read(masterDataProvider.notifier).searchUsers(query: query);
     } else {
       ref.invalidate(masterDataProvider);

@@ -55,7 +55,7 @@ class LibrarySearchPage extends ConsumerWidget {
 
           if (books == null || hasMore == null) return null;
 
-          if (query.isNotEmpty && books.isEmpty) {
+          if (books.isEmpty && query.trim().isNotEmpty) {
             return const CustomInformation(
               illustrationName: 'book-lover-cuate.svg',
               title: 'Buku tidak ditemukan',
@@ -113,7 +113,7 @@ class LibrarySearchPage extends ConsumerWidget {
   }
 
   void searchBook(WidgetRef ref, String query) {
-    if (query.isNotEmpty) {
+    if (query.trim().isNotEmpty) {
       ref.read(BookProvider(query: query));
     }
 

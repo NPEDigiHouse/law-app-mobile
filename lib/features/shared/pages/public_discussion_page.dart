@@ -203,7 +203,9 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
                     return const SliverFillRemaining();
                   }
 
-                  if (isSearching && query.isNotEmpty && discussions.isEmpty) {
+                  if (discussions.isEmpty &&
+                      isSearching &&
+                      query.trim().isNotEmpty) {
                     return const SliverFillRemaining(
                       child: CustomInformation(
                         illustrationName: 'discussion-cuate.svg',
@@ -287,7 +289,7 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
               autoFocus: true,
               onChanged: (query) => searchDiscussion(query, categoryId),
               onFocusChange: (isFocus) {
-                if (!isFocus && query.isEmpty) {
+                if (!isFocus && query.trim().isEmpty) {
                   ref.read(isSearchingProvider.notifier).state = false;
                 }
               },
@@ -334,7 +336,7 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
   }
 
   void searchDiscussion(String query, int? categoryId) {
-    if (query.isNotEmpty) {
+    if (query.trim().isNotEmpty) {
       ref.read(
         DiscussionProvider(
           query: query,

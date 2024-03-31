@@ -221,7 +221,7 @@ class _AdminDiscussionHomePageState
               autoFocus: true,
               onChanged: (query) => searchDiscussion(query, type, status),
               onFocusChange: (isFocus) {
-                if (!isFocus && query.isEmpty) {
+                if (!isFocus && query.trim().isEmpty) {
                   ref.read(isSearchingProvider.notifier).state = false;
                 }
               },
@@ -350,7 +350,7 @@ class _AdminDiscussionHomePageState
     String type,
     String status,
   ) {
-    if (query.isNotEmpty) {
+    if (query.trim().isNotEmpty) {
       ref.read(
         DiscussionProvider(
           query: query,
