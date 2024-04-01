@@ -115,7 +115,7 @@ class AdminCourseQuizPage extends ConsumerWidget {
                 const SizedBox(height: 16),
                 buildQuizInfoText(
                   title: 'Total Soal',
-                  value: '0 soal',
+                  value: '${quiz.totalQuestions} soal',
                 ),
                 buildQuizInfoText(
                   title: 'Waktu Pengerjaan',

@@ -128,7 +128,7 @@ class GlossarySearchPage extends ConsumerWidget {
 
                   navigatorKey.currentState!.pushNamed(
                     glossaryDetailRoute,
-                    arguments: glossaries[index].id!,
+                    arguments: glossaries[index].id,
                   );
                 },
                 visualDensity: const VisualDensity(

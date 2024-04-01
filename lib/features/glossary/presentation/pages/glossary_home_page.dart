@@ -159,7 +159,7 @@ class GlossaryHomePage extends ConsumerWidget {
                       ),
                       onTap: () => navigatorKey.currentState!.pushNamed(
                         glossaryDetailRoute,
-                        arguments: glossary!.id!,
+                        arguments: glossary!.id,
                       ),
                       visualDensity: const VisualDensity(
                         vertical: VisualDensity.minimumDensity,

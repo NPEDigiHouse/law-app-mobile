@@ -66,7 +66,7 @@ class AdminCourseDetailPage extends ConsumerWidget {
               trailingButtonTooltip: 'Hapus',
               onPressedTrailingButton: () {
                 context.showCustomAlertDialog(
-                  title: 'Konfirmasi Hapus Course?',
+                  title: 'Konfirmasi Hapus Course',
                   message:
                       'Semua kurikulum dan materi pada course ini juga akan terhapus! (Aksi ini tidak dapat dibatalkan)',
                   primaryButtonText: 'Hapus',

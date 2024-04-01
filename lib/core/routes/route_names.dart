@@ -63,10 +63,9 @@ const adminCourseArticleFormRoute = '/admin-course-article-form';
 const adminCourseArticleRoute = '/admin-course-article';
 const adminCourseQuizFormRoute = '/admin-course-quiz-form';
 const adminCourseQuizRoute = '/admin-course-quiz';
-
 const adminCourseQuestionListRoute = '/admin-course-question-list';
-const adminCourseQuestionDetailRoute = '/admin-course-question-detail';
 const adminCourseQuestionFormRoute = '/admin-course-question-form';
+const adminCourseQuestionDetailRoute = '/admin-course-question-detail';
 
 // Master data routes
 const masterDataHomeRoute = '/master-data-home';

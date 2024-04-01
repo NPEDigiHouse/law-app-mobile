@@ -39,7 +39,7 @@ class GlossaryCard extends ConsumerWidget {
       ],
       onTap: () => navigatorKey.currentState!.pushNamed(
         glossaryDetailRoute,
-        arguments: glossary.id!,
+        arguments: glossary.id,
       ),
       child: Row(
         children: [

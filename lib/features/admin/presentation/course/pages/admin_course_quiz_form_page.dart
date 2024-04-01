@@ -179,7 +179,7 @@ class _AdminCourseQuizFormPageState
         const SizedBox(height: 16),
         buildQuizInfoText(
           title: 'Total Soal',
-          value: '0 soal',
+          value: '${widget.quiz?.totalQuestions ?? 0} soal',
         ),
         buildQuizInfoText(
           title: 'Waktu Pengerjaan',

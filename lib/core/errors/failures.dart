@@ -53,6 +53,8 @@ Failure failure(Object e) {
         return const ServerFailure('Kuota pertanyaan umum telah habis');
       case kNoSpecificQuestionLeft:
         return const ServerFailure('Kuota pertanyaan khusus telah habis');
+      case kOptionAnswerNotFound:
+        return const ServerFailure('Tidak ada opsi jawaban benar');
       default:
         return ServerFailure(e.message);
     }

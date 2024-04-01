@@ -9,6 +9,8 @@ final articlesProvider =
 final quizesProvider =
     StateProvider.autoDispose<List<MaterialModel>>((ref) => []);
 
+final questionIdsProvider = StateProvider.autoDispose<List<int>>((ref) => []);
+
 final titleProvider = StateProvider.autoDispose<String?>((ref) => null);
 final durationProvider = StateProvider.autoDispose<String?>((ref) => null);
 final materialProvider = StateProvider.autoDispose<String?>((ref) => null);

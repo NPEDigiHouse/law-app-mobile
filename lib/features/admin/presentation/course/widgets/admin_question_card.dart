@@ -8,16 +8,23 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
+import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/course_models/question_model.dart';
+import 'package:law_app/features/admin/presentation/course/pages/admin_course_question_detail_page.dart';
 import 'package:law_app/features/shared/providers/course_providers/question_actions_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
 import 'package:law_app/features/shared/widgets/ink_well_container.dart';
 
 class AdminQuestionCard extends ConsumerWidget {
+  final int number;
   final QuestionModel question;
 
-  const AdminQuestionCard({super.key, required this.question});
+  const AdminQuestionCard({
+    super.key,
+    required this.number,
+    required this.question,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -38,15 +45,21 @@ class AdminQuestionCard extends ConsumerWidget {
       ],
       onTap: () => navigatorKey.currentState!.pushNamed(
         adminCourseQuestionDetailRoute,
-        arguments: question.id!,
+        arguments: AdminCourseQuestionDetailPageArgs(
+          id: question.id!,
+          number: number,
+        ),
       ),
       child: Row(
         children: [
           Expanded(
             child: Text(
-              '${question.title}',
+              '$number. ${question.title}',
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
+              style: textTheme.titleSmall!.copyWith(
+                color: primaryColor,
+              ),
             ),
           ),
           const SizedBox(width: 8),

@@ -6,12 +6,10 @@ import 'package:equatable/equatable.dart';
 
 class QuestionPostModel extends Equatable {
   final String title;
-  final int correctOptionId;
   final int quizId;
 
   const QuestionPostModel({
     required this.title,
-    required this.correctOptionId,
     required this.quizId,
   });
 
@@ -22,7 +20,6 @@ class QuestionPostModel extends Equatable {
   }) {
     return QuestionPostModel(
       title: title ?? this.title,
-      correctOptionId: correctOptionId ?? this.correctOptionId,
       quizId: quizId ?? this.quizId,
     );
   }
@@ -30,7 +27,6 @@ class QuestionPostModel extends Equatable {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'title': title,
-      'correctOptionId': correctOptionId,
       'quizId': quizId,
     };
   }
@@ -41,5 +37,5 @@ class QuestionPostModel extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object> get props => [title, correctOptionId, quizId];
+  List<Object> get props => [title, quizId];
 }

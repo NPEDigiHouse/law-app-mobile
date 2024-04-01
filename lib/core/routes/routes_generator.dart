@@ -350,16 +350,21 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => AdminCourseQuestionListPage(quizId: quizId),
       );
     case adminCourseQuestionDetailRoute:
+      final args = settings.arguments as AdminCourseQuestionDetailPageArgs;
+
       return MaterialPageRoute(
-        builder: (_) => const AdminCourseQuestionDetailPage(),
+        builder: (_) => AdminCourseQuestionDetailPage(
+          id: args.id,
+          number: args.number,
+        ),
       );
     case adminCourseQuestionFormRoute:
       final args = settings.arguments as AdminCourseQuestionFormPageArgs;
 
       return MaterialPageRoute(
         builder: (_) => AdminCourseQuestionFormPage(
-          title: args.title,
-          question: args.question,
+          id: args.id,
+          number: args.number,
         ),
       );
     case adminDiscussionHomeRoute:

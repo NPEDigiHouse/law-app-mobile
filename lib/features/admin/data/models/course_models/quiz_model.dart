@@ -6,12 +6,14 @@ class QuizModel extends Equatable {
   final String? title;
   final String? description;
   final int? duration;
+  final int? totalQuestions;
 
   const QuizModel({
     this.id,
     this.title,
     this.description,
     this.duration,
+    this.totalQuestions,
   });
 
   QuizModel copyWith({
@@ -19,12 +21,14 @@ class QuizModel extends Equatable {
     String? title,
     String? description,
     int? duration,
+    int? totalQuestions,
   }) {
     return QuizModel(
       id: id ?? this.id,
       title: title ?? this.title,
       description: description ?? this.description,
       duration: duration ?? this.duration,
+      totalQuestions: totalQuestions ?? this.totalQuestions,
     );
   }
 
@@ -34,6 +38,7 @@ class QuizModel extends Equatable {
       'title': title,
       'description': description,
       'duration': duration,
+      'totalQuestions': totalQuestions,
     };
   }
 
@@ -43,6 +48,7 @@ class QuizModel extends Equatable {
       title: map['title'] as String?,
       description: map['description'] as String?,
       duration: map['duration'] as int?,
+      totalQuestions: map['totalQuestions'] as int?,
     );
   }
 
@@ -50,5 +56,5 @@ class QuizModel extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object?> get props => [id, title, description, duration];
+  List<Object?> get props => [id, title, description, duration, totalQuestions];
 }

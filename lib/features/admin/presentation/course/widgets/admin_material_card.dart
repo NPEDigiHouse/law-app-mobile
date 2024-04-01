@@ -10,6 +10,7 @@ import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
+import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/course_models/material_model.dart';
 import 'package:law_app/features/shared/providers/course_providers/article_actions_provider.dart';
@@ -59,7 +60,7 @@ class AdminMaterialCard extends ConsumerWidget {
                   ? 'read-outlined.svg'
                   : 'note-edit-line.svg',
             ),
-            color: primaryTextColor,
+            color: primaryColor,
             width: 20,
           ),
           const SizedBox(width: 10),
@@ -68,6 +69,9 @@ class AdminMaterialCard extends ConsumerWidget {
               '${material.title}',
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
+              style: textTheme.bodyMedium!.copyWith(
+                color: primaryColor,
+              ),
             ),
           ),
           const SizedBox(width: 4),
