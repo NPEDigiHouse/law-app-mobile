@@ -24,7 +24,7 @@ class CourseCard extends StatelessWidget {
   const CourseCard({
     super.key,
     required this.course,
-    this.withLabelChip = true,
+    this.withLabelChip = false,
   });
 
   @override

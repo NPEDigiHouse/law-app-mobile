@@ -55,16 +55,15 @@ class AdminCourseCurriculumPage extends ConsumerWidget {
       );
     });
 
-    return course.when(
-      loading: () => const LoadingIndicator(withScaffold: true),
-      error: (_, __) => const Scaffold(),
-      data: (course) {
-        if (course == null) return const Scaffold();
+    return Scaffold(
+      backgroundColor: backgroundColor,
+      extendBodyBehindAppBar: true,
+      body: course.whenOrNull(
+        loading: () => const LoadingIndicator(),
+        data: (course) {
+          if (course == null) return null;
 
-        return Scaffold(
-          backgroundColor: backgroundColor,
-          extendBodyBehindAppBar: true,
-          body: SingleChildScrollView(
+          return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -207,9 +206,9 @@ class AdminCourseCurriculumPage extends ConsumerWidget {
                 ),
               ],
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

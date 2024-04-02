@@ -104,21 +104,20 @@ class TeacherDiscussionDetailPage extends ConsumerWidget {
       );
     });
 
-    return discussion.when(
-      loading: () => const LoadingIndicator(withScaffold: true),
-      error: (_, __) => const Scaffold(),
-      data: (discussion) {
-        if (discussion == null) return const Scaffold();
+    return Scaffold(
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(96),
+        child: HeaderContainer(
+          title: 'Detail Pertanyaan',
+          withBackButton: true,
+        ),
+      ),
+      body: discussion.whenOrNull(
+        loading: () => const LoadingIndicator(),
+        data: (discussion) {
+          if (discussion == null) return null;
 
-        return Scaffold(
-          appBar: const PreferredSize(
-            preferredSize: Size.fromHeight(96),
-            child: HeaderContainer(
-              title: 'Detail Pertanyaan',
-              withBackButton: true,
-            ),
-          ),
-          body: SingleChildScrollView(
+          return SingleChildScrollView(
             padding: const EdgeInsets.symmetric(
               vertical: 24,
               horizontal: 20,
@@ -264,9 +263,9 @@ class TeacherDiscussionDetailPage extends ConsumerWidget {
                 ],
               ],
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 

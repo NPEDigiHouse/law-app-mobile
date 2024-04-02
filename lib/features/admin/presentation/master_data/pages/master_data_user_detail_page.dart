@@ -46,34 +46,33 @@ class MasterDataUserDetailPage extends ConsumerWidget {
       );
     });
 
-    return user.when(
-      loading: () => const LoadingIndicator(withScaffold: true),
-      error: (_, __) => const Scaffold(),
-      data: (user) {
-        if (user == null) return const Scaffold();
+    return Scaffold(
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(96),
+        child: HeaderContainer(
+          title: 'Detail Pengguna',
+          withBackButton: true,
+        ),
+      ),
+      body: user.whenOrNull(
+        loading: () => const LoadingIndicator(),
+        data: (user) {
+          if (user == null) return null;
 
-        final userData = {
-          "Nama Lengkap": user.name,
-          "Username": user.username,
-          "Email": user.email,
-          "Tanggal Lahir": user.birthDate?.toStringPattern('d MMMM yyyy'),
-          "No. Hp": user.phoneNumber,
-        };
+          final userData = {
+            "Nama Lengkap": user.name,
+            "Username": user.username,
+            "Email": user.email,
+            "Tanggal Lahir": user.birthDate?.toStringPattern('d MMMM yyyy'),
+            "No. Hp": user.phoneNumber,
+          };
 
-        if (user.role == 'teacher') {
-          userData["Kepakaran"] =
-              '${user.expertises?.map((e) => e.name).toList().join(', ')}';
-        }
+          if (user.role == 'teacher') {
+            userData["Kepakaran"] =
+                '${user.expertises?.map((e) => e.name).toList().join(', ')}';
+          }
 
-        return Scaffold(
-          appBar: const PreferredSize(
-            preferredSize: Size.fromHeight(96),
-            child: HeaderContainer(
-              title: 'Detail Pengguna',
-              withBackButton: true,
-            ),
-          ),
-          body: SingleChildScrollView(
+          return SingleChildScrollView(
             padding: const EdgeInsets.symmetric(
               vertical: 24,
               horizontal: 20,
@@ -186,9 +185,9 @@ class MasterDataUserDetailPage extends ConsumerWidget {
                 ).fullWidth()
               ],
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

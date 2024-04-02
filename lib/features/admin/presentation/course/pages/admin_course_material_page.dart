@@ -113,22 +113,21 @@ class AdminCourseMaterialPage extends ConsumerWidget {
       );
     });
 
-    return curriculum.when(
-      loading: () => const LoadingIndicator(withScaffold: true),
-      error: (_, __) => const Scaffold(),
-      data: (curriculum) {
-        if (curriculum == null) return const Scaffold();
+    return Scaffold(
+      backgroundColor: backgroundColor,
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(96),
+        child: HeaderContainer(
+          title: 'Materi',
+          withBackButton: true,
+        ),
+      ),
+      body: curriculum.whenOrNull(
+        loading: () => const LoadingIndicator(),
+        data: (curriculum) {
+          if (curriculum == null) return null;
 
-        return Scaffold(
-          backgroundColor: backgroundColor,
-          appBar: const PreferredSize(
-            preferredSize: Size.fromHeight(96),
-            child: HeaderContainer(
-              title: 'Materi',
-              withBackButton: true,
-            ),
-          ),
-          body: SingleChildScrollView(
+          return SingleChildScrollView(
             padding: const EdgeInsets.symmetric(
               vertical: 24,
               horizontal: 20,
@@ -231,9 +230,9 @@ class AdminCourseMaterialPage extends ConsumerWidget {
                 ).fullWidth(),
               ],
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

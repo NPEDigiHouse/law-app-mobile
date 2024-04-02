@@ -1,33 +1,39 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
+// Package imports:
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 // Project imports:
+import 'package:law_app/core/enums/banner_type.dart';
+import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/routes/route_names.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/shared/providers/course_providers/course_provider.dart';
 import 'package:law_app/features/shared/widgets/animated_fab.dart';
-import 'package:law_app/features/shared/widgets/custom_filter_chip.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
+import 'package:law_app/features/shared/widgets/custom_information.dart';
+import 'package:law_app/features/shared/widgets/feature/course_card.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
+import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 import 'package:law_app/features/student/presentation/course/widgets/course_list_bottom_sheet.dart';
 
-class StudentCourseHomePage extends StatefulWidget {
+class StudentCourseHomePage extends ConsumerStatefulWidget {
   const StudentCourseHomePage({super.key});
 
   @override
-  State<StudentCourseHomePage> createState() => _StudentCourseHomePageState();
+  ConsumerState<StudentCourseHomePage> createState() =>
+      _StudentCourseHomePageState();
 }
 
-class _StudentCourseHomePageState extends State<StudentCourseHomePage>
+class _StudentCourseHomePageState extends ConsumerState<StudentCourseHomePage>
     with SingleTickerProviderStateMixin {
   late final AnimationController fabAnimationController;
   late final ScrollController scrollController;
-
-  late final List<String> categories;
-  late final ValueNotifier<String> selectedCategory;
 
   @override
   void initState() {
@@ -44,9 +50,6 @@ class _StudentCourseHomePageState extends State<StudentCourseHomePage>
           fabAnimationController.reverse();
         }
       });
-
-    categories = ['Tersedia', 'Populer'];
-    selectedCategory = ValueNotifier(categories.first);
   }
 
   @override
@@ -55,11 +58,29 @@ class _StudentCourseHomePageState extends State<StudentCourseHomePage>
 
     fabAnimationController.dispose();
     scrollController.dispose();
-    selectedCategory.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final courses = ref.watch(CourseProvider());
+
+    ref.listen(CourseProvider(), (_, state) {
+      state.whenOrNull(
+        error: (error, _) {
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet(
+              onPressedPrimaryButton: () {
+                navigatorKey.currentState!.pop();
+                ref.invalidate(courseProvider);
+              },
+            );
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+      );
+    });
+
     return Scaffold(
       backgroundColor: backgroundColor,
       body: NestedScrollView(
@@ -121,7 +142,7 @@ class _StudentCourseHomePageState extends State<StudentCourseHomePage>
             controller: scrollController,
             slivers: [
               SliverPadding(
-                padding: const EdgeInsets.fromLTRB(20, 24, 20, 4),
+                padding: const EdgeInsets.fromLTRB(20, 24, 20, 8),
                 sliver: SliverToBoxAdapter(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -169,14 +190,6 @@ class _StudentCourseHomePageState extends State<StudentCourseHomePage>
                                               'Course aktif masih kosong',
                                           emptyCourseSubtitle:
                                               'Tidak ada course yang sedang diikuti.',
-                                          courses: List<Course>.generate(
-                                            dummyCourses.length,
-                                            (i) {
-                                              return dummyCourses[i].copyWith(
-                                                status: 'active',
-                                              );
-                                            },
-                                          ),
                                         );
                                       },
                                     ),
@@ -213,7 +226,6 @@ class _StudentCourseHomePageState extends State<StudentCourseHomePage>
                                               'Riwayat course masih kosong',
                                           emptyCourseSubtitle:
                                               'Kamu belum pernah menyelesaikan course.',
-                                          courses: [],
                                         );
                                       },
                                     ),
@@ -236,46 +248,54 @@ class _StudentCourseHomePageState extends State<StudentCourseHomePage>
                         'Daftar Course',
                         style: textTheme.titleLarge,
                       ),
-                      ValueListenableBuilder(
-                        valueListenable: selectedCategory,
-                        builder: (context, category, child) {
-                          return Wrap(
-                            spacing: 8,
-                            runSpacing: 8,
-                            children: List<CustomFilterChip>.generate(
-                              categories.length,
-                              (index) => CustomFilterChip(
-                                label: categories[index],
-                                selected: category == categories[index],
-                                onSelected: (_) {
-                                  selectedCategory.value = categories[index];
-                                },
-                              ),
-                            ),
-                          );
-                        },
-                      ),
                     ],
                   ),
                 ),
               ),
-              SliverPadding(
-                padding: const EdgeInsets.fromLTRB(20, 4, 20, 24),
-                sliver: SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                      return Padding(
-                        padding: EdgeInsets.only(
-                          bottom: index == dummyCourses.length - 1 ? 0 : 8,
-                        ),
-                        // child: CourseCard(
-                        //   course: dummyCourses[index],
-                        // ),
-                      );
-                    },
-                    childCount: dummyCourses.length,
-                  ),
+              courses.when(
+                loading: () => const SliverFillRemaining(
+                  child: LoadingIndicator(),
                 ),
+                error: (_, __) => const SliverFillRemaining(),
+                data: (data) {
+                  final courses = data.courses;
+                  final hasMore = data.hasMore;
+
+                  if (courses == null || hasMore == null) {
+                    return const SliverFillRemaining();
+                  }
+
+                  if (courses.isEmpty) {
+                    return const SliverFillRemaining(
+                      child: CustomInformation(
+                        illustrationName: 'house-searching-cuate.svg',
+                        title: 'Daftar course masih kosong',
+                      ),
+                    );
+                  }
+
+                  return SliverPadding(
+                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
+                    sliver: SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                          if (index >= courses.length) {
+                            return buildFetchMoreButton(ref, courses.length);
+                          }
+
+                          return Padding(
+                            padding: EdgeInsets.only(
+                              bottom: index == courses.length - 1 ? 0 : 8,
+                            ),
+                            child: CourseCard(course: courses[index]),
+                          );
+                        },
+                        childCount:
+                            hasMore ? courses.length + 1 : courses.length,
+                      ),
+                    ),
+                  );
+                },
               ),
             ],
           ),
@@ -288,9 +308,19 @@ class _StudentCourseHomePageState extends State<StudentCourseHomePage>
     );
   }
 
+  TextButton buildFetchMoreButton(WidgetRef ref, int currentLength) {
+    return TextButton(
+      onPressed: () {
+        ref
+            .read(CourseProvider().notifier)
+            .fetchMoreCourses(offset: currentLength);
+      },
+      child: const Text('Lihat lebih banyak'),
+    );
+  }
+
   Future<void> showCourseListModalBottomSheet({
     required String title,
-    required List<Course> courses,
     String? emptyCourseTitle,
     String? emptyCourseSubtitle,
   }) async {
@@ -302,7 +332,7 @@ class _StudentCourseHomePageState extends State<StudentCourseHomePage>
       builder: (context) {
         return CourseListBottomSheet(
           title: title,
-          courses: courses,
+          courses: const [],
           emptyCourseTitle: emptyCourseTitle,
           emptyCourseSubtitle: emptyCourseSubtitle,
         );

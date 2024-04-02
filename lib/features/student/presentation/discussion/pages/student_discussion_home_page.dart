@@ -112,23 +112,22 @@ class _StudentDiscussionHomePageState
       );
     });
 
-    return discussions.when(
-      loading: () => const LoadingIndicator(withScaffold: true),
-      error: (_, __) => const Scaffold(),
-      data: (discussions) {
-        final userCredential = discussions.userCredential;
-        final userDiscussions = discussions.userDiscussions;
-        final publicDiscussions = discussions.publicDiscussions;
+    return Scaffold(
+      backgroundColor: backgroundColor,
+      body: discussions.whenOrNull(
+        loading: () => const LoadingIndicator(),
+        data: (data) {
+          final userCredential = data.userCredential;
+          final userDiscussions = data.userDiscussions;
+          final publicDiscussions = data.publicDiscussions;
 
-        if (userCredential == null ||
-            userDiscussions == null ||
-            publicDiscussions == null) {
-          return const Scaffold();
-        }
+          if (userCredential == null ||
+              userDiscussions == null ||
+              publicDiscussions == null) {
+            return null;
+          }
 
-        return Scaffold(
-          backgroundColor: backgroundColor,
-          body: NotificationListener<UserScrollNotification>(
+          return NotificationListener<UserScrollNotification>(
             onNotification: (notification) {
               return FunctionHelper.handleFabVisibilityOnScroll(
                 notification,
@@ -419,13 +418,13 @@ class _StudentDiscussionHomePageState
                 ],
               ),
             ),
-          ),
-          floatingActionButton: AnimatedFloatingActionButton(
-            fabAnimationController: fabAnimationController,
-            scrollController: scrollController,
-          ),
-        );
-      },
+          );
+        },
+      ),
+      floatingActionButton: AnimatedFloatingActionButton(
+        fabAnimationController: fabAnimationController,
+        scrollController: scrollController,
+      ),
     );
   }
 }
