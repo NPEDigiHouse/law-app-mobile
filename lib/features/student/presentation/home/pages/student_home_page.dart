@@ -70,6 +70,7 @@ class StudentHomePage extends ConsumerWidget {
                     horizontal: 20,
                   ),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: [
@@ -122,6 +123,7 @@ class StudentHomePage extends ConsumerWidget {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: [
@@ -191,6 +193,7 @@ class StudentHomePage extends ConsumerWidget {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: [
