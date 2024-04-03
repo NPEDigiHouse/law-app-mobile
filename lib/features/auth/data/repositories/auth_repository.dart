@@ -95,8 +95,8 @@ class AuthRepositoryImpl implements AuthRepository {
       final result = await authDataSource.isSignIn();
 
       return Right(result);
-    } on PreferenceException catch (e) {
-      return Left(PreferenceFailure(e.message));
+    } on PreferencesException catch (e) {
+      return Left(PreferencesFailure(e.message));
     }
   }
 
@@ -121,8 +121,8 @@ class AuthRepositoryImpl implements AuthRepository {
       final result = await authDataSource.logOut();
 
       return Right(result);
-    } on PreferenceException catch (e) {
-      return Left(PreferenceFailure(e.message));
+    } on PreferencesException catch (e) {
+      return Left(PreferencesFailure(e.message));
     }
   }
 

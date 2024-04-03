@@ -28,8 +28,8 @@ class ConnectionFailure extends Failure {
   const ConnectionFailure(super.message);
 }
 
-class PreferenceFailure extends Failure {
-  const PreferenceFailure(super.message);
+class PreferencesFailure extends Failure {
+  const PreferencesFailure(super.message);
 }
 
 Failure failure(Object e) {
@@ -56,7 +56,9 @@ Failure failure(Object e) {
       case kOptionAnswerNotFound:
         return const ServerFailure('Tidak ada opsi jawaban benar');
       default:
-        return ServerFailure(e.message);
+        if (e.code != 401) return ServerFailure(e.message);
+
+        return const ServerFailure(kAuthorizationError);
     }
   }
 

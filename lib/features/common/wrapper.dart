@@ -12,6 +12,7 @@ import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/user_models/user_credential_model.dart';
 import 'package:law_app/features/auth/presentation/providers/is_sign_in_provider.dart';
+import 'package:law_app/features/auth/presentation/providers/log_out_provider.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 
 class Wrapper extends ConsumerWidget {
@@ -29,11 +30,34 @@ class Wrapper extends ConsumerWidget {
                 ref.invalidate(isSignInProvider);
               },
             );
+          } else if ('$error' == kAuthorizationError) {
+            ref.read(logOutProvider.notifier).logOut();
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
           }
         },
         data: (data) => navigatePage(data.$1, data.$2),
+      );
+    });
+
+    ref.listen(logOutProvider, (_, state) {
+      state.whenOrNull(
+        error: (error, _) => context.showBanner(
+          message: '$error',
+          type: BannerType.error,
+        ),
+        data: (data) {
+          if (data != null) {
+            navigatorKey.currentState!.pushNamedAndRemoveUntil(
+              loginRoute,
+              (route) => false,
+              arguments: {
+                'message': 'Sesi telah berakhir. Silahkan login ulang.',
+                'bannerType': BannerType.error,
+              },
+            );
+          }
+        },
       );
     });
 

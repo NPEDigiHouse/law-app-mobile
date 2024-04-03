@@ -5,16 +5,17 @@ import 'package:http/http.dart' as http;
 /// related to the server.
 class ServerException implements Exception {
   final String message;
+  final int? code;
 
-  const ServerException(this.message);
+  const ServerException(this.message, {this.code});
 }
 
 /// Exception class that will be thrown when there is a problem
 /// related to shared preferences.
-class PreferenceException implements Exception {
+class PreferencesException implements Exception {
   final String message;
 
-  const PreferenceException(this.message);
+  const PreferencesException(this.message);
 }
 
 Never exception(Object e) {

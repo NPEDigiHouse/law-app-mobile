@@ -121,7 +121,7 @@ class AuthDataSourceImpl implements AuthDataSource {
 
       return token != null && userCredential != null;
     } catch (e) {
-      throw PreferenceException(e.toString());
+      throw PreferencesException(e.toString());
     }
   }
 
@@ -149,7 +149,7 @@ class AuthDataSourceImpl implements AuthDataSource {
 
         return userCredential;
       } else {
-        throw ServerException('${result.message}');
+        throw ServerException('${result.message}', code: result.code);
       }
     } catch (e) {
       exception(e);
@@ -167,7 +167,7 @@ class AuthDataSourceImpl implements AuthDataSource {
 
       return result && result2;
     } catch (e) {
-      throw PreferenceException(e.toString());
+      throw PreferencesException(e.toString());
     }
   }
 

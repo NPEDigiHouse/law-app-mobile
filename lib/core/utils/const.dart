@@ -1,4 +1,5 @@
 const kPageLimit = 20;
+const kAuthorizationError = 'AUTHORIZATION_ERROR';
 const kNoInternetConnection = 'NO_INTERNET_CONNECTION';
 const kUserNotFound = 'USER_NOT_FOUND';
 const kWrongPassword = 'WRONG_PASSWORD';
