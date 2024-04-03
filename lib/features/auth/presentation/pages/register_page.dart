@@ -237,11 +237,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
                             hasPrefixIcon: false,
                             suffixIconName: 'calendar.svg',
                             textInputType: TextInputType.none,
-                            validators: [
-                              FormBuilderValidators.required(
-                                errorText: 'Bagian ini harus diisi',
-                              ),
-                            ],
                             onTap: showBirthDatePicker,
                           ),
                           const SizedBox(height: 20),
@@ -254,9 +249,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
                             textInputType: TextInputType.number,
                             textInputAction: TextInputAction.done,
                             validators: [
-                              FormBuilderValidators.required(
-                                errorText: 'Bagian ini harus diisi',
-                              ),
                               FormBuilderValidators.integer(
                                 errorText: 'No. HP tidak valid',
                               ),
@@ -344,8 +336,16 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
         username: data['username'],
         email: data['email'],
         password: data['password'],
-        phoneNumber: data['phoneNumber'],
-        birthDate: date,
+        birthDate: data['birthDate'] != null
+            ? (data['birthDate'] as String).isNotEmpty
+                ? date
+                : null
+            : null,
+        phoneNumber: data['phoneNumber'] != null
+            ? (data['phoneNumber'] as String).isNotEmpty
+                ? data['phoneNumber']
+                : null
+            : null,
         role: 'student',
         teacherDiscussionCategoryIds: const [],
       );

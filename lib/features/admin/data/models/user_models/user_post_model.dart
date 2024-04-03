@@ -12,8 +12,8 @@ class UserPostModel extends Equatable {
   final String username;
   final String email;
   final String password;
-  final DateTime birthDate;
-  final String phoneNumber;
+  final DateTime? birthDate;
+  final String? phoneNumber;
   final String role;
   final List<int> teacherDiscussionCategoryIds;
 
@@ -22,8 +22,8 @@ class UserPostModel extends Equatable {
     required this.username,
     required this.email,
     required this.password,
-    required this.birthDate,
-    required this.phoneNumber,
+    this.birthDate,
+    this.phoneNumber,
     required this.role,
     required this.teacherDiscussionCategoryIds,
   });
@@ -52,16 +52,25 @@ class UserPostModel extends Equatable {
   }
 
   Map<String, String> toMap() {
-    return <String, String>{
+    final data = <String, String>{
       'name': name,
       'username': username,
       'email': email,
       'password': password,
-      'birthDate': birthDate.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
-      'phoneNumber': phoneNumber,
       'role': role,
       'teacherDiscussionCategoryIds': '$teacherDiscussionCategoryIds',
     };
+
+    if (birthDate != null) {
+      data['birthDate'] =
+          birthDate!.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'");
+    }
+
+    if (phoneNumber != null) {
+      data['phoneNumber'] = phoneNumber!;
+    }
+
+    return data;
   }
 
   String toJson() => json.encode(toMap());
@@ -70,7 +79,7 @@ class UserPostModel extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       name,
       username,

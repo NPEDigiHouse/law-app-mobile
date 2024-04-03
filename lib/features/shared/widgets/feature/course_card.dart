@@ -65,11 +65,11 @@ class CourseCard extends StatelessWidget {
                 ),
               ),
               child: CustomNetworkImage(
+                fit: BoxFit.fitHeight,
                 imageUrl: course.coverImg!,
                 placeHolderSize: 24,
                 aspectRatio: 1 / 1.1,
                 radius: 8,
-                fit: BoxFit.fitHeight,
               ),
             ),
           ),

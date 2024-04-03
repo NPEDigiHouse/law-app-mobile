@@ -10,7 +10,6 @@ import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class HeaderContainer extends StatelessWidget {
   final String? title;
-  final double? height;
   final bool withBackButton;
   final bool withTrailingButton;
   final String? trailingButtonIconName;
@@ -21,7 +20,6 @@ class HeaderContainer extends StatelessWidget {
   const HeaderContainer({
     super.key,
     this.title,
-    this.height,
     this.withBackButton = false,
     this.withTrailingButton = false,
     this.trailingButtonIconName,
@@ -42,7 +40,6 @@ class HeaderContainer extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      height: height,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.vertical(
           bottom: Radius.circular(20),

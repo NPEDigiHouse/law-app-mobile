@@ -76,10 +76,10 @@ class _AdsCarouselState extends ConsumerState<AdsCarousel> {
                             ),
                           ),
                           child: CustomNetworkImage(
+                            fit: BoxFit.fitWidth,
                             imageUrl: ads[index].imageName!,
                             placeHolderSize: 48,
                             aspectRatio: 18 / 9,
-                            fit: BoxFit.fitWidth,
                           ),
                         ),
                         Positioned(

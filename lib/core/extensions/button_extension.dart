@@ -18,3 +18,12 @@ extension OutlinedButtonFullWidth on OutlinedButton {
     );
   }
 }
+
+extension TextButtonFullWidth on TextButton {
+  SizedBox fullWidth() {
+    return SizedBox(
+      width: double.infinity,
+      child: this,
+    );
+  }
+}

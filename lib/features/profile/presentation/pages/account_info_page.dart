@@ -18,6 +18,8 @@ import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/user_models/user_model.dart';
+import 'package:law_app/features/admin/presentation/master_data/providers/user_actions_provider.dart';
+import 'package:law_app/features/auth/presentation/providers/log_out_provider.dart';
 import 'package:law_app/features/auth/presentation/providers/user_credential_provider.dart';
 import 'package:law_app/features/profile/presentation/providers/profile_actions_provider.dart';
 import 'package:law_app/features/profile/presentation/providers/profile_detail_provider.dart';
@@ -78,6 +80,27 @@ class AccountInfoPage extends ConsumerWidget {
       );
     });
 
+    ref.listen(userActionsProvider, (_, state) {
+      state.when(
+        error: (error, _) {
+          navigatorKey.currentState!.pop();
+
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet();
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+        loading: () => context.showLoadingDialog(),
+        data: (data) {
+          if (data != null) {
+            navigatorKey.currentState!.pop();
+            ref.read(logOutProvider.notifier).logOut();
+          }
+        },
+      );
+    });
+
     return Scaffold(
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(96),
@@ -95,8 +118,9 @@ class AccountInfoPage extends ConsumerWidget {
             "Nama Lengkap": user.name,
             "Username": user.username,
             "Email": user.email,
-            "Tanggal Lahir": user.birthDate?.toStringPattern('d MMMM yyyy'),
-            "No. Hp": user.phoneNumber,
+            "Tanggal Lahir":
+                user.birthDate?.toStringPattern('d MMMM yyyy') ?? '-',
+            "No. Hp": user.phoneNumber ?? '-',
           };
 
           if (user.role == 'teacher') {
@@ -252,6 +276,40 @@ class AccountInfoPage extends ConsumerWidget {
                     builder: (_) => EditProfileDialog(user: user),
                   ),
                   child: const Text("Edit Profile"),
+                ).fullWidth(),
+                const SizedBox(height: 16),
+                TextButton(
+                  onPressed: () => context.showCustomAlertDialog(
+                    title: 'Hapus Akun?',
+                    message:
+                        'Akun anda akan dihapus secara permanen. Setelah terhapus, Anda tidak bisa lagi menggunakan akun ini untuk mengakses aplikasi kami. Aksi ini tidak dapat dibatalkan!',
+                    withCheckbox: true,
+                    checkboxLabel: 'Saya mengerti. Hapus sekarang.',
+                    onPressedPrimaryButton: () {
+                      navigatorKey.currentState!.pop();
+
+                      ref
+                          .read(userActionsProvider.notifier)
+                          .deleteUser(id: user.id!);
+                    },
+                  ),
+                  child: Column(
+                    children: [
+                      Text(
+                        "Hapus Akun",
+                        style: textTheme.labelLarge!.copyWith(
+                          color: errorColor,
+                        ),
+                      ),
+                      Text(
+                        "(Tindakan berbahaya)",
+                        style: textTheme.labelSmall!.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: errorColor,
+                        ),
+                      ),
+                    ],
+                  ),
                 ).fullWidth(),
               ],
             ),

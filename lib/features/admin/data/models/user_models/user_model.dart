@@ -45,8 +45,8 @@ class UserModel extends Equatable {
       name: name ?? this.name,
       username: username ?? this.username,
       email: email ?? this.email,
-      birthDate: birthDate ?? this.birthDate,
-      phoneNumber: phoneNumber ?? this.phoneNumber,
+      birthDate: birthDate,
+      phoneNumber: phoneNumber,
       profilePicture: profilePicture ?? this.profilePicture,
       expertises: expertises ?? this.expertises,
     );

@@ -1,4 +1,0 @@
-1. Add relevan glossary, book, course, discussion, and ads
-2. Make birthDate and phoneNumber optional when create user
-3. Add delete account feature
-4. Fix book detail page UI

@@ -96,11 +96,6 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                   hasPrefixIcon: false,
                   suffixIconName: "calendar.svg",
                   textInputType: TextInputType.none,
-                  validators: [
-                    FormBuilderValidators.required(
-                      errorText: "Bagian ini harus diisi",
-                    ),
-                  ],
                   onTap: showBirthDatePicker,
                 ),
                 const SizedBox(height: 10),
@@ -115,9 +110,6 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                   textInputType: TextInputType.number,
                   textInputAction: TextInputAction.done,
                   validators: [
-                    FormBuilderValidators.required(
-                      errorText: "Bagian ini harus diisi",
-                    ),
                     FormBuilderValidators.integer(
                       errorText: 'No. HP tidak valid',
                     ),
@@ -163,8 +155,16 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
             user: widget.user.copyWith(
               name: data['name'],
               email: data['email'],
-              phoneNumber: data['phoneNumber'],
-              birthDate: date,
+              birthDate: data['birthDate'] != null
+                  ? (data['birthDate'] as String).isNotEmpty
+                      ? date
+                      : null
+                  : null,
+              phoneNumber: data['phoneNumber'] != null
+                  ? (data['phoneNumber'] as String).isNotEmpty
+                      ? data['phoneNumber']
+                      : null
+                  : null,
             ),
           );
     }

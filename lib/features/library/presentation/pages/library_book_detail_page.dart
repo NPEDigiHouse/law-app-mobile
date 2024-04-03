@@ -123,154 +123,151 @@ class LibraryBookDetailRoute extends ConsumerWidget {
               return [
                 SliverAppBar(
                   pinned: true,
-                  toolbarHeight: 260,
+                  toolbarHeight: 250,
                   automaticallyImplyLeading: false,
                   backgroundColor: Colors.transparent,
                   surfaceTintColor: Colors.transparent,
-                  flexibleSpace: SizedBox(
-                    height: 300,
-                    child: Stack(
-                      children: [
-                        const HeaderContainer(
-                          height: 270,
-                          title: 'Detail Buku',
-                          withBackButton: true,
-                        ),
-                        Positioned(
-                          left: 20,
-                          right: 20,
-                          bottom: 0,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                flex: 1,
-                                child: CustomNetworkImage(
-                                  imageUrl: book.coverImage!,
-                                  placeHolderSize: 32,
-                                  aspectRatio: 2 / 3,
-                                  radius: 8,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(.15),
-                                      offset: const Offset(2, 2),
-                                      blurRadius: 4,
-                                      spreadRadius: -1,
-                                    ),
-                                  ],
-                                ),
+                  flexibleSpace: Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      const HeaderContainer(
+                        title: 'Detail Buku',
+                        withBackButton: true,
+                      ),
+                      Positioned(
+                        left: 20,
+                        right: 20,
+                        bottom: -16,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: CustomNetworkImage(
+                                imageUrl: book.coverImage!,
+                                placeHolderSize: 32,
+                                aspectRatio: 2 / 3,
+                                radius: 8,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(.15),
+                                    offset: const Offset(2, 2),
+                                    blurRadius: 4,
+                                    spreadRadius: -1,
+                                  ),
+                                ],
                               ),
-                              const SizedBox(width: 16),
-                              Expanded(
-                                flex: 2,
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      '${book.title} (${book.releaseDate?.year})',
-                                      maxLines: 3,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: textTheme.titleMedium!.copyWith(
-                                        color: accentTextColor,
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              flex: 2,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '${book.title} (${book.releaseDate?.year})',
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: textTheme.titleMedium!.copyWith(
+                                      color: accentTextColor,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 12),
+                                  Row(
+                                    children: [
+                                      SvgAsset(
+                                        assetPath: AssetPath.getIcon(
+                                          'user-solid.svg',
+                                        ),
+                                        color: scaffoldBackgroundColor,
+                                        width: 16,
                                       ),
-                                    ),
-                                    const SizedBox(height: 12),
-                                    Row(
-                                      children: [
-                                        SvgAsset(
-                                          assetPath: AssetPath.getIcon(
-                                            'user-solid.svg',
-                                          ),
-                                          color: scaffoldBackgroundColor,
-                                          width: 16,
+                                      const SizedBox(width: 8),
+                                      Expanded(
+                                        child: Text(
+                                          '${book.writer}',
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: textTheme.bodySmall!.copyWith(
+                                              color: scaffoldBackgroundColor),
                                         ),
-                                        const SizedBox(width: 8),
-                                        Expanded(
-                                          child: Text(
-                                            '${book.writer}',
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: textTheme.bodySmall!.copyWith(
-                                                color: scaffoldBackgroundColor),
-                                          ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Row(
+                                    children: [
+                                      SvgAsset(
+                                        assetPath: AssetPath.getIcon(
+                                          'grid-view-solid.svg',
                                         ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Row(
-                                      children: [
-                                        SvgAsset(
-                                          assetPath: AssetPath.getIcon(
-                                            'grid-view-solid.svg',
-                                          ),
-                                          color: scaffoldBackgroundColor,
-                                          width: 16,
+                                        color: scaffoldBackgroundColor,
+                                        width: 16,
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Expanded(
+                                        child: Text(
+                                          '${book.category?.name}',
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: textTheme.bodySmall!.copyWith(
+                                              color: scaffoldBackgroundColor),
                                         ),
-                                        const SizedBox(width: 8),
-                                        Expanded(
-                                          child: Text(
-                                            '${book.category?.name}',
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: textTheme.bodySmall!.copyWith(
-                                                color: scaffoldBackgroundColor),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                        right: 20,
+                        bottom: -12,
+                        child: Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: secondaryColor,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(.15),
+                                offset: const Offset(2, 2),
+                                blurRadius: 4,
+                                spreadRadius: -1,
                               ),
                             ],
                           ),
-                        ),
-                        Positioned(
-                          right: 20,
-                          bottom: 0,
-                          child: Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              color: secondaryColor,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(.15),
-                                  offset: const Offset(2, 2),
-                                  blurRadius: 4,
-                                  spreadRadius: -1,
-                                ),
-                              ],
+                          child: IconButton(
+                            onPressed: () => saveOrUnsaveBook(
+                              context: context,
+                              ref: ref,
+                              bookId: book.id!,
+                              savedBook: savedBook,
                             ),
-                            child: IconButton(
-                              onPressed: () => saveOrUnsaveBook(
-                                context: context,
-                                ref: ref,
-                                bookId: book.id!,
-                                savedBook: savedBook,
+                            icon: SvgAsset(
+                              assetPath: AssetPath.getIcon(
+                                savedBook != null
+                                    ? 'bookmark-solid.svg'
+                                    : 'bookmark-line.svg',
                               ),
-                              icon: SvgAsset(
-                                assetPath: AssetPath.getIcon(
-                                  savedBook != null
-                                      ? 'bookmark-solid.svg'
-                                      : 'bookmark-line.svg',
-                                ),
-                                color: primaryColor,
-                                width: 24,
-                              ),
-                              tooltip: 'Save',
+                              color: primaryColor,
+                              width: 24,
                             ),
+                            tooltip: 'Save',
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ];
             },
             body: Padding(
-              padding: const EdgeInsets.only(bottom: 24),
+              padding: const EdgeInsets.only(bottom: 24, top: 16),
               child: DefaultTabController(
                 length: 2,
                 child: Column(

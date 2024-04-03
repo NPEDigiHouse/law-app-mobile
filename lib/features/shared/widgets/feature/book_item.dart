@@ -31,6 +31,7 @@ class BookItem extends StatelessWidget {
         CustomNetworkImage(
           width: width,
           height: height,
+          fit: BoxFit.fill,
           imageUrl: book.coverImage!,
           placeHolderSize: 24,
           radius: 8,

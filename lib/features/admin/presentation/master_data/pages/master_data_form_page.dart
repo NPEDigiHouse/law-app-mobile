@@ -183,11 +183,6 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage>
                 hasPrefixIcon: false,
                 suffixIconName: 'calendar.svg',
                 textInputType: TextInputType.none,
-                validators: [
-                  FormBuilderValidators.required(
-                    errorText: 'Bagian ini harus diisi',
-                  ),
-                ],
                 onTap: showBirthDatePicker,
               ),
               const SizedBox(height: 20),
@@ -201,9 +196,6 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage>
                 textInputType: TextInputType.number,
                 textInputAction: TextInputAction.done,
                 validators: [
-                  FormBuilderValidators.required(
-                    errorText: 'Bagian ini harus diisi',
-                  ),
                   FormBuilderValidators.integer(
                     errorText: 'No. HP tidak valid',
                   ),
@@ -308,9 +300,17 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage>
               user: widget.user!.copyWith(
                 name: data['name'],
                 email: data['email'],
-                phoneNumber: data['phoneNumber'],
-                birthDate: date,
                 expertises: selectedExpertises,
+                birthDate: data['birthDate'] != null
+                    ? (data['birthDate'] as String).isNotEmpty
+                        ? date
+                        : null
+                    : null,
+                phoneNumber: data['phoneNumber'] != null
+                    ? (data['phoneNumber'] as String).isNotEmpty
+                        ? data['phoneNumber']
+                        : null
+                    : null,
               ),
             );
       }
@@ -335,11 +335,19 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage>
                 username: data['username'],
                 email: data['email'],
                 password: data['username'],
-                phoneNumber: data['phoneNumber'],
-                birthDate: date,
                 role: widget.role,
                 teacherDiscussionCategoryIds:
                     selectedExpertises.map((e) => e.id!).toList(),
+                birthDate: data['birthDate'] != null
+                    ? (data['birthDate'] as String).isNotEmpty
+                        ? date
+                        : null
+                    : null,
+                phoneNumber: data['phoneNumber'] != null
+                    ? (data['phoneNumber'] as String).isNotEmpty
+                        ? data['phoneNumber']
+                        : null
+                    : null,
               ),
             );
       }

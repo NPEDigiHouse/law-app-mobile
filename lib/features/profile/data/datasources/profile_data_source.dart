@@ -68,19 +68,27 @@ class ProfileDataSourceImpl implements ProfileDataSource {
     String? path,
   }) async {
     try {
+      final data = {
+        'name': '${user.name}',
+        'email': '${user.email}',
+        'teacherDiscussionCategoryIds':
+            '${user.expertises?.map((e) => e.id).toList()}',
+      };
+
+      if (user.birthDate != null) {
+        data['birthDate'] =
+            user.birthDate!.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'");
+      }
+
+      if (user.phoneNumber != null) {
+        data['phoneNumber'] = user.phoneNumber!;
+      }
+
       final request = http.MultipartRequest(
         'PUT',
         Uri.parse('${ApiConfigs.baseUrl}/users/${user.id}'),
       )
-        ..fields.addAll({
-          'name': '${user.name}',
-          'email': '${user.email}',
-          'phoneNumber': '${user.phoneNumber}',
-          'teacherDiscussionCategoryIds':
-              '${user.expertises?.map((e) => e.id).toList()}',
-          'birthDate':
-              '${user.birthDate?.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'")}',
-        })
+        ..fields.addAll(data)
         ..headers[HttpHeaders.authorizationHeader] =
             'Bearer ${CredentialSaver.accessToken}';
 

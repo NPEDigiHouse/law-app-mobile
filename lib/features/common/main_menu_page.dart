@@ -10,7 +10,6 @@ import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/features/glossary/presentation/pages/glossary_home_page.dart';
 import 'package:law_app/features/library/presentation/pages/library_home_page.dart';
 import 'package:law_app/features/shared/widgets/custom_navigation_bar.dart';
-import 'package:law_app/features/student/presentation/course/pages/student_course_home_page.dart';
 import 'package:law_app/features/student/presentation/discussion/pages/student_discussion_home_page.dart';
 import 'package:law_app/features/student/presentation/home/pages/student_home_page.dart';
 import 'package:law_app/features/teacher/presentation/discussion/pages/teacher_discussion_home_page.dart';
@@ -38,7 +37,7 @@ class _MainMenuPageState extends ConsumerState<MainMenuPage> {
         ? [
             const StudentHomePage(),
             const StudentDiscussionHomePage(),
-            const StudentCourseHomePage(),
+            // const StudentCourseHomePage(),
             const LibraryHomePage(),
             const GlossaryHomePage(),
           ]

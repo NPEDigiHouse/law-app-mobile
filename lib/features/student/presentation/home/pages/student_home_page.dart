@@ -18,7 +18,6 @@ import 'package:law_app/features/shared/widgets/feature/book_item.dart';
 import 'package:law_app/features/shared/widgets/feature/discussion_card.dart';
 import 'package:law_app/features/shared/widgets/feature/home_page_header.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
-import 'package:law_app/features/student/presentation/course/pages/student_course_home_page.dart';
 import 'package:law_app/features/student/presentation/home/providers/student_home_provider.dart';
 import 'package:law_app/features/student/presentation/home/widgets/ads_carousel.dart';
 
@@ -190,60 +189,60 @@ class StudentHomePage extends ConsumerWidget {
                           ),
                         ),
                 ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              'Course Terbaru',
-                              style: textTheme.titleLarge!.copyWith(
-                                color: primaryColor,
-                              ),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () => navigatorKey.currentState!.push(
-                              MaterialPageRoute(
-                                builder: (_) => const StudentCourseHomePage(),
-                              ),
-                            ),
-                            child: Text(
-                              'Lihat Selengkapnya >',
-                              style: textTheme.bodySmall!.copyWith(
-                                color: primaryColor,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        "Buruan daftar di berbagai course yang ada untuk meningkatkan pengetahuanmu tentang hukum!",
-                        style: textTheme.bodySmall!.copyWith(
-                          color: secondaryTextColor,
-                        ),
-                      ),
-                      // ListView.separated(
-                      //   physics: const NeverScrollableScrollPhysics(),
-                      //   padding: const EdgeInsets.fromLTRB(0, 12, 0, 24),
-                      //   shrinkWrap: true,
-                      //   itemBuilder: (context, index) {
-                      //     return CourseCard(
-                      //       course: dummyCourses[index],
-                      //     );
-                      //   },
-                      //   separatorBuilder: (context, index) {
-                      //     return const SizedBox(height: 8);
-                      //   },
-                      //   itemCount: 3,
-                      // ),
-                    ],
-                  ),
-                ),
+                // Container(
+                //   padding: const EdgeInsets.symmetric(horizontal: 20),
+                //   child: Column(
+                //     crossAxisAlignment: CrossAxisAlignment.start,
+                //     children: [
+                //       Row(
+                //         children: [
+                //           Expanded(
+                //             child: Text(
+                //               'Course Terbaru',
+                //               style: textTheme.titleLarge!.copyWith(
+                //                 color: primaryColor,
+                //               ),
+                //             ),
+                //           ),
+                //           GestureDetector(
+                //             onTap: () => navigatorKey.currentState!.push(
+                //               MaterialPageRoute(
+                //                 builder: (_) => const StudentCourseHomePage(),
+                //               ),
+                //             ),
+                //             child: Text(
+                //               'Lihat Selengkapnya >',
+                //               style: textTheme.bodySmall!.copyWith(
+                //                 color: primaryColor,
+                //               ),
+                //             ),
+                //           ),
+                //         ],
+                //       ),
+                //       const SizedBox(height: 4),
+                //       Text(
+                //         "Buruan daftar di berbagai course yang ada untuk meningkatkan pengetahuanmu tentang hukum!",
+                //         style: textTheme.bodySmall!.copyWith(
+                //           color: secondaryTextColor,
+                //         ),
+                //       ),
+                //       ListView.separated(
+                //         physics: const NeverScrollableScrollPhysics(),
+                //         padding: const EdgeInsets.fromLTRB(0, 12, 0, 24),
+                //         shrinkWrap: true,
+                //         itemBuilder: (context, index) {
+                //           return CourseCard(
+                //             course: dummyCourses[index],
+                //           );
+                //         },
+                //         separatorBuilder: (context, index) {
+                //           return const SizedBox(height: 8);
+                //         },
+                //         itemCount: 3,
+                //       ),
+                //     ],
+                //   ),
+                // ),
               ],
             ),
           );

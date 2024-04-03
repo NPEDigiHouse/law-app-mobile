@@ -43,11 +43,11 @@ class AdCard extends ConsumerWidget {
           Expanded(
             flex: 1,
             child: CustomNetworkImage(
+              fit: BoxFit.fitHeight,
               imageUrl: ad.imageName!,
               placeHolderSize: 24,
               aspectRatio: 1,
               radius: 8,
-              fit: BoxFit.fitHeight,
             ),
           ),
           const SizedBox(width: 12),
