@@ -163,7 +163,7 @@ class ProfilePage extends ConsumerWidget {
             if (await canLaunchUrl(url)) await launchUrl(url);
           } else if (Platform.isIOS) {
             final url = Uri.parse(
-              'https://www.apple.com/app-store',
+              'https://apps.apple.com/us/app/sobat-hukum/id6479963422',
             );
 
             if (await canLaunchUrl(url)) await launchUrl(url);
