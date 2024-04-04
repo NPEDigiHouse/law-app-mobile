@@ -5,9 +5,8 @@ import 'package:http/http.dart' as http;
 /// related to the server.
 class ServerException implements Exception {
   final String message;
-  final int? code;
 
-  const ServerException(this.message, {this.code});
+  const ServerException(this.message);
 }
 
 /// Exception class that will be thrown when there is a problem

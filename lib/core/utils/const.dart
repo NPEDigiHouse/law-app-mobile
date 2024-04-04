@@ -1,5 +1,8 @@
+// const item per page
 const kPageLimit = 20;
-const kAuthorizationError = 'AUTHORIZATION_ERROR';
+
+// const error messages
+const kUnauthorized = 'UNAUTHORIZED';
 const kNoInternetConnection = 'NO_INTERNET_CONNECTION';
 const kUserNotFound = 'USER_NOT_FOUND';
 const kWrongPassword = 'WRONG_PASSWORD';
@@ -11,6 +14,8 @@ const kAdTitleAlreadyExist = 'ADS_WITH_SAME_TITLE_ALREADY_EXIST';
 const kNoGeneralQuestionLeft = 'NO_WEEKLY_general_QUESTION_QUOTA_LEFT';
 const kNoSpecificQuestionLeft = 'NO_WEEKLY_SPECIFIC_QUESTION_QUOTA_LEFT';
 const kOptionAnswerNotFound = 'QUIZ_QUESTION_OPTION_NOT_FOUND';
+
+// const shared preferences keys
 const accessTokenKey = 'ACCESS_TOKEN';
 const userCredentialKey = 'USER_CREDENTIAL';
 const fcmTokenKey = 'FCM_TOKEN';

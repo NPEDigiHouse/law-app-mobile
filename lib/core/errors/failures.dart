@@ -35,6 +35,8 @@ class PreferencesFailure extends Failure {
 Failure failure(Object e) {
   if (e is ServerException) {
     switch (e.message) {
+      case kUnauthorized:
+        return const ServerFailure(kUnauthorized);
       case kUsernameAlreadyExist:
         return const ServerFailure('Username telah digunakan');
       case kEmailAlreadyExist:
@@ -56,9 +58,7 @@ Failure failure(Object e) {
       case kOptionAnswerNotFound:
         return const ServerFailure('Tidak ada opsi jawaban benar');
       default:
-        if (e.code != 401) return ServerFailure(e.message);
-
-        return const ServerFailure(kAuthorizationError);
+        return ServerFailure(e.message);
     }
   }
 

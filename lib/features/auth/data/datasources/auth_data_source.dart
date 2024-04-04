@@ -149,7 +149,7 @@ class AuthDataSourceImpl implements AuthDataSource {
 
         return userCredential;
       } else {
-        throw ServerException('${result.message}', code: result.code);
+        throw ServerException('${result.message}');
       }
     } catch (e) {
       exception(e);

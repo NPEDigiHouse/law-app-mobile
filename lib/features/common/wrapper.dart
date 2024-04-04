@@ -30,7 +30,7 @@ class Wrapper extends ConsumerWidget {
                 ref.invalidate(isSignInProvider);
               },
             );
-          } else if ('$error' == kAuthorizationError) {
+          } else if ('$error' == kUnauthorized) {
             ref.read(logOutProvider.notifier).logOut();
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
@@ -48,9 +48,8 @@ class Wrapper extends ConsumerWidget {
         ),
         data: (data) {
           if (data != null) {
-            navigatorKey.currentState!.pushNamedAndRemoveUntil(
+            navigatorKey.currentState!.pushReplacementNamed(
               loginRoute,
-              (route) => false,
               arguments: {
                 'message': 'Sesi telah berakhir. Silahkan login ulang.',
                 'bannerType': BannerType.error,
