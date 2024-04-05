@@ -1,13 +1,9 @@
-// Dart imports:
-import 'dart:io' show Platform;
-
 // Flutter imports:
 import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // Project imports:
@@ -17,6 +13,7 @@ import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/core/utils/screenshot_protector.dart';
 import 'package:law_app/features/admin/data/models/book_models/book_model.dart';
 import 'package:law_app/features/library/presentation/providers/book_detail_provider.dart';
 import 'package:law_app/features/library/presentation/providers/create_user_read_provider.dart';
@@ -52,14 +49,14 @@ class _LibraryReadBookPageState extends ConsumerState<LibraryReadBookPage> {
 
     currentPage = widget.book.currentPage ?? 1;
 
-    disableScreenshot();
+    ScreenshotProtector.disable();
   }
 
   @override
   void dispose() {
     super.dispose();
 
-    enableScreenshot();
+    ScreenshotProtector.enable();
   }
 
   @override
@@ -244,18 +241,6 @@ class _LibraryReadBookPageState extends ConsumerState<LibraryReadBookPage> {
         ),
       ),
     );
-  }
-
-  Future<void> disableScreenshot() async {
-    if (Platform.isAndroid) {
-      await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
-    }
-  }
-
-  Future<void> enableScreenshot() async {
-    if (Platform.isAndroid) {
-      await FlutterWindowManager.clearFlags(FlutterWindowManager.FLAG_SECURE);
-    }
   }
 }
 
