@@ -73,17 +73,17 @@ class CustomNavigationBar extends StatelessWidget {
               ),
               label: 'Discussion',
             ),
-            // if (role == 'student')
-            //   BottomNavigationBarItem(
-            //     icon: SvgAsset(
-            //       assetPath: AssetPath.getIcon('course-unselected.svg'),
-            //     ),
-            //     activeIcon: SvgAsset(
-            //       assetPath: AssetPath.getIcon('course-selected.svg'),
-            //       width: 24,
-            //     ),
-            //     label: 'Course',
-            //   ),
+            if (role == 'student')
+              BottomNavigationBarItem(
+                icon: SvgAsset(
+                  assetPath: AssetPath.getIcon('course-unselected.svg'),
+                ),
+                activeIcon: SvgAsset(
+                  assetPath: AssetPath.getIcon('course-selected.svg'),
+                  width: 24,
+                ),
+                label: 'Course',
+              ),
             BottomNavigationBarItem(
               icon: SvgAsset(
                 assetPath: AssetPath.getIcon('book-unselected.svg'),

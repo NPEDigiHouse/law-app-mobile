@@ -127,11 +127,11 @@ class Dashboard extends ConsumerWidget {
         ];
       case 'student':
         return [
-          // {
-          //   "icon": "chalkboard-teacher-fill.svg",
-          //   "count": dashboardData.totalCourses,
-          //   "text": "Course\nDiambil",
-          // },
+          {
+            "icon": "chalkboard-teacher-fill.svg",
+            "count": dashboardData.totalCourses,
+            "text": "Course\nDiambil",
+          },
           {
             "icon": "question-circle-line.svg",
             "count": dashboardData.totalDiscussions,

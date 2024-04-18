@@ -1,46 +1,49 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
+// Package imports:
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 // Project imports:
+import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
-import 'package:law_app/dummies_data.dart';
+import 'package:law_app/core/utils/const.dart';
+import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/features/shared/providers/course_providers/course_provider.dart';
+import 'package:law_app/features/shared/providers/manual_providers/search_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
+import 'package:law_app/features/shared/widgets/feature/course_card.dart';
 import 'package:law_app/features/shared/widgets/form_field/search_field.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
+import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 
-class StudentCourseSearchPage extends StatefulWidget {
+class StudentCourseSearchPage extends ConsumerWidget {
   const StudentCourseSearchPage({super.key});
 
   @override
-  State<StudentCourseSearchPage> createState() =>
-      _StudentCourseSearchPageState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final query = ref.watch(queryProvider);
+    final courses = ref.watch(CourseProvider(query: query));
 
-class _StudentCourseSearchPageState extends State<StudentCourseSearchPage> {
-  late final ValueNotifier<String> query;
-  late List<Course> courses;
-  late List<Course> courseHistoryList;
+    ref.listen(CourseProvider(query: query), (_, state) {
+      state.whenOrNull(
+        error: (error, _) {
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet(
+              onPressedPrimaryButton: () {
+                navigatorKey.currentState!.pop();
+                ref.invalidate(courseProvider);
+              },
+            );
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+      );
+    });
 
-  @override
-  void initState() {
-    super.initState();
-
-    query = ValueNotifier('');
-    courses = dummyCourses;
-    courseHistoryList = dummyCourses.sublist(0, 3);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-
-    query.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: PreferredSize(
@@ -55,154 +58,88 @@ class _StudentCourseSearchPageState extends State<StudentCourseSearchPage> {
                 ),
               ),
               const SizedBox(height: 10),
-              ValueListenableBuilder(
-                valueListenable: query,
-                builder: (context, query, child) {
-                  return SearchField(
-                    text: query,
-                    hintText: 'Cari nama course',
-                    autoFocus: true,
-                    onChanged: searchCourse,
-                  );
-                },
+              SearchField(
+                text: query,
+                hintText: 'Cari nama course',
+                autoFocus: true,
+                onChanged: (query) => searchCourse(ref, query),
               ),
             ],
           ),
         ),
       ),
-      body: Builder(
-        builder: (context) {
-          if (query.value.isEmpty) {
-            if (courseHistoryList.isEmpty) {
-              return const CustomInformation(
-                illustrationName: 'house-searching-cuate.svg',
-                title: 'Riwayat pencarian',
-                subtitle: 'Riwayat pencarian course masih kosong.',
-              );
-            }
+      body: courses.whenOrNull(
+        loading: () => const LoadingIndicator(),
+        data: (data) {
+          final courses = data.courses;
+          final hasMore = data.hasMore;
 
-            return buildCourseHistoryList();
+          if (courses == null || hasMore == null) return null;
+
+          if (courses.isEmpty && query.trim().isNotEmpty) {
+            return const CustomInformation(
+              illustrationName: 'lawyer-cuate.svg',
+              title: 'Course tidak ditemukan',
+              subtitle: 'Nama course tersebut tidak tersedia.',
+              size: 225,
+            );
           }
 
           if (courses.isEmpty) {
             return const CustomInformation(
-              illustrationName: 'lawyer-cuate.svg',
-              title: 'Course Tidak Ditemukan',
-              subtitle: 'Nama course tersebut tidak tersedia.',
-              size: 230,
+              illustrationName: 'house-searching-cuate.svg',
+              title: 'Daftar course masih kosong',
+              subtitle: 'Tambahkan course dengan menekan tombol di bawah.',
             );
           }
 
-          return buildCourseResultList();
+          return ListView.separated(
+            padding: const EdgeInsets.symmetric(
+              vertical: 24,
+              horizontal: 20,
+            ),
+            itemBuilder: (context, index) {
+              if (index >= courses.length) {
+                return buildFetchMoreButton(ref, query, courses.length);
+              }
+
+              return CourseCard(course: courses[index]);
+            },
+            separatorBuilder: (context, index) {
+              return const SizedBox(height: 8);
+            },
+            itemCount: hasMore ? courses.length + 1 : courses.length,
+          );
         },
       ),
     );
   }
 
-  CustomScrollView buildCourseHistoryList() {
-    return CustomScrollView(
-      slivers: [
-        SliverPadding(
-          padding: const EdgeInsets.fromLTRB(20, 10, 20, 12),
-          sliver: SliverToBoxAdapter(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '*Swipe ke samping untuk menghapus history buku',
-                  style: textTheme.labelSmall!.copyWith(
-                    color: secondaryTextColor,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        'Riwayat Pencarian',
-                        style: textTheme.titleLarge,
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () => context.showConfirmDialog(
-                        title: 'Konfirmasi',
-                        message:
-                            'Anda yakin ingin menghapus seluruh riwayat pencarian?',
-                        onPressedPrimaryButton: () {},
-                      ),
-                      child: Text(
-                        'Hapus Semua',
-                        style: textTheme.bodySmall!.copyWith(
-                          fontWeight: FontWeight.w500,
-                          color: primaryColor,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-        SliverPadding(
-          padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
-          sliver: SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                return Dismissible(
-                  key: ValueKey<String>(courseHistoryList[index].title),
-                  onDismissed: (_) {
-                    setState(() {
-                      courseHistoryList.removeWhere((course) {
-                        return course.title == courseHistoryList[index].title;
-                      });
-                    });
-                  },
-                  child: const Padding(
-                    padding: EdgeInsets.only(bottom: 8),
-                    // child: CourseCard(
-                    //   course: courseHistoryList[index],
-                    // ),
-                  ),
-                );
-              },
-              childCount: courseHistoryList.length,
-            ),
-          ),
-        ),
-      ],
+  TextButton buildFetchMoreButton(
+    WidgetRef ref,
+    String query,
+    int currentLength,
+  ) {
+    return TextButton(
+      onPressed: () {
+        ref
+            .read(CourseProvider(
+              query: query,
+            ).notifier)
+            .fetchMoreCourses(
+              query: query,
+              offset: currentLength,
+            );
+      },
+      child: const Text('Lihat lebih banyak'),
     );
   }
 
-  ListView buildCourseResultList() {
-    return ListView.separated(
-      padding: const EdgeInsets.symmetric(
-        vertical: 24,
-        horizontal: 20,
-      ),
-      itemBuilder: (context, index) {
-        return const SizedBox();
-        // return CourseCard(
-        //   course: courses[index],
-        // );
-      },
-      separatorBuilder: (context, index) {
-        return const SizedBox(height: 8);
-      },
-      itemCount: courses.length,
-    );
-  }
+  void searchCourse(WidgetRef ref, String query) {
+    if (query.trim().isNotEmpty) {
+      ref.read(CourseProvider(query: query));
+    }
 
-  void searchCourse(String query) {
-    this.query.value = query;
-
-    final result = dummyCourses.where((course) {
-      final queryLower = query.toLowerCase();
-      final titleLower = course.title.toLowerCase();
-
-      return titleLower.contains(queryLower);
-    }).toList();
-
-    setState(() => courses = result);
+    ref.read(queryProvider.notifier).state = query;
   }
 }
