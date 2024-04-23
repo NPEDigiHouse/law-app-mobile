@@ -62,11 +62,11 @@ class BookCategoryCard extends ConsumerWidget {
                   onSubmitted: (value) {
                     final newCategory = category.copyWith(name: value['name']);
 
+                    navigatorKey.currentState!.pop();
+
                     ref
                         .read(bookCategoryProvider.notifier)
                         .editBookCategory(category: newCategory);
-
-                    navigatorKey.currentState!.pop();
                   },
                 ),
                 tooltip: 'Edit',

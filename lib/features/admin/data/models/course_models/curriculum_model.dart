@@ -8,6 +8,7 @@ class CurriculumModel extends Equatable {
   final int? id;
   final String? title;
   final int? curriculumDuration;
+  final int? sequenceNumber;
   final List<MaterialModel>? articles;
   final List<MaterialModel>? quizzes;
 
@@ -15,6 +16,7 @@ class CurriculumModel extends Equatable {
     this.id,
     this.title,
     this.curriculumDuration,
+    this.sequenceNumber,
     this.articles,
     this.quizzes,
   });
@@ -23,6 +25,7 @@ class CurriculumModel extends Equatable {
     int? id,
     String? title,
     int? curriculumDuration,
+    int? sequenceNumber,
     List<MaterialModel>? articles,
     List<MaterialModel>? quizzes,
   }) {
@@ -30,6 +33,7 @@ class CurriculumModel extends Equatable {
       id: id ?? this.id,
       title: title ?? this.title,
       curriculumDuration: curriculumDuration ?? this.curriculumDuration,
+      sequenceNumber: sequenceNumber ?? this.sequenceNumber,
       articles: articles ?? this.articles,
       quizzes: quizzes ?? this.quizzes,
     );
@@ -40,6 +44,7 @@ class CurriculumModel extends Equatable {
       'id': id,
       'title': title,
       'curriculumDuration': curriculumDuration,
+      'sequenceNumber': sequenceNumber,
       'articles': articles?.map((e) => e.toMap()).toList(),
       'quizzes': quizzes?.map((e) => e.toMap()).toList(),
     };
@@ -50,6 +55,7 @@ class CurriculumModel extends Equatable {
       id: map['id'] as int?,
       title: map['title'] as String?,
       curriculumDuration: map['curriculumDuration'] as int?,
+      sequenceNumber: map['sequenceNumber'] as int?,
       articles: map['articles'] != null
           ? List<MaterialModel>.from(
               (map['articles'] as List).map(
@@ -75,6 +81,7 @@ class CurriculumModel extends Equatable {
         id,
         title,
         curriculumDuration,
+        sequenceNumber,
         articles,
         quizzes,
       ];

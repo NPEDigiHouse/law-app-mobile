@@ -160,7 +160,7 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       final id = settings.arguments as int;
 
       return MaterialPageRoute(
-        builder: (_) => LibraryBookDetailRoute(id: id),
+        builder: (_) => LibraryBookDetailPage(id: id),
       );
     case libraryReadBookRoute:
       final args = settings.arguments as LibraryReadBookPageArgs;
@@ -204,16 +204,16 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => const StudentCourseSearchPage(),
       );
     case studentCourseDetailRoute:
-      final course = settings.arguments as Course;
+      final id = settings.arguments as int;
 
       return MaterialPageRoute(
-        builder: (_) => StudentCourseDetailPage(course: course),
+        builder: (_) => StudentCourseDetailPage(id: id),
       );
     case studentCourseProgressRoute:
-      final courseDetail = settings.arguments as CourseDetail;
+      final id = settings.arguments as int;
 
       return MaterialPageRoute(
-        builder: (_) => StudentCourseProgressPage(courseDetail: courseDetail),
+        builder: (_) => StudentCourseProgressPage(id: id),
       );
     case studentCourseLessonRoute:
       final curriculum = settings.arguments as Curriculum;

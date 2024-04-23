@@ -60,7 +60,9 @@ class AdminCourseCurriculumPage extends ConsumerWidget {
       extendBodyBehindAppBar: true,
       body: course.whenOrNull(
         loading: () => const LoadingIndicator(),
-        data: (course) {
+        data: (data) {
+          final course = data.course;
+
           if (course == null) return null;
 
           return SingleChildScrollView(

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 // Project imports:
+import 'package:law_app/core/extensions/string_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/routes/route_names.dart';
@@ -15,6 +16,7 @@ import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/course_models/course_model.dart';
 import 'package:law_app/features/shared/widgets/custom_network_image.dart';
 import 'package:law_app/features/shared/widgets/ink_well_container.dart';
+import 'package:law_app/features/shared/widgets/label_chip.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class CourseCard extends StatelessWidget {
@@ -147,28 +149,28 @@ class CourseCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    // if (withLabelChip && course.status != null) ...[
-                    //   const SizedBox(width: 4),
-                    //   Builder(
-                    //     builder: (context) {
-                    //       Color getColor() {
-                    //         switch (course.status!) {
-                    //           case 'active':
-                    //             return infoColor;
-                    //           case 'passed':
-                    //             return successColor;
-                    //           default:
-                    //             return secondaryTextColor;
-                    //         }
-                    //       }
+                    if (withLabelChip && course.status != null) ...[
+                      const SizedBox(width: 4),
+                      Builder(
+                        builder: (context) {
+                          Color getColor() {
+                            switch (course.status) {
+                              case 'ACTIVE':
+                                return infoColor;
+                              case 'COMPLETE':
+                                return successColor;
+                              default:
+                                return secondaryTextColor;
+                            }
+                          }
 
-                    //       return LabelChip(
-                    //         text: course.status!.toCapitalize(),
-                    //         color: getColor(),
-                    //       );
-                    //     },
-                    //   ),
-                    // ],
+                          return LabelChip(
+                            text: course.status!.toLowerCase().toCapitalize(),
+                            color: getColor(),
+                          );
+                        },
+                      ),
+                    ],
                   ],
                 ),
               ],

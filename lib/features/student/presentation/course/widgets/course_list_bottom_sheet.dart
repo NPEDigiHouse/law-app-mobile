@@ -5,14 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
+import 'package:law_app/core/enums/banner_type.dart';
+import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/admin/data/models/course_models/course_model.dart';
+import 'package:law_app/features/admin/data/models/course_models/user_course_model.dart';
 import 'package:law_app/features/shared/providers/course_providers/user_course_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
+import 'package:law_app/features/shared/widgets/feature/course_card.dart';
+import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 
 class CourseListBottomSheet extends ConsumerWidget {
   final String title;
@@ -31,14 +35,43 @@ class CourseListBottomSheet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userCourses = ref.watch(
-      UserCourseProvider(userId: CredentialSaver.user!.id!),
+      UserCourseProvider(
+        userId: CredentialSaver.user!.id!,
+        status: status.toUpperCase(),
+      ),
     );
 
+    ref.listen(
+      UserCourseProvider(
+        userId: CredentialSaver.user!.id!,
+        status: status.toUpperCase(),
+      ),
+      (_, state) {
+        state.whenOrNull(
+          error: (error, _) {
+            context.showBanner(message: '$error', type: BannerType.error);
+          },
+        );
+      },
+    );
+
+    return userCourses.when(
+      loading: () => buildDraggableScrollableSheet(),
+      error: (_, __) => buildDraggableScrollableSheet(),
+      data: (userCourses) => buildDraggableScrollableSheet(
+        userCourses: userCourses,
+      ),
+    );
+  }
+
+  DraggableScrollableSheet buildDraggableScrollableSheet({
+    List<UserCourseModel>? userCourses,
+  }) {
     return DraggableScrollableSheet(
       snap: true,
       shouldCloseOnMinExtent: false,
-      // initialChildSize: courses.isEmpty ? .6 : .5,
-      // minChildSize: courses.isEmpty ? .6 : .5,
+      initialChildSize: .6,
+      minChildSize: .6,
       builder: (context, scrollController) {
         return ClipRRect(
           borderRadius: const BorderRadius.vertical(
@@ -89,7 +122,14 @@ class CourseListBottomSheet extends ConsumerWidget {
                     ],
                   ),
                 ),
-                // courses.isEmpty ? buildEmptyCourse() : buildCourseList(courses),
+                if (userCourses != null)
+                  userCourses.isEmpty
+                      ? buildEmptyUserCourse()
+                      : buildUserCourseList(userCourses)
+                else
+                  const SliverFillRemaining(
+                    child: LoadingIndicator(),
+                  ),
               ],
             ),
           ),
@@ -98,7 +138,7 @@ class CourseListBottomSheet extends ConsumerWidget {
     );
   }
 
-  SliverFillRemaining buildEmptyCourse() {
+  SliverFillRemaining buildEmptyUserCourse() {
     return SliverFillRemaining(
       child: CustomInformation(
         illustrationName: 'lawyer-cuate.svg',
@@ -109,7 +149,7 @@ class CourseListBottomSheet extends ConsumerWidget {
     );
   }
 
-  SliverPadding buildCourseList(List<CourseModel> courses) {
+  SliverPadding buildUserCourseList(List<UserCourseModel> userCourses) {
     return SliverPadding(
       padding: const EdgeInsets.fromLTRB(20, 6, 20, 20),
       sliver: SliverList(
@@ -117,14 +157,15 @@ class CourseListBottomSheet extends ConsumerWidget {
           (context, index) {
             return Padding(
               padding: EdgeInsets.only(
-                bottom: index == courses.length - 1 ? 0 : 12,
+                bottom: index == userCourses.length - 1 ? 0 : 12,
               ),
-              // child: CourseCard(
-              //   course: courses[index],
-              // ),
+              child: CourseCard(
+                course: userCourses[index].course!,
+                withLabelChip: true,
+              ),
             );
           },
-          childCount: courses.length,
+          childCount: userCourses.length,
         ),
       ),
     );

@@ -52,7 +52,9 @@ class AdminCourseDetailPage extends ConsumerWidget {
     return course.when(
       loading: () => const LoadingIndicator(withScaffold: true),
       error: (_, __) => const Scaffold(),
-      data: (course) {
+      data: (data) {
+        final course = data.course;
+
         if (course == null) return const Scaffold();
 
         return Scaffold(

@@ -62,11 +62,11 @@ class DiscussionCategoryCard extends ConsumerWidget {
                   onSubmitted: (value) {
                     final newCategory = category.copyWith(name: value['name']);
 
+                    navigatorKey.currentState!.pop();
+
                     ref
                         .read(discussionCategoryProvider.notifier)
                         .editDiscussionCategory(category: newCategory);
-
-                    navigatorKey.currentState!.pop();
                   },
                 ),
                 tooltip: 'Edit',

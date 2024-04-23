@@ -28,10 +28,10 @@ import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
-class LibraryBookDetailRoute extends ConsumerWidget {
+class LibraryBookDetailPage extends ConsumerWidget {
   final int id;
 
-  const LibraryBookDetailRoute({super.key, required this.id});
+  const LibraryBookDetailPage({super.key, required this.id});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
