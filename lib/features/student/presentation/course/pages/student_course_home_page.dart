@@ -186,9 +186,10 @@ class _StudentCourseHomePageState extends ConsumerState<StudentCourseHomePage>
                                       onPressed: () {
                                         showCourseListModalBottomSheet(
                                           title: 'Course Aktif',
-                                          emptyCourseTitle:
+                                          status: 'active',
+                                          emptyTitle:
                                               'Course aktif masih kosong',
-                                          emptyCourseSubtitle:
+                                          emptySubtitle:
                                               'Tidak ada course yang sedang diikuti.',
                                         );
                                       },
@@ -222,9 +223,10 @@ class _StudentCourseHomePageState extends ConsumerState<StudentCourseHomePage>
                                       onPressed: () {
                                         showCourseListModalBottomSheet(
                                           title: 'Riwayat Course',
-                                          emptyCourseTitle:
+                                          status: 'complete',
+                                          emptyTitle:
                                               'Riwayat course masih kosong',
-                                          emptyCourseSubtitle:
+                                          emptySubtitle:
                                               'Kamu belum pernah menyelesaikan course.',
                                         );
                                       },
@@ -321,22 +323,21 @@ class _StudentCourseHomePageState extends ConsumerState<StudentCourseHomePage>
 
   Future<void> showCourseListModalBottomSheet({
     required String title,
-    String? emptyCourseTitle,
-    String? emptyCourseSubtitle,
+    required String status,
+    required String emptyTitle,
+    required String emptySubtitle,
   }) async {
     return showModalBottomSheet(
       context: context,
       enableDrag: false,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (context) {
-        return CourseListBottomSheet(
-          title: title,
-          courses: const [],
-          emptyCourseTitle: emptyCourseTitle,
-          emptyCourseSubtitle: emptyCourseSubtitle,
-        );
-      },
+      builder: (_) => CourseListBottomSheet(
+        title: title,
+        status: status,
+        emptyTitle: emptyTitle,
+        emptySubtitle: emptySubtitle,
+      ),
     );
   }
 }

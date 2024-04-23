@@ -1,35 +1,44 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
+// Package imports:
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 // Project imports:
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/credential_saver.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/admin/data/models/course_models/course_model.dart';
+import 'package:law_app/features/shared/providers/course_providers/user_course_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
 import 'package:law_app/features/shared/widgets/custom_information.dart';
 
-class CourseListBottomSheet extends StatelessWidget {
+class CourseListBottomSheet extends ConsumerWidget {
   final String title;
-  final List<Course> courses;
-  final String? emptyCourseTitle;
-  final String? emptyCourseSubtitle;
+  final String status;
+  final String emptyTitle;
+  final String emptySubtitle;
 
   const CourseListBottomSheet({
     super.key,
     required this.title,
-    required this.courses,
-    this.emptyCourseTitle,
-    this.emptyCourseSubtitle,
+    required this.status,
+    required this.emptyTitle,
+    required this.emptySubtitle,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userCourses = ref.watch(
+      UserCourseProvider(userId: CredentialSaver.user!.id!),
+    );
+
     return DraggableScrollableSheet(
       snap: true,
       shouldCloseOnMinExtent: false,
-      initialChildSize: courses.isEmpty ? .6 : .5,
-      minChildSize: courses.isEmpty ? .6 : .5,
+      // initialChildSize: courses.isEmpty ? .6 : .5,
+      // minChildSize: courses.isEmpty ? .6 : .5,
       builder: (context, scrollController) {
         return ClipRRect(
           borderRadius: const BorderRadius.vertical(
@@ -80,7 +89,7 @@ class CourseListBottomSheet extends StatelessWidget {
                     ],
                   ),
                 ),
-                courses.isEmpty ? buildEmptyCourse() : buildCourseList(),
+                // courses.isEmpty ? buildEmptyCourse() : buildCourseList(courses),
               ],
             ),
           ),
@@ -93,14 +102,14 @@ class CourseListBottomSheet extends StatelessWidget {
     return SliverFillRemaining(
       child: CustomInformation(
         illustrationName: 'lawyer-cuate.svg',
-        title: '$emptyCourseTitle',
-        subtitle: '$emptyCourseSubtitle',
+        title: emptyTitle,
+        subtitle: emptySubtitle,
         size: 210,
       ),
     );
   }
 
-  SliverPadding buildCourseList() {
+  SliverPadding buildCourseList(List<CourseModel> courses) {
     return SliverPadding(
       padding: const EdgeInsets.fromLTRB(20, 6, 20, 20),
       sliver: SliverList(

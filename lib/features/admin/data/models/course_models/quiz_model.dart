@@ -1,12 +1,16 @@
 // Package imports:
 import 'package:equatable/equatable.dart';
 
+// Project imports:
+import 'package:law_app/features/admin/data/models/course_models/quiz_result_model.dart';
+
 class QuizModel extends Equatable {
   final int? id;
   final String? title;
   final String? description;
   final int? duration;
   final int? totalQuestions;
+  final QuizResultModel? answerHistory;
 
   const QuizModel({
     this.id,
@@ -14,6 +18,7 @@ class QuizModel extends Equatable {
     this.description,
     this.duration,
     this.totalQuestions,
+    this.answerHistory,
   });
 
   QuizModel copyWith({
@@ -22,6 +27,7 @@ class QuizModel extends Equatable {
     String? description,
     int? duration,
     int? totalQuestions,
+    QuizResultModel? answerHistory,
   }) {
     return QuizModel(
       id: id ?? this.id,
@@ -29,6 +35,7 @@ class QuizModel extends Equatable {
       description: description ?? this.description,
       duration: duration ?? this.duration,
       totalQuestions: totalQuestions ?? this.totalQuestions,
+      answerHistory: answerHistory ?? this.answerHistory,
     );
   }
 
@@ -39,6 +46,7 @@ class QuizModel extends Equatable {
       'description': description,
       'duration': duration,
       'totalQuestions': totalQuestions,
+      'answerHistory': answerHistory?.toMap(),
     };
   }
 
@@ -49,6 +57,11 @@ class QuizModel extends Equatable {
       description: map['description'] as String?,
       duration: map['duration'] as int?,
       totalQuestions: map['totalQuestions'] as int?,
+      answerHistory: map['answerHistory'] != null
+          ? QuizResultModel.fromMap(
+              map['answerHistory'] as Map<String, dynamic>,
+            )
+          : null,
     );
   }
 
@@ -56,5 +69,12 @@ class QuizModel extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object?> get props => [id, title, description, duration, totalQuestions];
+  List<Object?> get props => [
+        id,
+        title,
+        description,
+        duration,
+        totalQuestions,
+        answerHistory,
+      ];
 }

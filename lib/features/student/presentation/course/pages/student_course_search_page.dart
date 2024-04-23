@@ -89,7 +89,6 @@ class StudentCourseSearchPage extends ConsumerWidget {
             return const CustomInformation(
               illustrationName: 'house-searching-cuate.svg',
               title: 'Daftar course masih kosong',
-              subtitle: 'Tambahkan course dengan menekan tombol di bawah.',
             );
           }
 

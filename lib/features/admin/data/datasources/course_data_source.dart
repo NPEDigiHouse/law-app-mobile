@@ -24,6 +24,8 @@ import 'package:law_app/features/admin/data/models/course_models/question_model.
 import 'package:law_app/features/admin/data/models/course_models/question_post_model.dart';
 import 'package:law_app/features/admin/data/models/course_models/quiz_model.dart';
 import 'package:law_app/features/admin/data/models/course_models/quiz_post_model.dart';
+import 'package:law_app/features/admin/data/models/course_models/quiz_result_model.dart';
+import 'package:law_app/features/admin/data/models/course_models/user_course_model.dart';
 
 abstract class CourseDataSource {
   /// Get courses
@@ -107,6 +109,31 @@ abstract class CourseDataSource {
 
   /// Delete option
   Future<void> deleteOption({required int id});
+
+  /// Get user courses
+  Future<List<UserCourseModel>> getUserCourses({
+    required int userId,
+    String? status,
+  });
+
+  /// Get user course detail
+  Future<UserCourseModel> getUserCourseDetail({required int id});
+
+  /// Create user course
+  Future<void> createUserCourse({required int courseId});
+
+  /// Update user course
+  Future<void> updateUserCourse({
+    required int id,
+    required int currentCurriculumSequence,
+    required int currentMaterialSequence,
+  });
+
+  /// Check quiz score
+  Future<QuizResultModel> checkScore({
+    required int quizId,
+    required List<Map<String, int>> answers,
+  });
 }
 
 class CourseDataSourceImpl implements CourseDataSource {
@@ -757,6 +784,142 @@ class CourseDataSourceImpl implements CourseDataSource {
       final result = DataResponse.fromJson(jsonDecode(response.body));
 
       if (result.code != 200) {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      exception(e);
+    }
+  }
+
+  @override
+  Future<List<UserCourseModel>> getUserCourses({
+    required int userId,
+    String? status,
+  }) async {
+    try {
+      final queryParams = 'userId=$userId&status=${status ?? ''}';
+
+      final response = await client.get(
+        Uri.parse('${ApiConfigs.baseUrl}/user-courses?$queryParams'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code == 200) {
+        final data = result.data as List;
+
+        return data.map((e) => UserCourseModel.fromMap(e)).toList();
+      } else {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      exception(e);
+    }
+  }
+
+  @override
+  Future<UserCourseModel> getUserCourseDetail({required int id}) async {
+    try {
+      final response = await client.get(
+        Uri.parse('${ApiConfigs.baseUrl}/user-courses/$id'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code == 200) {
+        return UserCourseModel.fromMap(result.data);
+      } else {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      exception(e);
+    }
+  }
+
+  @override
+  Future<void> createUserCourse({required int courseId}) async {
+    try {
+      final response = await client.post(
+        Uri.parse('${ApiConfigs.baseUrl}/user-courses'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+        body: jsonEncode({'courseId': courseId}),
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code != 200) {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      exception(e);
+    }
+  }
+
+  @override
+  Future<void> updateUserCourse({
+    required int id,
+    required int currentCurriculumSequence,
+    required int currentMaterialSequence,
+  }) async {
+    try {
+      final response = await client.put(
+        Uri.parse('${ApiConfigs.baseUrl}/user-courses/$id'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+        body: jsonEncode({
+          'currentCurriculumSequence': currentCurriculumSequence,
+          'currentMaterialSequence': currentMaterialSequence,
+        }),
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code != 200) {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      exception(e);
+    }
+  }
+
+  @override
+  Future<QuizResultModel> checkScore({
+    required int quizId,
+    required List<Map<String, int>> answers,
+  }) async {
+    try {
+      final response = await client.post(
+        Uri.parse('${ApiConfigs.baseUrl}/quizes/check-score/$quizId'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader:
+              'Bearer ${CredentialSaver.accessToken}'
+        },
+        body: jsonEncode(answers),
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code == 200) {
+        return QuizResultModel.fromMap(result.data);
+      } else {
         throw ServerException('${result.message}');
       }
     } catch (e) {

@@ -12,6 +12,7 @@ class CourseModel extends Equatable {
   final int? courseDuration;
   final int? rating;
   final int? enrolledMembers;
+  final String? status;
   final List<CurriculumModel>? curriculums;
 
   const CourseModel({
@@ -22,6 +23,7 @@ class CourseModel extends Equatable {
     this.courseDuration,
     this.rating,
     this.enrolledMembers,
+    this.status,
     this.curriculums,
   });
 
@@ -33,6 +35,7 @@ class CourseModel extends Equatable {
     int? courseDuration,
     int? rating,
     int? enrolledMembers,
+    String? status,
     List<CurriculumModel>? curriculums,
   }) {
     return CourseModel(
@@ -43,6 +46,7 @@ class CourseModel extends Equatable {
       courseDuration: courseDuration ?? this.courseDuration,
       rating: rating ?? this.rating,
       enrolledMembers: enrolledMembers ?? this.enrolledMembers,
+      status: status ?? this.status,
       curriculums: curriculums ?? this.curriculums,
     );
   }
@@ -56,6 +60,7 @@ class CourseModel extends Equatable {
       'courseDuration': courseDuration,
       'curriculums': curriculums?.map((e) => e.toMap()).toList(),
       'rating': rating,
+      'status': status,
       'enrolledMembers': enrolledMembers,
     };
   }
@@ -69,6 +74,7 @@ class CourseModel extends Equatable {
       courseDuration: map['courseDuration'] as int?,
       rating: map['rating'] as int?,
       enrolledMembers: map['enrolledMembers'] as int?,
+      status: map['status'] as String?,
       curriculums: map['curriculums'] != null
           ? List<CurriculumModel>.from(
               (map['curriculums'] as List).map(
@@ -91,6 +97,7 @@ class CourseModel extends Equatable {
         courseDuration,
         rating,
         enrolledMembers,
+        status,
         curriculums,
       ];
 }

@@ -18,6 +18,8 @@ import 'package:law_app/features/admin/data/models/course_models/question_model.
 import 'package:law_app/features/admin/data/models/course_models/question_post_model.dart';
 import 'package:law_app/features/admin/data/models/course_models/quiz_model.dart';
 import 'package:law_app/features/admin/data/models/course_models/quiz_post_model.dart';
+import 'package:law_app/features/admin/data/models/course_models/quiz_result_model.dart';
+import 'package:law_app/features/admin/data/models/course_models/user_course_model.dart';
 
 abstract class CourseRepository {
   /// Get courses
@@ -108,6 +110,32 @@ abstract class CourseRepository {
 
   /// Delete option
   Future<Either<Failure, void>> deleteOption({required int id});
+
+  /// Get user courses
+  Future<Either<Failure, List<UserCourseModel>>> getUserCourses({
+    required int userId,
+    String? status,
+  });
+
+  /// Get user course detail
+  Future<Either<Failure, UserCourseModel>> getUserCourseDetail(
+      {required int id});
+
+  /// Create user course
+  Future<Either<Failure, void>> createUserCourse({required int courseId});
+
+  /// Update user course
+  Future<Either<Failure, void>> updateUserCourse({
+    required int id,
+    required int currentCurriculumSequence,
+    required int currentMaterialSequence,
+  });
+
+  /// Check quiz score
+  Future<Either<Failure, QuizResultModel>> checkScore({
+    required int quizId,
+    required List<Map<String, int>> answers,
+  });
 }
 
 class CourseRepositoryImpl implements CourseRepository {
@@ -528,6 +556,104 @@ class CourseRepositoryImpl implements CourseRepository {
     if (await networkInfo.isConnected) {
       try {
         final result = await courseDataSource.deleteOption(id: id);
+
+        return Right(result);
+      } catch (e) {
+        return Left(failure(e));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<UserCourseModel>>> getUserCourses({
+    required int userId,
+    String? status,
+  }) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await courseDataSource.getUserCourses(
+          userId: userId,
+          status: status,
+        );
+
+        return Right(result);
+      } catch (e) {
+        return Left(failure(e));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, UserCourseModel>> getUserCourseDetail(
+      {required int id}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await courseDataSource.getUserCourseDetail(id: id);
+
+        return Right(result);
+      } catch (e) {
+        return Left(failure(e));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> createUserCourse(
+      {required int courseId}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result =
+            await courseDataSource.createUserCourse(courseId: courseId);
+
+        return Right(result);
+      } catch (e) {
+        return Left(failure(e));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> updateUserCourse({
+    required int id,
+    required int currentCurriculumSequence,
+    required int currentMaterialSequence,
+  }) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await courseDataSource.updateUserCourse(
+          id: id,
+          currentCurriculumSequence: currentCurriculumSequence,
+          currentMaterialSequence: currentMaterialSequence,
+        );
+
+        return Right(result);
+      } catch (e) {
+        return Left(failure(e));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, QuizResultModel>> checkScore({
+    required int quizId,
+    required List<Map<String, int>> answers,
+  }) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await courseDataSource.checkScore(
+          quizId: quizId,
+          answers: answers,
+        );
 
         return Right(result);
       } catch (e) {
