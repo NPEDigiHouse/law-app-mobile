@@ -70,7 +70,9 @@ class StudentCourseDetailPage extends ConsumerWidget {
             navigatorKey.currentState!.pop();
             ref.invalidate(courseDetailProvider);
 
-            context.showBanner(message: data, type: BannerType.success);
+            if (data.isNotEmpty) {
+              context.showBanner(message: data, type: BannerType.success);
+            }
           }
         },
       );

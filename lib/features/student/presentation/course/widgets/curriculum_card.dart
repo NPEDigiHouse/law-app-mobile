@@ -48,7 +48,7 @@ class CurriculumCard extends StatelessWidget {
             child: SvgAsset(
               assetPath: AssetPath.getIcon('balance-scale.svg'),
               color: isLocked
-                  ? secondaryTextColor.withOpacity(.4)
+                  ? secondaryTextColor.withOpacity(.5)
                   : secondaryColor,
             ),
           ),
@@ -63,7 +63,7 @@ class CurriculumCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: textTheme.titleMedium!.copyWith(
                     color: isLocked
-                        ? secondaryTextColor.withOpacity(.4)
+                        ? secondaryTextColor.withOpacity(.5)
                         : primaryColor,
                   ),
                 ),
@@ -93,7 +93,7 @@ class CurriculumCard extends StatelessWidget {
                         SvgAsset(
                           assetPath: AssetPath.getIcon('clock-solid.svg'),
                           color: isLocked
-                              ? secondaryTextColor.withOpacity(.4)
+                              ? secondaryTextColor.withOpacity(.5)
                               : secondaryTextColor,
                           width: 16,
                         ),
@@ -102,7 +102,7 @@ class CurriculumCard extends StatelessWidget {
                           '${curriculum.curriculumDuration} menit',
                           style: textTheme.bodySmall!.copyWith(
                             color: isLocked
-                                ? secondaryTextColor.withOpacity(.4)
+                                ? secondaryTextColor.withOpacity(.5)
                                 : secondaryTextColor,
                           ),
                         ),

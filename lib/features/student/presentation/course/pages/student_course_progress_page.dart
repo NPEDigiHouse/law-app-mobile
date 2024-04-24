@@ -15,10 +15,12 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/features/shared/providers/course_providers/user_course_actions_provider.dart';
 import 'package:law_app/features/shared/providers/course_providers/user_course_detail_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_network_image.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
+import 'package:law_app/features/student/presentation/course/pages/student_course_material_page.dart';
 import 'package:law_app/features/student/presentation/course/widgets/curriculum_card.dart';
 
 class StudentCourseProgressPage extends ConsumerWidget {
@@ -47,6 +49,16 @@ class StudentCourseProgressPage extends ConsumerWidget {
       );
     });
 
+    ref.listen(userCourseActionsProvider, (_, state) {
+      state.whenOrNull(
+        data: (data) {
+          if (data != null) {
+            ref.invalidate(userCourseDetailProvider);
+          }
+        },
+      );
+    });
+
     return Scaffold(
       backgroundColor: backgroundColor,
       extendBodyBehindAppBar: true,
@@ -56,6 +68,10 @@ class StudentCourseProgressPage extends ConsumerWidget {
           if (userCourse == null) return null;
 
           final course = userCourse.course!;
+          final progressPercentage = getProgressPercentage(
+            userCourse.currentCurriculumSequence!,
+            course.curriculums!.length,
+          );
 
           return SingleChildScrollView(
             child: Column(
@@ -160,14 +176,11 @@ class StudentCourseProgressPage extends ConsumerWidget {
                         animation: true,
                         animationDuration: 1000,
                         curve: Curves.easeIn,
-                        percent: getProgressPercentage(
-                          userCourse.currentCurriculumSequence!,
-                          course.curriculums!.length,
-                        ),
+                        percent: progressPercentage,
                         progressColor: successColor,
                         backgroundColor: secondaryTextColor,
                         trailing: Text(
-                          '${(getProgressPercentage(userCourse.currentCurriculumSequence!, course.curriculums!.length) * 100).toInt()}%',
+                          '${(progressPercentage * 100).toInt()}%',
                         ),
                       ),
                       Padding(
@@ -184,9 +197,8 @@ class StudentCourseProgressPage extends ConsumerWidget {
                         course.curriculums!.length,
                         (index) => Padding(
                           padding: EdgeInsets.only(
-                            bottom: index == course.curriculums!.length - 1
-                                ? 0
-                                : 10,
+                            bottom:
+                                index == course.curriculums!.length - 1 ? 0 : 8,
                           ),
                           child: CurriculumCard(
                             showDetail: true,
@@ -198,8 +210,11 @@ class StudentCourseProgressPage extends ConsumerWidget {
                                 course.curriculums![index].sequenceNumber! >
                                     userCourse.currentCurriculumSequence!,
                             onTap: () => navigatorKey.currentState!.pushNamed(
-                              studentCourseLessonRoute,
-                              // arguments: courseDetail.curriculums[index],
+                              studentCourseMaterialRoute,
+                              arguments: StudentCourseMaterialPageArgs(
+                                curriculumId: course.curriculums![index].id!,
+                                userCourse: userCourse,
+                              ),
                             ),
                           ),
                         ),
@@ -224,8 +239,6 @@ class StudentCourseProgressPage extends ConsumerWidget {
   }
 
   double getProgressPercentage(int currentCurriculum, int totalCurriculum) {
-    if (totalCurriculum == 0) return 1;
-
-    return currentCurriculum / totalCurriculum;
+    return totalCurriculum == 0 ? 1 : (currentCurriculum / totalCurriculum);
   }
 }

@@ -55,7 +55,7 @@ import 'package:law_app/features/profile/presentation/pages/profile_page.dart';
 import 'package:law_app/features/shared/pages/public_discussion_page.dart';
 import 'package:law_app/features/student/presentation/course/pages/student_course_article_page.dart';
 import 'package:law_app/features/student/presentation/course/pages/student_course_detail_page.dart';
-import 'package:law_app/features/student/presentation/course/pages/student_course_lesson_page.dart';
+import 'package:law_app/features/student/presentation/course/pages/student_course_material_page.dart';
 import 'package:law_app/features/student/presentation/course/pages/student_course_progress_page.dart';
 import 'package:law_app/features/student/presentation/course/pages/student_course_quiz_home_page.dart';
 import 'package:law_app/features/student/presentation/course/pages/student_course_quiz_page.dart';
@@ -215,17 +215,25 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => StudentCourseProgressPage(id: id),
       );
-    case studentCourseLessonRoute:
-      final curriculum = settings.arguments as Curriculum;
+    case studentCourseMaterialRoute:
+      final args = settings.arguments as StudentCourseMaterialPageArgs;
 
       return MaterialPageRoute(
-        builder: (_) => StudentCourseLessonPage(curriculum: curriculum),
+        builder: (_) => StudentCourseMaterialPage(
+          curriculumId: args.curriculumId,
+          userCourse: args.userCourse,
+        ),
       );
     case studentCourseArticleRoute:
-      final article = settings.arguments as Article;
+      final args = settings.arguments as StudentCourseArticlePageArgs;
 
       return MaterialPageRoute(
-        builder: (_) => StudentCourseArticlePage(article: article),
+        builder: (_) => StudentCourseArticlePage(
+          id: args.id,
+          materialSequenceNumber: args.materialSequenceNumber,
+          userCourse: args.userCourse,
+          isLastMaterial: args.isLastMaterial,
+        ),
       );
 
     case studentCourseQuizHomeRoute:
