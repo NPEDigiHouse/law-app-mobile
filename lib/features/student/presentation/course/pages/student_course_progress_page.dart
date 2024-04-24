@@ -15,7 +15,6 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/features/shared/providers/course_providers/user_course_actions_provider.dart';
 import 'package:law_app/features/shared/providers/course_providers/user_course_detail_provider.dart';
 import 'package:law_app/features/shared/widgets/custom_network_image.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
@@ -44,16 +43,6 @@ class StudentCourseProgressPage extends ConsumerWidget {
             );
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
-          }
-        },
-      );
-    });
-
-    ref.listen(userCourseActionsProvider, (_, state) {
-      state.whenOrNull(
-        data: (data) {
-          if (data != null) {
-            ref.invalidate(userCourseDetailProvider);
           }
         },
       );
@@ -213,7 +202,7 @@ class StudentCourseProgressPage extends ConsumerWidget {
                               studentCourseMaterialRoute,
                               arguments: StudentCourseMaterialPageArgs(
                                 curriculumId: course.curriculums![index].id!,
-                                userCourse: userCourse,
+                                userCourseId: userCourse.id!,
                               ),
                             ),
                           ),

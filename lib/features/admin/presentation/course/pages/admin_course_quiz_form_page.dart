@@ -1,3 +1,6 @@
+// Dart imports:
+import 'dart:async';
+
 // Flutter imports:
 import 'package:flutter/material.dart';
 
@@ -49,7 +52,7 @@ class _AdminCourseQuizFormPageState
   final GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
   @override
-  Future<void> afterFirstLayout(BuildContext context) async {
+  FutureOr<void> afterFirstLayout(BuildContext context) {
     if (widget.quiz != null) {
       context.showLoadingDialog();
 

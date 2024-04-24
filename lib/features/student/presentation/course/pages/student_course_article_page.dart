@@ -1,7 +1,11 @@
+// Dart imports:
+import 'dart:async';
+
 // Flutter imports:
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:after_layout/after_layout.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -16,35 +20,77 @@ import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/course_models/user_course_model.dart';
 import 'package:law_app/features/shared/providers/course_providers/article_detail_provider.dart';
+import 'package:law_app/features/shared/providers/course_providers/curriculum_detail_provider.dart';
 import 'package:law_app/features/shared/providers/course_providers/user_course_actions_provider.dart';
+import 'package:law_app/features/shared/providers/course_providers/user_course_detail_provider.dart';
 import 'package:law_app/features/shared/providers/manual_providers/material_provider.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
-class StudentCourseArticlePage extends ConsumerWidget {
+class StudentCourseArticlePage extends ConsumerStatefulWidget {
   final int id;
+  final int userCourseId;
+  final int curriculumSequenceNumber;
   final int materialSequenceNumber;
-  final UserCourseModel userCourse;
-  final bool isLastMaterial;
+  final int totalMaterials;
 
   const StudentCourseArticlePage({
     super.key,
     required this.id,
+    required this.userCourseId,
+    required this.curriculumSequenceNumber,
     required this.materialSequenceNumber,
-    required this.userCourse,
-    this.isLastMaterial = false,
+    required this.totalMaterials,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<StudentCourseArticlePage> createState() =>
+      _StudentCourseArticlePageState();
+}
+
+class _StudentCourseArticlePageState
+    extends ConsumerState<StudentCourseArticlePage> with AfterLayoutMixin {
+  UserCourseModel? userCourse;
+
+  @override
+  Future<void> afterFirstLayout(BuildContext context) async {
+    if (widget.userCourseId == 0) return;
+
+    context.showLoadingDialog();
+
+    try {
+      userCourse = await ref.watch(
+        UserCourseDetailProvider(id: widget.userCourseId).future,
+      );
+
+      if (userCourse != null) {
+        if (userCourse!.currentMaterialSequence == widget.totalMaterials - 1 &&
+            userCourse!.currentCurriculumSequence ==
+                widget.curriculumSequenceNumber) {
+          updateCurriculumSequence();
+        } else if (userCourse!.currentMaterialSequence ==
+            widget.materialSequenceNumber) {
+          updateMaterialSequence();
+        }
+      }
+    } catch (e) {
+      debugPrint('$e');
+    }
+
+    navigatorKey.currentState!.pop();
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final articles = ref.watch(articlesProvider);
     final ids = articles.map((e) => e.id!).toList();
-    final indexId = ids.indexOf(id);
+    final indexId = ids.indexOf(widget.id);
 
-    final article = ref.watch(ArticleDetailProvider(id: id));
+    final article = ref.watch(ArticleDetailProvider(id: widget.id));
 
-    ref.listen(ArticleDetailProvider(id: id), (_, state) {
+    ref.listen(ArticleDetailProvider(id: widget.id), (_, state) {
       state.whenOrNull(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
@@ -56,6 +102,18 @@ class StudentCourseArticlePage extends ConsumerWidget {
             );
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+      );
+    });
+
+    ref.listen(userCourseActionsProvider, (_, state) {
+      state.whenOrNull(
+        error: (_, __) => navigatorKey.currentState!.pop(),
+        data: (data) {
+          if (data != null) {
+            ref.invalidate(curriculumDetailProvider);
+            ref.invalidate(userCourseDetailProvider);
           }
         },
       );
@@ -162,7 +220,7 @@ class StudentCourseArticlePage extends ConsumerWidget {
                                           navigate(
                                             context,
                                             ids[indexId - 1],
-                                            materialSequenceNumber - 1,
+                                            widget.materialSequenceNumber - 1,
                                           );
                                         },
                                         icon: SvgAsset(
@@ -204,18 +262,10 @@ class StudentCourseArticlePage extends ConsumerWidget {
                                       ),
                                       child: IconButton(
                                         onPressed: () {
-                                          if (isLastMaterial) {
-                                            updateCurriculumSequence(ref);
-                                          } else if (materialSequenceNumber ==
-                                              userCourse
-                                                  .currentMaterialSequence) {
-                                            updateMaterialSequence(ref);
-                                          }
-
                                           navigate(
                                             context,
                                             ids[indexId + 1],
-                                            materialSequenceNumber + 1,
+                                            widget.materialSequenceNumber + 1,
                                           );
                                         },
                                         icon: SvgAsset(
@@ -260,26 +310,28 @@ class StudentCourseArticlePage extends ConsumerWidget {
       PageRouteBuilder(
         pageBuilder: (_, __, ___) => StudentCourseArticlePage(
           id: id,
+          userCourseId: widget.userCourseId,
+          curriculumSequenceNumber: widget.curriculumSequenceNumber,
           materialSequenceNumber: materialSequenceNumber,
-          userCourse: userCourse,
+          totalMaterials: widget.totalMaterials,
         ),
         transitionDuration: Duration.zero,
       ),
     );
   }
 
-  void updateMaterialSequence(WidgetRef ref) {
+  void updateMaterialSequence() {
     ref.read(userCourseActionsProvider.notifier).updateUserCourse(
-          id: userCourse.id!,
-          currentCurriculumSequence: userCourse.currentCurriculumSequence!,
-          currentMaterialSequence: materialSequenceNumber + 1,
+          id: userCourse!.id!,
+          currentCurriculumSequence: userCourse!.currentCurriculumSequence!,
+          currentMaterialSequence: widget.materialSequenceNumber + 1,
         );
   }
 
-  void updateCurriculumSequence(WidgetRef ref) {
+  void updateCurriculumSequence() {
     ref.read(userCourseActionsProvider.notifier).updateUserCourse(
-          id: userCourse.id!,
-          currentCurriculumSequence: userCourse.currentCurriculumSequence! + 1,
+          id: userCourse!.id!,
+          currentCurriculumSequence: userCourse!.currentCurriculumSequence! + 1,
           currentMaterialSequence: 0,
         );
   }
@@ -287,14 +339,16 @@ class StudentCourseArticlePage extends ConsumerWidget {
 
 class StudentCourseArticlePageArgs {
   final int id;
+  final int userCourseId;
+  final int curriculumSequenceNumber;
   final int materialSequenceNumber;
-  final UserCourseModel userCourse;
-  final bool isLastMaterial;
+  final int totalMaterials;
 
   const StudentCourseArticlePageArgs({
     required this.id,
+    required this.userCourseId,
+    required this.curriculumSequenceNumber,
     required this.materialSequenceNumber,
-    required this.userCourse,
-    this.isLastMaterial = false,
+    required this.totalMaterials,
   });
 }

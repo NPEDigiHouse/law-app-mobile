@@ -12,30 +12,30 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/course_models/material_model.dart';
-import 'package:law_app/features/admin/data/models/course_models/user_course_model.dart';
-import 'package:law_app/features/shared/providers/course_providers/user_course_actions_provider.dart';
 import 'package:law_app/features/shared/widgets/ink_well_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 import 'package:law_app/features/student/presentation/course/pages/student_course_article_page.dart';
 
 class MaterialCard extends ConsumerWidget {
-  final UserCourseModel userCourse;
+  final int userCourseId;
+  final int curriculumSequenceNumber;
   final int materialSequenceNumber;
   final MaterialModel material;
   final CourseMaterialType type;
+  final int totalMaterials;
   final bool isCompleted;
   final bool isLocked;
-  final bool isLast;
 
   const MaterialCard({
     super.key,
-    required this.userCourse,
+    required this.userCourseId,
+    required this.curriculumSequenceNumber,
     required this.materialSequenceNumber,
     required this.material,
     required this.type,
+    required this.totalMaterials,
     this.isCompleted = false,
     this.isLocked = false,
-    this.isLast = false,
   });
 
   @override
@@ -57,28 +57,20 @@ class MaterialCard extends ConsumerWidget {
       ],
       onTap: isLocked
           ? null
-          : () {
-              if (isLast) {
-                updateCurriculumSequence(ref);
-              } else if (materialSequenceNumber ==
-                  userCourse.currentMaterialSequence) {
-                updateMaterialSequence(ref);
-              }
-
-              navigatorKey.currentState!.pushNamed(
+          : () => navigatorKey.currentState!.pushNamed(
                 type == CourseMaterialType.article
                     ? studentCourseArticleRoute
                     : adminCourseQuizRoute,
                 arguments: type == CourseMaterialType.article
                     ? StudentCourseArticlePageArgs(
                         id: material.id!,
+                        userCourseId: userCourseId,
+                        curriculumSequenceNumber: curriculumSequenceNumber,
                         materialSequenceNumber: materialSequenceNumber,
-                        userCourse: userCourse,
-                        isLastMaterial: isLast,
+                        totalMaterials: totalMaterials,
                       )
                     : null,
-              );
-            },
+              ),
       child: Row(
         children: [
           if (isCompleted)
@@ -114,21 +106,5 @@ class MaterialCard extends ConsumerWidget {
         ],
       ),
     );
-  }
-
-  void updateMaterialSequence(WidgetRef ref) {
-    ref.read(userCourseActionsProvider.notifier).updateUserCourse(
-          id: userCourse.id!,
-          currentCurriculumSequence: userCourse.currentCurriculumSequence!,
-          currentMaterialSequence: materialSequenceNumber + 1,
-        );
-  }
-
-  void updateCurriculumSequence(WidgetRef ref) {
-    ref.read(userCourseActionsProvider.notifier).updateUserCourse(
-          id: userCourse.id!,
-          currentCurriculumSequence: userCourse.currentCurriculumSequence! + 1,
-          currentMaterialSequence: 0,
-        );
   }
 }

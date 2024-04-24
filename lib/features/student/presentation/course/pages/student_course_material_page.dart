@@ -15,6 +15,7 @@ import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/course_models/user_course_model.dart';
 import 'package:law_app/features/shared/providers/course_providers/curriculum_detail_provider.dart';
+import 'package:law_app/features/shared/providers/course_providers/user_course_detail_provider.dart';
 import 'package:law_app/features/shared/providers/manual_providers/material_provider.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
@@ -23,17 +24,21 @@ import 'package:law_app/features/student/presentation/course/widgets/material_ca
 
 class StudentCourseMaterialPage extends ConsumerWidget {
   final int curriculumId;
-  final UserCourseModel userCourse;
+  final int userCourseId;
 
   const StudentCourseMaterialPage({
     super.key,
     required this.curriculumId,
-    required this.userCourse,
+    required this.userCourseId,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final curriculum = ref.watch(CurriculumDetailProvider(id: curriculumId));
+    final userCourse = ref
+        .watch(UserCourseDetailProvider(id: userCourseId))
+        .unwrapPrevious()
+        .valueOrNull;
 
     ref.watch(articlesProvider);
     ref.watch(quizesProvider);
@@ -75,9 +80,6 @@ class StudentCourseMaterialPage extends ConsumerWidget {
           if (curriculum == null) return null;
 
           var materialSequenceNumber = 0;
-
-          final totalMaterials =
-              curriculum.articles!.length + curriculum.quizzes!.length;
 
           return SingleChildScrollView(
             padding: const EdgeInsets.symmetric(
@@ -124,19 +126,23 @@ class StudentCourseMaterialPage extends ConsumerWidget {
                             index == curriculum.articles!.length - 1 ? 0 : 8,
                       ),
                       child: MaterialCard(
-                        userCourse: userCourse,
+                        userCourseId: userCourse?.id ?? 0,
+                        curriculumSequenceNumber: curriculum.sequenceNumber!,
                         materialSequenceNumber: materialSequenceNumber,
                         material: curriculum.articles![index],
                         type: CourseMaterialType.article,
                         isCompleted: isMaterialCompleted(
+                          userCourse,
                           curriculum.sequenceNumber!,
                           materialSequenceNumber,
                         ),
                         isLocked: isMaterialLocked(
+                          userCourse,
                           curriculum.sequenceNumber!,
                           materialSequenceNumber,
                         ),
-                        isLast: materialSequenceNumber == totalMaterials - 1,
+                        totalMaterials: curriculum.articles!.length +
+                            curriculum.quizzes!.length,
                       ),
                     );
                   },
@@ -152,18 +158,23 @@ class StudentCourseMaterialPage extends ConsumerWidget {
                         bottom: index == curriculum.quizzes!.length - 1 ? 0 : 8,
                       ),
                       child: MaterialCard(
-                        userCourse: userCourse,
+                        userCourseId: userCourse?.id ?? 0,
+                        curriculumSequenceNumber: curriculum.sequenceNumber!,
                         materialSequenceNumber: materialSequenceNumber,
                         material: curriculum.quizzes![index],
                         type: CourseMaterialType.quiz,
                         isCompleted: isMaterialCompleted(
+                          userCourse,
                           curriculum.sequenceNumber!,
                           materialSequenceNumber,
                         ),
                         isLocked: isMaterialLocked(
+                          userCourse,
                           curriculum.sequenceNumber!,
                           materialSequenceNumber,
                         ),
+                        totalMaterials: curriculum.articles!.length +
+                            curriculum.quizzes!.length,
                       ),
                     );
                   },
@@ -177,9 +188,14 @@ class StudentCourseMaterialPage extends ConsumerWidget {
   }
 
   bool isMaterialCompleted(
+    UserCourseModel? userCourse,
     int curriculumSequenceNumber,
     int materialSequenceNumber,
   ) {
+    if (userCourse == null) {
+      return false;
+    }
+
     if (userCourse.currentCurriculumSequence! > curriculumSequenceNumber) {
       return true;
     }
@@ -188,9 +204,14 @@ class StudentCourseMaterialPage extends ConsumerWidget {
   }
 
   bool isMaterialLocked(
+    UserCourseModel? userCourse,
     int curriculumSequenceNumber,
     int materialSequenceNumber,
   ) {
+    if (userCourse == null) {
+      return false;
+    }
+
     if (userCourse.currentCurriculumSequence! < curriculumSequenceNumber) {
       return true;
     }
@@ -201,10 +222,10 @@ class StudentCourseMaterialPage extends ConsumerWidget {
 
 class StudentCourseMaterialPageArgs {
   final int curriculumId;
-  final UserCourseModel userCourse;
+  final int userCourseId;
 
   const StudentCourseMaterialPageArgs({
     required this.curriculumId,
-    required this.userCourse,
+    required this.userCourseId,
   });
 }
