@@ -59,9 +59,7 @@ class _StudentCourseArticlePageState extends ConsumerState<StudentCourseArticleP
     context.showLoadingDialog();
 
     try {
-      userCourse = await ref.watch(
-        UserCourseDetailProvider(id: widget.userCourseId).future,
-      );
+      userCourse = await ref.watch(UserCourseDetailProvider(id: widget.userCourseId).future);
 
       if (userCourse != null) {
         if (userCourse!.currentMaterialSequence == widget.totalMaterials - 1 &&

@@ -277,9 +277,7 @@ class _AdminCourseQuestionFormPageState extends ConsumerState<AdminCourseQuestio
       if (correctOptionId.value == null) {
         context.showCustomInformationDialog(
           title: 'Gagal mengedit pertanyaan!',
-          child: const Text(
-            'Harap pilih terlebih dahulu opsi jawaban yang benar.',
-          ),
+          child: const Text('Harap pilih terlebih dahulu opsi jawaban yang benar.'),
         );
 
         return;

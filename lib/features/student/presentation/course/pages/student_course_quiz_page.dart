@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:law_app/core/enums/banner_type.dart';
 
 // Project imports:
+import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
@@ -15,7 +15,6 @@ import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/course_models/quiz_model.dart';
 import 'package:law_app/features/shared/providers/course_providers/question_provider.dart';
 import 'package:law_app/features/shared/providers/generated_providers/count_down_timer_provider.dart';
-import 'package:law_app/features/shared/providers/manual_providers/material_provider.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 import 'package:law_app/features/student/presentation/course/widgets/question_view.dart';
@@ -55,8 +54,6 @@ class _StudentCourseQuizPageState extends ConsumerState<StudentCourseQuizPage> {
   Widget build(BuildContext context) {
     final questions = ref.watch(QuestionProvider(quizId: widget.quiz.id!));
 
-    ref.watch(questionIdsProvider);
-
     ref.listen(QuestionProvider(quizId: widget.quiz.id!), (_, state) {
       state.whenOrNull(
         error: (error, _) {
@@ -69,13 +66,6 @@ class _StudentCourseQuizPageState extends ConsumerState<StudentCourseQuizPage> {
             );
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
-          }
-        },
-        data: (questions) {
-          if (questions != null) {
-            ref.read(questionIdsProvider.notifier).update((_) {
-              return questions.map((e) => e.id!).toList();
-            });
           }
         },
       );
@@ -185,8 +175,8 @@ class _StudentCourseQuizPageState extends ConsumerState<StudentCourseQuizPage> {
                             return QuestionView(
                               pageController: pageController,
                               currentPage: page,
-                              number: index + 1,
                               questionId: questions[index].id!,
+                              questionNumber: index + 1,
                               answers: answers,
                               onOptionChanged: (answer) => answers[index] = answer,
                             );

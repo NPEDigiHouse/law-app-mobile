@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:after_layout/after_layout.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -16,13 +17,17 @@ import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
+import 'package:law_app/features/admin/data/models/course_models/user_course_model.dart';
+import 'package:law_app/features/shared/providers/course_providers/check_score_provider.dart';
 import 'package:law_app/features/shared/providers/course_providers/quiz_detail_provider.dart';
+import 'package:law_app/features/shared/providers/course_providers/user_course_actions_provider.dart';
+import 'package:law_app/features/shared/providers/course_providers/user_course_detail_provider.dart';
 import 'package:law_app/features/shared/providers/manual_providers/material_provider.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
-class StudentCourseQuizHomePage extends ConsumerWidget {
+class StudentCourseQuizHomePage extends ConsumerStatefulWidget {
   final int id;
   final int userCourseId;
   final int curriculumSequenceNumber;
@@ -39,14 +44,38 @@ class StudentCourseQuizHomePage extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<StudentCourseQuizHomePage> createState() => _StudentCourseQuizHomePageState();
+}
+
+class _StudentCourseQuizHomePageState extends ConsumerState<StudentCourseQuizHomePage>
+    with AfterLayoutMixin {
+  UserCourseModel? userCourse;
+
+  @override
+  Future<void> afterFirstLayout(BuildContext context) async {
+    if (widget.userCourseId == 0) return;
+
+    context.showLoadingDialog();
+
+    try {
+      userCourse = await ref.watch(UserCourseDetailProvider(id: widget.userCourseId).future);
+    } catch (e) {
+      debugPrint('$e');
+    }
+
+    navigatorKey.currentState!.pop();
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final quizes = ref.watch(quizesProvider);
     final ids = quizes.map((e) => e.id!).toList();
-    final indexId = ids.indexOf(id);
+    final indexId = ids.indexOf(widget.id);
 
-    final quiz = ref.watch(QuizDetailProvider(id: id));
+    final quiz = ref.watch(QuizDetailProvider(id: widget.id));
 
-    ref.listen(QuizDetailProvider(id: id), (_, state) {
+    ref.listen(QuizDetailProvider(id: widget.id), (_, state) {
       state.whenOrNull(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
@@ -58,6 +87,54 @@ class StudentCourseQuizHomePage extends ConsumerWidget {
             );
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+      );
+    });
+
+    ref.listen(checkScoreProvider, (_, state) {
+      state.when(
+        error: (error, _) {
+          navigatorKey.currentState!.pop();
+
+          context.showCustomInformationDialog(
+            title: 'Terjadi Kesalahan!',
+            child: const Text(
+              'Terjadi kesalahan saat melakukan submit. Harap kerjakan ulang quiz dan pastikan Anda terkoneksi dengan internet.',
+            ),
+          );
+        },
+        loading: () => context.showLoadingDialog(),
+        data: (result) {
+          if (result != null) {
+            navigatorKey.currentState!.pop();
+
+            if (isPassed(
+              result.correctAnswersAmt! + result.incorrectAnswersAmt!,
+              result.correctAnswersAmt!,
+            )) {
+              if (userCourse != null) {
+                if (userCourse!.currentMaterialSequence == widget.totalMaterials - 1 &&
+                    userCourse!.currentCurriculumSequence == widget.curriculumSequenceNumber) {
+                  updateCurriculumSequence();
+                } else if (userCourse!.currentMaterialSequence == widget.materialSequenceNumber) {
+                  updateMaterialSequence();
+                }
+              }
+
+              context.showBanner(
+                message: 'Selamat! Kamu berhasil menyelesaikan quiz ini.',
+                type: BannerType.success,
+              );
+            } else {
+              context.showBanner(
+                message:
+                    'Score kamu masih kurang! Diperlukan score 80 ke atas agar dapat meluluskan quiz ini.',
+                type: BannerType.error,
+              );
+            }
+
+            ref.invalidate(quizDetailProvider);
           }
         },
       );
@@ -151,9 +228,7 @@ class StudentCourseQuizHomePage extends ConsumerWidget {
                       title: 'Kerjakan Quiz?',
                       message: 'Apakah kamu siap mengerjakan quiz ini?',
                       primaryButtonText: 'Kerjakan',
-                      onPressedPrimaryButton: () {
-                        navigatorKey.currentState!.pop(true);
-                      },
+                      onPressedPrimaryButton: () => navigatorKey.currentState!.pop(true),
                     );
 
                     if (value != null) {
@@ -162,7 +237,12 @@ class StudentCourseQuizHomePage extends ConsumerWidget {
                         arguments: quiz,
                       );
 
-                      debugPrint(result.toString());
+                      if (result != null) {
+                        ref.read(checkScoreProvider.notifier).checkScore(
+                              quizId: quiz.id!,
+                              answers: result as List<Map<String, int?>>,
+                            );
+                      }
                     }
                   },
                   style: FilledButton.styleFrom(
@@ -208,7 +288,7 @@ class StudentCourseQuizHomePage extends ConsumerWidget {
                                           navigate(
                                             context,
                                             ids[indexId - 1],
-                                            materialSequenceNumber - 1,
+                                            widget.materialSequenceNumber - 1,
                                           );
                                         },
                                         icon: SvgAsset(
@@ -257,7 +337,7 @@ class StudentCourseQuizHomePage extends ConsumerWidget {
                                             navigate(
                                               context,
                                               ids[indexId + 1],
-                                              materialSequenceNumber + 1,
+                                              widget.materialSequenceNumber + 1,
                                             );
                                           },
                                           icon: SvgAsset(
@@ -347,14 +427,30 @@ class StudentCourseQuizHomePage extends ConsumerWidget {
       PageRouteBuilder(
         pageBuilder: (_, __, ___) => StudentCourseQuizHomePage(
           id: id,
-          userCourseId: userCourseId,
-          curriculumSequenceNumber: curriculumSequenceNumber,
+          userCourseId: widget.userCourseId,
+          curriculumSequenceNumber: widget.curriculumSequenceNumber,
           materialSequenceNumber: materialSequenceNumber,
-          totalMaterials: totalMaterials,
+          totalMaterials: widget.totalMaterials,
         ),
         transitionDuration: Duration.zero,
       ),
     );
+  }
+
+  void updateMaterialSequence() {
+    ref.read(userCourseActionsProvider.notifier).updateUserCourse(
+          id: userCourse!.id!,
+          currentCurriculumSequence: userCourse!.currentCurriculumSequence!,
+          currentMaterialSequence: widget.materialSequenceNumber + 1,
+        );
+  }
+
+  void updateCurriculumSequence() {
+    ref.read(userCourseActionsProvider.notifier).updateUserCourse(
+          id: userCourse!.id!,
+          currentCurriculumSequence: userCourse!.currentCurriculumSequence! + 1,
+          currentMaterialSequence: 0,
+        );
   }
 }
 

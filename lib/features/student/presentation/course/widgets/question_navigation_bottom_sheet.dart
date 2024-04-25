@@ -8,11 +8,11 @@ import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/shared/widgets/custom_icon_button.dart';
 import 'package:law_app/features/student/presentation/course/widgets/item_container.dart';
 
-class ItemNavigationBottomSheet extends StatelessWidget {
+class QuestionNavigationBottomSheet extends StatelessWidget {
   final int length;
   final ValueChanged<int> onItemTapped;
 
-  const ItemNavigationBottomSheet({
+  const QuestionNavigationBottomSheet({
     super.key,
     required this.length,
     required this.onItemTapped,
