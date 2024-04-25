@@ -297,7 +297,7 @@ class StudentCourseDetailPage extends ConsumerWidget {
         children: [
           Text(
             'Selamat! Anda telah menyelesaikan course ini👏',
-            style: textTheme.bodyMedium!.copyWith(
+            style: textTheme.bodySmall!.copyWith(
               color: primaryColor,
             ),
           ),
@@ -305,16 +305,17 @@ class StudentCourseDetailPage extends ConsumerWidget {
           FilledButton.icon(
             onPressed: () {},
             icon: SvgAsset(
-              assetPath: AssetPath.getIcon('certificate-solid.svg'),
+              assetPath: AssetPath.getIcon('chat-bubble-solid.svg'),
               color: secondaryColor,
               width: 20,
             ),
-            label: const Text('Lihat Sertifikat'),
+            label: const Text('Beri Ulasan'),
           ).fullWidth(),
+          const SizedBox(height: 2),
           FilledButton.icon(
             onPressed: () => navigatorKey.currentState!.pushNamed(
               studentCourseProgressRoute,
-              // arguments: courseDetail,
+              arguments: userCourse.id,
             ),
             icon: SvgAsset(
               assetPath: AssetPath.getIcon('book-bold.svg'),

@@ -62,11 +62,12 @@ class _StudentCourseArticlePageState extends ConsumerState<StudentCourseArticleP
       userCourse = await ref.watch(UserCourseDetailProvider(id: widget.userCourseId).future);
 
       if (userCourse != null) {
-        if (userCourse!.currentMaterialSequence == widget.totalMaterials - 1 &&
-            userCourse!.currentCurriculumSequence == widget.curriculumSequenceNumber) {
-          updateCurriculumSequence();
-        } else if (userCourse!.currentMaterialSequence == widget.materialSequenceNumber) {
-          updateMaterialSequence();
+        if (userCourse!.currentCurriculumSequence == widget.curriculumSequenceNumber) {
+          if (userCourse!.currentMaterialSequence == widget.totalMaterials - 1) {
+            updateCurriculumSequence();
+          } else if (userCourse!.currentMaterialSequence == widget.materialSequenceNumber) {
+            updateMaterialSequence();
+          }
         }
       }
     } catch (e) {

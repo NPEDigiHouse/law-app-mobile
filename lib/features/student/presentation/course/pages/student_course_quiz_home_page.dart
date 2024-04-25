@@ -127,22 +127,22 @@ class _StudentCourseQuizHomePageState extends ConsumerState<StudentCourseQuizHom
               result.correctAnswersAmt!,
             )) {
               if (userCourse != null) {
-                if (userCourse!.currentMaterialSequence == widget.totalMaterials - 1 &&
-                    userCourse!.currentCurriculumSequence == widget.curriculumSequenceNumber) {
-                  updateCurriculumSequence();
-                } else if (userCourse!.currentMaterialSequence == widget.materialSequenceNumber) {
-                  updateMaterialSequence();
+                if (userCourse!.currentCurriculumSequence == widget.curriculumSequenceNumber) {
+                  if (userCourse!.currentMaterialSequence == widget.totalMaterials - 1) {
+                    updateCurriculumSequence();
+                  } else if (userCourse!.currentMaterialSequence == widget.materialSequenceNumber) {
+                    updateMaterialSequence();
+                  }
                 }
               }
 
               context.showBanner(
-                message: 'Selamat! Kamu berhasil menyelesaikan quiz ini.',
+                message: 'Selamat! Kamu berhasil lolos pada quiz ini.',
                 type: BannerType.success,
               );
             } else {
               context.showBanner(
-                message:
-                    'Score kamu masih kurang! Diperlukan score 80 ke atas agar dapat meluluskan quiz ini.',
+                message: 'Kamu gagal! Kerjakan lagi dan dapatkan score yang lebih tinggi.',
                 type: BannerType.error,
               );
             }
@@ -233,6 +233,13 @@ class _StudentCourseQuizHomePageState extends ConsumerState<StudentCourseQuizHom
                   value: quiz.answerHistory == null
                       ? '-/100'
                       : '${calculateScore(quiz.totalQuestions!, quiz.answerHistory!.correctAnswersAmt!)}/100',
+                ),
+                Text(
+                  'Keterangan: Score yang tercantum merupakan score tertinggi yang kamu peroleh. Minimum score yang harus diperoleh untuk lulus adalah 80.',
+                  style: textTheme.bodySmall!.copyWith(
+                    fontStyle: FontStyle.italic,
+                    color: secondaryTextColor,
+                  ),
                 ),
                 const SizedBox(height: 10),
                 FilledButton(

@@ -156,18 +156,19 @@ class StudentCourseMaterialPage extends ConsumerWidget {
                       child: MaterialCard(
                         userCourseId: userCourse?.id ?? 0,
                         curriculumSequenceNumber: curriculum.sequenceNumber!,
-                        materialSequenceNumber: materialSequenceNumber,
+                        materialSequenceNumber:
+                            materialSequenceNumber - 1 == 0 ? 0 : materialSequenceNumber,
                         material: curriculum.quizzes![index],
                         type: CourseMaterialType.quiz,
                         isCompleted: isMaterialCompleted(
                           userCourse,
                           curriculum.sequenceNumber!,
-                          materialSequenceNumber,
+                          materialSequenceNumber - 1 == 0 ? 0 : materialSequenceNumber,
                         ),
                         isLocked: isMaterialLocked(
                           userCourse,
                           curriculum.sequenceNumber!,
-                          materialSequenceNumber,
+                          materialSequenceNumber - 1 == 0 ? 0 : materialSequenceNumber,
                         ),
                         totalMaterials: curriculum.articles!.length + curriculum.quizzes!.length,
                       ),
@@ -187,15 +188,15 @@ class StudentCourseMaterialPage extends ConsumerWidget {
     int curriculumSequenceNumber,
     int materialSequenceNumber,
   ) {
-    if (userCourse == null) {
+    if (userCourse == null) return false;
+
+    if (userCourse.currentCurriculumSequence! < curriculumSequenceNumber) {
       return false;
-    }
-
-    if (userCourse.currentCurriculumSequence! > curriculumSequenceNumber) {
+    } else if (userCourse.currentCurriculumSequence! > curriculumSequenceNumber) {
       return true;
+    } else {
+      return userCourse.currentMaterialSequence! > materialSequenceNumber;
     }
-
-    return userCourse.currentMaterialSequence! > materialSequenceNumber;
   }
 
   bool isMaterialLocked(
@@ -203,15 +204,15 @@ class StudentCourseMaterialPage extends ConsumerWidget {
     int curriculumSequenceNumber,
     int materialSequenceNumber,
   ) {
-    if (userCourse == null) {
+    if (userCourse == null) return false;
+
+    if (userCourse.currentCurriculumSequence! > curriculumSequenceNumber) {
       return false;
-    }
-
-    if (userCourse.currentCurriculumSequence! < curriculumSequenceNumber) {
+    } else if (userCourse.currentCurriculumSequence! < curriculumSequenceNumber) {
       return true;
+    } else {
+      return userCourse.currentMaterialSequence! < materialSequenceNumber;
     }
-
-    return userCourse.currentMaterialSequence! < materialSequenceNumber;
   }
 }
 
