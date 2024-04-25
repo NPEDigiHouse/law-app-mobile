@@ -131,7 +131,7 @@ class _QuestionViewState extends ConsumerState<QuestionView> with AutomaticKeepA
 
                         widget.onOptionChanged({
                           'quizQuestionId': question.id,
-                          'selectedAnswerId': option?.id,
+                          'selectedAnswerId': options[index].id,
                         });
                       },
                     ),

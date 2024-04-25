@@ -19,6 +19,8 @@ import 'package:law_app/features/shared/widgets/header_container.dart';
 import 'package:law_app/features/shared/widgets/loading_indicator.dart';
 import 'package:law_app/features/student/presentation/course/widgets/question_view.dart';
 
+final answersProvider = StateProvider<List<Map<String, int?>>>((ref) => []);
+
 class StudentCourseQuizPage extends ConsumerStatefulWidget {
   final QuizModel quiz;
 
@@ -31,8 +33,6 @@ class StudentCourseQuizPage extends ConsumerStatefulWidget {
 class _StudentCourseQuizPageState extends ConsumerState<StudentCourseQuizPage> {
   late final ValueNotifier<int> selectedPage;
   late final PageController pageController;
-
-  List<Map<String, int?>> answers = [];
 
   @override
   void initState() {
@@ -53,6 +53,7 @@ class _StudentCourseQuizPageState extends ConsumerState<StudentCourseQuizPage> {
   @override
   Widget build(BuildContext context) {
     final questions = ref.watch(QuestionProvider(quizId: widget.quiz.id!));
+    final answers = ref.watch(answersProvider);
 
     ref.listen(QuestionProvider(quizId: widget.quiz.id!), (_, state) {
       state.whenOrNull(
@@ -68,6 +69,16 @@ class _StudentCourseQuizPageState extends ConsumerState<StudentCourseQuizPage> {
             context.showBanner(message: '$error', type: BannerType.error);
           }
         },
+        data: (questions) {
+          if (questions != null) {
+            ref.read(answersProvider.notifier).state = List.generate(questions.length, (index) {
+              return {
+                'quizQuestionId': questions[index].id,
+                'selectedAnswerId': null,
+              };
+            });
+          }
+        },
       );
     });
 
@@ -76,13 +87,6 @@ class _StudentCourseQuizPageState extends ConsumerState<StudentCourseQuizPage> {
       error: (_, __) => const Scaffold(),
       data: (questions) {
         if (questions == null) return const Scaffold();
-
-        answers = List.generate(questions.length, (index) {
-          return {
-            'quizQuestionId': questions[index].id,
-            'selectedAnswerId': null,
-          };
-        });
 
         final timerProvider = CountDownTimerProvider(
           initialValue: widget.quiz.duration! * 60,

@@ -19,6 +19,7 @@ import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/course_models/user_course_model.dart';
 import 'package:law_app/features/shared/providers/course_providers/check_score_provider.dart';
+import 'package:law_app/features/shared/providers/course_providers/curriculum_detail_provider.dart';
 import 'package:law_app/features/shared/providers/course_providers/quiz_detail_provider.dart';
 import 'package:law_app/features/shared/providers/course_providers/user_course_actions_provider.dart';
 import 'package:law_app/features/shared/providers/course_providers/user_course_detail_provider.dart';
@@ -87,6 +88,18 @@ class _StudentCourseQuizHomePageState extends ConsumerState<StudentCourseQuizHom
             );
           } else {
             context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+      );
+    });
+
+    ref.listen(userCourseActionsProvider, (_, state) {
+      state.whenOrNull(
+        error: (_, __) => navigatorKey.currentState!.pop(),
+        data: (data) {
+          if (data != null) {
+            ref.invalidate(curriculumDetailProvider);
+            ref.invalidate(userCourseDetailProvider);
           }
         },
       );
