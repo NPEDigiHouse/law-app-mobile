@@ -132,8 +132,7 @@ class AuthDataSourceImpl implements AuthDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/auth/credential'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -232,8 +231,7 @@ class AuthDataSourceImpl implements AuthDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/auth/detail'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 

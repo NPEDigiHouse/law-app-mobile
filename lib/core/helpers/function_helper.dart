@@ -60,16 +60,14 @@ class FunctionHelper {
 
     switch (notification.direction) {
       case ScrollDirection.forward:
-        if (notification.metrics.maxScrollExtent !=
-            notification.metrics.minScrollExtent) {
+        if (notification.metrics.maxScrollExtent != notification.metrics.minScrollExtent) {
           if (notification.metrics.pixels != 0) {
             fabAnimationController.forward();
           }
         }
         break;
       case ScrollDirection.reverse:
-        if (notification.metrics.maxScrollExtent !=
-            notification.metrics.minScrollExtent) {
+        if (notification.metrics.maxScrollExtent != notification.metrics.minScrollExtent) {
           fabAnimationController.reverse();
         }
         break;

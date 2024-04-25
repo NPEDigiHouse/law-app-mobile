@@ -42,12 +42,10 @@ class AdminCourseFormPage extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<AdminCourseFormPage> createState() =>
-      _AdminCourseFormPageState();
+  ConsumerState<AdminCourseFormPage> createState() => _AdminCourseFormPageState();
 }
 
-class _AdminCourseFormPageState extends ConsumerState<AdminCourseFormPage>
-    with AfterLayoutMixin {
+class _AdminCourseFormPageState extends ConsumerState<AdminCourseFormPage> with AfterLayoutMixin {
   final GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
   @override
@@ -55,8 +53,7 @@ class _AdminCourseFormPageState extends ConsumerState<AdminCourseFormPage>
     if (widget.course != null) {
       context.showLoadingDialog();
 
-      final imagePath =
-          await FileService.downloadFile(url: widget.course!.coverImg!);
+      final imagePath = await FileService.downloadFile(url: widget.course!.coverImg!);
 
       if (imagePath != null) {
         ref.read(imagePathProvider.notifier).state = imagePath;
@@ -229,8 +226,7 @@ class _AdminCourseFormPageState extends ConsumerState<AdminCourseFormPage>
     if (formKey.currentState!.saveAndValidate()) {
       final data = formKey.currentState!.value;
 
-      final isUpdatedImage =
-          p.basename(widget.course!.coverImg!) != p.basename(imagePath);
+      final isUpdatedImage = p.basename(widget.course!.coverImg!) != p.basename(imagePath);
 
       ref.read(courseActionsProvider.notifier).editCourse(
             course: CourseModel(

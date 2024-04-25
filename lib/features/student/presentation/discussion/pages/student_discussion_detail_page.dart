@@ -148,21 +148,17 @@ class StudentDiscussionDetailPage extends ConsumerWidget {
             child: HeaderContainer(
               title: 'Detail Pertanyaan',
               withBackButton: true,
-              withTrailingButton:
-                  discussion.asker!.id == CredentialSaver.user!.id,
+              withTrailingButton: discussion.asker!.id == CredentialSaver.user!.id,
               trailingButtonIconName: 'trash-line.svg',
               trailingButtonTooltip: 'Hapus',
               onPressedTrailingButton: () => context.showCustomAlertDialog(
                 title: 'Hapus Pertanyaan?',
-                message:
-                    'Seluruh diskusi kamu dalam Pertanyaan ini akan ikut terhapus!',
+                message: 'Seluruh diskusi kamu dalam Pertanyaan ini akan ikut terhapus!',
                 primaryButtonText: 'Hapus',
                 onPressedPrimaryButton: () {
                   navigatorKey.currentState!.pop();
 
-                  ref
-                      .read(deleteDiscussionProvider.notifier)
-                      .deleteDiscussion(id: id);
+                  ref.read(deleteDiscussionProvider.notifier).deleteDiscussion(id: id);
                 },
               ),
             ),
@@ -319,9 +315,7 @@ class StudentDiscussionDetailPage extends ConsumerWidget {
                       onSubmitted: (value) {
                         navigatorKey.currentState!.pop();
 
-                        ref
-                            .read(createDiscussionCommentProvider.notifier)
-                            .createDiscussionComment(
+                        ref.read(createDiscussionCommentProvider.notifier).createDiscussionComment(
                               userId: CredentialSaver.user!.id!,
                               discussionId: discussion.id!,
                               text: value['text'],
@@ -340,9 +334,7 @@ class StudentDiscussionDetailPage extends ConsumerWidget {
                       onPressedPrimaryButton: () {
                         navigatorKey.currentState!.pop();
 
-                        ref
-                            .read(editDiscussionProvider.notifier)
-                            .editDiscussion(
+                        ref.read(editDiscussionProvider.notifier).editDiscussion(
                               discussionId: discussion.id!,
                               status: 'solved',
                             );

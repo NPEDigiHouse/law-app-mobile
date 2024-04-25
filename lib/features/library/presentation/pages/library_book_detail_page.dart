@@ -189,8 +189,8 @@ class LibraryBookDetailPage extends ConsumerWidget {
                                           '${book.writer}',
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
-                                          style: textTheme.bodySmall!.copyWith(
-                                              color: scaffoldBackgroundColor),
+                                          style: textTheme.bodySmall!
+                                              .copyWith(color: scaffoldBackgroundColor),
                                         ),
                                       ),
                                     ],
@@ -211,8 +211,8 @@ class LibraryBookDetailPage extends ConsumerWidget {
                                           '${book.category?.name}',
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
-                                          style: textTheme.bodySmall!.copyWith(
-                                              color: scaffoldBackgroundColor),
+                                          style: textTheme.bodySmall!
+                                              .copyWith(color: scaffoldBackgroundColor),
                                         ),
                                       ),
                                     ],
@@ -250,9 +250,7 @@ class LibraryBookDetailPage extends ConsumerWidget {
                             ),
                             icon: SvgAsset(
                               assetPath: AssetPath.getIcon(
-                                savedBook != null
-                                    ? 'bookmark-solid.svg'
-                                    : 'bookmark-line.svg',
+                                savedBook != null ? 'bookmark-solid.svg' : 'bookmark-line.svg',
                               ),
                               color: primaryColor,
                               width: 24,

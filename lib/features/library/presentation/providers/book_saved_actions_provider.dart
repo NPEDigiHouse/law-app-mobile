@@ -16,8 +16,7 @@ class BookSavedActions extends _$BookSavedActions {
   Future<void> saveBook({required int bookId}) async {
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(bookRepositoryProvider).saveBook(bookId: bookId);
+    final result = await ref.watch(bookRepositoryProvider).saveBook(bookId: bookId);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

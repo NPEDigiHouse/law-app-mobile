@@ -36,8 +36,7 @@ class WidgetUtils {
       actions: showOkButton
           ? [
               TextButton(
-                onPressed: () => scaffoldMessengerKey.currentState!
-                    .hideCurrentMaterialBanner(),
+                onPressed: () => scaffoldMessengerKey.currentState!.hideCurrentMaterialBanner(),
                 child: Text(
                   'Ok',
                   style: TextStyle(

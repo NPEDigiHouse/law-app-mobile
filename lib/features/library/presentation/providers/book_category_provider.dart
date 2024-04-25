@@ -31,8 +31,7 @@ class BookCategory extends _$BookCategory {
   Future<void> createBookCategory({required String name}) async {
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(bookRepositoryProvider).createBookCategory(name: name);
+    final result = await ref.watch(bookRepositoryProvider).createBookCategory(name: name);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
@@ -43,9 +42,7 @@ class BookCategory extends _$BookCategory {
   Future<void> editBookCategory({required BookCategoryModel category}) async {
     state = const AsyncValue.loading();
 
-    final result = await ref
-        .watch(bookRepositoryProvider)
-        .editBookCategory(category: category);
+    final result = await ref.watch(bookRepositoryProvider).editBookCategory(category: category);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
@@ -56,8 +53,7 @@ class BookCategory extends _$BookCategory {
   Future<void> deleteBookCategory({required int id}) async {
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(bookRepositoryProvider).deleteBookCategory(id: id);
+    final result = await ref.watch(bookRepositoryProvider).deleteBookCategory(id: id);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

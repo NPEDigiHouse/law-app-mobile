@@ -11,18 +11,15 @@ part 'question_detail_provider.g.dart';
 @riverpod
 class QuestionDetail extends _$QuestionDetail {
   @override
-  Future<({QuestionModel? question, List<OptionModel>? options})> build(
-      {required int id}) async {
+  Future<({QuestionModel? question, List<OptionModel>? options})> build({required int id}) async {
     QuestionModel? question;
     List<OptionModel>? options;
 
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(courseRepositoryProvider).getQuestionDetail(id: id);
+    final result = await ref.watch(courseRepositoryProvider).getQuestionDetail(id: id);
 
-    final result2 =
-        await ref.watch(courseRepositoryProvider).getOptions(questionId: id);
+    final result2 = await ref.watch(courseRepositoryProvider).getOptions(questionId: id);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

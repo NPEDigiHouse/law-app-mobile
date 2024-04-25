@@ -103,16 +103,14 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
             hintText: widget.hintText,
             prefixIcon: buildPrefixIcon(),
             suffixIcon: buildSuffixIcon(isVisible),
-            hintStyle: widget.isSmall
-                ? textTheme.bodyMedium!.copyWith(color: secondaryTextColor)
-                : null,
+            hintStyle:
+                widget.isSmall ? textTheme.bodyMedium!.copyWith(color: secondaryTextColor) : null,
             contentPadding: widget.isSmall
                 ? const EdgeInsets.fromLTRB(16, 12, 16, 12)
                 : const EdgeInsets.all(16),
           ),
-          validator: widget.validators != null
-              ? FormBuilderValidators.compose(widget.validators!)
-              : null,
+          validator:
+              widget.validators != null ? FormBuilderValidators.compose(widget.validators!) : null,
           onChanged: widget.onChanged,
         );
       },

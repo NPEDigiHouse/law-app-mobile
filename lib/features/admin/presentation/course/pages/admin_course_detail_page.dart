@@ -76,9 +76,7 @@ class AdminCourseDetailPage extends ConsumerWidget {
                     navigatorKey.currentState!.pop();
                     navigatorKey.currentState!.pop();
 
-                    ref
-                        .read(courseActionsProvider.notifier)
-                        .deleteCourse(id: id);
+                    ref.read(courseActionsProvider.notifier).deleteCourse(id: id);
                   },
                 );
               },

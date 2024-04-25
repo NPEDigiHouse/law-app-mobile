@@ -26,8 +26,7 @@ class SplashPage extends StatefulWidget {
   State<SplashPage> createState() => _SplashPageState();
 }
 
-class _SplashPageState extends State<SplashPage>
-    with AfterLayoutMixin<SplashPage> {
+class _SplashPageState extends State<SplashPage> with AfterLayoutMixin<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,9 +102,7 @@ class _SplashPageState extends State<SplashPage>
       NotificationService.messaging.getInitialMessage().then((message) {
         if (message != null) {
           navigatorKey.currentState!.pushNamed(
-            CredentialSaver.user!.role == 'admin'
-                ? adminHomeRoute
-                : mainMenuRoute,
+            CredentialSaver.user!.role == 'admin' ? adminHomeRoute : mainMenuRoute,
           );
         }
       });
@@ -114,9 +111,7 @@ class _SplashPageState extends State<SplashPage>
       // Stream listener
       FirebaseMessaging.onMessageOpenedApp.listen((message) {
         navigatorKey.currentState!.pushNamed(
-          CredentialSaver.user!.role == 'admin'
-              ? adminHomeRoute
-              : mainMenuRoute,
+          CredentialSaver.user!.role == 'admin' ? adminHomeRoute : mainMenuRoute,
         );
       });
     }

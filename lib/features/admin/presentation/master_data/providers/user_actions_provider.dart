@@ -18,8 +18,7 @@ class UserActions extends _$UserActions {
   Future<void> createUser({required UserPostModel user}) async {
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(masterDataRepositoryProvider).createUser(user: user);
+    final result = await ref.watch(masterDataRepositoryProvider).createUser(user: user);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
@@ -30,8 +29,7 @@ class UserActions extends _$UserActions {
   Future<void> editUser({required UserModel user}) async {
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(masterDataRepositoryProvider).editUser(user: user);
+    final result = await ref.watch(masterDataRepositoryProvider).editUser(user: user);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
@@ -42,8 +40,7 @@ class UserActions extends _$UserActions {
   Future<void> deleteUser({required int id}) async {
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(masterDataRepositoryProvider).deleteUser(id: id);
+    final result = await ref.watch(masterDataRepositoryProvider).deleteUser(id: id);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

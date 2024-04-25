@@ -22,8 +22,7 @@ abstract class GlossaryRepository {
   Future<Either<Failure, GlossaryModel>> getGlossaryDetail({required int id});
 
   /// Create glossary
-  Future<Either<Failure, void>> createGlossary(
-      {required GlossaryPostModel glossary});
+  Future<Either<Failure, void>> createGlossary({required GlossaryPostModel glossary});
 
   /// Edit glossary
   Future<Either<Failure, void>> editGlossary({required GlossaryModel glossary});
@@ -35,8 +34,7 @@ abstract class GlossaryRepository {
   Future<Either<Failure, void>> createGlossarySearchHistory({required int id});
 
   /// Get glossaries search history
-  Future<Either<Failure, List<GlossarySearchHistoryModel>>>
-      getGlossariesSearchHistory();
+  Future<Either<Failure, List<GlossarySearchHistoryModel>>> getGlossariesSearchHistory();
 
   /// Delete single glossary search history
   Future<Either<Failure, void>> deleteGlossarySearchHistory({required int id});
@@ -78,8 +76,7 @@ class GlossaryRepositoryImpl implements GlossaryRepository {
   }
 
   @override
-  Future<Either<Failure, GlossaryModel>> getGlossaryDetail(
-      {required int id}) async {
+  Future<Either<Failure, GlossaryModel>> getGlossaryDetail({required int id}) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await glossaryDataSource.getGlossaryDetail(id: id);
@@ -94,8 +91,7 @@ class GlossaryRepositoryImpl implements GlossaryRepository {
   }
 
   @override
-  Future<Either<Failure, void>> createGlossary(
-      {required GlossaryPostModel glossary}) async {
+  Future<Either<Failure, void>> createGlossary({required GlossaryPostModel glossary}) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await glossaryDataSource.createGlossary(
@@ -112,8 +108,7 @@ class GlossaryRepositoryImpl implements GlossaryRepository {
   }
 
   @override
-  Future<Either<Failure, void>> editGlossary(
-      {required GlossaryModel glossary}) async {
+  Future<Either<Failure, void>> editGlossary({required GlossaryModel glossary}) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await glossaryDataSource.editGlossary(
@@ -145,12 +140,10 @@ class GlossaryRepositoryImpl implements GlossaryRepository {
   }
 
   @override
-  Future<Either<Failure, void>> createGlossarySearchHistory(
-      {required int id}) async {
+  Future<Either<Failure, void>> createGlossarySearchHistory({required int id}) async {
     if (await networkInfo.isConnected) {
       try {
-        final result =
-            await glossaryDataSource.createGlossarySearchHistory(id: id);
+        final result = await glossaryDataSource.createGlossarySearchHistory(id: id);
 
         return Right(result);
       } catch (e) {
@@ -162,8 +155,7 @@ class GlossaryRepositoryImpl implements GlossaryRepository {
   }
 
   @override
-  Future<Either<Failure, List<GlossarySearchHistoryModel>>>
-      getGlossariesSearchHistory() async {
+  Future<Either<Failure, List<GlossarySearchHistoryModel>>> getGlossariesSearchHistory() async {
     if (await networkInfo.isConnected) {
       try {
         final result = await glossaryDataSource.getGlossariesSearchHistory();
@@ -178,12 +170,10 @@ class GlossaryRepositoryImpl implements GlossaryRepository {
   }
 
   @override
-  Future<Either<Failure, void>> deleteGlossarySearchHistory(
-      {required int id}) async {
+  Future<Either<Failure, void>> deleteGlossarySearchHistory({required int id}) async {
     if (await networkInfo.isConnected) {
       try {
-        final result =
-            await glossaryDataSource.deleteGlossarySearchHistory(id: id);
+        final result = await glossaryDataSource.deleteGlossarySearchHistory(id: id);
 
         return Right(result);
       } catch (e) {
@@ -198,8 +188,7 @@ class GlossaryRepositoryImpl implements GlossaryRepository {
   Future<Either<Failure, void>> deleteAllGlossariesSearchHistory() async {
     if (await networkInfo.isConnected) {
       try {
-        final result =
-            await glossaryDataSource.deleteAllGlossariesSearchHistory();
+        final result = await glossaryDataSource.deleteAllGlossariesSearchHistory();
 
         return Right(result);
       } catch (e) {

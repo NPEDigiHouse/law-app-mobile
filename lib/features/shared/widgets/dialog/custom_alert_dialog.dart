@@ -118,8 +118,7 @@ class CustomAlertDialog extends ConsumerWidget {
                       Checkbox(
                         value: isChecked,
                         onChanged: (newValue) {
-                          ref.read(isCheckedProvider.notifier).state =
-                              newValue!;
+                          ref.read(isCheckedProvider.notifier).state = newValue!;
                         },
                         checkColor: scaffoldBackgroundColor,
                         side: const BorderSide(
@@ -137,8 +136,7 @@ class CustomAlertDialog extends ConsumerWidget {
                       Expanded(
                         child: GestureDetector(
                           onTap: () {
-                            ref.read(isCheckedProvider.notifier).state =
-                                !isChecked;
+                            ref.read(isCheckedProvider.notifier).state = !isChecked;
                           },
                           child: Text('$checkboxLabel'),
                         ),

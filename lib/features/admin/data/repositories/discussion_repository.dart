@@ -31,12 +31,10 @@ abstract class DiscussionRepository {
   });
 
   /// Get discussion detail
-  Future<Either<Failure, DiscussionModel>> getDiscussionDetail(
-      {required int id});
+  Future<Either<Failure, DiscussionModel>> getDiscussionDetail({required int id});
 
   /// Create discussion
-  Future<Either<Failure, void>> createDiscussion(
-      {required DiscussionPostModel discussion});
+  Future<Either<Failure, void>> createDiscussion({required DiscussionPostModel discussion});
 
   /// Edit discussion
   Future<Either<Failure, void>> editDiscussion({
@@ -125,8 +123,7 @@ class DiscussionRepositoryImpl implements DiscussionRepository {
   }
 
   @override
-  Future<Either<Failure, DiscussionModel>> getDiscussionDetail(
-      {required int id}) async {
+  Future<Either<Failure, DiscussionModel>> getDiscussionDetail({required int id}) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await discussionDataSource.getDiscussionDetail(id: id);
@@ -141,12 +138,10 @@ class DiscussionRepositoryImpl implements DiscussionRepository {
   }
 
   @override
-  Future<Either<Failure, void>> createDiscussion(
-      {required DiscussionPostModel discussion}) async {
+  Future<Either<Failure, void>> createDiscussion({required DiscussionPostModel discussion}) async {
     if (await networkInfo.isConnected) {
       try {
-        final result =
-            await discussionDataSource.createDiscussion(discussion: discussion);
+        final result = await discussionDataSource.createDiscussion(discussion: discussion);
 
         return Right(result);
       } catch (e) {

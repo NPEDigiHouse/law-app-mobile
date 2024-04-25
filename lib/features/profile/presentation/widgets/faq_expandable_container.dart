@@ -22,12 +22,10 @@ class FAQExpandableContainer extends ConsumerStatefulWidget {
   const FAQExpandableContainer({super.key, required this.faq});
 
   @override
-  ConsumerState<FAQExpandableContainer> createState() =>
-      _FAQExpandableContainerState();
+  ConsumerState<FAQExpandableContainer> createState() => _FAQExpandableContainerState();
 }
 
-class _FAQExpandableContainerState
-    extends ConsumerState<FAQExpandableContainer> {
+class _FAQExpandableContainerState extends ConsumerState<FAQExpandableContainer> {
   late final ValueNotifier<bool> isCollapse;
 
   @override
@@ -71,9 +69,7 @@ class _FAQExpandableContainerState
                     const SizedBox(width: 8),
                     SvgAsset(
                       assetPath: AssetPath.getIcon(
-                        isCollapse
-                            ? "caret-line-up.svg"
-                            : "caret-line-down.svg",
+                        isCollapse ? "caret-line-up.svg" : "caret-line-down.svg",
                       ),
                       width: 20,
                     ),
@@ -144,9 +140,7 @@ class _FAQExpandableContainerState
                             onPressedPrimaryButton: () {
                               navigatorKey.currentState!.pop();
 
-                              ref
-                                  .read(faqProvider.notifier)
-                                  .deleteFAQ(id: widget.faq.id!);
+                              ref.read(faqProvider.notifier).deleteFAQ(id: widget.faq.id!);
                             },
                           ),
                           icon: SvgAsset(

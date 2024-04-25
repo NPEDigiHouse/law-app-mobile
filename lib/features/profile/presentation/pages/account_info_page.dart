@@ -118,14 +118,12 @@ class AccountInfoPage extends ConsumerWidget {
             "Nama Lengkap": user.name,
             "Username": user.username,
             "Email": user.email,
-            "Tanggal Lahir":
-                user.birthDate?.toStringPattern('d MMMM yyyy') ?? '-',
+            "Tanggal Lahir": user.birthDate?.toStringPattern('d MMMM yyyy') ?? '-',
             "No. Hp": user.phoneNumber ?? '-',
           };
 
           if (user.role == 'teacher') {
-            userData["Kepakaran"] =
-                '${user.expertises?.map((e) => e.name).toList().join(', ')}';
+            userData["Kepakaran"] = '${user.expertises?.map((e) => e.name).toList().join(', ')}';
           }
 
           return SingleChildScrollView(
@@ -288,9 +286,7 @@ class AccountInfoPage extends ConsumerWidget {
                     onPressedPrimaryButton: () {
                       navigatorKey.currentState!.pop();
 
-                      ref
-                          .read(userActionsProvider.notifier)
-                          .deleteUser(id: user.id!);
+                      ref.read(userActionsProvider.notifier).deleteUser(id: user.id!);
                     },
                   ),
                   child: Column(

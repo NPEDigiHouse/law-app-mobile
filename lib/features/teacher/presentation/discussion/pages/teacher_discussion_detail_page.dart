@@ -208,8 +208,7 @@ class TeacherDiscussionDetailPage extends ConsumerWidget {
                 ),
                 const SizedBox(height: 12),
                 buildDiscussionSection(discussion, context: context),
-                if (discussion.type == 'specific' &&
-                    discussion.status == 'onDiscussion') ...[
+                if (discussion.type == 'specific' && discussion.status == 'onDiscussion') ...[
                   const SizedBox(height: 12),
                   FilledButton(
                     onPressed: () => context.showSingleFormDialog(
@@ -222,9 +221,7 @@ class TeacherDiscussionDetailPage extends ConsumerWidget {
                       onSubmitted: (value) {
                         navigatorKey.currentState!.pop();
 
-                        ref
-                            .read(createDiscussionCommentProvider.notifier)
-                            .createDiscussionComment(
+                        ref.read(createDiscussionCommentProvider.notifier).createDiscussionComment(
                               userId: CredentialSaver.user!.id!,
                               discussionId: discussion.id!,
                               text: value['text'],
@@ -239,16 +236,13 @@ class TeacherDiscussionDetailPage extends ConsumerWidget {
                       message:
                           'Aksi ini sebaiknya dilakukan oleh Penanya. Pastikan bahwa Penanya sudah puas dengan jawaban yang diberikan!',
                       withCheckbox: true,
-                      checkboxLabel:
-                          'Saya memastikan Penanya puas dengan jawaban yang diberikan.',
+                      checkboxLabel: 'Saya memastikan Penanya puas dengan jawaban yang diberikan.',
                       foregroundColor: warningColor,
                       backgroundColor: const Color(0xFFFCF6DF),
                       onPressedPrimaryButton: () {
                         navigatorKey.currentState!.pop();
 
-                        ref
-                            .read(editDiscussionProvider.notifier)
-                            .editDiscussion(
+                        ref.read(editDiscussionProvider.notifier).editDiscussion(
                               discussionId: discussion.id!,
                               status: 'solved',
                             );

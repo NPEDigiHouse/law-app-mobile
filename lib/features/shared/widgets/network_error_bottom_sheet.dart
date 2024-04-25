@@ -64,8 +64,7 @@ class NetworkErrorBottomSheet extends StatelessWidget {
               const SizedBox(width: 16),
               Expanded(
                 child: FilledButton(
-                  onPressed: onPressedPrimaryButton ??
-                      () => navigatorKey.currentState!.pop(),
+                  onPressed: onPressedPrimaryButton ?? () => navigatorKey.currentState!.pop(),
                   style: FilledButton.styleFrom(
                     padding: EdgeInsets.zero,
                   ),

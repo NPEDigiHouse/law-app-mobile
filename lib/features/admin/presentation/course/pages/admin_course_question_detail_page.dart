@@ -111,8 +111,7 @@ class AdminCourseQuestionDetailPage extends ConsumerWidget {
                       child: AdminOptionCard(
                         optionKey: optionKeys[index],
                         option: options[index],
-                        isCorrectOption:
-                            question.correctOptionId == options[index].id,
+                        isCorrectOption: question.correctOptionId == options[index].id,
                         preventAction: true,
                       ),
                     ),

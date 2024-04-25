@@ -170,9 +170,7 @@ class AdminCourseCurriculumPage extends ConsumerWidget {
                           course.curriculums!.length,
                           (index) => Padding(
                             padding: EdgeInsets.only(
-                              bottom: index == course.curriculums!.length - 1
-                                  ? 0
-                                  : 8,
+                              bottom: index == course.curriculums!.length - 1 ? 0 : 8,
                             ),
                             child: AdminCurriculumCard(
                               curriculum: course.curriculums![index],
@@ -190,9 +188,7 @@ class AdminCourseCurriculumPage extends ConsumerWidget {
                           onSubmitted: (value) {
                             navigatorKey.currentState!.pop();
 
-                            ref
-                                .read(curriculumActionsProvider.notifier)
-                                .createCurriculum(
+                            ref.read(curriculumActionsProvider.notifier).createCurriculum(
                                   curriculum: CurriculumPostModel(
                                     title: value['title'],
                                     courseId: course.id!,

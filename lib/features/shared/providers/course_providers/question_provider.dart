@@ -15,8 +15,7 @@ class Question extends _$Question {
 
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(courseRepositoryProvider).getQuestions(quizId: quizId);
+    final result = await ref.watch(courseRepositoryProvider).getQuestions(quizId: quizId);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

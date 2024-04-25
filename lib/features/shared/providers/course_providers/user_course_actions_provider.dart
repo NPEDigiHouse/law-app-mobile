@@ -16,9 +16,7 @@ class UserCourseActions extends _$UserCourseActions {
   Future<void> createUserCourse({required int courseId}) async {
     state = const AsyncValue.loading();
 
-    final result = await ref
-        .watch(courseRepositoryProvider)
-        .createUserCourse(courseId: courseId);
+    final result = await ref.watch(courseRepositoryProvider).createUserCourse(courseId: courseId);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

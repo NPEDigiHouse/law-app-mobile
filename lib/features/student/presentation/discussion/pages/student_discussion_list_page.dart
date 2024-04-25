@@ -25,12 +25,10 @@ class StudentDiscussionListPage extends ConsumerStatefulWidget {
   const StudentDiscussionListPage({super.key});
 
   @override
-  ConsumerState<StudentDiscussionListPage> createState() =>
-      _StudentQuestionListPageState();
+  ConsumerState<StudentDiscussionListPage> createState() => _StudentQuestionListPageState();
 }
 
-class _StudentQuestionListPageState
-    extends ConsumerState<StudentDiscussionListPage> {
+class _StudentQuestionListPageState extends ConsumerState<StudentDiscussionListPage> {
   late final ValueNotifier<DiscussionType> selectedType;
 
   @override
@@ -149,8 +147,7 @@ class _StudentQuestionListPageState
                         onSelectionChanged: (newSelection) {
                           selectedType.value = newSelection.first;
 
-                          ref.read(discussionTypeProvider.notifier).state =
-                              newSelection.first.name;
+                          ref.read(discussionTypeProvider.notifier).state = newSelection.first.name;
                         },
                       );
                     },

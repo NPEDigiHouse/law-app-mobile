@@ -29,12 +29,10 @@ class LibraryBookListPage extends ConsumerStatefulWidget {
   const LibraryBookListPage({super.key});
 
   @override
-  ConsumerState<LibraryBookListPage> createState() =>
-      _LibraryBookListPageState();
+  ConsumerState<LibraryBookListPage> createState() => _LibraryBookListPageState();
 }
 
-class _LibraryBookListPageState extends ConsumerState<LibraryBookListPage>
-    with AfterLayoutMixin {
+class _LibraryBookListPageState extends ConsumerState<LibraryBookListPage> with AfterLayoutMixin {
   Map<String, int?> categories = {'Semua': null};
 
   @override
@@ -115,8 +113,7 @@ class _LibraryBookListPageState extends ConsumerState<LibraryBookListPage>
                     label: labels[index],
                     selected: categoryId == categories[labels[index]],
                     onSelected: (_) {
-                      ref.read(categoryIdProvider.notifier).state =
-                          categories[labels[index]];
+                      ref.read(categoryIdProvider.notifier).state = categories[labels[index]];
                     },
                   );
                 },

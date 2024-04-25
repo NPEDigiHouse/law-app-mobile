@@ -54,8 +54,7 @@ class AdManagementFormPage extends ConsumerStatefulWidget {
   ConsumerState<AdManagementFormPage> createState() => _AdmiAdFormPageState();
 }
 
-class _AdmiAdFormPageState extends ConsumerState<AdManagementFormPage>
-    with AfterLayoutMixin {
+class _AdmiAdFormPageState extends ConsumerState<AdManagementFormPage> with AfterLayoutMixin {
   final GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
   @override
@@ -66,8 +65,7 @@ class _AdmiAdFormPageState extends ConsumerState<AdManagementFormPage>
       ref.read(adTitleProvider.notifier).state = widget.ad!.title!;
       ref.read(adContentProvider.notifier).state = widget.ad!.content!;
 
-      final imagePath =
-          await FileService.downloadFile(url: widget.ad!.imageName!);
+      final imagePath = await FileService.downloadFile(url: widget.ad!.imageName!);
 
       if (imagePath != null) {
         ref.read(imagePathProvider.notifier).state = imagePath;
@@ -111,9 +109,7 @@ class _AdmiAdFormPageState extends ConsumerState<AdManagementFormPage>
                 trailingButtonIconName: 'check-line.svg',
                 trailingButtonTooltip: 'Submit',
                 onPressedTrailingButton: () {
-                  widget.ad != null
-                      ? editAd(imagePath ?? '')
-                      : createAd(imagePath);
+                  widget.ad != null ? editAd(imagePath ?? '') : createAd(imagePath);
                 },
               ),
             ),
@@ -351,8 +347,7 @@ class _AdmiAdFormPageState extends ConsumerState<AdManagementFormPage>
     if (formKey.currentState!.saveAndValidate()) {
       final data = formKey.currentState!.value;
 
-      final isUpdatedImage =
-          p.basename(widget.ad!.imageName!) != p.basename(imagePath);
+      final isUpdatedImage = p.basename(widget.ad!.imageName!) != p.basename(imagePath);
 
       ref.read(adActionsProvider.notifier).editAd(
             ad: AdModel(

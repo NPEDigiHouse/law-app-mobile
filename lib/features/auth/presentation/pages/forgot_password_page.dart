@@ -167,9 +167,7 @@ class _ForgotpasswordPageState extends ConsumerState<ForgotpasswordPage>
     if (formKey.currentState!.saveAndValidate()) {
       String email = formKey.currentState!.value['email'];
 
-      ref
-          .read(askResetPasswordProvider.notifier)
-          .askResetPassword(email: email);
+      ref.read(askResetPasswordProvider.notifier).askResetPassword(email: email);
     }
   }
 }

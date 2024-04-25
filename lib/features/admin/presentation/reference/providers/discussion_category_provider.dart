@@ -15,8 +15,7 @@ class DiscussionCategory extends _$DiscussionCategory {
 
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(referenceRepositoryProvider).getDiscussionCategories();
+    final result = await ref.watch(referenceRepositoryProvider).getDiscussionCategories();
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
@@ -32,9 +31,8 @@ class DiscussionCategory extends _$DiscussionCategory {
   Future<void> createDiscussionCategory({required String name}) async {
     state = const AsyncValue.loading();
 
-    final result = await ref
-        .watch(referenceRepositoryProvider)
-        .createDiscussionCategory(name: name);
+    final result =
+        await ref.watch(referenceRepositoryProvider).createDiscussionCategory(name: name);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
@@ -42,13 +40,11 @@ class DiscussionCategory extends _$DiscussionCategory {
     );
   }
 
-  Future<void> editDiscussionCategory(
-      {required DiscussionCategoryModel category}) async {
+  Future<void> editDiscussionCategory({required DiscussionCategoryModel category}) async {
     state = const AsyncValue.loading();
 
-    final result = await ref
-        .watch(referenceRepositoryProvider)
-        .editDiscussionCategory(category: category);
+    final result =
+        await ref.watch(referenceRepositoryProvider).editDiscussionCategory(category: category);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
@@ -59,9 +55,7 @@ class DiscussionCategory extends _$DiscussionCategory {
   Future<void> deleteDiscussionCategory({required int id}) async {
     state = const AsyncValue.loading();
 
-    final result = await ref
-        .watch(referenceRepositoryProvider)
-        .deleteDiscussionCategory(id: id);
+    final result = await ref.watch(referenceRepositoryProvider).deleteDiscussionCategory(id: id);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

@@ -47,18 +47,14 @@ class AdminMaterialCard extends ConsumerWidget {
         ),
       ],
       onTap: () => navigatorKey.currentState!.pushNamed(
-        type == CourseMaterialType.article
-            ? adminCourseArticleRoute
-            : adminCourseQuizRoute,
+        type == CourseMaterialType.article ? adminCourseArticleRoute : adminCourseQuizRoute,
         arguments: material.id,
       ),
       child: Row(
         children: [
           SvgAsset(
             assetPath: AssetPath.getIcon(
-              type == CourseMaterialType.article
-                  ? 'read-outlined.svg'
-                  : 'note-edit-line.svg',
+              type == CourseMaterialType.article ? 'read-outlined.svg' : 'note-edit-line.svg',
             ),
             color: primaryColor,
             width: 20,
@@ -87,13 +83,9 @@ class AdminMaterialCard extends ConsumerWidget {
                 navigatorKey.currentState!.pop();
 
                 if (type == CourseMaterialType.article) {
-                  ref
-                      .read(articleActionsProvider.notifier)
-                      .deleteArticle(id: material.id!);
+                  ref.read(articleActionsProvider.notifier).deleteArticle(id: material.id!);
                 } else {
-                  ref
-                      .read(quizActionsProvider.notifier)
-                      .deleteQuiz(id: material.id!);
+                  ref.read(quizActionsProvider.notifier).deleteQuiz(id: material.id!);
                 }
               },
             ),

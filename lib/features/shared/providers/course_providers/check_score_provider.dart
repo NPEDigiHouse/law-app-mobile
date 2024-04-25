@@ -16,7 +16,7 @@ class CheckScore extends _$CheckScore {
 
   Future<void> checkScore({
     required int quizId,
-    required List<Map<String, int>> answers,
+    required List<Map<String, int?>> answers,
   }) async {
     state = const AsyncValue.loading();
 

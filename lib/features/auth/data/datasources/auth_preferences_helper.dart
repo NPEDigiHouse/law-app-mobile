@@ -13,8 +13,7 @@ class AuthPreferencesHelper {
     _instance = this;
   }
 
-  factory AuthPreferencesHelper() =>
-      _instance ?? AuthPreferencesHelper._internal();
+  factory AuthPreferencesHelper() => _instance ?? AuthPreferencesHelper._internal();
 
   SharedPreferences? _preferences;
 

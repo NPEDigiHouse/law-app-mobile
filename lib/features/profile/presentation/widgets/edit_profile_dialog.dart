@@ -91,8 +91,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                   name: "birthDate",
                   label: "Tanggal Lahir",
                   hintText: "d MMMM yyyy",
-                  initialValue:
-                      widget.user.birthDate?.toStringPattern('d MMMM yyyy'),
+                  initialValue: widget.user.birthDate?.toStringPattern('d MMMM yyyy'),
                   hasPrefixIcon: false,
                   suffixIconName: "calendar.svg",
                   textInputType: TextInputType.none,

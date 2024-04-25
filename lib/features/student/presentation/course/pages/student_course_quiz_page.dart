@@ -3,37 +3,37 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:law_app/core/enums/banner_type.dart';
 
 // Project imports:
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/admin/data/models/course_models/quiz_model.dart';
+import 'package:law_app/features/shared/providers/course_providers/question_provider.dart';
 import 'package:law_app/features/shared/providers/generated_providers/count_down_timer_provider.dart';
+import 'package:law_app/features/shared/providers/manual_providers/material_provider.dart';
 import 'package:law_app/features/shared/widgets/header_container.dart';
-import 'package:law_app/features/student/presentation/course/widgets/item_view.dart';
+import 'package:law_app/features/shared/widgets/loading_indicator.dart';
+import 'package:law_app/features/student/presentation/course/widgets/question_view.dart';
 
 class StudentCourseQuizPage extends ConsumerStatefulWidget {
-  final int duration;
-  final List<Item> items;
+  final QuizModel quiz;
 
-  const StudentCourseQuizPage({
-    super.key,
-    required this.duration,
-    required this.items,
-  });
+  const StudentCourseQuizPage({super.key, required this.quiz});
 
   @override
-  ConsumerState<StudentCourseQuizPage> createState() =>
-      _StudentCourseQuizPageState();
+  ConsumerState<StudentCourseQuizPage> createState() => _StudentCourseQuizPageState();
 }
 
 class _StudentCourseQuizPageState extends ConsumerState<StudentCourseQuizPage> {
   late final ValueNotifier<int> selectedPage;
   late final PageController pageController;
-  late List<String> results;
+
+  List<Map<String, int?>> answers = [];
 
   @override
   void initState() {
@@ -41,7 +41,6 @@ class _StudentCourseQuizPageState extends ConsumerState<StudentCourseQuizPage> {
 
     selectedPage = ValueNotifier(0);
     pageController = PageController();
-    results = List<String>.generate(widget.items.length, (_) => '');
   }
 
   @override
@@ -54,113 +53,154 @@ class _StudentCourseQuizPageState extends ConsumerState<StudentCourseQuizPage> {
 
   @override
   Widget build(BuildContext context) {
-    final timerProvider = CountDownTimerProvider(
-      initialValue: widget.duration * 60,
-    );
+    final questions = ref.watch(QuestionProvider(quizId: widget.quiz.id!));
 
-    final timer = ref.watch(timerProvider);
+    ref.watch(questionIdsProvider);
 
-    final seconds = timer.when<int?>(
-      data: (value) => value,
-      error: (_, __) => null,
-      loading: () => null,
-    );
-
-    ref.listen(timerProvider, (_, state) {
-      if (state.value == 0) {
-        if (ModalRoute.of(context)?.isCurrent != true) {
-          navigatorKey.currentState!.pop();
-        }
-
-        navigatorKey.currentState!.pop(results);
-      }
+    ref.listen(QuestionProvider(quizId: widget.quiz.id!), (_, state) {
+      state.whenOrNull(
+        error: (error, _) {
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet(
+              onPressedPrimaryButton: () {
+                navigatorKey.currentState!.pop();
+                ref.invalidate(questionProvider);
+              },
+            );
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+        data: (questions) {
+          if (questions != null) {
+            ref.read(questionIdsProvider.notifier).update((_) {
+              return questions.map((e) => e.id!).toList();
+            });
+          }
+        },
+      );
     });
 
-    return PopScope(
-      canPop: false,
-      onPopInvoked: (didPop) {
-        if (didPop) return;
+    return questions.when(
+      loading: () => const LoadingIndicator(withScaffold: true),
+      error: (_, __) => const Scaffold(),
+      data: (questions) {
+        if (questions == null) return const Scaffold();
 
-        context.showConfirmDialog(
-          title: 'Batalkan Quiz?',
-          message: 'Apakah kamu yakin ingin membatalkan quiz ini?',
-          primaryButtonText: 'Batalkan',
-          onPressedPrimaryButton: () {
-            context.back();
-            navigatorKey.currentState!.pop();
-          },
+        answers = List.generate(questions.length, (index) {
+          return {
+            'quizQuestionId': questions[index].id,
+            'selectedAnswerId': null,
+          };
+        });
+
+        final timerProvider = CountDownTimerProvider(
+          initialValue: widget.quiz.duration! * 60,
         );
-      },
-      child: Scaffold(
-        body: NestedScrollView(
-          physics: const NeverScrollableScrollPhysics(),
-          headerSliverBuilder: (context, innerBoxIsScrolled) {
-            return [
-              const SliverAppBar(
-                pinned: true,
-                toolbarHeight: 96,
-                automaticallyImplyLeading: false,
-                flexibleSpace: HeaderContainer(
-                  title: 'Quiz',
-                ),
-              ),
-            ];
+
+        final timer = ref.watch(timerProvider);
+
+        final seconds = timer.whenOrNull(
+          data: (value) => value,
+        );
+
+        ref.listen(timerProvider, (_, state) {
+          if (state.value == 0) {
+            if (ModalRoute.of(context)?.isCurrent != true) {
+              navigatorKey.currentState!.pop();
+            }
+
+            navigatorKey.currentState!.pop(answers);
+          }
+        });
+
+        return PopScope(
+          canPop: false,
+          onPopInvoked: (didPop) {
+            if (didPop) return;
+
+            context.showConfirmDialog(
+              title: 'Batalkan Quiz?',
+              message: 'Apakah kamu yakin ingin membatalkan quiz ini?',
+              primaryButtonText: 'Batalkan',
+              onPressedPrimaryButton: () {
+                context.back();
+                navigatorKey.currentState!.pop();
+              },
+            );
           },
-          body: CustomScrollView(
-            slivers: [
-              SliverPadding(
-                padding: const EdgeInsets.fromLTRB(20, 24, 20, 16),
-                sliver: SliverToBoxAdapter(
-                  child: Center(
-                    child: Container(
-                      width: 80,
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 6,
-                        horizontal: 12,
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6),
-                        color: getColorByRemainingSeconds(seconds),
-                      ),
+          child: Scaffold(
+            body: NestedScrollView(
+              physics: const NeverScrollableScrollPhysics(),
+              headerSliverBuilder: (context, innerBoxIsScrolled) {
+                return [
+                  const SliverAppBar(
+                    pinned: true,
+                    toolbarHeight: 96,
+                    automaticallyImplyLeading: false,
+                    flexibleSpace: HeaderContainer(
+                      title: 'Quiz',
+                    ),
+                  ),
+                ];
+              },
+              body: CustomScrollView(
+                slivers: [
+                  SliverPadding(
+                    padding: const EdgeInsets.fromLTRB(20, 24, 20, 16),
+                    sliver: SliverToBoxAdapter(
                       child: Center(
-                        child: Text(
-                          FunctionHelper.formattedCountDownTimer(seconds ?? 0),
-                          style: textTheme.titleMedium!.copyWith(
-                            color: scaffoldBackgroundColor,
+                        child: Container(
+                          width: 80,
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 6,
+                            horizontal: 12,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(6),
+                            color: getColorByRemainingSeconds(seconds),
+                          ),
+                          child: Center(
+                            child: Text(
+                              FunctionHelper.formattedCountDownTimer(seconds ?? 0),
+                              style: textTheme.titleMedium!.copyWith(
+                                color: scaffoldBackgroundColor,
+                              ),
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ),
-              SliverFillRemaining(
-                child: PageView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  controller: pageController,
-                  onPageChanged: (index) => selectedPage.value = index,
-                  children: List<ValueListenableBuilder<int>>.generate(
-                    widget.items.length,
-                    (index) => ValueListenableBuilder(
-                      valueListenable: selectedPage,
-                      builder: (context, page, child) {
-                        return ItemView(
-                          pageController: pageController,
-                          currentPage: page,
-                          number: index + 1,
-                          item: widget.items[index],
-                          onOptionChanged: (option) => results[index] = option,
-                          results: results,
-                        );
-                      },
+                  SliverFillRemaining(
+                    child: PageView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      controller: pageController,
+                      onPageChanged: (index) => selectedPage.value = index,
+                      children: List<ValueListenableBuilder<int>>.generate(
+                        questions.length,
+                        (index) => ValueListenableBuilder(
+                          valueListenable: selectedPage,
+                          builder: (context, page, child) {
+                            return QuestionView(
+                              pageController: pageController,
+                              currentPage: page,
+                              number: index + 1,
+                              questionId: questions[index].id!,
+                              answers: answers,
+                              onOptionChanged: (answer) => answers[index] = answer,
+                            );
+                          },
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -173,14 +213,4 @@ class _StudentCourseQuizPageState extends ConsumerState<StudentCourseQuizPage> {
 
     return primaryColor;
   }
-}
-
-class StudentCourseQuizPageArgs {
-  final int duration;
-  final List<Item> items;
-
-  const StudentCourseQuizPageArgs({
-    required this.duration,
-    required this.items,
-  });
 }

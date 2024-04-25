@@ -64,9 +64,7 @@ class BookCategoryCard extends ConsumerWidget {
 
                     navigatorKey.currentState!.pop();
 
-                    ref
-                        .read(bookCategoryProvider.notifier)
-                        .editBookCategory(category: newCategory);
+                    ref.read(bookCategoryProvider.notifier).editBookCategory(category: newCategory);
                   },
                 ),
                 tooltip: 'Edit',
@@ -82,9 +80,7 @@ class BookCategoryCard extends ConsumerWidget {
                   onPressedPrimaryButton: () {
                     navigatorKey.currentState!.pop();
 
-                    ref
-                        .read(bookCategoryProvider.notifier)
-                        .deleteBookCategory(id: category.id!);
+                    ref.read(bookCategoryProvider.notifier).deleteBookCategory(id: category.id!);
                   },
                 ),
                 tooltip: 'Hapus',

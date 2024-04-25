@@ -31,8 +31,7 @@ class MasterData extends _$MasterData {
   Future<void> searchUsers({String query = ''}) async {
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(masterDataRepositoryProvider).getUsers(query: query);
+    final result = await ref.watch(masterDataRepositoryProvider).getUsers(query: query);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
@@ -57,8 +56,7 @@ class MasterData extends _$MasterData {
   Future<void> filterUsers({String role = ''}) async {
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(masterDataRepositoryProvider).getUsers(role: role);
+    final result = await ref.watch(masterDataRepositoryProvider).getUsers(role: role);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

@@ -11,8 +11,7 @@ import 'package:law_app/features/admin/presentation/reference/providers/discussi
 import 'package:law_app/features/library/presentation/providers/book_category_provider.dart';
 
 class CategoryHelper {
-  static Future<List<DiscussionCategoryModel>> getDiscussionCategories(
-      WidgetRef ref) async {
+  static Future<List<DiscussionCategoryModel>> getDiscussionCategories(WidgetRef ref) async {
     List<DiscussionCategoryModel>? categories;
 
     try {
@@ -24,8 +23,7 @@ class CategoryHelper {
     return categories ?? [];
   }
 
-  static Future<List<BookCategoryModel>> getBookCategories(
-      WidgetRef ref) async {
+  static Future<List<BookCategoryModel>> getBookCategories(WidgetRef ref) async {
     List<BookCategoryModel>? categories;
 
     try {

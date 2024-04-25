@@ -37,9 +37,7 @@ class GlossarySearchPage extends ConsumerWidget {
                 onPressedPrimaryButton: () {
                   navigatorKey.currentState!.pop();
 
-                  ref
-                      .read(searchGlossaryProvider.notifier)
-                      .searchGlossary(query: query);
+                  ref.read(searchGlossaryProvider.notifier).searchGlossary(query: query);
                 },
               );
             } else {

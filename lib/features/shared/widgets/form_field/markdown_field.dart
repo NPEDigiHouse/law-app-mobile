@@ -180,8 +180,7 @@ class _MarkdownFieldState extends State<MarkdownField> {
 
   void onTap(MarkdownType type, {int titleSize = 1}) {
     final basePosition = textSelection.baseOffset;
-    final noTextSelected =
-        (textSelection.baseOffset - textSelection.extentOffset) == 0;
+    final noTextSelected = (textSelection.baseOffset - textSelection.extentOffset) == 0;
 
     final result = FormatMarkdown.convertToMarkdown(
       type,

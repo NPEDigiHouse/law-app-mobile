@@ -18,9 +18,7 @@ class QuestionActions extends _$QuestionActions {
   Future<void> createQuestion({required QuestionPostModel question}) async {
     state = const AsyncValue.loading();
 
-    final result = await ref
-        .watch(courseRepositoryProvider)
-        .createQuestion(question: question);
+    final result = await ref.watch(courseRepositoryProvider).createQuestion(question: question);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
@@ -31,9 +29,7 @@ class QuestionActions extends _$QuestionActions {
   Future<void> editQuestion({required QuestionModel question}) async {
     state = const AsyncValue.loading();
 
-    final result = await ref
-        .watch(courseRepositoryProvider)
-        .editQuestion(question: question);
+    final result = await ref.watch(courseRepositoryProvider).editQuestion(question: question);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
@@ -44,8 +40,7 @@ class QuestionActions extends _$QuestionActions {
   Future<void> deleteQuestion({required int id}) async {
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(courseRepositoryProvider).deleteQuestion(id: id);
+    final result = await ref.watch(courseRepositoryProvider).deleteQuestion(id: id);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

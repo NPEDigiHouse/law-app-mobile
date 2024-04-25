@@ -15,9 +15,7 @@ class DiscussionDetail extends _$DiscussionDetail {
 
     state = const AsyncValue.loading();
 
-    final result = await ref
-        .watch(discussionRepositoryProvider)
-        .getDiscussionDetail(id: id);
+    final result = await ref.watch(discussionRepositoryProvider).getDiscussionDetail(id: id);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

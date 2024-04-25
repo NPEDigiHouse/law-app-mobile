@@ -57,10 +57,10 @@ class UserCredentialModel extends Equatable {
       birthDate: birthDate ?? this.birthDate,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       profilePicture: profilePicture ?? this.profilePicture,
-      totalWeeklyGeneralQuestionsQuota: totalWeeklyGeneralQuestionsQuota ??
-          this.totalWeeklyGeneralQuestionsQuota,
-      totalWeeklySpecificQuestionsQuota: totalWeeklySpecificQuestionsQuota ??
-          this.totalWeeklySpecificQuestionsQuota,
+      totalWeeklyGeneralQuestionsQuota:
+          totalWeeklyGeneralQuestionsQuota ?? this.totalWeeklyGeneralQuestionsQuota,
+      totalWeeklySpecificQuestionsQuota:
+          totalWeeklySpecificQuestionsQuota ?? this.totalWeeklySpecificQuestionsQuota,
       expertises: expertises ?? this.expertises,
     );
   }
@@ -91,16 +91,12 @@ class UserCredentialModel extends Equatable {
       birthDate: DateTime.tryParse((map['birthDate'] as String?) ?? ''),
       phoneNumber: map['phoneNumber'] as String?,
       profilePicture: map['profilePicture'] as String?,
-      totalWeeklyGeneralQuestionsQuota:
-          map['totalWeeklyGeneralQuestionsQuota'] as int?,
-      totalWeeklySpecificQuestionsQuota:
-          map['totalWeeklySpecificQuestionsQuota'] as int?,
+      totalWeeklyGeneralQuestionsQuota: map['totalWeeklyGeneralQuestionsQuota'] as int?,
+      totalWeeklySpecificQuestionsQuota: map['totalWeeklySpecificQuestionsQuota'] as int?,
       expertises: map['teacherDiscussionCategories'] != null
           ? List<DiscussionCategoryModel>.from(
               (map['teacherDiscussionCategories'] as List).map(
-                (e) => DiscussionCategoryModel.fromMap(
-                  e as Map<String, dynamic>,
-                ),
+                (e) => DiscussionCategoryModel.fromMap(e as Map<String, dynamic>),
               ),
             )
           : null,

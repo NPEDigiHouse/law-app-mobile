@@ -26,13 +26,13 @@ class StudentDiscussions extends _$StudentDiscussions {
 
     state = const AsyncValue.loading();
 
-    final result = await ref
-        .watch(discussionRepositoryProvider)
-        .getUserDiscussions(limit: kPageLimit);
+    final result =
+        await ref.watch(discussionRepositoryProvider).getUserDiscussions(limit: kPageLimit);
 
-    final result2 = await ref
-        .watch(discussionRepositoryProvider)
-        .getDiscussions(limit: kPageLimit, type: 'general');
+    final result2 = await ref.watch(discussionRepositoryProvider).getDiscussions(
+          limit: kPageLimit,
+          type: 'general',
+        );
 
     ref.listen(userCredentialProvider, (_, state) {
       state.whenOrNull(

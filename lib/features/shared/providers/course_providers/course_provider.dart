@@ -11,8 +11,7 @@ part 'course_provider.g.dart';
 @riverpod
 class Course extends _$Course {
   @override
-  Future<({List<CourseModel>? courses, bool? hasMore})> build(
-      {String query = ''}) async {
+  Future<({List<CourseModel>? courses, bool? hasMore})> build({String query = ''}) async {
     List<CourseModel>? courses;
     bool? hasMore;
 

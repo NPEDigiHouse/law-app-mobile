@@ -28,12 +28,10 @@ class TeacherDiscussionHomePage extends ConsumerStatefulWidget {
   const TeacherDiscussionHomePage({super.key});
 
   @override
-  ConsumerState<TeacherDiscussionHomePage> createState() =>
-      _TeacherDiscussionHomePageState();
+  ConsumerState<TeacherDiscussionHomePage> createState() => _TeacherDiscussionHomePageState();
 }
 
-class _TeacherDiscussionHomePageState
-    extends ConsumerState<TeacherDiscussionHomePage>
+class _TeacherDiscussionHomePageState extends ConsumerState<TeacherDiscussionHomePage>
     with SingleTickerProviderStateMixin {
   late final AnimationController fabAnimationController;
   late final ScrollController scrollController;
@@ -181,13 +179,11 @@ class _TeacherDiscussionHomePageState
                                   children: [
                                     Expanded(
                                       child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             userCredential.name!,
-                                            style:
-                                                textTheme.titleLarge!.copyWith(
+                                            style: textTheme.titleLarge!.copyWith(
                                               color: primaryColor,
                                               fontSize: 18,
                                             ),
@@ -195,8 +191,7 @@ class _TeacherDiscussionHomePageState
                                           const SizedBox(height: 2),
                                           Text(
                                             userCredential.role!.toCapitalize(),
-                                            style:
-                                                textTheme.bodySmall!.copyWith(
+                                            style: textTheme.bodySmall!.copyWith(
                                               color: secondaryTextColor,
                                             ),
                                           ),

@@ -10,5 +10,5 @@ const discussionStatus = {
 
 final discussionStatusProvider =
     StateProvider.autoDispose<String>((ref) => discussionStatus['Semua']!);
-final discussionTypeProvider =
-    StateProvider.autoDispose<String>((ref) => 'general');
+
+final discussionTypeProvider = StateProvider.autoDispose<String>((ref) => 'general');

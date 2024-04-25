@@ -18,9 +18,10 @@ class SearchGlossary extends _$SearchGlossary {
   Future<void> searchGlossary({String query = ''}) async {
     state = const AsyncValue.loading();
 
-    final result = await ref
-        .watch(glossaryRepositoryProvider)
-        .getGlossaries(query: query, limit: kPageLimit);
+    final result = await ref.watch(glossaryRepositoryProvider).getGlossaries(
+          query: query,
+          limit: kPageLimit,
+        );
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
@@ -35,9 +36,11 @@ class SearchGlossary extends _$SearchGlossary {
     String query = '',
     required int offset,
   }) async {
-    final result = await ref
-        .watch(glossaryRepositoryProvider)
-        .getGlossaries(query: query, offset: offset, limit: kPageLimit);
+    final result = await ref.watch(glossaryRepositoryProvider).getGlossaries(
+          query: query,
+          offset: offset,
+          limit: kPageLimit,
+        );
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

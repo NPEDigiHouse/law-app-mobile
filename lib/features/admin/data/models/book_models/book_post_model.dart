@@ -54,8 +54,7 @@ class BookPostModel extends Equatable {
       'publisher': publisher,
       'pageAmt': pageAmt,
       'categoryId': categoryId,
-      'releaseDate':
-          releaseDate.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
+      'releaseDate': releaseDate.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
     };
   }
 

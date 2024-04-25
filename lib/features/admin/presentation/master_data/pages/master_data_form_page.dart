@@ -43,8 +43,7 @@ class MasterDataFormPage extends ConsumerStatefulWidget {
   ConsumerState<MasterDataFormPage> createState() => _MasterDataFormPageState();
 }
 
-class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage>
-    with AfterLayoutMixin {
+class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> with AfterLayoutMixin {
   late final GlobalKey<FormBuilderState> formKey;
   late DateTime date;
   late List<DiscussionCategoryModel> categories;
@@ -178,8 +177,7 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage>
                 name: 'birthDate',
                 label: 'Tanggal Lahir',
                 hintText: 'd MMMM yyyy',
-                initialValue:
-                    widget.user?.birthDate?.toStringPattern('d MMMM yyyy'),
+                initialValue: widget.user?.birthDate?.toStringPattern('d MMMM yyyy'),
                 hasPrefixIcon: false,
                 suffixIconName: 'calendar.svg',
                 textInputType: TextInputType.none,
@@ -204,9 +202,8 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage>
               if (isTeacher) buildTeacherCheckboxes(),
               SizedBox(height: isTeacher ? 12 : 20),
               FilledButton(
-                onPressed: widget.user != null
-                    ? () => editUser(isTeacher)
-                    : () => createUser(isTeacher),
+                onPressed:
+                    widget.user != null ? () => editUser(isTeacher) : () => createUser(isTeacher),
                 child: Text('${widget.user != null ? "Edit" : "Tambah"} User'),
               ).fullWidth(),
             ],
@@ -336,8 +333,7 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage>
                 email: data['email'],
                 password: data['username'],
                 role: widget.role,
-                teacherDiscussionCategoryIds:
-                    selectedExpertises.map((e) => e.id!).toList(),
+                teacherDiscussionCategoryIds: selectedExpertises.map((e) => e.id!).toList(),
                 birthDate: data['birthDate'] != null
                     ? (data['birthDate'] as String).isNotEmpty
                         ? date

@@ -29,12 +29,10 @@ class StudentDiscussionHomePage extends ConsumerStatefulWidget {
   const StudentDiscussionHomePage({super.key});
 
   @override
-  ConsumerState<StudentDiscussionHomePage> createState() =>
-      _StudentDiscussionHomePageState();
+  ConsumerState<StudentDiscussionHomePage> createState() => _StudentDiscussionHomePageState();
 }
 
-class _StudentDiscussionHomePageState
-    extends ConsumerState<StudentDiscussionHomePage>
+class _StudentDiscussionHomePageState extends ConsumerState<StudentDiscussionHomePage>
     with SingleTickerProviderStateMixin {
   late final AnimationController fabAnimationController;
   late final ScrollController scrollController;
@@ -121,9 +119,7 @@ class _StudentDiscussionHomePageState
           final userDiscussions = data.userDiscussions;
           final publicDiscussions = data.publicDiscussions;
 
-          if (userCredential == null ||
-              userDiscussions == null ||
-              publicDiscussions == null) {
+          if (userCredential == null || userDiscussions == null || publicDiscussions == null) {
             return null;
           }
 
@@ -211,8 +207,7 @@ class _StudentDiscussionHomePageState
                                         Flexible(
                                           child: Text(
                                             'Kesempatan Pertanyaan Mingguan',
-                                            style:
-                                                textTheme.titleMedium!.copyWith(
+                                            style: textTheme.titleMedium!.copyWith(
                                               color: primaryColor,
                                             ),
                                           ),
@@ -221,8 +216,7 @@ class _StudentDiscussionHomePageState
                                         Tooltip(
                                           message:
                                               'Kesempatan bertanya akan di-reset setiap minggu.',
-                                          textStyle:
-                                              textTheme.bodySmall!.copyWith(
+                                          textStyle: textTheme.bodySmall!.copyWith(
                                             color: scaffoldBackgroundColor,
                                           ),
                                           margin: const EdgeInsets.symmetric(
@@ -274,8 +268,8 @@ class _StudentDiscussionHomePageState
                                     const SizedBox(height: 10),
                                     FilledButton.icon(
                                       onPressed: () async {
-                                        final categories = await CategoryHelper
-                                            .getDiscussionCategories(ref);
+                                        final categories =
+                                            await CategoryHelper.getDiscussionCategories(ref);
 
                                         if (categories.isNotEmpty) {
                                           if (!context.mounted) return;
@@ -304,8 +298,7 @@ class _StudentDiscussionHomePageState
                                       label: const Text('Buat Pertanyaan'),
                                       style: FilledButton.styleFrom(
                                         shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
+                                          borderRadius: BorderRadius.circular(8),
                                         ),
                                       ),
                                     ).fullWidth(),

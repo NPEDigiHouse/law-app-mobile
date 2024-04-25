@@ -1,5 +1,6 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
 import 'package:law_app/core/extensions/button_extension.dart';
@@ -8,35 +9,35 @@ import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/shared/providers/course_providers/question_detail_provider.dart';
+import 'package:law_app/features/shared/providers/manual_providers/material_provider.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 import 'package:law_app/features/student/presentation/course/widgets/item_navigation_bottom_sheet.dart';
 import 'package:law_app/features/student/presentation/course/widgets/option_card.dart';
 
-class ItemView extends StatefulWidget {
+class QuestionView extends ConsumerStatefulWidget {
   final PageController pageController;
   final int currentPage;
   final int number;
-  final Item item;
-  final ValueChanged<String> onOptionChanged;
-  final List<String> results;
+  final int questionId;
+  final List<Map<String, int?>> answers;
+  final ValueChanged<Map<String, int?>> onOptionChanged;
 
-  const ItemView({
+  const QuestionView({
     super.key,
     required this.pageController,
     required this.currentPage,
     required this.number,
-    required this.item,
+    required this.questionId,
+    required this.answers,
     required this.onOptionChanged,
-    required this.results,
   });
 
   @override
-  State<ItemView> createState() => _ItemViewState();
+  ConsumerState<QuestionView> createState() => _QuestionViewState();
 }
 
-class _ItemViewState extends State<ItemView>
-    with AutomaticKeepAliveClientMixin {
+class _QuestionViewState extends ConsumerState<QuestionView> with AutomaticKeepAliveClientMixin {
   late final ValueNotifier<String?> selectedOption;
 
   @override
@@ -59,6 +60,11 @@ class _ItemViewState extends State<ItemView>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+
+    final questionIds = ref.watch(questionIdsProvider);
+    final indexId = questionIds.indexOf(widget.questionId);
+
+    final data = ref.watch(QuestionDetailProvider(id: widget.questionId));
 
     return ListView(
       physics: const NeverScrollableScrollPhysics(),

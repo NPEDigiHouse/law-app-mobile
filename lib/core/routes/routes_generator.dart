@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 
 // Project imports:
 import 'package:law_app/core/routes/route_names.dart';
-import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/admin/data/models/course_models/course_model.dart';
+import 'package:law_app/features/admin/data/models/course_models/quiz_model.dart';
 import 'package:law_app/features/admin/presentation/ad/pages/ad_management_form_page.dart';
 import 'package:law_app/features/admin/presentation/ad/pages/ad_management_home_page.dart';
 import 'package:law_app/features/admin/presentation/course/pages/admin_course_article_form_page.dart';
@@ -238,25 +239,28 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       );
 
     case studentCourseQuizHomeRoute:
-      final quiz = settings.arguments as Quiz;
+      final args = settings.arguments as StudentCourseArticlePageArgs;
 
       return MaterialPageRoute(
-        builder: (_) => StudentCourseQuizHomePage(quiz: quiz),
-      );
-    case studentCourseQuizRoute:
-      final args = settings.arguments as StudentCourseQuizPageArgs;
-
-      return MaterialPageRoute(
-        builder: (_) => StudentCourseQuizPage(
-          duration: args.duration,
-          items: args.items,
+        builder: (_) => StudentCourseQuizHomePage(
+          id: args.id,
+          userCourseId: args.userCourseId,
+          curriculumSequenceNumber: args.curriculumSequenceNumber,
+          materialSequenceNumber: args.materialSequenceNumber,
+          totalMaterials: args.totalMaterials,
         ),
       );
-    case studentCourseRateRoute:
-      final courseDetail = settings.arguments as CourseDetail;
+    case studentCourseQuizRoute:
+      final quiz = settings.arguments as QuizModel;
 
       return MaterialPageRoute(
-        builder: (_) => StudentCourseRatePage(courseDetail: courseDetail),
+        builder: (_) => StudentCourseQuizPage(quiz: quiz),
+      );
+    case studentCourseRateRoute:
+      final course = settings.arguments as CourseModel;
+
+      return MaterialPageRoute(
+        builder: (_) => StudentCourseRatePage(course: course),
       );
     case adminHomeRoute:
       return MaterialPageRoute(

@@ -18,8 +18,7 @@ class ChangePasswordDialog extends ConsumerStatefulWidget {
   const ChangePasswordDialog({super.key, required this.email});
 
   @override
-  ConsumerState<ChangePasswordDialog> createState() =>
-      _ChangePasswordDialogState();
+  ConsumerState<ChangePasswordDialog> createState() => _ChangePasswordDialogState();
 }
 
 class _ChangePasswordDialogState extends ConsumerState<ChangePasswordDialog> {

@@ -31,9 +31,7 @@ class ContactUs extends _$ContactUs {
   Future<void> editContactUs({required ContactUsModel contact}) async {
     state = const AsyncValue.loading();
 
-    final result = await ref
-        .watch(referenceRepositoryProvider)
-        .editContactUs(contact: contact);
+    final result = await ref.watch(referenceRepositoryProvider).editContactUs(contact: contact);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

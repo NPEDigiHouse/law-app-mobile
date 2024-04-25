@@ -15,8 +15,7 @@ class ProfileDetail extends _$ProfileDetail {
 
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(profileRepositoryProvider).getProfileDetail(id: id);
+    final result = await ref.watch(profileRepositoryProvider).getProfileDetail(id: id);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

@@ -43,12 +43,11 @@ class AdminCourseArticleFormPage extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<AdminCourseArticleFormPage> createState() =>
-      _AdminCourseArticleFormPageState();
+  ConsumerState<AdminCourseArticleFormPage> createState() => _AdminCourseArticleFormPageState();
 }
 
-class _AdminCourseArticleFormPageState
-    extends ConsumerState<AdminCourseArticleFormPage> with AfterLayoutMixin {
+class _AdminCourseArticleFormPageState extends ConsumerState<AdminCourseArticleFormPage>
+    with AfterLayoutMixin {
   final GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
   @override
@@ -57,8 +56,7 @@ class _AdminCourseArticleFormPageState
       context.showLoadingDialog();
 
       ref.read(titleProvider.notifier).state = widget.article!.title!;
-      ref.read(durationProvider.notifier).state =
-          widget.article!.duration!.toString();
+      ref.read(durationProvider.notifier).state = widget.article!.duration!.toString();
       ref.read(materialProvider.notifier).state = widget.article!.material!;
 
       navigatorKey.currentState!.pop();
@@ -121,8 +119,7 @@ class _AdminCourseArticleFormPageState
         child: IconButton(
           onPressed: () {
             if (!showPreview) {
-              ref.read(titleProvider.notifier).state =
-                  formKey.currentState!.fields['title']!.value;
+              ref.read(titleProvider.notifier).state = formKey.currentState!.fields['title']!.value;
               ref.read(durationProvider.notifier).state =
                   formKey.currentState!.fields['duration']!.value;
               ref.read(materialProvider.notifier).state =

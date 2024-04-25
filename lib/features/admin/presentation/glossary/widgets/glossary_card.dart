@@ -61,9 +61,7 @@ class GlossaryCard extends ConsumerWidget {
               onPressedPrimaryButton: () {
                 navigatorKey.currentState!.pop();
 
-                ref
-                    .read(glossaryActionsProvider.notifier)
-                    .deleteGlossary(id: glossary.id!);
+                ref.read(glossaryActionsProvider.notifier).deleteGlossary(id: glossary.id!);
               },
             ),
             tooltip: 'Hapus',

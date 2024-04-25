@@ -123,9 +123,7 @@ class _AdsCarouselState extends ConsumerState<AdsCarousel> {
                           margin: const EdgeInsets.symmetric(horizontal: 2),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(6),
-                            color: carouselIndex == index
-                                ? primaryColor
-                                : secondaryTextColor,
+                            color: carouselIndex == index ? primaryColor : secondaryTextColor,
                           ),
                         ),
                       ),

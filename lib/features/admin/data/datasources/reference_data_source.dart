@@ -22,8 +22,7 @@ abstract class ReferenceDataSource {
   Future<void> createDiscussionCategory({required String name});
 
   /// Edit discussion category
-  Future<void> editDiscussionCategory(
-      {required DiscussionCategoryModel category});
+  Future<void> editDiscussionCategory({required DiscussionCategoryModel category});
 
   /// Delete discussion category
   Future<void> deleteDiscussionCategory({required int id});
@@ -62,8 +61,7 @@ class ReferenceDataSourceImpl implements ReferenceDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/discussion-categories'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -88,8 +86,7 @@ class ReferenceDataSourceImpl implements ReferenceDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/discussion-categories'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
         body: jsonEncode({'name': name}),
       );
@@ -105,15 +102,13 @@ class ReferenceDataSourceImpl implements ReferenceDataSource {
   }
 
   @override
-  Future<void> editDiscussionCategory(
-      {required DiscussionCategoryModel category}) async {
+  Future<void> editDiscussionCategory({required DiscussionCategoryModel category}) async {
     try {
       final response = await client.put(
         Uri.parse('${ApiConfigs.baseUrl}/discussion-categories/${category.id}'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
         body: jsonEncode({'name': category.name}),
       );
@@ -135,8 +130,7 @@ class ReferenceDataSourceImpl implements ReferenceDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/discussion-categories/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -157,8 +151,7 @@ class ReferenceDataSourceImpl implements ReferenceDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/faqs'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -186,8 +179,7 @@ class ReferenceDataSourceImpl implements ReferenceDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/faqs'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
         body: jsonEncode({
           'question': question,
@@ -212,8 +204,7 @@ class ReferenceDataSourceImpl implements ReferenceDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/faqs/${faq.id}'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
         body: jsonEncode({
           'question': faq.question,
@@ -238,8 +229,7 @@ class ReferenceDataSourceImpl implements ReferenceDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/faqs/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -260,8 +250,7 @@ class ReferenceDataSourceImpl implements ReferenceDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/contact-us'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -284,8 +273,7 @@ class ReferenceDataSourceImpl implements ReferenceDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/contact-us'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
         body: contact.toJson(),
       );

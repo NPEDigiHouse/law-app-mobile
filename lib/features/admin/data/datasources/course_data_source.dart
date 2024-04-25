@@ -132,7 +132,7 @@ abstract class CourseDataSource {
   /// Check quiz score
   Future<QuizResultModel> checkScore({
     required int quizId,
-    required List<Map<String, int>> answers,
+    required List<Map<String, int?>> answers,
   });
 }
 
@@ -148,15 +148,13 @@ class CourseDataSourceImpl implements CourseDataSource {
     int? limit,
   }) async {
     try {
-      final queryParams =
-          'term=$query&offset=${offset ?? ''}&limit=${limit ?? ''}';
+      final queryParams = 'term=$query&offset=${offset ?? ''}&limit=${limit ?? ''}';
 
       final response = await client.get(
         Uri.parse('${ApiConfigs.baseUrl}/courses?$queryParams'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -181,8 +179,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/courses/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -216,8 +213,7 @@ class CourseDataSourceImpl implements CourseDataSource {
           'description': course.description,
         })
         ..files.add(coverFile)
-        ..headers[HttpHeaders.authorizationHeader] =
-            'Bearer ${CredentialSaver.accessToken}';
+        ..headers[HttpHeaders.authorizationHeader] = 'Bearer ${CredentialSaver.accessToken}';
 
       final streamedResponse = await client.send(request);
       final response = await http.Response.fromStream(streamedResponse);
@@ -242,8 +238,7 @@ class CourseDataSourceImpl implements CourseDataSource {
           'title': '${course.title}',
           'description': '${course.description}',
         })
-        ..headers[HttpHeaders.authorizationHeader] =
-            'Bearer ${CredentialSaver.accessToken}';
+        ..headers[HttpHeaders.authorizationHeader] = 'Bearer ${CredentialSaver.accessToken}';
 
       if (course.coverImg != null) {
         final file = await http.MultipartFile.fromPath(
@@ -274,8 +269,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/courses/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -296,8 +290,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/curriculums/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -314,15 +307,13 @@ class CourseDataSourceImpl implements CourseDataSource {
   }
 
   @override
-  Future<void> createCurriculum(
-      {required CurriculumPostModel curriculum}) async {
+  Future<void> createCurriculum({required CurriculumPostModel curriculum}) async {
     try {
       final response = await client.post(
         Uri.parse('${ApiConfigs.baseUrl}/curriculums'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
         body: curriculum.toJson(),
       );
@@ -344,8 +335,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/curriculums/${curriculum.id}'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
         body: jsonEncode({'title': curriculum.title}),
       );
@@ -367,8 +357,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/curriculums/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -389,8 +378,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/articles/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -413,8 +401,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/articles'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
         body: article.toJson(),
       );
@@ -436,8 +423,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/articles/${article.id}'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
         body: jsonEncode({
           'title': article.title,
@@ -463,8 +449,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/articles/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -485,8 +470,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/quizes/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -509,8 +493,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/quizes'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
         body: quiz.toJson(),
       );
@@ -532,8 +515,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/quizes/${quiz.id}'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
         body: jsonEncode({
           'title': quiz.title,
@@ -559,8 +541,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/quizes/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -581,8 +562,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/quiz-questions?quizId=$quizId'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -607,8 +587,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/quiz-questions/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -631,8 +610,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/quiz-questions'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
         body: question.toJson(),
       );
@@ -654,8 +632,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/quiz-questions/${question.id}'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
         body: jsonEncode({
           'title': question.title,
@@ -680,8 +657,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/quiz-questions/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -704,8 +680,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         ),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -730,8 +705,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/quiz-question-options'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
         body: option.toJson(),
       );
@@ -753,8 +727,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/quiz-question-options/${option.id}'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
         body: jsonEncode({'title': option.title}),
       );
@@ -776,8 +749,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/quiz-question-options/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -803,8 +775,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/user-courses?$queryParams'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -829,8 +800,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/user-courses/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -853,8 +823,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/user-courses'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
         body: jsonEncode({'courseId': courseId}),
       );
@@ -880,8 +849,7 @@ class CourseDataSourceImpl implements CourseDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/user-courses/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
         body: jsonEncode({
           'currentCurriculumSequence': currentCurriculumSequence,
@@ -902,15 +870,14 @@ class CourseDataSourceImpl implements CourseDataSource {
   @override
   Future<QuizResultModel> checkScore({
     required int quizId,
-    required List<Map<String, int>> answers,
+    required List<Map<String, int?>> answers,
   }) async {
     try {
       final response = await client.post(
         Uri.parse('${ApiConfigs.baseUrl}/quizes/check-score/$quizId'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
         body: jsonEncode(answers),
       );

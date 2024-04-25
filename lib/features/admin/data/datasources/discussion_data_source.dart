@@ -81,8 +81,7 @@ class DiscussionDataSourceImpl implements DiscussionDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/auth/user-discussions?$queryParams'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -117,8 +116,7 @@ class DiscussionDataSourceImpl implements DiscussionDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/user-discussions?$queryParams'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -143,8 +141,7 @@ class DiscussionDataSourceImpl implements DiscussionDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/user-discussions/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -161,15 +158,13 @@ class DiscussionDataSourceImpl implements DiscussionDataSource {
   }
 
   @override
-  Future<void> createDiscussion(
-      {required DiscussionPostModel discussion}) async {
+  Future<void> createDiscussion({required DiscussionPostModel discussion}) async {
     try {
       final response = await client.post(
         Uri.parse('${ApiConfigs.baseUrl}/user-discussions'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
         body: discussion.toJson(),
       );
@@ -202,8 +197,7 @@ class DiscussionDataSourceImpl implements DiscussionDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/user-discussions/$discussionId'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
         body: jsonEncode(body),
       );
@@ -225,8 +219,7 @@ class DiscussionDataSourceImpl implements DiscussionDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/user-discussions/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -251,8 +244,7 @@ class DiscussionDataSourceImpl implements DiscussionDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/discussion-comments'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
         body: jsonEncode({
           'userId': userId,

@@ -96,9 +96,7 @@ class BookManagementCategoryPage extends ConsumerWidget {
             onSubmitted: (value) {
               navigatorKey.currentState!.pop();
 
-              ref
-                  .read(bookCategoryProvider.notifier)
-                  .createBookCategory(name: value['name']);
+              ref.read(bookCategoryProvider.notifier).createBookCategory(name: value['name']);
             },
           ),
           icon: SvgAsset(

@@ -62,8 +62,7 @@ class UserPostModel extends Equatable {
     };
 
     if (birthDate != null) {
-      data['birthDate'] =
-          birthDate!.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'");
+      data['birthDate'] = birthDate!.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'");
     }
 
     if (phoneNumber != null) {

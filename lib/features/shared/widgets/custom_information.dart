@@ -25,9 +25,7 @@ class CustomInformation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return withScaffold
-        ? Scaffold(body: buildCustomInformation())
-        : buildCustomInformation();
+    return withScaffold ? Scaffold(body: buildCustomInformation()) : buildCustomInformation();
   }
 
   Center buildCustomInformation() {

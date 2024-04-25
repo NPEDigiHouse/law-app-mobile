@@ -34,12 +34,10 @@ class AdminCourseQuestionFormPage extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<AdminCourseQuestionFormPage> createState() =>
-      _AdminCourseQuestionFormPageState();
+  ConsumerState<AdminCourseQuestionFormPage> createState() => _AdminCourseQuestionFormPageState();
 }
 
-class _AdminCourseQuestionFormPageState
-    extends ConsumerState<AdminCourseQuestionFormPage> {
+class _AdminCourseQuestionFormPageState extends ConsumerState<AdminCourseQuestionFormPage> {
   late final GlobalKey<FormBuilderState> formKey;
   late final ValueNotifier<int?> correctOptionId;
   late final ValueNotifier<String?> questionTitle;

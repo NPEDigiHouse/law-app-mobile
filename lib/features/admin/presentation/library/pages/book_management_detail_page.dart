@@ -87,9 +87,7 @@ class BookManagementDetailPage extends ConsumerWidget {
                               navigatorKey.currentState!.pop();
                               navigatorKey.currentState!.pop();
 
-                              ref
-                                  .read(bookActionsProvider.notifier)
-                                  .deleteBook(id: id);
+                              ref.read(bookActionsProvider.notifier).deleteBook(id: id);
                             },
                           );
                         },
@@ -150,7 +148,8 @@ class BookManagementDetailPage extends ConsumerWidget {
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: textTheme.bodySmall!.copyWith(
-                                              color: scaffoldBackgroundColor),
+                                            color: scaffoldBackgroundColor,
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -172,7 +171,8 @@ class BookManagementDetailPage extends ConsumerWidget {
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: textTheme.bodySmall!.copyWith(
-                                              color: scaffoldBackgroundColor),
+                                            color: scaffoldBackgroundColor,
+                                          ),
                                         ),
                                       ),
                                     ],

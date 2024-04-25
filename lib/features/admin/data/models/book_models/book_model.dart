@@ -67,8 +67,7 @@ class BookModel extends Equatable {
       'synopsis': synopsis,
       'writer': writer,
       'publisher': publisher,
-      'releaseDate':
-          releaseDate?.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
+      'releaseDate': releaseDate?.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'"),
       'pageAmt': pageAmt,
       'coverImage': coverImage,
       'bookUrl': bookUrl,

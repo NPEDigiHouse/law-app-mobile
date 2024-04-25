@@ -12,19 +12,16 @@ part 'book_detail_provider.g.dart';
 @riverpod
 class BookDetail extends _$BookDetail {
   @override
-  Future<({BookModel? book, BookSavedModel? savedBook})> build(
-      {required int id}) async {
+  Future<({BookModel? book, BookSavedModel? savedBook})> build({required int id}) async {
     BookModel? book;
     BookSavedModel? savedBook;
 
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(bookRepositoryProvider).getBookDetail(id: id);
+    final result = await ref.watch(bookRepositoryProvider).getBookDetail(id: id);
 
-    final result2 = await ref
-        .watch(bookRepositoryProvider)
-        .getSavedBooks(userId: CredentialSaver.user!.id!);
+    final result2 =
+        await ref.watch(bookRepositoryProvider).getSavedBooks(userId: CredentialSaver.user!.id!);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

@@ -75,9 +75,7 @@ class AnswerDiscussionDialog extends ConsumerWidget {
     if (formKey.currentState!.saveAndValidate()) {
       final data = formKey.currentState!.value;
 
-      ref
-          .read(createDiscussionCommentProvider.notifier)
-          .createDiscussionComment(
+      ref.read(createDiscussionCommentProvider.notifier).createDiscussionComment(
             discussionId: discussion.id!,
             userId: CredentialSaver.user!.id!,
             text: data['text'],

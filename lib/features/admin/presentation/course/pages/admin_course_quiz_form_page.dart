@@ -43,12 +43,11 @@ class AdminCourseQuizFormPage extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<AdminCourseQuizFormPage> createState() =>
-      _AdminCourseQuizFormPageState();
+  ConsumerState<AdminCourseQuizFormPage> createState() => _AdminCourseQuizFormPageState();
 }
 
-class _AdminCourseQuizFormPageState
-    extends ConsumerState<AdminCourseQuizFormPage> with AfterLayoutMixin {
+class _AdminCourseQuizFormPageState extends ConsumerState<AdminCourseQuizFormPage>
+    with AfterLayoutMixin {
   final GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
   @override
@@ -57,8 +56,7 @@ class _AdminCourseQuizFormPageState
       context.showLoadingDialog();
 
       ref.read(titleProvider.notifier).state = widget.quiz!.title!;
-      ref.read(durationProvider.notifier).state =
-          widget.quiz!.duration!.toString();
+      ref.read(durationProvider.notifier).state = widget.quiz!.duration!.toString();
       ref.read(materialProvider.notifier).state = widget.quiz!.description!;
 
       navigatorKey.currentState!.pop();
@@ -121,8 +119,7 @@ class _AdminCourseQuizFormPageState
         child: IconButton(
           onPressed: () {
             if (!showPreview) {
-              ref.read(titleProvider.notifier).state =
-                  formKey.currentState!.fields['title']!.value;
+              ref.read(titleProvider.notifier).state = formKey.currentState!.fields['title']!.value;
               ref.read(durationProvider.notifier).state =
                   formKey.currentState!.fields['duration']!.value;
               ref.read(materialProvider.notifier).state =

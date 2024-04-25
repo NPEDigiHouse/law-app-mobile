@@ -15,8 +15,7 @@ class UserDetail extends _$UserDetail {
 
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(masterDataRepositoryProvider).getUserDetail(id: id);
+    final result = await ref.watch(masterDataRepositoryProvider).getUserDetail(id: id);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

@@ -29,16 +29,17 @@ class TeacherDiscussions extends _$TeacherDiscussions {
 
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(discussionRepositoryProvider).getUserDiscussions();
+    final result = await ref.watch(discussionRepositoryProvider).getUserDiscussions();
 
-    final result2 = await ref
-        .watch(discussionRepositoryProvider)
-        .getDiscussions(limit: kPageLimit, type: 'general');
+    final result2 = await ref.watch(discussionRepositoryProvider).getDiscussions(
+          limit: kPageLimit,
+          type: 'general',
+        );
 
-    final result3 = await ref
-        .watch(discussionRepositoryProvider)
-        .getDiscussions(type: 'specific', status: 'open');
+    final result3 = await ref.watch(discussionRepositoryProvider).getDiscussions(
+          type: 'specific',
+          status: 'open',
+        );
 
     ref.listen(userCredentialProvider, (_, state) {
       state.whenOrNull(

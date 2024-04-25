@@ -100,8 +100,7 @@ class BookDataSourceImpl implements BookDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/book-categories'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -126,8 +125,7 @@ class BookDataSourceImpl implements BookDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/book-categories'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
         body: jsonEncode({'name': name}),
       );
@@ -149,8 +147,7 @@ class BookDataSourceImpl implements BookDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/book-categories/${category.id}'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
         body: jsonEncode({'name': category.name}),
       );
@@ -172,8 +169,7 @@ class BookDataSourceImpl implements BookDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/book-categories/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -202,8 +198,7 @@ class BookDataSourceImpl implements BookDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/books?$queryParams'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -228,8 +223,7 @@ class BookDataSourceImpl implements BookDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/books/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -270,8 +264,7 @@ class BookDataSourceImpl implements BookDataSource {
       )
         ..fields.addAll(book.toMap())
         ..files.addAll([bookFile, imageFile])
-        ..headers[HttpHeaders.authorizationHeader] =
-            'Bearer ${CredentialSaver.accessToken}';
+        ..headers[HttpHeaders.authorizationHeader] = 'Bearer ${CredentialSaver.accessToken}';
 
       final streamedResponse = await client.send(request);
       final response = await http.Response.fromStream(streamedResponse);
@@ -303,8 +296,7 @@ class BookDataSourceImpl implements BookDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/books/${type.name}/$id'),
       )
         ..files.add(file)
-        ..headers[HttpHeaders.authorizationHeader] =
-            'Bearer ${CredentialSaver.accessToken}';
+        ..headers[HttpHeaders.authorizationHeader] = 'Bearer ${CredentialSaver.accessToken}';
 
       final streamedResponse = await client.send(request);
       final response = await http.Response.fromStream(streamedResponse);
@@ -325,8 +317,7 @@ class BookDataSourceImpl implements BookDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/books/${book.id}'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
         body: jsonEncode({
           'title': book.title,
@@ -335,8 +326,7 @@ class BookDataSourceImpl implements BookDataSource {
           'publisher': book.publisher,
           'pageAmt': book.pageAmt,
           'categoryId': book.category?.id,
-          'releaseDate':
-              '${book.releaseDate?.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'")}',
+          'releaseDate': '${book.releaseDate?.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'")}',
         }),
       );
 
@@ -357,8 +347,7 @@ class BookDataSourceImpl implements BookDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/books/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -379,8 +368,7 @@ class BookDataSourceImpl implements BookDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/saved-books?userId=$userId'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -405,8 +393,7 @@ class BookDataSourceImpl implements BookDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/saved-books'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
         body: jsonEncode({'bookId': bookId}),
       );
@@ -428,8 +415,7 @@ class BookDataSourceImpl implements BookDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/saved-books/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -452,8 +438,7 @@ class BookDataSourceImpl implements BookDataSource {
         ),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -478,8 +463,7 @@ class BookDataSourceImpl implements BookDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/user-reads'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
         body: jsonEncode({'bookId': bookId}),
       );
@@ -504,8 +488,7 @@ class BookDataSourceImpl implements BookDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/user-reads?bookId=$bookId'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
         body: jsonEncode({'currentPage': currentPage}),
       );
@@ -527,8 +510,7 @@ class BookDataSourceImpl implements BookDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/user-reads?bookId=$bookId'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 

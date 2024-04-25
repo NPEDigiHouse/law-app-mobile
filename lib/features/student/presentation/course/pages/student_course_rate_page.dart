@@ -11,14 +11,14 @@ import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
 import 'package:law_app/core/utils/keys.dart';
-import 'package:law_app/dummies_data.dart';
+import 'package:law_app/features/admin/data/models/course_models/course_model.dart';
 import 'package:law_app/features/shared/widgets/form_field/custom_text_field.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
 class StudentCourseRatePage extends StatelessWidget {
-  final CourseDetail courseDetail;
+  final CourseModel course;
 
-  const StudentCourseRatePage({super.key, required this.courseDetail});
+  const StudentCourseRatePage({super.key, required this.course});
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class StudentCourseRatePage extends StatelessWidget {
                     ),
                   ),
                   child: Image.asset(
-                    AssetPath.getImage(courseDetail.image),
+                    AssetPath.getImage(course.coverImg!),
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -76,7 +76,7 @@ class StudentCourseRatePage extends StatelessWidget {
                   right: 20,
                   bottom: 20,
                   child: Text(
-                    courseDetail.title,
+                    '${course.title}',
                     style: textTheme.headlineSmall!.copyWith(
                       color: scaffoldBackgroundColor,
                     ),

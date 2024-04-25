@@ -106,16 +106,13 @@ class _CustomTextFieldState extends State<CustomTextField> {
         hintText: widget.hintText,
         prefixIcon: buildPrefixIcon(),
         suffixIcon: buildSuffixIcon(),
-        hintStyle: widget.isSmall
-            ? textTheme.bodyMedium!.copyWith(color: secondaryTextColor)
-            : null,
-        contentPadding: widget.isSmall
-            ? const EdgeInsets.fromLTRB(16, 12, 16, 12)
-            : const EdgeInsets.all(16),
+        hintStyle:
+            widget.isSmall ? textTheme.bodyMedium!.copyWith(color: secondaryTextColor) : null,
+        contentPadding:
+            widget.isSmall ? const EdgeInsets.fromLTRB(16, 12, 16, 12) : const EdgeInsets.all(16),
       ),
-      validator: widget.validators != null
-          ? FormBuilderValidators.compose(widget.validators!)
-          : null,
+      validator:
+          widget.validators != null ? FormBuilderValidators.compose(widget.validators!) : null,
       onTap: widget.onTap,
     );
   }

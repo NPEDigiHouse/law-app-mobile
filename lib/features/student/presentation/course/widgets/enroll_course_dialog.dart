@@ -25,9 +25,7 @@ class EnrollCourseDialog extends ConsumerWidget {
       onPressedPrimaryButton: () {
         navigatorKey.currentState!.pop();
 
-        ref
-            .read(userCourseActionsProvider.notifier)
-            .createUserCourse(courseId: course.id!);
+        ref.read(userCourseActionsProvider.notifier).createUserCourse(courseId: course.id!);
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -57,8 +57,7 @@ class MasterDataSourceImpl implements MasterDataSource {
         ),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -83,8 +82,7 @@ class MasterDataSourceImpl implements MasterDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/users/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -108,8 +106,7 @@ class MasterDataSourceImpl implements MasterDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/auth/signup'),
       )
         ..fields.addAll(user.toMap())
-        ..headers[HttpHeaders.authorizationHeader] =
-            'Bearer ${CredentialSaver.accessToken}';
+        ..headers[HttpHeaders.authorizationHeader] = 'Bearer ${CredentialSaver.accessToken}';
 
       final streamedResponse = await client.send(request);
       final response = await http.Response.fromStream(streamedResponse);
@@ -129,13 +126,11 @@ class MasterDataSourceImpl implements MasterDataSource {
       final data = {
         'name': '${user.name}',
         'email': '${user.email}',
-        'teacherDiscussionCategoryIds':
-            '${user.expertises?.map((e) => e.id).toList()}',
+        'teacherDiscussionCategoryIds': '${user.expertises?.map((e) => e.id).toList()}',
       };
 
       if (user.birthDate != null) {
-        data['birthDate'] =
-            user.birthDate!.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'");
+        data['birthDate'] = user.birthDate!.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'");
       }
 
       if (user.phoneNumber != null) {
@@ -147,8 +142,7 @@ class MasterDataSourceImpl implements MasterDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/users/${user.id}'),
       )
         ..fields.addAll(data)
-        ..headers[HttpHeaders.authorizationHeader] =
-            'Bearer ${CredentialSaver.accessToken}';
+        ..headers[HttpHeaders.authorizationHeader] = 'Bearer ${CredentialSaver.accessToken}';
 
       final streamedResponse = await client.send(request);
       final response = await http.Response.fromStream(streamedResponse);
@@ -169,8 +163,7 @@ class MasterDataSourceImpl implements MasterDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/users/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 

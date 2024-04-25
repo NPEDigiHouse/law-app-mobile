@@ -15,13 +15,11 @@ class CurriculumActions extends _$CurriculumActions {
     return const AsyncValue.data(null);
   }
 
-  Future<void> createCurriculum(
-      {required CurriculumPostModel curriculum}) async {
+  Future<void> createCurriculum({required CurriculumPostModel curriculum}) async {
     state = const AsyncValue.loading();
 
-    final result = await ref
-        .watch(courseRepositoryProvider)
-        .createCurriculum(curriculum: curriculum);
+    final result =
+        await ref.watch(courseRepositoryProvider).createCurriculum(curriculum: curriculum);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
@@ -32,9 +30,7 @@ class CurriculumActions extends _$CurriculumActions {
   Future<void> editCurriculum({required CurriculumModel curriculum}) async {
     state = const AsyncValue.loading();
 
-    final result = await ref
-        .watch(courseRepositoryProvider)
-        .editCurriculum(curriculum: curriculum);
+    final result = await ref.watch(courseRepositoryProvider).editCurriculum(curriculum: curriculum);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
@@ -45,8 +41,7 @@ class CurriculumActions extends _$CurriculumActions {
   Future<void> deleteCurriculum({required int id}) async {
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(courseRepositoryProvider).deleteCurriculum(id: id);
+    final result = await ref.watch(courseRepositoryProvider).deleteCurriculum(id: id);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

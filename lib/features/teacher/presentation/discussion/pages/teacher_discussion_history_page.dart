@@ -234,8 +234,7 @@ class TeacherDiscussionHistoryPage extends ConsumerWidget {
             selected: {status},
             showSelectedIcon: false,
             onSelectionChanged: (newSelection) {
-              ref.read(historyStatusProvider.notifier).state =
-                  newSelection.first;
+              ref.read(historyStatusProvider.notifier).state = newSelection.first;
             },
           ),
           const SizedBox(height: 20),

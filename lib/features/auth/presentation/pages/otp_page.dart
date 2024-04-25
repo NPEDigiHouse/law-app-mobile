@@ -41,8 +41,7 @@ class OtpPage extends ConsumerStatefulWidget {
   ConsumerState<OtpPage> createState() => _OtpPageState();
 }
 
-class _OtpPageState extends ConsumerState<OtpPage>
-    with AfterLayoutMixin<OtpPage> {
+class _OtpPageState extends ConsumerState<OtpPage> with AfterLayoutMixin<OtpPage> {
   late final ValueNotifier<bool> isFilled;
 
   final formKey = GlobalKey<FormBuilderState>();
@@ -300,9 +299,7 @@ class _OtpPageState extends ConsumerState<OtpPage>
 
   void resendOtp() {
     ref.invalidate(askResetPasswordProvider);
-    ref
-        .read(askResetPasswordProvider.notifier)
-        .askResetPassword(email: widget.email);
+    ref.read(askResetPasswordProvider.notifier).askResetPassword(email: widget.email);
   }
 }
 

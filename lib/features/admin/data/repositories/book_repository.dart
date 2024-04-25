@@ -20,8 +20,7 @@ abstract class BookRepository {
   Future<Either<Failure, void>> createBookCategory({required String name});
 
   /// Edit book category
-  Future<Either<Failure, void>> editBookCategory(
-      {required BookCategoryModel category});
+  Future<Either<Failure, void>> editBookCategory({required BookCategoryModel category});
 
   /// Delete book category
   Future<Either<Failure, void>> deleteBookCategory({required int id});
@@ -58,8 +57,7 @@ abstract class BookRepository {
   Future<Either<Failure, void>> deleteBook({required int id});
 
   /// Get all saved books
-  Future<Either<Failure, List<BookSavedModel>>> getSavedBooks(
-      {required int userId});
+  Future<Either<Failure, List<BookSavedModel>>> getSavedBooks({required int userId});
 
   /// Save book
   Future<Either<Failure, void>> saveBook({required int bookId});
@@ -68,8 +66,7 @@ abstract class BookRepository {
   Future<Either<Failure, void>> unsaveBook({required int id});
 
   /// Get all user reads
-  Future<Either<Failure, List<BookModel>>> getUserReads(
-      {required bool isFinished});
+  Future<Either<Failure, List<BookModel>>> getUserReads({required bool isFinished});
 
   /// Create user read
   Future<Either<Failure, void>> createUserRead({required int bookId});
@@ -109,8 +106,7 @@ class BookRepositoryImpl implements BookRepository {
   }
 
   @override
-  Future<Either<Failure, void>> createBookCategory(
-      {required String name}) async {
+  Future<Either<Failure, void>> createBookCategory({required String name}) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await bookDataSource.createBookCategory(name: name);
@@ -125,12 +121,10 @@ class BookRepositoryImpl implements BookRepository {
   }
 
   @override
-  Future<Either<Failure, void>> editBookCategory(
-      {required BookCategoryModel category}) async {
+  Future<Either<Failure, void>> editBookCategory({required BookCategoryModel category}) async {
     if (await networkInfo.isConnected) {
       try {
-        final result =
-            await bookDataSource.editBookCategory(category: category);
+        final result = await bookDataSource.editBookCategory(category: category);
 
         return Right(result);
       } catch (e) {
@@ -273,8 +267,7 @@ class BookRepositoryImpl implements BookRepository {
   }
 
   @override
-  Future<Either<Failure, List<BookSavedModel>>> getSavedBooks(
-      {required int userId}) async {
+  Future<Either<Failure, List<BookSavedModel>>> getSavedBooks({required int userId}) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await bookDataSource.getSavedBooks(userId: userId);
@@ -319,12 +312,10 @@ class BookRepositoryImpl implements BookRepository {
   }
 
   @override
-  Future<Either<Failure, List<BookModel>>> getUserReads(
-      {required bool isFinished}) async {
+  Future<Either<Failure, List<BookModel>>> getUserReads({required bool isFinished}) async {
     if (await networkInfo.isConnected) {
       try {
-        final result =
-            await bookDataSource.getUserReads(isFinished: isFinished);
+        final result = await bookDataSource.getUserReads(isFinished: isFinished);
 
         return Right(result);
       } catch (e) {

@@ -33,8 +33,7 @@ class UserReadActions extends _$UserReadActions {
   Future<void> deleteUserRead({required int bookId}) async {
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(bookRepositoryProvider).deleteUserRead(bookId: bookId);
+    final result = await ref.watch(bookRepositoryProvider).deleteUserRead(bookId: bookId);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

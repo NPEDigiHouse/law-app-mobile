@@ -18,8 +18,7 @@ class QuizActions extends _$QuizActions {
   Future<void> createQuiz({required QuizPostModel quiz}) async {
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(courseRepositoryProvider).createQuiz(quiz: quiz);
+    final result = await ref.watch(courseRepositoryProvider).createQuiz(quiz: quiz);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
@@ -30,8 +29,7 @@ class QuizActions extends _$QuizActions {
   Future<void> editQuiz({required QuizModel quiz}) async {
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(courseRepositoryProvider).editQuiz(quiz: quiz);
+    final result = await ref.watch(courseRepositoryProvider).editQuiz(quiz: quiz);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

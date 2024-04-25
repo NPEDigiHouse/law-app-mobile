@@ -59,15 +59,13 @@ class GlossaryDataSourceImpl implements GlossaryDataSource {
     int? limit,
   }) async {
     try {
-      final queryParams =
-          'term=$query&offset=${offset ?? ''}&limit=${limit ?? ''}';
+      final queryParams = 'term=$query&offset=${offset ?? ''}&limit=${limit ?? ''}';
 
       final response = await client.get(
         Uri.parse('${ApiConfigs.baseUrl}/glosariums?$queryParams'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -92,8 +90,7 @@ class GlossaryDataSourceImpl implements GlossaryDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/glosariums/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -116,8 +113,7 @@ class GlossaryDataSourceImpl implements GlossaryDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/glosariums'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
         body: glossary.toJson(),
       );
@@ -139,8 +135,7 @@ class GlossaryDataSourceImpl implements GlossaryDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/glosariums/${glossary.id}'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
         body: jsonEncode({
           'title': glossary.title,
@@ -165,8 +160,7 @@ class GlossaryDataSourceImpl implements GlossaryDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/glosariums/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -187,8 +181,7 @@ class GlossaryDataSourceImpl implements GlossaryDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/glosariums-search-histories'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
         body: jsonEncode({'glosariumId': id}),
       );
@@ -210,8 +203,7 @@ class GlossaryDataSourceImpl implements GlossaryDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/glosariums-search-histories'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -236,8 +228,7 @@ class GlossaryDataSourceImpl implements GlossaryDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/glosariums-search-histories/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -258,8 +249,7 @@ class GlossaryDataSourceImpl implements GlossaryDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/glosariums-search-histories/all'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 

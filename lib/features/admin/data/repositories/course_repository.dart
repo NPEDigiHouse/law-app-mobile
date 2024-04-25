@@ -42,16 +42,13 @@ abstract class CourseRepository {
   Future<Either<Failure, void>> deleteCourse({required int id});
 
   /// Get curriculum detail
-  Future<Either<Failure, CurriculumModel>> getCurriculumDetail(
-      {required int id});
+  Future<Either<Failure, CurriculumModel>> getCurriculumDetail({required int id});
 
   /// Create curriculum
-  Future<Either<Failure, void>> createCurriculum(
-      {required CurriculumPostModel curriculum});
+  Future<Either<Failure, void>> createCurriculum({required CurriculumPostModel curriculum});
 
   /// Edit curriculum
-  Future<Either<Failure, void>> editCurriculum(
-      {required CurriculumModel curriculum});
+  Future<Either<Failure, void>> editCurriculum({required CurriculumModel curriculum});
 
   /// Delete curriculum
   Future<Either<Failure, void>> deleteCurriculum({required int id});
@@ -60,8 +57,7 @@ abstract class CourseRepository {
   Future<Either<Failure, ArticleModel>> getArticleDetail({required int id});
 
   /// Create article
-  Future<Either<Failure, void>> createArticle(
-      {required ArticlePostModel article});
+  Future<Either<Failure, void>> createArticle({required ArticlePostModel article});
 
   /// Edit article
   Future<Either<Failure, void>> editArticle({required ArticleModel article});
@@ -82,15 +78,13 @@ abstract class CourseRepository {
   Future<Either<Failure, void>> deleteQuiz({required int id});
 
   /// Get all questions by quizId
-  Future<Either<Failure, List<QuestionModel>>> getQuestions(
-      {required int quizId});
+  Future<Either<Failure, List<QuestionModel>>> getQuestions({required int quizId});
 
   /// Get question detail
   Future<Either<Failure, QuestionModel>> getQuestionDetail({required int id});
 
   /// Create question
-  Future<Either<Failure, void>> createQuestion(
-      {required QuestionPostModel question});
+  Future<Either<Failure, void>> createQuestion({required QuestionPostModel question});
 
   /// Edit question
   Future<Either<Failure, void>> editQuestion({required QuestionModel question});
@@ -99,8 +93,7 @@ abstract class CourseRepository {
   Future<Either<Failure, void>> deleteQuestion({required int id});
 
   /// Get all options by questionId
-  Future<Either<Failure, List<OptionModel>>> getOptions(
-      {required int questionId});
+  Future<Either<Failure, List<OptionModel>>> getOptions({required int questionId});
 
   /// Create option
   Future<Either<Failure, void>> createOption({required OptionPostModel option});
@@ -118,8 +111,7 @@ abstract class CourseRepository {
   });
 
   /// Get user course detail
-  Future<Either<Failure, UserCourseModel>> getUserCourseDetail(
-      {required int id});
+  Future<Either<Failure, UserCourseModel>> getUserCourseDetail({required int id});
 
   /// Create user course
   Future<Either<Failure, void>> createUserCourse({required int courseId});
@@ -134,7 +126,7 @@ abstract class CourseRepository {
   /// Check quiz score
   Future<Either<Failure, QuizResultModel>> checkScore({
     required int quizId,
-    required List<Map<String, int>> answers,
+    required List<Map<String, int?>> answers,
   });
 }
 
@@ -171,8 +163,7 @@ class CourseRepositoryImpl implements CourseRepository {
   }
 
   @override
-  Future<Either<Failure, CourseModel>> getCourseDetail(
-      {required int id}) async {
+  Future<Either<Failure, CourseModel>> getCourseDetail({required int id}) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await courseDataSource.getCourseDetail(id: id);
@@ -187,8 +178,7 @@ class CourseRepositoryImpl implements CourseRepository {
   }
 
   @override
-  Future<Either<Failure, void>> createCourse(
-      {required CoursePostModel course}) async {
+  Future<Either<Failure, void>> createCourse({required CoursePostModel course}) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await courseDataSource.createCourse(course: course);
@@ -203,8 +193,7 @@ class CourseRepositoryImpl implements CourseRepository {
   }
 
   @override
-  Future<Either<Failure, void>> editCourse(
-      {required CourseModel course}) async {
+  Future<Either<Failure, void>> editCourse({required CourseModel course}) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await courseDataSource.editCourse(course: course);
@@ -234,8 +223,7 @@ class CourseRepositoryImpl implements CourseRepository {
   }
 
   @override
-  Future<Either<Failure, CurriculumModel>> getCurriculumDetail(
-      {required int id}) async {
+  Future<Either<Failure, CurriculumModel>> getCurriculumDetail({required int id}) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await courseDataSource.getCurriculumDetail(id: id);
@@ -250,12 +238,10 @@ class CourseRepositoryImpl implements CourseRepository {
   }
 
   @override
-  Future<Either<Failure, void>> createCurriculum(
-      {required CurriculumPostModel curriculum}) async {
+  Future<Either<Failure, void>> createCurriculum({required CurriculumPostModel curriculum}) async {
     if (await networkInfo.isConnected) {
       try {
-        final result =
-            await courseDataSource.createCurriculum(curriculum: curriculum);
+        final result = await courseDataSource.createCurriculum(curriculum: curriculum);
 
         return Right(result);
       } catch (e) {
@@ -267,12 +253,10 @@ class CourseRepositoryImpl implements CourseRepository {
   }
 
   @override
-  Future<Either<Failure, void>> editCurriculum(
-      {required CurriculumModel curriculum}) async {
+  Future<Either<Failure, void>> editCurriculum({required CurriculumModel curriculum}) async {
     if (await networkInfo.isConnected) {
       try {
-        final result =
-            await courseDataSource.editCurriculum(curriculum: curriculum);
+        final result = await courseDataSource.editCurriculum(curriculum: curriculum);
 
         return Right(result);
       } catch (e) {
@@ -299,8 +283,7 @@ class CourseRepositoryImpl implements CourseRepository {
   }
 
   @override
-  Future<Either<Failure, ArticleModel>> getArticleDetail(
-      {required int id}) async {
+  Future<Either<Failure, ArticleModel>> getArticleDetail({required int id}) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await courseDataSource.getArticleDetail(id: id);
@@ -315,8 +298,7 @@ class CourseRepositoryImpl implements CourseRepository {
   }
 
   @override
-  Future<Either<Failure, void>> createArticle(
-      {required ArticlePostModel article}) async {
+  Future<Either<Failure, void>> createArticle({required ArticlePostModel article}) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await courseDataSource.createArticle(article: article);
@@ -331,8 +313,7 @@ class CourseRepositoryImpl implements CourseRepository {
   }
 
   @override
-  Future<Either<Failure, void>> editArticle(
-      {required ArticleModel article}) async {
+  Future<Either<Failure, void>> editArticle({required ArticleModel article}) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await courseDataSource.editArticle(article: article);
@@ -377,8 +358,7 @@ class CourseRepositoryImpl implements CourseRepository {
   }
 
   @override
-  Future<Either<Failure, void>> createQuiz(
-      {required QuizPostModel quiz}) async {
+  Future<Either<Failure, void>> createQuiz({required QuizPostModel quiz}) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await courseDataSource.createQuiz(quiz: quiz);
@@ -423,8 +403,7 @@ class CourseRepositoryImpl implements CourseRepository {
   }
 
   @override
-  Future<Either<Failure, List<QuestionModel>>> getQuestions(
-      {required int quizId}) async {
+  Future<Either<Failure, List<QuestionModel>>> getQuestions({required int quizId}) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await courseDataSource.getQuestions(quizId: quizId);
@@ -439,8 +418,7 @@ class CourseRepositoryImpl implements CourseRepository {
   }
 
   @override
-  Future<Either<Failure, QuestionModel>> getQuestionDetail(
-      {required int id}) async {
+  Future<Either<Failure, QuestionModel>> getQuestionDetail({required int id}) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await courseDataSource.getQuestionDetail(id: id);
@@ -455,12 +433,10 @@ class CourseRepositoryImpl implements CourseRepository {
   }
 
   @override
-  Future<Either<Failure, void>> createQuestion(
-      {required QuestionPostModel question}) async {
+  Future<Either<Failure, void>> createQuestion({required QuestionPostModel question}) async {
     if (await networkInfo.isConnected) {
       try {
-        final result =
-            await courseDataSource.createQuestion(question: question);
+        final result = await courseDataSource.createQuestion(question: question);
 
         return Right(result);
       } catch (e) {
@@ -472,8 +448,7 @@ class CourseRepositoryImpl implements CourseRepository {
   }
 
   @override
-  Future<Either<Failure, void>> editQuestion(
-      {required QuestionModel question}) async {
+  Future<Either<Failure, void>> editQuestion({required QuestionModel question}) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await courseDataSource.editQuestion(question: question);
@@ -503,12 +478,10 @@ class CourseRepositoryImpl implements CourseRepository {
   }
 
   @override
-  Future<Either<Failure, List<OptionModel>>> getOptions(
-      {required int questionId}) async {
+  Future<Either<Failure, List<OptionModel>>> getOptions({required int questionId}) async {
     if (await networkInfo.isConnected) {
       try {
-        final result =
-            await courseDataSource.getOptions(questionId: questionId);
+        final result = await courseDataSource.getOptions(questionId: questionId);
 
         return Right(result);
       } catch (e) {
@@ -520,8 +493,7 @@ class CourseRepositoryImpl implements CourseRepository {
   }
 
   @override
-  Future<Either<Failure, void>> createOption(
-      {required OptionPostModel option}) async {
+  Future<Either<Failure, void>> createOption({required OptionPostModel option}) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await courseDataSource.createOption(option: option);
@@ -536,8 +508,7 @@ class CourseRepositoryImpl implements CourseRepository {
   }
 
   @override
-  Future<Either<Failure, void>> editOption(
-      {required OptionModel option}) async {
+  Future<Either<Failure, void>> editOption({required OptionModel option}) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await courseDataSource.editOption(option: option);
@@ -588,8 +559,7 @@ class CourseRepositoryImpl implements CourseRepository {
   }
 
   @override
-  Future<Either<Failure, UserCourseModel>> getUserCourseDetail(
-      {required int id}) async {
+  Future<Either<Failure, UserCourseModel>> getUserCourseDetail({required int id}) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await courseDataSource.getUserCourseDetail(id: id);
@@ -604,12 +574,10 @@ class CourseRepositoryImpl implements CourseRepository {
   }
 
   @override
-  Future<Either<Failure, void>> createUserCourse(
-      {required int courseId}) async {
+  Future<Either<Failure, void>> createUserCourse({required int courseId}) async {
     if (await networkInfo.isConnected) {
       try {
-        final result =
-            await courseDataSource.createUserCourse(courseId: courseId);
+        final result = await courseDataSource.createUserCourse(courseId: courseId);
 
         return Right(result);
       } catch (e) {
@@ -646,7 +614,7 @@ class CourseRepositoryImpl implements CourseRepository {
   @override
   Future<Either<Failure, QuizResultModel>> checkScore({
     required int quizId,
-    required List<Map<String, int>> answers,
+    required List<Map<String, int?>> answers,
   }) async {
     if (await networkInfo.isConnected) {
       try {

@@ -45,12 +45,11 @@ class StudentCourseArticlePage extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<StudentCourseArticlePage> createState() =>
-      _StudentCourseArticlePageState();
+  ConsumerState<StudentCourseArticlePage> createState() => _StudentCourseArticlePageState();
 }
 
-class _StudentCourseArticlePageState
-    extends ConsumerState<StudentCourseArticlePage> with AfterLayoutMixin {
+class _StudentCourseArticlePageState extends ConsumerState<StudentCourseArticlePage>
+    with AfterLayoutMixin {
   UserCourseModel? userCourse;
 
   @override
@@ -66,11 +65,9 @@ class _StudentCourseArticlePageState
 
       if (userCourse != null) {
         if (userCourse!.currentMaterialSequence == widget.totalMaterials - 1 &&
-            userCourse!.currentCurriculumSequence ==
-                widget.curriculumSequenceNumber) {
+            userCourse!.currentCurriculumSequence == widget.curriculumSequenceNumber) {
           updateCurriculumSequence();
-        } else if (userCourse!.currentMaterialSequence ==
-            widget.materialSequenceNumber) {
+        } else if (userCourse!.currentMaterialSequence == widget.materialSequenceNumber) {
           updateMaterialSequence();
         }
       }

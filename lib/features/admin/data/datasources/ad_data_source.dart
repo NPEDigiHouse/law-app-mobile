@@ -44,8 +44,7 @@ class AdDataSourceImpl implements AdDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/ads'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -70,8 +69,7 @@ class AdDataSourceImpl implements AdDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/ads/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -105,8 +103,7 @@ class AdDataSourceImpl implements AdDataSource {
           'content': ad.content,
         })
         ..files.add(file)
-        ..headers[HttpHeaders.authorizationHeader] =
-            'Bearer ${CredentialSaver.accessToken}';
+        ..headers[HttpHeaders.authorizationHeader] = 'Bearer ${CredentialSaver.accessToken}';
 
       final streamedResponse = await client.send(request);
       final response = await http.Response.fromStream(streamedResponse);
@@ -131,8 +128,7 @@ class AdDataSourceImpl implements AdDataSource {
           'title': '${ad.title}',
           'content': '${ad.content}',
         })
-        ..headers[HttpHeaders.authorizationHeader] =
-            'Bearer ${CredentialSaver.accessToken}';
+        ..headers[HttpHeaders.authorizationHeader] = 'Bearer ${CredentialSaver.accessToken}';
 
       if (ad.imageName != null) {
         final file = await http.MultipartFile.fromPath(
@@ -163,8 +159,7 @@ class AdDataSourceImpl implements AdDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/ads/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 

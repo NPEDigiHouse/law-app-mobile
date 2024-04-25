@@ -20,12 +20,11 @@ class CreateDiscussionComment extends _$CreateDiscussionComment {
   }) async {
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(discussionRepositoryProvider).createDiscussionComment(
-              userId: userId,
-              discussionId: discussionId,
-              text: text,
-            );
+    final result = await ref.watch(discussionRepositoryProvider).createDiscussionComment(
+          userId: userId,
+          discussionId: discussionId,
+          text: text,
+        );
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

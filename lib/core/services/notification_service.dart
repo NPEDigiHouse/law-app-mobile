@@ -78,17 +78,14 @@ class NotificationService {
       onDidReceiveNotificationResponse: (details) {
         if (CredentialSaver.user != null) {
           navigatorKey.currentState!.pushNamed(
-            CredentialSaver.user!.role == 'admin'
-                ? adminHomeRoute
-                : mainMenuRoute,
+            CredentialSaver.user!.role == 'admin' ? adminHomeRoute : mainMenuRoute,
           );
         }
       },
     );
 
     await localNotifications
-        .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
+        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
 
     localNotifications.show(

@@ -74,9 +74,7 @@ class AdminQuestionCard extends ConsumerWidget {
               onPressedPrimaryButton: () {
                 navigatorKey.currentState!.pop();
 
-                ref
-                    .read(questionActionsProvider.notifier)
-                    .deleteQuestion(id: question.id!);
+                ref.read(questionActionsProvider.notifier).deleteQuestion(id: question.id!);
               },
             ),
             tooltip: 'Hapus',

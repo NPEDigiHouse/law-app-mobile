@@ -106,8 +106,7 @@ class GlossaryHomePage extends ConsumerWidget {
                       GestureDetector(
                         onTap: () => context.showConfirmDialog(
                           title: 'Konfirmasi',
-                          message:
-                              'Anda yakin ingin menghapus semua riwayat pencarian?',
+                          message: 'Anda yakin ingin menghapus semua riwayat pencarian?',
                           primaryButtonText: 'Hapus',
                           onPressedPrimaryButton: () {
                             navigatorKey.currentState!.pop();

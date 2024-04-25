@@ -30,10 +30,8 @@ class UserCourseModel extends Equatable {
       id: id ?? this.id,
       status: status ?? this.status,
       course: course ?? this.course,
-      currentCurriculumSequence:
-          currentCurriculumSequence ?? this.currentCurriculumSequence,
-      currentMaterialSequence:
-          currentMaterialSequence ?? this.currentMaterialSequence,
+      currentCurriculumSequence: currentCurriculumSequence ?? this.currentCurriculumSequence,
+      currentMaterialSequence: currentMaterialSequence ?? this.currentMaterialSequence,
     );
   }
 
@@ -51,9 +49,8 @@ class UserCourseModel extends Equatable {
     return UserCourseModel(
       id: map['id'] as int?,
       status: map['status'] as String?,
-      course: map['course'] != null
-          ? CourseModel.fromMap(map['course'] as Map<String, dynamic>)
-          : null,
+      course:
+          map['course'] != null ? CourseModel.fromMap(map['course'] as Map<String, dynamic>) : null,
       currentCurriculumSequence: map['currentCurriculumSequence'] as int?,
       currentMaterialSequence: map['currentMaterialSequence'] as int?,
     );

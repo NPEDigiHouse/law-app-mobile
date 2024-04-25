@@ -45,8 +45,7 @@ class ProfileDataSourceImpl implements ProfileDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/users/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
       );
 
@@ -71,13 +70,11 @@ class ProfileDataSourceImpl implements ProfileDataSource {
       final data = {
         'name': '${user.name}',
         'email': '${user.email}',
-        'teacherDiscussionCategoryIds':
-            '${user.expertises?.map((e) => e.id).toList()}',
+        'teacherDiscussionCategoryIds': '${user.expertises?.map((e) => e.id).toList()}',
       };
 
       if (user.birthDate != null) {
-        data['birthDate'] =
-            user.birthDate!.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'");
+        data['birthDate'] = user.birthDate!.toStringPattern("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'");
       }
 
       if (user.phoneNumber != null) {
@@ -89,8 +86,7 @@ class ProfileDataSourceImpl implements ProfileDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/users/${user.id}'),
       )
         ..fields.addAll(data)
-        ..headers[HttpHeaders.authorizationHeader] =
-            'Bearer ${CredentialSaver.accessToken}';
+        ..headers[HttpHeaders.authorizationHeader] = 'Bearer ${CredentialSaver.accessToken}';
 
       if (path != null) {
         final file = await http.MultipartFile.fromPath(
@@ -125,8 +121,7 @@ class ProfileDataSourceImpl implements ProfileDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/users/change-password'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Bearer ${CredentialSaver.accessToken}'
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
         body: jsonEncode({
           'email': email,

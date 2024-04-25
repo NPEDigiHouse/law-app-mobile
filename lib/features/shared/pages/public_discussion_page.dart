@@ -32,8 +32,7 @@ class PublicDiscussionPage extends ConsumerStatefulWidget {
   const PublicDiscussionPage({super.key});
 
   @override
-  ConsumerState<PublicDiscussionPage> createState() =>
-      _PublicDiscussionPageState();
+  ConsumerState<PublicDiscussionPage> createState() => _PublicDiscussionPageState();
 }
 
 class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
@@ -178,8 +177,7 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
                         label: labels[index],
                         selected: categoryId == categories[labels[index]],
                         onSelected: (_) {
-                          ref.read(categoryIdProvider.notifier).state =
-                              categories[labels[index]];
+                          ref.read(categoryIdProvider.notifier).state = categories[labels[index]];
                         },
                       );
                     },
@@ -203,9 +201,7 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
                     return const SliverFillRemaining();
                   }
 
-                  if (discussions.isEmpty &&
-                      isSearching &&
-                      query.trim().isNotEmpty) {
+                  if (discussions.isEmpty && isSearching && query.trim().isNotEmpty) {
                     return const SliverFillRemaining(
                       child: CustomInformation(
                         illustrationName: 'discussion-cuate.svg',
@@ -248,9 +244,7 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
                             ),
                           );
                         },
-                        childCount: hasMore
-                            ? discussions.length + 1
-                            : discussions.length,
+                        childCount: hasMore ? discussions.length + 1 : discussions.length,
                       ),
                     ),
                   );

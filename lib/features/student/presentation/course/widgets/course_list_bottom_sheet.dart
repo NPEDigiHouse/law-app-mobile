@@ -123,9 +123,7 @@ class CourseListBottomSheet extends ConsumerWidget {
                   ),
                 ),
                 if (userCourses != null)
-                  userCourses.isEmpty
-                      ? buildEmptyUserCourse()
-                      : buildUserCourseList(userCourses)
+                  userCourses.isEmpty ? buildEmptyUserCourse() : buildUserCourseList(userCourses)
                 else
                   const SliverFillRemaining(
                     child: LoadingIndicator(),

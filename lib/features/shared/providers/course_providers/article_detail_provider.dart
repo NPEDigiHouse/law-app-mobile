@@ -15,8 +15,7 @@ class ArticleDetail extends _$ArticleDetail {
 
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(courseRepositoryProvider).getArticleDetail(id: id);
+    final result = await ref.watch(courseRepositoryProvider).getArticleDetail(id: id);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

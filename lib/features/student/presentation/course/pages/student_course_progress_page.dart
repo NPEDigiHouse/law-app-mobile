@@ -186,18 +186,15 @@ class StudentCourseProgressPage extends ConsumerWidget {
                         course.curriculums!.length,
                         (index) => Padding(
                           padding: EdgeInsets.only(
-                            bottom:
-                                index == course.curriculums!.length - 1 ? 0 : 8,
+                            bottom: index == course.curriculums!.length - 1 ? 0 : 8,
                           ),
                           child: CurriculumCard(
                             showDetail: true,
                             curriculum: course.curriculums![index],
-                            isCompleted:
-                                course.curriculums![index].sequenceNumber! <
-                                    userCourse.currentCurriculumSequence!,
-                            isLocked:
-                                course.curriculums![index].sequenceNumber! >
-                                    userCourse.currentCurriculumSequence!,
+                            isCompleted: course.curriculums![index].sequenceNumber! <
+                                userCourse.currentCurriculumSequence!,
+                            isLocked: course.curriculums![index].sequenceNumber! >
+                                userCourse.currentCurriculumSequence!,
                             onTap: () => navigatorKey.currentState!.pushNamed(
                               studentCourseMaterialRoute,
                               arguments: StudentCourseMaterialPageArgs(
@@ -208,14 +205,6 @@ class StudentCourseProgressPage extends ConsumerWidget {
                           ),
                         ),
                       ),
-                      // const SizedBox(height: 12),
-                      // FilledButton(
-                      //   onPressed: () => navigatorKey.currentState!.pushNamed(
-                      //     studentCourseRateRoute,
-                      //     arguments: courseDetail,
-                      //   ),
-                      //   child: const Text('Dapatkan Sertifikat'),
-                      // ).fullWidth(),
                     ],
                   ),
                 ),

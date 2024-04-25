@@ -20,9 +20,10 @@ class ProfileActions extends _$ProfileActions {
   }) async {
     state = const AsyncValue.loading();
 
-    final result = await ref
-        .watch(profileRepositoryProvider)
-        .editProfile(user: user, path: path);
+    final result = await ref.watch(profileRepositoryProvider).editProfile(
+          user: user,
+          path: path,
+        );
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

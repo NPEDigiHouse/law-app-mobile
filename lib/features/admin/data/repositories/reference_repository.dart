@@ -12,16 +12,13 @@ import 'package:law_app/features/admin/data/models/reference_models/faq_model.da
 
 abstract class ReferenceRepository {
   /// Get discussion categories
-  Future<Either<Failure, List<DiscussionCategoryModel>>>
-      getDiscussionCategories();
+  Future<Either<Failure, List<DiscussionCategoryModel>>> getDiscussionCategories();
 
   /// Create discussion category
-  Future<Either<Failure, void>> createDiscussionCategory(
-      {required String name});
+  Future<Either<Failure, void>> createDiscussionCategory({required String name});
 
   /// Edit discussion category
-  Future<Either<Failure, void>> editDiscussionCategory(
-      {required DiscussionCategoryModel category});
+  Future<Either<Failure, void>> editDiscussionCategory({required DiscussionCategoryModel category});
 
   /// Delete discussion category
   Future<Either<Failure, void>> deleteDiscussionCategory({required int id});
@@ -45,8 +42,7 @@ abstract class ReferenceRepository {
   Future<Either<Failure, ContactUsModel?>> getContactUs();
 
   /// Edit contact us
-  Future<Either<Failure, void>> editContactUs(
-      {required ContactUsModel contact});
+  Future<Either<Failure, void>> editContactUs({required ContactUsModel contact});
 }
 
 class ReferenceRepositoryImpl implements ReferenceRepository {
@@ -59,8 +55,7 @@ class ReferenceRepositoryImpl implements ReferenceRepository {
   });
 
   @override
-  Future<Either<Failure, List<DiscussionCategoryModel>>>
-      getDiscussionCategories() async {
+  Future<Either<Failure, List<DiscussionCategoryModel>>> getDiscussionCategories() async {
     if (await networkInfo.isConnected) {
       try {
         final result = await referenceDataSource.getDiscussionCategories();
@@ -75,12 +70,10 @@ class ReferenceRepositoryImpl implements ReferenceRepository {
   }
 
   @override
-  Future<Either<Failure, void>> createDiscussionCategory(
-      {required String name}) async {
+  Future<Either<Failure, void>> createDiscussionCategory({required String name}) async {
     if (await networkInfo.isConnected) {
       try {
-        final result =
-            await referenceDataSource.createDiscussionCategory(name: name);
+        final result = await referenceDataSource.createDiscussionCategory(name: name);
 
         return Right(result);
       } catch (e) {
@@ -96,8 +89,7 @@ class ReferenceRepositoryImpl implements ReferenceRepository {
       {required DiscussionCategoryModel category}) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await referenceDataSource.editDiscussionCategory(
-            category: category);
+        final result = await referenceDataSource.editDiscussionCategory(category: category);
 
         return Right(result);
       } catch (e) {
@@ -109,12 +101,10 @@ class ReferenceRepositoryImpl implements ReferenceRepository {
   }
 
   @override
-  Future<Either<Failure, void>> deleteDiscussionCategory(
-      {required int id}) async {
+  Future<Either<Failure, void>> deleteDiscussionCategory({required int id}) async {
     if (await networkInfo.isConnected) {
       try {
-        final result =
-            await referenceDataSource.deleteDiscussionCategory(id: id);
+        final result = await referenceDataSource.deleteDiscussionCategory(id: id);
 
         return Right(result);
       } catch (e) {
@@ -207,12 +197,10 @@ class ReferenceRepositoryImpl implements ReferenceRepository {
   }
 
   @override
-  Future<Either<Failure, void>> editContactUs(
-      {required ContactUsModel contact}) async {
+  Future<Either<Failure, void>> editContactUs({required ContactUsModel contact}) async {
     if (await networkInfo.isConnected) {
       try {
-        final result =
-            await referenceDataSource.editContactUs(contact: contact);
+        final result = await referenceDataSource.editContactUs(contact: contact);
 
         return Right(result);
       } catch (e) {

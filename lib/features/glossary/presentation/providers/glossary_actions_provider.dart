@@ -18,9 +18,7 @@ class GlossaryActions extends _$GlossaryActions {
   Future<void> createGlossary({required GlossaryPostModel glossary}) async {
     state = const AsyncValue.loading();
 
-    final result = await ref
-        .watch(glossaryRepositoryProvider)
-        .createGlossary(glossary: glossary);
+    final result = await ref.watch(glossaryRepositoryProvider).createGlossary(glossary: glossary);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
@@ -31,9 +29,7 @@ class GlossaryActions extends _$GlossaryActions {
   Future<void> editGlossary({required GlossaryModel glossary}) async {
     state = const AsyncValue.loading();
 
-    final result = await ref
-        .watch(glossaryRepositoryProvider)
-        .editGlossary(glossary: glossary);
+    final result = await ref.watch(glossaryRepositoryProvider).editGlossary(glossary: glossary);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
@@ -44,8 +40,7 @@ class GlossaryActions extends _$GlossaryActions {
   Future<void> deleteGlossary({required int id}) async {
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(glossaryRepositoryProvider).deleteGlossary(id: id);
+    final result = await ref.watch(glossaryRepositoryProvider).deleteGlossary(id: id);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

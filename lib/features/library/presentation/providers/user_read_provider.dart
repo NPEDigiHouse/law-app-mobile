@@ -15,8 +15,7 @@ class UserRead extends _$UserRead {
 
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(bookRepositoryProvider).getUserReads(isFinished: true);
+    final result = await ref.watch(bookRepositoryProvider).getUserReads(isFinished: true);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

@@ -35,8 +35,7 @@ class LibraryReadBookPage extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<LibraryReadBookPage> createState() =>
-      _LibraryReadBookPageState();
+  ConsumerState<LibraryReadBookPage> createState() => _LibraryReadBookPageState();
 }
 
 class _LibraryReadBookPageState extends ConsumerState<LibraryReadBookPage> {
@@ -109,9 +108,7 @@ class _LibraryReadBookPageState extends ConsumerState<LibraryReadBookPage> {
                   child: IconButton(
                     onPressed: () {
                       if (currentPage > (widget.book.currentPage ?? 1)) {
-                        ref
-                            .read(userReadActionsProvider.notifier)
-                            .updateUserRead(
+                        ref.read(userReadActionsProvider.notifier).updateUserRead(
                               bookId: widget.book.id!,
                               currentPage: currentPage,
                             );
@@ -194,8 +191,7 @@ class _LibraryReadBookPageState extends ConsumerState<LibraryReadBookPage> {
           pageFling: false,
           preventLinkNavigation: true,
           onRender: (pages) {
-            ref.read(totalPagesProvider.notifier).state =
-                pages ?? widget.book.pageAmt!;
+            ref.read(totalPagesProvider.notifier).state = pages ?? widget.book.pageAmt!;
           },
           onViewCreated: (controller) async {
             pdfViewController = controller;

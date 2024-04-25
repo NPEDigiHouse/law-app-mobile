@@ -18,9 +18,7 @@ class ArticleActions extends _$ArticleActions {
   Future<void> createArticle({required ArticlePostModel article}) async {
     state = const AsyncValue.loading();
 
-    final result = await ref
-        .watch(courseRepositoryProvider)
-        .createArticle(article: article);
+    final result = await ref.watch(courseRepositoryProvider).createArticle(article: article);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
@@ -31,8 +29,7 @@ class ArticleActions extends _$ArticleActions {
   Future<void> editArticle({required ArticleModel article}) async {
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(courseRepositoryProvider).editArticle(article: article);
+    final result = await ref.watch(courseRepositoryProvider).editArticle(article: article);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
@@ -43,8 +40,7 @@ class ArticleActions extends _$ArticleActions {
   Future<void> deleteArticle({required int id}) async {
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(courseRepositoryProvider).deleteArticle(id: id);
+    final result = await ref.watch(courseRepositoryProvider).deleteArticle(id: id);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

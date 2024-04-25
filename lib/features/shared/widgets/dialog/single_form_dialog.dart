@@ -53,8 +53,7 @@ class SingleFormDialog extends StatelessWidget {
           hasSuffixIcon: false,
           maxLines: maxLines,
           textInputType: textInputType,
-          textInputAction:
-              maxLines > 1 ? TextInputAction.newline : TextInputAction.done,
+          textInputAction: maxLines > 1 ? TextInputAction.newline : TextInputAction.done,
           validators: [
             FormBuilderValidators.required(
               errorText: 'Bagian ini harus diisi',

@@ -33,9 +33,7 @@ class BookSavedModel extends Equatable {
   factory BookSavedModel.fromMap(Map<String, dynamic> map) {
     return BookSavedModel(
       id: map['id'] as int?,
-      book: map['book'] != null
-          ? BookModel.fromMap(map['book'] as Map<String, dynamic>)
-          : null,
+      book: map['book'] != null ? BookModel.fromMap(map['book'] as Map<String, dynamic>) : null,
     );
   }
 

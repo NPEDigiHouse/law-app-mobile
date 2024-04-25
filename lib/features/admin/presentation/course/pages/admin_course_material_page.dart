@@ -168,8 +168,7 @@ class AdminCourseMaterialPage extends ConsumerWidget {
                     curriculum.articles!.length,
                     (index) => Padding(
                       padding: EdgeInsets.only(
-                        bottom:
-                            index == curriculum.articles!.length - 1 ? 0 : 8,
+                        bottom: index == curriculum.articles!.length - 1 ? 0 : 8,
                       ),
                       child: AdminMaterialCard(
                         material: curriculum.articles![index],
@@ -177,8 +176,7 @@ class AdminCourseMaterialPage extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  if (curriculum.articles!.isNotEmpty)
-                    const SizedBox(height: 8),
+                  if (curriculum.articles!.isNotEmpty) const SizedBox(height: 8),
                   ...List<Padding>.generate(
                     curriculum.quizzes!.length,
                     (index) => Padding(

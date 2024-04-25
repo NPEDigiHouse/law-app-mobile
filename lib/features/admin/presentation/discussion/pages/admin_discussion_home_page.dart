@@ -28,12 +28,10 @@ class AdminDiscussionHomePage extends ConsumerStatefulWidget {
   const AdminDiscussionHomePage({super.key});
 
   @override
-  ConsumerState<AdminDiscussionHomePage> createState() =>
-      _AdminDiscussionHomePageState();
+  ConsumerState<AdminDiscussionHomePage> createState() => _AdminDiscussionHomePageState();
 }
 
-class _AdminDiscussionHomePageState
-    extends ConsumerState<AdminDiscussionHomePage> {
+class _AdminDiscussionHomePageState extends ConsumerState<AdminDiscussionHomePage> {
   late final ValueNotifier<DiscussionType> selectedType;
 
   @override
@@ -317,8 +315,7 @@ class _AdminDiscussionHomePageState
           onSelectionChanged: (newSelection) {
             selectedType.value = newSelection.first;
 
-            ref.read(discussionTypeProvider.notifier).state =
-                newSelection.first.name;
+            ref.read(discussionTypeProvider.notifier).state = newSelection.first.name;
           },
         );
       },

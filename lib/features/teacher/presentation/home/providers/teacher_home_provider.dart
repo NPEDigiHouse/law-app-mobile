@@ -14,19 +14,18 @@ part 'teacher_home_provider.g.dart';
 @riverpod
 class TeacherHome extends _$TeacherHome {
   @override
-  Future<({List<DiscussionModel>? discussions, List<BookModel>? books})>
-      build() async {
+  Future<({List<DiscussionModel>? discussions, List<BookModel>? books})> build() async {
     List<DiscussionModel>? discussions;
     List<BookModel>? books;
 
     state = const AsyncValue.loading();
 
-    final result = await ref
-        .watch(discussionRepositoryProvider)
-        .getDiscussions(type: 'specific', status: 'open');
+    final result = await ref.watch(discussionRepositoryProvider).getDiscussions(
+          type: 'specific',
+          status: 'open',
+        );
 
-    final result2 =
-        await ref.watch(bookRepositoryProvider).getBooks(limit: kPageLimit);
+    final result2 = await ref.watch(bookRepositoryProvider).getBooks(limit: kPageLimit);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

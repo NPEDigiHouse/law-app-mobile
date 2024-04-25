@@ -20,13 +20,12 @@ class UserDiscussions extends _$UserDiscussions {
 
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(discussionRepositoryProvider).getUserDiscussions(
-              query: query,
-              status: status,
-              type: type,
-              categoryId: categoryId,
-            );
+    final result = await ref.watch(discussionRepositoryProvider).getUserDiscussions(
+          query: query,
+          status: status,
+          type: type,
+          categoryId: categoryId,
+        );
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

@@ -88,9 +88,7 @@ class AdminOptionCard extends ConsumerWidget {
                 onPressedPrimaryButton: () {
                   navigatorKey.currentState!.pop();
 
-                  ref
-                      .read(optionActionsProvider.notifier)
-                      .deleteOption(id: option.id!);
+                  ref.read(optionActionsProvider.notifier).deleteOption(id: option.id!);
                 },
               ),
               tooltip: 'Hapus',

@@ -16,15 +16,12 @@ class GlossarySearchHistory extends _$GlossarySearchHistory {
 
     state = const AsyncValue.loading();
 
-    final result = await ref
-        .watch(glossaryRepositoryProvider)
-        .getGlossariesSearchHistory();
+    final result = await ref.watch(glossaryRepositoryProvider).getGlossariesSearchHistory();
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
       (r) {
-        final historiesSort = r
-          ..sort((a, b) => a.createdAt!.compareTo(b.createdAt!) * -1);
+        final historiesSort = r..sort((a, b) => a.createdAt!.compareTo(b.createdAt!) * -1);
 
         histories = historiesSort;
         state = AsyncValue.data(historiesSort);
@@ -37,9 +34,7 @@ class GlossarySearchHistory extends _$GlossarySearchHistory {
   Future<void> createGlossarySearchHistory({required int id}) async {
     state = const AsyncValue.loading();
 
-    final result = await ref
-        .watch(glossaryRepositoryProvider)
-        .createGlossarySearchHistory(id: id);
+    final result = await ref.watch(glossaryRepositoryProvider).createGlossarySearchHistory(id: id);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
@@ -50,9 +45,7 @@ class GlossarySearchHistory extends _$GlossarySearchHistory {
   Future<void> deleteGlossarySearchHistory({required int id}) async {
     state = const AsyncValue.loading();
 
-    final result = await ref
-        .watch(glossaryRepositoryProvider)
-        .deleteGlossarySearchHistory(id: id);
+    final result = await ref.watch(glossaryRepositoryProvider).deleteGlossarySearchHistory(id: id);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
@@ -63,9 +56,7 @@ class GlossarySearchHistory extends _$GlossarySearchHistory {
   Future<void> deleteAllGlossariesSearchHistory() async {
     state = const AsyncValue.loading();
 
-    final result = await ref
-        .watch(glossaryRepositoryProvider)
-        .deleteAllGlossariesSearchHistory();
+    final result = await ref.watch(glossaryRepositoryProvider).deleteAllGlossariesSearchHistory();
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

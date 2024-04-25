@@ -100,9 +100,7 @@ class AdminCurriculumCard extends ConsumerWidget {
                     onSubmitted: (value) {
                       navigatorKey.currentState!.pop();
 
-                      ref
-                          .read(curriculumActionsProvider.notifier)
-                          .editCurriculum(
+                      ref.read(curriculumActionsProvider.notifier).editCurriculum(
                             curriculum: curriculum.copyWith(
                               title: value['title'],
                             ),

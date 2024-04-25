@@ -12,19 +12,16 @@ part 'course_detail_provider.g.dart';
 @riverpod
 class CourseDetail extends _$CourseDetail {
   @override
-  Future<({CourseModel? course, UserCourseModel? userCourse})> build(
-      {required int id}) async {
+  Future<({CourseModel? course, UserCourseModel? userCourse})> build({required int id}) async {
     CourseModel? course;
     UserCourseModel? userCourse;
 
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(courseRepositoryProvider).getCourseDetail(id: id);
+    final result = await ref.watch(courseRepositoryProvider).getCourseDetail(id: id);
 
-    final result2 = await ref
-        .watch(courseRepositoryProvider)
-        .getUserCourses(userId: CredentialSaver.user!.id!);
+    final result2 =
+        await ref.watch(courseRepositoryProvider).getUserCourses(userId: CredentialSaver.user!.id!);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

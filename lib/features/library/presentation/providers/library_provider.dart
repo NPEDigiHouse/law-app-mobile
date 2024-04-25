@@ -17,11 +17,9 @@ class Library extends _$Library {
 
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(bookRepositoryProvider).getBooks(limit: kPageLimit);
+    final result = await ref.watch(bookRepositoryProvider).getBooks(limit: kPageLimit);
 
-    final result2 =
-        await ref.watch(bookRepositoryProvider).getUserReads(isFinished: false);
+    final result2 = await ref.watch(bookRepositoryProvider).getUserReads(isFinished: false);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

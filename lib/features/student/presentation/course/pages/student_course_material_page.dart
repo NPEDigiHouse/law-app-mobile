@@ -35,10 +35,8 @@ class StudentCourseMaterialPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final curriculum = ref.watch(CurriculumDetailProvider(id: curriculumId));
-    final userCourse = ref
-        .watch(UserCourseDetailProvider(id: userCourseId))
-        .unwrapPrevious()
-        .valueOrNull;
+    final userCourse =
+        ref.watch(UserCourseDetailProvider(id: userCourseId)).unwrapPrevious().valueOrNull;
 
     ref.watch(articlesProvider);
     ref.watch(quizesProvider);
@@ -122,8 +120,7 @@ class StudentCourseMaterialPage extends ConsumerWidget {
 
                     return Padding(
                       padding: EdgeInsets.only(
-                        bottom:
-                            index == curriculum.articles!.length - 1 ? 0 : 8,
+                        bottom: index == curriculum.articles!.length - 1 ? 0 : 8,
                       ),
                       child: MaterialCard(
                         userCourseId: userCourse?.id ?? 0,
@@ -141,8 +138,7 @@ class StudentCourseMaterialPage extends ConsumerWidget {
                           curriculum.sequenceNumber!,
                           materialSequenceNumber,
                         ),
-                        totalMaterials: curriculum.articles!.length +
-                            curriculum.quizzes!.length,
+                        totalMaterials: curriculum.articles!.length + curriculum.quizzes!.length,
                       ),
                     );
                   },
@@ -173,8 +169,7 @@ class StudentCourseMaterialPage extends ConsumerWidget {
                           curriculum.sequenceNumber!,
                           materialSequenceNumber,
                         ),
-                        totalMaterials: curriculum.articles!.length +
-                            curriculum.quizzes!.length,
+                        totalMaterials: curriculum.articles!.length + curriculum.quizzes!.length,
                       ),
                     );
                   },

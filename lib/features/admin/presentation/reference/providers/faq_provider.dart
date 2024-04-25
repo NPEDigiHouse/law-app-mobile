@@ -48,8 +48,7 @@ class Faq extends _$Faq {
   Future<void> editFAQ({required FAQModel faq}) async {
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(referenceRepositoryProvider).editFAQ(faq: faq);
+    final result = await ref.watch(referenceRepositoryProvider).editFAQ(faq: faq);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
@@ -60,8 +59,7 @@ class Faq extends _$Faq {
   Future<void> deleteFAQ({required int id}) async {
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(referenceRepositoryProvider).deleteFAQ(id: id);
+    final result = await ref.watch(referenceRepositoryProvider).deleteFAQ(id: id);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

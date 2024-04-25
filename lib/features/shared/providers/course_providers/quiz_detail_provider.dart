@@ -15,8 +15,7 @@ class QuizDetail extends _$QuizDetail {
 
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(courseRepositoryProvider).getQuizDetail(id: id);
+    final result = await ref.watch(courseRepositoryProvider).getQuizDetail(id: id);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

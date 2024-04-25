@@ -15,8 +15,7 @@ class GlossaryDetail extends _$GlossaryDetail {
 
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(glossaryRepositoryProvider).getGlossaryDetail(id: id);
+    final result = await ref.watch(glossaryRepositoryProvider).getGlossaryDetail(id: id);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

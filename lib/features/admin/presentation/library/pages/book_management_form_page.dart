@@ -51,8 +51,7 @@ class BookManagementFormPage extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<BookManagementFormPage> createState() =>
-      _BookManagementFormPageState();
+  ConsumerState<BookManagementFormPage> createState() => _BookManagementFormPageState();
 }
 
 class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
@@ -79,15 +78,13 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
     categories = result;
 
     if (widget.book != null) {
-      final coverPath =
-          await FileService.downloadFile(url: widget.book!.coverImage!);
+      final coverPath = await FileService.downloadFile(url: widget.book!.coverImage!);
 
       if (coverPath != null) {
         ref.read(coverPathProvider.notifier).state = coverPath;
       }
 
-      final filePath =
-          await FileService.downloadFile(url: widget.book!.bookUrl!);
+      final filePath = await FileService.downloadFile(url: widget.book!.bookUrl!);
 
       if (filePath != null) {
         ref.read(filePathProvider.notifier).state = filePath;
@@ -283,8 +280,7 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
                 name: 'releaseDate',
                 label: 'Tahun Terbit',
                 hintText: 'd MMMM yyyy',
-                initialValue:
-                    widget.book?.releaseDate?.toStringPattern('d MMMM yyyy'),
+                initialValue: widget.book?.releaseDate?.toStringPattern('d MMMM yyyy'),
                 hasPrefixIcon: false,
                 suffixIconName: 'calendar.svg',
                 textInputType: TextInputType.none,
@@ -312,21 +308,15 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
                         children: [
                           SvgAsset(
                             assetPath: AssetPath.getIcon('file-solid.svg'),
-                            color: bookFile != null
-                                ? primaryColor
-                                : secondaryTextColor,
+                            color: bookFile != null ? primaryColor : secondaryTextColor,
                             width: 24,
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            bookFile != null
-                                ? p.basename(bookFile)
-                                : 'Pilih Dokumen (.pdf)',
+                            bookFile != null ? p.basename(bookFile) : 'Pilih Dokumen (.pdf)',
                             textAlign: TextAlign.center,
                             style: textTheme.bodyMedium!.copyWith(
-                              color: bookFile != null
-                                  ? primaryColor
-                                  : secondaryTextColor,
+                              color: bookFile != null ? primaryColor : secondaryTextColor,
                             ),
                           ),
                         ],
@@ -414,11 +404,9 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
     if (formKey.currentState!.saveAndValidate()) {
       final data = formKey.currentState!.value;
 
-      final isUpdatedCover =
-          p.basename(widget.book!.coverImage!) != p.basename(bookCover);
+      final isUpdatedCover = p.basename(widget.book!.coverImage!) != p.basename(bookCover);
 
-      final isUpdatedFile =
-          p.basename(widget.book!.bookUrl!) != p.basename(bookFile);
+      final isUpdatedFile = p.basename(widget.book!.bookUrl!) != p.basename(bookFile);
 
       ref.read(bookActionsProvider.notifier).editBook(
             book: widget.book!.copyWith(
@@ -429,9 +417,7 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
               pageAmt: int.parse(data['pageAmt']),
               releaseDate: date,
               category: categories.isNotEmpty
-                  ? categories
-                      .where((e) => e.id == int.parse(data['categoryId']))
-                      .first
+                  ? categories.where((e) => e.id == int.parse(data['categoryId'])).first
                   : null,
             ),
             imagePath: isUpdatedCover ? bookCover : null,

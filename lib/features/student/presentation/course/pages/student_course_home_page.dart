@@ -26,8 +26,7 @@ class StudentCourseHomePage extends ConsumerStatefulWidget {
   const StudentCourseHomePage({super.key});
 
   @override
-  ConsumerState<StudentCourseHomePage> createState() =>
-      _StudentCourseHomePageState();
+  ConsumerState<StudentCourseHomePage> createState() => _StudentCourseHomePageState();
 }
 
 class _StudentCourseHomePageState extends ConsumerState<StudentCourseHomePage>
@@ -187,10 +186,8 @@ class _StudentCourseHomePageState extends ConsumerState<StudentCourseHomePage>
                                         showCourseListModalBottomSheet(
                                           title: 'Course Aktif',
                                           status: 'active',
-                                          emptyTitle:
-                                              'Course aktif masih kosong',
-                                          emptySubtitle:
-                                              'Tidak ada course yang sedang diikuti.',
+                                          emptyTitle: 'Course aktif masih kosong',
+                                          emptySubtitle: 'Tidak ada course yang sedang diikuti.',
                                         );
                                       },
                                     ),
@@ -224,10 +221,8 @@ class _StudentCourseHomePageState extends ConsumerState<StudentCourseHomePage>
                                         showCourseListModalBottomSheet(
                                           title: 'Riwayat Course',
                                           status: 'complete',
-                                          emptyTitle:
-                                              'Riwayat course masih kosong',
-                                          emptySubtitle:
-                                              'Kamu belum pernah menyelesaikan course.',
+                                          emptyTitle: 'Riwayat course masih kosong',
+                                          emptySubtitle: 'Kamu belum pernah menyelesaikan course.',
                                         );
                                       },
                                     ),
@@ -292,8 +287,7 @@ class _StudentCourseHomePageState extends ConsumerState<StudentCourseHomePage>
                             child: CourseCard(course: courses[index]),
                           );
                         },
-                        childCount:
-                            hasMore ? courses.length + 1 : courses.length,
+                        childCount: hasMore ? courses.length + 1 : courses.length,
                       ),
                     ),
                   );
@@ -313,9 +307,7 @@ class _StudentCourseHomePageState extends ConsumerState<StudentCourseHomePage>
   TextButton buildFetchMoreButton(WidgetRef ref, int currentLength) {
     return TextButton(
       onPressed: () {
-        ref
-            .read(CourseProvider().notifier)
-            .fetchMoreCourses(offset: currentLength);
+        ref.read(CourseProvider().notifier).fetchMoreCourses(offset: currentLength);
       },
       child: const Text('Lihat lebih banyak'),
     );

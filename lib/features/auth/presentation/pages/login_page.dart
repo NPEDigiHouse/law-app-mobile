@@ -33,8 +33,7 @@ class LoginPage extends ConsumerStatefulWidget {
   ConsumerState<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends ConsumerState<LoginPage>
-    with AfterLayoutMixin<LoginPage> {
+class _LoginPageState extends ConsumerState<LoginPage> with AfterLayoutMixin<LoginPage> {
   final formKey = GlobalKey<FormBuilderState>();
 
   @override

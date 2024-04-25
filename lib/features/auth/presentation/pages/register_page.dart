@@ -34,8 +34,7 @@ class RegisterPage extends ConsumerStatefulWidget {
   ConsumerState<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _RegisterPageState extends ConsumerState<RegisterPage>
-    with AfterLayoutMixin<RegisterPage> {
+class _RegisterPageState extends ConsumerState<RegisterPage> with AfterLayoutMixin<RegisterPage> {
   late final ValueNotifier<String> password;
   late final GlobalKey<FormBuilderState> formKey;
   late DateTime date;

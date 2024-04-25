@@ -127,8 +127,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, String>> askResetPassword(
-      {required String email}) async {
+  Future<Either<Failure, String>> askResetPassword({required String email}) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await authDataSource.askResetPassword(email: email);

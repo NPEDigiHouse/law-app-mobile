@@ -15,8 +15,7 @@ class UserCourseDetail extends _$UserCourseDetail {
 
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(courseRepositoryProvider).getUserCourseDetail(id: id);
+    final result = await ref.watch(courseRepositoryProvider).getUserCourseDetail(id: id);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

@@ -16,8 +16,7 @@ class AskResetPassword extends _$AskResetPassword {
   Future<void> askResetPassword({required String email}) async {
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(authRepositoryProvider).askResetPassword(email: email);
+    final result = await ref.watch(authRepositoryProvider).askResetPassword(email: email);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

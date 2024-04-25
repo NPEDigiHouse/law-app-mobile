@@ -15,6 +15,7 @@ import 'package:law_app/features/admin/data/models/course_models/material_model.
 import 'package:law_app/features/shared/widgets/ink_well_container.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 import 'package:law_app/features/student/presentation/course/pages/student_course_article_page.dart';
+import 'package:law_app/features/student/presentation/course/pages/student_course_quiz_home_page.dart';
 
 class MaterialCard extends ConsumerWidget {
   final int userCourseId;
@@ -60,7 +61,7 @@ class MaterialCard extends ConsumerWidget {
           : () => navigatorKey.currentState!.pushNamed(
                 type == CourseMaterialType.article
                     ? studentCourseArticleRoute
-                    : adminCourseQuizRoute,
+                    : studentCourseQuizHomeRoute,
                 arguments: type == CourseMaterialType.article
                     ? StudentCourseArticlePageArgs(
                         id: material.id!,
@@ -69,7 +70,13 @@ class MaterialCard extends ConsumerWidget {
                         materialSequenceNumber: materialSequenceNumber,
                         totalMaterials: totalMaterials,
                       )
-                    : null,
+                    : StudentCourseQuizHomePageArgs(
+                        id: material.id!,
+                        userCourseId: userCourseId,
+                        curriculumSequenceNumber: curriculumSequenceNumber,
+                        materialSequenceNumber: materialSequenceNumber,
+                        totalMaterials: totalMaterials,
+                      ),
               ),
       child: Row(
         children: [
@@ -82,12 +89,9 @@ class MaterialCard extends ConsumerWidget {
           else
             SvgAsset(
               assetPath: AssetPath.getIcon(
-                type == CourseMaterialType.article
-                    ? 'read-outlined.svg'
-                    : 'note-edit-line.svg',
+                type == CourseMaterialType.article ? 'read-outlined.svg' : 'note-edit-line.svg',
               ),
-              color:
-                  isLocked ? secondaryTextColor.withOpacity(.7) : primaryColor,
+              color: isLocked ? secondaryTextColor.withOpacity(.7) : primaryColor,
               width: 20,
             ),
           const SizedBox(width: 10),
@@ -97,9 +101,7 @@ class MaterialCard extends ConsumerWidget {
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: textTheme.bodyMedium!.copyWith(
-                color: isLocked
-                    ? secondaryTextColor.withOpacity(.7)
-                    : primaryColor,
+                color: isLocked ? secondaryTextColor.withOpacity(.7) : primaryColor,
               ),
             ),
           ),

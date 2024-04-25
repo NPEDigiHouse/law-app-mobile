@@ -86,8 +86,7 @@ class ContactUsPage extends ConsumerWidget {
                   contact: 'WhatsApp',
                   name: '${contact.whatsappLink}',
                   onPressed: () async {
-                    final url =
-                        Uri.parse('https://wa.me/${contact.whatsappLink}');
+                    final url = Uri.parse('https://wa.me/${contact.whatsappLink}');
 
                     if (await canLaunchUrl(url)) await launchUrl(url);
                   },

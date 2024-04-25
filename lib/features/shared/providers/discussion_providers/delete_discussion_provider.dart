@@ -16,8 +16,7 @@ class DeleteDiscussion extends _$DeleteDiscussion {
   Future<void> deleteDiscussion({required int id}) async {
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(discussionRepositoryProvider).deleteDiscussion(id: id);
+    final result = await ref.watch(discussionRepositoryProvider).deleteDiscussion(id: id);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
