@@ -128,6 +128,13 @@ abstract class CourseRepository {
     required int quizId,
     required List<Map<String, int?>> answers,
   });
+
+  /// Create course rating
+  Future<Either<Failure, void>> createCourseRating({
+    required int courseId,
+    required int rating,
+    required String comment,
+  });
 }
 
 class CourseRepositoryImpl implements CourseRepository {
@@ -621,6 +628,29 @@ class CourseRepositoryImpl implements CourseRepository {
         final result = await courseDataSource.checkScore(
           quizId: quizId,
           answers: answers,
+        );
+
+        return Right(result);
+      } catch (e) {
+        return Left(failure(e));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> createCourseRating({
+    required int courseId,
+    required int rating,
+    required String comment,
+  }) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await courseDataSource.createCourseRating(
+          courseId: courseId,
+          rating: rating,
+          comment: comment,
         );
 
         return Right(result);

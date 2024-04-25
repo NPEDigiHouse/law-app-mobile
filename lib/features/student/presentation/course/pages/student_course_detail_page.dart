@@ -303,7 +303,18 @@ class StudentCourseDetailPage extends ConsumerWidget {
           ),
           const SizedBox(height: 4),
           FilledButton.icon(
-            onPressed: () {},
+            onPressed: () async {
+              final result = await navigatorKey.currentState!.pushNamed(
+                studentCourseRateRoute,
+                arguments: userCourse.course,
+              );
+
+              if (result != null) {
+                if (!context.mounted) return;
+
+                context.showBanner(message: result as String, type: BannerType.success);
+              }
+            },
             icon: SvgAsset(
               assetPath: AssetPath.getIcon('chat-bubble-solid.svg'),
               color: secondaryColor,

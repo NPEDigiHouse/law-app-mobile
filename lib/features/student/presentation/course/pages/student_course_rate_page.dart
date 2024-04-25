@@ -4,25 +4,58 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
+import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/button_extension.dart';
+import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
+import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/course_models/course_model.dart';
+import 'package:law_app/features/shared/providers/course_providers/course_detail_provider.dart';
+import 'package:law_app/features/shared/providers/course_providers/create_course_rating_provider.dart';
+import 'package:law_app/features/shared/widgets/custom_network_image.dart';
 import 'package:law_app/features/shared/widgets/form_field/custom_text_field.dart';
 import 'package:law_app/features/shared/widgets/svg_asset.dart';
 
-class StudentCourseRatePage extends StatelessWidget {
+final ratingProvider = StateProvider.autoDispose<int>((ref) => 0);
+
+class StudentCourseRatePage extends ConsumerWidget {
   final CourseModel course;
 
   const StudentCourseRatePage({super.key, required this.course});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final formKey = GlobalKey<FormBuilderState>();
+    final rating = ref.watch(ratingProvider);
+
+    ref.listen(createCourseRatingProvider, (_, state) {
+      state.when(
+        error: (error, _) {
+          navigatorKey.currentState!.pop();
+
+          if ('$error' == kNoInternetConnection) {
+            context.showNetworkErrorModalBottomSheet();
+          } else {
+            context.showBanner(message: '$error', type: BannerType.error);
+          }
+        },
+        loading: () => context.showLoadingDialog(),
+        data: (message) {
+          if (message != null) {
+            ref.invalidate(courseDetailProvider);
+
+            navigatorKey.currentState!.pop();
+            navigatorKey.currentState!.pop(message);
+          }
+        },
+      );
+    });
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -44,9 +77,10 @@ class StudentCourseRatePage extends StatelessWidget {
                       end: Alignment.bottomCenter,
                     ),
                   ),
-                  child: Image.asset(
-                    AssetPath.getImage(course.coverImg!),
-                    fit: BoxFit.fill,
+                  child: CustomNetworkImage(
+                    imageUrl: course.coverImg!,
+                    placeHolderSize: 64,
+                    aspectRatio: 3 / 2,
                   ),
                 ),
                 AppBar(
@@ -103,7 +137,9 @@ class StudentCourseRatePage extends StatelessWidget {
                         minRating: 1,
                         itemSize: 48,
                         itemPadding: const EdgeInsets.symmetric(horizontal: 2),
-                        onRatingUpdate: (value) {},
+                        onRatingUpdate: (value) {
+                          ref.read(ratingProvider.notifier).state = value.toInt();
+                        },
                         ratingWidget: RatingWidget(
                           full: SvgAsset(
                             assetPath: AssetPath.getIcon('star-solid.svg'),
@@ -141,20 +177,30 @@ class StudentCourseRatePage extends StatelessWidget {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
         child: FilledButton(
-          onPressed: () => submit(formKey),
-          child: const Text('Dapatkan Sertifikat'),
+          onPressed: () => submit(ref, formKey, rating),
+          child: const Text('Submit Ulasan'),
         ).fullWidth(),
       ),
     );
   }
 
-  void submit(GlobalKey<FormBuilderState> formKey) {
+  void submit(WidgetRef ref, GlobalKey<FormBuilderState> formKey, int rating) {
     FocusManager.instance.primaryFocus?.unfocus();
 
     if (formKey.currentState!.saveAndValidate()) {
-      final data = formKey.currentState!.value;
+      final comment = formKey.currentState!.value['comment'] as String?;
 
-      debugPrint(data.toString());
+      if (rating == 0) return;
+
+      ref.read(createCourseRatingProvider.notifier).createCourseRating(
+            courseId: course.id!,
+            rating: rating,
+            comment: comment == null
+                ? 'null'
+                : comment.isEmpty
+                    ? 'null'
+                    : comment,
+          );
     }
   }
 }

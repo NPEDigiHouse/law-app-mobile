@@ -134,6 +134,13 @@ abstract class CourseDataSource {
     required int quizId,
     required List<Map<String, int?>> answers,
   });
+
+  /// Create course rating
+  Future<void> createCourseRating({
+    required int courseId,
+    required int rating,
+    required String comment,
+  });
 }
 
 class CourseDataSourceImpl implements CourseDataSource {
@@ -887,6 +894,36 @@ class CourseDataSourceImpl implements CourseDataSource {
       if (result.code == 200) {
         return QuizResultModel.fromMap(result.data);
       } else {
+        throw ServerException('${result.message}');
+      }
+    } catch (e) {
+      exception(e);
+    }
+  }
+
+  @override
+  Future<void> createCourseRating({
+    required int courseId,
+    required int rating,
+    required String comment,
+  }) async {
+    try {
+      final response = await client.post(
+        Uri.parse('${ApiConfigs.baseUrl}/course-ratings'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
+        },
+        body: jsonEncode({
+          'courseId': courseId,
+          'rating': rating,
+          'comment': comment,
+        }),
+      );
+
+      final result = DataResponse.fromJson(jsonDecode(response.body));
+
+      if (result.code != 200) {
         throw ServerException('${result.message}');
       }
     } catch (e) {

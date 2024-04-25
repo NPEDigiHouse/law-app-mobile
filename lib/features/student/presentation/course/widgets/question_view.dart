@@ -11,7 +11,6 @@ import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/asset_path.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
-import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/course_models/option_model.dart';
 import 'package:law_app/features/shared/providers/course_providers/question_detail_provider.dart';
@@ -71,16 +70,7 @@ class _QuestionViewState extends ConsumerState<QuestionView> with AutomaticKeepA
     ref.listen(QuestionDetailProvider(id: widget.questionId), (_, state) {
       state.whenOrNull(
         error: (error, _) {
-          if ('$error' == kNoInternetConnection) {
-            context.showNetworkErrorModalBottomSheet(
-              onPressedPrimaryButton: () {
-                navigatorKey.currentState!.pop();
-                ref.invalidate(questionDetailProvider);
-              },
-            );
-          } else {
-            context.showBanner(message: '$error', type: BannerType.error);
-          }
+          context.showBanner(message: '$error', type: BannerType.error);
         },
       );
     });
