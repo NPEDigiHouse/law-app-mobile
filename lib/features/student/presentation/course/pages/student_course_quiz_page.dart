@@ -5,12 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
-import 'package:law_app/core/enums/banner_type.dart';
 import 'package:law_app/core/extensions/context_extension.dart';
 import 'package:law_app/core/helpers/function_helper.dart';
 import 'package:law_app/core/styles/color_scheme.dart';
 import 'package:law_app/core/styles/text_style.dart';
-import 'package:law_app/core/utils/const.dart';
 import 'package:law_app/core/utils/keys.dart';
 import 'package:law_app/features/admin/data/models/course_models/quiz_model.dart';
 import 'package:law_app/features/shared/providers/course_providers/question_provider.dart';
@@ -57,17 +55,15 @@ class _StudentCourseQuizPageState extends ConsumerState<StudentCourseQuizPage> {
 
     ref.listen(QuestionProvider(quizId: widget.quiz.id!), (_, state) {
       state.whenOrNull(
-        error: (error, _) {
-          if ('$error' == kNoInternetConnection) {
-            context.showNetworkErrorModalBottomSheet(
-              onPressedPrimaryButton: () {
-                navigatorKey.currentState!.pop();
-                ref.invalidate(questionProvider);
-              },
-            );
-          } else {
-            context.showBanner(message: '$error', type: BannerType.error);
-          }
+        error: (_, __) {
+          navigatorKey.currentState!.pop();
+
+          context.showCustomInformationDialog(
+            title: 'Terjadi Kesalahan!',
+            child: const Text(
+              'Terjadi kesalahan saat memuat pertanyaan. Harap kerjakan ulang quiz dan pastikan Anda terkoneksi dengan internet.',
+            ),
+          );
         },
         data: (questions) {
           if (questions != null) {

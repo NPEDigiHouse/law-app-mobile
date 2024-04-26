@@ -57,6 +57,8 @@ Failure failure(Object e) {
         return const ServerFailure('Kuota pertanyaan khusus telah habis');
       case kOptionAnswerNotFound:
         return const ServerFailure('Tidak ada opsi jawaban benar');
+      case kratingAlreadyExist:
+        return const ServerFailure('Kamu telah memberi ulasan pada course ini');
       default:
         return ServerFailure(e.message);
     }
