@@ -85,15 +85,21 @@ class AuthDataSourceImpl implements AuthDataSource {
     required String password,
   }) async {
     try {
+      final deviceToken = await preferencesHelper.getFcmToken();
+
+      final body = {
+        'username': username,
+        'password': password,
+      };
+
+      if (deviceToken != null) body['deviceToken'] = deviceToken;
+
       final response = await client.post(
         Uri.parse('${ApiConfigs.baseUrl}/auth/login'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
         },
-        body: jsonEncode({
-          'username': username,
-          'password': password,
-        }),
+        body: jsonEncode(body),
       );
 
       final result = DataResponse.fromJson(jsonDecode(response.body));
