@@ -20,8 +20,7 @@ class BookDetail extends _$BookDetail {
 
     final result = await ref.watch(bookRepositoryProvider).getBookDetail(id: id);
 
-    final result2 =
-        await ref.watch(bookRepositoryProvider).getSavedBooks(userId: CredentialSaver.user!.id!);
+    final result2 = await ref.watch(bookRepositoryProvider).getSavedBooks(userId: CredentialSaver.user!.id!);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

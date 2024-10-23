@@ -289,9 +289,7 @@ class StudentDiscussionDetailPage extends ConsumerWidget {
                     ),
                     const SizedBox(width: 10),
                     Text(
-                      discussion.status == 'open'
-                          ? 'Belum ada balasan'
-                          : '${discussion.comments?.length} Balasan',
+                      discussion.status == 'open' ? 'Belum ada balasan' : '${discussion.comments?.length} Balasan',
                       style: textTheme.titleMedium!.copyWith(
                         color: primaryColor,
                         height: 0,
@@ -301,8 +299,7 @@ class StudentDiscussionDetailPage extends ConsumerWidget {
                 ),
                 const SizedBox(height: 12),
                 buildDiscussionSection(discussion),
-                if (discussion.asker!.id == CredentialSaver.user!.id &&
-                    discussion.status == 'onDiscussion') ...[
+                if (discussion.asker!.id == CredentialSaver.user!.id && discussion.status == 'onDiscussion') ...[
                   const SizedBox(height: 12),
                   FilledButton(
                     onPressed: () => context.showSingleFormDialog(
@@ -327,8 +324,7 @@ class StudentDiscussionDetailPage extends ConsumerWidget {
                   FilledButton(
                     onPressed: () => context.showConfirmDialog(
                       title: 'Masalah Terjawab?',
-                      message:
-                          'Apakah kamu puas dengan jawaban yang diberikan? Aksi ini akan menutup diskusi kamu!',
+                      message: 'Apakah kamu puas dengan jawaban yang diberikan? Aksi ini akan menutup diskusi kamu!',
                       withCheckbox: true,
                       checkboxLabel: 'Saya puas dengan jawaban yang diberikan.',
                       onPressedPrimaryButton: () {

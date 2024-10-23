@@ -34,6 +34,7 @@ class StudentCourseArticlePage extends ConsumerStatefulWidget {
   final int curriculumSequenceNumber;
   final int materialSequenceNumber;
   final int totalMaterials;
+  final bool lastCurriculum;
 
   const StudentCourseArticlePage({
     super.key,
@@ -42,14 +43,14 @@ class StudentCourseArticlePage extends ConsumerStatefulWidget {
     required this.curriculumSequenceNumber,
     required this.materialSequenceNumber,
     required this.totalMaterials,
+    required this.lastCurriculum,
   });
 
   @override
   ConsumerState<StudentCourseArticlePage> createState() => _StudentCourseArticlePageState();
 }
 
-class _StudentCourseArticlePageState extends ConsumerState<StudentCourseArticlePage>
-    with AfterLayoutMixin {
+class _StudentCourseArticlePageState extends ConsumerState<StudentCourseArticlePage> with AfterLayoutMixin {
   UserCourseModel? userCourse;
 
   @override
@@ -62,10 +63,10 @@ class _StudentCourseArticlePageState extends ConsumerState<StudentCourseArticleP
       userCourse = await ref.watch(UserCourseDetailProvider(id: widget.userCourseId).future);
 
       if (userCourse != null) {
-        if (userCourse!.currentCurriculumSequence == widget.curriculumSequenceNumber) {
-          if (userCourse!.currentMaterialSequence == widget.totalMaterials - 1) {
+        if (userCourse!.currentCurriculumSequence! + 1 == widget.curriculumSequenceNumber) {
+          if (userCourse!.currentMaterialSequence! + 1 == widget.totalMaterials) {
             updateCurriculumSequence();
-          } else if (userCourse!.currentMaterialSequence == widget.materialSequenceNumber) {
+          } else if (userCourse!.currentMaterialSequence! + 1 == widget.materialSequenceNumber) {
             updateMaterialSequence();
           }
         }
@@ -310,6 +311,7 @@ class _StudentCourseArticlePageState extends ConsumerState<StudentCourseArticleP
           curriculumSequenceNumber: widget.curriculumSequenceNumber,
           materialSequenceNumber: materialSequenceNumber,
           totalMaterials: widget.totalMaterials,
+          lastCurriculum: widget.lastCurriculum,
         ),
         transitionDuration: Duration.zero,
       ),
@@ -320,14 +322,14 @@ class _StudentCourseArticlePageState extends ConsumerState<StudentCourseArticleP
     ref.read(userCourseActionsProvider.notifier).updateUserCourse(
           id: userCourse!.id!,
           currentCurriculumSequence: userCourse!.currentCurriculumSequence!,
-          currentMaterialSequence: widget.materialSequenceNumber + 1,
+          currentMaterialSequence: widget.materialSequenceNumber,
         );
   }
 
   void updateCurriculumSequence() {
     ref.read(userCourseActionsProvider.notifier).updateUserCourse(
           id: userCourse!.id!,
-          currentCurriculumSequence: userCourse!.currentCurriculumSequence! + 1,
+          currentCurriculumSequence: userCourse!.currentCurriculumSequence! + (widget.lastCurriculum ? 2 : 1),
           currentMaterialSequence: 0,
         );
   }
@@ -339,6 +341,7 @@ class StudentCourseArticlePageArgs {
   final int curriculumSequenceNumber;
   final int materialSequenceNumber;
   final int totalMaterials;
+  final bool lastCurriculum;
 
   const StudentCourseArticlePageArgs({
     required this.id,
@@ -346,5 +349,6 @@ class StudentCourseArticlePageArgs {
     required this.curriculumSequenceNumber,
     required this.materialSequenceNumber,
     required this.totalMaterials,
+    required this.lastCurriculum,
   });
 }

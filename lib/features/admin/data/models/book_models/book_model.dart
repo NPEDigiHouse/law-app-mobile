@@ -87,9 +87,7 @@ class BookModel extends Equatable {
       pageAmt: map['pageAmt'] as int?,
       coverImage: map['coverImage'] as String?,
       bookUrl: map['bookUrl'] as String?,
-      category: map['category'] != null
-          ? BookCategoryModel.fromMap(map['category'] as Map<String, dynamic>)
-          : null,
+      category: map['category'] != null ? BookCategoryModel.fromMap(map['category'] as Map<String, dynamic>) : null,
       currentPage: map['currentPage'] as int?,
     );
   }

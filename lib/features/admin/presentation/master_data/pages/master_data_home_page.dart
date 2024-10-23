@@ -35,8 +35,7 @@ class MasterDataHomePage extends ConsumerStatefulWidget {
   ConsumerState<MasterDataHomePage> createState() => _MasterDataHomePageState();
 }
 
-class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage>
-    with SingleTickerProviderStateMixin {
+class _MasterDataHomePageState extends ConsumerState<MasterDataHomePage> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     const userRoles = {

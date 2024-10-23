@@ -2,7 +2,7 @@
 const kPageLimit = 20;
 
 // const error messages
-const kUnauthorized = 'UNAUTHORIZED';
+const kUnauthorized = 'PLEASE_CHECK_AUTHORIZATION';
 const kNoInternetConnection = 'NO_INTERNET_CONNECTION';
 const kUserNotFound = 'USER_NOT_FOUND';
 const kWrongPassword = 'WRONG_PASSWORD';

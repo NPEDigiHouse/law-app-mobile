@@ -106,7 +106,7 @@ class _StudentCourseQuizPageState extends ConsumerState<StudentCourseQuizPage> {
 
         return PopScope(
           canPop: false,
-          onPopInvoked: (didPop) {
+          onPopInvokedWithResult: (didPop, result) {
             if (didPop) return;
 
             context.showConfirmDialog(

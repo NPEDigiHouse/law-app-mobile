@@ -54,8 +54,7 @@ class BookManagementFormPage extends ConsumerStatefulWidget {
   ConsumerState<BookManagementFormPage> createState() => _BookManagementFormPageState();
 }
 
-class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
-    with AfterLayoutMixin {
+class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage> with AfterLayoutMixin {
   late final GlobalKey<FormBuilderState> formKey;
   late DateTime date;
   late List<BookCategoryModel> categories;
@@ -270,9 +269,8 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
                   onChanged: (_) {},
                   items: categories.map((e) => e.name!).toList(),
                   values: categories.map((e) => e.id!.toString()).toList(),
-                  initialValue: widget.book != null
-                      ? widget.book!.category!.id.toString()
-                      : categories.first.id.toString(),
+                  initialValue:
+                      widget.book != null ? widget.book!.category!.id.toString() : categories.first.id.toString(),
                 ),
               ],
               const SizedBox(height: 20),
@@ -416,9 +414,8 @@ class _BookManagementFormPageState extends ConsumerState<BookManagementFormPage>
               synopsis: data['synopsis'],
               pageAmt: int.parse(data['pageAmt']),
               releaseDate: date,
-              category: categories.isNotEmpty
-                  ? categories.where((e) => e.id == int.parse(data['categoryId'])).first
-                  : null,
+              category:
+                  categories.isNotEmpty ? categories.where((e) => e.id == int.parse(data['categoryId'])).first : null,
             ),
             imagePath: isUpdatedCover ? bookCover : null,
             bookPath: isUpdatedFile ? bookFile : null,

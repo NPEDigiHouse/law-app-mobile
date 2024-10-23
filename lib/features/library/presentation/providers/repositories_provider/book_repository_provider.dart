@@ -1,4 +1,5 @@
 // Package imports:
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
@@ -9,7 +10,7 @@ import 'package:law_app/features/shared/providers/generated_providers/network_in
 part 'book_repository_provider.g.dart';
 
 @riverpod
-BookRepository bookRepository(BookRepositoryRef ref) {
+BookRepository bookRepository(Ref ref) {
   return BookRepositoryImpl(
     bookDataSource: ref.watch(bookDataSourceProvider),
     networkInfo: ref.watch(networkInfoProvider),

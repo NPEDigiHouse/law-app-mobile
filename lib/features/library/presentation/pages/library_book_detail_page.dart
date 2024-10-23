@@ -189,8 +189,7 @@ class LibraryBookDetailPage extends ConsumerWidget {
                                           '${book.writer}',
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
-                                          style: textTheme.bodySmall!
-                                              .copyWith(color: scaffoldBackgroundColor),
+                                          style: textTheme.bodySmall!.copyWith(color: scaffoldBackgroundColor),
                                         ),
                                       ),
                                     ],
@@ -211,8 +210,7 @@ class LibraryBookDetailPage extends ConsumerWidget {
                                           '${book.category?.name}',
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
-                                          style: textTheme.bodySmall!
-                                              .copyWith(color: scaffoldBackgroundColor),
+                                          style: textTheme.bodySmall!.copyWith(color: scaffoldBackgroundColor),
                                         ),
                                       ),
                                     ],

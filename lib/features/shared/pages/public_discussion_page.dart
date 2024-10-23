@@ -122,7 +122,7 @@ class _PublicDiscussionPageState extends ConsumerState<PublicDiscussionPage>
 
     return PopScope(
       canPop: false,
-      onPopInvoked: (didPop) {
+      onPopInvokedWithResult: (didPop, result) {
         return FunctionHelper.handleSearchingOnPop(
           ref,
           didPop,

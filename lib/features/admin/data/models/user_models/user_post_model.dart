@@ -46,8 +46,7 @@ class UserPostModel extends Equatable {
       birthDate: birthDate ?? this.birthDate,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       role: role ?? this.role,
-      teacherDiscussionCategoryIds:
-          teacherDiscussionCategoryIds ?? this.teacherDiscussionCategoryIds,
+      teacherDiscussionCategoryIds: teacherDiscussionCategoryIds ?? this.teacherDiscussionCategoryIds,
     );
   }
 

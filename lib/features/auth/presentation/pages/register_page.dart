@@ -86,7 +86,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> with AfterLayoutMix
 
     return PopScope(
       canPop: false,
-      onPopInvoked: (didPop) {
+      onPopInvokedWithResult: (didPop, result) {
         if (didPop) return;
 
         context.back();
@@ -136,7 +136,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> with AfterLayoutMix
                                 errorText: 'Bagian ini harus diisi',
                               ),
                               FormBuilderValidators.match(
-                                r'^[a-zA-Z\s]*$',
+                                RegExp(r'^[a-zA-Z\s]*$'),
                                 errorText: 'Nama tidak valid',
                               ),
                             ],
@@ -155,7 +155,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> with AfterLayoutMix
                                 errorText: 'Bagian ini harus diisi',
                               ),
                               FormBuilderValidators.match(
-                                r'^(?=.*[a-zA-Z])\d*[a-zA-Z\d]*$',
+                                RegExp(r'^(?=.*[a-zA-Z])\d*[a-zA-Z\d]*$'),
                                 errorText: 'Username tidak valid',
                               ),
                             ],

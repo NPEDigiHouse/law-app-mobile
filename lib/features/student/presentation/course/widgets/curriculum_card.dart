@@ -95,8 +95,7 @@ class CurriculumCard extends StatelessWidget {
                         Text(
                           '${curriculum.curriculumDuration} menit',
                           style: textTheme.bodySmall!.copyWith(
-                            color:
-                                isLocked ? secondaryTextColor.withOpacity(.5) : secondaryTextColor,
+                            color: isLocked ? secondaryTextColor.withOpacity(.5) : secondaryTextColor,
                           ),
                         ),
                       ],

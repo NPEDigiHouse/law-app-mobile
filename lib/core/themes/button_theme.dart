@@ -40,33 +40,33 @@ final textButtonTheme = TextButtonThemeData(
 
 final segmentedButtonTheme = SegmentedButtonThemeData(
   style: ButtonStyle(
-    foregroundColor: MaterialStateProperty.resolveWith((states) {
-      if (states.contains(MaterialState.selected)) {
+    foregroundColor: WidgetStateProperty.resolveWith((states) {
+      if (states.contains(WidgetState.selected)) {
         return primaryColor;
       }
 
       return secondaryTextColor;
     }),
-    backgroundColor: MaterialStateProperty.resolveWith((states) {
-      if (states.contains(MaterialState.selected)) {
+    backgroundColor: WidgetStateProperty.resolveWith((states) {
+      if (states.contains(WidgetState.selected)) {
         return secondaryColor;
       }
 
       return scaffoldBackgroundColor;
     }),
-    textStyle: MaterialStateProperty.resolveWith((states) {
-      if (states.contains(MaterialState.selected)) {
+    textStyle: WidgetStateProperty.resolveWith((states) {
+      if (states.contains(WidgetState.selected)) {
         return textTheme.titleSmall;
       }
 
       return textTheme.bodyMedium;
     }),
-    shape: MaterialStateProperty.all(
+    shape: WidgetStateProperty.all(
       RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
       ),
     ),
-    side: MaterialStateProperty.all(
+    side: WidgetStateProperty.all(
       const BorderSide(
         style: BorderStyle.none,
       ),

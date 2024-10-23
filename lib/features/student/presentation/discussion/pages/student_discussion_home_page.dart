@@ -214,8 +214,7 @@ class _StudentDiscussionHomePageState extends ConsumerState<StudentDiscussionHom
                                         ),
                                         const SizedBox(width: 4),
                                         Tooltip(
-                                          message:
-                                              'Kesempatan bertanya akan di-reset setiap minggu.',
+                                          message: 'Kesempatan bertanya akan di-reset setiap minggu.',
                                           textStyle: textTheme.bodySmall!.copyWith(
                                             color: scaffoldBackgroundColor,
                                           ),
@@ -268,8 +267,7 @@ class _StudentDiscussionHomePageState extends ConsumerState<StudentDiscussionHom
                                     const SizedBox(height: 10),
                                     FilledButton.icon(
                                       onPressed: () async {
-                                        final categories =
-                                            await CategoryHelper.getDiscussionCategories(ref);
+                                        final categories = await CategoryHelper.getDiscussionCategories(ref);
 
                                         if (categories.isNotEmpty) {
                                           if (!context.mounted) return;

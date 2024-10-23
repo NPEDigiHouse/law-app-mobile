@@ -96,9 +96,7 @@ class DiscussionCategoryPage extends ConsumerWidget {
             onSubmitted: (value) {
               navigatorKey.currentState!.pop();
 
-              ref
-                  .read(discussionCategoryProvider.notifier)
-                  .createDiscussionCategory(name: value['name']);
+              ref.read(discussionCategoryProvider.notifier).createDiscussionCategory(name: value['name']);
             },
           ),
           icon: SvgAsset(

@@ -1,4 +1,5 @@
 // Package imports:
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
@@ -8,6 +9,6 @@ import 'package:law_app/features/admin/data/datasources/discussion_data_source.d
 part 'discussion_data_source_provider.g.dart';
 
 @riverpod
-DiscussionDataSource discussionDataSource(DiscussionDataSourceRef ref) {
+DiscussionDataSource discussionDataSource(Ref ref) {
   return DiscussionDataSourceImpl(client: HttpClient.client);
 }

@@ -105,9 +105,7 @@ class LibraryFinishedBookPage extends ConsumerWidget {
                           onIconPressed: () {
                             navigatorKey.currentState!.pop();
 
-                            ref
-                                .read(userReadActionsProvider.notifier)
-                                .deleteUserRead(bookId: userReads[index].id!);
+                            ref.read(userReadActionsProvider.notifier).deleteUserRead(bookId: userReads[index].id!);
                           },
                         );
                       },

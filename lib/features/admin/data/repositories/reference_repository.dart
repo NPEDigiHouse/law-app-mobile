@@ -85,8 +85,7 @@ class ReferenceRepositoryImpl implements ReferenceRepository {
   }
 
   @override
-  Future<Either<Failure, void>> editDiscussionCategory(
-      {required DiscussionCategoryModel category}) async {
+  Future<Either<Failure, void>> editDiscussionCategory({required DiscussionCategoryModel category}) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await referenceDataSource.editDiscussionCategory(category: category);

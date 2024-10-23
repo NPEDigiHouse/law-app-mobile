@@ -64,9 +64,7 @@ class DiscussionCategoryCard extends ConsumerWidget {
 
                     navigatorKey.currentState!.pop();
 
-                    ref
-                        .read(discussionCategoryProvider.notifier)
-                        .editDiscussionCategory(category: newCategory);
+                    ref.read(discussionCategoryProvider.notifier).editDiscussionCategory(category: newCategory);
                   },
                 ),
                 tooltip: 'Edit',
@@ -82,9 +80,7 @@ class DiscussionCategoryCard extends ConsumerWidget {
                   onPressedPrimaryButton: () {
                     navigatorKey.currentState!.pop();
 
-                    ref
-                        .read(discussionCategoryProvider.notifier)
-                        .deleteDiscussionCategory(id: category.id!);
+                    ref.read(discussionCategoryProvider.notifier).deleteDiscussionCategory(id: category.id!);
                   },
                 ),
                 tooltip: 'Hapus',

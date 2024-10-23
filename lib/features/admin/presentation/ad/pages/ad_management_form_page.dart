@@ -113,9 +113,7 @@ class _AdmiAdFormPageState extends ConsumerState<AdManagementFormPage> with Afte
                 },
               ),
             ),
-      body: showPreview
-          ? buildAdPreview(title, content, imagePath)
-          : buildAdForm(title, content, imagePath),
+      body: showPreview ? buildAdPreview(title, content, imagePath) : buildAdForm(title, content, imagePath),
       floatingActionButton: Container(
         width: 48,
         height: 48,
@@ -128,10 +126,8 @@ class _AdmiAdFormPageState extends ConsumerState<AdManagementFormPage> with Afte
         child: IconButton(
           onPressed: () {
             if (!showPreview) {
-              ref.read(adTitleProvider.notifier).state =
-                  formKey.currentState!.fields['title']!.value;
-              ref.read(adContentProvider.notifier).state =
-                  formKey.currentState!.fields['content']!.value;
+              ref.read(adTitleProvider.notifier).state = formKey.currentState!.fields['title']!.value;
+              ref.read(adContentProvider.notifier).state = formKey.currentState!.fields['content']!.value;
             }
 
             ref.read(isCheckedProvider.notifier).state = !showPreview;
@@ -174,9 +170,7 @@ class _AdmiAdFormPageState extends ConsumerState<AdManagementFormPage> with Afte
             ),
             child: AspectRatio(
               aspectRatio: 16 / 9,
-              child: imagePath != null
-                  ? Image.file(File(imagePath))
-                  : const EmptyContentText('Belum ada gambar!'),
+              child: imagePath != null ? Image.file(File(imagePath)) : const EmptyContentText('Belum ada gambar!'),
             ),
           ),
           Padding(

@@ -46,8 +46,7 @@ class AdminCourseQuizFormPage extends ConsumerStatefulWidget {
   ConsumerState<AdminCourseQuizFormPage> createState() => _AdminCourseQuizFormPageState();
 }
 
-class _AdminCourseQuizFormPageState extends ConsumerState<AdminCourseQuizFormPage>
-    with AfterLayoutMixin {
+class _AdminCourseQuizFormPageState extends ConsumerState<AdminCourseQuizFormPage> with AfterLayoutMixin {
   final GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
   @override
@@ -104,8 +103,16 @@ class _AdminCourseQuizFormPageState extends ConsumerState<AdminCourseQuizFormPag
           horizontal: 20,
         ),
         child: showPreview
-            ? buildQuizPreview(title, duration, description)
-            : buildQuizForm(title, duration, description),
+            ? buildQuizPreview(
+                title,
+                duration,
+                description,
+              )
+            : buildQuizForm(
+                title,
+                duration,
+                description,
+              ),
       ),
       floatingActionButton: Container(
         width: 48,
@@ -120,10 +127,8 @@ class _AdminCourseQuizFormPageState extends ConsumerState<AdminCourseQuizFormPag
           onPressed: () {
             if (!showPreview) {
               ref.read(titleProvider.notifier).state = formKey.currentState!.fields['title']!.value;
-              ref.read(durationProvider.notifier).state =
-                  formKey.currentState!.fields['duration']!.value;
-              ref.read(materialProvider.notifier).state =
-                  formKey.currentState!.fields['description']!.value;
+              ref.read(durationProvider.notifier).state = formKey.currentState!.fields['duration']!.value;
+              ref.read(materialProvider.notifier).state = formKey.currentState!.fields['description']!.value;
             }
 
             ref.read(isCheckedProvider.notifier).state = !showPreview;

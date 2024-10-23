@@ -8,7 +8,6 @@ const discussionStatus = {
   'Solved': 'solved',
 };
 
-final discussionStatusProvider =
-    StateProvider.autoDispose<String>((ref) => discussionStatus['Semua']!);
+final discussionStatusProvider = StateProvider.autoDispose<String>((ref) => discussionStatus['Semua']!);
 
 final discussionTypeProvider = StateProvider.autoDispose<String>((ref) => 'general');

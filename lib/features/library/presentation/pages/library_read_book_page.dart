@@ -80,7 +80,7 @@ class _LibraryReadBookPageState extends ConsumerState<LibraryReadBookPage> {
 
     return PopScope(
       canPop: false,
-      onPopInvoked: (didPop) {
+      onPopInvokedWithResult: (didPop, result) {
         if (didPop) return;
 
         if (currentPage > (widget.book.currentPage ?? 1)) {

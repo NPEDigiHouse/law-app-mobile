@@ -18,8 +18,7 @@ class OptionActions extends _$OptionActions {
   Future<void> createOption({required OptionPostModel option}) async {
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(courseRepositoryProvider).createOption(option: option);
+    final result = await ref.watch(courseRepositoryProvider).createOption(option: option);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
@@ -30,8 +29,7 @@ class OptionActions extends _$OptionActions {
   Future<void> editOption({required OptionModel option}) async {
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(courseRepositoryProvider).editOption(option: option);
+    final result = await ref.watch(courseRepositoryProvider).editOption(option: option);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
@@ -42,8 +40,7 @@ class OptionActions extends _$OptionActions {
   Future<void> deleteOption({required int id}) async {
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(courseRepositoryProvider).deleteOption(id: id);
+    final result = await ref.watch(courseRepositoryProvider).deleteOption(id: id);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

@@ -38,8 +38,8 @@ final colorScheme = ColorScheme.fromSeed(
   onPrimary: secondaryColor,
   secondary: secondaryColor,
   onSecondary: primaryColor,
-  background: backgroundColor,
-  onBackground: primaryTextColor,
+  surface: backgroundColor,
+  onSurface: primaryTextColor,
   error: errorColor,
   onError: scaffoldBackgroundColor,
 );

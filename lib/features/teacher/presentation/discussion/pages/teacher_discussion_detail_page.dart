@@ -196,9 +196,7 @@ class TeacherDiscussionDetailPage extends ConsumerWidget {
                     ),
                     const SizedBox(width: 10),
                     Text(
-                      discussion.status == 'open'
-                          ? 'Belum ada balasan'
-                          : '${discussion.comments?.length} Balasan',
+                      discussion.status == 'open' ? 'Belum ada balasan' : '${discussion.comments?.length} Balasan',
                       style: textTheme.titleMedium!.copyWith(
                         color: primaryColor,
                         height: 0,

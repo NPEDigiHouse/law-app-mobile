@@ -34,9 +34,7 @@ class DiscussionReplyCard extends StatelessWidget {
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: isLeft
-          ? buildRowChildren(comment, isLeft)
-          : buildRowChildren(comment, isLeft).reversed.toList(),
+      children: isLeft ? buildRowChildren(comment, isLeft) : buildRowChildren(comment, isLeft).reversed.toList(),
     );
   }
 

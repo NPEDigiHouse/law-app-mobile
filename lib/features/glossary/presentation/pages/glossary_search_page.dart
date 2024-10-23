@@ -116,9 +116,7 @@ class GlossarySearchPage extends ConsumerWidget {
                   size: 16,
                 ),
                 onTap: () {
-                  if (!ref
-                      .read(glossarySearchHistoryProvider.notifier)
-                      .isGlossaryAlreadyExist(glossaries[index])) {
+                  if (!ref.read(glossarySearchHistoryProvider.notifier).isGlossaryAlreadyExist(glossaries[index])) {
                     ref
                         .read(glossarySearchHistoryProvider.notifier)
                         .createGlossarySearchHistory(id: glossaries[index].id!);
@@ -146,9 +144,7 @@ class GlossarySearchPage extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: TextButton(
         onPressed: () {
-          ref
-              .read(searchGlossaryProvider.notifier)
-              .fetchMoreGlossary(query: query, offset: currentLength);
+          ref.read(searchGlossaryProvider.notifier).fetchMoreGlossary(query: query, offset: currentLength);
         },
         child: const Text('Lihat lebih banyak'),
       ),

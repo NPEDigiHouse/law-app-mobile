@@ -25,18 +25,19 @@ import 'package:law_app/features/student/presentation/course/widgets/material_ca
 class StudentCourseMaterialPage extends ConsumerWidget {
   final int curriculumId;
   final int userCourseId;
+  final bool lastCurriculum;
 
   const StudentCourseMaterialPage({
     super.key,
     required this.curriculumId,
     required this.userCourseId,
+    required this.lastCurriculum,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final curriculum = ref.watch(CurriculumDetailProvider(id: curriculumId));
-    final userCourse =
-        ref.watch(UserCourseDetailProvider(id: userCourseId)).unwrapPrevious().valueOrNull;
+    final userCourse = ref.watch(UserCourseDetailProvider(id: userCourseId)).unwrapPrevious().valueOrNull;
 
     ref.watch(articlesProvider);
     ref.watch(quizesProvider);
@@ -77,8 +78,6 @@ class StudentCourseMaterialPage extends ConsumerWidget {
         data: (curriculum) {
           if (curriculum == null) return null;
 
-          var materialSequenceNumber = 0;
-
           return SingleChildScrollView(
             padding: const EdgeInsets.symmetric(
               vertical: 24,
@@ -116,7 +115,7 @@ class StudentCourseMaterialPage extends ConsumerWidget {
                 ...List<Padding>.generate(
                   curriculum.articles!.length,
                   (index) {
-                    materialSequenceNumber = index;
+                    final articleNumber = index + 1;
 
                     return Padding(
                       padding: EdgeInsets.only(
@@ -125,19 +124,20 @@ class StudentCourseMaterialPage extends ConsumerWidget {
                       child: MaterialCard(
                         userCourseId: userCourse?.id ?? 0,
                         curriculumSequenceNumber: curriculum.sequenceNumber!,
-                        materialSequenceNumber: materialSequenceNumber,
+                        materialSequenceNumber: articleNumber,
                         material: curriculum.articles![index],
                         type: CourseMaterialType.article,
                         isCompleted: isMaterialCompleted(
                           userCourse,
                           curriculum.sequenceNumber!,
-                          materialSequenceNumber,
+                          articleNumber,
                         ),
                         isLocked: isMaterialLocked(
                           userCourse,
                           curriculum.sequenceNumber!,
-                          materialSequenceNumber,
+                          articleNumber,
                         ),
+                        lastCurriculum: lastCurriculum,
                         totalMaterials: curriculum.articles!.length + curriculum.quizzes!.length,
                       ),
                     );
@@ -147,7 +147,7 @@ class StudentCourseMaterialPage extends ConsumerWidget {
                 ...List<Padding>.generate(
                   curriculum.quizzes!.length,
                   (index) {
-                    materialSequenceNumber++;
+                    final quizNumber = (index + 1) + curriculum.articles!.length;
 
                     return Padding(
                       padding: EdgeInsets.only(
@@ -156,20 +156,20 @@ class StudentCourseMaterialPage extends ConsumerWidget {
                       child: MaterialCard(
                         userCourseId: userCourse?.id ?? 0,
                         curriculumSequenceNumber: curriculum.sequenceNumber!,
-                        materialSequenceNumber:
-                            materialSequenceNumber - 1 == 0 ? 0 : materialSequenceNumber,
+                        materialSequenceNumber: quizNumber,
                         material: curriculum.quizzes![index],
                         type: CourseMaterialType.quiz,
                         isCompleted: isMaterialCompleted(
                           userCourse,
                           curriculum.sequenceNumber!,
-                          materialSequenceNumber - 1 == 0 ? 0 : materialSequenceNumber,
+                          quizNumber,
                         ),
                         isLocked: isMaterialLocked(
                           userCourse,
                           curriculum.sequenceNumber!,
-                          materialSequenceNumber - 1 == 0 ? 0 : materialSequenceNumber,
+                          quizNumber,
                         ),
+                        lastCurriculum: lastCurriculum,
                         totalMaterials: curriculum.articles!.length + curriculum.quizzes!.length,
                       ),
                     );
@@ -190,12 +190,12 @@ class StudentCourseMaterialPage extends ConsumerWidget {
   ) {
     if (userCourse == null) return false;
 
-    if (userCourse.currentCurriculumSequence! < curriculumSequenceNumber) {
+    if (userCourse.currentCurriculumSequence! + 1 < curriculumSequenceNumber) {
       return false;
-    } else if (userCourse.currentCurriculumSequence! > curriculumSequenceNumber) {
+    } else if (userCourse.currentCurriculumSequence! + 1 > curriculumSequenceNumber) {
       return true;
     } else {
-      return userCourse.currentMaterialSequence! > materialSequenceNumber;
+      return userCourse.currentMaterialSequence! + 1 > materialSequenceNumber;
     }
   }
 
@@ -206,12 +206,12 @@ class StudentCourseMaterialPage extends ConsumerWidget {
   ) {
     if (userCourse == null) return false;
 
-    if (userCourse.currentCurriculumSequence! > curriculumSequenceNumber) {
+    if (userCourse.currentCurriculumSequence! + 1 > curriculumSequenceNumber) {
       return false;
-    } else if (userCourse.currentCurriculumSequence! < curriculumSequenceNumber) {
+    } else if (userCourse.currentCurriculumSequence! + 1 < curriculumSequenceNumber) {
       return true;
     } else {
-      return userCourse.currentMaterialSequence! < materialSequenceNumber;
+      return userCourse.currentMaterialSequence! + 1 < materialSequenceNumber;
     }
   }
 }
@@ -219,9 +219,11 @@ class StudentCourseMaterialPage extends ConsumerWidget {
 class StudentCourseMaterialPageArgs {
   final int curriculumId;
   final int userCourseId;
+  final bool lastCurriculum;
 
   const StudentCourseMaterialPageArgs({
     required this.curriculumId,
     required this.userCourseId,
+    required this.lastCurriculum,
   });
 }

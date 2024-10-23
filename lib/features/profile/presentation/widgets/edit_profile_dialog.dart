@@ -60,7 +60,7 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                       errorText: "Bagian ini harus diisi",
                     ),
                     FormBuilderValidators.match(
-                      r'^[a-zA-Z\s]*$',
+                      RegExp(r'^[a-zA-Z\s]*$'),
                       errorText: "Nama tidak valid",
                     )
                   ],

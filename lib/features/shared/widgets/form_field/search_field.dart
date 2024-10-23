@@ -83,9 +83,7 @@ class _SearchFieldState extends State<SearchField> {
             suffixIcon: buildSuffixIcon(),
           ),
           onTap: widget.onTap,
-          onChanged: widget.delayOnChanged
-              ? (text) => debounce(() => widget.onChanged!(text))
-              : widget.onChanged,
+          onChanged: widget.delayOnChanged ? (text) => debounce(() => widget.onChanged!(text)) : widget.onChanged,
         ),
       ),
     );

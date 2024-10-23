@@ -18,8 +18,7 @@ class CurriculumActions extends _$CurriculumActions {
   Future<void> createCurriculum({required CurriculumPostModel curriculum}) async {
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(courseRepositoryProvider).createCurriculum(curriculum: curriculum);
+    final result = await ref.watch(courseRepositoryProvider).createCurriculum(curriculum: curriculum);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

@@ -17,8 +17,7 @@ class CreateDiscussion extends _$CreateDiscussion {
   Future<void> createDiscussion({required DiscussionPostModel discussion}) async {
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(discussionRepositoryProvider).createDiscussion(discussion: discussion);
+    final result = await ref.watch(discussionRepositoryProvider).createDiscussion(discussion: discussion);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

@@ -57,10 +57,8 @@ class UserCredentialModel extends Equatable {
       birthDate: birthDate ?? this.birthDate,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       profilePicture: profilePicture ?? this.profilePicture,
-      totalWeeklyGeneralQuestionsQuota:
-          totalWeeklyGeneralQuestionsQuota ?? this.totalWeeklyGeneralQuestionsQuota,
-      totalWeeklySpecificQuestionsQuota:
-          totalWeeklySpecificQuestionsQuota ?? this.totalWeeklySpecificQuestionsQuota,
+      totalWeeklyGeneralQuestionsQuota: totalWeeklyGeneralQuestionsQuota ?? this.totalWeeklyGeneralQuestionsQuota,
+      totalWeeklySpecificQuestionsQuota: totalWeeklySpecificQuestionsQuota ?? this.totalWeeklySpecificQuestionsQuota,
       expertises: expertises ?? this.expertises,
     );
   }

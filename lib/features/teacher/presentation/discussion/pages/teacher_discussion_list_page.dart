@@ -63,7 +63,7 @@ class TeacherDiscussionListPage extends ConsumerWidget {
 
     return PopScope(
       canPop: false,
-      onPopInvoked: (didPop) {
+      onPopInvokedWithResult: (didPop, result) {
         return FunctionHelper.handleSearchingOnPop(
           ref,
           didPop,

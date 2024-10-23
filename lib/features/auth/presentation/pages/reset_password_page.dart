@@ -85,7 +85,7 @@ class _ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
 
     return PopScope(
       canPop: false,
-      onPopInvoked: (didPop) {
+      onPopInvokedWithResult: (didPop, result) {
         if (didPop) return;
 
         context.showConfirmDialog(

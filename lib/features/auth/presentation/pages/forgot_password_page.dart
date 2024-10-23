@@ -34,8 +34,7 @@ class ForgotpasswordPage extends ConsumerStatefulWidget {
   ConsumerState<ForgotpasswordPage> createState() => _ForgotpasswordPageState();
 }
 
-class _ForgotpasswordPageState extends ConsumerState<ForgotpasswordPage>
-    with AfterLayoutMixin<ForgotpasswordPage> {
+class _ForgotpasswordPageState extends ConsumerState<ForgotpasswordPage> with AfterLayoutMixin<ForgotpasswordPage> {
   final formKey = GlobalKey<FormBuilderState>();
 
   @override
@@ -69,7 +68,7 @@ class _ForgotpasswordPageState extends ConsumerState<ForgotpasswordPage>
 
     return PopScope(
       canPop: false,
-      onPopInvoked: (didPop) {
+      onPopInvokedWithResult: (didPop, result) {
         if (didPop) return;
 
         context.back();

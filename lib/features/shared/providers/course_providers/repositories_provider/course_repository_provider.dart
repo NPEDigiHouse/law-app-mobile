@@ -1,4 +1,5 @@
 // Package imports:
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
@@ -9,7 +10,7 @@ import 'package:law_app/features/shared/providers/generated_providers/network_in
 part 'course_repository_provider.g.dart';
 
 @riverpod
-CourseRepository courseRepository(CourseRepositoryRef ref) {
+CourseRepository courseRepository(Ref ref) {
   return CourseRepositoryImpl(
     courseDataSource: ref.watch(courseDataSourceProvider),
     networkInfo: ref.watch(networkInfoProvider),

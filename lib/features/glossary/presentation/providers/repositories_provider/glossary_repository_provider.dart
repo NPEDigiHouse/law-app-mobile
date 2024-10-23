@@ -1,4 +1,5 @@
 // Package imports:
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
@@ -9,7 +10,7 @@ import 'package:law_app/features/shared/providers/generated_providers/network_in
 part 'glossary_repository_provider.g.dart';
 
 @riverpod
-GlossaryRepository glossaryRepository(GlossaryRepositoryRef ref) {
+GlossaryRepository glossaryRepository(Ref ref) {
   return GlossaryRepositoryImpl(
     glossaryDataSource: ref.watch(glossaryDataSourceProvider),
     networkInfo: ref.watch(networkInfoProvider),

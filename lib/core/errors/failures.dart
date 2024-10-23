@@ -36,7 +36,7 @@ Failure failure(Object e) {
   if (e is ServerException) {
     switch (e.message) {
       case kUnauthorized:
-        return const ServerFailure(kUnauthorized);
+        return const ServerFailure('Sesi telah habis, silahkan login ulang');
       case kUsernameAlreadyExist:
         return const ServerFailure('Username telah digunakan');
       case kEmailAlreadyExist:

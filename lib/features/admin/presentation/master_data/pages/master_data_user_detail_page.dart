@@ -109,9 +109,7 @@ class MasterDataUserDetailPage extends ConsumerWidget {
                                         child: Container(
                                           width: 2,
                                           decoration: BoxDecoration(
-                                            color: index != 0
-                                                ? secondaryTextColor
-                                                : Colors.transparent,
+                                            color: index != 0 ? secondaryTextColor : Colors.transparent,
                                           ),
                                         ),
                                       ),
@@ -119,9 +117,8 @@ class MasterDataUserDetailPage extends ConsumerWidget {
                                         child: Container(
                                           width: 2,
                                           decoration: BoxDecoration(
-                                            color: index != userData.length - 1
-                                                ? secondaryTextColor
-                                                : Colors.transparent,
+                                            color:
+                                                index != userData.length - 1 ? secondaryTextColor : Colors.transparent,
                                           ),
                                         ),
                                       ),

@@ -57,9 +57,12 @@ class StudentCourseProgressPage extends ConsumerWidget {
           if (userCourse == null) return null;
 
           final course = userCourse.course!;
+          final curriculumProgress = userCourse.currentCurriculumSequence!;
+          final totalCurriculum = course.curriculums!.length;
+
           final progressPercentage = getProgressPercentage(
-            userCourse.currentCurriculumSequence!,
-            course.curriculums!.length,
+            curriculumProgress > totalCurriculum ? totalCurriculum : curriculumProgress,
+            totalCurriculum,
           );
 
           return SingleChildScrollView(
@@ -191,15 +194,16 @@ class StudentCourseProgressPage extends ConsumerWidget {
                           child: CurriculumCard(
                             showDetail: true,
                             curriculum: course.curriculums![index],
-                            isCompleted: course.curriculums![index].sequenceNumber! <
-                                userCourse.currentCurriculumSequence!,
-                            isLocked: course.curriculums![index].sequenceNumber! >
-                                userCourse.currentCurriculumSequence!,
+                            isCompleted:
+                                course.curriculums![index].sequenceNumber! < userCourse.currentCurriculumSequence! + 1,
+                            isLocked:
+                                course.curriculums![index].sequenceNumber! > userCourse.currentCurriculumSequence! + 1,
                             onTap: () => navigatorKey.currentState!.pushNamed(
                               studentCourseMaterialRoute,
                               arguments: StudentCourseMaterialPageArgs(
                                 curriculumId: course.curriculums![index].id!,
                                 userCourseId: userCourse.id!,
+                                lastCurriculum: course.curriculums![index] == course.curriculums!.last,
                               ),
                             ),
                           ),

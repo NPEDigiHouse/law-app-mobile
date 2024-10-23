@@ -90,7 +90,7 @@ class _AdminDiscussionHomePageState extends ConsumerState<AdminDiscussionHomePag
 
     return PopScope(
       canPop: false,
-      onPopInvoked: (didPop) {
+      onPopInvokedWithResult: (didPop, result) {
         return FunctionHelper.handleSearchingOnPop(
           ref,
           didPop,
@@ -145,8 +145,7 @@ class _AdminDiscussionHomePageState extends ConsumerState<AdminDiscussionHomePag
                       label: labels[index],
                       selected: status == discussionStatus[labels[index]],
                       onSelected: (_) {
-                        ref.read(discussionStatusProvider.notifier).state =
-                            discussionStatus[labels[index]]!;
+                        ref.read(discussionStatusProvider.notifier).state = discussionStatus[labels[index]]!;
                       },
                     );
                   },

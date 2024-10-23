@@ -29,8 +29,7 @@ class StudentCourseHomePage extends ConsumerStatefulWidget {
   ConsumerState<StudentCourseHomePage> createState() => _StudentCourseHomePageState();
 }
 
-class _StudentCourseHomePageState extends ConsumerState<StudentCourseHomePage>
-    with SingleTickerProviderStateMixin {
+class _StudentCourseHomePageState extends ConsumerState<StudentCourseHomePage> with SingleTickerProviderStateMixin {
   late final AnimationController fabAnimationController;
   late final ScrollController scrollController;
 

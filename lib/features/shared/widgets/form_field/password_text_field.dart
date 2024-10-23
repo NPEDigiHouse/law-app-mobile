@@ -71,9 +71,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
       children: [
         Text(
           widget.label,
-          style: widget.isSmall
-              ? textTheme.bodySmall!.copyWith(fontWeight: FontWeight.w700)
-              : textTheme.titleSmall,
+          style: widget.isSmall ? textTheme.bodySmall!.copyWith(fontWeight: FontWeight.w700) : textTheme.titleSmall,
         ),
         const SizedBox(height: 6),
         if (widget.hasPrefixIcon)
@@ -103,14 +101,10 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
             hintText: widget.hintText,
             prefixIcon: buildPrefixIcon(),
             suffixIcon: buildSuffixIcon(isVisible),
-            hintStyle:
-                widget.isSmall ? textTheme.bodyMedium!.copyWith(color: secondaryTextColor) : null,
-            contentPadding: widget.isSmall
-                ? const EdgeInsets.fromLTRB(16, 12, 16, 12)
-                : const EdgeInsets.all(16),
+            hintStyle: widget.isSmall ? textTheme.bodyMedium!.copyWith(color: secondaryTextColor) : null,
+            contentPadding: widget.isSmall ? const EdgeInsets.fromLTRB(16, 12, 16, 12) : const EdgeInsets.all(16),
           ),
-          validator:
-              widget.validators != null ? FormBuilderValidators.compose(widget.validators!) : null,
+          validator: widget.validators != null ? FormBuilderValidators.compose(widget.validators!) : null,
           onChanged: widget.onChanged,
         );
       },

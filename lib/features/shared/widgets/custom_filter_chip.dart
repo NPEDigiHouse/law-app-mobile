@@ -30,9 +30,7 @@ class CustomFilterChip extends StatelessWidget {
         color: selected ? primaryColor : primaryTextColor,
         letterSpacing: 0,
       ),
-      side: selected
-          ? const BorderSide(color: primaryColor)
-          : const BorderSide(color: secondaryTextColor),
+      side: selected ? const BorderSide(color: primaryColor) : const BorderSide(color: secondaryTextColor),
       selectedColor: secondaryColor,
       backgroundColor: scaffoldBackgroundColor,
       clipBehavior: Clip.antiAlias,

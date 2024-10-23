@@ -186,8 +186,7 @@ class _StudentQuestionListPageState extends ConsumerState<StudentDiscussionListP
                     label: labels[index],
                     selected: status == discussionStatus[labels[index]],
                     onSelected: (_) {
-                      ref.read(discussionStatusProvider.notifier).state =
-                          discussionStatus[labels[index]]!;
+                      ref.read(discussionStatusProvider.notifier).state = discussionStatus[labels[index]]!;
                     },
                   );
                 },

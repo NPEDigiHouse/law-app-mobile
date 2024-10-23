@@ -120,9 +120,7 @@ class AdminCurriculumCard extends ConsumerWidget {
                     onPressedPrimaryButton: () {
                       navigatorKey.currentState!.pop();
 
-                      ref
-                          .read(curriculumActionsProvider.notifier)
-                          .deleteCurriculum(id: curriculum.id!);
+                      ref.read(curriculumActionsProvider.notifier).deleteCurriculum(id: curriculum.id!);
                     },
                   ),
                   tooltip: 'Hapus',

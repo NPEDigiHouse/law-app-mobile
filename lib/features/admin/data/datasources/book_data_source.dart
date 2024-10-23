@@ -191,8 +191,7 @@ class BookDataSourceImpl implements BookDataSource {
     int? categoryId,
   }) async {
     try {
-      final queryParams =
-          'term=$query&offset=${offset ?? ''}&limit=${limit ?? ''}&categoryId=${categoryId ?? ''}';
+      final queryParams = 'term=$query&offset=${offset ?? ''}&limit=${limit ?? ''}&categoryId=${categoryId ?? ''}';
 
       final response = await client.get(
         Uri.parse('${ApiConfigs.baseUrl}/books?$queryParams'),

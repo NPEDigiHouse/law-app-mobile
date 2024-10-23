@@ -193,9 +193,7 @@ class AccountInfoPage extends ConsumerWidget {
                                         child: Container(
                                           width: 2,
                                           decoration: BoxDecoration(
-                                            color: index != 0
-                                                ? secondaryTextColor
-                                                : Colors.transparent,
+                                            color: index != 0 ? secondaryTextColor : Colors.transparent,
                                           ),
                                         ),
                                       ),
@@ -203,9 +201,8 @@ class AccountInfoPage extends ConsumerWidget {
                                         child: Container(
                                           width: 2,
                                           decoration: BoxDecoration(
-                                            color: index != userData.length - 1
-                                                ? secondaryTextColor
-                                                : Colors.transparent,
+                                            color:
+                                                index != userData.length - 1 ? secondaryTextColor : Colors.transparent,
                                           ),
                                         ),
                                       ),
@@ -381,9 +378,7 @@ class AccountInfoPage extends ConsumerWidget {
       if (compressedImagePath != null) {
         navigatorKey.currentState!.pop();
 
-        ref
-            .read(profileActionsProvider.notifier)
-            .editProfile(user: user, path: compressedImagePath);
+        ref.read(profileActionsProvider.notifier).editProfile(user: user, path: compressedImagePath);
       }
     }
   }

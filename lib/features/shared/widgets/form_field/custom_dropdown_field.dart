@@ -57,9 +57,7 @@ class _CustomDropdownFieldState extends State<CustomDropdownField> {
       children: [
         Text(
           widget.label,
-          style: widget.isSmall
-              ? textTheme.bodySmall!.copyWith(fontWeight: FontWeight.w700)
-              : textTheme.titleSmall,
+          style: widget.isSmall ? textTheme.bodySmall!.copyWith(fontWeight: FontWeight.w700) : textTheme.titleSmall,
         ),
         const SizedBox(height: 6),
         Focus(

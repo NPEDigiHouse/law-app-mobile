@@ -20,8 +20,7 @@ class CourseDetail extends _$CourseDetail {
 
     final result = await ref.watch(courseRepositoryProvider).getCourseDetail(id: id);
 
-    final result2 =
-        await ref.watch(courseRepositoryProvider).getUserCourses(userId: CredentialSaver.user!.id!);
+    final result2 = await ref.watch(courseRepositoryProvider).getUserCourses(userId: CredentialSaver.user!.id!);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

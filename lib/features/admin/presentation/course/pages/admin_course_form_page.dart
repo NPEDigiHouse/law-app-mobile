@@ -193,9 +193,7 @@ class _AdminCourseFormPageState extends ConsumerState<AdminCourseFormPage> with 
               ),
               const SizedBox(height: 20),
               FilledButton(
-                onPressed: widget.course != null
-                    ? () => editCourse(imagePath ?? '')
-                    : () => createCourse(imagePath),
+                onPressed: widget.course != null ? () => editCourse(imagePath ?? '') : () => createCourse(imagePath),
                 child: Text(widget.title),
               ).fullWidth(),
             ],

@@ -46,8 +46,7 @@ class AdminCourseArticleFormPage extends ConsumerStatefulWidget {
   ConsumerState<AdminCourseArticleFormPage> createState() => _AdminCourseArticleFormPageState();
 }
 
-class _AdminCourseArticleFormPageState extends ConsumerState<AdminCourseArticleFormPage>
-    with AfterLayoutMixin {
+class _AdminCourseArticleFormPageState extends ConsumerState<AdminCourseArticleFormPage> with AfterLayoutMixin {
   final GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
   @override
@@ -104,8 +103,16 @@ class _AdminCourseArticleFormPageState extends ConsumerState<AdminCourseArticleF
           horizontal: 20,
         ),
         child: showPreview
-            ? buildArticlePreview(title, duration, material)
-            : buildArticleForm(title, duration, material),
+            ? buildArticlePreview(
+                title,
+                duration,
+                material,
+              )
+            : buildArticleForm(
+                title,
+                duration,
+                material,
+              ),
       ),
       floatingActionButton: Container(
         width: 48,
@@ -120,10 +127,8 @@ class _AdminCourseArticleFormPageState extends ConsumerState<AdminCourseArticleF
           onPressed: () {
             if (!showPreview) {
               ref.read(titleProvider.notifier).state = formKey.currentState!.fields['title']!.value;
-              ref.read(durationProvider.notifier).state =
-                  formKey.currentState!.fields['duration']!.value;
-              ref.read(materialProvider.notifier).state =
-                  formKey.currentState!.fields['material']!.value;
+              ref.read(durationProvider.notifier).state = formKey.currentState!.fields['duration']!.value;
+              ref.read(materialProvider.notifier).state = formKey.currentState!.fields['material']!.value;
             }
 
             ref.read(isCheckedProvider.notifier).state = !showPreview;

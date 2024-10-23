@@ -31,8 +31,7 @@ class DiscussionCategory extends _$DiscussionCategory {
   Future<void> createDiscussionCategory({required String name}) async {
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(referenceRepositoryProvider).createDiscussionCategory(name: name);
+    final result = await ref.watch(referenceRepositoryProvider).createDiscussionCategory(name: name);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),
@@ -43,8 +42,7 @@ class DiscussionCategory extends _$DiscussionCategory {
   Future<void> editDiscussionCategory({required DiscussionCategoryModel category}) async {
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(referenceRepositoryProvider).editDiscussionCategory(category: category);
+    final result = await ref.watch(referenceRepositoryProvider).editDiscussionCategory(category: category);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message, StackTrace.current),

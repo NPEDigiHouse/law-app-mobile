@@ -1,4 +1,5 @@
 // Package imports:
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
@@ -9,7 +10,7 @@ import 'package:law_app/features/shared/providers/generated_providers/network_in
 part 'master_data_repository_provider.g.dart';
 
 @riverpod
-MasterDataRepository masterDataRepository(MasterDataRepositoryRef ref) {
+MasterDataRepository masterDataRepository(Ref ref) {
   return MasterDataRepositoryImpl(
     masterDataSource: ref.watch(masterDataSourceProvider),
     networkInfo: ref.watch(networkInfoProvider),

@@ -111,9 +111,7 @@ class GlossaryHomePage extends ConsumerWidget {
                           onPressedPrimaryButton: () {
                             navigatorKey.currentState!.pop();
 
-                            ref
-                                .read(glossarySearchHistoryProvider.notifier)
-                                .deleteAllGlossariesSearchHistory();
+                            ref.read(glossarySearchHistoryProvider.notifier).deleteAllGlossariesSearchHistory();
                           },
                         ),
                         child: Text(
@@ -145,9 +143,7 @@ class GlossaryHomePage extends ConsumerWidget {
                       titleTextStyle: textTheme.bodyLarge,
                       trailing: GestureDetector(
                         onTap: () {
-                          ref
-                              .read(glossarySearchHistoryProvider.notifier)
-                              .deleteGlossarySearchHistory(
+                          ref.read(glossarySearchHistoryProvider.notifier).deleteGlossarySearchHistory(
                                 id: histories[index].id!,
                               );
                         },

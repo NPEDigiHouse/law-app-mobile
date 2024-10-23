@@ -117,8 +117,7 @@ class AdminDiscussionDetailPage extends ConsumerWidget {
               onPressedTrailingButton: () {
                 context.showConfirmDialog(
                   title: 'Alihkan ke Pakar?',
-                  message:
-                      'Pertanyaan akan dialihkan menjadi Pertanyaan Khusus yang akan dijawab oleh pakar.',
+                  message: 'Pertanyaan akan dialihkan menjadi Pertanyaan Khusus yang akan dijawab oleh pakar.',
                   withCheckbox: true,
                   checkboxLabel: 'Saya yakin ingin mengalihkan pertanyaan ini',
                   onPressedPrimaryButton: () {
@@ -212,8 +211,7 @@ class AdminDiscussionDetailPage extends ConsumerWidget {
                               style: textTheme.bodyMedium,
                               children: [
                                 const TextSpan(
-                                  text:
-                                      'Pertanyaan ini adalah pertanyaan khusus yang hanya bisa dijawab oleh\t',
+                                  text: 'Pertanyaan ini adalah pertanyaan khusus yang hanya bisa dijawab oleh\t',
                                 ),
                                 TextSpan(
                                   text: 'Pakar.',
@@ -259,9 +257,7 @@ class AdminDiscussionDetailPage extends ConsumerWidget {
                     ),
                     const SizedBox(width: 10),
                     Text(
-                      discussion.status == 'open'
-                          ? 'Belum ada balasan'
-                          : '${discussion.comments?.length} Balasan',
+                      discussion.status == 'open' ? 'Belum ada balasan' : '${discussion.comments?.length} Balasan',
                       style: textTheme.titleMedium!.copyWith(
                         color: primaryColor,
                         height: 0,

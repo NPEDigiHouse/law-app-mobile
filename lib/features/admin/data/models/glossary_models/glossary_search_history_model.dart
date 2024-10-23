@@ -30,9 +30,7 @@ class GlossarySearchHistoryModel extends Equatable {
   factory GlossarySearchHistoryModel.fromMap(Map<String, dynamic> map) {
     return GlossarySearchHistoryModel(
       id: map['id'] as int?,
-      glosarium: map['glosarium'] != null
-          ? GlossaryModel.fromMap(map['glosarium'] as Map<String, dynamic>)
-          : null,
+      glosarium: map['glosarium'] != null ? GlossaryModel.fromMap(map['glosarium'] as Map<String, dynamic>) : null,
       createdAt: DateTime.tryParse((map['createdAt'] as String?) ?? ''),
     );
   }

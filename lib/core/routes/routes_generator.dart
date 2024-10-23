@@ -223,6 +223,7 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => StudentCourseMaterialPage(
           curriculumId: args.curriculumId,
           userCourseId: args.userCourseId,
+          lastCurriculum: args.lastCurriculum,
         ),
       );
     case studentCourseArticleRoute:
@@ -235,6 +236,7 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
           curriculumSequenceNumber: args.curriculumSequenceNumber,
           materialSequenceNumber: args.materialSequenceNumber,
           totalMaterials: args.totalMaterials,
+          lastCurriculum: args.lastCurriculum,
         ),
       );
 
@@ -248,6 +250,7 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
           curriculumSequenceNumber: args.curriculumSequenceNumber,
           materialSequenceNumber: args.materialSequenceNumber,
           totalMaterials: args.totalMaterials,
+          lastCurriculum: args.lastCurriculum,
         ),
       );
     case studentCourseQuizRoute:

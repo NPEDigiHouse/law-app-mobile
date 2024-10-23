@@ -127,7 +127,7 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> with Af
                     errorText: 'Bagian ini harus diisi',
                   ),
                   FormBuilderValidators.match(
-                    r'^[a-zA-Z\s]*$',
+                    RegExp(r'^[a-zA-Z\s]*$'),
                     errorText: 'Nama tidak valid',
                   ),
                 ],
@@ -147,7 +147,7 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> with Af
                       errorText: 'Bagian ini harus diisi',
                     ),
                     FormBuilderValidators.match(
-                      r'^(?=.*[a-zA-Z])\d*[a-zA-Z\d]*$',
+                      RegExp(r'^(?=.*[a-zA-Z])\d*[a-zA-Z\d]*$'),
                       errorText: 'Username tidak valid',
                     ),
                   ],
@@ -202,8 +202,7 @@ class _MasterDataFormPageState extends ConsumerState<MasterDataFormPage> with Af
               if (isTeacher) buildTeacherCheckboxes(),
               SizedBox(height: isTeacher ? 12 : 20),
               FilledButton(
-                onPressed:
-                    widget.user != null ? () => editUser(isTeacher) : () => createUser(isTeacher),
+                onPressed: widget.user != null ? () => editUser(isTeacher) : () => createUser(isTeacher),
                 child: Text('${widget.user != null ? "Edit" : "Tambah"} User'),
               ).fullWidth(),
             ],

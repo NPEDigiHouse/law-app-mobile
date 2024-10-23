@@ -114,9 +114,7 @@ class LibrarySavedBookPage extends ConsumerWidget {
                           onIconPressed: () {
                             navigatorKey.currentState!.pop();
 
-                            ref
-                                .read(bookSavedActionsProvider.notifier)
-                                .unsaveBook(id: savedBooks[index].id!);
+                            ref.read(bookSavedActionsProvider.notifier).unsaveBook(id: savedBooks[index].id!);
                           },
                         );
                       },

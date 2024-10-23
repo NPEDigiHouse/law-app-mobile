@@ -38,8 +38,7 @@ class ConfirmDialog extends ConsumerWidget {
       title: title,
       childPadding: EdgeInsets.fromLTRB(20, 8, 20, bottom),
       primaryButtonText: primaryButtonText,
-      onPressedPrimaryButton:
-          withCheckbox ? (isChecked ? onPressedPrimaryButton : null) : onPressedPrimaryButton,
+      onPressedPrimaryButton: withCheckbox ? (isChecked ? onPressedPrimaryButton : null) : onPressedPrimaryButton,
       child: Column(
         children: [
           Text(message),

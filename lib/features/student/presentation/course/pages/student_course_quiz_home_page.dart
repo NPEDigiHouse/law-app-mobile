@@ -34,6 +34,7 @@ class StudentCourseQuizHomePage extends ConsumerStatefulWidget {
   final int curriculumSequenceNumber;
   final int materialSequenceNumber;
   final int totalMaterials;
+  final bool lastCurriculum;
 
   const StudentCourseQuizHomePage({
     super.key,
@@ -42,14 +43,14 @@ class StudentCourseQuizHomePage extends ConsumerStatefulWidget {
     required this.curriculumSequenceNumber,
     required this.materialSequenceNumber,
     required this.totalMaterials,
+    required this.lastCurriculum,
   });
 
   @override
   ConsumerState<StudentCourseQuizHomePage> createState() => _StudentCourseQuizHomePageState();
 }
 
-class _StudentCourseQuizHomePageState extends ConsumerState<StudentCourseQuizHomePage>
-    with AfterLayoutMixin {
+class _StudentCourseQuizHomePageState extends ConsumerState<StudentCourseQuizHomePage> with AfterLayoutMixin {
   UserCourseModel? userCourse;
 
   @override
@@ -127,10 +128,10 @@ class _StudentCourseQuizHomePageState extends ConsumerState<StudentCourseQuizHom
               result.correctAnswersAmt!,
             )) {
               if (userCourse != null) {
-                if (userCourse!.currentCurriculumSequence == widget.curriculumSequenceNumber) {
-                  if (userCourse!.currentMaterialSequence == widget.totalMaterials - 1) {
+                if (userCourse!.currentCurriculumSequence! + 1 == widget.curriculumSequenceNumber) {
+                  if (userCourse!.currentMaterialSequence! + 1 == widget.totalMaterials) {
                     updateCurriculumSequence();
-                  } else if (userCourse!.currentMaterialSequence == widget.materialSequenceNumber) {
+                  } else if (userCourse!.currentMaterialSequence! + 1 == widget.materialSequenceNumber) {
                     updateMaterialSequence();
                   }
                 }
@@ -451,6 +452,7 @@ class _StudentCourseQuizHomePageState extends ConsumerState<StudentCourseQuizHom
           curriculumSequenceNumber: widget.curriculumSequenceNumber,
           materialSequenceNumber: materialSequenceNumber,
           totalMaterials: widget.totalMaterials,
+          lastCurriculum: widget.lastCurriculum,
         ),
         transitionDuration: Duration.zero,
       ),
@@ -461,14 +463,14 @@ class _StudentCourseQuizHomePageState extends ConsumerState<StudentCourseQuizHom
     ref.read(userCourseActionsProvider.notifier).updateUserCourse(
           id: userCourse!.id!,
           currentCurriculumSequence: userCourse!.currentCurriculumSequence!,
-          currentMaterialSequence: widget.materialSequenceNumber + 1,
+          currentMaterialSequence: widget.materialSequenceNumber,
         );
   }
 
   void updateCurriculumSequence() {
     ref.read(userCourseActionsProvider.notifier).updateUserCourse(
           id: userCourse!.id!,
-          currentCurriculumSequence: userCourse!.currentCurriculumSequence! + 1,
+          currentCurriculumSequence: userCourse!.currentCurriculumSequence! + (widget.lastCurriculum ? 2 : 1),
           currentMaterialSequence: 0,
         );
   }
@@ -480,6 +482,7 @@ class StudentCourseQuizHomePageArgs {
   final int curriculumSequenceNumber;
   final int materialSequenceNumber;
   final int totalMaterials;
+  final bool lastCurriculum;
 
   const StudentCourseQuizHomePageArgs({
     required this.id,
@@ -487,5 +490,6 @@ class StudentCourseQuizHomePageArgs {
     required this.curriculumSequenceNumber,
     required this.materialSequenceNumber,
     required this.totalMaterials,
+    required this.lastCurriculum,
   });
 }

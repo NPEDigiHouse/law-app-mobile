@@ -24,6 +24,7 @@ class MaterialCard extends ConsumerWidget {
   final MaterialModel material;
   final CourseMaterialType type;
   final int totalMaterials;
+  final bool lastCurriculum;
   final bool isCompleted;
   final bool isLocked;
 
@@ -35,6 +36,7 @@ class MaterialCard extends ConsumerWidget {
     required this.material,
     required this.type,
     required this.totalMaterials,
+    required this.lastCurriculum,
     this.isCompleted = false,
     this.isLocked = false,
   });
@@ -59,9 +61,7 @@ class MaterialCard extends ConsumerWidget {
       onTap: isLocked
           ? null
           : () => navigatorKey.currentState!.pushNamed(
-                type == CourseMaterialType.article
-                    ? studentCourseArticleRoute
-                    : studentCourseQuizHomeRoute,
+                type == CourseMaterialType.article ? studentCourseArticleRoute : studentCourseQuizHomeRoute,
                 arguments: type == CourseMaterialType.article
                     ? StudentCourseArticlePageArgs(
                         id: material.id!,
@@ -69,6 +69,7 @@ class MaterialCard extends ConsumerWidget {
                         curriculumSequenceNumber: curriculumSequenceNumber,
                         materialSequenceNumber: materialSequenceNumber,
                         totalMaterials: totalMaterials,
+                        lastCurriculum: lastCurriculum,
                       )
                     : StudentCourseQuizHomePageArgs(
                         id: material.id!,
@@ -76,6 +77,7 @@ class MaterialCard extends ConsumerWidget {
                         curriculumSequenceNumber: curriculumSequenceNumber,
                         materialSequenceNumber: materialSequenceNumber,
                         totalMaterials: totalMaterials,
+                        lastCurriculum: lastCurriculum,
                       ),
               ),
       child: Row(

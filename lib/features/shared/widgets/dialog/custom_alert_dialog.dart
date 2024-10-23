@@ -165,9 +165,7 @@ class CustomAlertDialog extends ConsumerWidget {
                 const SizedBox(width: 8),
                 Expanded(
                   child: FilledButton(
-                    onPressed: withCheckbox
-                        ? (isChecked ? onPressedPrimaryButton : null)
-                        : onPressedPrimaryButton,
+                    onPressed: withCheckbox ? (isChecked ? onPressedPrimaryButton : null) : onPressedPrimaryButton,
                     style: FilledButton.styleFrom(
                       padding: EdgeInsets.zero,
                     ),
