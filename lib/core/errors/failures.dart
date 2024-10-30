@@ -35,8 +35,6 @@ class PreferencesFailure extends Failure {
 Failure failure(Object e) {
   if (e is ServerException) {
     switch (e.message) {
-      case kUnauthorized:
-        return const ServerFailure('Sesi telah habis, silahkan login ulang');
       case kUsernameAlreadyExist:
         return const ServerFailure('Username telah digunakan');
       case kEmailAlreadyExist:
@@ -59,6 +57,10 @@ Failure failure(Object e) {
         return const ServerFailure('Tidak ada opsi jawaban benar');
       case kratingAlreadyExist:
         return const ServerFailure('Kamu telah memberi ulasan pada course ini');
+      case kFileTooLarge:
+        return const ServerFailure('Ukuran file terlalu besar');
+      case kCategoryEmpty:
+        return const ServerFailure('Kategori tidak boleh kosong');
       default:
         return ServerFailure(e.message);
     }
