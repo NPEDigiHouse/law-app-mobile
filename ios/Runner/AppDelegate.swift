@@ -4,28 +4,24 @@ import Flutter
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
   // Create variable textField
-  private var textField = UITextField()
+  var textField = UITextField()
 
   override func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
-    if #available(iOS 10.0, *) {
-      UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
-    }
-
-    // Call screenshot prevent functions
+    // Call screenshot prevent function
     secureScreen()
-    
-    let controller : FlutterViewController = self.window?.rootViewController as! FlutterViewController
+
+    let controller : FlutterViewController = window?.rootViewController as! FlutterViewController
     let securityChannel = FlutterMethodChannel(name: "secureScreenshotChannel", binaryMessenger: controller.binaryMessenger)
 
     securityChannel.setMethodCallHandler({
       (call: FlutterMethodCall, result: @escaping FlutterResult) -> Void in
       if call.method == "secureiOS" {
-        self.textField.isSecureTextEntry = true
+        textField.isSecureTextEntry = true
       } else if call.method == "unSecureiOS" {
-        self.textField.isSecureTextEntry = false
+        textField.isSecureTextEntry = false
       }
     })
 
@@ -34,14 +30,19 @@ import Flutter
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
   
-  // Create screenshot prevent functions
+  // Create screenshot prevent function
   private func secureScreen() {
-    if (!self.window.subviews.contains(textField)) {
-      self.window.addSubview(textField)
-      textField.centerYAnchor.constraint(equalTo: self.window.centerYAnchor).isActive = true
-      textField.centerXAnchor.constraint(equalTo: self.window.centerXAnchor).isActive = true
-      self.window.layer.superlayer?.addSublayer(textField.layer)
-      textField.layer.sublayers?.first?.addSublayer(self.window.layer)
+    if (!window.subviews.contains(textField)) {
+      window.addSubview(textField)
+      textField.centerYAnchor.constraint(equalTo: window.centerYAnchor).isActive = true
+      textField.centerXAnchor.constraint(equalTo: window.centerXAnchor).isActive = true
+      window.layer.superlayer?.addSublayer(textField.layer)
+
+      if #available(iOS 17.0, *) {
+        textField.layer.sublayers?.last?.addSublayer(window.layer)
+      } else {
+        textField.layer.sublayers?.first?.addSublayer(window.layer)
+      }
     }
   }
 }
