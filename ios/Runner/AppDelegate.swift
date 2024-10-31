@@ -1,10 +1,10 @@
 import UIKit
 import Flutter
 
-@UIApplicationMain
+@main
 @objc class AppDelegate: FlutterAppDelegate {
   // Create variable textField
-  var textField = UITextField()
+  private var textField = UITextField()
 
   override func application(
     _ application: UIApplication,
@@ -13,15 +13,15 @@ import Flutter
     // Call screenshot prevent function
     secureScreen()
 
-    let controller : FlutterViewController = window?.rootViewController as! FlutterViewController
+    let controller : FlutterViewController = self.window?.rootViewController as! FlutterViewController
     let securityChannel = FlutterMethodChannel(name: "secureScreenshotChannel", binaryMessenger: controller.binaryMessenger)
 
     securityChannel.setMethodCallHandler({
       (call: FlutterMethodCall, result: @escaping FlutterResult) -> Void in
       if call.method == "secureiOS" {
-        textField.isSecureTextEntry = true
+        self.textField.isSecureTextEntry = true
       } else if call.method == "unSecureiOS" {
-        textField.isSecureTextEntry = false
+        self.textField.isSecureTextEntry = false
       }
     })
 
@@ -32,16 +32,16 @@ import Flutter
   
   // Create screenshot prevent function
   private func secureScreen() {
-    if (!window.subviews.contains(textField)) {
-      window.addSubview(textField)
-      textField.centerYAnchor.constraint(equalTo: window.centerYAnchor).isActive = true
-      textField.centerXAnchor.constraint(equalTo: window.centerXAnchor).isActive = true
-      window.layer.superlayer?.addSublayer(textField.layer)
+    if (!self.window.subviews.contains(textField)) {
+      self.window.addSubview(textField)
+      textField.centerYAnchor.constraint(equalTo: self.window.centerYAnchor).isActive = true
+      textField.centerXAnchor.constraint(equalTo: self.window.centerXAnchor).isActive = true
+      self.window.layer.superlayer?.addSublayer(textField.layer)
 
       if #available(iOS 17.0, *) {
-        textField.layer.sublayers?.last?.addSublayer(window.layer)
+        textField.layer.sublayers?.last?.addSublayer(self.window.layer)
       } else {
-        textField.layer.sublayers?.first?.addSublayer(window.layer)
+        textField.layer.sublayers?.first?.addSublayer(self.window.layer)
       }
     }
   }
