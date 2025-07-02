@@ -49,7 +49,6 @@ class _LibraryReadBookPageState extends ConsumerState<LibraryReadBookPage> {
     super.initState();
 
     currentPage = widget.book.currentPage ?? 1;
-
   }
 
   @override
@@ -57,7 +56,6 @@ class _LibraryReadBookPageState extends ConsumerState<LibraryReadBookPage> {
     ScreenshotProtector.enable();
 
     super.dispose();
-
   }
 
   @override
